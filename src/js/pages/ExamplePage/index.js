@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
-
+let qs = require('qs');
 import * as exampleActions from './actions/example'
 
 import Example from './components/Example/Example'
@@ -39,7 +39,7 @@ class Index extends Component {
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                   this.actions.addRandomItem(response.uuid);
+                    this.actions.addRandomItem(response.uuid);
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error.message));
                 });
@@ -54,12 +54,74 @@ class Index extends Component {
         });
     }
 
+    getItems() {
+        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
+
+        fetch(url, {mode: "cors", method: "get"}).then(response => {
+            if (response.ok) {
+                // response.json() is not available yet. wrap it in a promise:
+                response.json().then((response) => {
+                    //this.actions.getItems(response.uuid);
+
+                    console.log(response);
+                }).catch(error => {
+                    return Promise.reject(console.log('JSON error: ' + error.message));
+                });
+                return response;
+            }
+            if (response.status === 404) {
+                return Promise.reject(console.log('Endpoint error: '));
+            }
+            return Promise.reject(console.log('HTTP error: ' + response.status));
+        }).catch(error => {
+            return Promise.reject(console.log('URL error: ' + error.message));
+        });
+    }
+
+    addItem() {
+        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
+        // let form = [];
+        // form['organisationName'] = 'asdfg';
+
+        let form ={};
+        form.organisationName = 'asdfgh';
+
+        fetch(url, {
+            mode: "no-cors",
+            method: "post",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            //body: qs.stringify({form})
+            body: 'form[organisationName]=Sjaallkiefja'
+        }).then(response => {
+            console.log(response);
+            if (response.ok) {
+                // response.json() is not available yet. wrap it in a promise:
+                response.json().then((response) => {
+                    //this.actions.addItem(response.uuid);
+
+                    console.log('hier'+response);
+                }).catch(error => {
+                    return Promise.reject(console.log('JSON error: ' + error));
+                });
+                return response;
+            }
+            if (response.status === 404) {
+                return Promise.reject(console.log('Endpoint error: '));
+            }
+            return Promise.reject(console.log('HTTP error: ' + response.status));
+        }).catch(error => {
+            return Promise.reject(console.log('URL error: ' + error));
+        });
+    }
+
     render() {
         return (
             <Example
                 active={ this.props.active }
                 items={ this.props.items }
                 addRandomItem={ this.addRandomItem.bind(this) }
+                addItem={ this.addItem.bind(this) }
+                getItems={ this.getItems.bind(this) }
             />
         )
     }
@@ -73,3 +135,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Index);
+

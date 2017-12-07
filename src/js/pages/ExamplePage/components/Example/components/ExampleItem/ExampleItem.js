@@ -20,7 +20,7 @@ export default class ExampleItem extends Component {
     }
 
     render() {
-        let { items, addRandomItem } = this.props;
+        let { items, addRandomItem, addItem, getItems } = this.props;
 
         // style was passed on as a prop to be able to use a custom selector defined in it. alternatively it could have
         // been imported again (file size won't increase) but.. it would be best to give this component its own css file
@@ -45,8 +45,20 @@ export default class ExampleItem extends Component {
             <section>
                 <p>
                     <button onClick={ addRandomItem } type="button">Add random item +</button>
-                    That will perform a 'real' Fetch request to an API endpoint and then use a Promise to append the
+                    That will perform a 'real ' Fetch request to an API (testing) endpoint and then use a Promise to append the
                     element below when it returns.
+                </p>
+                <br />
+                <br />
+                <p>
+                    <button onClick={ getItems } type="button">Get items</button>
+                    This retrieves all sexy field items for Organisation
+                </p>
+                <br />
+                <br />
+                <p>
+                    <button onClick={ addItem } type="button">Add real item +</button>
+                    This adds a real item to sexy field
                 </p>
                 <br />
                 <br />
@@ -63,3 +75,4 @@ export default class ExampleItem extends Component {
         )
     }
 }
+

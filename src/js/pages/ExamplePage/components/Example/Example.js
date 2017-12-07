@@ -13,12 +13,14 @@ export default class Example extends Component {
     }
 
     render() {
-        let { items, addRandomItem } = this.props;
+        let { items, addRandomItem, addItem, getItems } = this.props;
 
         // you can wrap this in a const or a condition if required
         const exampleItem = <ExampleItem
             items={ items }
             addRandomItem={ addRandomItem }
+            addItem={ addItem }
+            getItems={ getItems }
         />;
 
         let someDate = showCurrentTime();
