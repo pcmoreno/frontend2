@@ -1,0 +1,10 @@
+/* for all temporarily hacks. to overload common.scss, use !important. to overload components, just be specific! */
+
+* {
+    /* this overrides every other font definition in the application! */
+    font-family: 'Arial' !important;
+}
+
+#application section > main {
+    clear: both !important;
+}

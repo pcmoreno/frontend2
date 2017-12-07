@@ -1,0 +1,5 @@
+/* not using a custom class, no need to assign it to the JS component */
+
+ul {
+    list-style-type: none;
+}

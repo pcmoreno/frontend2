@@ -1,0 +1,16 @@
+@import './someimport.scss';
+
+.example {
+    color: green;
+    font-size: 15px;
+
+    button {
+        background: red;
+        color: white;
+        font-size: $test-var;
+        padding: 10px;
+        margin: 20px;
+        box-shadow: black;
+        border-radius: 10px;
+    }
+}

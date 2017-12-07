@@ -1,0 +1,19 @@
+{
+    "presets": [
+        [
+            "env",
+            {
+                "modules": "commonjs",
+                "useBuiltIns": "entry",
+                "targets": {
+                    "browsers": [
+                        "last 2 Chrome versions"
+                    ]
+                }
+            }
+        ],
+        [
+            "preact"
+        ]
+    ]
+}

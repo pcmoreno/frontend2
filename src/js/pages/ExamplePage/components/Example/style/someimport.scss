@@ -1,0 +1,6 @@
+* {
+    /* wont show up since a global font definition in shame exists with !important flag set */
+    font-family: "American Typewriter";
+}
+
+$test-var: 12px;
