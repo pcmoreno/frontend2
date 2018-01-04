@@ -17,7 +17,7 @@ __HTML and CSS__
 
 - Behaves like a Progressive Web Application (following manifest)
 - Preconfigured to work offline (service-worker)
-- Fully HTML5, CSS3 compliant (using feature queries instead of modernizr)
+- Fully HTML5, CSS3 compliant (using feature queries instead of modernizr: https://24ways.org/2017/cascading-web-design)
 - CSS modules (CSS locally scoped and imported by the JS component)
 - support for CSS, SCSS, SASS
 - PostCSS with NextCSS, Autoprefixer, CSSNano (and most SASS-like features)
@@ -51,7 +51,7 @@ __Integration__
 
 - decide what to do with *Styleguide* (may I recommend merging into *Frontend*?)
 - implement *NeOn Frontend* (static content) on a per-page base
-- refactor views using CSS Grid Layout
+- refactor views using CSS Grid Layout: https://hackernoon.com/how-css-grid-beats-bootstrap-85d5881cf163
 - figure out where the translations are loaded from
 - figure out how application can load/show only the components the user is authorised for
 - refactor components that use Bootstrap classes and remove the dependency

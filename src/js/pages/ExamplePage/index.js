@@ -28,6 +28,11 @@ class Index extends Component {
         document.title = 'Example';
     }
 
+    componentDidMount() {
+        // fetching initial data for this component (the same function as called when getItems button clicked manually)
+        this.getItems();
+    }
+
     // note: since this is the container component, everything that deals with data should be defined right here
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
     // alternatively define a method that is asynchronous itself and call the action whenever the request was successful
@@ -35,11 +40,13 @@ class Index extends Component {
     addRandomItem() {
         let url = 'https://httpbin.org/uuid';
 
+
         fetch(url, {mode: "cors", method: "get"}).then(response => {
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
                     this.actions.addRandomItem(response.uuid);
+
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error.message));
                 });
@@ -56,14 +63,14 @@ class Index extends Component {
 
     getItems() {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
+        console.log('show a spinner');
 
         fetch(url, {mode: "cors", method: "get"}).then(response => {
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                    //this.actions.getItems(response.uuid);
-
-                    console.log(response);
+                    this.actions.getItems(response);
+                    console.log('hide the spinner');
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error.message));
                 });
@@ -80,33 +87,37 @@ class Index extends Component {
 
     addItem() {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
-        // let form = [];
-        // form['organisationName'] = 'asdfg';
+        let form = [];
+        form['organisationName'] = 'nieuwe-organisatie-' + Math.round(Math.random()*100);
 
-        let form ={};
-        form.organisationName = 'asdfgh';
+        // todo: figure out how to pass on option 'credentials: "include"' for better security
 
         fetch(url, {
-            mode: "no-cors",
+            mode: "cors",
             method: "post",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            //body: qs.stringify({form})
-            body: 'form[organisationName]=Sjaallkiefja'
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+            },
+            referrer: "http://127.0.0.1:9002",
+            referrerPolicy: "origin-when-cross-origin",
+            body: qs.stringify(form)
         }).then(response => {
             console.log(response);
+
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                    //this.actions.addItem(response.uuid);
+                    console.log('calling the action');
 
-                    console.log('hier'+response);
+                    this.actions.addItem(response.uuid);
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error));
                 });
                 return response;
             }
             if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
+                return Promise.reject(console.log('Endpoint error'));
             }
             return Promise.reject(console.log('HTTP error: ' + response.status));
         }).catch(error => {
