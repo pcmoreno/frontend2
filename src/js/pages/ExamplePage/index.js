@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
-let qs = require('qs');
 import * as exampleActions from './actions/example'
 
 import Example from './components/Example/Example'
@@ -28,42 +27,27 @@ class Index extends Component {
         document.title = 'Example';
     }
 
+    componentDidMount() {
+        // get items for first time
+        this.getItems();
+    }
+
     // note: since this is the container component, everything that deals with data should be defined right here
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
     // alternatively define a method that is asynchronous itself and call the action whenever the request was successful
 
-    addRandomItem() {
-        let url = 'https://httpbin.org/uuid';
-
-        fetch(url, {mode: "cors", method: "get"}).then(response => {
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    this.actions.addRandomItem(response.uuid);
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error: ' + error.message));
-                });
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
-            }
-            return Promise.reject(console.log('HTTP error: ' + response.status));
-        }).catch(error => {
-            return Promise.reject(console.log('URL error: ' + error.message));
-        });
-    }
-
     getItems() {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
+        document.getElementById('fetching-data-indicator').classList.add('visible');
 
-        fetch(url, {mode: "cors", method: "get"}).then(response => {
+        fetch(url, {
+            method: "get"
+        }).then(response => {
+            document.getElementById('fetching-data-indicator').classList.remove('visible');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                    //this.actions.getItems(response.uuid);
-
-                    console.log(response);
+                    this.actions.getItems(response);
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error.message));
                 });
@@ -80,37 +64,30 @@ class Index extends Component {
 
     addItem() {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
-        // let form = [];
-        // form['organisationName'] = 'asdfg';
-
-        let form ={};
-        form.organisationName = 'asdfgh';
+        document.getElementById('fetching-data-indicator').classList.add('visible');
 
         fetch(url, {
-            mode: "no-cors",
             method: "post",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            //body: qs.stringify({form})
-            body: 'form[organisationName]=Sjaallkiefja'
+            body: 'form[organisationName]=TestItem-'+parseInt(Math.random()*100)
         }).then(response => {
-            console.log(response);
+            document.getElementById('fetching-data-indicator').classList.remove('visible');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                    //this.actions.addItem(response.uuid);
-
-                    console.log('hier'+response);
+                    // no need to trigger a new action (unless we want ghosting) so instead fetch new items:
+                    this.getItems();
                 }).catch(error => {
-                    return Promise.reject(console.log('JSON error: ' + error));
+                    return Promise.reject(console.log('JSON error - ' + error));
                 });
                 return response;
             }
             if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
+                return Promise.reject(console.log('API not available'));
             }
-            return Promise.reject(console.log('HTTP error: ' + response.status));
+            return Promise.reject(console.log('HTTP error - ' + response.status));
         }).catch(error => {
-            return Promise.reject(console.log('URL error: ' + error));
+            return Promise.reject(console.log('No such route exists - ' + error));
         });
     }
 
@@ -119,7 +96,6 @@ class Index extends Component {
             <Example
                 active={ this.props.active }
                 items={ this.props.items }
-                addRandomItem={ this.addRandomItem.bind(this) }
                 addItem={ this.addItem.bind(this) }
                 getItems={ this.getItems.bind(this) }
             />

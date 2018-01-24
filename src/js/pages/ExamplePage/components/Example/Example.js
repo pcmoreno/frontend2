@@ -3,6 +3,7 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
+import Form from './../../../../components/Form';
 import ExampleItem from './components/ExampleItem/ExampleItem';
 import showCurrentTime from '../../../../utils/showCurrentTime.js';
 import style from './style/example.scss';
@@ -13,12 +14,11 @@ export default class Example extends Component {
     }
 
     render() {
-        let { items, addRandomItem, addItem, getItems } = this.props;
+        let { items, addItem, getItems } = this.props;
 
         // you can wrap this in a const or a condition if required
         const exampleItem = <ExampleItem
             items={ items }
-            addRandomItem={ addRandomItem }
             addItem={ addItem }
             getItems={ getItems }
         />;
@@ -27,9 +27,13 @@ export default class Example extends Component {
 
         return (
             <section className={ style.example }>
+                <div className={ style.bar } id="fetching-data-indicator" />
                 <span>{ someDate }</span>
                 <section>
                     { exampleItem }
+                </section>
+                <section>
+                    <Form name={ "organisation" } />
                 </section>
             </section>
         )
