@@ -5,6 +5,6 @@ export function getItems(items) {
 
     return {
         type: actionType.GET_ITEMS,
-        items: items
+        items
     };
 }
