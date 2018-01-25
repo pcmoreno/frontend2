@@ -14,7 +14,7 @@ export default class Example extends Component {
     }
 
     render() {
-        let { items, addItem, getItems } = this.props;
+        let { items, addItem, getItems, formFields } = this.props;
 
         // you can wrap this in a const or a condition if required
         const exampleItem = <ExampleItem
@@ -33,7 +33,11 @@ export default class Example extends Component {
                     { exampleItem }
                 </section>
                 <section>
-                    <Form name={ "organisation" } />
+                    <Form
+                        formId={ "organisation" }
+                        formFields={ formFields }
+                        ignoredFields={ ["created", "updated"] }
+                    />
                 </section>
             </section>
         )

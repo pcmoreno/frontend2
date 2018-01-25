@@ -16,10 +16,12 @@ import { createStore, combineReducers } from 'redux'
 
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';
+import formReducer from './components/Form/reducers/form';
 
 // combine into one
 const rootReducer = combineReducers({
-    exampleReducer
+    exampleReducer,
+    formReducer
 });
 
 // configure redux store with the combined reducers
@@ -27,7 +29,6 @@ let store = createStore(rootReducer);
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from './../style/common.scss';
-
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 function getExamplePage(){
