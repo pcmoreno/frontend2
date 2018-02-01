@@ -30,8 +30,7 @@ class Index extends Component {
         document.getElementById('fetching-data-indicator').classList.remove('visible');
 
         fetch(url, {
-            method: "options",
-            mode: "cors"
+            method: "options"
         }).then(response => {
             document.getElementById('fetching-data-indicator').classList.remove('visible');
             if (response.ok) {
@@ -53,8 +52,8 @@ class Index extends Component {
 
     render() {
         return (<Form
-            ignoredFields={ this.props.ignoredFields }
-            formFields={ this.props.formFields }
+            ignoredFields={this.props.ignoredFields}
+            formFields={this.props.formFields}
         />)
     }
 }

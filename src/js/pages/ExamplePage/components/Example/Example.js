@@ -36,7 +36,15 @@ export default class Example extends Component {
                     <Form
                         formId={ "organisation" }
                         formFields={ formFields }
-                        ignoredFields={ ["created", "updated"] }
+                        ignoredFields={ [
+                            "created",
+                            "updated",
+                            "manyOrganisationToManyCompetency",
+                            "manyOrganisationToManyProduct",
+                            "manyOrganisationToOneOrganisation",
+                            "updated",
+                            "updated",
+                        ] }
                     />
                 </section>
             </section>
