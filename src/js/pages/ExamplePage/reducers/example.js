@@ -2,15 +2,17 @@ import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
     active: false,
-	items: []
+	items: [],
+    forms: []
 };
 
 export default function exampleReducer(state = initialState, action) {
-    switch (action.type) {
-        case actionType.GET_ITEMS:
-            // copy the state (state is immutable object by JS design)
-            let newState = Object.assign({}, state);
+    // copy the state (state is immutable object by JS design)
+    let newState = Object.assign({}, state);
 
+    switch (action.type) {
+
+        case actionType.GET_ITEMS:
             // clear current items from newState
             newState.items = [];
 
@@ -21,8 +23,20 @@ export default function exampleReducer(state = initialState, action) {
 
             // return the copied, mutated state
             return newState;
+
+        case actionType.GET_FORM:
+            // add (or overwrite) the form configuration for the formId retrieved from the action
+            //newState.forms[action.formId] = action.formId.formConfiguration;
+
+            console.log('mutating state for forms by reducer');
+
+            // return the copied, mutated state
+            return newState;
+
         default:
             return state
     }
+
+
 }
 

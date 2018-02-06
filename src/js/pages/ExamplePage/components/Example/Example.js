@@ -14,7 +14,7 @@ export default class Example extends Component {
     }
 
     render() {
-        let { items, addItem, getItems, formFields } = this.props;
+        let { items, addItem, getItems } = this.props;
 
         // you can wrap this in a const or a condition if required
         const exampleItem = <ExampleItem
@@ -27,15 +27,15 @@ export default class Example extends Component {
 
         return (
             <section className={ style.example }>
-                <div className={ style.bar } id="fetching-data-indicator" />
+                <div className={ style.bar } id = "fetching-data-indicator" />
                 <span>{ someDate }</span>
                 <section>
                     { exampleItem }
                 </section>
                 <section>
+                    form 1:
                     <Form
                         formId={ "organisation" }
-                        formFields={ formFields }
                         ignoredFields={ [
                             "created",
                             "updated",
@@ -43,7 +43,22 @@ export default class Example extends Component {
                             "manyOrganisationToManyProduct",
                             "manyOrganisationToOneOrganisation",
                             "updated",
+                            "updated"
+                        ] }
+                    />
+                </section>
+                <section>
+                    form 2:
+                    <Form
+                        formId={ "project" }
+                        ignoredFields={ [
+                            "created",
                             "updated",
+                            "manyProjectToOneOrganisation",
+                            "manyProjectToOneProduct",
+                            "manyProjectToManyCompetency",
+                            "updated",
+                            "updated"
                         ] }
                     />
                 </section>

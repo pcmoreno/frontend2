@@ -1,1 +1,1 @@
-export const GET_FORM_FIELDS = 'GET_FORM_FIELDS';
+export const SET_FORM_FIELDS = 'SET_FORM_FIELDS';

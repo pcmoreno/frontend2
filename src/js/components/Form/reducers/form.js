@@ -6,7 +6,7 @@ const initialState = {
 
 export default function formReducer(state = initialState, action) {
     switch (action.type) {
-        case actionType.GET_FORM_FIELDS:
+        case actionType.SET_FORM_FIELDS:
             let newState = Object.assign({}, state);
 
             // clear current items from newState

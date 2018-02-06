@@ -1,8 +1,8 @@
 import * as actionType from '../constants/ActionTypes';
 
-export function getFormFields(formFields) {
+export function setFormFields(formFields) {
     return {
-        type: actionType.GET_FORM_FIELDS,
+        type: actionType.SET_FORM_FIELDS,
         formFields
     };
 }

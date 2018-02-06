@@ -96,6 +96,7 @@ class Index extends Component {
             <Example
                 active={ this.props.active }
                 items={ this.props.items }
+                forms={this.props.forms}
                 addItem={ this.addItem.bind(this) }
                 getItems={ this.getItems.bind(this) }
             />
@@ -106,7 +107,8 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     return {
         active: state.exampleReducer.active,
-        items: state.exampleReducer.items
+        items: state.exampleReducer.items,
+        forms: state.exampleReducer.forms
     }
 };
 
