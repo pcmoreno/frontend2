@@ -2,12 +2,10 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
 import * as formActions from './actions/form'
-
 import Form from './components/Form/Form'
 
-class Index extends Component {
+export default class Index extends Component {
     constructor(props) {
         super(props);
 
@@ -18,26 +16,16 @@ class Index extends Component {
             Object.assign({}, formActions),
             dispatch
         );
-
-        // introduce a local state to keep track of the form fields and input given by users
-        // why local? there can be multiple forms loaded and they will overwrite values in a global state
-        // the only other option would be to introduce a global state.forms collection, but that is equally troublesome
-        // todo: not sure about formInputValues yet. this could be stored in formFields aswell.
-        this.state = {
-            formFields: [],
-            formInputValues: [],
-            formId: null
-        }
     }
 
     componentDidMount() {
+        // retrieve formFields for this form using the Promise below
         this.getFormFields(this.props.formId);
     }
 
     getFormFields(formId) {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/' + formId;
         document.getElementById('fetching-data-indicator').classList.add('visible');
-        document.getElementById('fetching-data-indicator').classList.remove('visible');
 
         fetch(url, {
             method: "options"
@@ -45,10 +33,8 @@ class Index extends Component {
             document.getElementById('fetching-data-indicator').classList.remove('visible');
             if (response.ok) {
                 response.json().then((response) => {
-                    // update local state with retrieved form fields. this will reload child component that builds form.
-                    this.setState({
-                        formFields: response.fields
-                    });
+                    // this stores the retrieved form id and fields in the global state via a parent method
+                    this.props.storeFormDataInFormsCollection(this.props.formId, response.fields);
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error: ' + error.message));
                 });
@@ -76,22 +62,15 @@ class Index extends Component {
     }
 
     render() {
+        // pass on formid, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
+        // were not in forms[] yet, and the submit- and change methods for the form
         return (<Form
             formId={this.props.formId}
             ignoredFields={this.props.ignoredFields}
+            forms={this.props.forms}
+            storeFormDataInFormsCollection={this.props.storeFormDataInFormsCollection}
             submitForm={this.submitForm}
             changeInputValue={this.changeInputValue}
-            formFields={this.state.formFields}
         />)
     }
 }
-
-// todo: is this still needed? We dont call this action/reducer anymore and certainly dont put form config in the store
-const mapStateToProps = (state) => {
-    return {
-        formFields: state.formReducer.formFields
-    }
-};
-
-// todo: this can be ordinary output, too, if the action/reducer flow is removed
-export default connect(mapStateToProps)(Index);

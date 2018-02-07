@@ -1,2 +1,2 @@
 export const GET_ITEMS = 'GET_ITEMS';
-export const GET_FORM = 'GET_FORM';
+export const STORE_FORM_DATA = 'STORE_FORM_DATA';

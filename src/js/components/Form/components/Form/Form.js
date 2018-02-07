@@ -37,13 +37,13 @@ export default class Form extends Component {
     handleChange(event) {
         // prevent defaults and call the container method
         event.preventDefault();
-        this.props.changeInputValue();
+        this.props.changeInputValue(event);
     }
 
     handleSubmit(event) {
         // prevent defaults and call the container method
         event.preventDefault();
-        this.props.submitForm();
+        this.props.submitForm(event);
     }
 
     shouldComponentUpdate() {
@@ -51,20 +51,25 @@ export default class Form extends Component {
     }
 
     render() {
-        let { formFields, ignoredFields, formId } = this.props;
+        let { forms, ignoredFields, formId } = this.props;
         let formOutput = 'loading form';
 
-        if (formFields.length > 0) {
-            formOutput = formFields.map(formField => {
-                if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
-                    // only work with non-ignored fields
-                    let name = Object.keys(formField);
-                    let type = formField[name].type;
-                    let handle = formField[name].handle;
-                    let formFieldOptions = formField[name].form.all;
-                    return this.buildInputType(name, type, handle, formFieldOptions);
+        if (forms && forms.length > 0){
+            // loop through them to find the one that matches formId
+            forms.map(form => {
+                if (form.id === formId) {
+                    formOutput = form.formFields.map(formField => {
+                        if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
+                            // only work with non-ignored fields
+                            let name = Object.keys(formField);
+                            let type = formField[name].type;
+                            let handle = formField[name].handle;
+                            let formFieldOptions = formField[name].form.all;
+                            return this.buildInputType(name, type, handle, formFieldOptions);
+                        }
+                    });
                 }
-            });
+            })
         }
 
         return (<form className={ style.form } onSubmit={ this.handleSubmit } id={formId}>

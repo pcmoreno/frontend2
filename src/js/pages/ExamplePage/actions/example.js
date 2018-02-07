@@ -8,3 +8,13 @@ export function getItems(items) {
         items
     };
 }
+
+export function storeFormDataInFormsCollection(formId, formFields) {
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.STORE_FORM_DATA,
+        formId,
+        formFields
+    };
+}

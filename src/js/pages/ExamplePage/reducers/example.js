@@ -24,11 +24,21 @@ export default function exampleReducer(state = initialState, action) {
             // return the copied, mutated state
             return newState;
 
-        case actionType.GET_FORM:
-            // add (or overwrite) the form configuration for the formId retrieved from the action
-            //newState.forms[action.formId] = action.formId.formConfiguration;
+        case actionType.STORE_FORM_DATA:
+            // clear all forms
+            newState.forms = [];
 
-            console.log('mutating state for forms by reducer');
+            // first build up the forms with data from state
+            state.forms.map(form => {
+                newState.forms.push(form)
+            });
+
+            // now add the new form taken from the action
+            let newForm = {
+                id: action.formId,
+                formFields: action.formFields
+            };
+            newState.forms.push(newForm);
 
             // return the copied, mutated state
             return newState;

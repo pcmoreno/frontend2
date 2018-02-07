@@ -20,6 +20,9 @@ class Index extends Component {
             Object.assign({}, exampleActions),
             dispatch
         );
+
+        // couple local state (including actions) with this method
+        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
     }
 
     componentWillMount() {
@@ -30,6 +33,12 @@ class Index extends Component {
     componentDidMount() {
         // get items for first time
         this.getItems();
+    }
+
+    // pass this on the form
+    storeFormDataInFormsCollection(formId, formFields) {
+        // dispatch action to update forms[] state with new form data (will overwrite for this id)
+        this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
     // note: since this is the container component, everything that deals with data should be defined right here
@@ -99,11 +108,17 @@ class Index extends Component {
                 forms={this.props.forms}
                 addItem={ this.addItem.bind(this) }
                 getItems={ this.getItems.bind(this) }
+                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
             />
         )
     }
 }
 
+// todo: the forms collection is now closely coupled to the examplepage component. can this be changed so it becomes
+// todo: more global and all forms will live in a more global forms: [] collection?
+// todo: wait whut. is that even needed since this is an SPA. there is only one store. its just the action
+// todo: and reducer set up that needs to be copied across all page components (?)
+// todo: investigate how the root component can facilitate in defining the state
 const mapStateToProps = (state) => {
     return {
         active: state.exampleReducer.active,
