@@ -43,7 +43,7 @@ class Index extends Component {
 
     // note: since this is the container component, everything that deals with data should be defined right here
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
-    // alternatively define a method that is asynchronous itself and call the action whenever the request was successful
+    // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
 
     getItems() {
         let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
@@ -114,11 +114,8 @@ class Index extends Component {
     }
 }
 
-// todo: the forms collection is now closely coupled to the examplepage component. can this be changed so it becomes
-// todo: more global and all forms will live in a more global forms: [] collection?
-// todo: wait whut. is that even needed since this is an SPA. there is only one store. its just the action
-// todo: and reducer set up that needs to be copied across all page components (?)
-// todo: investigate how the root component can facilitate in defining the state
+// each page component maintains its own state/action/reducer flow. even though the forms is a collection that could
+// somehow (?) be globalised, that would be against the concept of isolation within the component architecture.
 const mapStateToProps = (state) => {
     return {
         active: state.exampleReducer.active,
@@ -128,4 +125,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Index);
-

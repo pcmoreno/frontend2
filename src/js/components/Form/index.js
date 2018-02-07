@@ -40,14 +40,21 @@ export default class Index extends Component {
     }
 
     submitForm(event) {
-        // controlled component pattern
-        // todo: add method / API call that submits the form. the URL can be build up from the formID
+        // todo: add method / API call that submits the form. the URL can be build up dynamically from the formID
+        // todo: not sure yet how data is extracted. its taken from the component' state, right? or local state?
+        // todo: look for some examples.
+        // todo: the thing is, we are now INSIDE the form component. forms state is kept in the PARENT container
+        // todo: I want the submit logic to stay in this component
+        // todo: but where then do I store the input? also in here, I suppose.
+        // todo: but I dont want to introduce a reducer flow in here, since its merely a component
+        // todo: would that mean it needs localState after all? pondering...
         console.log('form submitted', event.target);
     }
 
     changeInputValue(event) {
-        // controlled component pattern
         // todo: add handler for changes in form input. this is by design of the controlled component pattern
+        // todo: all this does is save the (changed) input to the state. the state being forms.formId.formFields
+        // todo: do we just add a key to forms for this? so: forms: [ {formId, formFields, formInput} ] ?
         console.log('input value changed', event.target);
     }
 

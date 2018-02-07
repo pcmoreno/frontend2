@@ -38,7 +38,6 @@ export default class Example extends Component {
                     { exampleItem }
                 </section>
                 <section>
-                    form 1:
                     <Form
                         formId={ "organisation" }
                         ignoredFields={ [
@@ -55,7 +54,6 @@ export default class Example extends Component {
                     />
                 </section>
                 <section>
-                    form 2:
                     <Form
                         formId={ "project" }
                         ignoredFields={ [

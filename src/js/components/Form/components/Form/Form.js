@@ -72,9 +72,9 @@ export default class Form extends Component {
             })
         }
 
-        return (<form className={ style.form } onSubmit={ this.handleSubmit } id={formId}>
+        return (<section className={ style.background }><section className={ style.form }><form onSubmit={ this.handleSubmit } id={formId}>
             { formOutput }
             <input type="submit" value="Submit" />
-        </form>)
+        </form></section></section>)
     }
 }
