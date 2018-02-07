@@ -33,6 +33,26 @@ function getExamplePage(){
     return System.import('./pages/ExamplePage').then(module => module.default)
 }
 
+function getInboxPage(){
+    return System.import('./pages/InboxPage').then(module => module.default)
+}
+
+function getOrganisationsPage(){
+    return System.import('./pages/OrganisationsPage').then(module => module.default)
+}
+
+function getTasksPage(){
+    return System.import('./pages/TasksPage').then(module => module.default)
+}
+
+function getUsersPage(){
+    return System.import('./pages/UsersPage').then(module => module.default)
+}
+
+function getParticipantsPage(){
+    return System.import('./pages/ParticipantsPage').then(module => module.default)
+}
+
 import Header from './components/Header';
 
 render(
@@ -42,6 +62,11 @@ render(
             <main>
                 <Router>
                     <AsyncRoute path="/example" getComponent={ getExamplePage } />
+                    <AsyncRoute path="/inbox" getComponent={ getInboxPage } />
+                    <AsyncRoute path="/organisations" getComponent={ getOrganisationsPage } />
+                    <AsyncRoute path="/tasks" getComponent={ getTasksPage } />
+                    <AsyncRoute path="/users" getComponent={ getUsersPage } />
+                    <AsyncRoute path="/participants" getComponent={ getParticipantsPage } />
                 </Router>
             </main>
         </section>
@@ -49,7 +74,6 @@ render(
     document.getElementById('application')
 );
 
-// this will show a console message depending on the environment the assets were built for
 if (process.env.NODE_ENV === "production") {
     // console.log('running in production mode');
 } else {
