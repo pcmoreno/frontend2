@@ -1,21 +1,11 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
-import { bindActionCreators } from 'redux';
-import * as formActions from './actions/form'
 import Form from './components/Form/Form'
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
-
-        const { dispatch } = this.props;
-
-        // binds dispatch with action creators so dispatch or store does not need to be passed down to child components
-        this.actions = bindActionCreators(
-            Object.assign({}, formActions),
-            dispatch
-        );
     }
 
     componentDidMount() {

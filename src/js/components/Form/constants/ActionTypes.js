@@ -1,1 +1,0 @@
-export const SET_FORM_FIELDS = 'SET_FORM_FIELDS';
