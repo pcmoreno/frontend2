@@ -18,3 +18,14 @@ export function storeFormDataInFormsCollection(formId, formFields) {
         formFields
     };
 }
+
+export function changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.UPDATE_FORM_FIELD,
+        formId,
+        formInputId,
+        formInputValue
+    };
+}

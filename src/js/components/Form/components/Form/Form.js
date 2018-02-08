@@ -16,97 +16,63 @@ export default class Form extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    buildInputType(name, type, handle, label, formFieldOptions = null) {
+    buildInputType(name, type, handle, label, value, formFieldOptions = null) {
         // todo: implement all from https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
+
         switch (type) {
             case 'DateTimeField':
-                return (<DateTimeField name={ name } handle={ handle} label={ label } onChange={this.handleChange} />);
+                return (<DateTimeField name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
             case 'Relationship':
-                return (<Relationship name={ name } handle={ handle} label={ label } onChange={this.handleChange} />);
+                return (<Relationship name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
             case 'TextInput':
-                return (<TextInput name={ name } handle={ handle} label={ label } onChange={this.handleChange} />);
+                return (<TextInput name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
             case 'Slug':
-                return (<Slug name={ name } handle={ handle} label={ label } onChange={this.handleChange} />);
+                return (<Slug name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
             case 'Choice':
-                return (<Choice name={ name } handle={ handle} formFieldOptions={ formFieldOptions } label={ label } onChange={this.handleChange} />);
+                return (<Choice name={ name } handle={ handle} formFieldOptions={ formFieldOptions } label={ label } value={ value } onChange={this.handleChange} />);
             default:
                 console.log('input type unknown!');
         }
     }
 
-    ajaxPost(url = 'http://dev.ltponline.com:8001/api/v1/section/organisation', data) {
-        return new Promise((resolve, reject) => {
-            const req = new XMLHttpRequest();
-            req.open('POST', url);
-            let formData = data;
-            if (!(formData instanceof FormData)) {
-                formData = new FormData();
-                for (let key in data) {
-                    if (data.hasOwnProperty(key)) {
-                        formData.append(key, data[key]);
-                    }
-                }
-            }
-            req.onload = () =>
-                req.status === 200 ?
-                    resolve(req.response) :
-                    reject(Error(req.statusText));
-            req.onerror = (e) => reject(Error(`Network Error: ${e}`));
-            req.send(formData);
-        });
-    }
-
-    postFormuliertje(formData) {
-
-        console.log(formData.values());
-
-        const bla = Object.keys(formData).map((key) => {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(formData[key]);
-        }).join('&');
-
-        console.log(bla)
-
-        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
-
-        fetch(url, {
-            method: "post",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: bla
-        }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    // no need to trigger a new action (unless we want ghosting) so instead fetch new items:
-                    this.getItems();
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error - ' + error));
-                });
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(console.log('API not available'));
-            }
-            return Promise.reject(console.log('HTTP error - ' + response.status));
-        }).catch(error => {
-            return Promise.reject(console.log('No such route exists - ' + error));
-        });
-    }
-
     handleChange(event) {
-        // prevent defaults and call the container method
         event.preventDefault();
 
+        // controlled component pattern: form state is kept in state and persisted across page components
+        let formId = this.props.formId;
+        let formInputId = event.currentTarget.id;
+        let formInputValue  = event.currentTarget.value;
+
+        this.props.changeFormFieldValueForFormId(
+            formId,
+            formInputId,
+            formInputValue
+        );
     }
 
     handleSubmit(event) {
-        // prevent defaults and call the container method
         event.preventDefault();
-        // this.props.submitForm(event);
 
-        let formData = new FormData(event.currentTarget);
-        this.ajaxPost(formData);
+        let changedFields = [];
+
+        this.props.forms.map(form => {
+            if (form.id === this.props.formId) {
+                // in the right form
+                form.formFields.map(field => {
+                    // in the right field
+                    let name = Object.keys(field)[0];
+                    if (field[name].value) {
+                        // only submit the changed fields
+                        let fieldId = name;
+                        let value = field[name].value;
+                        changedFields.push(fieldId, value);
+                    }
+                })
+            }
+        });
+
+        this.props.submitForm(changedFields);
+
     }
 
     shouldComponentUpdate() {
@@ -127,24 +93,10 @@ export default class Form extends Component {
                             let name = Object.keys(formField);
                             let type = formField[name].type;
                             let handle = formField[name].handle;
-
-                            // todo: ensure this also handles amending forms, something like this:
-                            // if (create) {
-                            //     if (isset form.create.label) {
-                            //         label = form.create.label;
-                            //     }
-                            // } else {
-                            //     if (isset form.edit.label) {
-                            //         label = form.edit.label;
-                            //     }
-                            // }
-                            // if (label === null) {
-                            //     label = form.all.label;
-                            // }
-
                             let label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
+                            let value = formField[name].value ? formField[name].value : null;
                             let formFieldOptions = formField[name].form.all;
-                            return this.buildInputType(name, type, handle, label, formFieldOptions);
+                            return this.buildInputType(name, type, handle, label, value, formFieldOptions);
                         }
                     });
                 }
@@ -156,4 +108,6 @@ export default class Form extends Component {
             <input type="submit" value="Submit" />
         </form></section></section>)
     }
+
 }
+

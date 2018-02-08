@@ -7,11 +7,17 @@ export default class TextInput extends Component {
     }
 
     render() {
-        let { handle, label } = this.props;
+        let { handle, label, onChange, value } = this.props;
 
         return (<div>
                 <label htmlFor={ handle }>{ label }</label>
-                <input type="text" id={ handle } value={ handle }  name={ 'form['+handle+']'} />
+                <input
+                    type="text"
+                    id={ handle }
+                    value={ value }
+                    name={ 'form['+handle+']'}
+                    onChange={ onChange }
+                />
             </div>
         )
     }

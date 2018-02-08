@@ -23,6 +23,7 @@ class Index extends Component {
 
         // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
+        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
     }
 
     componentWillMount() {
@@ -35,10 +36,17 @@ class Index extends Component {
         this.getItems();
     }
 
-    // pass this on the form
     storeFormDataInFormsCollection(formId, formFields) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
         this.actions.storeFormDataInFormsCollection(formId, formFields);
+    }
+
+    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
+        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
     // note: since this is the container component, everything that deals with data should be defined right here
@@ -46,7 +54,7 @@ class Index extends Component {
     // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
 
     getItems() {
-        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
+        let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
         document.getElementById('fetching-data-indicator').classList.add('visible');
 
         fetch(url, {
@@ -72,7 +80,7 @@ class Index extends Component {
     }
 
     addItem() {
-        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
+        let url = this.props.baseUrl + 'organisation';
         document.getElementById('fetching-data-indicator').classList.add('visible');
 
         fetch(url, {
@@ -106,16 +114,16 @@ class Index extends Component {
                 active={ this.props.active }
                 items={ this.props.items }
                 forms={this.props.forms}
+                baseUrl={ this.props.baseUrl }
                 addItem={ this.addItem.bind(this) }
                 getItems={ this.getItems.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
+                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
             />
         )
     }
 }
 
-// each page component maintains its own state/action/reducer flow. even though the forms is a collection that could
-// somehow (?) be globalised, that would be against the concept of isolation within the component architecture.
 const mapStateToProps = (state) => {
     return {
         active: state.exampleReducer.active,

@@ -25,11 +25,6 @@ export default class Example extends Component {
 
         let someDate = showCurrentTime();
 
-        // passed on to the forms:
-        // formId (to be able determine which one to pick from the forms[] collection and how to get/send data)
-        // ignoredfields
-        // formdata (in case this is retrieved and in the state)
-        // storeFormDataInFormsCollection (in case the form is not in the state yet and must be retrieved)
         return (
             <section className={ style.example }>
                 <div className={ style.bar } id = "fetching-data-indicator" />
@@ -51,6 +46,8 @@ export default class Example extends Component {
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
+                        baseUrl = { this.props.baseUrl }
                     />
                 </section>
                 <section>
@@ -67,6 +64,8 @@ export default class Example extends Component {
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId = { this.props.changeFormFieldValueForFormId }
+                        baseUrl = { this.props.baseUrl }
                     />
                 </section>
             </section>
