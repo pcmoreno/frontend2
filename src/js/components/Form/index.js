@@ -48,7 +48,20 @@ export default class Index extends Component {
         // todo: but where then do I store the input? also in here, I suppose.
         // todo: but I dont want to introduce a reducer flow in here, since its merely a component
         // todo: would that mean it needs localState after all? pondering...
+        // todo: cant you call a container method to update the state? one that is inside examplePage?
+        // todo: not sure. would have to copy that to each page component. not efficient.
+        // todo: true. but you are doing that already with the forms[] state.. cant you leverage that?
+
         console.log('form submitted', event.target);
+
+        let form = event.target;
+        let formData = new FormData(event.currentTarget);
+        console.log(form['organisationName'].value)
+
+        // formData.values().map((bla) => {
+        //     console.log(bla);
+        // });
+        //console.log(formData.values());
     }
 
     changeInputValue(event) {

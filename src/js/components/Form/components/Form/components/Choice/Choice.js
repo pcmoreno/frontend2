@@ -18,10 +18,11 @@ export default class Choice extends Component {
     }
 
     render() {
-        let { handle } = this.props;
+        let { handle, label } = this.props;
 
         return (<div>
-                <select name={ handle }>
+                <label htmlFor={ handle }>{ label }</label>
+                <select id={ handle} name={ handle }>
                     { this.createOptions() }
                 </select>
             </div>
