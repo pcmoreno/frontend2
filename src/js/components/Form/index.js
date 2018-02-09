@@ -6,6 +6,8 @@ import Form from './components/Form/Form'
 export default class Index extends Component {
     constructor(props) {
         super(props);
+
+        this.submitForm = this.submitForm.bind(this);
     }
 
     componentDidMount() {
@@ -50,13 +52,12 @@ export default class Index extends Component {
     }
 
     submitForm(changedFields) {
-        console.log('submitting form with ', changedFields);
-
-        let urlEncodedString;
+        let urlEncodedString = '';
         changedFields.map(changedField => {
-            // todo: loop through collection and urlencode each entry
-            urlEncodedString += '';
+            urlEncodedString += 'form[' + changedField.fieldId + ']=' + changedField.value + '&';
         });
+
+        urlEncodedString = urlEncodedString.substr(0,(urlEncodedString.length-1));
 
         let url = this.props.baseUrl + 'organisation';
         document.getElementById('fetching-data-indicator').classList.add('visible');
@@ -70,7 +71,8 @@ export default class Index extends Component {
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
-                    // todo: reset form
+                    // todo: reset form / state values
+                    this.props.afterSubmit();
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error - ' + error));
                 });

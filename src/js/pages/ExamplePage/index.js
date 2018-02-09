@@ -109,6 +109,7 @@ class Index extends Component {
     }
 
     render() {
+
         return (
             <Example
                 active={ this.props.active }

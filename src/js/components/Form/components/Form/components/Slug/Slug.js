@@ -7,11 +7,17 @@ export default class Slug extends Component {
     }
 
     render() {
-        let { handle } = this.props;
+        let { handle, label, onChange, value } = this.props;
 
         return (<div>
-                <label htmlFor={ handle }>Slug</label>
-                <input type="text" id={ handle } value={ handle } />
+                <label htmlFor={ handle }>{ label }</label>
+                <input
+                    type="text"
+                    id={ handle }
+                    value={ value }
+                    name={ 'form['+handle+']'}
+                    onChange={ onChange }
+                />
             </div>
         )
     }

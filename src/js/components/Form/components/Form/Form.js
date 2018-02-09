@@ -59,13 +59,13 @@ export default class Form extends Component {
             if (form.id === this.props.formId) {
                 // in the right form
                 form.formFields.map(field => {
-                    // in the right field
+                    // map through fields
                     let name = Object.keys(field)[0];
-                    if (field[name].value) {
-                        // only submit the changed fields
+                    if (field[name].value && field[name].value.length > 0) {
+                        // only submit the changed fields (for now, those with a value that is not empty)
                         let fieldId = name;
                         let value = field[name].value;
-                        changedFields.push(fieldId, value);
+                        changedFields.push({fieldId, value});
                     }
                 })
             }

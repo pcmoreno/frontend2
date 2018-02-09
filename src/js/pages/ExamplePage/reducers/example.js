@@ -18,7 +18,7 @@ export default function exampleReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.items.map(item => {
-                newState.items.push({id: item.id})
+                newState.items.push({id: item.id, organisationName: item.organisation_name})
             });
 
             // return the copied, mutated state
