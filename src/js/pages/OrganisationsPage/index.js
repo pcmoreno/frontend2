@@ -17,15 +17,69 @@ class Index extends Component {
             Object.assign({}, organisationsActions),
             dispatch
         );
+
+        // couple local state (including actions) with this method
+        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
+        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+    }
+
+    storeFormDataInFormsCollection(formId, formFields) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
+        // dispatch action to update forms[] state with new form data (will overwrite for this id)
+        this.actions.storeFormDataInFormsCollection(formId, formFields);
+    }
+
+    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
+        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
     componentWillMount() {
         document.title = 'Organisations';
     }
 
+    componentDidMount() {
+        // get items for first time
+        this.getItems();
+    }
+
+    getItems() {
+        let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
+        document.getElementById('fetching-data-indicator').classList.add('visible');
+
+        fetch(url, {
+            method: "get"
+        }).then(response => {
+            document.getElementById('fetching-data-indicator').classList.remove('visible');
+            if (response.ok) {
+                // response.json() is not available yet. wrap it in a promise:
+                response.json().then((response) => {
+                    this.actions.getItems(response);
+                }).catch(error => {
+                    return Promise.reject(console.log('JSON error: ' + error.message));
+                });
+                return response;
+            }
+            if (response.status === 404) {
+                return Promise.reject(console.log('Endpoint error: '));
+            }
+            return Promise.reject(console.log('HTTP error: ' + response.status));
+        }).catch(error => {
+            return Promise.reject(console.log('URL error: ' + error.message));
+        });
+    }
+
     render() {
         return (
             <Organisations
+                items = { this.props.items }
+                forms={this.props.forms}
+                baseUrl={ this.props.baseUrl }
+                getItems={ this.getItems.bind(this) }
+                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
+                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
             />
         )
     }
@@ -33,6 +87,8 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        items: state.organisationsReducer.items,
+        forms: state.organisationsReducer.forms
     }
 };
 

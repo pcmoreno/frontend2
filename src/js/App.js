@@ -16,10 +16,12 @@ import { createStore, combineReducers } from 'redux'
 
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';
+import organisationsReducer from './pages/OrganisationsPage/reducers/organisations';
 
 // combine into one
 const rootReducer = combineReducers({
-    exampleReducer
+    exampleReducer,
+    organisationsReducer
 });
 
 // configure redux store with the combined reducers

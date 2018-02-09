@@ -26,16 +26,6 @@ class Index extends Component {
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
     }
 
-    componentWillMount() {
-        // update the page title for accessibility reasons
-        document.title = 'Example';
-    }
-
-    componentDidMount() {
-        // get items for first time
-        this.getItems();
-    }
-
     storeFormDataInFormsCollection(formId, formFields) {
         // todo: investigate extracting this to helper function since this will be copied to all page components
 
@@ -49,10 +39,19 @@ class Index extends Component {
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
+    componentWillMount() {
+        // update the page title for accessibility reasons
+        document.title = 'Example';
+    }
+
+    componentDidMount() {
+        // get items for first time
+        this.getItems();
+    }
+
     // note: since this is the container component, everything that deals with data should be defined right here
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
     // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
-
     getItems() {
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
         document.getElementById('fetching-data-indicator').classList.add('visible');
@@ -79,37 +78,7 @@ class Index extends Component {
         });
     }
 
-    addItem() {
-        let url = this.props.baseUrl + 'organisation';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
-
-        fetch(url, {
-            method: "post",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'form[organisationName]=TestItem-'+parseInt(Math.random()*100)
-        }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    // no need to trigger a new action (unless we want ghosting) so instead fetch new items:
-                    this.getItems();
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error - ' + error));
-                });
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(console.log('API not available'));
-            }
-            return Promise.reject(console.log('HTTP error - ' + response.status));
-        }).catch(error => {
-            return Promise.reject(console.log('No such route exists - ' + error));
-        });
-    }
-
     render() {
-
         return (
             <Example
                 active={ this.props.active }
