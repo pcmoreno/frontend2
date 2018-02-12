@@ -18,9 +18,16 @@ class Index extends Component {
             dispatch
         );
 
+        // keep track of whether the modal for adding organisation should be visible
+        this.localState = {
+            addOrganisationActive: false
+        };
+
         // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+        this.addOrganisation = this.addOrganisation.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -71,7 +78,16 @@ class Index extends Component {
         });
     }
 
+    addOrganisation() {
+        this.setState(this.localState.addOrganisationActive = true);
+    }
+
+    closeModal() {
+        this.setState(this.localState.addOrganisationActive = false);
+    }
+
     render() {
+        console.log('shouldf havea d efeault at least: ',this.localState.addOrganisationActive);
         return (
             <Organisations
                 items = { this.props.items }
@@ -80,6 +96,9 @@ class Index extends Component {
                 getItems={ this.getItems.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+                addOrganisation={ this.addOrganisation }
+                addOrganisationActive={ this.localState.addOrganisationActive }
+                closeModal={ this.closeModal }
             />
         )
     }

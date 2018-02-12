@@ -12,7 +12,7 @@ export default class Panels extends Component {
         let { items } = this.props;
 
         return (
-            <Panel items = { items } />
+            <Panel items = { items } addOrganisation={ this.props.addOrganisation } />
         )
     }
 }

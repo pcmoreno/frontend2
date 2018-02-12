@@ -96,6 +96,8 @@ export default class Index extends Component {
             forms={this.props.forms}
             submitForm={this.submitForm}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
+            active={this.props.active}
+            closeModal={ this.props.closeModal }
         />)
     }
 }

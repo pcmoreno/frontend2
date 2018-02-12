@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import classNames from 'classnames/bind';
 /** @jsx h */
 
 import DateTimeField from './components/DateTimeField/DateTimeField';
@@ -8,12 +9,14 @@ import Slug from './components/Slug/Slug';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
 
+
 export default class Form extends Component {
     constructor(props) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
@@ -75,19 +78,26 @@ export default class Form extends Component {
 
     }
 
+    handleClose() {
+        console.log('closing modal');
+        this.props.closeModal();
+    }
+
     shouldComponentUpdate() {
         return true;
     }
 
     render() {
         let { forms, ignoredFields, formId } = this.props;
-        let formOutput = 'loading form';
+        let formFields = 'loading form '+formId;
+        let formSubmitButton;
+        let parentClass = this.props.active === true ? 'style.modal' : 'hidden';
 
-        if (forms && forms.length > 0){
+        if (forms && forms.length > 0) {
             // loop through them to find the one that matches formId
             forms.map(form => {
                 if (form.id === formId) {
-                    formOutput = form.formFields.map(formField => {
+                    formFields = form.formFields.map(formField => {
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
                             // only work with non-ignored fields
                             let name = Object.keys(formField);
@@ -99,14 +109,31 @@ export default class Form extends Component {
                             return this.buildInputType(name, type, handle, label, value, formFieldOptions);
                         }
                     });
+
+                    // add submit button
+                    formSubmitButton = <button type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
                 }
             })
         }
 
-        return (<section className={ style.background }><section className={ style.form }><form onSubmit={ this.handleSubmit } id={formId}>
-            { formOutput }
-            <input type="submit" value="Submit" />
-        </form></section></section>)
+        return (<section className={ parentClass  } role="dialog" >
+            <section className={ style.background } onClick={ this.handleClose } role="button" />
+            <form className={ style.form }  id={formId}>
+                <header>
+                    <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
+                    <h3>Add Organisation</h3>
+                </header>
+                <main>
+                    { formFields }
+                </main>
+                <footer>
+                    <nav>
+                        { formSubmitButton }
+                        <button type="button" value="Close" onClick={ this.handleClose }>Close</button>
+                    </nav>
+                </footer>
+            </form>
+        </section>)
     }
 
 }

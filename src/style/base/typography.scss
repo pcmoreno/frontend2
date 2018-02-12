@@ -1,0 +1,23 @@
+body {
+    font-size: 16px;
+    font-family: "museo-sans", sans-serif;
+}
+
+h3 {
+    color: #ef7c00;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    font-weight: 700;
+    font-family: "museo", sans-serif;
+}
+
+/* todo: move to input, convert to rem */
+textarea, input, select {
+    border-radius: unset;
+    border: 0;
+    min-height: 30px;
+    margin: 5px 0;
+    font-size: .75rem;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}

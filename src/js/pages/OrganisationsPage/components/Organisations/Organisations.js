@@ -12,11 +12,12 @@ export default class Organisations extends Component {
 
     render() {
         let { items } = this.props;
+        console.log('this.props.addOrganisationActive: ',this.props.addOrganisationActive);
 
         return (
             <section className={ style.organisations }>
                 <div className={ style.bar } id = "fetching-data-indicator" />
-                <Panels items={ items } />
+                <Panels items={ items } addOrganisation={ this.props.addOrganisation } />
                 <aside className={ style.modal }>
                     <Form
                         formId={ "organisation" }
@@ -27,13 +28,17 @@ export default class Organisations extends Component {
                             "manyOrganisationToManyProduct",
                             "manyOrganisationToOneOrganisation",
                             "updated",
-                            "updated"
+                            "updated",
+                            "organisationType",
+                            "organisationSlug"
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
                         baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
+                        active={ this.props.addOrganisationActive }
+                        closeModal={ this.props.closeModal }
                     />
                 </aside>
             </section>
