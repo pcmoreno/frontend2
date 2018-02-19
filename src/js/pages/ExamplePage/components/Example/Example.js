@@ -27,13 +27,49 @@ export default class Example extends Component {
 
         return (
             <section className={ style.example }>
-                <div className={ style.bar } id="fetching-data-indicator" />
+                <div className={ style.bar } id = "fetching-data-indicator" />
+                You may wonder why this ExamplePage is still here. It serves as an example during refactoring of the Frontend. And also as a tutorial, since it has the structure and patterns the new frontend should follow.
                 <span>{ someDate }</span>
                 <section>
                     { exampleItem }
                 </section>
                 <section>
-                    <Form name={ "organisation" } />
+                    <Form
+                        formId={ "organisation" }
+                        ignoredFields={ [
+                            "created",
+                            "updated",
+                            "manyOrganisationToManyCompetency",
+                            "manyOrganisationToManyProduct",
+                            "manyOrganisationToOneOrganisation",
+                            "updated",
+                            "updated"
+                        ] }
+                        forms = { this.props.forms }
+                        storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
+                        baseUrl = { this.props.baseUrl }
+                        afterSubmit = { this.props.getItems }
+                    />
+                </section>
+                <section>
+                    <Form
+                        formId={ "project" }
+                        ignoredFields={ [
+                            "created",
+                            "updated",
+                            "manyProjectToOneOrganisation",
+                            "manyProjectToOneProduct",
+                            "manyProjectToManyCompetency",
+                            "updated",
+                            "updated"
+                        ] }
+                        forms = { this.props.forms }
+                        storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId = { this.props.changeFormFieldValueForFormId }
+                        baseUrl = { this.props.baseUrl }
+                        afterSubmit = { this.props.getItems }
+                    />
                 </section>
             </section>
         )

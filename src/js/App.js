@@ -16,10 +16,12 @@ import { createStore, combineReducers } from 'redux'
 
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';
+import organisationsReducer from './pages/OrganisationsPage/reducers/organisations';
 
 // combine into one
 const rootReducer = combineReducers({
-    exampleReducer
+    exampleReducer,
+    organisationsReducer
 });
 
 // configure redux store with the combined reducers
@@ -28,13 +30,35 @@ let store = createStore(rootReducer);
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from './../style/common.scss';
 
-
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 function getExamplePage(){
     return System.import('./pages/ExamplePage').then(module => module.default)
 }
 
+function getInboxPage(){
+    return System.import('./pages/InboxPage').then(module => module.default)
+}
+
+function getOrganisationsPage(){
+    return System.import('./pages/OrganisationsPage').then(module => module.default)
+}
+
+function getTasksPage(){
+    return System.import('./pages/TasksPage').then(module => module.default)
+}
+
+function getUsersPage(){
+    return System.import('./pages/UsersPage').then(module => module.default)
+}
+
+function getParticipantsPage(){
+    return System.import('./pages/ParticipantsPage').then(module => module.default)
+}
+
 import Header from './components/Header';
+
+// not the best place, I admit. but until we know how many url's we will have. otherwise this goes to each component' state
+let baseUrl = 'http://dev.ltponline.com:8001/api/v1/section/';
 
 render(
     <Provider store={ store }>
@@ -42,7 +66,12 @@ render(
             <Header key="header" />
             <main>
                 <Router>
-                    <AsyncRoute path="/example" getComponent={ getExamplePage } />
+                    <AsyncRoute path="/example" getComponent={ getExamplePage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/inbox" getComponent={ getInboxPage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/organisations" getComponent={ getOrganisationsPage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/tasks" getComponent={ getTasksPage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/users" getComponent={ getUsersPage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/participants" getComponent={ getParticipantsPage } baseUrl = { baseUrl } />
                 </Router>
             </main>
         </section>
@@ -50,7 +79,6 @@ render(
     document.getElementById('application')
 );
 
-// this will show a console message depending on the environment the assets were built for
 if (process.env.NODE_ENV === "production") {
     // console.log('running in production mode');
 } else {

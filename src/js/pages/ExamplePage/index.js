@@ -20,6 +20,23 @@ class Index extends Component {
             Object.assign({}, exampleActions),
             dispatch
         );
+
+        // couple local state (including actions) with this method
+        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
+        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+    }
+
+    storeFormDataInFormsCollection(formId, formFields) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
+        // dispatch action to update forms[] state with new form data (will overwrite for this id)
+        this.actions.storeFormDataInFormsCollection(formId, formFields);
+    }
+
+    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+        // todo: investigate extracting this to helper function since this will be copied to all page components
+
+        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
     componentWillMount() {
@@ -34,10 +51,9 @@ class Index extends Component {
 
     // note: since this is the container component, everything that deals with data should be defined right here
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
-    // alternatively define a method that is asynchronous itself and call the action whenever the request was successful
-
+    // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
     getItems() {
-        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation?fields=id,organisationName';
+        let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
         document.getElementById('fetching-data-indicator').classList.add('visible');
 
         fetch(url, {
@@ -62,42 +78,16 @@ class Index extends Component {
         });
     }
 
-    addItem() {
-        let url = 'http://dev.ltponline.com:8001/api/v1/section/organisation';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
-
-        fetch(url, {
-            method: "post",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'form[organisationName]=TestItem-'+parseInt(Math.random()*100)
-        }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    // no need to trigger a new action (unless we want ghosting) so instead fetch new items:
-                    this.getItems();
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error - ' + error));
-                });
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(console.log('API not available'));
-            }
-            return Promise.reject(console.log('HTTP error - ' + response.status));
-        }).catch(error => {
-            return Promise.reject(console.log('No such route exists - ' + error));
-        });
-    }
-
     render() {
         return (
             <Example
                 active={ this.props.active }
                 items={ this.props.items }
-                addItem={ this.addItem.bind(this) }
+                forms={this.props.forms}
+                baseUrl={ this.props.baseUrl }
                 getItems={ this.getItems.bind(this) }
+                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
+                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
             />
         )
     }
@@ -106,9 +96,9 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     return {
         active: state.exampleReducer.active,
-        items: state.exampleReducer.items
+        items: state.exampleReducer.items,
+        forms: state.exampleReducer.forms
     }
 };
 
 export default connect(mapStateToProps)(Index);
-

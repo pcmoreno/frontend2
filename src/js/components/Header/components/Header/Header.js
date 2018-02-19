@@ -12,12 +12,27 @@ class Header extends Component {
     render() {
         let navigationItems = [
             {
-                label: 'example-navigation-item', link:'/example'
+                label: 'example-item', link:'/example'
+            },
+            {
+                label: 'inbox', link:'/inbox'
+            },
+            {
+                label: 'organisations', link:'/organisations'
+            },
+            {
+                label: 'tasks', link:'/tasks'
+            },
+            {
+                label: 'users', link:'/users'
+            },
+            {
+                label: 'participants', link:'/participants'
             }
         ];
 
         return (<header className={ style.header }>
-                <a href="/"><figure className="logo" /></a>
+                <figure alt="LTP"> </figure>
                 <Navigation items={ navigationItems } />
             </header>)
     }

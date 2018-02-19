@@ -36,7 +36,7 @@ export default class ExampleItem extends Component {
         let itemList = [];
         if (items && items.length > 0) {
             items.map((item) => {
-                itemList.push(<li>{ item.id }</li>)
+                itemList.push(<li>{ item.organisationName }</li>)
             })
         }
 
