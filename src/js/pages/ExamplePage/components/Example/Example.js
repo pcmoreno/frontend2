@@ -28,6 +28,7 @@ export default class Example extends Component {
         return (
             <section className={ style.example }>
                 <div className={ style.bar } id = "fetching-data-indicator" />
+                You may wonder why this ExamplePage is still here. It serves as an example during refactoring of the Frontend. And also as a tutorial, since it has the structure and patterns the new frontend should follow.
                 <span>{ someDate }</span>
                 <section>
                     { exampleItem }

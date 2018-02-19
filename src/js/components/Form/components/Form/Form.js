@@ -9,7 +9,6 @@ import Slug from './components/Slug/Slug';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
 
-
 export default class Form extends Component {
     constructor(props) {
         super(props);
@@ -79,7 +78,6 @@ export default class Form extends Component {
     }
 
     handleClose() {
-        console.log('closing modal');
         this.props.closeModal();
     }
 
@@ -116,7 +114,7 @@ export default class Form extends Component {
             })
         }
 
-        return (<section className={ parentClass  } role="dialog" >
+        return (<section className={ parentClass } role="dialog" >
             <section className={ style.background } onClick={ this.handleClose } role="button" />
             <form className={ style.form }  id={formId}>
                 <header>

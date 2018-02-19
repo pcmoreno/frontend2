@@ -3,6 +3,8 @@ import { h, Component } from 'preact';
 
 import Item from './components/Item/Item';
 
+import style from './style/itemlist.scss';
+
 export default class ItemList extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +20,7 @@ export default class ItemList extends Component {
         );
 
         return (
-            <ul>
+            <ul className={ style.itemlist }>
                 { itemOutput }
             </ul>
         )

@@ -85,7 +85,6 @@ class Index extends Component {
                 items={ this.props.items }
                 forms={this.props.forms}
                 baseUrl={ this.props.baseUrl }
-                addItem={ this.addItem.bind(this) }
                 getItems={ this.getItems.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }

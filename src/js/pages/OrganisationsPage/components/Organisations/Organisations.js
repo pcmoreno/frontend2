@@ -12,12 +12,11 @@ export default class Organisations extends Component {
 
     render() {
         let { items } = this.props;
-        console.log('this.props.addOrganisationActive: ',this.props.addOrganisationActive);
 
         return (
             <section className={ style.organisations }>
                 <div className={ style.bar } id = "fetching-data-indicator" />
-                <Panels items={ items } addOrganisation={ this.props.addOrganisation } />
+                <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
                 <aside className={ style.modal }>
                     <Form
                         formId={ "organisation" }
@@ -37,8 +36,8 @@ export default class Organisations extends Component {
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
                         baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
-                        active={ this.props.addOrganisationActive }
-                        closeModal={ this.props.closeModal }
+                        active={ this.props.modalToAddOrganisation }
+                        closeModal={ this.props.closeModalToAddOrganisation }
                     />
                 </aside>
             </section>
