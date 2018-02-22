@@ -50,9 +50,14 @@ class Index extends Component {
     componentDidMount() {
         // get items for first time
         this.getItems();
+
+        // hide the modal(s) initially (todo: figure out how to add this straight on the aside element (use classNames))
+        document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     getItems() {
+        document.querySelector('#modal_organisation').classList.add('hidden');
+
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
         document.getElementById('fetching-data-indicator').classList.add('visible');
 
@@ -79,11 +84,16 @@ class Index extends Component {
     }
 
     openModalToAddOrganisation() {
-        this.setState(this.localState.modalToAddOrganisation = true);
+        //this.setState(this.localState.modalToAddOrganisation = true);
+        document.querySelector('#modal_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
-        this.setState(this.localState.modalToAddOrganisation = false);
+        // this is only used to pass on the 'active' flag to the form modal?
+        // seems a bit useless. why not add the 'hidden' class to the aside holding the form component instead?
+        //this.setState(this.localState.modalToAddOrganisation = false);
+
+        document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     render() {

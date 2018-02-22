@@ -11,8 +11,6 @@ export default class Organisations extends Component {
         super(props);
     }
 
-    /* todo: holy crap. I have deleted the logic to send forth the form component include etc. take it from repo please */
-
     render() {
         let { items } = this.props;
         let panels = <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />;
@@ -26,7 +24,7 @@ export default class Organisations extends Component {
                     { panels }
                     <Detailpanel />
                 </section>
-                <aside className={ style.modal_container }>
+                <aside className={ style.modal_container } id="modal_organisation" >
                     <Form
                         formId={ "organisation" }
                         ignoredFields={ [

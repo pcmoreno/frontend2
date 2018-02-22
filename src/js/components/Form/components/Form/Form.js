@@ -89,7 +89,8 @@ export default class Form extends Component {
         let { forms, ignoredFields, formId } = this.props;
         let formFields = 'loading form '+formId;
         let formSubmitButton;
-        let parentClass = this.props.active === true ? 'style.modal' : 'hidden';
+        //let parentClass = this.props.active === true ? 'style.modal' : 'hidden';
+        let parentClass='this_wont_work';
 
         if (forms && forms.length > 0) {
             // loop through them to find the one that matches formId
