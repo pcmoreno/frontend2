@@ -122,7 +122,7 @@ module.exports = {
         // configure plugins used by webpack
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV /* || 'development' */)
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
             }
         }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),

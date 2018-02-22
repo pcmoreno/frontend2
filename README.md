@@ -181,6 +181,8 @@ All Javascript components should contain such functional tests and they should b
 folder. They are using the Jest testing framework together with the preact-render-spy package to integrate with Preact.
 Tests are written in BDD-style: test(), expect(), describe() it(should) etc. You can use basic Enzyme-style syntax.
 
+A good cheatsheet for testing: `http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/`
+
 ## Mocking in tests
 
 There are various ways you can mock parts of your code for testing purposes:
