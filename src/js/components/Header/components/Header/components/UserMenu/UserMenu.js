@@ -10,20 +10,20 @@ export default class UserMenu extends Component {
 
     render() {
         return (
-            <nav className={ style.usermenu }>
+            <nav className={ style.user_menu }>
                 <ul>
-                    <li className="nav-user">
-                        <ul className="user-info">
-                            <li className="user-avatar">
+                    <li className={ style.nav_user }>
+                        <ul className={ style.user_info }>
+                            <li className={ style.user_avatar }>
                                 O
                             </li>
-                            <li className="user-name">
+                            <li className={ style.user_name }>
                         <span>
                             Robbin van Ooij
                         </span>
                             </li>
                         </ul>
-                        <ul className="btn-foldout">
+                        <ul className={ style.btn_foldout }>
                             <li>
                                 <a href="#">
                                     ^

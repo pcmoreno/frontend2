@@ -9,25 +9,25 @@ export default class Item extends Component {
     }
 
     openDetailPanel() {
-        document.querySelector('body').classList.add('detailpanel-open');
+        document.querySelector('#detailpanel').classList.remove('hidden');
     }
 
     render() {
         let { item } = this.props;
 
-        // todo: consider extracting the name_container to a separate component aswell
+        // todo: consider extracting the name_container to a separate component
 
         return (
             <li>
                 <ul className={ style.listitem__items }>
-                    <li className={ style.icon }>icon</li>
+                    <li>icon</li>
                     <li className={ style.name_container }>
                         <div>
                             <span className={ style.title }>{ item }</span>
-                            <span className={ style.subtitle }></span>
+                            <span className={ style.subtitle }>product type</span>
                         </div>
                     </li>
-                    <li className={ style.button_show_detailpanel }>
+                    <li>
                         <span onClick={ this.openDetailPanel } role="button">O</span>
                     </li>
                 </ul>

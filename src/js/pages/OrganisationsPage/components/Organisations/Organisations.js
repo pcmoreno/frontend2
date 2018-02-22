@@ -17,10 +17,10 @@ export default class Organisations extends Component {
 
         return (
             <div className={ style.organisations }>
-                <section className={ style.path }>
+                <section className={ style.path } id="path">
                     <p>path path path path gas oes here > path goes here > path goes here path path path path goes here > path goes here > path goes here path path path path goes here > path goes here > path goes here</p>
                 </section>
-                <section className={ style.panels_container }>
+                <section className={ style.panels_container } id="panels_container">
                     { panels }
                     <Detailpanel />
                 </section>
@@ -43,7 +43,6 @@ export default class Organisations extends Component {
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
                         baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
-                        active={ this.props.modalToAddOrganisation }
                         closeModal={ this.props.closeModalToAddOrganisation }
                     />
                 </aside>

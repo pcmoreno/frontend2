@@ -21,6 +21,10 @@
                 width: 60px;
                 color: #ccc;
                 font-size: 1rem;
+
+                @media screen and (max-width: 960px) {
+                    display: none;
+                }
             }
 
             a {
@@ -31,6 +35,10 @@
                 text-decoration: none;
                 color: #90c2dd;
                 font-size: 1.2rem;
+
+                @media screen and (max-width: 960px) {
+                    font-size: 4px;
+                }
             }
         }
     }

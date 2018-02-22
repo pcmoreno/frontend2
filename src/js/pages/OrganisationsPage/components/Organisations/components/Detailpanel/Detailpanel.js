@@ -9,20 +9,33 @@ export default class Detailpanel extends Component {
     }
 
     toggleFullWidthDetailPanel() {
-        if (document.querySelector('body').classList.contains('detailpanel-full-width')) {
-            document.querySelector('body').classList.remove('detailpanel-full-width');
+        // todo: ensure this actually toggles
+        if (document.querySelector('#panels').classList.contains('hidden')) {
+            document.querySelector('#panels').classList.remove('hidden');
+            document.querySelector('#panels_container').classList.remove('single_fragment');
         } else {
-            document.querySelector('body').classList.add('detailpanel-full-width');
+            document.querySelector('#panels').classList.add('hidden');
+            document.querySelector('#panels_container').classList.add('single_fragment');
         }
+    }
+
+    closeDetailPanel() {
+        document.querySelector('#detailpanel').classList.add('hidden');
+    }
+
+    componentDidMount() {
+        // hide the detail panel on page load (css overrides this for desktop)
+        // todo: ensure this is done on the element itself using classnames
+        document.querySelector('#detailpanel').classList.add('hidden');
     }
 
     render() {
         return (
-            <aside className={ style.detailpanel }>
+            <aside className={ style.detailpanel } id="detailpanel">
                 <header>
                     <span className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <p>Detail panel with very long name once again</p>
+                    <h2>Detail panel with very long name once again</h2>
                 </header>
                 <nav>
                     <span>item</span>
@@ -31,7 +44,11 @@ export default class Detailpanel extends Component {
                     <span>item</span>
                     <span>item</span>
                 </nav>
-                <section className={ style.detailpanel_divider }>some divider</section>
+                <main>
+                    <p>some bla bla</p>
+                    <span className={ style.detailpanel_divider }>some divider</span>
+                    <p>some bla bla</p>
+                </main>
             </aside>
         )
     }

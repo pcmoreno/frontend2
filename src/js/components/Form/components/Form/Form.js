@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import classNames from 'classnames/bind';
 /** @jsx h */
 
 import DateTimeField from './components/DateTimeField/DateTimeField';
@@ -23,15 +22,35 @@ export default class Form extends Component {
 
         switch (type) {
             case 'DateTimeField':
-                return (<DateTimeField name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
+                return (<DateTimeField name={name}
+                                       handle={handle}
+                                       label={label}
+                                       value={value}
+                                       onChange={this.handleChange}/>);
             case 'Relationship':
-                return (<Relationship name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
+                return (<Relationship name={name}
+                                      handle={handle}
+                                      label={label}
+                                      value={value}
+                                      onChange={this.handleChange}/>);
             case 'TextInput':
-                return (<TextInput name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
+                return (<TextInput name={name} handle={handle}
+                               label={label}
+                               value={value}
+                               onChange={this.handleChange}/>);
             case 'Slug':
-                return (<Slug name={ name } handle={ handle} label={ label } value={ value } onChange={this.handleChange} />);
+                return (<Slug name={name}
+                              handle={handle}
+                              label={label}
+                              value={value}
+                              onChange={this.handleChange}/>);
             case 'Choice':
-                return (<Choice name={ name } handle={ handle} formFieldOptions={ formFieldOptions } label={ label } value={ value } onChange={this.handleChange} />);
+                return (<Choice name={name}
+                            handle={handle}
+                            formFieldOptions={formFieldOptions}
+                            label={label}
+                            value={value}
+                            onChange={this.handleChange}/>);
             default:
                 console.log('input type unknown!');
         }
@@ -78,10 +97,12 @@ export default class Form extends Component {
     }
 
     handleClose() {
+        // executes the provided close method
         this.props.closeModal();
     }
 
     shouldComponentUpdate() {
+        // todo: is this required? test!
         return true;
     }
 
@@ -89,11 +110,9 @@ export default class Form extends Component {
         let { forms, ignoredFields, formId } = this.props;
         let formFields = 'loading form '+formId;
         let formSubmitButton;
-        //let parentClass = this.props.active === true ? 'style.modal' : 'hidden';
-        let parentClass='this_wont_work';
 
+        // since all forms are passed on, find the one that matches the given formId
         if (forms && forms.length > 0) {
-            // loop through them to find the one that matches formId
             forms.map(form => {
                 if (form.id === formId) {
                     formFields = form.formFields.map(formField => {
@@ -109,13 +128,12 @@ export default class Form extends Component {
                         }
                     });
 
-                    // add submit button
                     formSubmitButton = <button type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
                 }
             })
         }
 
-        return (<section className={ parentClass } role="dialog" >
+        return (<section role="dialog" >
             <section className={ style.background } onClick={ this.handleClose } role="button" />
             <form className={ style.form }  id={formId}>
                 <header>

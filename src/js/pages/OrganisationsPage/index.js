@@ -18,11 +18,6 @@ class Index extends Component {
             dispatch
         );
 
-        // keep track of whether the modal for adding organisation should be visible
-        this.localState = {
-            modalToAddOrganisation: false
-        };
-
         // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
@@ -56,15 +51,16 @@ class Index extends Component {
     }
 
     getItems() {
+        // hide modal (if not already hidden)
         document.querySelector('#modal_organisation').classList.add('hidden');
 
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
+        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
 
         fetch(url, {
             method: "get"
         }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
+            document.querySelector('#fetching-data-indicator').classList.add('hidden');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
@@ -84,15 +80,10 @@ class Index extends Component {
     }
 
     openModalToAddOrganisation() {
-        //this.setState(this.localState.modalToAddOrganisation = true);
         document.querySelector('#modal_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
-        // this is only used to pass on the 'active' flag to the form modal?
-        // seems a bit useless. why not add the 'hidden' class to the aside holding the form component instead?
-        //this.setState(this.localState.modalToAddOrganisation = false);
-
         document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
@@ -107,7 +98,6 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-                modalToAddOrganisation={ this.localState.modalToAddOrganisation }
             />
         )
     }

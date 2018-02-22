@@ -2,18 +2,26 @@
     list-style-type: none;
     white-space: nowrap;
     width: 100%;
-}
 
-.list_item {
-    /* is this used? */
-    background: #000;
-    cursor: pointer;
-    color: #fff;
-}
+    > li {
+        float: left;
 
-.icon {
-    margin: 7px 12px -15px 0;
-    float: left;
+        &:first-child {
+            /* icon */
+            margin: 7px 12px -15px 0;
+        }
+
+        &:last-child {
+            /* view details */
+            display: none;
+            height: 50px;
+            float: right;
+
+            @media screen and (max-width: 960px) {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 .name_container {
@@ -29,9 +37,9 @@
     width: 75%;
 
     > div {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         .title {
             white-space: nowrap;
@@ -48,7 +56,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-  }
+    }
+
+    @media screen and (max-width: 960px) {
+        width: 70%;
+    }
 }
 
 .button_show_detailpanel {

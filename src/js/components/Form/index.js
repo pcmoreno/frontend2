@@ -27,12 +27,12 @@ export default class Index extends Component {
 
     getFormFields(formId) {
         let url = this.props.baseUrl + formId;
-        document.getElementById('fetching-data-indicator').classList.add('visible');
+        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
 
         fetch(url, {
             method: "options"
         }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
+            document.querySelector('#fetching-data-indicator').classList.add('hidden');
             if (response.ok) {
                 response.json().then((response) => {
                     // this stores the retrieved form id and fields in the global state via a parent method
@@ -57,17 +57,17 @@ export default class Index extends Component {
             urlEncodedString += 'form[' + changedField.fieldId + ']=' + changedField.value + '&';
         });
 
-        urlEncodedString = urlEncodedString.substr(0,(urlEncodedString.length-1));
+        urlEncodedString = urlEncodedString.substr(0, (urlEncodedString.length-1));
 
         let url = this.props.baseUrl + 'organisation';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
+        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
 
         fetch(url, {
             method: "post",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: urlEncodedString
         }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
+            document.querySelector('#fetching-data-indicator').classList.add('hidden');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
@@ -89,14 +89,13 @@ export default class Index extends Component {
 
     render() {
         // pass on formid, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
-        // were not in forms[] yet, and the submit- and change methods for the form
+        // were not in forms[] yet, and the submit- and change methods for the form. and also the close method.
         return (<Form
             formId={this.props.formId}
             ignoredFields={this.props.ignoredFields}
             forms={this.props.forms}
             submitForm={this.submitForm}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
-            active={this.props.active}
             closeModal={ this.props.closeModal }
         />)
     }

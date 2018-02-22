@@ -7,19 +7,20 @@
 }
 
 /* there was a need to have a parent wrapping container to be able to include the path component here */
+/* missing ie11 styles here? */
 .panels_container {
     @supports (display: grid) {
         overflow: hidden;
         display: grid;
         grid-template-columns: 3fr 1fr;
+
+        @media screen and (max-width: 960px) {
+            grid-template-columns: 1fr;
+        }
     }
 }
 
-/* todo: so.. is this meant for main or for .organisations? or even for .panels_container or .panels? */
-body.detailpanel-full-width main {
-    grid-template-columns: 1fr;
-}
-
+/* todo: extract to separate component */
 .path {
     overflow: hidden;
     margin: 10px 10px 0;
@@ -32,10 +33,7 @@ body.detailpanel-full-width main {
     }
 }
 
-.visible {
-    background: red;
-}
-
+/* is this used? */
 .modal_container {
     position: absolute;
     top: 0;

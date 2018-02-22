@@ -15,7 +15,7 @@ export default class Panels extends Component {
         // todo: introduce logic here to go through all panels that should be displayed. for now just repeating.
 
         return (
-            <section className={ style.panels }>
+            <section className={ style.panels } id="panels">
                 <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
                 <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
             </section>

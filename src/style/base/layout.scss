@@ -1,5 +1,6 @@
-#application main * {
-    //margin: 10px;
+/* these should be placed in some other .scss.. but how to call it? common? resets? */
+* {
+    margin: 0;
 }
 
 ul {
@@ -7,6 +8,8 @@ ul {
     margin: 0;
     list-style-type: none;
 }
+
+/* the element in which the app is rendered */
 
 #layout {
     margin: 0;

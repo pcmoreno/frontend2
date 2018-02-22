@@ -1,42 +1,43 @@
-.usermenu {
+.user_menu {
     position: absolute;
     right: 1rem;
+}
 
-    .nav-user {
-        float: right;
-        position: relative;
-        width: auto;
+.nav_user {
+    float: right;
+    position: relative;
+    width: auto;
+}
+
+.btn_foldout {
+    margin-left: .4rem;
+    font-weight: bold;
+    float: left;
+    height: 60px;
+    line-height: 60px;
+}
+
+.user_name {
+    min-width: unset;
+    padding: 0 .25rem;
+    text-align: left;
+    float: left;
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+
+    span {
+        font-weight: 700;
+        color: #ef7c00;
+        font-size: .9rem;
     }
+}
 
-    .user-info {
-        float: left;
-        height: 60px;
-        line-height: 60px;
-        vertical-align: middle;
-    }
-
-    .user-avatar {
-        float: left;
-        min-width: unset;
-        padding: 0 .25rem;
-        text-align: left;
-    }
-
-    .user-name {
-        min-width: unset;
-        padding: 0 .25rem;
-        text-align: left;
-        float: left;
-        position: relative;
-        height: 60px;
-        line-height: 60px;
-
-        span {
-            font-weight: 700;
-            color: #ef7c00;
-            font-size: .9rem;
-        }
-    }
+.user_avatar {
+    float: left;
+    min-width: unset;
+    padding: 0 .25rem;
+    text-align: left;
 
     .user_image_placeholder {
         vertical-align: middle;
@@ -48,4 +49,11 @@
             fill: #ef7c00;
         }
     }
+}
+
+.user_info {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    vertical-align: middle;
 }

@@ -17,6 +17,10 @@
 .indicator {
     background: #edece8;
 
+    @media screen and (max-width: 960px) {
+        display: none;
+    }
+
     svg {
         position: absolute;
         height: 10px;
@@ -57,10 +61,4 @@
     background-size: 50px 50px;
     animation: move 2s linear infinite;
     overflow: hidden;
-    display: none;
-
-    &.visible {
-        /* todo: this is malformed by css modules thus adding this class by JS wont work. fix it. */
-        display: inline-block;
-    }
 }
