@@ -12,7 +12,7 @@ export default class Panels extends Component {
     render() {
         let { items } = this.props;
 
-        // todo: introduce logic here to go through all panels that should be displayed. for now just repeating.
+        // todo: introduce logic here to go through all panels that should be displayed. for now it's just repeating.
 
         return (
             <section className={ style.panels } id="panels">

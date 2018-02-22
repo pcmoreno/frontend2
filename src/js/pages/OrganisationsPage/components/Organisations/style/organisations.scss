@@ -7,7 +7,7 @@
 }
 
 /* there was a need to have a parent wrapping container to be able to include the path component here */
-/* missing ie11 styles here? */
+/* todo: missing ie11 styles here? */
 .panels_container {
     @supports (display: grid) {
         overflow: hidden;
@@ -26,14 +26,14 @@
     margin: 10px 10px 0;
 
     p {
-        white-space: nowrap;
+        white-space: nowrap;s
         text-overflow: ellipsis;
         overflow: hidden;
         font-size: 12px;
     }
 }
 
-/* is this used? */
+/* todo: is this used? test! */
 .modal_container {
     position: absolute;
     top: 0;

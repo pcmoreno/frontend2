@@ -26,6 +26,7 @@ export default class Index extends Component {
     }
 
     getFormFields(formId) {
+        // todo: extract to API layer component
         let url = this.props.baseUrl + formId;
         document.querySelector('#fetching-data-indicator').classList.remove('hidden');
 
@@ -52,6 +53,7 @@ export default class Index extends Component {
     }
 
     submitForm(changedFields) {
+        // todo: extract to API layer component
         let urlEncodedString = '';
         changedFields.map(changedField => {
             urlEncodedString += 'form[' + changedField.fieldId + ']=' + changedField.value + '&';

@@ -51,6 +51,7 @@ class Index extends Component {
     }
 
     getItems() {
+        // todo: extract to API layer component
         // hide modal (if not already hidden)
         document.querySelector('#modal_organisation').classList.add('hidden');
 

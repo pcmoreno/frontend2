@@ -1,6 +1,6 @@
 .header {
     overflow: hidden;
-    /* position: fixed; <-- only on  mobile? */
+    /* position: fixed; <-- todo: only on  mobile? */
     top: 0;
     height: 60px;
     background: #fff none repeat scroll 0 0;
@@ -37,7 +37,6 @@
         }
     }
 }
-
 
 .bar {
     margin: 0 !important;

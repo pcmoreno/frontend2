@@ -1,4 +1,5 @@
 .app_navigation {
+    /* todo: all colours should be variables defined in style/base/colours.scss */
     background: #fff;
     position: absolute;
     left: 1rem;
@@ -18,6 +19,7 @@
             }
 
             &.logo {
+                /* todo: add svg logo */
                 width: 60px;
                 color: #ccc;
                 font-size: 1rem;
@@ -28,6 +30,7 @@
             }
 
             a {
+                /* todo: wrong fonts. include typekit. */
                 height: 60px;
                 line-height: 60px;
                 vertical-align: middle;

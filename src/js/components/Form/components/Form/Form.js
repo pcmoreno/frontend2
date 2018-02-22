@@ -18,7 +18,7 @@ export default class Form extends Component {
     }
 
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
-        // todo: implement all from https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
+        // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
 
         switch (type) {
             case 'DateTimeField':

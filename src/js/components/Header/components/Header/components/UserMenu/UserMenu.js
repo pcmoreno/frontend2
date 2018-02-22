@@ -9,6 +9,10 @@ export default class UserMenu extends Component {
     }
 
     render() {
+
+        /* todo: extract to sub components */
+        /* todo: finish user menu rollout  menu */
+
         return (
             <nav className={ style.user_menu }>
                 <ul>

@@ -16,6 +16,7 @@ export default class Item extends Component {
         let { item } = this.props;
 
         // todo: consider extracting the name_container to a separate component
+        // todo: add fontawesome icons
 
         return (
             <li>

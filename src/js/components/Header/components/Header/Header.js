@@ -37,6 +37,8 @@ class Header extends Component {
             }
         ];
 
+        /* todo: replace the fetching-data-indicator with font-awesome spinner and extract to component */
+
         return (<header className={ style.header }>
                 <Navigation items={ navigationItems } />
                 <div className={ style.bar } id="fetching-data-indicator" />
