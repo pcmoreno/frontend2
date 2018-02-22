@@ -21,7 +21,7 @@ export default class Item extends Component {
         return (
             <li>
                 <ul className={ style.listitem__items }>
-                    <li>icon</li>
+                    <li><i className="fas fa-briefcase"></i></li>
                     <li className={ style.name_container }>
                         <div>
                             <span className={ style.title }>{ item }</span>
