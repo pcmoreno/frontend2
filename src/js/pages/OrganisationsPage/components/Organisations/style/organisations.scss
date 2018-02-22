@@ -1,11 +1,60 @@
 .organisations {
-    ul {
-        float: left;
+    @supports (display: grid) {
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 30px 1fr;
+    }
+}
 
-        li {
-            float: none;
-            padding: 0;
-            margin: 0;
-        }
+/* there was a need to have a parent wrapping container to be able to include the path component here */
+.panels_container {
+    @supports (display: grid) {
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+/* todo: so.. is this meant for main or for .organisations? or even for .panels_container or .panels? */
+body.detailpanel-full-width main {
+    grid-template-columns: 1fr;
+}
+
+.path {
+    overflow: hidden;
+    margin: 10px 10px 0;
+
+    p {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 12px;
+    }
+}
+
+.modal {
+    background: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.visible {
+    background: red;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .5;
+
+    @media screen and (max-width: 640px) {
+        opacity: 0;
     }
 }

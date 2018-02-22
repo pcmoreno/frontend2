@@ -1,3 +1,20 @@
 #application main * {
     //margin: 10px;
 }
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+#layout {
+    margin: 0;
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    overflow: hidden;
+    height: 100vh;
+    background: #edece8;
+    font-family: Arial;
+    font-size: 16px;
+}

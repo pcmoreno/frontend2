@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
+import Item from './components/Item/Item';
 import PanelHeader from './components/PanelHeader/PanelHeader';
-import ItemList from './components/ItemList/ItemList';
-
 import style from './style/panel.scss';
 
 export default class Panel extends Component {
@@ -14,11 +13,23 @@ export default class Panel extends Component {
     render() {
         let { items } = this.props;
 
+        let itemOutput;
+        itemOutput = items.map(item => {
+                return <Item item = { item.organisationName } />
+            }
+        );
+
+         // todo: add 'active' class to section
+
         return (
-            <div className={ style.panel } >
+            <section className={ style.panel } >
                 <PanelHeader openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
-                <ItemList items = { items } />
-            </div>
+                <section className={ style.itemlist }>
+                    <ul>
+                        { itemOutput }
+                    </ul>
+                </section>
+            </section>
         )
     }
 }

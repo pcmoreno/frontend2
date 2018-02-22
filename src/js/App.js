@@ -62,7 +62,7 @@ let baseUrl = 'http://dev.ltponline.com:8001/api/v1/section/';
 
 render(
     <Provider store={ store }>
-        <section>
+        <section id="layout">
             <Header key="header" />
             <main>
                 <Router>
@@ -76,7 +76,9 @@ render(
             </main>
         </section>
     </Provider>,
-    document.getElementById('application')
+    document.querySelector('body'),
+    document.querySelector('body').firstChild
+
 );
 
 if (process.env.NODE_ENV === "production") {

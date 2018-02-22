@@ -1,0 +1,67 @@
+.detailpanel {
+    background: #fff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    /* ie11 */
+    float: left;
+    width: 20%;
+    height: calc(100vh - 120px);
+    min-width: unset;
+
+    @supports (display: grid) {
+        float: none;
+        width: unset;
+        height: unset;
+        min-width: 320px; /* can be omitted if not important */
+    }
+
+    header {
+        background: #90c2dd;
+        border-radius: 5px 5px 0 0;
+        height: 120px;
+        padding: 10px;
+
+        .button_fullwidth_detailpanel {
+            display: none;
+
+            @supports (display: grid) {
+                display: block;
+                cursor: pointer;
+                text-align: left;
+            }
+        }
+    }
+
+    nav {
+        background: #90c2dd;
+        height: 30px;
+        padding: 0 10px;
+        font-size: .8rem;
+        text-align: center;
+
+        span {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
+    }
+
+    .detailpanel_divider {
+        background: #dbd9d3;
+        margin: 20px 0;
+        font-size: .8rem;
+        padding: .5rem;
+    }
+
+    p {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: center;
+    }
+}

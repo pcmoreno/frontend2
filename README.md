@@ -141,6 +141,8 @@ custom selectors (.something, .listView) you will need to refer to your imported
 
 `<someElement className={ style.someCustomSelector }`
 
+Note that named child component selectors (ie .someChildElement) will need to follow the same convention!
+
 You can import any CSS type (CSS, SCSS, SASS) and don't even need to specify the extension (though your IDE may think
 differently). Note however that you can only use the *@import* directive in .scss files to import another .scss file.
 

@@ -6,19 +6,6 @@
     background: red;
 }
 
-.background {
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: .5;
-
-    @media screen and (max-width: 640px) {
-        opacity: 0;
-    }
-}
 
 .form {
     position: relative;

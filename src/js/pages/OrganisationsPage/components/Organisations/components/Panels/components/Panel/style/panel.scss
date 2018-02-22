@@ -1,0 +1,75 @@
+.panel {
+    list-style-type: none;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.panel > li {
+    float: left;
+}
+
+.panel > li:first-child {
+    margin: 7px 12px -15px 0;
+}
+
+.panel > li:last-child {
+    display: none;
+    height: 50px;
+    float: right;
+}
+
+@media screen and (max-width: 960px) {
+    .panel > li:last-child {
+        display: inline-block;
+    }
+}
+
+.panel {
+    /* ie11 */
+    width: 30%;
+    float: left;
+    background: white;
+    border-radius: 5px;
+    /* using a static value here instead of JS */
+    height: calc(100vh - 130px);
+    margin-left: 10px;
+}
+
+@supports (display: grid) {
+    .panel {
+        float: none;
+        width: unset;
+        height: calc(100vh - 120px); /* header, path, indicator and the margins set on the panels section */
+        overflow-y: hidden;
+        margin-left: unset;
+    }
+}
+
+.panel.empty {
+    display: none;
+}
+
+.itemlist {
+    height: calc(100% - 30px);
+}
+
+.itemlist > ul {
+    overflow-y: scroll;
+    height: 100%;
+    list-style-type: none;
+}
+
+.itemlist > ul > li {
+    height: 50px;
+    border-bottom: solid 1px #eee;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    padding: 0 10px;
+}
+
+.itemlist > ul > li:hover {
+    background: #000;
+    cursor: pointer;
+    color: #fff;
+}
