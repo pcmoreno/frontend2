@@ -26,7 +26,7 @@ export default class Organisations extends Component {
                     { panels }
                     <Detailpanel />
                 </section>
-                <section className={ style.background } >
+                <aside className={ style.modal_container }>
                     <Form
                         formId={ "organisation" }
                         ignoredFields={ [
@@ -48,7 +48,7 @@ export default class Organisations extends Component {
                         active={ this.props.modalToAddOrganisation }
                         closeModal={ this.props.closeModalToAddOrganisation }
                     />
-                </section>
+                </aside>
             </div>
         )
     }
