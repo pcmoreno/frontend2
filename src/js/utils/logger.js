@@ -19,19 +19,21 @@ class Logger {
      * @param {Object} logObject
      * @param {String} logObject.message - Message
      * @param {String} logObject.component - Component name
-     * @returns {string|null}
+     * @returns {boolean}
      * @private
      */
     _validateLogObject(logObject) {
         if (!logObject['message']) {
-            return 'message is required';
+            console.error('message is required');
+            return false;
         }
 
         if (!logObject['component']) {
-            return 'component is required';
+            console.error('component is required');
+            return false;
         }
 
-        return null;
+        return true;
     }
 
     /**
@@ -89,14 +91,9 @@ class Logger {
      * @param {String} [logObject.response] - response from a network request
      */
     notice(logObject) {
-        let invalid = this._validateLogObject(logObject);
-
-        if (invalid) {
-            console.error(this._validateLogObject(logObject));
-            return;
+        if (this._validateLogObject(logObject)) {
+            this._postToLogger(logObject, 'notice');
         }
-
-        this._postToLogger(logObject, 'notice');
     }
 
     /**
@@ -109,14 +106,9 @@ class Logger {
      * @param {String} [logObject.response] - response from a failed network request
      */
     warning(logObject) {
-        let invalid = this._validateLogObject(logObject);
-
-        if (invalid) {
-            console.error(this._validateLogObject(logObject));
-            return;
+        if (this._validateLogObject(logObject)) {
+            this._postToLogger(logObject, 'warning');
         }
-
-        this._postToLogger(logObject, 'warning');
     }
 
     /**
@@ -129,14 +121,9 @@ class Logger {
      * @param {String} [logObject.response] - response from a failed network request
      */
     error(logObject) {
-        let invalid = this._validateLogObject(logObject);
-
-        if (invalid) {
-            console.error(this._validateLogObject(logObject));
-            return;
+        if (this._validateLogObject(logObject)) {
+            this._postToLogger(logObject, 'error');
         }
-
-        this._postToLogger(logObject, 'error');
     }
 
     static get instance() {

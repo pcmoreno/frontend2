@@ -71,11 +71,11 @@ test('check if validation of logObject is correct', () => {
     ];
 
     // expected result for direct validation
-    expect(logger._validateLogObject(errors[0])).toEqual('component is required');
-    expect(logger._validateLogObject(errors[1])).toEqual('component is required');
-    expect(logger._validateLogObject(errors[2])).toEqual('message is required');
-    expect(logger._validateLogObject(errors[3])).toEqual('message is required');
-    expect(logger._validateLogObject(errors[4])).toEqual(null);
+    expect(logger._validateLogObject(errors[0])).toEqual(false);
+    expect(logger._validateLogObject(errors[1])).toEqual(false);
+    expect(logger._validateLogObject(errors[2])).toEqual(false);
+    expect(logger._validateLogObject(errors[3])).toEqual(false);
+    expect(logger._validateLogObject(errors[4])).toEqual(true);
 
     // test console methods not to be called once validation fails
     spyOn(global.console, 'error');
