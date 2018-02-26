@@ -10,16 +10,24 @@ import AsyncRoute from 'preact-async-route';
 
 // import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
 import fontawesome from '@fortawesome/fontawesome';
-import { faSuitcase } from '@fortawesome/fontawesome-free-solid';
+// import FontAwesomeIcon from '@fortawesome/react-fontawesome'; // not used in App.js, can be omitted
+
+// todo: this seems to import the whole set! that whole .library doesnt do anything now!
+// todo: see difference in filesize, it grows 350kb! also check www.npmjs.com/package/@fortawesome/react-fontawesome */
+import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitCase';
+import faEye from '@fortawesome/fontawesome-free-solid/faEye';
+import faUser from '@fortawesome/fontawesome-free-solid/faUser';
+import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
+// import { faSuitcase, faEye, faUser, faAngleDown } from '@fortawesome/fontawesome-free-solid';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
-fontawesome.library.add(faSuitcase);
+fontawesome.library.add(faSuitcase, faEye, faUser, faAngleDown);
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 // this defines the redux store
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers } from 'redux';
 
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';

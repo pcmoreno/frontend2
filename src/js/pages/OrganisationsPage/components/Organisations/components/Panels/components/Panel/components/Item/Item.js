@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/item.scss';
 
 export default class Item extends Component {
@@ -17,12 +17,11 @@ export default class Item extends Component {
         let { item } = this.props;
 
         // todo: consider extracting the name_container to a separate component
-        // todo: add fontawesome icons
 
         return (
             <li>
                 <ul className={ style.listitem__items }>
-                    <li><FontAwesomeIcon icon="suitcase"/></li>
+                    <li><FontAwesomeIcon icon="suitcase" /></li>
                     <li className={ style.name_container }>
                         <div>
                             <span className={ style.title }>{ item }</span>
@@ -30,7 +29,7 @@ export default class Item extends Component {
                         </div>
                     </li>
                     <li>
-                        <span onClick={ this.openDetailPanel } role="button">O</span>
+                        <span onClick={ this.openDetailPanel } role="button"><FontAwesomeIcon icon="eye"/></span>
                     </li>
                 </ul>
             </li>

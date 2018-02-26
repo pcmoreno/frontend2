@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
 
 export default class UserMenu extends Component {
@@ -19,7 +20,7 @@ export default class UserMenu extends Component {
                     <li className={ style.nav_user }>
                         <ul className={ style.user_info }>
                             <li className={ style.user_avatar }>
-                                O
+                                <FontAwesomeIcon icon="user" />
                             </li>
                             <li className={ style.user_name }>
                         <span>
@@ -29,9 +30,9 @@ export default class UserMenu extends Component {
                         </ul>
                         <ul className={ style.btn_foldout }>
                             <li>
-                                <a href="#">
-                                    ^
-                                </a>
+                                <span role="button" onClick={ () => {console.log('to do')} } >
+                                    <FontAwesomeIcon icon="angle-down" />
+                                </span>
                             </li>
                         </ul>
                     </li>

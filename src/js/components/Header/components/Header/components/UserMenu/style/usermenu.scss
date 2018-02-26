@@ -11,10 +11,15 @@
 
 .btn_foldout {
     margin-left: .4rem;
-    font-weight: bold;
     float: left;
     height: 60px;
     line-height: 60px;
+
+    span {
+        font-weight: normal;
+        text-decoration: none;
+        color: $orange-darken;
+    }
 }
 
 .user_name {
@@ -38,6 +43,7 @@
     min-width: unset;
     padding: 0 .25rem;
     text-align: left;
+    font-size: 1.6rem;
 
     .user_image_placeholder {
         vertical-align: middle;

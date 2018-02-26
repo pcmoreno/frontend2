@@ -20,19 +20,6 @@
     }
 }
 
-/* todo: extract to separate component */
-.path {
-    overflow: hidden;
-    margin: 10px 10px 0;
-
-    p {
-        white-space: nowrap;s
-        text-overflow: ellipsis;
-        overflow: hidden;
-        font-size: 12px;
-    }
-}
-
 /* todo: is this used? test! */
 .modal_container {
     position: absolute;

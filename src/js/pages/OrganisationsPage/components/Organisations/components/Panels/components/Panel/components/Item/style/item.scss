@@ -8,14 +8,17 @@
 
         &:first-child {
             /* icon */
+            font-size: 2rem;
             margin: 7px 12px -15px 0;
         }
 
         &:last-child {
             /* view details */
+            font-size: 2rem;
             display: none;
             height: 50px;
             float: right;
+            color: #dbd9d3;
 
             @media screen and (max-width: 960px) {
                 display: inline-block;
@@ -45,6 +48,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 1rem;
         }
 
         .subtitle {

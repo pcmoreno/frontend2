@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import Panels from './components/Panels/Panels';
+import Path from './components/Path/Path';
 import Detailpanel from './components/Detailpanel/Detailpanel';
 import Form from './../../../../components/Form';
 import style from './style/organisations.scss';
@@ -17,9 +18,7 @@ export default class Organisations extends Component {
 
         return (
             <div className={ style.organisations }>
-                <section className={ style.path } id="path">
-                    <p>path path path path gas oes here > path goes here > path goes here path path path path goes here > path goes here > path goes here path path path path goes here > path goes here > path goes here</p>
-                </section>
+                <Path />
                 <section className={ style.panels_container } id="panels_container">
                     { panels }
                     <Detailpanel />
