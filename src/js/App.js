@@ -8,6 +8,13 @@ import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 /** @jsx h */
 
+// import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
+import fontawesome from '@fortawesome/fontawesome';
+import { faSuitcase } from '@fortawesome/fontawesome-free-solid';
+
+// add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
+fontawesome.library.add(faSuitcase);
+
 // react-redux: make the store available to all container components in the application without passing it explicitly
 import { Provider } from 'react-redux'
 

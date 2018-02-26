@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import style from './style/item.scss';
 
 export default class Item extends Component {
@@ -21,7 +22,7 @@ export default class Item extends Component {
         return (
             <li>
                 <ul className={ style.listitem__items }>
-                    <li><i className="fas fa-briefcase"></i></li>
+                    <li><FontAwesomeIcon icon="suitcase"/></li>
                     <li className={ style.name_container }>
                         <div>
                             <span className={ style.title }>{ item }</span>
