@@ -32,6 +32,7 @@
         "jest-css-modules": "^1.1.0",
         "postcss": "^6.0.13",
         "postcss-loader": "^2.0.8",
+        "postcss-simple-vars": "^4.1.0",
         "preact": "^8.2.6",
         "preact-async-route": "^2.0.1",
         "preact-cli": "^1.4.1",

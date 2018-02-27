@@ -88,6 +88,11 @@ module.exports = {
             },
             {
                 // 3. process all remaining SCSS/SASS/CSS files imported by extracted JS components from rule #1
+                // todo: the css imported here has no knowledge of css imported by step 2. thus it has no variables.
+                // todo: and no, removing the EXCLUDE below wont help. only option I see is to manually import the
+                // todo: css generated at step 2 into each css file requiring the variables. that is UGLY and not DRY.
+                // todo: before you ask, the reason to split css between step 2 and 3 has to do with css modules: we
+                // todo: dont want our common, global css to be css-module'd since it wont be global or usable anymore.
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
