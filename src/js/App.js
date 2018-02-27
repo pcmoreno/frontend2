@@ -10,15 +10,12 @@ import AsyncRoute from 'preact-async-route';
 
 // import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
 import fontawesome from '@fortawesome/fontawesome';
-// import FontAwesomeIcon from '@fortawesome/react-fontawesome'; // not used in App.js, can be omitted
 
-// todo: this seems to import the whole set! that whole .library doesnt do anything now!
-// todo: see difference in filesize, it grows 350kb! also check www.npmjs.com/package/@fortawesome/react-fontawesome */
+// you need to import each individual icon (its a bug. do not combine or it'll include the whole library!)
 import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitCase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
-// import { faSuitcase, faEye, faUser, faAngleDown } from '@fortawesome/fontawesome-free-solid';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(faSuitcase, faEye, faUser, faAngleDown);
