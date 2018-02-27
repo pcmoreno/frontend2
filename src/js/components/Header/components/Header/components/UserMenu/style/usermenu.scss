@@ -4,6 +4,10 @@ $orange-darken: #c96800;
 .user_menu {
     position: absolute;
     right: 1rem;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .nav_user {
@@ -17,11 +21,13 @@ $orange-darken: #c96800;
     float: left;
     height: 60px;
     line-height: 60px;
+    font-weight: normal;
+    text-decoration: none;
+    color: $orange-darken;
 
-    span {
-        font-weight: normal;
-        text-decoration: none;
-        color: $orange-darken;
+    &.open {
+        /* todo: why is this not working? */
+        color: #f00;
     }
 }
 
@@ -65,4 +71,58 @@ $orange-darken: #c96800;
     height: 60px;
     line-height: 60px;
     vertical-align: middle;
+}
+
+.user_foldout {
+    background: #fff;
+    position: absolute;
+    top: 60px;
+    width: 200px;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,1);
+
+    ul {
+        position: relative;
+        width: unset;
+        min-width: 186px;
+        max-width: 186px;
+        border-top: 0;
+        list-style: none;
+        padding: 0;
+        display: inline-block;
+        text-indent: .5rem;
+        line-height: 57px;
+
+        li {
+            text-align: left;
+            height: 57px;
+            border-bottom: 1px solid #edece8;
+            float: none;
+            background: #fff;
+
+            &:hover {
+                background: #A5CACB;
+            }
+
+            a {
+                display: inline-block;
+                height: 100%;
+                width: 100%;
+                text-decoration: none;
+                font-family: 'museo-sans', sans-serif;
+                color: #000;
+
+                &:hover {
+                    color: #fff;
+                }
+
+                span {
+                    margin-left: .5rem;
+                }
+
+                span:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
 }
