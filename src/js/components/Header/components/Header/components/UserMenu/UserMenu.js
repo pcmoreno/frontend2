@@ -23,6 +23,7 @@ export default class UserMenu extends Component {
         // hide the user menu on page load
         // todo: ensure this is done on the element itself using classnames
         document.querySelector('#user_foldout').classList.add('hidden');
+        document.querySelector('#spinner').classList.add('hidden');
     }
 
     render() {
@@ -32,23 +33,20 @@ export default class UserMenu extends Component {
 
         return (
             <nav className={ style.user_menu } onClick={ this.toggleUserMenu }>
-                <ul>
-                    <li className={ style.nav_user }>
-                        <ul className={ style.user_info }>
-                            <li className={ style.user_avatar }>
-                                <FontAwesomeIcon icon="user" />
-                            </li>
-                            <li className={ style.user_name }>
+                <ul className={ style.nav_user }>
+                    <li className={ style.spinner } >
+                        <FontAwesomeIcon icon="spinner" id="spinner"/>
+                    </li>
+                    <li className={ style.user_avatar }>
+                        <FontAwesomeIcon icon="user" />
+                    </li>
+                    <li className={ style.user_name }>
                         <span>
                             Robbin van Ooij
                         </span>
-                            </li>
-                        </ul>
-                        <ul className={ style.btn_foldout } id="user_btn_foldout">
-                            <li>
-                                <FontAwesomeIcon icon="angle-down" />
-                            </li>
-                        </ul>
+                    </li>
+                    <li className={ style.btn_foldout } id="user_btn_foldout">
+                        <FontAwesomeIcon icon="angle-down" />
                     </li>
                 </ul>
                 <div className={ style.user_foldout } id="user_foldout">

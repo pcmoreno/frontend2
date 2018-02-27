@@ -54,12 +54,12 @@ class Index extends Component {
     // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
     getItems() {
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
+        document.getElementById('spinner').classList.add('visible');
 
         fetch(url, {
             method: "get"
         }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
+            document.getElementById('spinner').classList.remove('visible');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {

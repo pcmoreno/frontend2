@@ -10,11 +10,6 @@ class Header extends Component {
         super();
     }
 
-    componentDidMount() {
-        // todo: figure out how to do this right on the element itself (using classnames)
-        document.querySelector('#fetching-data-indicator').classList.add('hidden');
-    }
-
     render() {
         let navigationItems = [
             {
@@ -37,11 +32,8 @@ class Header extends Component {
             }
         ];
 
-        /* todo: replace the fetching-data-indicator with font-awesome spinner and extract to component */
-
         return (<header className={ style.header }>
                 <Navigation items={ navigationItems } />
-                <div className={ style.bar } id="fetching-data-indicator" />
                 <UserMenu />
                 <span className={ style.indicator }>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 20">

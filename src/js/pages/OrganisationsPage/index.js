@@ -56,12 +56,12 @@ class Index extends Component {
         document.querySelector('#modal_organisation').classList.add('hidden');
 
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
-        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
 
         fetch(url, {
             method: "get"
         }).then(response => {
-            document.querySelector('#fetching-data-indicator').classList.add('hidden');
+            document.querySelector('#spinner').classList.add('hidden');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {

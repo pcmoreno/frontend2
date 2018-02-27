@@ -28,12 +28,12 @@ export default class Index extends Component {
     getFormFields(formId) {
         // todo: extract to API layer component
         let url = this.props.baseUrl + formId;
-        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
 
         fetch(url, {
             method: "options"
         }).then(response => {
-            document.querySelector('#fetching-data-indicator').classList.add('hidden');
+            document.querySelector('#spinner').classList.add('hidden');
             if (response.ok) {
                 response.json().then((response) => {
                     // this stores the retrieved form id and fields in the global state via a parent method
@@ -62,14 +62,14 @@ export default class Index extends Component {
         urlEncodedString = urlEncodedString.substr(0, (urlEncodedString.length-1));
 
         let url = this.props.baseUrl + 'organisation';
-        document.querySelector('#fetching-data-indicator').classList.remove('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
 
         fetch(url, {
             method: "post",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: urlEncodedString
         }).then(response => {
-            document.querySelector('#fetching-data-indicator').classList.add('hidden');
+            document.querySelector('#spinner').classList.add('hidden');
             if (response.ok) {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
