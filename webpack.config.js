@@ -10,14 +10,14 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 // this is used to extract the css imports from the JS components
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// this is used to clean out the assets folder everytime a new build is started
+// this is used to clean out the assets folder every time a new build is started
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let cleanOptions = {
     exclude: [],
     verbose: false
 };
 
-// this allows GZipping assets (JS, CSS), requires server config: https://varvy.com/pagespeed/enable-compression.html
+// this allows GZipping js & css assets, requires server config: https://varvy.com/pagespeed/enable-compression.html
 const CompressionPlugin = require('compression-webpack-plugin');
 
 // this allows the use of relative paths (see below)
@@ -48,10 +48,10 @@ module.exports = {
     },
     devtool: sourceMapsEnabled ? 'cheap-module-eval-source-map' : false,
     module: {
-        // define rules for each imported file. if an imported file does not match a rule, webpack will error
+        // define rules for each encountered file at entry points (if a file does not match a rule, webpack will error)
         rules: [
             {
-                // process every imported .js file (starting from entry point) and transpile to presets defined below
+                // 1. process every imported .js file (starting from entry point) and transpile to the defined presets
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
@@ -60,34 +60,7 @@ module.exports = {
                 }
             },
             {
-                // process all SCSS/SASS/CSS file imported in the JS extracted by the above rule, excluding common.scss
-                test:  /\.scss$|\.sass$|\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
-                            loader: "css-loader",
-                            options: {
-                                // will move any encountered @import statements to the top of the generated css
-                                importLoaders: 1,
-                                // enables css modules where css is automatically tied to a js component by name
-                                modules: true,
-                                // define source maps
-                                sourceMap: sourceMapsEnabled
-                            }
-                        },
-                        {
-                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
-                            loader: 'postcss-loader'
-                        }
-                    ]
-                }),
-                // do not parse imports found here (you have to use paths to specify a path)
-                exclude: paths.GLOBAL_CSS
-            },
-            {
-                // since all common.scss imports were excluded by the previous css test, they will be handled here
+                // 2. process all global css (./style/**/*.scss) and EXCLUDE css imported by the JS modules (rule #1)
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
@@ -105,13 +78,40 @@ module.exports = {
                             }
                         },
                         {
-                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
+                            // process resulting css with PostCSS (and its modules as configured in postcss.config.js)
                             loader: 'postcss-loader'
                         }
                     ]
                 }),
-                // only parse imports found here (you have to use paths to specify a path)
+                // as said, only INCLUDE imports found here (you have to use 'paths' to specify a path in webpack)
                 include: paths.GLOBAL_CSS
+            },
+            {
+                // 3. process all remaining SCSS/SASS/CSS files imported by extracted JS components from rule #1
+                test:  /\.scss$|\.sass$|\.css$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
+                            loader: "css-loader",
+                            options: {
+                                // will move any encountered @import statements to the top of the generated css
+                                importLoaders: 1,
+                                // enables css modules (will result in specific css per component, no more conflicts!)
+                                modules: true,
+                                // define source maps
+                                sourceMap: sourceMapsEnabled
+                            }
+                        },
+                        {
+                            // process resulting css with PostCSS (and its modules as configured in postcss.config.js)
+                            loader: 'postcss-loader'
+                        }
+                    ]
+                }),
+                // EXCLUDE the global css (it was handled by rule #2 already)
+                exclude: paths.GLOBAL_CSS
             }
         ]
     },
@@ -156,8 +156,3 @@ module.exports = {
         }
     }
 };
-
-
-
-
-
