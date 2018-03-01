@@ -22,13 +22,17 @@
         height: 60px;
         line-height: 60px;
         vertical-align: middle;
-        font-weight: 700;
-        text-decoration: none;
         color: $blue;
-        font-size: 1.2rem;
+        text-decoration: none;
 
-        @media screen and (max-width: 960px) {
-            font-size: 4px;
+        span {
+            color: $blue;
+            font-size: 1.2rem;
+            font-weight: 700;
+
+            @media screen and (max-width: 960px) {
+                display: none;
+            }
         }
     }
 

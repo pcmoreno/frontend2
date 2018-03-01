@@ -19,9 +19,23 @@ import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
+import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
+import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
+import faClipboard from '@fortawesome/fontawesome-free-solid/faClipboard';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
-fontawesome.library.add(faSuitcase, faEye, faUser, faAngleDown, faSignOutAlt, faSpinner, faUsers);
+fontawesome.library.add(
+    faSuitcase,
+    faEye,
+    faUser,
+    faAngleDown,
+    faSignOutAlt,
+    faSpinner,
+    faUsers,
+    faBuilding,
+    faEnvelope,
+    faClipboard
+);
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
 import { Provider } from 'react-redux';

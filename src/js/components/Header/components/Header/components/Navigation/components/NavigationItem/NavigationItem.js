@@ -12,8 +12,22 @@ export default class navigationItem extends Component {
     render() {
         let { label, link } = this.props;
 
+        let iconType;
+
+        switch (label) {
+            case 'Inbox': iconType = 'envelope'; break;
+            case 'Organisations': iconType = 'building'; break;
+            case 'Tasks': iconType = 'clipboard'; break;
+            case 'Users': iconType = 'users'; break;
+            case 'Participants': iconType = 'users'; break;
+
+            default: iconType = 'users';
+        }
+
         return (
-            <li className={ style.navigation_item }><a href={ link }><FontAwesomeIcon icon="users" />{ label }</a></li>
+            <li className={ style.navigation_item }>
+                <a href={ link }><FontAwesomeIcon icon={ iconType } /><span>{ label }</span></a>
+            </li>
         )
     }
 }
