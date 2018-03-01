@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer);
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
-import style from './../style/common.scss';
+import style from '../style/global.scss';
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 function getExamplePage(){

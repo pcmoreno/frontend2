@@ -24,7 +24,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const path = require('path');
 const paths = {
     DIST: path.resolve(__dirname, './web'),
-    GLOBAL_CSS: path.resolve(__dirname, './src/style')
+    GLOBAL_CSS: path.resolve(__dirname, './src/style/global.scss'),
+    GLOBAL_VARIABLES: path.resolve(__dirname, './src/style/variables.scss')
 };
 
 // this is used to copy static assets over to the web folder
@@ -48,7 +49,7 @@ module.exports = {
     },
     devtool: sourceMapsEnabled ? 'cheap-module-eval-source-map' : false,
     module: {
-        // define rules for each encountered file at entry points (if a file does not match a rule, webpack will error)
+        // define rules for each imported file. if an imported file does not match a rule, webpack will error
         rules: [
             {
                 // 1. process every imported .js file (starting from entry point) and transpile to the defined presets
@@ -78,7 +79,7 @@ module.exports = {
                             }
                         },
                         {
-                            // process resulting css with PostCSS (and its modules as configured in postcss.config.js)
+                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
                             loader: 'postcss-loader'
                         }
                     ]
@@ -88,11 +89,6 @@ module.exports = {
             },
             {
                 // 3. process all remaining SCSS/SASS/CSS files imported by extracted JS components from rule #1
-                // todo: the css imported here has no knowledge of css imported by step 2. thus it has no variables.
-                // todo: and no, removing the EXCLUDE below wont help. only option I see is to manually import the
-                // todo: css generated at step 2 into each css file requiring the variables. that is UGLY and not DRY.
-                // todo: before you ask, the reason to split css between step 2 and 3 has to do with css modules: we
-                // todo: dont want our common, global css to be css-module'd since it wont be global or usable anymore.
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
@@ -103,19 +99,20 @@ module.exports = {
                             options: {
                                 // will move any encountered @import statements to the top of the generated css
                                 importLoaders: 1,
-                                // enables css modules (will result in specific css per component, no more conflicts!)
+                                // enables css modules where css is automatically tied to a js component by name
                                 modules: true,
                                 // define source maps
                                 sourceMap: sourceMapsEnabled
                             }
                         },
                         {
-                            // process resulting css with PostCSS (and its modules as configured in postcss.config.js)
+                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
                             loader: 'postcss-loader'
                         }
                     ]
                 }),
                 // EXCLUDE the global css (it was handled by rule #2 already)
+                // todo: it would be so nice to be able to include the GLOBAL_VARIABLES css file here.. but how?
                 exclude: paths.GLOBAL_CSS
             }
         ]

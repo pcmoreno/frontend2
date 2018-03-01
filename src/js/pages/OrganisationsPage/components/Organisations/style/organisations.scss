@@ -6,7 +6,6 @@
     }
 }
 
-/* there was a need to have a parent wrapping container to be able to include the path component here */
 /* todo: missing ie11 styles here? */
 .panels_container {
     @supports (display: grid) {
