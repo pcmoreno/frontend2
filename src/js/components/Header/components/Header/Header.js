@@ -10,25 +10,23 @@ class Header extends Component {
         super();
     }
 
+    /* you can still access /example to see the example route and page component */
     render() {
         let navigationItems = [
             {
-                label: 'example-item', link:'/example'
+                label: 'Inbox', link:'/inbox'
             },
             {
-                label: 'inbox', link:'/inbox'
+                label: 'Organisations', link:'/organisations'
             },
             {
-                label: 'organisations', link:'/organisations'
+                label: 'Tasks', link:'/tasks'
             },
             {
-                label: 'tasks', link:'/tasks'
+                label: 'Users', link:'/users'
             },
             {
-                label: 'users', link:'/users'
-            },
-            {
-                label: 'participants', link:'/participants'
+                label: 'Participants', link:'/participants'
             }
         ];
 

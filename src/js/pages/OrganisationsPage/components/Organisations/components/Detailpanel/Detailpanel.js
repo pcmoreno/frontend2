@@ -31,8 +31,7 @@ export default class Detailpanel extends Component {
 
     render() {
 
-        // todo: finish mock for detail panel
-        // todo: add fontawesome icons
+        // todo: finish styling for detail panel
 
         return (
             <aside className={ style.detailpanel } id="detailpanel">

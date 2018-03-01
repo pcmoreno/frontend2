@@ -1,0 +1,38 @@
+.navigation_item {
+    float: left;
+    margin: 0 .5rem;
+    display: inline-block;
+    position: relative;
+
+    &.active a {
+        color: $black;
+    }
+
+    &.logo {
+        /* todo: add svg logo */
+        width: 60px;
+        font-size: 1rem;
+
+        @media screen and (max-width: 960px) {
+            display: none;
+        }
+    }
+
+    a {
+        height: 60px;
+        line-height: 60px;
+        vertical-align: middle;
+        font-weight: 700;
+        text-decoration: none;
+        color: $blue;
+        font-size: 1.2rem;
+
+        @media screen and (max-width: 960px) {
+            font-size: 4px;
+        }
+    }
+
+    svg {
+        font-size: 2rem;
+    }
+}
