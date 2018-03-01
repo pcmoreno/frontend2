@@ -3,8 +3,8 @@
     /* position: fixed; <-- todo: only on  mobile? */
     top: 0;
     height: 60px;
-    background: #fff none repeat scroll 0 0;
-    box-shadow: 0 1px 1px 0 #edece8;
+    background: $white none repeat scroll 0 0;
+    box-shadow: 0 1px 1px 0 $beige;
 
     figure {
         float: left;
@@ -15,7 +15,7 @@
 }
 
 .indicator {
-    background: #edece8;
+    background: $beige;
 
     @media screen and (max-width: 960px) {
         display: none;
@@ -29,11 +29,11 @@
         left: 190px;
 
         path:first-child {
-            fill: #edece8;
+            fill: $beige;
         }
 
         path:last-child {
-            fill: #fff;
+            fill: $white;
         }
     }
 }

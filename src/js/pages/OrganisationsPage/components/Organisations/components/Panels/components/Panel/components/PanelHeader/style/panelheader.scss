@@ -1,13 +1,13 @@
 .add_button {
     height: 30px;
-    border-bottom: solid 1px #eee;
+    border-bottom: solid 1px $shadow;
 
     > button {
-        color: #90c2dd;
+        color: $blue;
         float: right;
         height: 100%;
         border: 0;
-        background: #fff;
+        background: $white;
         font-size: .8rem;
         margin-right: 3px;
 

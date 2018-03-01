@@ -1,4 +1,129 @@
 /* if this grows too big, split into multiple variable files */
 
-/* colours */
+$white: #fff;
+$black: #000;
+$transparent: transparent;
+$shadow: #eee; /* used for pixel lines and shadows and such */
+
+$beige: #edece8;
+$beige-darken: #dbd9d3;
+$beige-lighten: #f8f8f5;
+
+$brown: #473824;
+$brown-darken: #3c2f1e;
+$brown-lighten: #6b5941;
+
+$medium-brown: #7b6959;
+$medium-brown-darken: #67584b;
+$medium-brown-lighten: #857260;
+
+$orange: #ef7c00;
 $orange-darken: #c96800;
+$orange-lighten: #ff9c33;
+
+$blue: #90c2dd;
+$blue-mid-darken: #5f8ba5;
+$blue-darken: #79a3b9;
+$blue-lighten: #c4dfed;
+$blue-bright-lighten: #45c9c0;
+$blue-bright-darken: #325ec3;
+
+$green: #9ccbcb;
+$green-darken: #83aaaa;
+$green-lighten: #a4c1c1;
+$green-bright-darken: #2bad14;
+$green-bright-lighten: #6be600;
+
+$red: #c0140a;
+$red-darken: #a11108;
+$red-lighten: #f5463d;
+
+$yellow: #fbba00;
+$yellow-darken: #d39c00;
+$yellow-lighten: #ffc933;
+
+$purple: #b021ca;
+
+/* specials */
+$brown-on-blue: #1e2118;
+
+/* set specific colours to be used troughout application */
+$brand-primary: $blue;
+$body-bg: $beige;
+$body-color: $brown-darken;
+$header-bg: $white;
+$caption-color: $medium-brown;
+$application-header-background-color: $white;
+
+/* navigation */
+$user-menu-background: $white;
+$main-navigation-link: $blue;
+$main-navigation-active: $brown-on-blue;
+$main-navigation-hover: $blue-mid-darken;
+$navigation-arrow-border: $beige;
+$navigation-arrow-inner: $white;
+
+$permission-alert-border-color: $beige;
+$permission-alert-background-color: $white;
+
+$signal-red: #ed1c24;
+$signal-green: #4dc22f;
+$advice-bg-positive: $signal-green;
+$advice-color-positive: $white;
+$advice-bg-tentative: #8eb27d;
+$advice-color-tentative: $white;
+$advice-bg-negative: #9c9693; /* a less obtrusive red */
+$advice-color-negative: $white;
+
+$table-header-bg: $white;
+
+/* gradient */
+$blue-green-gradient: linear-gradient(to right, $blue, $green);
+$blue-green-gradient-color: $white;
+$blue-green-gradient-sheet-light-bg: $white;
+$blue-green-gradient-sheet-light-color: $blue-darken;
+$blue-green-gradient-sheet-dark-bg: $blue-darken;
+$blue-green-gradient-sheet-dark-color: $white;
+$blue-darken-green-darken-gradient: linear-gradient(to right, $blue-darken, $green-darken);
+$blue-darken-green-darken-gradient-color: $white;
+$blue-darken-green-darken-gradient-sheet-light-bg: $white;
+$blue-darken-green-darken-gradient-sheet-light-color: $blue-darken;
+
+/* persona fit */
+$persona-fit-orange: #ff9100;
+$persona-fit-yellow: #f4d30b;
+$persona-fit-red: #d20000;
+$persona-fit-purple: #b221cc;
+$persona-fit-blue: #175cc1;
+$persona-fit-cyan: #0dc9c0;
+$persona-fit-dark-green: #00af15;
+$persona-fit-light-green: #75d307;
+
+/* persona fit role */
+$persona-fit-onder: $persona-fit-orange;
+$persona-fit-innov: $persona-fit-yellow;
+$persona-fit-besli: $persona-fit-red;
+$persona-fit-aanpa: $persona-fit-purple;
+$persona-fit-contr: $persona-fit-blue;
+$persona-fit-organ: $persona-fit-cyan;
+$persona-fit-verbi: $persona-fit-dark-green;
+$persona-fit-netwe: $persona-fit-light-green;
+
+/* questionnaire */
+$role-option-color: $white;
+$role-question-drag-area-background: $white;
+$question-header-color: $orange;
+
+/* respondent */
+$doen-respondents_list_status: $signal-green;
+
+/* scorebar */
+$scorebar-attachment-explanation-text-color: $medium-brown;
+$scorebar-attachment-element-color__active: $blue;
+$scorebar-attachment-element-color__inactive: $white;
+
+/* report generation */
+$report-sidebar-section-heading-colour: $white;
+$report-sidebar-section-text-colour: $white;
+$report-sidebar-section-button-background: $white;
+$report-sidebar-section-button-colour: $blue;

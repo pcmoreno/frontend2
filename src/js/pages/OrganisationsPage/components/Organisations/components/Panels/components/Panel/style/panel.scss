@@ -8,7 +8,7 @@
     /* ie11 */
     width: 30%;
     float: left;
-    background: #fff;
+    background: $white;
     border-radius: 5px;
     margin-left: 10px;
 
@@ -56,16 +56,16 @@
 
         > li {
             height: 50px;
-            border-bottom: solid 1px #eee;
+            border-bottom: solid 1px $shadow;
             overflow: hidden;
             white-space: nowrap;
             position: relative;
             padding: 0 10px;
 
             &:hover {
-                background: #000;
+                background: $black;
                 cursor: pointer;
-                color: #fff;
+                color: $white;
             }
         }
     }

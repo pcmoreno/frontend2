@@ -1,6 +1,6 @@
 .app_navigation {
     /* todo: all colours should be variables defined in style/base/colours.scss */
-    background: #fff;
+    background: $white;
     position: absolute;
     left: 1rem;
     width: auto;
@@ -15,13 +15,12 @@
             position: relative;
 
             &.active a {
-                color: #000;
+                color: $black;
             }
 
             &.logo {
                 /* todo: add svg logo */
                 width: 60px;
-                color: #ccc;
                 font-size: 1rem;
 
                 @media screen and (max-width: 960px) {
@@ -36,7 +35,7 @@
                 vertical-align: middle;
                 font-weight: 700;
                 text-decoration: none;
-                color: #90c2dd;
+                color: $blue;
                 font-size: 1.2rem;
 
                 @media screen and (max-width: 960px) {

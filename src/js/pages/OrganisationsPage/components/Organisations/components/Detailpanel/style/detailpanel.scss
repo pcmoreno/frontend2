@@ -1,6 +1,6 @@
 .detailpanel {
-    background: #fff;
-    color: #fff;
+    background: $white;
+    color: $white;
     font-weight: bold;
     font-size: 20px;
     margin: 10px;
@@ -23,7 +23,7 @@
     }
 
     header {
-        background: #90c2dd;
+        background: $blue;
         border-radius: 5px 5px 0 0;
         height: 120px;
         padding: 10px;
@@ -52,11 +52,12 @@
             text-overflow: ellipsis;
             overflow: hidden;
             text-align: center;
+            color: $beige-lighten;
         }
     }
 
     nav {
-        background: #90c2dd;
+        background: $blue;
         height: 30px;
         padding: 0 10px;
         font-size: .8rem;
@@ -65,7 +66,7 @@
         span {
             margin: 0 10px;
             text-decoration: none;
-            color: #333;
+            color: $black;
         }
     }
 
@@ -76,7 +77,7 @@
     }
 
     .detailpanel_divider {
-        background: #dbd9d3;
+        background: $beige-darken;
         margin: 20px 0;
         font-size: .8rem;
         padding: .5rem;
@@ -98,7 +99,7 @@
     }
 
     p {
-        color: #333;
+        color: $black;
         text-align: left;
         font-size: 1rem;
         font-weight: normal;
@@ -110,7 +111,7 @@
     display: none;
     float: right;
     margin: 9px 0;
-    color: #dbd9d3;
+    color: $beige-darken;
     font-size: 1rem;
     height: 1rem;
 

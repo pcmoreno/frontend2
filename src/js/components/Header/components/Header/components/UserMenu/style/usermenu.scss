@@ -24,7 +24,7 @@
             svg {
                 padding: 0 1rem;
                 font-size: 1.5rem;
-                color: #aaa;
+                color: $orange;
                 animation-name: example;
                 animation-duration: 4s;
                 animation-timing-function: linear;
@@ -46,7 +46,7 @@
                 margin-right: .2rem;
 
                 .orange {
-                    fill: #ef7c00;
+                    fill: $orange;
                 }
             }
         }
@@ -67,7 +67,7 @@
 
             span {
                 font-weight: 700;
-                color: #ef7c00;
+                color: $orange;
                 font-size: .9rem;
             }
         }
@@ -85,17 +85,12 @@
             @media screen and (min-width: 960px) {
                 display: inline-block;
             }
-
-            &.open {
-                /* todo: why is this not working? */
-                color: #f00;
-            }
         }
     }
 }
 
 .user_foldout {
-    background: #fff;
+    background: $white;
     position: absolute;
     top: 60px;
     right: 0;
@@ -117,12 +112,12 @@
         li {
             text-align: left;
             height: 57px;
-            border-bottom: 1px solid #edece8;
+            border-bottom: 1px solid $beige;
             float: none;
-            background: #fff;
+            background: $white;
 
             &:hover {
-                background: #A5CACB;
+                background: $green;
             }
 
             a {
@@ -131,10 +126,10 @@
                 width: 100%;
                 text-decoration: none;
                 font-family: 'museo-sans', sans-serif;
-                color: #000;
+                color: $black;
 
                 &:hover {
-                    color: #fff;
+                    color: $white;
                 }
 
                 span {
