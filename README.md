@@ -273,7 +273,7 @@ and its configuration option in package.json:
 - "clean-webpack-plugin":         cleans out folders before copying new files in during deploy
 - "compression-webpack-plugin":   used to gzip assets and files
 - "copy-webpack-plugin":          used to copy files over during deploy phase
-- "css-loader":                   loads css code encountered by webpack
+- "css-loader":                   loads css code encountered by webpack and resolves its dependencies
 - "cssnano":                      compresses css and removes comments
 - "eslint":                       checks for javascript lint (CLI version)
 - "eslint-plugin-css-modules":    will check for unused css declarations
@@ -302,7 +302,7 @@ and its configuration option in package.json:
 - "react-redux":                  connects (p)react with redux
 - "redux":                        redux simplifies state management
 - "sass-resources-loader":        injects global sass variables before compiling the extracted css js into css modules 
-- "style-loader":                 handles encountered css styles
+- "style-loader":                 handles resolved css and ensures it is written as a file
 - "stylelint":                    checks for css lint (CLI version)
 - "uglifyjs-webpack-plugin":      uglifies, minifies javascript
 - "webpack":                      webpack is an advanced module bundler / task runner

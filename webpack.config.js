@@ -64,7 +64,6 @@ module.exports = {
                 // 2. process all CSS encountered at entry point, but ONLY include the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
                     use: [
                         {
                             // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
