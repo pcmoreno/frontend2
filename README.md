@@ -282,21 +282,27 @@ and its configuration option in package.json:
 - "eslint-plugin-react":          contains linting support for react
 - "extract-text-webpack-plugin":  allows extracting css imports from js components
 - "file-loader":                  used to be able to load files in webpack
+- "fontawesome":                  main fontawesome library
+- "fontawesome-free-solid"        the free font-awesome glyph library that is used in neon
+- "react-fontawesome":            helper component that renders the given fontawesome icon
+- "file-loader":                  used to uhm, well. I have no idea. please figure out.
 - "if-env":                       can be used to switch functionality per environment
 - "jest":                         test runner for command line
 - "jest-css-modules":             this solves a lot of issues with css modules not being recognised by jest
 - "postcss":                      framework for loading css extensions in webpack
+- "postcss-import":               allows using @import statements in css and puts them first
 - "postcss-loader":               is able to load css and scss
 - "preact":                       the DOM manipulation library
 = "preact-async-route"            used to lazy load the components
 - "preact-cli":                   preact for cli, used by jest
 - "preact-compat":                react compatibility library for preact
 - "preact-render-spy":            collection of tools to facilitate jest testing
-- "preact-router":                routing framework
+- "preact-router":                routing framework for preact
 - "precss":                       this is a module for postcss for mixins and nesting support
 - "react-redux":                  connects (p)react with redux
 - "redux":                        redux simplifies state management
-- "style-loader":                 loads the styles
+- "sass-resources-loader":        injects global sass variables before compiling the extracted css js into css modules 
+- "style-loader":                 handles encountered css styles
 - "stylelint":                    checks for css lint (CLI version)
 - "uglifyjs-webpack-plugin":      uglifies, minifies javascript
 - "webpack":                      webpack is an advanced module bundler / task runner

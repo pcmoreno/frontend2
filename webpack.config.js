@@ -61,7 +61,7 @@ module.exports = {
                 }
             },
             {
-                // 2. process all global css (./style/**/*.scss) and EXCLUDE css imported by the JS modules (rule #1)
+                // 2. process all CSS encountered at entry point, but ONLY include the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
@@ -88,7 +88,7 @@ module.exports = {
                 include: paths.GLOBAL_CSS
             },
             {
-                // 3. process all remaining SCSS/SASS/CSS files imported by extracted JS components from rule #1
+                // 3. process all CSS encountered at entry point, but EXCLUDE the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: "style-loader",
@@ -110,6 +110,7 @@ module.exports = {
                             loader: 'postcss-loader'
                         },
                         {
+                            // finally ensure the variables are loaded before transpiling the lot into a single .css
                             loader: 'sass-resources-loader',
                             options: {
                                 // Provide path to the file with resources
@@ -118,8 +119,7 @@ module.exports = {
                         }
                     ]
                 }),
-                // EXCLUDE the global css (it was handled by rule #2 already)
-                // todo: it would be so nice to be able to include the GLOBAL_VARIABLES css file here.. but how?
+                // as said, EXCLUDE the global css (it was handled by rule #2 already)
                 exclude: paths.GLOBAL_CSS
             }
         ]

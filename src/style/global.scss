@@ -1,7 +1,7 @@
 /* in here only general css should be placed that is not tied to a component. the rest is inside the components */
 
-/* load css variables */
-/* @import './variables.scss'; */
+/* load css variables so they become available in the global css */
+@import './variables.scss';
 
 /* load css helpers */
 @import './base/helpers.scss';

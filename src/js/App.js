@@ -8,10 +8,6 @@ import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 /** @jsx h */
 
-/* import the global css variables at the top level so they become available in all components */
-/* nah, no use including it here. its loaded by webpack when its extracting css to turn it into css modules. thus its selector names will be mangled */
- import '../style/variables.scss';
-
 // import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
 import fontawesome from '@fortawesome/fontawesome';
 
