@@ -108,6 +108,13 @@ module.exports = {
                         {
                             // process resulting css with PostCSS and its modules as configured in postcss.config.js
                             loader: 'postcss-loader'
+                        },
+                        {
+                            loader: 'sass-resources-loader',
+                            options: {
+                                // Provide path to the file with resources
+                                resources: paths.GLOBAL_VARIABLES
+                            }
                         }
                     ]
                 }),
