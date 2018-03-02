@@ -123,6 +123,15 @@ class API {
             // execute the request
             fetch(url, requestParams).then(response => {
 
+                // before trying to parse the response, log and return when the response was not ok.
+                if (!response.ok) {
+                    self.logger.error({
+                        component: 'API',
+                        message: 'Call to ' + url + ' returned code: ' + response.status + ' ' + response.statusText
+                    });
+                    return reject({message: self.config.requestFailedMessage});
+                }
+
                 // try to get and return the json response
                 response.json().then((json) => {
 

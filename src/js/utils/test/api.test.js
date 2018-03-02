@@ -428,8 +428,8 @@ test('API _executeRequest should return Promise.reject when _buildURL was unsucc
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": "API",
-                        "message": "buildURL failed. Please compare the given identifiers with the endpoint " +
+                        component: "API",
+                        message: "buildURL failed. Please compare the given identifiers with the endpoint " +
                         "URL: https://ltp.nl/organisation/{id}"
                     }
                 ]
@@ -669,8 +669,8 @@ test('API _executeRequest should return Promise.reject when the post body is of 
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": 'API',
-                        "message": 'Could not parse post body (payload.data). payload.type was not given on request: ' +
+                        component: 'API',
+                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' +
                         'POST on URL: https://ltp.nl/organisations'
                     }
                 ]
@@ -863,8 +863,8 @@ test('API _executeRequest should log a warning and return json when fetch return
             expect(Logger.instance.warning.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": 'API',
-                        "message": 'Call to https://ltp.nl/organisations returned code: 300 Multiple Choices with response: {"id":"123"}'
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations returned code: 300 Multiple Choices with response: {"id":"123"}'
                     }
                 ]
             ]);
@@ -929,8 +929,8 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": 'API',
-                        "message": 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with response: {"id":"123"}'
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with response: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1050,8 +1050,8 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": 'API',
-                        "message": 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with error: Error parsing JSON'
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with error: Error parsing JSON'
                     }
                 ]
             ]);
@@ -1094,7 +1094,7 @@ test('API _isErrorCode should return true on 400+ except 404', () => {
     expect(api._isErrorCode(500)).toEqual(true);
 });
 
-test('API _executeRequest should log an error when the network request failed or did not complete', () => {
+test('API _executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -1134,8 +1134,78 @@ test('API _executeRequest should log an error when the network request failed or
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        "component": 'API',
-                        "message": 'Call to https://ltp.nl/organisations failed with error: There was an error!'
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations failed with error: There was an error!'
+                    }
+                ]
+            ]);
+
+            expect(error).toEqual({
+                message: 'An error occurred while processing your request.'
+            });
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
+test('API _executeRequest should log an error when the network request failed or did not complete', () => {
+
+    // api instance and mocked config
+    let api = new API('neon');
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: false,
+                status: 400,
+                statusText: 'Bad Request',
+                url: 'https://ltp.nl/organisations',
+                json: () => {
+                    return new Promise((resolve, reject) => {
+                        return reject('Error parsing JSON')
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, '_isWarningCode').and.callThrough();
+    spyOn(api, '_isErrorCode').and.callThrough();
+    spyOn(Logger.instance, 'error');
+    spyOn(api, '_buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api._executeRequest(
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            'get',
+            {}
+        ).then().catch(error => {
+
+            expect(api._isWarningCode.calls.count()).toBe(0);
+            expect(api._isErrorCode.calls.count()).toBe(0);
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/organisations',
+                    {
+                        method: 'get',
+                        headers: {}
+                    }
+                ]
+            ]);
+            expect(Logger.instance.error.calls.count()).toBe(1);
+            expect(Logger.instance.error.calls.allArgs()).toEqual([
+                [
+                    {
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request'
                     }
                 ]
             ]);
