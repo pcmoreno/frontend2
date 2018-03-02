@@ -22,7 +22,7 @@ cache:
 ## Deploy and run tests
 .test_and_build:
   before_script: &test_and_build
-    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
+#    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
     - yarn install --ignore-platform --no-progress --non-interactive
 #    - yarn run deploy
 
