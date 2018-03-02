@@ -85,7 +85,7 @@
         "lint:js": "eslint src test",
         "lint:css": "stylelint src/**/*.css src/**/*.scss --syntax scss",
         "build": "webpack",
-        "build:prod": "webpack -p",
+        "build:prod": "NODE_ENV=production webpack -p",
         "deploy": "yarn run lint && yarn run jest && yarn run build:prod"
     }
 }

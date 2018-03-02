@@ -31,6 +31,9 @@ const paths = {
 // this is used to copy static assets over to the web folder
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// this is used to interact with webpack
+const webpack = require('webpack');
+
 /* configure webpack **************************************************************************************************/
 
 // configure the 'task' for Webpack to run by default (Webpack) or, if configured, when using NPM script: Yarn run build
@@ -125,6 +128,11 @@ module.exports = {
     },
     plugins: [
         // configure plugins used by webpack
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+            }
+        }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),
         new UglifyJSPlugin({
             uglifyOptions: {
@@ -151,9 +159,9 @@ module.exports = {
             deleteOriginalAssets: false
         }),
         new CopyWebpackPlugin([
-            { from: './src/assets', to: './assets' },
-        ]),
-],
+            { from: './src/assets', to: './assets' }
+        ])
+    ],
     resolve: {
         // to be able to import or require 'file' instead of 'file.js'
         extensions: ['.js', '.scss', '.sass', '.css'],
