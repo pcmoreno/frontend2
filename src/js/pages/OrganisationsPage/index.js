@@ -4,6 +4,8 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import * as organisationsActions from './actions/organisations'
+import API from '../../utils/api';
+import AppConfig from '../../App.config';
 
 import Organisations from './components/Organisations/Organisations'
 
@@ -51,32 +53,30 @@ class Index extends Component {
     }
 
     getItems() {
-        // todo: extract to API layer component
-        // hide modal (if not already hidden)
-        document.querySelector('#modal_organisation').classList.add('hidden');
 
-        let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
+        // hide modal and spinner(if not already hidden)
+        document.querySelector('#modal_organisation').classList.add('hidden');
         document.querySelector('#spinner').classList.remove('hidden');
 
-        fetch(url, {
-            method: "get"
-        }).then(response => {
+        let api = new API('neon'),
+            apiConfig = AppConfig.utils.api.neon;
+
+        // request organisations
+        api.get(
+            apiConfig.baseUrl,
+            apiConfig.endpoints.organisations,
+            {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName'
+                    }
+                }
+            }
+        ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    this.actions.getItems(response);
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error: ' + error.message));
-                });
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
-            }
-            return Promise.reject(console.log('HTTP error: ' + response.status));
+            this.actions.getItems(response);
         }).catch(error => {
-            return Promise.reject(console.log('URL error: ' + error.message));
+            // TODO: Show an error message
         });
     }
 
