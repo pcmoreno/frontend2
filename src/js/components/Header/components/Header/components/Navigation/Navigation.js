@@ -22,7 +22,7 @@ export default class Navigation extends Component {
         return (
             <nav className={ style.app_navigation }>
                 <ul>
-                    <li className="logo" />
+                    <li className={style.logo} />
                     { navigationItems }
                 </ul>
             </nav>
