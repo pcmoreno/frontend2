@@ -404,6 +404,61 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[]=d&f[]=x&y=x');
 });
 
+test('API _executeRequest should use the parsed url with the correct identifiers and parameters', () => {
+
+    // api instance and mocked config
+    let api = new API('neon');
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, '_buildURL').and.callThrough();
+
+    // call method
+    api._executeRequest(
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+        'get',
+        {
+            urlParams: {
+                identifiers: {
+                    id: '123'
+                },
+                parameters: {
+                    x: 'y',
+                    y: 'x'
+                }
+            }
+        }
+    );
+
+    // expected result
+    expect(api._buildURL.calls.count()).toBe(1);
+    expect(api._buildURL.calls.allArgs()).toEqual([
+        [
+            'https://ltp.nl/organisation/{id}',
+            {
+                identifiers: {
+                    id: '123'
+                },
+                parameters: {
+                    x: 'y',
+                    y: 'x'
+                }
+            }
+        ]
+    ]);
+    expect(global.fetch.calls.count()).toBe(1);
+    expect(global.fetch.calls.allArgs()).toEqual([
+        [
+            'https://ltp.nl/organisation/123?x=y&y=x',
+            {
+                method: 'get',
+
+                headers: {}
+            }
+        ]
+    ]);
+});
+
 test('API _executeRequest should return Promise.reject when _buildURL was unsuccessful', () => {
 
     // api instance and mocked config

@@ -45,6 +45,9 @@ class API {
      * @param {String} url - url with endpoint
      * @param {String} method - http method [get, put, post, options]
      * @param {Object} options - options object
+     * @param {Object} [options.urlParams] - url parameters object
+     * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
+     * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
@@ -103,7 +106,7 @@ class API {
                     // Log to logger and reject with a proper error message
                     self.logger.error({
                         component: 'API',
-                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' + method.toUpperCase() + ' on URL: ' + url
+                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' + method.toUpperCase() + ' on URL: ' + parsedUrl
                     });
                     return reject({message: self.config.requestFailedMessage});
                 }
@@ -121,13 +124,13 @@ class API {
             }
 
             // execute the request
-            fetch(url, requestParams).then(response => {
+            fetch(parsedUrl, requestParams).then(response => {
 
                 // before trying to parse the response, log and return when the response was not ok.
                 if (!response.ok) {
                     self.logger.error({
                         component: 'API',
-                        message: 'Call to ' + url + ' returned code: ' + response.status + ' ' + response.statusText
+                        message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText
                     });
                     return reject({message: self.config.requestFailedMessage});
                 }
@@ -140,14 +143,14 @@ class API {
 
                         self.logger.warning({
                             component: 'API',
-                            message: 'Call to ' + url + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
+                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
                         });
                         // return reject({message: self.config.requestFailedMessage});
 
                     } else if (self._isErrorCode(response.status)) {
                         self.logger.error({
                             component: 'API',
-                            message: 'Call to ' + url + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
+                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
                         });
                         return reject({message: self.config.requestFailedMessage});
                     }
@@ -165,7 +168,7 @@ class API {
                     // consider this as a failed request
                     self.logger.error({
                         component: 'API',
-                        message: 'Call to ' + url + ' returned code: ' + response.status + ' ' + response.statusText + ' with error: ' + error
+                        message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with error: ' + error
                     });
                     return reject({message: self.config.requestFailedMessage});
                 });
@@ -173,7 +176,7 @@ class API {
             }).catch(error => {
                 self.logger.error({
                     component: 'API',
-                    message: 'Call to ' + url + ' failed with error: ' + error
+                    message: 'Call to ' + parsedUrl + ' failed with error: ' + error
                 });
                 return reject({message: self.config.requestFailedMessage});
             });
@@ -241,6 +244,9 @@ class API {
      * @param {String} baseUrl - baseUrl
      * @param {String} endpoint - endpoint
      * @param {Object} options - options object
+     * @param {Object} [options.urlParams] - url parameters object
+     * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
+     * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
@@ -257,6 +263,9 @@ class API {
      * @param {String} baseUrl - baseUrl
      * @param {String} endpoint - endpoint
      * @param {Object} options - options object
+     * @param {Object} [options.urlParams] - url parameters object
+     * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
+     * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
@@ -273,6 +282,9 @@ class API {
      * @param {String} baseUrl - baseUrl
      * @param {String} endpoint - endpoint
      * @param {Object} options - options object
+     * @param {Object} [options.urlParams] - url parameters object
+     * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
+     * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
@@ -289,6 +301,9 @@ class API {
      * @param {String} baseUrl - baseUrl
      * @param {String} endpoint - endpoint
      * @param {Object} options - options object
+     * @param {Object} [options.urlParams] - url parameters object
+     * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
+     * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
