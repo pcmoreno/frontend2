@@ -287,7 +287,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -305,7 +305,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B%5D=d&f%5B%5D=x&y=x');
 });
 
@@ -318,7 +318,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -336,7 +336,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B0%5D=d&f%5B1%5D=x&y=x');
 });
 
@@ -349,7 +349,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -367,7 +367,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[0]=d&f[1]=x&y=x');
 });
 
@@ -380,7 +380,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -398,7 +398,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[]=d&f[]=x&y=x');
 });
 
