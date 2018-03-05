@@ -10,10 +10,10 @@ class API {
 
     constructor(apiName) {
         this.logger = Logger.instance;
-        this.config = AppConfig.utils.api[apiName];
+        this.config = AppConfig.api[apiName];
 
         if (!this.config) {
-            throw 'AppConfig.utils.api.' + apiName + ' is not set. Cannot create API instance.';
+            throw 'AppConfig.api.' + apiName + ' is not set. Cannot create API instance.';
         }
     }
 
@@ -25,7 +25,7 @@ class API {
      * @private
      */
     _isWarningCode(code) {
-        return ((code>= 300 && code <= 399) || code === 404);
+        return ((code >= 300 && code <= 399) || code === 404);
     }
 
     /**
@@ -54,9 +54,8 @@ class API {
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @private
      */
-    _executeRequest(url, method, options) {
+    _executeRequest(url, method, options = {}) {
         let self = this;
-        options = options || {};
 
         return new Promise((resolve, reject) => {
 
@@ -93,7 +92,7 @@ class API {
                 } else if (options.payload.type === 'form') {
 
                     // parse as form data (query string: formData[key]=value&formData[key1]=value1
-                    requestParams.body = Utils.serialize(
+                    requestParams.body = Utils.serialise(
                         options.payload.data,
                         'form',
                         self.config.urlEncodeParams,
@@ -117,6 +116,9 @@ class API {
 
                 // For each header property, read and set key value
                 for (let headerKey in options.headers) {
+
+                    // use hasOwnProperty so default object methods and properties (built-in JS) are skipped
+                    // https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
                     if (options.headers.hasOwnProperty(headerKey)) {
                         requestParams.headers[headerKey] = options.headers[headerKey];
                     }
@@ -186,7 +188,7 @@ class API {
     /**
      * Builds the url with the given identifiers and parameters
      * identifiers: {id:1} will replace '{id}' in the url with 1
-     * parameters: all parameters (including arrays) are serialized, eventually with url encoding
+     * parameters: all parameters (including arrays) are serialised, eventually with url encoding
      * and/or index parameters. Index parameters are used in arrays. With this skip option on the result will be
      * k[]=v rather than k[0]=v
      *
@@ -231,6 +233,8 @@ class API {
         }
 
         // reset build url and return null if there are unreplaced identifiers
+        // ~ shifts the bits like: -(i + 1) (invert plus 1). Makes it superfluous to check on -1 or >= 0
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT
         if (~buildUrl.indexOf('{') && ~buildUrl.indexOf('}')) {
             buildUrl = null;
         }

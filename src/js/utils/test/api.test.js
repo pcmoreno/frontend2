@@ -6,28 +6,26 @@ import AppConfig from '../../App.config';
 // Mock the application api config
 jest.mock('../../App.config', () => {
     return {
-        utils: {
-            api: {
-                neon: {
-                    baseUrl: 'https://ltp.nl',
-                    endpoints: {
-                        organisations: '/organisations',
-                        organisationById: '/organisation/{id}',
-                        twoIds: '/organisations/{orgId}/division/{divId}'
-                    },
-                    urlEncodeParams: false,
-                    skipPrefixIndexParams: true,
-                    requestFailedMessage: 'An error occurred while processing your request.'
+        api: {
+            neon: {
+                baseUrl: 'https://ltp.nl',
+                endpoints: {
+                    organisation: '/organisations',
+                    organisationById: '/organisation/{id}',
+                    twoIds: '/organisations/{orgId}/division/{divId}'
                 },
-                fake: {
-                    baseUrl: 'http://fake.com',
-                    endpoints: {
-                        fakeEndpoint: '/fake-endpoint/{fakeId}/{anotherFake}'
-                    },
-                    urlEncodeParams: true,
-                    skipPrefixIndexParams: false,
-                    requestFailedMessage: 'An error occurred while processing your request.'
-                }
+                urlEncodeParams: false,
+                skipPrefixIndexParams: true,
+                requestFailedMessage: 'An error occurred while processing your request.'
+            },
+            fake: {
+                baseUrl: 'http://fake.com',
+                endpoints: {
+                    fakeEndpoint: '/fake-endpoint/{fakeId}/{anotherFake}'
+                },
+                urlEncodeParams: true,
+                skipPrefixIndexParams: false,
+                requestFailedMessage: 'An error occurred while processing your request.'
             }
         }
     }
@@ -50,7 +48,7 @@ global.fetch = jest.fn().mockImplementation((url, options) => {
     });
 });
 
-const apiConfig = AppConfig.utils.api;
+const apiConfig = AppConfig.api;
 
 test('API should construct properly with the correct api key config', () => {
 
@@ -66,7 +64,7 @@ test('API should through an error when it was constructed with a non existing ap
     try {
         let api = new API('doesnotexist');
     } catch (e) {
-        expect(e).toEqual('AppConfig.utils.api.doesnotexist is not set. Cannot create API instance.');
+        expect(e).toEqual('AppConfig.api.doesnotexist is not set. Cannot create API instance.');
     }
 });
 
@@ -78,7 +76,7 @@ test('API get should call to execute request with the correct parameters', () =>
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.get(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisations, {
+    api.get(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
         t: 1,
         d: true,
         x: 'random'
@@ -107,7 +105,7 @@ test('API post should call to execute request with the correct parameters', () =
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.post(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisations, {
+    api.post(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
         t: 2,
         d: false,
         x: 'random'
@@ -136,7 +134,7 @@ test('API put should call to execute request with the correct parameters', () =>
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.put(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisations, {
+    api.put(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
         t: 3,
         d: false,
         x: 'random'
@@ -165,7 +163,7 @@ test('API options should call to execute request with the correct parameters', (
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.options(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisations, {
+    api.options(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
         t: 4,
         d: true,
         p: ['x', 'y'],
@@ -289,12 +287,12 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
     let result = api._buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -307,7 +305,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B%5D=d&f%5B%5D=x&y=x');
 });
 
@@ -320,12 +318,12 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
     let result = api._buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -338,7 +336,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B0%5D=d&f%5B1%5D=x&y=x');
 });
 
@@ -351,12 +349,12 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
     let result = api._buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -369,7 +367,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[0]=d&f[1]=x&y=x');
 });
 
@@ -382,12 +380,12 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
 
     // spy on method
     spyOn(api, '_buildURL').and.callThrough();
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
     let result = api._buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -400,7 +398,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[]=d&f[]=x&y=x');
 });
 
@@ -510,7 +508,7 @@ test('API _executeRequest should should parse the post body in JSON', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'post',
         {
             payload: {
@@ -555,7 +553,7 @@ test('API _executeData should should parse the post body in form data', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'post',
         {
             payload: {
@@ -595,7 +593,7 @@ test('API _executeRequest should return a string when given JSON payload is not 
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'post',
         {
             payload: {
@@ -631,7 +629,7 @@ test('API _executeRequest should return an empty string when the form data post 
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'post',
         {
             payload: {
@@ -667,7 +665,7 @@ test('API _executeRequest should return a char string when the form data post bo
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'post',
         {
             payload: {
@@ -707,7 +705,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'post',
             {
                 payload: {
@@ -751,7 +749,7 @@ test('API _executeRequest should set custom request headers', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'get',
         {
             headers: {
@@ -785,7 +783,7 @@ test('API _executeRequest should accept no custom request headers', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         'get',
         {}
     );
@@ -835,7 +833,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then(response => {
@@ -899,7 +897,7 @@ test('API _executeRequest should log a warning and return json when fetch return
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then(response => {
@@ -965,7 +963,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1030,7 +1028,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then(response => {
@@ -1086,7 +1084,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1170,7 +1168,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1238,7 +1236,7 @@ test('API _executeRequest should log an error when the network request failed or
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisations,
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
             'get',
             {}
         ).then().catch(error => {
