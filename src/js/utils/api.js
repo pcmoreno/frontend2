@@ -230,7 +230,7 @@ class API {
             }
         }
 
-        // reset build url and return null of there are still unreplaced identifiers
+        // reset build url and return null if there are unreplaced identifiers
         if (~buildUrl.indexOf('{') && ~buildUrl.indexOf('}')) {
             buildUrl = null;
         }
