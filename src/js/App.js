@@ -8,11 +8,40 @@ import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 /** @jsx h */
 
+// import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
+import fontawesome from '@fortawesome/fontawesome';
+
+// you need to import each individual icon (its a bug. do not combine or it'll include the whole library!)
+import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitCase';
+import faEye from '@fortawesome/fontawesome-free-solid/faEye';
+import faUser from '@fortawesome/fontawesome-free-solid/faUser';
+import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
+import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
+import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
+import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
+import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
+import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
+import faClipboard from '@fortawesome/fontawesome-free-solid/faClipboard';
+
+// add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
+fontawesome.library.add(
+    faSuitcase,
+    faEye,
+    faUser,
+    faAngleDown,
+    faSignOutAlt,
+    faSpinner,
+    faUsers,
+    faBuilding,
+    faEnvelope,
+    faClipboard
+);
+
 // react-redux: make the store available to all container components in the application without passing it explicitly
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 // this defines the redux store
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers } from 'redux';
 
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';
@@ -28,7 +57,7 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer);
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
-import style from './../style/common.scss';
+import style from '../style/global.scss';
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 function getExamplePage(){
@@ -62,7 +91,7 @@ let baseUrl = 'http://dev.ltponline.com:8001/api/v1/section/';
 
 render(
     <Provider store={ store }>
-        <section>
+        <section id="layout">
             <Header key="header" />
             <main>
                 <Router>
@@ -76,7 +105,9 @@ render(
             </main>
         </section>
     </Provider>,
-    document.getElementById('application')
+    document.querySelector('body'),
+    document.querySelector('body').firstChild
+
 );
 
 if (process.env.NODE_ENV === "production") {

@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import NavigationItem from './components/NavigationItem/NavigationItem';
-import style from './style/navigation';
+import style from './style/navigation.scss';
 
 export default class Navigation extends Component {
     constructor() {
@@ -20,8 +20,9 @@ export default class Navigation extends Component {
         });
 
         return (
-            <nav>
+            <nav className={ style.app_navigation }>
                 <ul>
+                    <li className={style.logo} />
                     { navigationItems }
                 </ul>
             </nav>

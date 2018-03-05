@@ -4,6 +4,8 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import * as organisationsActions from './actions/organisations'
+import API from '../../utils/api';
+import AppConfig from '../../App.config';
 
 import Organisations from './components/Organisations/Organisations'
 
@@ -17,11 +19,6 @@ class Index extends Component {
             Object.assign({}, organisationsActions),
             dispatch
         );
-
-        // keep track of whether the modal for adding organisation should be visible
-        this.localState = {
-            modalToAddOrganisation: false
-        };
 
         // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
@@ -50,40 +47,45 @@ class Index extends Component {
     componentDidMount() {
         // get items for first time
         this.getItems();
+
+        // hide the modal(s) initially (todo: figure out how to add this straight on the aside element (use classNames))
+        document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     getItems() {
-        let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
-        document.getElementById('fetching-data-indicator').classList.add('visible');
 
-        fetch(url, {
-            method: "get"
-        }).then(response => {
-            document.getElementById('fetching-data-indicator').classList.remove('visible');
-            if (response.ok) {
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    this.actions.getItems(response);
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error: ' + error.message));
-                });
-                return response;
+        // hide modal and spinner(if not already hidden)
+        document.querySelector('#modal_organisation').classList.add('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        let api = new API('neon'),
+            apiConfig = AppConfig.utils.api.neon;
+
+        // request organisations
+        api.get(
+            apiConfig.baseUrl,
+            apiConfig.endpoints.organisations,
+            {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName'
+                    }
+                }
             }
-            if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
-            }
-            return Promise.reject(console.log('HTTP error: ' + response.status));
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.getItems(response);
         }).catch(error => {
-            return Promise.reject(console.log('URL error: ' + error.message));
+            // TODO: Show an error message
         });
     }
 
     openModalToAddOrganisation() {
-        this.setState(this.localState.modalToAddOrganisation = true);
+        document.querySelector('#modal_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
-        this.setState(this.localState.modalToAddOrganisation = false);
+        document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     render() {
@@ -97,7 +99,6 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-                modalToAddOrganisation={ this.localState.modalToAddOrganisation }
             />
         )
     }

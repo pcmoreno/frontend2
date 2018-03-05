@@ -1,15 +1,18 @@
-* {
-    margin: 0;
-}
-
 .clear {
     clear: both;
 }
 
+/* actually please do not use this. use hidden instead */
 .visible {
     display: inline-block;
 }
 
+/* generic helper class to hide elements in the UI */
 .hidden {
     display: none;
+}
+
+/* helper class that is added by Javascript on the panels_container to ensure the layout only renders a single fr */
+.single_fragment {
+    grid-template-columns: 1fr;
 }

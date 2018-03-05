@@ -1,47 +1,17 @@
 @import './someimport.scss';
 
 .example {
-    color: green;
+    color: $green;
     font-size: 15px;
 
     button {
-        background: red;
-        color: white;
+        background: $green;
+        color: $white;
         font-size: $test-var;
         padding: 10px;
         margin: 20px;
-        box-shadow: black;
+        box-shadow: $black;
         border-radius: 10px;
-    }
-}
-
-.bar {
-    margin: 0 !important;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 20px;
-    width: 100%;
-    background-color: #d3d3d3;
-    box-sizing: border-box;
-    background-image: linear-gradient(
-            -45deg,
-            rgba(255, 255, 255, 1) 25%,
-            transparent 25%,
-            transparent 50%,
-            rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 1) 75%,
-            transparent 75%,
-            transparent
-    );
-    background-size: 50px 50px;
-    animation: move 2s linear infinite;
-    overflow: hidden;
-    display: none;
-
-    &.visible {
-        /* todo: this is malformed by css modules thus adding this class by JS wont work. fix it. */
-        display: inline-block;
     }
 }
 
@@ -49,6 +19,7 @@
     0% {
         background-position: 0 0;
     }
+
     100% {
         background-position: 50px 50px;
     }

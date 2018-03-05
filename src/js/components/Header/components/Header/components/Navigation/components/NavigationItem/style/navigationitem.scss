@@ -1,0 +1,33 @@
+.navigation_item {
+    float: left;
+    margin: 0 .5rem;
+    display: inline-block;
+    position: relative;
+
+    &.active a {
+        color: $black;
+    }
+
+    a {
+        height: 60px;
+        font-size: 1.2rem;
+        line-height: 60px;
+        vertical-align: middle;
+        color: $blue;
+        text-decoration: none;
+
+        span {
+            margin-left: 10px;
+            color: $blue;
+            font-weight: 700;
+
+            @media screen and (max-width: 960px) {
+                display: none;
+            }
+        }
+    }
+
+    svg {
+        font-size: 1.3rem;
+    }
+}

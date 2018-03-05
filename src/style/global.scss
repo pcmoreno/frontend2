@@ -1,10 +1,15 @@
 /* in here only general css should be placed that is not tied to a component. the rest is inside the components */
 
-/* load base css definitions */
+/* load css variables so they become available in the global css */
+@import './variables.scss';
+
+/* load css helpers */
 @import './base/helpers.scss';
+
+/* load base css definitions */
 @import './base/layout.scss';
 @import './base/typography.scss';
-
+@import './base/forms.scss';
 /* @import 'base/forms'; */
 /* @import 'base/modals'; */
 

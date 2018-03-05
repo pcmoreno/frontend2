@@ -2,6 +2,8 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import Panels from './components/Panels/Panels';
+import Path from './components/Path/Path';
+import Detailpanel from './components/Detailpanel/Detailpanel';
 import Form from './../../../../components/Form';
 import style from './style/organisations.scss';
 
@@ -12,12 +14,16 @@ export default class Organisations extends Component {
 
     render() {
         let { items } = this.props;
+        let panels = <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />;
 
         return (
-            <section className={ style.organisations }>
-                <div className={ style.bar } id = "fetching-data-indicator" />
-                <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
-                <aside className={ style.modal }>
+            <div className={ style.organisations }>
+                <Path />
+                <section className={ style.panels_container } id="panels_container">
+                    { panels }
+                    <Detailpanel />
+                </section>
+                <aside className={ style.modal_container } id="modal_organisation" >
                     <Form
                         formId={ "organisation" }
                         ignoredFields={ [
@@ -36,11 +42,10 @@ export default class Organisations extends Component {
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
                         baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
-                        active={ this.props.modalToAddOrganisation }
                         closeModal={ this.props.closeModalToAddOrganisation }
                     />
                 </aside>
-            </section>
+            </div>
         )
     }
 }

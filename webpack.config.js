@@ -10,21 +10,22 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 // this is used to extract the css imports from the JS components
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// this is used to clean out the assets folder everytime a new build is started
+// this is used to clean out the assets folder every time a new build is started
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let cleanOptions = {
     exclude: [],
     verbose: false
 };
 
-// this allows GZipping assets (JS, CSS), requires server config: https://varvy.com/pagespeed/enable-compression.html
+// this allows GZipping js & css assets, requires server config: https://varvy.com/pagespeed/enable-compression.html
 const CompressionPlugin = require('compression-webpack-plugin');
 
 // this allows the use of relative paths (see below)
 const path = require('path');
 const paths = {
     DIST: path.resolve(__dirname, './web'),
-    GLOBAL_CSS: path.resolve(__dirname, './src/style')
+    GLOBAL_CSS: path.resolve(__dirname, './src/style/global.scss'),
+    GLOBAL_VARIABLES: path.resolve(__dirname, './src/style/variables.scss')
 };
 
 // this is used to copy static assets over to the web folder
@@ -54,7 +55,7 @@ module.exports = {
         // define rules for each imported file. if an imported file does not match a rule, webpack will error
         rules: [
             {
-                // process every imported .js file (starting from entry point) and transpile to presets defined below
+                // 1. process every imported .js file (starting from entry point) and transpile to the defined presets
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
@@ -63,37 +64,9 @@ module.exports = {
                 }
             },
             {
-                // process all SCSS/SASS/CSS file imported in the JS extracted by the above rule, excluding common.scss
+                // 2. process all CSS encountered at entry point, but ONLY include the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
                 loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
-                            loader: "css-loader",
-                            options: {
-                                // will move any encountered @import statements to the top of the generated css
-                                importLoaders: 1,
-                                // enables css modules where css is automatically tied to a js component by name
-                                modules: true,
-                                // define source maps
-                                sourceMap: sourceMapsEnabled
-                            }
-                        },
-                        {
-                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
-                            loader: 'postcss-loader'
-                        }
-                    ]
-                }),
-                // do not parse imports found here (you have to use paths to specify a path)
-                exclude: paths.GLOBAL_CSS
-            },
-            {
-                // since all common.scss imports were excluded by the previous css test, they will be handled here
-                test:  /\.scss$|\.sass$|\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
                     use: [
                         {
                             // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
@@ -113,8 +86,43 @@ module.exports = {
                         }
                     ]
                 }),
-                // only parse imports found here (you have to use paths to specify a path)
+                // as said, only INCLUDE imports found here (you have to use 'paths' to specify a path in webpack)
                 include: paths.GLOBAL_CSS
+            },
+            {
+                // 3. process all CSS encountered at entry point, but EXCLUDE the global css found in ./src/style/
+                test:  /\.scss$|\.sass$|\.css$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
+                            loader: "css-loader",
+                            options: {
+                                // will move any encountered @import statements to the top of the generated css
+                                importLoaders: 1,
+                                // enables css modules where css is automatically tied to a js component by name
+                                modules: true,
+                                // define source maps
+                                sourceMap: sourceMapsEnabled
+                            }
+                        },
+                        {
+                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
+                            loader: 'postcss-loader'
+                        },
+                        {
+                            // finally ensure the variables are loaded before transpiling the lot into a single .css
+                            loader: 'sass-resources-loader',
+                            options: {
+                                // Provide path to the file with resources
+                                resources: paths.GLOBAL_VARIABLES
+                            }
+                        }
+                    ]
+                }),
+                // as said, EXCLUDE the global css (it was handled by rule #2 already)
+                exclude: paths.GLOBAL_CSS
             }
         ]
     },
@@ -164,8 +172,3 @@ module.exports = {
         }
     }
 };
-
-
-
-
-

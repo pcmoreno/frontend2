@@ -1,0 +1,35 @@
+.panels {
+    /* ie11 */
+    float: left;
+    width: 75%;
+    overflow: hidden;
+    margin: 10px 0 10px 10px;
+
+    @supports (display: grid) {
+        float: none;
+        width: unset;
+        display: grid;
+        grid-gap: 10px;
+        /* this fills available space with --colNum columns. this var can be read / updated by javascript */
+        /* grid-template-columns: repeat(var(--colNum), 1fr); */
+        /* this automatically fills available space with all panels that are supposed to show, with a min width of 100px */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+        @media screen and (max-width: 960px) {
+            grid-template-columns: 1fr;
+            margin-right: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    /* ie11 */
+    .panels {
+        width: 95%;
+    }
+    @supports (display: grid) {
+        .panels {
+            width: unset
+        }
+    }
+}

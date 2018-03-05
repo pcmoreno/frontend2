@@ -37,7 +37,7 @@
     "string-quotes": "single",
     "unit-case": "lower",
     "unit-no-unknown": true,
-    "unit-whitelist": ["px", "rem", "%", "s"],
+    "unit-whitelist": ["px", "rem", "%", "s", "fr", "vh", "deg"],
     "value-keyword-case": "lower",
     "value-list-comma-space-after": "always",
     "value-list-max-empty-lines": 0

@@ -1,0 +1,72 @@
+.panel {
+    list-style-type: none;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.panel {
+    /* ie11 */
+    width: 30%;
+    float: left;
+    background: $white;
+    border-radius: 5px;
+    margin-left: 10px;
+
+    /* header, path, indicator and the margins set on the panels section */
+    height: calc(100vh - 120px);
+
+    @supports (display: grid) {
+        float: none;
+        width: unset;
+        overflow-y: hidden;
+        margin-left: unset;
+    }
+
+    @media screen and (max-width: 960px) {
+        min-width: 300px;
+
+        &:not(.active) {
+            /* probably no longer needed
+             display: none; */
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        &.active {
+            /* ie11 */
+            width: 100%;
+
+            @supports (display: grid) {
+                width: unset;
+            }
+        }
+    }
+
+    &.empty {
+        display: none;
+    }
+}
+
+.itemlist {
+    height: calc(100% - 30px);
+
+    > ul {
+        overflow-y: scroll;
+        height: 100%;
+
+        > li {
+            height: 50px;
+            border-bottom: solid 1px $shadow;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            padding: 0 10px;
+
+            &:hover {
+                background: $black;
+                cursor: pointer;
+                color: $white;
+            }
+        }
+    }
+}

@@ -1,8 +1,18 @@
-.panelHeader {
-    button {
-        background-color: green;
-        height: 2rem;
-        font-size: 1rem;
-        color: #fff;
+.add_button {
+    height: 30px;
+    border-bottom: solid 1px $shadow;
+
+    > button {
+        color: $blue;
+        float: right;
+        height: 100%;
+        border: 0;
+        background: $white;
+        font-size: .8rem;
+        margin-right: 3px;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 }

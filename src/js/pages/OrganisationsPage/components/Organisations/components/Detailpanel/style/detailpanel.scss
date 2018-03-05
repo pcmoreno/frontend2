@@ -1,0 +1,137 @@
+.detailpanel {
+    background: $white;
+    color: $white;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    /* ie11 */
+    float: left;
+    width: 20%;
+    height: calc(100vh - 120px);
+    min-width: unset;
+
+    @supports (display: grid) {
+        float: none;
+        width: unset;
+        height: unset;
+
+        /* can be omitted if not important */
+        min-width: 320px;
+    }
+
+    header {
+        background: $blue;
+        border-radius: 5px 5px 0 0;
+        height: 120px;
+        padding: 10px;
+
+        @media screen and (max-width: 960px) {
+            border-radius: 0;
+        }
+
+        /* only in desktop view and when css grid is supported, can you maximise the detail panel */
+        .button_fullwidth_detailpanel {
+            display: none;
+
+            @supports (display: grid) {
+                display: block;
+                cursor: pointer;
+                text-align: left;
+
+                @media screen and (max-width: 960px) {
+                    display: none;
+                }
+            }
+        }
+
+        h2 {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-align: center;
+            color: $beige-lighten;
+        }
+    }
+
+    nav {
+        background: $blue;
+        height: 30px;
+        padding: 0 10px;
+        font-size: .8rem;
+        text-align: center;
+
+        span {
+            margin: 0 10px;
+            text-decoration: none;
+            color: $black;
+        }
+    }
+
+    main {
+        display: block;
+        /* todo: should be dynamic. this is not good enough */
+        height: calc(100vh - 290px);
+    }
+
+    .detailpanel_divider {
+        background: $beige-darken;
+        margin: 20px 0;
+        font-size: .8rem;
+        padding: .5rem;
+        display: block;
+    }
+
+    @media screen and (max-width: 960px) {
+        margin: 0;
+        min-width: unset;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    @media screen and (min-width: 960px) {
+        display: block !important;
+    }
+
+    p {
+        color: $black;
+        text-align: left;
+        font-size: 1rem;
+        font-weight: normal;
+    }
+}
+
+.button_show_detailpanel {
+    /*  only show the show detailpanel button on responsive views */
+    display: none;
+    float: right;
+    margin: 9px 0;
+    color: $beige-darken;
+    font-size: 1rem;
+    height: 1rem;
+
+    @media screen and (max-width: 960px) {
+        display: inline-block;
+    }
+}
+
+.button_hide_detailpanel {
+    /*  only show the hide detailpanel button on responsive views */
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 960px) {
+        display: block;
+    }
+}

@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import Panel from './components/Panel/Panel';
+import style from './style/panels.scss';
 
 export default class Panels extends Component {
     constructor(props) {
@@ -11,8 +12,13 @@ export default class Panels extends Component {
     render() {
         let { items } = this.props;
 
+        // todo: introduce logic here to go through all panels that should be displayed (depending on the state data)
+
         return (
-            <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
+            <section className={ style.panels } id="panels">
+                <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
+                <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
+            </section>
         )
     }
 }
