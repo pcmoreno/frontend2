@@ -18,10 +18,6 @@ import { createStore, combineReducers } from 'redux'
 import exampleReducer from './pages/ExamplePage/reducers/example';
 import organisationsReducer from './pages/OrganisationsPage/reducers/organisations';
 
-// import app modules/utils/configs
-import Logger from './utils/logger';
-import AppConfig from './App.config';
-
 // combine into one
 const rootReducer = combineReducers({
     exampleReducer,
