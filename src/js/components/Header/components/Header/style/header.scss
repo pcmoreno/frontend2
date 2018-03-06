@@ -37,19 +37,3 @@
         }
     }
 }
-
-.alert {
-    background: $red;
-    color: $white;
-    width: 100%;
-    position: absolute;
-    top: 55px;
-    height: 1.2rem;
-    line-height: 1.2rem;
-    font-size: .7rem;
-    padding: 0 1rem;
-    text-align: left;
-    font-family: $fontsmall;
-    font-weight: 300;
-    letter-spacing: .1mm;
-}

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import * as organisationsActions from './actions/organisations'
 import API from '../../utils/api';
 import AppConfig from '../../App.config';
+import Alert from './../../components/Alert';
 
 import Organisations from './components/Organisations/Organisations'
 
@@ -20,11 +21,18 @@ class Index extends Component {
             dispatch
         );
 
+        // since alerts are being injected from this component, create an empty alert object
+        this.alert = {
+            text: '',
+            type: ''
+        };
+
         // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+        this.addAlert = this.addAlert.bind(this);
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -53,7 +61,6 @@ class Index extends Component {
     }
 
     getItems() {
-
         // hide modal and spinner(if not already hidden)
         document.querySelector('#modal_organisation').classList.add('hidden');
         document.querySelector('#spinner').classList.remove('hidden');
@@ -63,7 +70,7 @@ class Index extends Component {
 
         // request organisations
         api.get(
-            apiConfig.baseUrl,
+            api.baseUrl,
             apiConfig.endpoints.organisation,
             {
                 urlParams: {
@@ -76,8 +83,27 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
             this.actions.getItems(response);
         }).catch(error => {
-            // TODO: Show an error message
+            this.addAlert(
+                'somethign went wrong: ' + error.message,
+                'error'
+            );
         });
+    }
+
+    /* todo: actually I would just import the addAlert function from the Alert component here and leave the component in the place where you want it to appear, ie in the header */
+    addAlert(text, type) {
+        this.alert = {
+            text,
+            type
+        };
+
+        /* todo: get this to work so the alert actually times out and hides (no, css wont do) */
+        setTimeout(
+            () => {
+                this.alert = {text: '', type: ''};
+                console.log('attempting to hide the alert dialog');
+            },
+            5000);
     }
 
     openModalToAddOrganisation() {
@@ -89,6 +115,8 @@ class Index extends Component {
     }
 
     render() {
+
+        /* todo: seriously impressed that it is possible to pass on a component like this. but UGLY as hell so no. */
         return (
             <Organisations
                 items = { this.props.items }
@@ -99,7 +127,9 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-            />
+                alertComponent = { <Alert alert={ this.alert }/> }
+            >
+            </Organisations>
         )
     }
 }

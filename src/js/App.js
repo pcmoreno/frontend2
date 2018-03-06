@@ -93,6 +93,7 @@ render(
     <Provider store={ store }>
         <section id="layout">
             <Header key="header" />
+
             <main>
                 <Router>
                     <AsyncRoute path="/example" getComponent={ getExamplePage } baseUrl = { baseUrl } />

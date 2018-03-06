@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 /** @jsx h */
 
+import classNames from 'classnames';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
 
@@ -19,22 +20,18 @@ export default class UserMenu extends Component {
         }
     }
 
-    componentDidMount() {
-        // hide the user menu on page load
-        // todo: ensure this is done on the element itself using classnames
-        document.querySelector('#user_foldout').classList.add('hidden');
-        document.querySelector('#spinner').classList.add('hidden');
-    }
-
     render() {
 
         /* todo: extract to sub components */
         /* todo: finish user menu rollout  menu */
 
+        let spinnerClass = classNames(style.spinner, 'hidden');
+        let userFoldoutClass = classNames(style.user_foldout, 'hidden');
+
         return (
             <nav className={ style.user_menu } onClick={ this.toggleUserMenu }>
                 <ul className={ style.nav_user }>
-                    <li className={ style.spinner } id="spinner">
+                    <li className={ spinnerClass } id="spinner">
                         <FontAwesomeIcon icon="spinner"/>
                     </li>
                     <li className={ style.user_avatar }>
@@ -49,7 +46,7 @@ export default class UserMenu extends Component {
                         <FontAwesomeIcon icon="angle-down" />
                     </li>
                 </ul>
-                <div className={ style.user_foldout } id="user_foldout">
+                <div className={ userFoldoutClass } id="user_foldout">
                     <ul>
                         <li>
                             <a href="#">
