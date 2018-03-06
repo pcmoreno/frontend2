@@ -39,6 +39,9 @@ class Header extends Component {
                         <path d="M0,0C26,0,34,10.19,40,19.33,47,10.06,54,0,80,0Z" />
                     </svg>
                 </span>
+                <div className={ style.alert }>
+                    { this.props.alert }
+                </div>
                 </header>)
     }
 }

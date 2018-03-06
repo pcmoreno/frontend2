@@ -34,8 +34,8 @@ export default class UserMenu extends Component {
         return (
             <nav className={ style.user_menu } onClick={ this.toggleUserMenu }>
                 <ul className={ style.nav_user }>
-                    <li className={ style.spinner } >
-                        <FontAwesomeIcon icon="spinner" id="spinner"/>
+                    <li className={ style.spinner } id="spinner">
+                        <FontAwesomeIcon icon="spinner"/>
                     </li>
                     <li className={ style.user_avatar }>
                         <FontAwesomeIcon icon="user" />
