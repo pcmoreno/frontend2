@@ -12,7 +12,7 @@ const Utils = {
      * skipPrefixIndex will remove the key from an array, like c[]=1 in above example
      *
      * @param {Object} obj - Object to serialise
-     * @param {String} prefix - key prefix (example: formData). Usually not provided at first call
+     * @param {string} prefix - key prefix (example: formData). Usually not provided at first call
      * @param {boolean} urlEncode - flag to encode the parameters
      * @param {boolean} skipPrefixIndex - flag to skip the prefix index
      * @returns {string} serialised string
@@ -45,11 +45,11 @@ const Utils = {
 
                     // call method recursively in case of an object, or append key=value to str arr
                     if (typeof value === 'object') {
-                        serialisedPair = Utils.serialise(value, serialisedKey, urlEncode, skipPrefixIndex)
+                        serialisedPair = Utils.serialise(value, serialisedKey, urlEncode, skipPrefixIndex);
                     } else if (urlEncode) {
                         serialisedPair = encodeURIComponent(serialisedKey) + '=' + encodeURIComponent(value);
                     } else {
-                        serialisedPair = serialisedKey + '=' + value
+                        serialisedPair = serialisedKey + '=' + value;
                     }
 
                     str.push(serialisedPair);
@@ -63,7 +63,7 @@ const Utils = {
     /**
      * Builds and appends query string to url
      *
-     * @param {String} url - Url
+     * @param {string} url - Url
      * @param {Object} obj - object to serialise
      * @param {boolean} urlEncode - flag to encode the parameters
      * @param {boolean} skipPrefixIndex - flag to skip the prefix index
@@ -83,13 +83,14 @@ const Utils = {
      * Replace a set of values in a string
      * Example: replaceString('ab', [a,b], [c,d]) returns 'cd'
      *
-     * @param {String} str - String to find/replace values
+     * @param {string} str - String to find/replace values
      * @param {Array} find - Array with values to find
      * @param {Array} replace - Array with values to set
-     * @returns {String} replaced string
+     * @returns {string} replaced string
      */
     replaceString: (str, find, replace) => {
         let replaceString = str;
+
         for (let i = 0; i < find.length; i++) {
             replaceString = replaceString.replace(find[i], replace[i]);
         }

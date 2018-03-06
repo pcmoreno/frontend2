@@ -42,8 +42,8 @@ class API {
     /**
      * Executes the fetch call to perform the network request
      *
-     * @param {String} url - url with endpoint
-     * @param {String} method - http method [get, put, post, options]
+     * @param {string} url - url with endpoint
+     * @param {string} method - http method [get, put, post, options]
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -192,7 +192,7 @@ class API {
      * and/or index parameters. Index parameters are used in arrays. With this skip option on the result will be
      * k[]=v rather than k[0]=v
      *
-     * @param {String} url - url to replace and append the given identifiers and parameters
+     * @param {string} url - url to replace and append the given identifiers and parameters
      * @param {Object} urlParams - parameters object for url identifiers and parameters
      * @param {Object} [urlParams.identifiers] - Key value pairs for url identifiers
      * @param {Object} [urlParams.parameters] - Key value pairs for url parameters (child array allowed)
@@ -245,8 +245,8 @@ class API {
     /**
      * Executes a get request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -264,8 +264,8 @@ class API {
     /**
      * Executes a post request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -283,8 +283,8 @@ class API {
     /**
      * Executes a put request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -302,8 +302,8 @@ class API {
     /**
      * Executes an options request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
