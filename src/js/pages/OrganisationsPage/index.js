@@ -59,12 +59,12 @@ class Index extends Component {
         document.querySelector('#spinner').classList.remove('hidden');
 
         let api = new API('neon'),
-            apiConfig = AppConfig.utils.api.neon;
+            apiConfig = AppConfig.api.neon;
 
         // request organisations
         api.get(
             apiConfig.baseUrl,
-            apiConfig.endpoints.organisations,
+            apiConfig.endpoints.organisation,
             {
                 urlParams: {
                     parameters: {
