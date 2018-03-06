@@ -61,7 +61,7 @@ module.exports = {
         "array-callback-return": "error",
         "arrow-body-style": [
             "error",
-            "always" // changed from as-needed to always to support return {}, otherwise a direct return is not allowed.
+            "as-needed"
         ],
         "arrow-parens": [
             "error",
@@ -89,7 +89,7 @@ module.exports = {
                 "next"
             ]
         ],
-        "class-methods-use-this": "error",
+        "class-methods-use-this": "off", // switched off. Otherwise all methods are required to be static when they do not use the this scope (e.g. render method)
         "comma-dangle": "error",
         "comma-spacing": "error",
         "comma-style": [
