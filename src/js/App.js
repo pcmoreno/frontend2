@@ -6,6 +6,7 @@ import 'babel-polyfill';
 import { h, render } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
+import Alert from './components/Alert';
 /** @jsx h */
 
 // import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
@@ -46,11 +47,13 @@ import { createStore, combineReducers } from 'redux';
 // import all reducers
 import exampleReducer from './pages/ExamplePage/reducers/example';
 import organisationsReducer from './pages/OrganisationsPage/reducers/organisations';
+import alertReducer from './components/Alert/reducers/alert';
 
 // combine into one
 const rootReducer = combineReducers({
     exampleReducer,
-    organisationsReducer
+    organisationsReducer,
+    alertReducer
 });
 
 // configure redux store with the combined reducers
@@ -93,8 +96,8 @@ render(
     <Provider store={ store }>
         <section id="layout">
             <Header key="header" />
-
             <main>
+                <Alert />
                 <Router>
                     <AsyncRoute path="/example" getComponent={ getExamplePage } baseUrl = { baseUrl } />
                     <AsyncRoute path="/inbox" getComponent={ getInboxPage } baseUrl = { baseUrl } />

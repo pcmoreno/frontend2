@@ -22,7 +22,6 @@ export default function organisationsReducer(state = initialState, action) {
             // return the copied, mutated state
             return newState;
 
-
         case actionType.STORE_FORM_DATA:
             // clear all forms
             newState.forms = [];

@@ -5,15 +5,18 @@ import classNames from 'classnames';
 import style from './style/alert.scss';
 
 class Alert extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
 
     render() {
-        if (this.props.alert && this.props.alert.text) {
+        if (this.props.alerts && this.props.alerts.length > 0) {
+
+            // lets start (for now) by taking the last alert off the list
+            let alert = this.props.alerts[this.props.alerts.length - 1];
             let gradientClass;
 
-            switch (this.props.alert.type) {
+            switch (alert.type) {
                 case 'error': gradientClass = 'alert_error'; break;
                 case 'warning': gradientClass = 'alert_warning'; break;
                 case 'message': gradientClass = 'alert_message'; break;
@@ -22,7 +25,7 @@ class Alert extends Component {
             }
 
             return (<div className = { classNames(style.alert, gradientClass) } >
-                { this.props.alert.text }
+                { alert.text }
             </div>);
         }
 

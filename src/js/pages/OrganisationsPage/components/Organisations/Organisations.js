@@ -5,7 +5,7 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import Detailpanel from './components/Detailpanel/Detailpanel';
 
-/* todo: there is a webpack plugin that can search withing a root path which prevents ./../../../../ hell like this */
+/* todo: there is a webpack plugin that can search withing a root path which prevents ./../../../.. hell like this */
 import Form from './../../../../components/Form';
 
 import style from './style/organisations.scss';
