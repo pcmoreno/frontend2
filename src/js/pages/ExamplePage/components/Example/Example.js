@@ -1,6 +1,7 @@
 // the presentational component is concerned with the actual layout. has its own css, and its own component methods
 
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import Form from './../../../../components/Form';
@@ -28,22 +29,23 @@ export default class Example extends Component {
         return (
             <section className={ style.example }>
                 <div className={ style.bar } id = "spinner" />
-                You may wonder why this ExamplePage is still here. It serves as an example during refactoring of the Frontend. And also as a tutorial, since it has the structure and patterns the new frontend should follow.
+                You may wonder why this ExamplePage is still here. It serves as an example during refactoring of the Frontend.
+                And also as a tutorial, since it has the structure and patterns the new frontend should follow.
                 <span>{ someDate }</span>
                 <section>
                     { exampleItem }
                 </section>
                 <section>
                     <Form
-                        formId={ "organisation" }
+                        formId={ 'organisation' }
                         ignoredFields={ [
-                            "created",
-                            "updated",
-                            "manyOrganisationToManyCompetency",
-                            "manyOrganisationToManyProduct",
-                            "manyOrganisationToOneOrganisation",
-                            "updated",
-                            "updated"
+                            'created',
+                            'updated',
+                            'manyOrganisationToManyCompetency',
+                            'manyOrganisationToManyProduct',
+                            'manyOrganisationToOneOrganisation',
+                            'updated',
+                            'updated'
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
@@ -54,15 +56,15 @@ export default class Example extends Component {
                 </section>
                 <section>
                     <Form
-                        formId={ "project" }
+                        formId={ 'project' }
                         ignoredFields={ [
-                            "created",
-                            "updated",
-                            "manyProjectToOneOrganisation",
-                            "manyProjectToOneProduct",
-                            "manyProjectToManyCompetency",
-                            "updated",
-                            "updated"
+                            'created',
+                            'updated',
+                            'manyProjectToOneOrganisation',
+                            'manyProjectToOneProduct',
+                            'manyProjectToManyCompetency',
+                            'updated',
+                            'updated'
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
@@ -72,6 +74,6 @@ export default class Example extends Component {
                     />
                 </section>
             </section>
-        )
+        );
     }
 }
