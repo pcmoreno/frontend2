@@ -16,3 +16,16 @@
 .single_fragment {
     grid-template-columns: 1fr;
 }
+
+/* todo: thanks to css modules we cannot have this inside the alert component. not fun. find another way to do this: */
+.alert_message {
+    background-image: linear-gradient(45deg, $green 25%, $green-darken 25%, $green-darken 50%, $green 50%, $green 75%, $green-darken 75%);
+}
+
+.alert_warning {
+    background-image: linear-gradient(45deg, $orange 25%, $orange-darken 25%, $orange-darken 50%, $orange 50%, $orange 75%, $orange-darken 75%);
+}
+
+.alert_error {
+    background-image: linear-gradient(45deg, $red 25%, $red-darken 25%, $red-darken 50%, $red 50%, $red 75%, $red-darken 75%);
+}

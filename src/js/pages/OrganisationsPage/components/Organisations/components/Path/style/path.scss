@@ -1,17 +1,17 @@
 .path {
     overflow: hidden;
-    margin: 10px 10px 0;
+    margin: 10px 10px 0 20px;
 
     ul li {
         float: left;
-        padding: 0 2rem;
         color: $blue;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
 
-        &:before:not(&first-child) {
-            content: '\f105';
+        &:not(:first-child):before {
+            content: '›';
+            margin: 0 .8rem;
         }
     }
 }

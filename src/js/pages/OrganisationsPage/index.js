@@ -5,6 +5,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as organisationsActions from './actions/organisations';
+import * as alertActions from './../../components/Alert/actions/alert';
 import API from '../../utils/api';
 import AppConfig from '../../App.config';
 
@@ -17,11 +18,10 @@ class Index extends Component {
         const { dispatch } = this.props;
 
         this.actions = bindActionCreators(
-            Object.assign({}, organisationsActions),
+            Object.assign({}, alertActions, organisationsActions),
             dispatch
         );
 
-        // couple local state (including actions) with this method
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
@@ -30,16 +30,11 @@ class Index extends Component {
 
     storeFormDataInFormsCollection(formId, formFields) {
 
-        // todo: investigate extracting this to helper function since this will be copied to all page components
-
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
         this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
-
-        // todo: investigate extracting this to helper function since this will be copied to all page components
-
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
@@ -79,12 +74,9 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
             this.actions.getItems(response);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
         });
-
-        // .catch(error => {
-        //
-        //     // TODO: Show an error message
-        // });
     }
 
     openModalToAddOrganisation() {
