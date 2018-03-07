@@ -42,7 +42,7 @@ cache:
   script:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp ./web ${AWS_BUCKET_ACCEPTANCE}
+    - aws s3 cp ./web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
   only:
     - master
 
@@ -52,7 +52,7 @@ cache:
 #  script:
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 cp ./web ${AWS_BUCKET_PRODUCTION}
+#    - aws s3 cp ./web/ ${AWS_BUCKET_PRODUCTION} --recursive
 #  only:
 #    - master
 
