@@ -54,7 +54,7 @@ cache:
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
 #    - aws s3 cp ./web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
   only:
-    - delpoy-acceptance
+    - deploy-acceptance
 
 ## Deploy production using Rancher
 #.deploy_prod_s3: &deploy_prod_s3
