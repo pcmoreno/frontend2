@@ -15,6 +15,7 @@ variables:
 cache:
   paths:
     - vendor/
+    - node_modules/
 
 ################################################################################
 ## Templates
@@ -38,19 +39,26 @@ cache:
 
 ## Deploy acceptance using Rancher
 .deploy_acc_s3: &deploy_acc_s3
-  image: napp/docker-aws-cli
-  before_script: &build_stage
+  image: ${BUILD_CONTAINER}
+#  napp/docker-aws-cli
+  services:
+    - docker:dind
+  before_script: *test_and_build
   script:
-    - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp ./web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
+#    - yarn install --ignore-platform --no-progress --non-interactive
+#    - yarn run deploy
+    - docker run -v /builds/neon/frontend2/:/opt/webapp napp/docker-aws-cli aws s3 cp /opt/webapp/index.html ${AWS_BUCKET_ACCEPTANCE}
+    - docker run -v /builds/neon/frontend2/:/opt/webapp napp/docker-aws-cli aws s3 cp /opt/webapp/service-worker.js ${AWS_BUCKET_ACCEPTANCE}
+    - docker run -v /builds/neon/frontend2/:/opt/webapp napp/docker-aws-cli aws s3 cp /opt/webapp/web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
+#    - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
+#    - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
+#    - aws s3 cp ./web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
   only:
-    - master
+    - delpoy-acceptance
 
 ## Deploy production using Rancher
 #.deploy_prod_s3: &deploy_prod_s3
 #  image: napp/docker-aws-cli
-#  before_script: &build_stage
 #  script:
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
