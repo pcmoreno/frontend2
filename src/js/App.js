@@ -15,7 +15,7 @@ import AsyncRoute from 'preact-async-route';
 import fontawesome from '@fortawesome/fontawesome';
 
 // you need to import each individual icon (its a bug. do not combine or it'll include the whole library!)
-import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitCase';
+import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';

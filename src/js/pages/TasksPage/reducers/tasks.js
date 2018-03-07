@@ -7,7 +7,7 @@ const initialState = {
  * Returns the new state
  * @param {Object} state - state
  * @param {Object} action - action
- * @returns {Object} state
+ * @returns {Object} new state
  */
 export default function tasksReducer(state = initialState, action) {
     switch (action.type) {
