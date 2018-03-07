@@ -74,7 +74,6 @@ export default class Index extends Component {
                 // response.json() is not available yet. wrap it in a promise:
                 response.json().then((response) => {
                     // todo: reset form / state values
-                    this.actions.addAlert({type: 'message',text: 'this is a test message that should automatically disappear'});
                     this.props.afterSubmit();
                 }).catch(error => {
                     return Promise.reject(console.log('JSON error - ' + error));
