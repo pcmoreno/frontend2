@@ -28,9 +28,6 @@ module.exports = {
         "import/extensions": [
             ".js",
         ],
-        // "import/ignore": [
-        //     "\.scss"
-        // ],
         "react": {
             "pragma": "h"
         }
