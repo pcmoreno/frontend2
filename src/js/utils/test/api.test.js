@@ -1,6 +1,6 @@
 import Logger from '../logger';
 import Utils from '../utils';
-import API from '../Api';
+import API from '../api';
 import AppConfig from '../../App.config';
 
 // Mock the application api config
