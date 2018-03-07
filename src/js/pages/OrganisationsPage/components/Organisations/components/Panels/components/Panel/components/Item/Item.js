@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -29,11 +30,10 @@ export default class Item extends Component {
                         </div>
                     </li>
                     <li>
-                        <span onClick={ this.openDetailPanel } role="button"><FontAwesomeIcon icon="eye"/></span>
+                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button"><FontAwesomeIcon icon="eye"/></span>
                     </li>
                 </ul>
             </li>
-        )
+        );
     }
 }
-

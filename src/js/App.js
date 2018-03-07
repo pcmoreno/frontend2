@@ -1,3 +1,5 @@
+/* global System:true */
+
 // the root component combines reducers, sets up the store and ties routing components together
 
 // unclear if and where this polyfill is required, but this seems to be the most common approach
@@ -13,7 +15,7 @@ import Alert from './components/Alert';
 import fontawesome from '@fortawesome/fontawesome';
 
 // you need to import each individual icon (its a bug. do not combine or it'll include the whole library!)
-import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitCase';
+import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
@@ -60,31 +62,56 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer);
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
-import style from '../style/global.scss';
+import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
-function getExamplePage(){
-    return System.import('./pages/ExamplePage').then(module => module.default)
+
+/**
+ * Returns the example page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} example page
+ */
+function getExamplePage() {
+    return System.import('./pages/ExamplePage').then(module => module.default);
 }
 
-function getInboxPage(){
-    return System.import('./pages/InboxPage').then(module => module.default)
+/**
+ * Returns the inbox page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} inbox page
+ */
+function getInboxPage() {
+    return System.import('./pages/InboxPage').then(module => module.default);
 }
 
-function getOrganisationsPage(){
-    return System.import('./pages/OrganisationsPage').then(module => module.default)
+/**
+ * Returns the organisations page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} organisations page
+ */
+function getOrganisationsPage() {
+    return System.import('./pages/OrganisationsPage').then(module => module.default);
 }
 
-function getTasksPage(){
-    return System.import('./pages/TasksPage').then(module => module.default)
+/**
+ * Returns the tasks page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} tasks page
+ */
+function getTasksPage() {
+    return System.import('./pages/TasksPage').then(module => module.default);
 }
 
-function getUsersPage(){
-    return System.import('./pages/UsersPage').then(module => module.default)
+/**
+ * Returns the users page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} users page
+ */
+function getUsersPage() {
+    return System.import('./pages/UsersPage').then(module => module.default);
 }
 
-function getParticipantsPage(){
-    return System.import('./pages/ParticipantsPage').then(module => module.default)
+/**
+ * Returns the participants page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} participants page
+ */
+function getParticipantsPage() {
+    return System.import('./pages/ParticipantsPage').then(module => module.default);
 }
 
 import Header from './components/Header';
@@ -114,8 +141,10 @@ render(
 
 );
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
+
     // console.log('running in production mode');
 } else {
+
     // console.log('running in dev mode');
 }

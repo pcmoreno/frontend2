@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import NavigationItem from './components/NavigationItem/NavigationItem';
@@ -13,7 +14,7 @@ export default class Navigation extends Component {
         let navigationItems = [];
         let { items } = this.props;
 
-        items.map((item) => {
+        items.forEach(item => {
             let navigationItem = <NavigationItem label={ item.label } link={ item.link } key={ item.label } />;
 
             navigationItems.push(navigationItem);
@@ -26,8 +27,6 @@ export default class Navigation extends Component {
                     { navigationItems }
                 </ul>
             </nav>
-        )
+        );
     }
 }
-
-

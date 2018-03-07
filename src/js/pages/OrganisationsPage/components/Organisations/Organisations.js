@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import Panels from './components/Panels/Panels';
@@ -29,17 +30,17 @@ export default class Organisations extends Component {
                 </section>
                 <aside className={ style.modal_container } id="modal_organisation" >
                     <Form
-                        formId={ "organisation" }
+                        formId={ 'organisation' }
                         ignoredFields={ [
-                            "created",
-                            "updated",
-                            "manyOrganisationToManyCompetency",
-                            "manyOrganisationToManyProduct",
-                            "manyOrganisationToOneOrganisation",
-                            "updated",
-                            "updated",
-                            "organisationType",
-                            "organisationSlug"
+                            'created',
+                            'updated',
+                            'manyOrganisationToManyCompetency',
+                            'manyOrganisationToManyProduct',
+                            'manyOrganisationToOneOrganisation',
+                            'updated',
+                            'updated',
+                            'organisationType',
+                            'organisationSlug'
                         ] }
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
@@ -50,6 +51,6 @@ export default class Organisations extends Component {
                     />
                 </aside>
             </div>
-        )
+        );
     }
 }

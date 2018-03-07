@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 export default class Option extends Component {
@@ -9,7 +10,6 @@ export default class Option extends Component {
     render() {
         let { value } = this.props;
 
-        return (<option value={ value }>{ value }</option>)
+        return (<option value={ value }>{ value }</option>);
     }
 }
-

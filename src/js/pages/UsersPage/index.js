@@ -1,11 +1,12 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
-import * as usersActions from './actions/users'
+import { connect } from 'react-redux';
+import * as usersActions from './actions/users';
 
-import Users from './components/Users/Users'
+import Users from './components/Users/Users';
 
 class Index extends Component {
     constructor(props) {
@@ -27,13 +28,12 @@ class Index extends Component {
         return (
             <Users
             />
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-    }
-};
+const mapStateToProps = (/* state */) => ({
+
+});
 
 export default connect(mapStateToProps)(Index);

@@ -1,6 +1,6 @@
 import Logger from '../logger';
 import Utils from '../utils';
-import API from '../Api';
+import API from '../api';
 import AppConfig from '../../App.config';
 
 // Mock the application api config
@@ -64,7 +64,7 @@ test('API should through an error when it was constructed with a non existing ap
     try {
         let api = new API('doesnotexist');
     } catch (e) {
-        expect(e).toEqual('AppConfig.api.doesnotexist is not set. Cannot create API instance.');
+        expect(e).toEqual(new Error('AppConfig.api.doesnotexist is not set. Cannot create API instance.'));
     }
 });
 
@@ -186,13 +186,13 @@ test('API options should call to execute request with the correct parameters', (
     ]);
 });
 
-test('API executeRequest should call _buildURL to build the url', () => {
+test('API executeRequest should call buildURL to build the url', () => {
 
     // api instance and mocked config
     let api = new API('neon');
 
     // spy on method
-    spyOn(api, '_buildURL');
+    spyOn(api, 'buildURL');
 
     // call method
     api._executeRequest(
@@ -215,8 +215,8 @@ test('API executeRequest should call _buildURL to build the url', () => {
     );
 
     // expected result
-    expect(api._buildURL.calls.count()).toBe(1);
-    expect(api._buildURL.calls.allArgs()).toEqual([
+    expect(api.buildURL.calls.count()).toBe(1);
+    expect(api.buildURL.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisation/{id}',
             {
@@ -231,17 +231,17 @@ test('API executeRequest should call _buildURL to build the url', () => {
     ]);
 });
 
-test('API _buildURL should replace the right identifiers in the url', () => {
+test('API buildURL should replace the right identifiers in the url', () => {
 
     // api instance and mocked config
     let api = new API('neon');
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'replaceString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
         {
             identifiers: {
@@ -255,17 +255,17 @@ test('API _buildURL should replace the right identifiers in the url', () => {
     expect(result).toEqual('https://ltp.nl/organisations/123/division/456');
 });
 
-test('API _buildURL should return null when not all identifiers could be replaced', () => {
+test('API buildURL should return null when not all identifiers could be replaced', () => {
 
     // api instance and mocked config
     let api = new API('neon');
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'replaceString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
         {
             identifiers: {
@@ -278,7 +278,7 @@ test('API _buildURL should return null when not all identifiers could be replace
     expect(result).toEqual(null);
 });
 
-test('API _buildURL should parse the url parameters correctly with urlEncoding and with skipPrefixIndexParams', () => {
+test('API buildURL should parse the url parameters correctly with urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -286,12 +286,12 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
     api.config.skipPrefixIndexParams = true;
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
@@ -309,7 +309,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B%5D=d&f%5B%5D=x&y=x');
 });
 
-test('API _buildURL should parse the url parameters correctly with urlEncoding and without skipPrefixIndexParams', () => {
+test('API buildURL should parse the url parameters correctly with urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -317,12 +317,12 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
     api.config.skipPrefixIndexParams = false;
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
@@ -340,7 +340,7 @@ test('API _buildURL should parse the url parameters correctly with urlEncoding a
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B0%5D=d&f%5B1%5D=x&y=x');
 });
 
-test('API _buildURL should parse the url parameters correctly without urlEncoding and without skipPrefixIndexParams', () => {
+test('API buildURL should parse the url parameters correctly without urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -348,12 +348,12 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
     apiConfig.neon.skipPrefixIndexParams = false;
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
@@ -371,7 +371,7 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[0]=d&f[1]=x&y=x');
 });
 
-test('API _buildURL should parse the url parameters correctly without urlEncoding and with skipPrefixIndexParams', () => {
+test('API buildURL should parse the url parameters correctly without urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -379,12 +379,12 @@ test('API _buildURL should parse the url parameters correctly without urlEncodin
     apiConfig.neon.skipPrefixIndexParams = true;
 
     // spy on method
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
     spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
-    let result = api._buildURL(
+    let result = api.buildURL(
         apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
         {
             parameters: {
@@ -409,7 +409,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // call method
     api._executeRequest(
@@ -429,8 +429,8 @@ test('API _executeRequest should use the parsed url with the correct identifiers
     );
 
     // expected result
-    expect(api._buildURL.calls.count()).toBe(1);
-    expect(api._buildURL.calls.allArgs()).toEqual([
+    expect(api.buildURL.calls.count()).toBe(1);
+    expect(api.buildURL.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisation/{id}',
             {
@@ -457,7 +457,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
     ]);
 });
 
-test('API _executeRequest should return Promise.reject when _buildURL was unsuccessful', () => {
+test('API _executeRequest should return Promise.reject when buildURL was unsuccessful', () => {
 
     // api instance and mocked config
     let api = new API('neon');
@@ -466,7 +466,7 @@ test('API _executeRequest should return Promise.reject when _buildURL was unsucc
     spyOn(global, 'fetch');
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -488,9 +488,7 @@ test('API _executeRequest should return Promise.reject when _buildURL was unsucc
                 ]
             ]);
 
-            expect(error).toEqual({
-                'message': 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -700,7 +698,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
     spyOn(global, 'fetch');
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -729,9 +727,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
                 ]
             ]);
 
-            expect(error).toEqual({
-                'message': 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -828,7 +824,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(Logger.instance, 'warning');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -892,7 +888,7 @@ test('API _executeRequest should log a warning and return json when fetch return
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'warning');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -958,7 +954,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -988,9 +984,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
                 ]
             ]);
 
-            expect(error).toEqual({
-                message: 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -1023,7 +1017,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -1079,7 +1073,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -1109,9 +1103,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
                 ]
             ]);
 
-            expect(error).toEqual({
-                message: 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -1119,32 +1111,32 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     });
 });
 
-test('API _isWarningCode should return true between 300-399 and 404', () => {
+test('API isWarningCode should return true between 300-399 and 404', () => {
 
     // api instance and mocked config
     let api = new API('neon');
 
-    expect(api._isWarningCode(300)).toEqual(true);
-    expect(api._isWarningCode(302)).toEqual(true);
-    expect(api._isWarningCode(399)).toEqual(true);
-    expect(api._isWarningCode(400)).toEqual(false);
-    expect(api._isWarningCode(402)).toEqual(false);
-    expect(api._isWarningCode(404)).toEqual(true);
-    expect(api._isWarningCode(500)).toEqual(false);
+    expect(API.isWarningCode(300)).toEqual(true);
+    expect(API.isWarningCode(302)).toEqual(true);
+    expect(API.isWarningCode(399)).toEqual(true);
+    expect(API.isWarningCode(400)).toEqual(false);
+    expect(API.isWarningCode(402)).toEqual(false);
+    expect(API.isWarningCode(404)).toEqual(true);
+    expect(API.isWarningCode(500)).toEqual(false);
 });
 
-test('API _isErrorCode should return true on 400+ except 404', () => {
+test('API isErrorCode should return true on 400+ except 404', () => {
 
     // api instance and mocked config
     let api = new API('neon');
 
-    expect(api._isErrorCode(300)).toEqual(false);
-    expect(api._isErrorCode(302)).toEqual(false);
-    expect(api._isErrorCode(399)).toEqual(false);
-    expect(api._isErrorCode(400)).toEqual(true);
-    expect(api._isErrorCode(402)).toEqual(true);
-    expect(api._isErrorCode(404)).toEqual(false);
-    expect(api._isErrorCode(500)).toEqual(true);
+    expect(API.isErrorCode(300)).toEqual(false);
+    expect(API.isErrorCode(302)).toEqual(false);
+    expect(API.isErrorCode(399)).toEqual(false);
+    expect(API.isErrorCode(400)).toEqual(true);
+    expect(API.isErrorCode(402)).toEqual(true);
+    expect(API.isErrorCode(404)).toEqual(false);
+    expect(API.isErrorCode(500)).toEqual(true);
 });
 
 test('API _executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
@@ -1163,7 +1155,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -1193,9 +1185,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
                 ]
             ]);
 
-            expect(error).toEqual({
-                message: 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -1228,10 +1218,10 @@ test('API _executeRequest should log an error when the network request failed or
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, '_executeRequest').and.callThrough();
-    spyOn(api, '_isWarningCode').and.callThrough();
-    spyOn(api, '_isErrorCode').and.callThrough();
+    spyOn(API, 'isWarningCode').and.callThrough();
+    spyOn(API, 'isErrorCode').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, '_buildURL').and.callThrough();
+    spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -1241,8 +1231,8 @@ test('API _executeRequest should log an error when the network request failed or
             {}
         ).then().catch(error => {
 
-            expect(api._isWarningCode.calls.count()).toBe(0);
-            expect(api._isErrorCode.calls.count()).toBe(0);
+            expect(API.isWarningCode.calls.count()).toBe(0);
+            expect(API.isErrorCode.calls.count()).toBe(0);
             expect(global.fetch.calls.count()).toBe(1);
             expect(global.fetch.calls.allArgs()).toEqual([
                 [
@@ -1263,9 +1253,7 @@ test('API _executeRequest should log an error when the network request failed or
                 ]
             ]);
 
-            expect(error).toEqual({
-                message: 'An error occurred while processing your request.'
-            });
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();

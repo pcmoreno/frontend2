@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import style from './style/inbox.scss';
@@ -13,6 +14,6 @@ export default class Inbox extends Component {
             <section className={ style.inbox }>
                 Inbox goes here
             </section>
-        )
+        );
     }
 }

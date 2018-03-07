@@ -1,13 +1,14 @@
 // the container component defines actions, initial data, mapStateToProps, dispatchers
 
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
-import * as exampleActions from './actions/example'
+import { connect } from 'react-redux';
+import * as exampleActions from './actions/example';
 
-import Example from './components/Example/Example'
+import Example from './components/Example/Example';
 
 class Index extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class Index extends Component {
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
+
         // todo: investigate extracting this to helper function since this will be copied to all page components
 
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
@@ -34,17 +36,20 @@ class Index extends Component {
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+
         // todo: investigate extracting this to helper function since this will be copied to all page components
 
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
     componentWillMount() {
+
         // update the page title for accessibility reasons
         document.title = 'Example';
     }
 
     componentDidMount() {
+
         // get items for first time
         this.getItems();
     }
@@ -54,28 +59,26 @@ class Index extends Component {
     // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
     getItems() {
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
+
         document.getElementById('spinner').classList.add('visible');
 
         fetch(url, {
-            method: "get"
+            method: 'get'
         }).then(response => {
             document.getElementById('spinner').classList.remove('visible');
             if (response.ok) {
+
                 // response.json() is not available yet. wrap it in a promise:
-                response.json().then((response) => {
-                    this.actions.getItems(response);
-                }).catch(error => {
-                    return Promise.reject(console.log('JSON error: ' + error.message));
-                });
+                response.json().then(responseData => {
+                    this.actions.getItems(responseData);
+                }).catch(error => Promise.reject(new Error('JSON error: ' + error.message)));
                 return response;
             }
             if (response.status === 404) {
-                return Promise.reject(console.log('Endpoint error: '));
+                return Promise.reject(new Error('Endpoint error: '));
             }
-            return Promise.reject(console.log('HTTP error: ' + response.status));
-        }).catch(error => {
-            return Promise.reject(console.log('URL error: ' + error.message));
-        });
+            return Promise.reject(new Error('HTTP error: ' + response.status));
+        }).catch(error => Promise.reject(new Error('URL error: ' + error.message)));
     }
 
     render() {
@@ -89,16 +92,14 @@ class Index extends Component {
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
             />
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        active: state.exampleReducer.active,
-        items: state.exampleReducer.items,
-        forms: state.exampleReducer.forms
-    }
-};
+const mapStateToProps = state => ({
+    active: state.exampleReducer.active,
+    items: state.exampleReducer.items,
+    forms: state.exampleReducer.forms
+});
 
 export default connect(mapStateToProps)(Index);

@@ -1,9 +1,11 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import classNames from 'classnames';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
+import classNames from 'classnames';
 
 export default class UserMenu extends Component {
     constructor() {
@@ -24,6 +26,8 @@ export default class UserMenu extends Component {
 
         /* todo: extract to sub components */
         /* todo: finish user menu rollout  menu */
+        let spinnerClass = classNames(style.spinner, 'hidden');
+        let userFoldoutClass = classNames(style.user_foldout, 'hidden');
 
         let spinnerClass = classNames(style.spinner, 'hidden');
         let userFoldoutClass = classNames(style.user_foldout, 'hidden');
@@ -49,17 +53,17 @@ export default class UserMenu extends Component {
                 <div className={ userFoldoutClass } id="user_foldout">
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="#notimplemented">
                                 <span>EN</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#notimplemented">
                                 <span>Feature toggles</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#notimplemented">
                                 <span>
                                     <FontAwesomeIcon icon="sign-out-alt" />
                                 </span>
@@ -69,8 +73,6 @@ export default class UserMenu extends Component {
                     </ul>
                 </div>
             </nav>
-        )
+        );
     }
 }
-
-

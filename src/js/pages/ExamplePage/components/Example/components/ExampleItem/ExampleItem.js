@@ -1,6 +1,7 @@
 // the presentational component is concerned with the actual layout. has its own css, and its own component methods
 
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import style from './style/exampleitem.scss';
@@ -12,7 +13,7 @@ export default class ExampleItem extends Component {
         // define a local state (to keep track of something in the GUI, for example)
         this.localState = {
             active: false
-        }
+        };
     }
 
     // lifecycle methods go here
@@ -27,6 +28,7 @@ export default class ExampleItem extends Component {
 
         // since setState was used to update this var, the component re-renders and thus the localState is toggled
         let activeText;
+
         if (this.localState.active) {
             activeText = 'active';
         } else {
@@ -34,13 +36,15 @@ export default class ExampleItem extends Component {
         }
 
         let itemList = [];
+
         if (items && items.length > 0) {
-            items.map((item) => {
-                itemList.push(<li>{ item.organisationName }</li>)
-            })
+            items.forEach(item => {
+                itemList.push(<li>{ item.organisationName }</li>);
+            });
         }
 
         return (
+
             // keep in mind, normally you'd extract this into a button and a list component, and perhaps even a listItem
             <section>
                 <p>
@@ -56,6 +60,8 @@ export default class ExampleItem extends Component {
                 <br />
                 <br />
                 <span
+                    role="link"
+                    tabIndex="0"
                     onClick={ () => this.setState(this.localState.active = !this.localState.active === true) }
                     className={ style.someFilter }
                 >
@@ -65,7 +71,6 @@ export default class ExampleItem extends Component {
                     { itemList }
                 </ul>
             </section>
-        )
+        );
     }
 }
-

@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import Panel from './components/Panel/Panel';
@@ -19,7 +20,6 @@ export default class Panels extends Component {
                 <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
                 <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
             </section>
-        )
+        );
     }
 }
-

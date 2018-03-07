@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 export default class DateTimeField extends Component {
@@ -9,7 +10,6 @@ export default class DateTimeField extends Component {
     render() {
         return (
             <input type="date" />
-        )
+        );
     }
 }
-

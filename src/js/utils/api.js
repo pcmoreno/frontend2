@@ -13,7 +13,7 @@ class API {
         this.config = AppConfig.api[apiName];
 
         if (!this.config) {
-            throw 'AppConfig.api.' + apiName + ' is not set. Cannot create API instance.';
+            throw new Error('AppConfig.api.' + apiName + ' is not set. Cannot create API instance.');
         }
     }
 
@@ -24,7 +24,7 @@ class API {
      * @returns {boolean} is a warning code
      * @private
      */
-    _isWarningCode(code) {
+    static isWarningCode(code) {
         return ((code >= 300 && code <= 399) || code === 404);
     }
 
@@ -35,15 +35,15 @@ class API {
      * @returns {boolean} is an error code
      * @private
      */
-    _isErrorCode(code) {
+    static isErrorCode(code) {
         return (code >= 400 && code !== 404);
     }
 
     /**
      * Executes the fetch call to perform the network request
      *
-     * @param {String} url - url with endpoint
-     * @param {String} method - http method [get, put, post, options]
+     * @param {string} url - url with endpoint
+     * @param {string} method - http method [get, put, post, options]
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -53,6 +53,7 @@ class API {
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @private
+     * @returns {Promise} network request promise
      */
     _executeRequest(url, method, options = {}) {
         let self = this;
@@ -66,7 +67,7 @@ class API {
             };
 
             // builds the url with the given identifiers and parameters
-            let parsedUrl = self._buildURL(url, options.urlParams);
+            let parsedUrl = self.buildURL(url, options.urlParams);
 
             // reject when there were still identifiers in the url, that were not replaced
             if (parsedUrl === null) {
@@ -76,7 +77,7 @@ class API {
                     component: 'API',
                     message: 'buildURL failed. Please compare the given identifiers with the endpoint URL: ' + url
                 });
-                return reject({message: self.config.requestFailedMessage});
+                return reject(new Error(self.config.requestFailedMessage));
             }
 
             // parse payload
@@ -107,7 +108,7 @@ class API {
                         component: 'API',
                         message: 'Could not parse post body (payload.data). payload.type was not given on request: ' + method.toUpperCase() + ' on URL: ' + parsedUrl
                     });
-                    return reject({message: self.config.requestFailedMessage});
+                    return reject(new Error(self.config.requestFailedMessage));
                 }
             }
 
@@ -126,7 +127,7 @@ class API {
             }
 
             // execute the request
-            fetch(parsedUrl, requestParams).then(response => {
+            return fetch(parsedUrl, requestParams).then(response => {
 
                 // before trying to parse the response, log and return when the response was not ok.
                 if (!response.ok) {
@@ -134,27 +135,26 @@ class API {
                         component: 'API',
                         message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText
                     });
-                    return reject({message: self.config.requestFailedMessage});
+                    return reject(new Error(self.config.requestFailedMessage));
                 }
 
                 // try to get and return the json response
-                response.json().then((json) => {
+                return response.json().then(json => {
 
                     // log and/or reject based on our http status code checks
-                    if (self._isWarningCode(response.status)) {
+                    if (API.isWarningCode(response.status)) {
 
                         self.logger.warning({
                             component: 'API',
                             message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
                         });
-                        // return reject({message: self.config.requestFailedMessage});
 
-                    } else if (self._isErrorCode(response.status)) {
+                    } else if (API.isErrorCode(response.status)) {
                         self.logger.error({
                             component: 'API',
                             message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
                         });
-                        return reject({message: self.config.requestFailedMessage});
+                        return reject(new Error(self.config.requestFailedMessage));
                     }
 
                     // return json by default (if it wasnt rejected before)
@@ -172,7 +172,7 @@ class API {
                         component: 'API',
                         message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with error: ' + error
                     });
-                    return reject({message: self.config.requestFailedMessage});
+                    return reject(new Error(self.config.requestFailedMessage));
                 });
 
             }).catch(error => {
@@ -180,7 +180,7 @@ class API {
                     component: 'API',
                     message: 'Call to ' + parsedUrl + ' failed with error: ' + error
                 });
-                return reject({message: self.config.requestFailedMessage});
+                return reject(new Error(self.config.requestFailedMessage));
             });
         });
     }
@@ -192,14 +192,14 @@ class API {
      * and/or index parameters. Index parameters are used in arrays. With this skip option on the result will be
      * k[]=v rather than k[0]=v
      *
-     * @param {String} url - url to replace and append the given identifiers and parameters
+     * @param {string} url - url to replace and append the given identifiers and parameters
      * @param {Object} urlParams - parameters object for url identifiers and parameters
      * @param {Object} [urlParams.identifiers] - Key value pairs for url identifiers
      * @param {Object} [urlParams.parameters] - Key value pairs for url parameters (child array allowed)
-     * @returns {String|null} built url or null in case of unknown url identifiers
+     * @returns {string|null} built url or null in case of unknown url identifiers
      * @private
      */
-    _buildURL(url, urlParams) {
+    buildURL(url, urlParams) {
         let buildUrl = url;
 
         if (urlParams) {
@@ -245,8 +245,8 @@ class API {
     /**
      * Executes a get request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -255,7 +255,7 @@ class API {
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
-     * @returns {Promise}
+     * @returns {Promise} network request promise
      */
     get(baseUrl, endpoint, options) {
         return this._executeRequest(baseUrl + endpoint, 'get', options);
@@ -264,8 +264,8 @@ class API {
     /**
      * Executes a post request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -274,7 +274,7 @@ class API {
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
-     * @returns {Promise}
+     * @returns {Promise} network request promise
      */
     post(baseUrl, endpoint, options) {
         return this._executeRequest(baseUrl + endpoint, 'post', options);
@@ -283,8 +283,8 @@ class API {
     /**
      * Executes a put request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -293,7 +293,7 @@ class API {
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
-     * @returns {Promise}
+     * @returns {Promise} network request promise
      */
     put(baseUrl, endpoint, options) {
         return this._executeRequest(baseUrl + endpoint, 'put', options);
@@ -302,8 +302,8 @@ class API {
     /**
      * Executes an options request to the given url + endpoint with the given payload/headers
      *
-     * @param {String} baseUrl - baseUrl
-     * @param {String} endpoint - endpoint
+     * @param {string} baseUrl - baseUrl
+     * @param {string} endpoint - endpoint
      * @param {Object} options - options object
      * @param {Object} [options.urlParams] - url parameters object
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
@@ -312,11 +312,11 @@ class API {
      * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
-     * @returns {Promise}
+     * @returns {Promise} network request promise
      */
     options(baseUrl, endpoint, options) {
         return this._executeRequest(baseUrl + endpoint, 'options', options);
     }
 }
 
-export default API
+export default API;
