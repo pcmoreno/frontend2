@@ -56,6 +56,7 @@ module.exports = {
         "jest/no-identical-title": 2,
         "jsx-a11y/tabindex-no-positive": 0, // ignore positive values as we want to create our own tab navigation flow
         "jsx-a11y/click-events-have-key-events": 0, // ignore key events as onClick will already support enough actions (click and enter)
+        "jsx-a11y/no-noninteractive-element-interactions": 0, // allow onClick methods on any element instead of only "interactive" elements
 
         // rules are initially copied / converted to json from eslint default
         // https://github.com/eslint/eslint/blob/v4.18.2/packages/eslint-config-eslint/default.yml
