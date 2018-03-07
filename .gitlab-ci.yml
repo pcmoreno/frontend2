@@ -53,13 +53,13 @@ cache:
       -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
       -v /builds/neon/frontend2/:/opt/webapp/
       napp/docker-aws-cli aws s3 cp /opt/webapp/index.html ${AWS_BUCKET_ACCEPTANCE}
-     - docker run
+    - docker run
       -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
       -e "AWS_REGION=${AWS_REGION}"
       -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
       -v /builds/neon/frontend2/:/opt/webapp/
       napp/docker-aws-cli aws s3 cp /opt/webapp/service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-     - docker run
+    - docker run
       -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
       -e "AWS_REGION=${AWS_REGION}"
       -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
