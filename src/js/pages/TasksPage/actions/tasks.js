@@ -1,1 +1,1 @@
-import * as actionType from '../constants/ActionTypes';
+// import * as actionType from '../constants/ActionTypes';

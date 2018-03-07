@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import style from './style/path.scss';
@@ -18,6 +19,6 @@ export default class Path extends Component {
                     <li>Job function that is also very long</li>
                 </ul>
             </section>
-        )
+        );
     }
 }

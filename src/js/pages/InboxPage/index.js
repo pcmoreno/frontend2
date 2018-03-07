@@ -1,11 +1,12 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
-import * as inboxActions from './actions/inbox'
+import { connect } from 'react-redux';
+import * as inboxActions from './actions/inbox';
 
-import Inbox from './components/Inbox/Inbox'
+import Inbox from './components/Inbox/Inbox';
 
 class Index extends Component {
     constructor(props) {
@@ -27,13 +28,11 @@ class Index extends Component {
         return (
             <Inbox
             />
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-    }
-};
+const mapStateToProps = (/* state */) => ({
+});
 
 export default connect(mapStateToProps)(Index);

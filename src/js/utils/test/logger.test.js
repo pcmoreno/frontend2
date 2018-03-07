@@ -1,6 +1,7 @@
 import Logger from '../logger';
 
 // TODO: Implement test methods for logz.io when built in... (production env)
+// TODO: console.error is being called (as intended to for the test), however this looks like an error in the console when running the unit tests
 
 test('check if error calls console.error', () => {
 
@@ -71,11 +72,11 @@ test('check if validation of logObject is correct', () => {
     ];
 
     // expected result for direct validation
-    expect(logger._validateLogObject(errors[0])).toEqual(false);
-    expect(logger._validateLogObject(errors[1])).toEqual(false);
-    expect(logger._validateLogObject(errors[2])).toEqual(false);
-    expect(logger._validateLogObject(errors[3])).toEqual(false);
-    expect(logger._validateLogObject(errors[4])).toEqual(true);
+    expect(Logger.validateLogObject(errors[0])).toEqual(false);
+    expect(Logger.validateLogObject(errors[1])).toEqual(false);
+    expect(Logger.validateLogObject(errors[2])).toEqual(false);
+    expect(Logger.validateLogObject(errors[3])).toEqual(false);
+    expect(Logger.validateLogObject(errors[4])).toEqual(true);
 
     // test console methods not to be called once validation fails
     spyOn(global.console, 'error');

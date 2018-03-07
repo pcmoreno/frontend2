@@ -32,19 +32,23 @@
     }
 
     @media screen and (max-width: 600px) {
+        /*
         &.active {
-            /* ie11 */
+             for ie11
             width: 100%;
 
             @supports (display: grid) {
                 width: unset;
             }
         }
+        */
     }
 
+    /*
     &.empty {
         display: none;
     }
+    */
 }
 
 .itemlist {

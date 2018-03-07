@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import style from './style/detailpanel.scss';
@@ -9,6 +10,7 @@ export default class Detailpanel extends Component {
     }
 
     toggleFullWidthDetailPanel() {
+
         // todo: ensure this actually toggles
         if (document.querySelector('#panels').classList.contains('hidden')) {
             document.querySelector('#panels').classList.remove('hidden');
@@ -24,6 +26,7 @@ export default class Detailpanel extends Component {
     }
 
     componentDidMount() {
+
         // hide the detail panel on page load (css overrides this for desktop)
         // todo: ensure this is done on the element itself using classnames
         document.querySelector('#detailpanel').classList.add('hidden');
@@ -36,8 +39,8 @@ export default class Detailpanel extends Component {
         return (
             <aside className={ style.detailpanel } id="detailpanel">
                 <header>
-                    <span className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
-                    <span className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
+                    <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
+                    <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
                     <h2>Detail panel with very long name once again</h2>
                 </header>
                 <nav>
@@ -53,7 +56,6 @@ export default class Detailpanel extends Component {
                     <p>some bla bla</p>
                 </main>
             </aside>
-        )
+        );
     }
 }
-
