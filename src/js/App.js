@@ -9,6 +9,7 @@ import { h, render } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
+
 /** @jsx h */
 
 // import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)

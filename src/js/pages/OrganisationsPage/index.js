@@ -29,6 +29,7 @@ class Index extends Component {
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
+
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
         this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
@@ -51,6 +52,7 @@ class Index extends Component {
     }
 
     getItems() {
+
         // hide modal and spinner(if not already hidden)
         document.querySelector('#modal_organisation').classList.add('hidden');
         document.querySelector('#spinner').classList.remove('hidden');
@@ -73,7 +75,7 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
             this.actions.getItems(response);
         }).catch(error => {
-            this.actions.addAlert({type: 'error',text: error});
+            this.actions.addAlert({ type: 'error', text: error });
         });
     }
 

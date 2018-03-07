@@ -4,6 +4,12 @@ const initialState = {
     alerts: []
 };
 
+/**
+ * Returns the new state
+ * @param {Object} state - state
+ * @param {Object} action - action
+ * @returns {Object} state
+ */
 export default function alertReducer(state = initialState, action) {
     let newState = Object.assign({}, state);
 
@@ -14,7 +20,7 @@ export default function alertReducer(state = initialState, action) {
 
             // always build up the entire key again
             state.alerts.forEach(alert => {
-                newState.alerts.push(alert)
+                newState.alerts.push(alert);
             });
 
             newState.alerts.push(action.alert);
@@ -29,6 +35,6 @@ export default function alertReducer(state = initialState, action) {
             return newState;
 
         default:
-            return state
+            return state;
     }
 }

@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
@@ -11,7 +12,7 @@ class Index extends Component {
     constructor(props) {
         super(props);
 
-        const {dispatch} = this.props;
+        const { dispatch } = this.props;
 
         this.actions = bindActionCreators(
             Object.assign({}, alertActions),
@@ -26,13 +27,11 @@ class Index extends Component {
     }
 
     render() {
-        return (<Alert alerts = { this.props.alerts } />)
+        return (<Alert alerts = { this.props.alerts } />);
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        alerts: state.alertReducer.alerts
-    }
-};
+const mapStateToProps = state => ({
+    alerts: state.alertReducer.alerts
+});
 
 export default connect(mapStateToProps)(Index);

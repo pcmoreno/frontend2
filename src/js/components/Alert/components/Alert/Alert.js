@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+
 /** @jsx h */
 
 import classNames from 'classnames';
@@ -17,11 +18,18 @@ class Alert extends Component {
             let gradientClass;
 
             switch (alert.type) {
-                case 'error': gradientClass = 'alert_error'; break;
-                case 'warning': gradientClass = 'alert_warning'; break;
-                case 'message': gradientClass = 'alert_message'; break;
+                case 'error':
+                    gradientClass = 'alert_error';
+                    break;
+                case 'warning':
+                    gradientClass = 'alert_warning';
+                    break;
+                case 'message':
+                    gradientClass = 'alert_message';
+                    break;
 
-                default: gradientClass = 'alert_message';
+                default:
+                    gradientClass = 'alert_message';
             }
 
             return (<div className = { classNames(style.alert, gradientClass) } >
