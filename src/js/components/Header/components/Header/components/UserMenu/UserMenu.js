@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import classNames from 'classnames';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
-import classNames from 'classnames';
 
 export default class UserMenu extends Component {
     constructor() {
@@ -26,9 +25,6 @@ export default class UserMenu extends Component {
 
         /* todo: extract to sub components */
         /* todo: finish user menu rollout  menu */
-        let spinnerClass = classNames(style.spinner, 'hidden');
-        let userFoldoutClass = classNames(style.user_foldout, 'hidden');
-
         let spinnerClass = classNames(style.spinner, 'hidden');
         let userFoldoutClass = classNames(style.user_foldout, 'hidden');
 

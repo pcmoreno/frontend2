@@ -27,12 +27,7 @@ export default function organisationsReducer(state = initialState, action) {
                 newState.items.push({ id: item.id, organisationName: item.organisation_name });
             });
 
-<<<<<<< HEAD
-            // return the copied, mutated state
-            return newState;
-=======
             break;
->>>>>>> 68078d0a31abf606d02dd86a2769b77ef4047d96
 
         case actionType.STORE_FORM_DATA:
 

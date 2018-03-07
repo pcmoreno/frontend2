@@ -5,10 +5,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as organisationsActions from './actions/organisations';
-<<<<<<< HEAD
 import * as alertActions from './../../components/Alert/actions/alert';
-=======
->>>>>>> 68078d0a31abf606d02dd86a2769b77ef4047d96
 import API from '../../utils/api';
 import AppConfig from '../../App.config';
 
@@ -32,23 +29,11 @@ class Index extends Component {
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
-<<<<<<< HEAD
-=======
-
-        // todo: investigate extracting this to helper function since this will be copied to all page components
-
->>>>>>> 68078d0a31abf606d02dd86a2769b77ef4047d96
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
         this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
-<<<<<<< HEAD
-=======
-
-        // todo: investigate extracting this to helper function since this will be copied to all page components
-
->>>>>>> 68078d0a31abf606d02dd86a2769b77ef4047d96
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
@@ -87,17 +72,9 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
             this.actions.getItems(response);
-<<<<<<< HEAD
         }).catch(error => {
             this.actions.addAlert({type: 'error',text: error});
-=======
->>>>>>> 68078d0a31abf606d02dd86a2769b77ef4047d96
         });
-
-        // .catch(error => {
-        //
-        //     // TODO: Show an error message
-        // });
     }
 
     openModalToAddOrganisation() {
