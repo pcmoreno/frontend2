@@ -1,6 +1,7 @@
 import Logger from '../logger';
 
 // TODO: Implement test methods for logz.io when built in... (production env)
+// TODO: console.error is being called (as intended to for the test), however this looks like an error in the console when running the unit tests
 
 test('check if error calls console.error', () => {
 
