@@ -54,6 +54,8 @@ module.exports = {
         "jest/no-disabled-tests": 1,
         "jest/no-focused-tests": 1,
         "jest/no-identical-title": 2,
+        "jsx-a11y/tabindex-no-positive": 0, // ignore positive values as we want to create our own tab navigation flow
+        "jsx-a11y/click-events-have-key-events": 0, // ignore key events as onClick will already support enough actions (click and enter)
 
         // rules are initially copied / converted to json from eslint default
         // https://github.com/eslint/eslint/blob/v4.18.2/packages/eslint-config-eslint/default.yml
@@ -119,7 +121,10 @@ module.exports = {
         "func-call-spacing": "error",
         "func-style": [
             "error",
-            "expression" // changed from declaration to expression, to allow function expression to be on the same line as the declaration (see mapStateProps)
+            "declaration",
+            {
+                "allowArrowFunctions": true // added this option to allow arrow functions like: const a = () => {}
+            }
         ],
         "function-paren-newline": [
             "error",
@@ -286,7 +291,7 @@ module.exports = {
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
-        "no-useless-constructor": "error",
+        "no-useless-constructor": "warn", // allow useless constructor as its a pattern in react
         "no-useless-escape": "error",
         "no-useless-rename": "error",
         "no-useless-return": "error",
