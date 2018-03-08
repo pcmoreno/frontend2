@@ -28,6 +28,11 @@
         border-bottom: 1px solid $shadow;
         padding: 1rem;
 
+        h3 {
+            color: $orange;
+            font-family: $fontheavy;
+        }
+
         button {
             float: right;
             font-size: 1.5rem;
