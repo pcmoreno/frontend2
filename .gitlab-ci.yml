@@ -34,7 +34,7 @@ variables:
   script:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
+    - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web
   only:
     - deploy-acceptance
     #- master TODO: re-enable
@@ -47,7 +47,7 @@ variables:
 #  script:
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --recursive
+#    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web
 #  only:
 #    - master
 #  dependencies:
