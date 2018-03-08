@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import classnames from 'classnames';
 import DateTimeField from './components/DateTimeField/DateTimeField';
 import Relationship from './components/Relationship/Relationship';
 import TextInput from './components/TextInput/TextInput';
@@ -145,10 +146,12 @@ export default class Form extends Component {
                         return buildField;
                     });
 
-                    formSubmitButton = <button type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
+                    formSubmitButton = <button className="modal_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
                 }
             });
         }
+
+        const secondaryButtonClass = classnames('modal_button', 'modal_button__secondary');
 
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
@@ -162,8 +165,8 @@ export default class Form extends Component {
                 </main>
                 <footer>
                     <nav>
+                        <button className={ secondaryButtonClass } type="button" value="Close" onClick={ this.handleClose }>Close</button>
                         { formSubmitButton }
-                        <button type="button" value="Close" onClick={ this.handleClose }>Close</button>
                     </nav>
                 </footer>
             </form>
