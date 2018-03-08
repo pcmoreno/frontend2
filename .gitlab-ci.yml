@@ -12,51 +12,45 @@ stages:
 variables:
   BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:stable
 
-cache:
-  paths:
-    - vendor/
-
 ################################################################################
 ## Templates
 ################################################################################
 ## Deploy and run tests
-.test_and_build:
-  before_script: &test_and_build
-    - yarn install --ignore-platform --no-progress --non-interactive
-    - yarn run deploy
-
 ## Shared build job config
 .build_stage: &build_stage
   stage: build
   image: ${BUILD_CONTAINER}
-  before_script: *test_and_build
   script:
     - echo "build stage"
+    - yarn install --ignore-platform --no-progress --non-interactive
+    - yarn run deploy
   cache:
     paths:
       - node_modules/
 
-## Deploy acceptance using Rancher
-.deploy_acc_s3: &deploy_acc_s3
+## Deploy acceptance using aws cli
+.deploy_acc_stage: &deploy_acc_stage
   image: napp/docker-aws-cli
-  before_script: &build_stage
   script:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp ./web/ ${AWS_BUCKET_ACCEPTANCE} --recursive
+    - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
   only:
     - master
+  dependencies:
+    - build
 
-## Deploy production using Rancher
-#.deploy_prod_s3: &deploy_prod_s3
+## Deploy production using aws cli
+#.deploy_acc_stage: &deploy_prod_stage
 #  image: napp/docker-aws-cli
-#  before_script: &build_stage
 #  script:
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 cp ./web/ ${AWS_BUCKET_PRODUCTION} --recursive
+#    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --delete
 #  only:
 #    - master
+#  dependencies:
+#    - build
 
 ################################################################################
 ## Building & Testing
@@ -64,6 +58,9 @@ cache:
 
 build:
   <<: *build_stage
+  artifacts:
+    paths:
+      - web/
 
 ################################################################################
 ## Deploys
@@ -71,10 +68,10 @@ build:
 
 ## Deploy to Acceptance
 deploy_acc:
-  <<: *deploy_acc_s3
+  <<: *deploy_acc_stage
   stage: deploy_acc
 
 ## Deploy to Production
-#deploy_acc:
-#  <<: *deploy_stage_s3
-#  stage: deploy_acc
+#deploy_prod:
+#  <<: *deploy_prod_stage
+#  stage: deploy_prod
