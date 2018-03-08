@@ -42,9 +42,9 @@ cache:
 .deploy_acc_s3: &deploy_acc_s3
   image: napp/docker-aws-cli
   script:
-    - aws s3 cp /opt/webapp/index.html ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp /opt/webapp/service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp /opt/webapp/web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
+    - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
+    - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
+    - aws s3 cp web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
   only:
     - deploy-acceptance
     #- master
