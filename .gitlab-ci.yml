@@ -36,8 +36,7 @@ variables:
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
   only:
-    - deploy-acceptance
-    #- master TODO: re-enable
+    - master
   dependencies:
     - build
 
