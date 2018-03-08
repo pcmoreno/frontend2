@@ -28,56 +28,30 @@ variables:
     paths:
       - node_modules/
 
-## Deploy acceptance using Rancher
+## Deploy acceptance using aws cli
 .deploy_acc_stage: &deploy_acc_stage
   image: napp/docker-aws-cli
   script:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-    - aws s3 cp web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
+    - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
   only:
     - deploy-acceptance
-    #- master
+    #- master TODO: re-enable
   dependencies:
     - build
 
-#.deploy_acc_s3: &deploy_acc_s3
-#  image: ${BUILD_CONTAINER}
-#  services:
-#    - docker:dind
-#  before_script: *test_and_build
-#  script:
-#    - docker run
-#      -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
-#      -e "AWS_REGION=${AWS_REGION}"
-#      -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-#      -v /builds/neon/frontend2/:/opt/webapp/
-#      napp/docker-aws-cli aws s3 cp /opt/webapp/index.html ${AWS_BUCKET_ACCEPTANCE}
-#    - docker run
-#      -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
-#      -e "AWS_REGION=${AWS_REGION}"
-#      -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-#      -v /builds/neon/frontend2/:/opt/webapp/
-#      napp/docker-aws-cli aws s3 cp /opt/webapp/service-worker.js ${AWS_BUCKET_ACCEPTANCE}
-#    - docker run
-#      -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
-#      -e "AWS_REGION=${AWS_REGION}"
-#      -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-#      -v /builds/neon/frontend2/:/opt/webapp/
-#      napp/docker-aws-cli aws s3 cp /opt/webapp/web ${AWS_BUCKET_ACCEPTANCE}/web --recursive
-#  only:
-#    - deploy-acceptance
-#    #- master
-
-## Deploy production using Rancher TODO: copy from acceptance
-#.deploy_prod_s3: &deploy_prod_s3
+## Deploy production using aws cli
+#.deploy_acc_stage: &deploy_prod_stage
 #  image: napp/docker-aws-cli
 #  script:
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 cp ./web/ ${AWS_BUCKET_PRODUCTION} --recursive
+#    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --recursive
 #  only:
 #    - master
+#  dependencies:
+#    - build
 
 ################################################################################
 ## Building & Testing
@@ -87,8 +61,6 @@ build:
   <<: *build_stage
   artifacts:
     paths:
-      - vendor/
-#      - node_modules/
       - web/
 
 ################################################################################
@@ -102,5 +74,5 @@ deploy_acc:
 
 ## Deploy to Production
 #deploy_prod:
-#  <<: *deploy_prod_s3
+#  <<: *deploy_prod_stage
 #  stage: deploy_prod
