@@ -10,35 +10,34 @@ stages:
 ## Variables
 ################################################################################
 variables:
-  BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:stable
+  BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:aws_cli_test
 
 ################################################################################
 ## Templates
 ################################################################################
 ## Deploy and run tests
 ## Shared build job config
-.build_stage: &build_stage
+.build_acc_stage: &build_acc_stage
   stage: build
   image: ${BUILD_CONTAINER}
   script:
     - echo "build stage"
     - yarn install --ignore-platform --no-progress --non-interactive
-    - yarn run deploy
+    - yarn run build:acc
   cache:
     paths:
       - node_modules/
 
 ## Deploy acceptance using aws cli
 .deploy_acc_stage: &deploy_acc_stage
-  image: napp/docker-aws-cli
+  <<: *build_acc_stage
   script:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
   only:
-    - master
-  dependencies:
-    - build
+    - deploy-acceptance
+#    - master
 
 ## Deploy production using aws cli
 #.deploy_acc_stage: &deploy_prod_stage
@@ -56,11 +55,8 @@ variables:
 ## Building & Testing
 ################################################################################
 
-build:
-  <<: *build_stage
-  artifacts:
-    paths:
-      - web/
+#build: TODO: Renable, as a prod build
+#  <<: *build_stage
 
 ################################################################################
 ## Deploys
