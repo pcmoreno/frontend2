@@ -21,6 +21,16 @@ variables:
   before_script: &install_before_build
     - yarn install --ignore-platform --no-progress --non-interactive
 
+# test and build for merge requests
+.test_and_build: &test_and_build
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
+  script:
+    - yarn run build:prod
+  cache:
+    paths:
+      - node_modules/
+
 ## Deploy acceptance using aws cli
 .deploy_acc_stage: &deploy_acc_stage
   image: ${BUILD_CONTAINER}
@@ -55,8 +65,9 @@ variables:
 ## Building & Testing
 ################################################################################
 
-#build: TODO: Renable, as a prod build
-#  <<: *build_stage
+build:
+  <<: *test_and_build
+  stage: test_and_build
 
 ################################################################################
 ## Deploys
