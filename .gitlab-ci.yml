@@ -67,7 +67,7 @@ variables:
 
 build:
   <<: *test_and_build
-  stage: test_and_build
+  stage: build
 
 ################################################################################
 ## Deploys
