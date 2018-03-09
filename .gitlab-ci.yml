@@ -34,20 +34,22 @@ variables:
     paths:
       - node_modules/
   only:
-    - deploy-acceptance
-#    - master
+    - master
 
 ## Deploy production using aws cli
-#.deploy_acc_stage: &deploy_prod_stage
-#  image: napp/docker-aws-cli
+#.deploy_prod_stage: &deploy_prod_stage
+#  image: ${BUILD_CONTAINER}
+#  before_script: *install_before_build
 #  script:
+#    - yarn run build:prod
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --delete
+#  cache:
+#    paths:
+#      - node_modules/
 #  only:
 #    - master
-#  dependencies:
-#    - build
 
 ################################################################################
 ## Building & Testing
