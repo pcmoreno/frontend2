@@ -23,6 +23,13 @@ export default class Form extends Component {
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
 
+        // skip id and uuid
+        if (label === 'id' || label === 'uuid' || type === 'Relationship') {
+
+            // TODO: Make this hidden input fields?
+            return null;
+        }
+
         switch (type) {
             case 'DateTimeField':
                 return (<DateTimeField name={name}
@@ -78,6 +85,8 @@ export default class Form extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+
+        // todo: disable submit button to avoid bashing (multiple calls)
 
         let changedFields = [];
 

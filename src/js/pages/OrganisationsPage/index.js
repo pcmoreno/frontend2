@@ -51,10 +51,24 @@ class Index extends Component {
         document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
+    refreshDataWithMessage(text, type) {
+
+        // hide modal
+        document.querySelector('#modal_organisation').classList.add('hidden');
+
+        // Show a message
+        if (text) {
+            this.actions.addAlert({ type, text });
+        }
+
+        // refresh the items
+        this.getItems();
+    }
+
     getItems() {
 
         // hide modal and spinner(if not already hidden)
-        document.querySelector('#modal_organisation').classList.add('hidden');
+
         document.querySelector('#spinner').classList.remove('hidden');
 
         let api = new API('neon'),
@@ -92,8 +106,8 @@ class Index extends Component {
             <Organisations
                 items = { this.props.items }
                 forms={this.props.forms}
-                baseUrl={ this.props.baseUrl }
                 getItems={ this.getItems.bind(this) }
+                refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }

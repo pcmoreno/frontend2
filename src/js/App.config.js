@@ -8,6 +8,7 @@ module.exports = {
         neon: {
             baseUrl: 'http://dev.ltponline.com:8001/api/v1',
             endpoints: {
+                abstractSection: '/section',
                 organisation: '/section/organisation'
             },
             urlEncodeParams: false,

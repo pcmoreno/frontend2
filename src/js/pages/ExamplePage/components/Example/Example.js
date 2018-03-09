@@ -50,7 +50,6 @@ export default class Example extends Component {
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
-                        baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
                     />
                 </section>
@@ -69,7 +68,6 @@ export default class Example extends Component {
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId = { this.props.changeFormFieldValueForFormId }
-                        baseUrl = { this.props.baseUrl }
                         afterSubmit = { this.props.getItems }
                     />
                 </section>
