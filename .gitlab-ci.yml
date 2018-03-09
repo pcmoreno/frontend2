@@ -17,24 +17,22 @@ variables:
 ################################################################################
 ## Deploy and run tests
 ## Shared build job config
-.build_acc_stage: &build_acc_stage
-  stage: build
-  image: ${BUILD_CONTAINER}
-  script:
-    - echo "build stage"
+.install_before_build:
+  before_script: &install_before_build
     - yarn install --ignore-platform --no-progress --non-interactive
-    - yarn run build:acc
-  cache:
-    paths:
-      - node_modules/
 
 ## Deploy acceptance using aws cli
 .deploy_acc_stage: &deploy_acc_stage
-  <<: *build_acc_stage
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
   script:
+    - yarn run build:acc
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
+  cache:
+    paths:
+      - node_modules/
   only:
     - deploy-acceptance
 #    - master
