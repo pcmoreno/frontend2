@@ -1248,12 +1248,93 @@ test('API _executeRequest should log an error when the network request failed or
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request'
+                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with error: Error parsing JSON'
                     }
                 ]
             ]);
 
             expect(error).toEqual(new Error('An error occurred while processing your request.'));
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
+test('API _executeRequest should resolve with an error object when the api returns input validation errors', () => {
+
+    // api instance and mocked config
+    let api = new API('neon');
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: false,
+                status: 400,
+                statusText: 'Bad Request',
+                url: 'https://ltp.nl/organisations',
+                json: () => {
+                    return new Promise((resolve, reject) => {
+                        return resolve({
+                            code: 400,
+                            errors: {
+                                organisationName: [
+                                    'Organisation name is required.'
+                                ]
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(API, 'isWarningCode').and.callThrough();
+    spyOn(API, 'isErrorCode').and.callThrough();
+    spyOn(Logger.instance, 'warning');
+    spyOn(api, 'buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api._executeRequest(
+            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            'get',
+            {}
+        ).then(response => {
+
+            expect(API.isWarningCode.calls.count()).toBe(0);
+            expect(API.isErrorCode.calls.count()).toBe(0);
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/organisations',
+                    {
+                        method: 'get',
+                        headers: {}
+                    }
+                ]
+            ]);
+            expect(Logger.instance.warning.calls.count()).toBe(1);
+            expect(Logger.instance.warning.calls.allArgs()).toEqual([
+                [
+                    {
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
+                    }
+                ]
+            ]);
+
+            expect(response).toEqual({
+                errors: {
+                    organisationName: [
+                        'Organisation name is required.'
+                    ]
+                }
+            });
 
             // always resolve test to give the signal that we are done
             resolve();

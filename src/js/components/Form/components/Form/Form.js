@@ -22,14 +22,6 @@ export default class Form extends Component {
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
-
-        // skip id and uuid
-        if (label === 'id' || label === 'uuid' || type === 'Relationship') {
-
-            // TODO: Make this hidden input fields?
-            return null;
-        }
-
         switch (type) {
             case 'DateTimeField':
                 return (<DateTimeField name={name}
@@ -37,20 +29,8 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case 'Relationship':
-                return (<Relationship name={name}
-                    handle={handle}
-                    label={label}
-                    value={value}
-                    onChange={this.handleChange}/>);
             case 'TextInput':
                 return (<TextInput name={name} handle={handle}
-                    label={label}
-                    value={value}
-                    onChange={this.handleChange}/>);
-            case 'Slug':
-                return (<Slug name={name}
-                    handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);

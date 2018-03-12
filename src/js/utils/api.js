@@ -129,17 +129,17 @@ class API {
             // execute the request
             return fetch(parsedUrl, requestParams).then(response => {
 
-                // before trying to parse the response, log and return when the response was not ok.
-                if (!response.ok) {
-                    self.logger.error({
-                        component: 'API',
-                        message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText
-                    });
-                    return reject(new Error(self.config.requestFailedMessage));
-                }
-
                 // try to get and return the json response
                 return response.json().then(json => {
+
+                    // check if this was an input validation error
+                    if (response.status === 400 && json.errors) {
+                        self.logger.warning({
+                            component: 'API',
+                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
+                        });
+                        return resolve({ errors: json.errors });
+                    }
 
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
@@ -149,7 +149,7 @@ class API {
                             message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
                         });
 
-                    } else if (API.isErrorCode(response.status)) {
+                    } else if (API.isErrorCode(response.status) || !response.ok) {
                         self.logger.error({
                             component: 'API',
                             message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
