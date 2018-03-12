@@ -10,7 +10,7 @@ stages:
 ## Variables
 ################################################################################
 variables:
-  BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:aws_cli_test
+  BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:stable
 
 ################################################################################
 ## Templates
