@@ -18,11 +18,14 @@ class Index extends Component {
             Object.assign({}, alertActions),
             dispatch
         );
+
+        // define timeout in ms for alerts
+        this.alertTimeout = 5000;
     }
 
     componentDidUpdate() {
         if (this.props.alerts.length > 0) {
-            setTimeout(this.actions.clearAlerts, 5000);
+            setTimeout(this.actions.clearAlerts, this.alertTimeout);
         }
     }
 

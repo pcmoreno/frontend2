@@ -37,7 +37,7 @@ export default class navigationItem extends Component {
         }
 
         return (
-            <li className={ style.navigation_item }>
+            <li className={ `${style.navigation_item} ${this.props.active ? 'active' : ''}` }>
                 <a href={ link }><FontAwesomeIcon icon={ iconType } /><span>{ label }</span></a>
             </li>
         );

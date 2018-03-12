@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import classNames from 'classnames';
 import style from './style/alert.scss';
 
 class Alert extends Component {
@@ -13,8 +12,8 @@ class Alert extends Component {
     render() {
         if (this.props.alerts && this.props.alerts.length > 0) {
 
-            // lets start (for now) by taking the last alert off the list
-            let alert = this.props.alerts[this.props.alerts.length - 1];
+            // take the last alert of the list and display it (no stacking yet)
+            const alert = this.props.alerts[this.props.alerts.length - 1];
             let gradientClass;
 
             switch (alert.type) {
@@ -32,8 +31,8 @@ class Alert extends Component {
                     gradientClass = 'alert_message';
             }
 
-            return (<div className = { classNames(style.alert, gradientClass) } >
-                { alert.text }
+            return (<div className = { `${style.alert} ${gradientClass}` } >
+                <h6>{ alert.text }</h6>
             </div>);
         }
 

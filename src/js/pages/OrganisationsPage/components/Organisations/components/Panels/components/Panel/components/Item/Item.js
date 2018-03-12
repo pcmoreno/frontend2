@@ -15,7 +15,7 @@ export default class Item extends Component {
     }
 
     render() {
-        let { item } = this.props;
+        const { item } = this.props;
 
         // todo: consider extracting the name_container to a separate component
 
@@ -30,7 +30,9 @@ export default class Item extends Component {
                         </div>
                     </li>
                     <li>
-                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button"><FontAwesomeIcon icon="eye"/></span>
+                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button">
+                            <FontAwesomeIcon icon="eye"/>
+                        </span>
                     </li>
                 </ul>
             </li>

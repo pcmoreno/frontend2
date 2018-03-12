@@ -15,10 +15,9 @@
 
 .form {
     position: relative;
-    margin: auto;
+    margin: 2rem auto auto auto;
     background: $white;
     box-shadow: 0 10px 30px -2px rgba(0, 0, 0, 1);
-    margin-top: 2rem;
     border-radius: .3rem;
     max-width: 600px;
     width: 50%;
@@ -55,7 +54,7 @@
         label {
             padding: .5rem 0;
             font-weight: bold;
-            font-family: "museo", sans-serif;
+            font-family: $fontheavy;
             font-size: 1rem;
             margin-bottom: .5rem;
         }
@@ -76,8 +75,6 @@
             display: block;
 
             button {
-
-
                 &:first-child {
                     float: left;
                 }

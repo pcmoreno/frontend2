@@ -13,10 +13,10 @@ export default class Path extends Component {
         return (
             <section className={ style.path } id="path">
                 <ul>
-                    <li>LTP</li>
-                    <li>Organisation name</li>
-                    <li>Project name</li>
-                    <li>Job function that is also very long</li>
+                    <li><a href="#notimplemented">LTP</a></li>
+                    <li><a href="#notimplemented">Organisation name</a></li>
+                    <li><a href="#notimplemented">Project name</a></li>
+                    <li><a href="#notimplemented">Job function that is also very long</a></li>
                 </ul>
             </section>
         );

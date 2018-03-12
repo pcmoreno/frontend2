@@ -11,11 +11,16 @@ export default class Navigation extends Component {
     }
 
     render() {
-        let navigationItems = [];
-        let { items } = this.props;
+        const navigationItems = [];
+        const { items } = this.props;
 
         items.forEach(item => {
-            let navigationItem = <NavigationItem label={ item.label } link={ item.link } key={ item.label } />;
+            const navigationItem = <NavigationItem
+                label = { item.label }
+                link = { item.link }
+                key = { item.label }
+                active = { window.location.pathname === item.link }
+            />;
 
             navigationItems.push(navigationItem);
         });

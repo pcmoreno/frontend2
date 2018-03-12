@@ -9,9 +9,9 @@
 /* load base css definitions */
 @import './base/layout.scss';
 @import './base/typography.scss';
-@import './base/forms.scss';
-/* @import 'base/forms'; */
-/* @import 'base/modals'; */
+
+/* load components */
+@import './base/components/index.scss';
 
 /* load css specific to style vendor libraries */
 /* @import 'vendor/parsley'; */

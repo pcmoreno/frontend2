@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import classnames from 'classnames';
 import DateTimeField from './components/DateTimeField/DateTimeField';
 import Relationship from './components/Relationship/Relationship';
 import TextInput from './components/TextInput/TextInput';
@@ -65,9 +64,9 @@ export default class Form extends Component {
         event.preventDefault();
 
         // controlled component pattern: form state is kept in state and persisted across page components
-        let formId = this.props.formId;
-        let formInputId = event.currentTarget.id;
-        let formInputValue = event.currentTarget.value;
+        const formId = this.props.formId;
+        const formInputId = event.currentTarget.id;
+        const formInputValue = event.currentTarget.value;
 
         this.props.changeFormFieldValueForFormId(
             formId,
@@ -79,7 +78,7 @@ export default class Form extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        let changedFields = [];
+        const changedFields = [];
 
         this.props.forms.forEach(form => {
             if (form.id === this.props.formId) {
@@ -88,13 +87,13 @@ export default class Form extends Component {
                 form.formFields.forEach(field => {
 
                     // map through fields
-                    let name = Object.keys(field)[0];
+                    const name = Object.keys(field)[0];
 
                     if (field[name].value && field[name].value.length > 0) {
 
                         // only submit the changed fields (for now, those with a value that is not empty)
-                        let fieldId = name;
-                        let value = field[name].value;
+                        const fieldId = name;
+                        const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
                     }
@@ -115,13 +114,13 @@ export default class Form extends Component {
     shouldComponentUpdate() {
 
         // todo: is this required? test!
-        return true;
+        // return true;
     }
 
     render() {
-        let { forms, ignoredFields, formId } = this.props;
-        let formFields = 'loading form ' + formId;
-        let formSubmitButton;
+        const { forms, ignoredFields, formId } = this.props;
+        let formFields = `loading ${formId}`;
+        let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
         if (forms && forms.length > 0) {
@@ -133,12 +132,12 @@ export default class Form extends Component {
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
 
                             // only work with non-ignored fields
-                            let name = Object.keys(formField);
-                            let type = formField[name].type;
-                            let handle = formField[name].handle;
-                            let label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
-                            let value = formField[name].value ? formField[name].value : null;
-                            let formFieldOptions = formField[name].form.all;
+                            const name = Object.keys(formField);
+                            const type = formField[name].type;
+                            const handle = formField[name].handle;
+                            const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
+                            const value = formField[name].value ? formField[name].value : null;
+                            const formFieldOptions = formField[name].form.all;
 
                             buildField = this.buildInputType(name, type, handle, label, value, formFieldOptions);
                         }
@@ -146,12 +145,10 @@ export default class Form extends Component {
                         return buildField;
                     });
 
-                    formSubmitButton = <button className="modal_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
+                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
                 }
             });
         }
-
-        const secondaryButtonClass = classnames('modal_button', 'modal_button__secondary');
 
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
@@ -165,7 +162,7 @@ export default class Form extends Component {
                 </main>
                 <footer>
                     <nav>
-                        <button className={ secondaryButtonClass } type="button" value="Close" onClick={ this.handleClose }>Close</button>
+                        <button className={ 'action_button action_button__secondary' } type="button" value="Close" onClick={ this.handleClose }>Close</button>
                         { formSubmitButton }
                     </nav>
                 </footer>

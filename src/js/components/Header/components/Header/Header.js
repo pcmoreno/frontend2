@@ -13,7 +13,7 @@ class Header extends Component {
 
     /* you can still access /example to see the example route and page component */
     render() {
-        let navigationItems = [
+        const navigationItems = [
             {
                 label: 'Inbox', link: '/inbox'
             },

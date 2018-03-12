@@ -1,0 +1,33 @@
+.action_button {
+    background: $blue;
+    float: right;
+    text-align: right;
+    color: $white;
+    border: 0;
+    font-family: $fontsmall;
+    display: inline-block;
+    font-weight: bold;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: .375rem 1rem;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: .25rem;
+    margin: .15rem;
+
+
+    &:hover {
+        background-color: $blue-lighten;
+    }
+
+    &.action_button__secondary {
+        background: $white;
+        color: $brown;
+        border: solid 1px $beige-darken;
+
+        &:hover {
+            background-color: $beige-darken;
+        }
+    }
+}

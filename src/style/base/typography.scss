@@ -25,4 +25,11 @@ h5 {
 
 h6 {
     font-size: .75rem;
+    font-family: $fontsmall;
+    font-weight: 300;
+    letter-spacing: .1mm;
+}
+
+a {
+    text-decoration: none;
 }

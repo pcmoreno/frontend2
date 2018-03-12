@@ -64,7 +64,7 @@ export default class Index extends Component {
 
         urlEncodedString = urlEncodedString.slice(0, (urlEncodedString.length - 1));
 
-        let url = this.props.baseUrl + 'organisation';
+        const url = this.props.baseUrl + 'organisation';
 
         document.querySelector('#spinner').classList.remove('hidden');
 

@@ -4,14 +4,18 @@
 
     ul li {
         float: left;
-        color: $blue;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
 
+        a {
+            color: $blue;
+        }
+
         &:not(:first-child):before {
             content: '›';
             margin: 0 .8rem;
+            color: $blue;
         }
     }
 }

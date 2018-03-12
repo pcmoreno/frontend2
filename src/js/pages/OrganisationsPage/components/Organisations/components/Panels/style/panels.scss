@@ -10,8 +10,6 @@
         width: unset;
         display: grid;
         grid-gap: 10px;
-        /* this fills available space with --colNum columns. this var can be read / updated by javascript */
-        /* grid-template-columns: repeat(var(--colNum), 1fr); */
         /* this automatically fills available space with all panels that are supposed to show, with a min width of 100px */
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 

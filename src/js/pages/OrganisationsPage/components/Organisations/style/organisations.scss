@@ -13,13 +13,15 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
 
+        /* todo: extract breakpoint to var */
         @media screen and (max-width: 960px) {
             grid-template-columns: 1fr;
         }
     }
 }
 
-/* todo: is this used? test! */
+/* this is the container for the background that goes behind the modals */
+/* todo: as such it should be made global or part of the modal styling at least */
 .modal_container {
     position: absolute;
     top: 0;

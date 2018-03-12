@@ -7,12 +7,14 @@
         float: left;
 
         &:first-child {
+
             /* icon */
             font-size: 2rem;
             margin: 7px 12px -15px 0;
         }
 
         &:last-child {
+
             /* view details */
             font-size: 2rem;
             display: none;
@@ -66,15 +68,3 @@
         width: 70%;
     }
 }
-
-/*
-.button_show_detailpanel {
-    height: 50px;
-    float: right;
-
-    span {
-        float: right;
-        font-size: 20px;
-    }
-}
-*/

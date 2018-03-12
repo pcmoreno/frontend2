@@ -25,7 +25,7 @@
                 padding: 0 1rem;
                 font-size: 1.5rem;
                 color: $orange;
-                animation-name: example;
+                animation-name: spinner;
                 animation-duration: 4s;
                 animation-timing-function: linear;
                 animation-iteration-count: infinite;
@@ -94,7 +94,7 @@
     position: absolute;
     top: 60px;
     right: 0;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 1);
     z-index: 1;
 
     ul {
@@ -107,11 +107,10 @@
         padding: 0;
         display: inline-block;
         text-indent: .5rem;
-        line-height: 57px;
 
         li {
             text-align: left;
-            height: 57px;
+            height: 60px;
             border-bottom: 1px solid $beige;
             float: none;
             background: $white;
@@ -120,12 +119,16 @@
                 background: $green;
             }
 
+            &:last-child {
+                border-bottom: 0;
+            }
+
             a {
                 display: inline-block;
                 height: 100%;
                 width: 100%;
                 text-decoration: none;
-                font-family: 'museo-sans', sans-serif;
+                font-family: $fontsmall;
                 color: $black;
 
                 &:hover {
@@ -144,7 +147,7 @@
     }
 }
 
-@keyframes example {
+@keyframes spinner {
     0 {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
 }

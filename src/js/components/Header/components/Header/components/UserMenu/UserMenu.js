@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import classNames from 'classnames';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
 
@@ -24,14 +23,12 @@ export default class UserMenu extends Component {
     render() {
 
         /* todo: extract to sub components */
-        /* todo: finish user menu rollout  menu */
-        let spinnerClass = classNames(style.spinner, 'hidden');
-        let userFoldoutClass = classNames(style.user_foldout, 'hidden');
+        /* todo: missing half-width navigation style where only the active item has text */
 
         return (
             <nav className={ style.user_menu } onClick={ this.toggleUserMenu }>
                 <ul className={ style.nav_user }>
-                    <li className={ spinnerClass } id="spinner">
+                    <li className={ `${style.spinner} hidden` } id="spinner">
                         <FontAwesomeIcon icon="spinner"/>
                     </li>
                     <li className={ style.user_avatar }>
@@ -46,7 +43,7 @@ export default class UserMenu extends Component {
                         <FontAwesomeIcon icon="angle-down" />
                     </li>
                 </ul>
-                <div className={ userFoldoutClass } id="user_foldout">
+                <div className={ `${style.user_foldout} hidden` } id="user_foldout">
                     <ul>
                         <li>
                             <a href="#notimplemented">
