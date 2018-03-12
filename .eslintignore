@@ -2,3 +2,4 @@
 .eslintrc.js
 common.js
 service-worker.js
+webpack.config.js
