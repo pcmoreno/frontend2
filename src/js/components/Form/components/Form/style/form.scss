@@ -13,6 +13,13 @@
     }
 }
 
+.errorMessage {
+    color: $red;
+    display: block;
+    font-size: .9rem;
+    line-height: 1.5rem;
+}
+
 .form {
     position: relative;
     margin: auto;

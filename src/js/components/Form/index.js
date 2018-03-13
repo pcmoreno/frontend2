@@ -50,6 +50,8 @@ export default class Index extends Component {
         }).catch((/* error */) => {
 
             // TODO: Show error message/alert, however, below regular alert is outside the form component.
+            // todo: Therefore we should implement a callback method to call the original component that this fetch failed so it can show an error.
+            // This is an unexpected API error and the form cannot be loaded
             // this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -74,34 +76,66 @@ export default class Index extends Component {
     submitForm(changedFields) {
         const formId = this.props.formId;
 
-        // todo: if changedFields is empty, do nothing
+        return new Promise(resolve => {
 
-        // show loader
-        document.querySelector('#spinner').classList.remove('hidden');
-
-        // execute request
-        this.api.post(
-            this.apiConfig.baseUrl,
-            `${this.apiConfig.endpoints.abstractSection}/${formId}`,
-            {
-                payload: {
-                    type: 'form',
-                    data: this.mapFormField(changedFields)
-                }
+            // if changedFields is empty, do nothing
+            if (!changedFields || changedFields.length === 0) {
+                return resolve();
             }
-        ).then((/* response */) => {
 
-            // hide loader
-            document.querySelector('#spinner').classList.add('hidden');
+            // show loader
+            document.querySelector('#spinner').classList.remove('hidden');
 
-            // todo: reset form / state values
-            // todo: translate message
-            this.props.afterSubmit(`The ${formId} was successfully saved.`, 'success');
+            // todo: submission can also be a PUT call, this should be configurable somewhere...
+            // execute request
+            return this.api.post(
+                this.apiConfig.baseUrl,
+                `${this.apiConfig.endpoints.abstractSection}/${formId}`,
+                {
+                    payload: {
+                        type: 'form',
+                        data: this.mapFormField(changedFields)
+                    }
+                }
+            ).then(response => {
 
-        }).catch((/* error */) => {
+                // check for input validation errors form the API
+                if (response.errors) {
 
-            // TODO: Show error message/alert, however, below regular alert is outside the form component.
-            // this.actions.addAlert({ type: 'error', text: error });
+                    // set default for if there were input validation errors but they are not specified
+                    if (response.errors.length === 0) {
+
+                        // todo: translate message
+                        return resolve({
+                            errors: {
+                                form: 'Could not process your request.'
+                            }
+                        });
+                    }
+
+                    // resolve with errors, so the form component can show errors
+                    return resolve(response);
+                }
+
+                // hide loader
+                document.querySelector('#spinner').classList.add('hidden');
+
+                // todo: reset form / state values
+                // todo: translate message
+                this.props.afterSubmit();
+
+                // resolve with nothing by default (success)
+                return resolve();
+
+            }).catch((/* error */) => {
+
+                // todo: translate message
+                resolve({
+                    errors: {
+                        form: 'Could not process your request.'
+                    }
+                });
+            });
         });
     }
 

@@ -130,7 +130,7 @@ class API {
             return fetch(parsedUrl, requestParams).then(response => {
 
                 // try to get and return the json response
-                return response.json().then(json => {
+                response.json().then(json => {
 
                     // check if this was an input validation error
                     if (response.status === 400 && json.errors) {
