@@ -45,7 +45,7 @@ export default class Index extends Component {
 
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
-            this.props.storeFormDataInFormsCollection(this.props.formId, response.fields);
+            this.props.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
 
@@ -73,6 +73,8 @@ export default class Index extends Component {
 
     submitForm(changedFields) {
         const formId = this.props.formId;
+
+        // todo: if changedFields is empty, do nothing
 
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');

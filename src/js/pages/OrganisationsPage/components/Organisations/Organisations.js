@@ -32,11 +32,12 @@ export default class Organisations extends Component {
                     <Form
                         formId={ 'organisation' }
                         ignoredFields={ [
+                            'uuid',
                             'created',
                             'updated',
                             'manyOrganisationToManyCompetency',
                             'manyOrganisationToManyProduct',
-                            'manyOrganisationToOneOrganisation',
+                            'oneOrganisationToManyOrganisation',
                             'updated',
                             'updated',
                             'organisationType',

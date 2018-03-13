@@ -4,9 +4,7 @@ import { h, Component } from 'preact';
 
 import classnames from 'classnames';
 import DateTimeField from './components/DateTimeField/DateTimeField';
-import Relationship from './components/Relationship/Relationship';
 import TextInput from './components/TextInput/TextInput';
-import Slug from './components/Slug/Slug';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
 
@@ -17,6 +15,16 @@ export default class Form extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+
+        // UI state, with fields as key value pair field and message
+        this.localState = {
+            errors: {
+                form: '',
+                fields: {
+
+                }
+            }
+        };
     }
 
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
