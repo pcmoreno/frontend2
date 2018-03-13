@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import style from '../style/field.scss';
 
 /** @jsx h */
 
@@ -17,10 +18,11 @@ export default class Choice extends Component {
     }
 
     render() {
-        let { handle, label } = this.props;
+        const { localState, handle, label } = this.props;
 
         return (<div>
             <label htmlFor={ handle }>{ label }</label>
+            <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
             <select id={ handle } name={ handle }>
                 { this.createOptions() }
             </select>

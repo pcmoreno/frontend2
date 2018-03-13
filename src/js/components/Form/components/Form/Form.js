@@ -32,18 +32,25 @@ export default class Form extends Component {
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
             case 'DateTimeField':
-                return (<DateTimeField name={name}
+                return (<DateTimeField
+                    name={name}
+                    localState={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case 'TextInput':
-                return (<TextInput name={name} handle={handle}
+                return (<TextInput
+                    name={name}
+                    localState={this.localState}
+                    handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case 'Choice':
-                return (<Choice name={name}
+                return (<Choice
+                    name={name}
+                    localState={this.localState}
                     handle={handle}
                     formFieldOptions={formFieldOptions}
                     label={label}
@@ -103,11 +110,16 @@ export default class Form extends Component {
         });
 
         this.props.submitForm(changedFields).then(response => {
-            if (response.errors) {
+            if (response && response.errors) {
 
                 // hide loader and handle error messages for fields
                 document.querySelector('#spinner').classList.add('hidden');
                 this.handleErrorMessages(response.errors);
+            } else {
+
+                // consider this a successful call
+                document.querySelector('#spinner').classList.add('hidden');
+                this.resetErrorMessages();
             }
         });
     }
