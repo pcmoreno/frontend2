@@ -6,9 +6,9 @@
     top: 0;
     left: 0;
     opacity: .5;
-    z-index: 10;
+    z-index: $z-index-modal-back;
 
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: $grid-breakpoints-md) {
         opacity: 0;
     }
 }
@@ -21,7 +21,7 @@
     border-radius: .3rem;
     max-width: 600px;
     width: 50%;
-    z-index: 20;
+    z-index: $z-index-modal-top;
 
     header {
         border-bottom: 1px solid $shadow;
@@ -82,7 +82,7 @@
         }
     }
 
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: $grid-breakpoints-md) {
         margin-top: 0;
         border-radius: 0;
         width: 100%;

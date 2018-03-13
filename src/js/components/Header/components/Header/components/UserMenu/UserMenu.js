@@ -23,7 +23,6 @@ export default class UserMenu extends Component {
     render() {
 
         /* todo: extract to sub components */
-        /* todo: missing half-width navigation style where only the active item has text */
 
         return (
             <nav className={ style.user_menu } onClick={ this.toggleUserMenu }>

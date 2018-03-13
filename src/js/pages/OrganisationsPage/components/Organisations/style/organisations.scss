@@ -2,7 +2,7 @@
     @supports (display: grid) {
         overflow: hidden;
         display: grid;
-        grid-template-rows: 30px 1fr;
+        grid-template-rows: $organisations-path-height 1fr;
     }
 }
 
@@ -13,15 +13,13 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
 
-        /* todo: extract breakpoint to var */
-        @media screen and (max-width: 960px) {
+        @media screen and (max-width: $grid-breakpoints-lg) {
             grid-template-columns: 1fr;
         }
     }
 }
 
-/* this is the container for the background that goes behind the modals */
-/* todo: as such it should be made global or part of the modal styling at least */
+/* the container for the modal-background and -modal. it should be specific per modal and per page, so leave it here */
 .modal_container {
     position: absolute;
     top: 0;

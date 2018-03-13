@@ -13,13 +13,14 @@
         /* this automatically fills available space with all panels that are supposed to show, with a min width of 100px */
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
-        @media screen and (max-width: 960px) {
+        @media screen and (max-width: $grid-breakpoints-lg) {
             grid-template-columns: 1fr;
             margin-right: 10px;
         }
     }
 }
 
+/* todo: wrong size */
 @media screen and (max-width: 600px) {
     /* ie11 */
     .panels {

@@ -61,7 +61,7 @@
             line-height: 60px;
             display: none;
 
-            @media screen and (min-width: 960px) {
+            @media screen and (min-width: $grid-breakpoints-lg) {
                 display: inline-block;
             }
 
@@ -82,7 +82,7 @@
             color: $orange-darken;
             display: none;
 
-            @media screen and (min-width: 960px) {
+            @media screen and (min-width: $grid-breakpoints-lg) {
                 display: inline-block;
             }
         }
@@ -95,7 +95,7 @@
     top: 60px;
     right: 0;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 1);
-    z-index: 1;
+    z-index: $z-index-application-top;
 
     ul {
         position: relative;

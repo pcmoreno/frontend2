@@ -111,12 +111,6 @@ export default class Form extends Component {
         this.props.closeModal();
     }
 
-    shouldComponentUpdate() {
-
-        // todo: is this required? test!
-        // return true;
-    }
-
     render() {
         const { forms, ignoredFields, formId } = this.props;
         let formFields = `loading ${formId}`;

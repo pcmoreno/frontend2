@@ -2,11 +2,14 @@
     color: $white;
     width: 100%;
     position: absolute;
-    top: 55px; /* todo: make a var out of this */
+
+    /* the alert overlaps the header with 15px */
+    top: calc($application-header-height - 15px);
+
     height: 1.3rem;
     line-height: 1.3rem;
     padding: 0 1rem;
     text-align: left;
-    z-index: 10; /* todo: globalise this */
+    z-index: $z-index-alert;
     background: $red;
 }

@@ -22,7 +22,7 @@
             float: right;
             color: $beige-darken;
 
-            @media screen and (max-width: 960px) {
+            @media screen and (max-width: $grid-breakpoints-lg) {
                 display: inline-block;
             }
         }
@@ -64,7 +64,7 @@
         }
     }
 
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: $grid-breakpoints-lg) {
         width: 70%;
     }
 }

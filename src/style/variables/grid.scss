@@ -1,2 +1,27 @@
 /* specifies minimal width for the application */
-$min-width: 320px;
+$application-min-width: 320px;
+
+/* specifies height for main navigation bar */
+$application-header-height: 70px;
+
+$organisations-path-height: 30px;
+
+/* heights for various parts of the detail panel */
+$detailpanel-header-height: 120px;
+$detailpanel-nav-height: 30px;
+
+
+/* z-index */
+$z-index-behind: -1;
+$z-index-application-back: 0;
+$z-index-application-top: 50;
+$z-index-alert: 100;
+$z-index-modal-back: 200;
+$z-index-modal-top: 250;
+
+/* breakpoints */
+$grid-breakpoints-xs: 0;
+$grid-breakpoints-sm: 320px;
+$grid-breakpoints-md: 640px;
+$grid-breakpoints-lg: 960px;
+$grid-breakpoints-xl: 1200px;
