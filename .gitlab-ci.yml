@@ -17,50 +17,57 @@ variables:
 ################################################################################
 ## Deploy and run tests
 ## Shared build job config
-.build_stage: &build_stage
-  stage: build
-  image: ${BUILD_CONTAINER}
-  script:
-    - echo "build stage"
+.install_before_build:
+  before_script: &install_before_build
     - yarn install --ignore-platform --no-progress --non-interactive
-    - yarn run deploy
+
+# test and build for merge requests
+.test_and_build: &test_and_build
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
+  script:
+    - yarn run build:prod
   cache:
     paths:
       - node_modules/
 
 ## Deploy acceptance using aws cli
 .deploy_acc_stage: &deploy_acc_stage
-  image: napp/docker-aws-cli
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
   script:
+    - yarn run build:acc
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
+  cache:
+    paths:
+      - node_modules/
   only:
     - master
-  dependencies:
-    - build
 
 ## Deploy production using aws cli
-#.deploy_acc_stage: &deploy_prod_stage
-#  image: napp/docker-aws-cli
+#.deploy_prod_stage: &deploy_prod_stage
+#  image: ${BUILD_CONTAINER}
+#  before_script: *install_before_build
 #  script:
+#    - yarn run build:prod
 #    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
 #    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --delete
+#  cache:
+#    paths:
+#      - node_modules/
 #  only:
 #    - master
-#  dependencies:
-#    - build
 
 ################################################################################
 ## Building & Testing
 ################################################################################
 
 build:
-  <<: *build_stage
-  artifacts:
-    paths:
-      - web/
+  <<: *test_and_build
+  stage: build
 
 ################################################################################
 ## Deploys

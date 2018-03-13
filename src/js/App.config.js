@@ -6,7 +6,7 @@
 module.exports = {
     api: {
         neon: {
-            baseUrl: 'http://dev.ltponline.com:8001/api/v1',
+            baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
             endpoints: {
                 abstractSection: '/section',
                 organisation: '/section/organisation'
