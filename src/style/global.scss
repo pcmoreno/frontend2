@@ -1,20 +1,13 @@
 /* in here only general css should be placed that is not tied to a component. the rest is inside the components */
 
 /* load css variables so they become available in the global css */
-@import './variables.scss';
+@import './variables/index.scss';
 
-/* load css helpers */
-@import './base/helpers.scss';
+/* load base specifications */
+@import './base/index.scss';
 
-/* load base css definitions */
-@import './base/layout.scss';
-@import './base/typography.scss';
-
-/* load components */
-@import './base/components/index.scss';
-
-/* load css specific to style vendor libraries */
-/* @import 'vendor/parsley'; */
+/* load css components and styling for js components */
+@import './components/index.scss';
 
 /* load shame css for all your hacky code that should be fixed at some point */
 @import './shame.scss';

@@ -2,20 +2,24 @@
     overflow: hidden;
     margin: 10px 10px 0 20px;
 
-    ul li {
-        float: left;
-        white-space: nowrap;
+    nav {
         text-overflow: ellipsis;
+        white-space: nowrap;
         overflow: hidden;
+        color: $blue;
 
-        a {
-            color: $blue;
-        }
+        span {
+            /* note that the path component deliberately uses span instead of floated li's so ellipsis can be used */
 
-        &:not(:first-child):before {
-            content: '›';
-            margin: 0 .8rem;
-            color: $blue;
+            a {
+                color: $blue;
+            }
+
+            &:not(:first-child):before {
+                content: '›';
+                margin: 0 .8rem;
+                color: $blue;
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ export default class Detailpanel extends Component {
 
     toggleFullWidthDetailPanel() {
 
-        // todo: ensure this actually toggles
         if (document.querySelector('#panels').classList.contains('hidden')) {
             document.querySelector('#panels').classList.remove('hidden');
             document.querySelector('#panels_container').classList.remove('single_fragment');
@@ -25,19 +24,11 @@ export default class Detailpanel extends Component {
         document.querySelector('#detailpanel').classList.add('hidden');
     }
 
-    componentDidMount() {
-
-        // hide the detail panel on page load (css overrides this for desktop)
-        // todo: ensure this is done on the element itself using classnames
-        document.querySelector('#detailpanel').classList.add('hidden');
-    }
-
     render() {
 
-        // todo: finish styling for detail panel
-
+        // todo: finish styling for detail panel NEON-3255
         return (
-            <aside className={ style.detailpanel } id="detailpanel">
+            <aside className={ `${ style.detailpanel} hidden` } id="detailpanel">
                 <header>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>

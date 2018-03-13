@@ -25,7 +25,7 @@ const path = require('path');
 const paths = {
     DIST: path.resolve(__dirname, './web'),
     GLOBAL_CSS: path.resolve(__dirname, './src/style/global.scss'),
-    GLOBAL_VARIABLES: path.resolve(__dirname, './src/style/variables.scss')
+    GLOBAL_VARIABLES: path.resolve(__dirname, './src/style/variables/index.scss')
 };
 
 // this is used to copy static assets over to the web folder

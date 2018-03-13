@@ -271,7 +271,6 @@ and its configuration option in package.json:
 - "babel-polyfill":               not all parts of the es6 spec can be transpiled to es5. you need this polyfill, too
 - "babel-preset-env":             allows transpiling es2015+ code to specified browser version (defaults to es5)
 - "babel-preset-preact":          allows handling of JSX during transpiling
-- "classnames":                   used to apply multiple classes to components
 - "clean-webpack-plugin":         cleans out folders before copying new files in during deploy
 - "compression-webpack-plugin":   used to gzip assets and files
 - "copy-webpack-plugin":          used to copy files over during deploy phase

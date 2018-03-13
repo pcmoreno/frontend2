@@ -38,3 +38,13 @@
 #layout header nav li.active span {
     color: $brown;
 }
+
+#layout header nav li.active a span {
+    @media screen and (max-width: 960px) {
+        display: inline;
+    }
+
+    @media screen and (max-width: 640px) {
+        display: none;
+    }
+}

@@ -1,9 +1,9 @@
 .app_navigation {
-    /* todo: all colours should be variables defined in style/base/colours.scss */
     background: $white;
     position: absolute;
     left: 1rem;
     width: auto;
+    min-width: 320px; /* todo: turn into var */
 
     ul {
         list-style-type: none;

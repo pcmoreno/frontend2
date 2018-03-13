@@ -46,9 +46,6 @@ class Index extends Component {
 
         // get items for first time
         this.getItems();
-
-        // hide the modal(s) initially (todo: figure out how to add this straight on the aside element (use classNames))
-        // document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     getItems() {
