@@ -19,7 +19,6 @@ export default class Navigation extends Component {
                 label = { item.label }
                 link = { item.link }
                 key = { item.label }
-                active = { window.location.pathname === item.link }
             />;
 
             navigationItems.push(navigationItem);
@@ -28,7 +27,7 @@ export default class Navigation extends Component {
         return (
             <nav className={ style.app_navigation }>
                 <ul>
-                    <li className={style.logo} />
+                    <a href="/inbox"><li className={style.logo} /></a>
                     { navigationItems }
                 </ul>
             </nav>

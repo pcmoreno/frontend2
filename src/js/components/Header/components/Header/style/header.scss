@@ -12,27 +12,3 @@
         background: url('/web/assets/images/logo-ltp-rgb.svg');
     }
 }
-
-.indicator {
-    background: $beige;
-
-    @media screen and (max-width: $grid-breakpoints-lg) {
-        display: none;
-    }
-
-    svg {
-        position: absolute;
-        height: 10px;
-        width: 33px;
-        top: 60px;
-        left: 190px;
-
-        path:first-child {
-            fill: $beige;
-        }
-
-        path:last-child {
-            fill: $white;
-        }
-    }
-}

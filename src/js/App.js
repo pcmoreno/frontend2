@@ -122,7 +122,7 @@ import Header from './components/Header';
 render(
     <Provider store={ store }>
         <section id="layout">
-            <Header key="header" />
+            <Header key="header"/>
             <main>
                 <Alert />
                 <Router>
