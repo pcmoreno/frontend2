@@ -86,6 +86,8 @@ build for deployment: (lint, test, build)
 `yarn run build:acc`
 `yarn run build:prod`
 
+note that if you add a '--quiet' parameter to a linting command, warnings will be suppressed.
+
 ## Env / build variables
 Environment variables are configured in the repository CI settings.
 The required variables to build the project can be found in the scripts configuration in `package.json`.
