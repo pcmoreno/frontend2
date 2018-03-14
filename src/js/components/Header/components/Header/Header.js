@@ -4,14 +4,14 @@ import { h, Component } from 'preact';
 
 import style from './style/header.scss';
 import Navigation from './components/Navigation/Navigation';
-import UserMenu from './components/UserMenu/UserMenu';
+import UserInfo from './components/UserInfo/UserInfo';
 
 class Header extends Component {
     constructor() {
         super();
     }
 
-    /* you can still access /example to see the example route and page component */
+    /* note you can still access /example to see the example route and page component */
     render() {
         const navigationItems = [
             {
@@ -33,7 +33,7 @@ class Header extends Component {
 
         return (<header className={ style.header }>
             <Navigation items={ navigationItems } />
-            <UserMenu />
+            <UserInfo />
             <span className={ style.indicator }>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 20">
                     <path d="M0,2C26,2,34,13.19,40,22.33,47,13.06,54,2,80,2V0H0Z" />
