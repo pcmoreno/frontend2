@@ -71,7 +71,7 @@
     }
 }
 
-/* todo: figure out how this can be linted okay */
+/* todo: figure out how this can be linted okay, see: https://github.com/stylelint/stylelint/issues/1513 */
 @keyframes spinner {
     0 {
         transform: rotate(0deg);

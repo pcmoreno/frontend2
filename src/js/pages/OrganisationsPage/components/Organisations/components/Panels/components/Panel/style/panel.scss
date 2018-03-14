@@ -23,8 +23,7 @@
     }
 
     @media screen and (max-width: $grid-breakpoints-lg) {
-        /* todo: wrong size */
-        min-width: 300px;
+        min-width: 320px;
 
         &:not(.active) {
             /* probably no longer needed
@@ -32,8 +31,7 @@
         }
     }
 
-    /* todo: wrong size */
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: $grid-breakpoints-md) {
         /*
         &.active {
              for ie11

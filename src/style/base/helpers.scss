@@ -1,13 +1,9 @@
 
 /* contains dynamically added classes (ie lifecycle methods, javascript) to define or extend default visualisations */
 
+/* just a little helper to clear floats */
 .clear {
     clear: both;
-}
-
-/* todo: find use cases and replace with .hidden */
-.visible {
-    display: inline-block;
 }
 
 /* used to hide elements in the UI */

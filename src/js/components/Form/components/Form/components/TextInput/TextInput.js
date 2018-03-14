@@ -1,7 +1,8 @@
 import { h, Component } from 'preact';
-import style from '../style/field.scss';
 
 /** @jsx h */
+
+import style from '../style/field.scss';
 
 export default class TextInput extends Component {
     constructor(props) {

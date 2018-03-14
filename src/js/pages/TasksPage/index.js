@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as tasksActions from './actions/tasks';
-
 import Tasks from './components/Tasks/Tasks';
 
 class Index extends Component {

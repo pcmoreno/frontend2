@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as participantsActions from './actions/participants';
-
 import Participants from './components/Participants/Participants';
 
 class Index extends Component {

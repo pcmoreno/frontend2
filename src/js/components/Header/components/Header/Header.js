@@ -2,9 +2,9 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/header.scss';
 import Navigation from './components/Navigation/Navigation';
 import UserInfo from './components/UserInfo/UserInfo';
+import style from './style/header.scss';
 
 class Header extends Component {
     constructor() {

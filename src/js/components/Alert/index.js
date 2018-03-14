@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
-
 import Alert from './components/Alert/Alert';
 
 class Index extends Component {

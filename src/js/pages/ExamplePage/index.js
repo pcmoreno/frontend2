@@ -62,12 +62,12 @@ class Index extends Component {
         // TODO: Rewrite to API module (see pages/OrganisationPage/index.js)
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
 
-        document.getElementById('spinner').classList.add('visible');
+        document.getElementById('spinner').classList.remove('hidden');
 
         fetch(url, {
             method: 'get'
         }).then(response => {
-            document.getElementById('spinner').classList.remove('visible');
+            document.getElementById('spinner').classList.add('hidden');
             if (response.ok) {
 
                 // response.json() is not available yet. wrap it in a promise:

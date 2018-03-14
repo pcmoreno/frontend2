@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as inboxActions from './actions/inbox';
-
 import Inbox from './components/Inbox/Inbox';
 
 class Index extends Component {

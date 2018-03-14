@@ -8,7 +8,6 @@ import Detailpanel from './components/Detailpanel/Detailpanel';
 
 /* todo: there is a webpack plugin that can search within a root path which prevents ./../../../.. hell like this */
 import Form from './../../../../components/Form';
-
 import style from './style/organisations.scss';
 
 export default class Organisations extends Component {

@@ -20,8 +20,7 @@
     }
 }
 
-/* todo: wrong size */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: $grid-breakpoints-md) {
     /* ie11 */
     .panels {
         width: 95%;
