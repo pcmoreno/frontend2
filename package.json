@@ -82,6 +82,7 @@
         "test": "jest --no-cache",
         "lint": "yarn run lint:js && yarn run lint:css",
         "lint:js": "eslint src test",
+        "lint:js:errors": "./node_modules/.bin/eslint src/** --quiet",
         "lint:css": "stylelint src/**/*.css src/**/*.scss --syntax scss",
         "build:dev": "webpack",
         "build:acc": "yarn run lint && yarn run jest && NODE_ENV=production NEON_API_BASE_URL=${NEON_API_ACC_BASE_URL} webpack -p",
