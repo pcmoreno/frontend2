@@ -48,13 +48,27 @@ class Index extends Component {
         this.getItems();
     }
 
+    refreshDataWithMessage() {
+
+        // hide modal
+        document.querySelector('#modal_organisation').classList.add('hidden');
+
+        // Show a message
+        // todo: translate this message
+        // todo: this message should also be adapted to support delete messages. Something like a form action?
+        this.actions.addAlert({ type: 'success', text: 'The organisation was successfully saved.' });
+
+        // refresh the items
+        this.getItems();
+    }
+
     getItems() {
 
         // hide modal and spinner(if not already hidden)
-        document.querySelector('#modal_organisation').classList.add('hidden');
+
         document.querySelector('#spinner').classList.remove('hidden');
 
-        let api = new API('neon'),
+        const api = new API('neon'),
             apiConfig = AppConfig.api.neon;
 
         // request organisations
@@ -89,8 +103,8 @@ class Index extends Component {
             <Organisations
                 items = { this.props.items }
                 forms={this.props.forms}
-                baseUrl={ this.props.baseUrl }
                 getItems={ this.getItems.bind(this) }
+                refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }

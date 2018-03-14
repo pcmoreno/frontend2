@@ -58,6 +58,8 @@ class Index extends Component {
     // this can be wrapped inside an action, but since its asynchronous you'd need middleware like thunk
     // alternatively define a method that is asynchronous itself and call the action whenever the request is successful:
     getItems() {
+
+        // TODO: Rewrite to API module (see pages/OrganisationPage/index.js)
         let url = this.props.baseUrl + 'organisation?fields=id,organisationName';
 
         document.getElementById('spinner').classList.add('visible');
@@ -87,7 +89,6 @@ class Index extends Component {
                 active={ this.props.active }
                 items={ this.props.items }
                 forms={this.props.forms}
-                baseUrl={ this.props.baseUrl }
                 getItems={ this.getItems.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }

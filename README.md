@@ -71,11 +71,7 @@ add dependency:
 
 build:
 
-`yarn run build (--watch)`
-
-build:prod:
-
-`yarn run build:prod (--watch)`
+`yarn run build:dev (--watch)`
 
 test:
 
@@ -85,9 +81,15 @@ lint:
 
 `yarn run lint`
 
-deploy: (build, lint, test)
+build for deployment: (lint, test, build)
 
-`yarn run deploy`
+`yarn run build:acc`
+`yarn run build:prod`
+
+## Env / build variables
+Environment variables are configured in the repository CI settings.
+The required variables to build the project can be found in the scripts configuration in `package.json`.
+Other environment vars to deploy to S3 are also in the repo's CI settings and are referenced in the CI yml file.
 
 # Development
 
