@@ -32,11 +32,12 @@ export default class Organisations extends Component {
                     <Form
                         formId={ 'organisation' }
                         ignoredFields={ [
+                            'uuid',
                             'created',
                             'updated',
                             'manyOrganisationToManyCompetency',
                             'manyOrganisationToManyProduct',
-                            'manyOrganisationToOneOrganisation',
+                            'oneOrganisationToManyOrganisation',
                             'updated',
                             'updated',
                             'organisationType',
@@ -45,8 +46,7 @@ export default class Organisations extends Component {
                         forms = { this.props.forms }
                         storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
-                        baseUrl = { this.props.baseUrl }
-                        afterSubmit = { this.props.getItems }
+                        afterSubmit = { this.props.refreshDataWithMessage }
                         closeModal={ this.props.closeModalToAddOrganisation }
                     />
                 </aside>

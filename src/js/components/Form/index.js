@@ -3,12 +3,16 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import Form from './components/Form/Form';
+import API from '../../utils/api';
+import AppConfig from '../../App.config';
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
 
         this.submitForm = this.submitForm.bind(this);
+        this.api = new API('neon');
+        this.apiConfig = AppConfig.api.neon;
     }
 
     componentDidMount() {
@@ -23,72 +27,116 @@ export default class Index extends Component {
         });
 
         if (!formLoaded) {
-            this.getFormFields(this.props.formId);
+            this.getFormFields();
         }
     }
 
-    getFormFields(formId) {
+    getFormFields() {
+        const formId = this.props.formId;
 
-        // todo: extract to API layer component
-        let url = this.props.baseUrl + formId;
-
+        // show loader
         document.querySelector('#spinner').classList.remove('hidden');
 
-        fetch(url, {
-            method: 'options'
-        }).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
-            if (response.ok) {
-                response.json().then(responseData => {
+        // execute request
+        this.api.options(
+            this.apiConfig.baseUrl,
+            `${this.apiConfig.endpoints.abstractSection}/${formId}`
+        ).then(response => {
 
-                    // this stores the retrieved form id and fields in the global state via a parent method
-                    this.props.storeFormDataInFormsCollection(this.props.formId, responseData.fields);
-                }).catch(error => Promise.reject((new Error('JSON error: ' + error.message))));
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject((new Error('Endpoint error: ')));
-            }
-            return Promise.reject((new Error('HTTP error: ' + response.status)));
-        }).catch(error => Promise.reject((new Error('URL error: ' + error.message))));
+            // hide loader and pass the fields to the form
+            document.querySelector('#spinner').classList.add('hidden');
+            this.props.storeFormDataInFormsCollection(formId, response.fields);
+
+        }).catch((/* error */) => {
+
+            // TODO: Show error message/alert, however, below regular alert is outside the form component.
+            // todo: Therefore we should implement a callback method to call the original component that this fetch failed so it can show an error.
+            // This is an unexpected API error and the form cannot be loaded
+            // this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
+    /**
+     * Maps form fields to a payload-ready object
+     * [{fieldId: id, value: val}] becomes {id:val}
+     *
+     * @param {array} fields - changed field array
+     * @returns {{fieldId: string, value: string}} key-value pair mapped fields
+     */
+    mapFormField(fields) {
+        const mappedFields = {};
+
+        fields.forEach(field => {
+            mappedFields[field.fieldId] = field.value;
+        });
+
+        return mappedFields;
     }
 
     submitForm(changedFields) {
+        const formId = this.props.formId;
 
-        // todo: extract to API layer component
-        let urlEncodedString = '';
+        return new Promise(resolve => {
 
-        changedFields.forEach(changedField => {
-            urlEncodedString += 'form[' + changedField.fieldId + ']=' + changedField.value + '&';
+            // if changedFields is empty, do nothing
+            if (!changedFields || changedFields.length === 0) {
+                return resolve();
+            }
+
+            // show loader
+            document.querySelector('#spinner').classList.remove('hidden');
+
+            // todo: submission can also be a PUT call, this should be configurable somewhere...
+            // execute request
+            return this.api.post(
+                this.apiConfig.baseUrl,
+                `${this.apiConfig.endpoints.abstractSection}/${formId}`,
+                {
+                    payload: {
+                        type: 'form',
+                        data: this.mapFormField(changedFields)
+                    }
+                }
+            ).then(response => {
+
+                // check for input validation errors form the API
+                if (response.errors) {
+
+                    // set default for if there were input validation errors but they are not specified
+                    if (response.errors.length === 0) {
+
+                        // todo: translate message
+                        return resolve({
+                            errors: {
+                                form: 'Could not process your request.'
+                            }
+                        });
+                    }
+
+                    // resolve with errors, so the form component can show errors
+                    return resolve(response);
+                }
+
+                // hide loader
+                document.querySelector('#spinner').classList.add('hidden');
+
+                // todo: reset form / state values
+                // todo: translate message
+                this.props.afterSubmit();
+
+                // resolve with nothing by default (success)
+                return resolve();
+
+            }).catch((/* error */) => {
+
+                // todo: translate message
+                resolve({
+                    errors: {
+                        form: 'Could not process your request.'
+                    }
+                });
+            });
         });
-
-        urlEncodedString = urlEncodedString.slice(0, (urlEncodedString.length - 1));
-
-        let url = this.props.baseUrl + 'organisation';
-
-        document.querySelector('#spinner').classList.remove('hidden');
-
-        fetch(url, {
-            method: 'post',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: urlEncodedString
-        }).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
-            if (response.ok) {
-
-                // response.json() is not available yet. wrap it in a promise:
-                response.json().then((/* responseData */) => {
-
-                    // todo: reset form / state values
-                    this.props.afterSubmit();
-                }).catch(error => Promise.reject(new Error('JSON error - ' + error)));
-                return response;
-            }
-            if (response.status === 404) {
-                return Promise.reject(new Error('API not available'));
-            }
-            return Promise.reject(new Error('HTTP error - ' + response.status));
-        }).catch(error => Promise.reject(new Error('No such route exists - ' + error)));
     }
 
     render() {

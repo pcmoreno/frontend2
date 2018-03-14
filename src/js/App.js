@@ -117,9 +117,6 @@ function getParticipantsPage() {
 
 import Header from './components/Header';
 
-// not the best place, I admit. but until we know how many url's we will have. otherwise this goes to each component' state
-let baseUrl = 'http://dev.ltponline.com:8001/api/v1/section/';
-
 render(
     <Provider store={ store }>
         <section id="layout">
@@ -127,12 +124,12 @@ render(
             <main>
                 <Alert />
                 <Router>
-                    <AsyncRoute path="/example" getComponent={ getExamplePage } baseUrl = { baseUrl } />
-                    <AsyncRoute path="/inbox" getComponent={ getInboxPage } baseUrl = { baseUrl } />
-                    <AsyncRoute path="/organisations" getComponent={ getOrganisationsPage } baseUrl = { baseUrl } />
-                    <AsyncRoute path="/tasks" getComponent={ getTasksPage } baseUrl = { baseUrl } />
-                    <AsyncRoute path="/users" getComponent={ getUsersPage } baseUrl = { baseUrl } />
-                    <AsyncRoute path="/participants" getComponent={ getParticipantsPage } baseUrl = { baseUrl } />
+                    <AsyncRoute path="/example" getComponent={ getExamplePage } />
+                    <AsyncRoute path="/inbox" getComponent={ getInboxPage } />
+                    <AsyncRoute path="/organisations" getComponent={ getOrganisationsPage } />
+                    <AsyncRoute path="/tasks" getComponent={ getTasksPage } />
+                    <AsyncRoute path="/users" getComponent={ getUsersPage } />
+                    <AsyncRoute path="/participants" getComponent={ getParticipantsPage } />
                 </Router>
             </main>
         </section>

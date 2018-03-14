@@ -4,9 +4,7 @@ import { h, Component } from 'preact';
 
 import classnames from 'classnames';
 import DateTimeField from './components/DateTimeField/DateTimeField';
-import Relationship from './components/Relationship/Relationship';
 import TextInput from './components/TextInput/TextInput';
-import Slug from './components/Slug/Slug';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
 
@@ -17,38 +15,42 @@ export default class Form extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+
+        // UI state, with fields as key value pair field and message
+        this.localState = {
+            errors: {
+                form: '',
+                fields: {
+
+                }
+            }
+        };
     }
 
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
-
         switch (type) {
             case 'DateTimeField':
-                return (<DateTimeField name={name}
-                    handle={handle}
-                    label={label}
-                    value={value}
-                    onChange={this.handleChange}/>);
-            case 'Relationship':
-                return (<Relationship name={name}
+                return (<DateTimeField
+                    name={name}
+                    localState={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case 'TextInput':
-                return (<TextInput name={name} handle={handle}
-                    label={label}
-                    value={value}
-                    onChange={this.handleChange}/>);
-            case 'Slug':
-                return (<Slug name={name}
+                return (<TextInput
+                    name={name}
+                    localState={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case 'Choice':
-                return (<Choice name={name}
+                return (<Choice
+                    name={name}
+                    localState={this.localState}
                     handle={handle}
                     formFieldOptions={formFieldOptions}
                     label={label}
@@ -79,6 +81,11 @@ export default class Form extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
+        // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour (multiple calls)
+        // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
+
+        // todo: frontend form input validation (read validation rules from options calls)
+
         let changedFields = [];
 
         this.props.forms.forEach(form => {
@@ -102,11 +109,84 @@ export default class Form extends Component {
             }
         });
 
-        this.props.submitForm(changedFields);
+        this.props.submitForm(changedFields).then(response => {
+            if (response && response.errors) {
 
+                // hide loader and handle error messages for fields
+                document.querySelector('#spinner').classList.add('hidden');
+                this.handleErrorMessages(response.errors);
+            } else {
+
+                // consider this a successful call
+                document.querySelector('#spinner').classList.add('hidden');
+                this.resetErrorMessages();
+            }
+        });
     }
 
+    /**
+     * Handles error messages that are given as a key (field name) and value (message) on the form.
+     * Generic form errors will be shown when the key is 'form'
+     *
+     * @param {{key:value, key: [value, value]}} errors - error key value pairs
+     * @returns {undefined}
+     */
+    handleErrorMessages(errors) {
+        let newState = Object.assign({}, this.localState);
+
+        for (let key in errors) {
+            if (errors.hasOwnProperty(key)) {
+
+                // check for form error
+                if (key === 'form') {
+                    newState.errors.form = errors[key];
+                    continue;
+                }
+
+                // check whether field error is array or string and get the first item
+                if (Array.isArray(errors[key])) {
+                    newState.errors.fields[key] = errors[key][0];
+                } else {
+                    newState.errors.fields[key] = errors[key];
+                }
+            }
+        }
+
+        // change the state to trigger the re-rendering
+        this.setState(newState);
+    }
+
+    /**
+     * Resets the error messages for this form and fields
+     *
+     * @returns {undefined}
+     */
+    resetErrorMessages() {
+        let newState = Object.assign({}, this.localState);
+
+        // reset form error
+        delete newState.errors.form;
+
+        for (let key in newState.errors.fields) {
+            if (newState.errors.fields.hasOwnProperty(key)) {
+                delete newState.errors.fields[key];
+            }
+        }
+
+        // change the state to trigger the re-rendering
+        this.setState(newState);
+    }
+
+    /**
+     * Handle closes in all situations (clicking outside the modal, or on one of the two close buttons)
+     * @returns {undefined}
+     */
     handleClose() {
+
+        // todo: reset all input fields when the form is closed.
+
+        // reset the form and field error messages
+        this.resetErrorMessages();
 
         // executes the provided close method
         this.props.closeModal();
@@ -146,6 +226,7 @@ export default class Form extends Component {
                         return buildField;
                     });
 
+                    // todo: header en submit button text
                     formSubmitButton = <button className="modal_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
                 }
             });
@@ -159,6 +240,7 @@ export default class Form extends Component {
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
                     <h3>Add Organisation</h3>
+                    <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
                 <main>
                     { formFields }
