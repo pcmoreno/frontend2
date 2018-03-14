@@ -3,12 +3,17 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import Form from './components/Form/Form';
+import API from '../../utils/api';
+import AppConfig from '../../App.config';
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
 
         this.submitForm = this.submitForm.bind(this);
+
+        this.api = new API('neon');
+        this.apiConfig = AppConfig.api.neon;
     }
 
     componentDidMount() {

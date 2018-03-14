@@ -1,5 +1,5 @@
 
-let sourceMapsEnabled = false;
+let sourceMapsEnabled = true;
 let gzippedAssets = false;
 
 /* define plugins *****************************************************************************************************/
