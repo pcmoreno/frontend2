@@ -45,7 +45,7 @@ test('check if Navigation items are populated', () => {
 test('use "deep" instead of "shallow" to test something in a child component', () => {
     const context = deep(<Header/>);
 
-    expect(context.find('a').length).toBe(8);
+    expect(context.find('a').length).toBe(9);
     // expect(context.find('li').contains(<a href="/inbox">Inbox</a>)).toBeTruthy();
 });
 
