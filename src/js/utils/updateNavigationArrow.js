@@ -5,6 +5,8 @@
  * lifecycle: at some point (during refresh) the navigation nodes were not (re)rendered yet thus their positions couldnt
  * be parsed resulting in an incorrectly positioned indicator arrow. by calling this function from componentDidUpdate
  * instead this problem seems to have been solved. feel free to attempt a different approach though!
+ *
+ * @returns { undefined }
  */
 export default function updateNavigationArrow() {
 

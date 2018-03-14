@@ -31,6 +31,3 @@ export default class UserMenu extends Component {
         );
     }
 }
-
-
-

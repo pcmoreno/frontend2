@@ -28,7 +28,7 @@ export default class Detailpanel extends Component {
 
         // todo: finish styling for detail panel NEON-3255
         return (
-            <aside className={ `${ style.detailpanel} hidden` } id="detailpanel">
+            <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
