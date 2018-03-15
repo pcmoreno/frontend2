@@ -40,6 +40,8 @@ variables:
     - aws s3 cp index.html ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 cp service-worker.js ${AWS_BUCKET_ACCEPTANCE}
     - aws s3 sync web ${AWS_BUCKET_ACCEPTANCE}/web --delete
+    - aws configure set preview.cloudfront true
+    - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ACC} --paths "/*"
   cache:
     paths:
       - node_modules/
