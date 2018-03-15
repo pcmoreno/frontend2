@@ -324,3 +324,4 @@ external services is written using a Promise that calls the action when successf
 - To run a specific test, edit the "roots" key in package.json
 - Note that *src/js/utils/common.js* gets executed on page load. Useful for some third-party libraries!
 - Configuration for the ES and CSS linter can be found in the root of the project.
+- You will need to have Node 8 or higher in order to successfully run the tests (something with the test-runner)
