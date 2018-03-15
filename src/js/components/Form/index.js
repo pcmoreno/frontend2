@@ -2,13 +2,23 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import API from '../../utils/api';
 import AppConfig from '../../App.config';
 
-export default class Index extends Component {
+class Index extends Component {
     constructor(props) {
         super(props);
+
+        const { dispatch } = this.props;
+
+        this.actions = bindActionCreators(
+            Object.assign({}, alertActions),
+            dispatch
+        );
 
         this.submitForm = this.submitForm.bind(this);
 
@@ -49,11 +59,8 @@ export default class Index extends Component {
             this.props.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
-
-            // TODO: Show error message/alert, however, below regular alert is outside the form component.
-            // todo: Therefore we should implement a callback method to call the original component that this fetch failed so it can show an error.
             // This is an unexpected API error and the form cannot be loaded
-            // this.actions.addAlert({ type: 'error', text: error });
+            this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
         });
     }
 
@@ -154,3 +161,5 @@ export default class Index extends Component {
         />);
     }
 }
+
+export default connect()(Index);
