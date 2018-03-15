@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as tasksActions from './actions/tasks';
-
+import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import Tasks from './components/Tasks/Tasks';
 
 class Index extends Component {
@@ -18,6 +18,10 @@ class Index extends Component {
             Object.assign({}, tasksActions),
             dispatch
         );
+    }
+
+    componentDidMount() {
+        updateNavigationArrow();
     }
 
     componentWillMount() {

@@ -12,12 +12,12 @@ export default class Path extends Component {
     render() {
         return (
             <section className={ style.path } id="path">
-                <ul>
-                    <li>LTP</li>
-                    <li>Organisation name</li>
-                    <li>Project name</li>
-                    <li>Job function that is also very long</li>
-                </ul>
+                <nav>
+                    <span><a href="#notimplemented">LTP</a></span>
+                    <span><a href="#notimplemented">Organisation name</a></span>
+                    <span><a href="#notimplemented">Project name</a></span>
+                    <span><a href="#notimplemented">Job function that is also very long</a></span>
+                </nav>
             </section>
         );
     }

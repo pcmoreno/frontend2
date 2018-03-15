@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
-import style from '../style/field.scss';
 
 /** @jsx h */
 
 import Option from './components/Option/Option';
+import style from '../style/field.scss';
 
 export default class Choice extends Component {
     constructor(props) {

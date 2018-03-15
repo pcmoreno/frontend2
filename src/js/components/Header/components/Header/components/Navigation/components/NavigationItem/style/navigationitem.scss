@@ -4,12 +4,6 @@
     display: inline-block;
     position: relative;
 
-    /*
-    &.active a {
-        color: $black;
-    }
-    */
-
     a {
         height: 60px;
         font-size: 1.2rem;
@@ -23,7 +17,7 @@
             color: $blue;
             font-weight: 700;
 
-            @media screen and (max-width: 960px) {
+            @media screen and (max-width: $grid-breakpoints-lg) {
                 display: none;
             }
         }

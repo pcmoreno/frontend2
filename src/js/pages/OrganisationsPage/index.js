@@ -6,9 +6,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as organisationsActions from './actions/organisations';
 import * as alertActions from './../../components/Alert/actions/alert';
+import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import API from '../../utils/api';
 import AppConfig from '../../App.config';
-
 import Organisations from './components/Organisations/Organisations';
 
 class Index extends Component {
@@ -43,12 +43,10 @@ class Index extends Component {
     }
 
     componentDidMount() {
+        updateNavigationArrow();
 
         // get items for first time
         this.getItems();
-
-        // hide the modal(s) initially (todo: figure out how to add this straight on the aside element (use classNames))
-        document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
     refreshDataWithMessage() {

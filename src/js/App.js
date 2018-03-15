@@ -67,6 +67,8 @@ import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 
+/* todo: remove the 'Page' suffix from every page component */
+
 /**
  * Returns the example page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} example page
@@ -120,7 +122,7 @@ import Header from './components/Header';
 render(
     <Provider store={ store }>
         <section id="layout">
-            <Header key="header" />
+            <Header key="header"/>
             <main>
                 <Alert />
                 <Router>

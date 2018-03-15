@@ -1,0 +1,83 @@
+.user_menu {
+    float: right;
+    position: relative;
+    width: auto;
+
+    .user_avatar {
+        float: left;
+        min-width: unset;
+        padding: 0 .25rem;
+        text-align: left;
+        font-size: 1.6rem;
+
+        .user_image_placeholder {
+            vertical-align: middle;
+            height: 40px;
+            width: 40px;
+            margin-right: .2rem;
+
+            .orange {
+                fill: $orange;
+            }
+        }
+    }
+
+    .user_name {
+        min-width: unset;
+        padding: 0 .25rem;
+        text-align: left;
+        float: left;
+        position: relative;
+        height: 60px;
+        line-height: 60px;
+        display: none;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            display: inline-block;
+        }
+
+        span {
+            font-weight: 700;
+            color: $orange;
+            font-size: .9rem;
+        }
+    }
+
+    .btn_foldout {
+        margin-left: .4rem;
+        float: left;
+        height: 60px;
+        line-height: 60px;
+        font-weight: normal;
+        text-decoration: none;
+        color: $orange-darken;
+        display: none;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            display: inline-block;
+        }
+    }
+}
+
+.spinner {
+    svg {
+        padding: 0 1rem;
+        font-size: 1.5rem;
+        color: $orange;
+        animation-name: spinner;
+        animation-duration: 4s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+}
+
+/* todo: figure out how this can be linted okay, see: https://github.com/stylelint/stylelint/issues/1513 */
+@keyframes spinner {
+    0 {
+        transform: rotate(0deg);
+    }
+
+    100% {
+       transform: rotate(360deg);
+   }
+}

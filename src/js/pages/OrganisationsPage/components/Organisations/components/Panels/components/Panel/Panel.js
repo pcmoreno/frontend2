@@ -12,14 +12,11 @@ export default class Panel extends Component {
     }
 
     render() {
-        let { items } = this.props;
-
-        let itemOutput = items.map(item => <Item item = { item.organisationName } />);
-
-        // todo: add 'active' class to section
+        const { items } = this.props;
+        const itemOutput = items.map(item => <Item item = { item.organisationName } />);
 
         return (
-            <section className={ style.panel } >
+            <section className={ `${style.panel} ${this.props.active ? 'active' : ''}` } >
                 <PanelHeader openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
                 <section className={ style.itemlist }>
                     <ul>

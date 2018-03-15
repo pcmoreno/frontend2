@@ -11,6 +11,7 @@ export default class Index extends Component {
         super(props);
 
         this.submitForm = this.submitForm.bind(this);
+
         this.api = new API('neon');
         this.apiConfig = AppConfig.api.neon;
     }

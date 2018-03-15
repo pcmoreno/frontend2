@@ -11,14 +11,18 @@ export default class Panels extends Component {
     }
 
     render() {
-        let { items } = this.props;
+        const { items } = this.props;
 
-        // todo: introduce logic here to go through all panels that should be displayed (depending on the state data)
+        /* todo: note that currently these panels are identical (copies) */
 
         return (
             <section className={ style.panels } id="panels">
                 <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
-                <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
+                <Panel
+                    items = { items }
+                    openModalToAddOrganisation={ this.props.openModalToAddOrganisation }
+                    active = { true }
+                />
             </section>
         );
     }

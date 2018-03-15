@@ -2,7 +2,7 @@
     @supports (display: grid) {
         overflow: hidden;
         display: grid;
-        grid-template-rows: 30px 1fr;
+        grid-template-rows: $organisations-path-height 1fr;
     }
 }
 
@@ -13,13 +13,13 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
 
-        @media screen and (max-width: 960px) {
+        @media screen and (max-width: $grid-breakpoints-lg) {
             grid-template-columns: 1fr;
         }
     }
 }
 
-/* todo: is this used? test! */
+/* the container for the modal-background and -modal. it should be specific per modal and per page, so leave it here */
 .modal_container {
     position: absolute;
     top: 0;

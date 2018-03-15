@@ -11,11 +11,15 @@ export default class Navigation extends Component {
     }
 
     render() {
-        let navigationItems = [];
-        let { items } = this.props;
+        const navigationItems = [];
+        const { items } = this.props;
 
         items.forEach(item => {
-            let navigationItem = <NavigationItem label={ item.label } link={ item.link } key={ item.label } />;
+            const navigationItem = <NavigationItem
+                label = { item.label }
+                link = { item.link }
+                key = { item.label }
+            />;
 
             navigationItems.push(navigationItem);
         });
@@ -23,7 +27,7 @@ export default class Navigation extends Component {
         return (
             <nav className={ style.app_navigation }>
                 <ul>
-                    <li className={style.logo} />
+                    <a href="/inbox"><li className={style.logo} /></a>
                     { navigationItems }
                 </ul>
             </nav>

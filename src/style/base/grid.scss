@@ -1,0 +1,10 @@
+/* the element in which the app is rendered */
+#layout {
+    margin: 0;
+    display: grid;
+    grid-template-rows: $application-header-height 1fr;
+    overflow: hidden;
+    height: 100vh;
+    background: #edece8;
+    font-size: 16px;
+}

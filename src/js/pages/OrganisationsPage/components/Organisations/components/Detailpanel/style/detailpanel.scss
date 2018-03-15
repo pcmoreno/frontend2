@@ -1,10 +1,12 @@
+$detailpanel-margin: 10px;
+
 .detailpanel {
     background: $white;
     color: $white;
     font-weight: bold;
     font-size: 20px;
-    margin: 10px;
-    box-sizing: border-box;
+    margin: $detailpanel-margin;
+    box-sizing: content-box;
     border-radius: 5px;
 
     /* ie11 */
@@ -19,16 +21,17 @@
         height: unset;
 
         /* can be omitted if not important */
-        min-width: 320px;
+        min-width: $grid-breakpoints-sm;
     }
 
     header {
         background: $blue;
         border-radius: 5px 5px 0 0;
-        height: 120px;
+        height: $detailpanel-header-height;
         padding: 10px;
+        box-sizing: border-box;
 
-        @media screen and (max-width: 960px) {
+        @media screen and (max-width: $grid-breakpoints-lg) {
             border-radius: 0;
         }
 
@@ -41,7 +44,7 @@
                 cursor: pointer;
                 text-align: left;
 
-                @media screen and (max-width: 960px) {
+                @media screen and (max-width: $grid-breakpoints-lg) {
                     display: none;
                 }
             }
@@ -58,7 +61,7 @@
 
     nav {
         background: $blue;
-        height: 30px;
+        height: $detailpanel-nav-height;
         padding: 0 10px;
         font-size: .8rem;
         text-align: center;
@@ -71,9 +74,8 @@
     }
 
     main {
-        display: block;
-        /* todo: should be dynamic. this is not good enough */
-        height: calc(100vh - 290px);
+        /* the height of the content part of the detail panel is calculated as follows: */
+        height: calc(100vh - calc($application-header-height + $organisations-path-height + $detailpanel-margin + $detailpanel-header-height + $detailpanel-nav-height + $detailpanel-margin));
     }
 
     .detailpanel_divider {
@@ -84,7 +86,7 @@
         display: block;
     }
 
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: $grid-breakpoints-lg) {
         margin: 0;
         min-width: unset;
         position: absolute;
@@ -94,7 +96,7 @@
         border-radius: 0;
     }
 
-    @media screen and (min-width: 960px) {
+    @media screen and (min-width: $grid-breakpoints-lg) {
         display: block !important;
     }
 
@@ -133,7 +135,7 @@
         cursor: pointer;
     }
 
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: $grid-breakpoints-lg) {
         display: block;
     }
 }

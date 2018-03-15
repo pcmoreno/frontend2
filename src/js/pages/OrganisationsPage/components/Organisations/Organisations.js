@@ -6,9 +6,8 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import Detailpanel from './components/Detailpanel/Detailpanel';
 
-/* todo: there is a webpack plugin that can search withing a root path which prevents ./../../../.. hell like this */
+/* todo: there is a webpack plugin that can search within a root path which prevents ./../../../.. hell like this */
 import Form from './../../../../components/Form';
-
 import style from './style/organisations.scss';
 
 export default class Organisations extends Component {
@@ -17,8 +16,8 @@ export default class Organisations extends Component {
     }
 
     render() {
-        let { items } = this.props;
-        let panels = <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />;
+        const { items } = this.props;
+        const panels = <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />;
 
         return (
             <div className={ style.organisations }>
@@ -28,7 +27,7 @@ export default class Organisations extends Component {
                     { panels }
                     <Detailpanel />
                 </section>
-                <aside className={ style.modal_container } id="modal_organisation" >
+                <aside className={ `${style.modal_container} hidden` } id="modal_organisation" >
                     <Form
                         formId={ 'organisation' }
                         ignoredFields={ [

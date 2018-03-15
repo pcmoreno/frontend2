@@ -15,22 +15,22 @@ export default class Item extends Component {
     }
 
     render() {
-        let { item } = this.props;
-
-        // todo: consider extracting the name_container to a separate component
+        const { item } = this.props;
 
         return (
             <li>
-                <ul className={ style.listitem__items }>
+                <ul className={ style.listitem }>
                     <li><FontAwesomeIcon icon="suitcase" /></li>
-                    <li className={ style.name_container }>
+                    <li className={ style.listitem_properties }>
                         <div>
                             <span className={ style.title }>{ item }</span>
                             <span className={ style.subtitle }>product type</span>
                         </div>
                     </li>
                     <li>
-                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button"><FontAwesomeIcon icon="eye"/></span>
+                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button">
+                            <FontAwesomeIcon icon="eye"/>
+                        </span>
                     </li>
                 </ul>
             </li>

@@ -6,9 +6,9 @@
     top: 0;
     left: 0;
     opacity: .5;
-    z-index: 10;
+    z-index: $z-index-modal-back;
 
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: $grid-breakpoints-md) {
         opacity: 0;
     }
 }
@@ -22,14 +22,13 @@
 
 .form {
     position: relative;
-    margin: auto;
+    margin: 2rem auto auto auto;
     background: $white;
     box-shadow: 0 10px 30px -2px rgba(0, 0, 0, 1);
-    margin-top: 2rem;
     border-radius: .3rem;
     max-width: 600px;
     width: 50%;
-    z-index: 20;
+    z-index: $z-index-modal-top;
 
     header {
         border-bottom: 1px solid $shadow;
@@ -62,7 +61,7 @@
         label {
             padding: .5rem 0;
             font-weight: bold;
-            font-family: "museo", sans-serif;
+            font-family: $fontheavy;
             font-size: 1rem;
             margin-bottom: .5rem;
         }
@@ -83,8 +82,6 @@
             display: block;
 
             button {
-
-
                 &:first-child {
                     float: left;
                 }
@@ -92,7 +89,7 @@
         }
     }
 
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: $grid-breakpoints-md) {
         margin-top: 0;
         border-radius: 0;
         width: 100%;
