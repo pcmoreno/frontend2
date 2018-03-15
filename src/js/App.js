@@ -48,8 +48,8 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
 // import all reducers
-import exampleReducer from './pages/ExamplePage/reducers/example';
-import organisationsReducer from './pages/OrganisationsPage/reducers/organisations';
+import exampleReducer from './pages/Example/reducers/example';
+import organisationsReducer from './pages/Organisations/reducers/organisations';
 import alertReducer from './components/Alert/reducers/alert';
 
 // combine into one
@@ -67,54 +67,52 @@ import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 
-/* todo: remove the 'Page' suffix from every page component */
-
 /**
  * Returns the example page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} example page
  */
-function getExamplePage() {
-    return System.import('./pages/ExamplePage').then(module => module.default);
+function getExample() {
+    return System.import('./pages/Example').then(module => module.default);
 }
 
 /**
  * Returns the inbox page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} inbox page
  */
-function getInboxPage() {
-    return System.import('./pages/InboxPage').then(module => module.default);
+function getInbox() {
+    return System.import('./pages/Inbox').then(module => module.default);
 }
 
 /**
  * Returns the organisations page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} organisations page
  */
-function getOrganisationsPage() {
-    return System.import('./pages/OrganisationsPage').then(module => module.default);
+function getOrganisations() {
+    return System.import('./pages/Organisations').then(module => module.default);
 }
 
 /**
  * Returns the tasks page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} tasks page
  */
-function getTasksPage() {
-    return System.import('./pages/TasksPage').then(module => module.default);
+function getTasks() {
+    return System.import('./pages/Tasks').then(module => module.default);
 }
 
 /**
  * Returns the users page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} users page
  */
-function getUsersPage() {
-    return System.import('./pages/UsersPage').then(module => module.default);
+function getUsers() {
+    return System.import('./pages/Users').then(module => module.default);
 }
 
 /**
  * Returns the participants page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} participants page
  */
-function getParticipantsPage() {
-    return System.import('./pages/ParticipantsPage').then(module => module.default);
+function getParticipants() {
+    return System.import('./pages/Participants').then(module => module.default);
 }
 
 import Header from './components/Header';
@@ -126,12 +124,12 @@ render(
             <main>
                 <Alert />
                 <Router>
-                    <AsyncRoute path="/example" getComponent={ getExamplePage } />
-                    <AsyncRoute path="/inbox" getComponent={ getInboxPage } />
-                    <AsyncRoute path="/organisations" getComponent={ getOrganisationsPage } />
-                    <AsyncRoute path="/tasks" getComponent={ getTasksPage } />
-                    <AsyncRoute path="/users" getComponent={ getUsersPage } />
-                    <AsyncRoute path="/participants" getComponent={ getParticipantsPage } />
+                    <AsyncRoute path="/example" getComponent={ getExample } />
+                    <AsyncRoute path="/inbox" getComponent={ getInbox } />
+                    <AsyncRoute path="/organisations" getComponent={ getOrganisations } />
+                    <AsyncRoute path="/tasks" getComponent={ getTasks } />
+                    <AsyncRoute path="/users" getComponent={ getUsers } />
+                    <AsyncRoute path="/participants" getComponent={ getParticipants } />
                 </Router>
             </main>
         </section>
