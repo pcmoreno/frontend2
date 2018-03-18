@@ -1,80 +1,32 @@
-
+/* some overloads were needed because the login form doesnt look exactly like the modals */
 .login {
-    background: #90c2dd;
+    background: $blue;
+
+    /* todo: remove these 2 when figured out how to hide the main navigation element */
     margin-top: -10px;
     height: 100%;
 
     form {
-        margin-bottom: 1rem;
-        height: 100%;
-        overflow-y: auto;
+        box-shadow: none;
     }
 }
 
 .modal {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     overflow: hidden;
-    outline: 0;
-    width: 100%;
-
-}
-
-.modal_dialog {
-    width: 600px;
-    margin: 30px auto;
-}
-
-.modal_content {
-    padding: 1rem;
-    border: 0;
-    height: 100%;
-    overflow: hidden;
-    background: $white;
-    border-radius: 4px;
 }
 
 .modal_header {
     border-bottom: 0;
-    height: auto;
-
-    h3 {
-        color: #ef7c00;
-        line-height: 2.2rem;
-        font-weight: 700;
-        margin-bottom: .2rem;
-    }
 }
 
-.modal_body {
-    height: calc(95% - 120px);
-    overflow-y: auto;
-    position: relative;
-    padding: 15px;
-
-    ul {
-        display: table;
-        width: 100%;
-    }
+.forgot_password {
+    color: $blue;
 }
 
-.list_feedback {
-    color: $red;
+.errors {
+    color: $signal-red;
 }
 
 .modal_footer {
     border-top: 0;
-    margin-bottom: 10px;
-    height: 70px;
-}
-
-.list_submit {
-
-}
-
-input {
-    width: 100%;
-    background: #edece8;
 }
