@@ -1,4 +1,3 @@
-
 # Description
 
 Rebuild the current LTP *Frontend* as a standalone Javascript SPA with the following specs:
@@ -176,7 +175,7 @@ the project into a PWA. This would only mean all split JS bundles are loaded rig
 making the lazy-load logic useless.
 
 But then, having a service-worker for a data-driven application like NeOn is perhaps a bit useless. Instead, implement
-the service-worker a specific parts in the application where offline usage makes sense, for example the questionnaires.
+the service-worker for specific parts in the application where offline usage makes sense, for example the questionnaires.
 
 ### Loading of data
 
