@@ -65,6 +65,30 @@ class API {
     }
 
     /**
+     * Logs a warning to the logger with the given message
+     * @param {string} message - warning message
+     * @returns {undefined}
+     */
+    logWarning(message) {
+        this.logger.warning({
+            component: 'API',
+            message
+        });
+    }
+
+    /**
+     * Logs an error to the logger with the given message
+     * @param {string} message - error message
+     * @returns {undefined}
+     */
+    logError(message) {
+        this.logger.error({
+            component: 'API',
+            message
+        });
+    }
+
+    /**
      * Executes the fetch call to perform the network request
      *
      * @param {string} url - url with endpoint
@@ -81,7 +105,7 @@ class API {
      * @returns {Promise} network request promise
      */
     _executeRequest(url, method, options = {}) {
-        let self = this;
+        const self = this;
 
         return new Promise((resolve, reject) => {
 
@@ -92,47 +116,21 @@ class API {
             };
 
             // builds the url with the given identifiers and parameters
-            let parsedUrl = self.buildURL(url, options.urlParams);
+            const parsedUrl = self.buildURL(url, options.urlParams);
 
             // reject when there were still identifiers in the url, that were not replaced
             if (parsedUrl === null) {
 
                 // Log to logger and reject with a proper error message
-                self.logger.error({
-                    component: 'API',
-                    message: 'buildURL failed. Please compare the given identifiers with the endpoint URL: ' + url
-                });
+                self.logError(`buildURL failed. Please compare the given identifiers with the endpoint URL: ${url}`);
                 return reject(new Error(self.config.requestFailedMessage));
             }
 
             // parse payload
             if (options.payload) {
-
-                if (options.payload.type === 'json') {
-
-                    // stringify payload. This will also work with non-objects or arrays, or with null or undefined
-                    // it will just parse a string, which is valid JSON. Example: null will become "null"
-                    requestParams.body = JSON.stringify(options.payload.data);
-                    requestParams.headers['Content-Type'] = 'application/json';
-
-                } else if (options.payload.type === 'form') {
-
-                    // parse as form data (query string: formData[key]=value&formData[key1]=value1
-                    requestParams.body = Utils.serialise(
-                        options.payload.data,
-                        'form',
-                        self.config.urlEncodeParams,
-                        false // false by default because keys are always required here
-                    );
-                    requestParams.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-                } else {
-
-                    // Log to logger and reject with a proper error message
-                    self.logger.error({
-                        component: 'API',
-                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' + method.toUpperCase() + ' on URL: ' + parsedUrl
-                    });
+                try {
+                    requestParams = self.buildPayload(requestParams, options.payload);
+                } catch (e) {
                     return reject(new Error(self.config.requestFailedMessage));
                 }
             }
@@ -161,26 +159,15 @@ class API {
 
                     // check if this was an input validation error
                     if (response.status === 400 && json.errors) {
-                        self.logger.warning({
-                            component: 'API',
-                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
-                        });
+                        self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return resolve({ errors: json.errors });
                     }
 
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
-
-                        self.logger.warning({
-                            component: 'API',
-                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
-                        });
-
+                        self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                     } else if (API.isErrorCode(response.status) || !response.ok) {
-                        self.logger.error({
-                            component: 'API',
-                            message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with response: ' + JSON.stringify(json)
-                        });
+                        self.logError(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return reject(new Error(self.config.requestFailedMessage));
                     }
 
@@ -195,10 +182,7 @@ class API {
                     }
 
                     // consider this as a failed request
-                    self.logger.error({
-                        component: 'API',
-                        message: 'Call to ' + parsedUrl + ' returned code: ' + response.status + ' ' + response.statusText + ' with error: ' + error
-                    });
+                    self.logError(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with error: ${error}`);
                     return reject(new Error(self.config.requestFailedMessage));
                 });
 
@@ -210,13 +194,48 @@ class API {
                 // });
 
             }).catch(error => {
-                self.logger.error({
-                    component: 'API',
-                    message: 'Call to ' + parsedUrl + ' failed with error: ' + error
-                });
+                self.logError(`Call to ${parsedUrl} failed with error: ${error}`);
                 return reject(new Error(self.config.requestFailedMessage));
             });
         });
+    }
+
+    /**
+     * Builds and appends the post body and headers to the given request parameters
+     * @param {Object} requestParams - request parameters
+     * @param {Object} payload - post body object
+     * @param {Object} payload.data - object or array with un-serialised content
+     * @param {Object} payload.type - type of the payload [json, form]
+     * @returns {Object} Request params with post body appended
+     */
+    buildPayload(requestParams, payload) {
+
+        if (payload.type === 'json') {
+
+            // stringify payload. This will also work with non-objects or arrays, or with null or undefined
+            // it will just parse a string, which is valid JSON. Example: null will become "null"
+            requestParams.body = JSON.stringify(payload.data);
+            requestParams.headers['Content-Type'] = 'application/json';
+
+        } else if (payload.type === 'form') {
+
+            // parse as form data (query string: formData[key]=value&formData[key1]=value1
+            requestParams.body = Utils.serialise(
+                payload.data,
+                'form',
+                this.config.urlEncodeParams,
+                false // false by default because keys are always required here
+            );
+            requestParams.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        } else {
+
+            // Log to logger and reject with a proper error message
+            this.logError(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
+            throw new Error(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
+        }
+
+        return requestParams;
     }
 
     /**
@@ -238,14 +257,14 @@ class API {
 
         if (urlParams) {
 
-            let urlIdentifiers = urlParams.identifiers,
+            const urlIdentifiers = urlParams.identifiers,
                 urlParameters = urlParams.parameters;
 
             // replace url identifiers (NOT parameters)
             if (urlIdentifiers) {
 
                 // map identifiers (e.g. id becomes {id})
-                let keys = Object.keys(urlIdentifiers).map(x => '{' + x + '}');
+                const keys = Object.keys(urlIdentifiers).map(x => `{${x}}`);
 
                 // replace all identifiers with given values
                 buildUrl = Utils.replaceString(
