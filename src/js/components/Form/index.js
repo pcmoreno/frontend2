@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
-import AppConfig from '../../App.config';
 
 class Index extends Component {
     constructor(props) {
@@ -23,7 +22,6 @@ class Index extends Component {
         this.submitForm = this.submitForm.bind(this);
 
         this.api = ApiFactory.get('neon');
-        this.apiConfig = AppConfig.api.neon;
     }
 
     componentDidMount() {
@@ -50,8 +48,8 @@ class Index extends Component {
 
         // execute request
         this.api.options(
-            this.apiConfig.baseUrl,
-            `${this.apiConfig.endpoints.abstractSection}/${formId}`
+            this.api.getBaseUrl(),
+            `${this.api.getEndpoints().abstractSection}/${formId}`
         ).then(response => {
 
             // hide loader and pass the fields to the form
@@ -97,8 +95,8 @@ class Index extends Component {
             // todo: submission can also be a PUT call, this should be configurable somewhere...
             // execute request
             return this.api.post(
-                this.apiConfig.baseUrl,
-                `${this.apiConfig.endpoints.abstractSection}/${formId}`,
+                this.api.getBaseUrl(),
+                `${this.api.getEndpoints().abstractSection}/${formId}`,
                 {
                     payload: {
                         type: 'form',

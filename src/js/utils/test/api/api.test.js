@@ -68,6 +68,24 @@ test('API should through an error when it was constructed with a non existing ap
     }
 });
 
+test('API should return the right config object when getConfig() is called', () => {
+    let api = new API('neon', null);
+
+    expect(api.getConfig()).toEqual(apiConfig.neon);
+});
+
+test('API should return the right baseUrl when getBaseUrl() is called', () => {
+    let api = new API('neon', null);
+
+    expect(api.getBaseUrl()).toEqual(apiConfig.neon.baseUrl);
+});
+
+test('API should return the right endpoint object when getEndpoints() is called', () => {
+    let api = new API('neon', null);
+
+    expect(api.getEndpoints()).toEqual(apiConfig.neon.endpoints);
+});
+
 test('API get should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
@@ -76,7 +94,7 @@ test('API get should call to execute request with the correct parameters', () =>
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.get(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.get(apiConfig.neon.baseUrl, api.getEndpoints().organisation, {
         t: 1,
         d: true,
         x: 'random'
@@ -105,7 +123,7 @@ test('API post should call to execute request with the correct parameters', () =
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.post(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.post(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 2,
         d: false,
         x: 'random'
@@ -134,7 +152,7 @@ test('API put should call to execute request with the correct parameters', () =>
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.put(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.put(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 3,
         d: false,
         x: 'random'
@@ -163,7 +181,7 @@ test('API options should call to execute request with the correct parameters', (
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.options(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.options(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 4,
         d: true,
         p: ['x', 'y'],
@@ -196,7 +214,7 @@ test('API executeRequest should call buildURL to build the url', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+        api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
             urlParams: {
@@ -242,7 +260,7 @@ test('API buildURL should replace the right identifiers in the url', () => {
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
+        api.getBaseUrl() + api.getEndpoints().twoIds,
         {
             identifiers: {
                 orgId: '123',
@@ -266,7 +284,7 @@ test('API buildURL should return null when not all identifiers could be replaced
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
+        api.getBaseUrl() + api.getEndpoints().twoIds,
         {
             identifiers: {
                 orgId: '123'
@@ -292,7 +310,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -323,7 +341,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -354,7 +372,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -385,7 +403,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -413,7 +431,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+        api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
             urlParams: {
@@ -471,7 +489,7 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+            api.getBaseUrl() + api.getEndpoints().organisationById,
             'post',
             {}
         ).then().catch(error => {
@@ -506,7 +524,7 @@ test('API _executeRequest should should parse the post body in JSON', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -551,7 +569,7 @@ test('API _executeData should should parse the post body in form data', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -591,7 +609,7 @@ test('API _executeRequest should return a string when given JSON payload is not 
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -627,7 +645,7 @@ test('API _executeRequest should return an empty string when the form data post 
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -663,7 +681,7 @@ test('API _executeRequest should return a char string when the form data post bo
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -703,7 +721,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'post',
             {
                 payload: {
@@ -745,7 +763,7 @@ test('API _executeRequest should set custom request headers', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {
             headers: {
@@ -779,7 +797,7 @@ test('API _executeRequest should accept no custom request headers', () => {
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {}
     );
@@ -829,7 +847,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -893,7 +911,7 @@ test('API _executeRequest should log a warning and return json when fetch return
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -959,7 +977,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1022,7 +1040,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -1078,7 +1096,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1160,7 +1178,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1226,7 +1244,7 @@ test('API _executeRequest should log an error when the network request failed or
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1301,7 +1319,7 @@ test('API _executeRequest should resolve with an error object when the api retur
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {

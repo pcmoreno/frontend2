@@ -14,8 +14,32 @@ class API {
         this.authenticator = authenticator;
 
         if (!this.config) {
-            throw new Error('AppConfig.api.' + apiName + ' is not set. Cannot create API instance.');
+            throw new Error(`AppConfig.api.${apiName} is not set. Cannot create API instance.`);
         }
+    }
+
+    /**
+     * Returns the API config of this API instance.
+     * @returns {Object} API config
+     */
+    getConfig() {
+        return this.config;
+    }
+
+    /**
+     * Returns the baseUrl of this API instance.
+     * @returns {string} base url
+     */
+    getBaseUrl() {
+        return this.config.baseUrl;
+    }
+
+    /**
+     * Returns the endpoints of this API instance.
+     * @returns {Object} key-value pair based endpoints
+     */
+    getEndpoints() {
+        return this.config.endpoints;
     }
 
     /**
