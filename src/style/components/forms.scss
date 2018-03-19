@@ -4,7 +4,7 @@ form {
     background: $white;
     box-shadow: 0 10px 30px -2px rgba(0, 0, 0, 1);
     border-radius: $border-radius-small;
-    max-width: 600px;
+    max-width: $grid-breakpoints-md;
     width: 50%;
     z-index: $z-index-modal-top;
 
