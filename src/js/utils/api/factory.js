@@ -1,5 +1,4 @@
 import API from './api.js';
-import AbstractAuthenticator from "../authenticator/abstract";
 
 // map where API instances are stored (multi-ton)
 const map = new Map();
