@@ -62,28 +62,87 @@ test('API should construct properly with the correct api key config', () => {
 test('API should through an error when it was constructed with a non existing api key (config)', () => {
 
     try {
+
+        // api instance and mocked config
         let api = new API('doesnotexist', null);
     } catch (e) {
+
+        // expected result
         expect(e).toEqual(new Error('AppConfig.api.doesnotexist is not set. Cannot create API instance.'));
     }
 });
 
 test('API should return the right config object when getConfig() is called', () => {
+
+    // api instance and mocked config
     let api = new API('neon', null);
 
+    // expected result
     expect(api.getConfig()).toEqual(apiConfig.neon);
 });
 
 test('API should return the right baseUrl when getBaseUrl() is called', () => {
+
+    // api instance and mocked config
     let api = new API('neon', null);
 
+    // expected result
     expect(api.getBaseUrl()).toEqual(apiConfig.neon.baseUrl);
 });
 
 test('API should return the right endpoint object when getEndpoints() is called', () => {
+
+    // api instance and mocked config
     let api = new API('neon', null);
 
+    // expected result
     expect(api.getEndpoints()).toEqual(apiConfig.neon.endpoints);
+});
+
+test('API logWarning should call logger warning method with correct message', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'warning');
+
+    // call api warning
+    api.logWarning('This is a warning message');
+
+    // expected result
+    expect(Logger.instance.warning.calls.count()).toBe(1);
+    expect(Logger.instance.warning.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'This is a warning message'
+            }
+        ]
+    ]);
+});
+
+test('API logError should call logger error method with correct message', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logError('This is an error message');
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'This is an error message'
+            }
+        ]
+    ]);
 });
 
 test('API get should call to execute request with the correct parameters', () => {
@@ -514,7 +573,202 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
     });
 });
 
-test('API _executeRequest should should parse the post body in JSON', () => {
+test('API buildPayload should should parse the post body in JSON', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: {
+                x: 'y',
+                y: [
+                    'x',
+                    'y'
+                ],
+                z: {
+                    x: 'y'
+                }
+            },
+            type: 'json'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: "{\"x\":\"y\",\"y\":[\"x\",\"y\"],\"z\":{\"x\":\"y\"}}"
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
+test('API buildPayload should should parse the post body in form data', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: {
+                x: 'y',
+                y: 'x',
+                z: 'z'
+            },
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: "form[x]=y&form[y]=x&form[z]=z"
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should return a string when given JSON payload is not an object or array', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: 'invalid json should be returned as a string only []2497&^^424',
+            type: 'json'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: "\"invalid json should be returned as a string only []2497&^^424\""
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
+test('API buildPayload should return an empty string when the form data post body cannot be parsed', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: null,
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: ''
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should return a char string when the form data post body cannot be parsed', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: 'bla',
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: 'form[0]=b&form[1]=l&form[2]=a'
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should log and throw an error when the post body is of an unknown format', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(api, 'logError');
+
+    try {
+        // expected result
+        expect(api.buildPayload(
+            {
+                method: 'post',
+                headers: {}
+            },
+            {
+                data: {
+                    x: 'y'
+                },
+                type: null
+            }
+        ));
+    } catch (e) {
+        expect(e).toEqual(new Error('Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}'));
+    }
+
+    // expected result
+    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(api.logError.calls.count()).toBe(1);
+    expect(api.logError.calls.allArgs()).toEqual([
+        [
+            'Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}'
+        ]
+    ]);
+});
+
+test('API _executeRequest should be set with the right JSON payload', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -559,7 +813,7 @@ test('API _executeRequest should should parse the post body in JSON', () => {
     ]);
 });
 
-test('API _executeData should should parse the post body in form data', () => {
+test('API _executeRequest should be set with the right form data payload', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -599,115 +853,7 @@ test('API _executeData should should parse the post body in form data', () => {
     ]);
 });
 
-test('API _executeRequest should return a string when given JSON payload is not an object or array', () => {
-
-    // api instance and mocked config
-    let api = new API('neon', null);
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        api.getBaseUrl() + api.getEndpoints().organisation,
-        'post',
-        {
-            payload: {
-                data: 'invalid json should be returned as a string only []2497&^^424',
-                type: 'json'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: "\"invalid json should be returned as a string only []2497&^^424\""
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return an empty string when the form data post body cannot be parsed', () => {
-
-    // api instance and mocked config
-    let api = new API('neon', null);
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        api.getBaseUrl() + api.getEndpoints().organisation,
-        'post',
-        {
-            payload: {
-                data: null,
-                type: 'form'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                method: 'post',
-                body: ''
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return a char string when the form data post body cannot be parsed', () => {
-
-    // api instance and mocked config
-    let api = new API('neon', null);
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        api.getBaseUrl() + api.getEndpoints().organisation,
-        'post',
-        {
-            payload: {
-                data: 'bla',
-                type: 'form'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                method: 'post',
-                body: 'form[0]=b&form[1]=l&form[2]=a'
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return Promise.reject when the post body is of an unknown format', () => {
+test('API _executeRequest should return Promise.reject when payload parsing fails', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -716,7 +862,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
     spyOn(global, 'fetch');
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, 'buildURL').and.callThrough();
+    spyOn(api, 'buildPayload').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
@@ -738,9 +884,8 @@ test('API _executeRequest should return Promise.reject when the post body is of 
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        component: 'API',
-                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' +
-                        'POST on URL: https://ltp.nl/organisations'
+                        component: "API",
+                        message: "Could not parse post body (payload.data). payload.type was not given on request: {\"method\":\"post\",\"headers\":{}}"
                     }
                 ]
             ]);
