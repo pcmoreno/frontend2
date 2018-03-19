@@ -7,7 +7,7 @@ $detailpanel-margin: 10px;
     font-size: 20px;
     margin: $detailpanel-margin;
     box-sizing: content-box;
-    border-radius: 5px;
+    border-radius: $border-radius-regular;
 
     /* ie11 */
     float: left;
@@ -26,7 +26,7 @@ $detailpanel-margin: 10px;
 
     header {
         background: $blue;
-        border-radius: 5px 5px 0 0;
+        border-radius: $border-radius-regular $border-radius-regular 0 0;
         height: $detailpanel-header-height;
         padding: 10px;
         box-sizing: border-box;

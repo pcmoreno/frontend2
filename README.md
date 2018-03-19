@@ -1,4 +1,3 @@
-
 # Description
 
 Rebuild the current LTP *Frontend* as a standalone Javascript SPA with the following specs:
@@ -8,7 +7,7 @@ Rebuild the current LTP *Frontend* as a standalone Javascript SPA with the follo
 __Deployment__
 
 - Webpack for bundling of files and definition of tasks
-- NPM Scripts instead of Gulp / Grunt for global tasks (test, lint, deploy)
+- NPM Scripts (instead of Gulp / Grunt) for global tasks (test, lint, deploy)
 - Yarn instead of NPM (faster and improved caching of dependencies)
 - JS and CSS code is bundled, uglified, minified
 - Sourcemaps for JS and CSS
@@ -29,7 +28,7 @@ __Javascript__
 - Preact (with preact-compat) replaces React
 - Redux handles state management
 - Native React/Preact Routing
-- support for ES2017 that transpiles to es5 (with polyfill)
+- support for ES2017 that transpiles to es5 (with polyfill for older browsers)
 - Fully component based (using root-container-presentational pattern)
 
 __Performance__
@@ -44,18 +43,15 @@ __Integration__
 
 - Communicates (using Fetch, instead of Ajax) with *Section Field* endpoints
 - Replaces current *Frontend* (and, if possible, *Styleguide*)
-- Has a way to implement access rights (roles) and translations
+- Has a way to implement authorisation (role managed) and translations (using Lokalise)
 - Can automate building of forms based on *Section Field* configuration
 
 # Todo
 
 - decide what to do with *Styleguide* (may I recommend merging into *Frontend*?)
 - implement *NeOn Frontend* (static content) on a per-page base
-- refactor views using CSS Grid Layout: https://hackernoon.com/how-css-grid-beats-bootstrap-85d5881cf163
 - figure out where the translations are loaded from
 - figure out how application can load/show only the components the user is authorised for
-- refactor components that use Bootstrap classes and remove the dependency
-- replace command flow with API calls using Fetch
 
 # Quick start
 
@@ -81,8 +77,9 @@ lint:
 
 `yarn run lint`
 
-build for deployment: (lint, test, build)
+building assets: (lint, test, build)
 
+`yarn run build:dev`
 `yarn run build:acc`
 `yarn run build:prod`
 
@@ -117,7 +114,7 @@ then passed on to a presentational component. Container components should be pla
 in the application usually requires its own container- and child components and logic. Also, it should be called
 index.js to avoid confusion with presentational components and ease importing.
 
-3) Presentational component: *src/js/Example/js/Example.js*
+3) Presentational component: *src/js/pages/Example/components/Example/Example.js*
 
 The presentational component is concerned with the actual layout. Has its own css, and its own component methods. This
 is where you would store child components and methods that deal with presentation (ie tabs, modals, panels, sorting).
@@ -133,22 +130,33 @@ root-container pattern per se, it allows you to have global CSS together with th
 It is also much easier to write client-specific CSS code in the future.
 
 The presentational component and (optionally) its children import their own CSS declarations from the
-*js/src/pages/**/style* folder. This follows the concept of CSS modules meaning that any CSS code inside will become
+*/style* folder. This follows the concept of CSS modules meaning that any CSS code inside will become
 available just for that specific component. This means: no more conflicts, specific dependencies and no global scope.
-Because of this, selector names can be very simple although I'd still recommend sticking to BEM naming conventions.
+Because of this, selector names can be very simple although I'd still recommend sticking to BEM naming conventions. Also
+you cannot use dashes.
 
-Keep in mind that every child component requires its own style import on top. Without this, no CSS is assigned to that
-component. Also, specifically importing CSS will just assign the global selectors (h1, section, li) from it. To be able to use your own,
-custom selectors (.something, .listView) you will need to refer to your imported styles in your elements. For example:
+Start with importing the CSS at the top of your JS component:
 
 `import style from './../style/someStylesheet.css`
 
+Now, keep in mind that every HTML component that you want to apply custom css rules to, needs to have a specific
+selector assigned like so:
+
 `<someElement className={ style.someCustomSelector }`
 
-Note that named child component selectors (ie .someChildElement) will need to follow the same convention!
+Since this can get really tedious to do for every child component, the recommendation is to style these using
+ancestor selectors:
+
+`.someCustomSelector ul > li a { font-size: 2rem; }`
 
 You can import any CSS type (CSS, SCSS, SASS) and don't even need to specify the extension (though your IDE may think
 differently). Note however that you can only use the *@import* directive in .scss files to import another .scss file.
+
+You will notice your custom selectors will be renamed in the build phase, this is to ensure it does not conflict with
+a similar named selector in your application. Because of this you'll run into trouble when adding or removing selectors
+using Javascript: you cannot write CSS rules for a dynamically added class, since its definition will be overwritten
+in the build process. For this a special 'helpers' file is created in the global CSS. The global CSS also has
+definitions for global properties like font-family, colours, layout and such. Global CSS can be found in `src/style`
 
 # About Redux
 
@@ -166,8 +174,8 @@ system imports and writes separate 0.js, 1.js etc. bundles for those. Because of
 the project into a PWA. This would only mean all split JS bundles are loaded right at the start by the service-worker,
 making the lazy-load logic useless.
 
-But then, having a service-worker for a data-driven application like NeOn is perhaps a bit useless altogether. Instead, implement
-the service-worker a specific parts in the application where offline usage makes sense, for example the questionnaires.
+But then, having a service-worker for a data-driven application like NeOn is perhaps a bit useless. Instead, implement
+the service-worker for specific parts in the application where offline usage makes sense, for example the questionnaires.
 
 ### Loading of data
 

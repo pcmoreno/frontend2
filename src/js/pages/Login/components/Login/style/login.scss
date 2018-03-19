@@ -1,0 +1,32 @@
+/* some overloads were needed because the login form doesnt look exactly like the modals */
+.login {
+    background: $blue;
+
+    /* todo: remove these 2 when figured out how to hide the main navigation element */
+    margin-top: -10px;
+    height: 100%;
+
+    form {
+        box-shadow: none;
+    }
+}
+
+.modal {
+    overflow: hidden;
+}
+
+.modal_header {
+    border-bottom: 0;
+}
+
+.forgot_password {
+    color: $blue;
+}
+
+.errors {
+    color: $signal-red;
+}
+
+.modal_footer {
+    border-top: 0;
+}

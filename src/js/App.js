@@ -124,6 +124,14 @@ function getExample() {
 }
 
 /**
+ * Returns the login page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} login page
+ */
+function getLogin() {
+    return System.import('./pages/Login').then(module => module.default);
+}
+
+/**
  * Returns the inbox page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} inbox page
  */
@@ -173,6 +181,7 @@ render(
                 <Alert />
                 <Router>
                     <AsyncRoute path="/example" getComponent={ getExample } />
+                    <AsyncRoute path="/login" getComponent={ getLogin } />
                     <AsyncRoute path="/inbox" getComponent={ getInbox } />
                     <AsyncRoute path="/organisations" getComponent={ getOrganisations } />
                     <AsyncRoute path="/tasks" getComponent={ getTasks } />
