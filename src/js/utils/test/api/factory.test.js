@@ -1,9 +1,40 @@
 import ApiFactory from '../../api/factory';
 
+// below seems unused, but is required for jest to mock/overwrite it
+import AppConfig from '../../../App.config';
+
+// Mock the application api config
+jest.mock('../../../App.config', () => {
+    return {
+        api: {
+            neon: {
+                baseUrl: 'https://ltp.nl',
+                endpoints: {
+                    organisation: '/organisations',
+                    organisationById: '/organisation/{id}',
+                    twoIds: '/organisations/{orgId}/division/{divId}'
+                },
+                urlEncodeParams: false,
+                skipPrefixIndexParams: true,
+                requestFailedMessage: 'An error occurred while processing your request.'
+            },
+            fake: {
+                baseUrl: 'http://fake.com',
+                endpoints: {
+                    fakeEndpoint: '/fake-endpoint/{fakeId}/{anotherFake}'
+                },
+                urlEncodeParams: true,
+                skipPrefixIndexParams: false,
+                requestFailedMessage: 'An error occurred while processing your request.'
+            }
+        }
+    }
+});
+
 test('ApiFactory create method should create and return an API instance', () => {
     let api = ApiFactory.create('neon', null);
 
-    expect(typeof api.getBaseUrl()).toEqual('string');
+    expect(api.getBaseUrl()).toEqual('https://ltp.nl');
     expect(typeof api.getConfig()).toEqual('object');
 });
 
@@ -18,7 +49,7 @@ test('ApiFactory create method should throw an error when trying to create an ex
 test('ApiFactory get method should return an API instance', () => {
     let api = ApiFactory.get('neon');
 
-    expect(typeof api.getBaseUrl()).toEqual('string');
+    expect(api.getBaseUrl()).toEqual('https://ltp.nl');
     expect(typeof api.getConfig()).toEqual('object');
 });
 

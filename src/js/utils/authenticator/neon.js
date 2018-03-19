@@ -7,7 +7,7 @@ import AbstractAuthenticator from './abstract';
 class NeonAuthenticator extends AbstractAuthenticator {
 
     constructor() {
-        super();
+        super('neon');
     }
 
     /**
