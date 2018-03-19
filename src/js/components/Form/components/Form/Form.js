@@ -227,7 +227,7 @@ export default class Form extends Component {
 
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
-            <form className={ style.form } id={formId}>
+            <form id={formId}>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
                     <h3>Add Organisation</h3>
