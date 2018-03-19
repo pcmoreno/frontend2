@@ -1,10 +1,10 @@
-import Logger from '../logger';
-import Utils from '../utils';
-import API from '../api';
-import AppConfig from '../../App.config';
+import Logger from '../../logger';
+import Utils from '../../utils';
+import API from '../../api/api';
+import AppConfig from '../../../App.config';
 
 // Mock the application api config
-jest.mock('../../App.config', () => {
+jest.mock('../../../App.config', () => {
     return {
         api: {
             neon: {
@@ -53,7 +53,7 @@ const apiConfig = AppConfig.api;
 test('API should construct properly with the correct api key config', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // expect config to match
     expect(api.config).toEqual(apiConfig.neon);
@@ -62,7 +62,7 @@ test('API should construct properly with the correct api key config', () => {
 test('API should through an error when it was constructed with a non existing api key (config)', () => {
 
     try {
-        let api = new API('doesnotexist');
+        let api = new API('doesnotexist', null);
     } catch (e) {
         expect(e).toEqual(new Error('AppConfig.api.doesnotexist is not set. Cannot create API instance.'));
     }
@@ -71,7 +71,7 @@ test('API should through an error when it was constructed with a non existing ap
 test('API get should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
@@ -100,7 +100,7 @@ test('API get should call to execute request with the correct parameters', () =>
 test('API post should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
@@ -129,7 +129,7 @@ test('API post should call to execute request with the correct parameters', () =
 test('API put should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
@@ -158,7 +158,7 @@ test('API put should call to execute request with the correct parameters', () =>
 test('API options should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
@@ -189,7 +189,7 @@ test('API options should call to execute request with the correct parameters', (
 test('API executeRequest should call buildURL to build the url', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL');
@@ -234,7 +234,7 @@ test('API executeRequest should call buildURL to build the url', () => {
 test('API buildURL should replace the right identifiers in the url', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
@@ -258,7 +258,7 @@ test('API buildURL should replace the right identifiers in the url', () => {
 test('API buildURL should return null when not all identifiers could be replaced', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
@@ -281,7 +281,7 @@ test('API buildURL should return null when not all identifiers could be replaced
 test('API buildURL should parse the url parameters correctly with urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     api.config.urlEncodeParams = true;
     api.config.skipPrefixIndexParams = true;
 
@@ -312,7 +312,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 test('API buildURL should parse the url parameters correctly with urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     api.config.urlEncodeParams = true;
     api.config.skipPrefixIndexParams = false;
 
@@ -343,7 +343,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 test('API buildURL should parse the url parameters correctly without urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     apiConfig.neon.urlEncodeParams = false;
     apiConfig.neon.skipPrefixIndexParams = false;
 
@@ -374,7 +374,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 test('API buildURL should parse the url parameters correctly without urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     apiConfig.neon.urlEncodeParams = false;
     apiConfig.neon.skipPrefixIndexParams = true;
 
@@ -405,7 +405,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 test('API _executeRequest should use the parsed url with the correct identifiers and parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
@@ -460,7 +460,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
 test('API _executeRequest should return Promise.reject when buildURL was unsuccessful', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -499,7 +499,7 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
 test('API _executeRequest should should parse the post body in JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -544,7 +544,7 @@ test('API _executeRequest should should parse the post body in JSON', () => {
 test('API _executeData should should parse the post body in form data', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -584,7 +584,7 @@ test('API _executeData should should parse the post body in form data', () => {
 test('API _executeRequest should return a string when given JSON payload is not an object or array', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -620,7 +620,7 @@ test('API _executeRequest should return a string when given JSON payload is not 
 test('API _executeRequest should return an empty string when the form data post body cannot be parsed', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -656,7 +656,7 @@ test('API _executeRequest should return an empty string when the form data post 
 test('API _executeRequest should return a char string when the form data post body cannot be parsed', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -692,7 +692,7 @@ test('API _executeRequest should return a char string when the form data post bo
 test('API _executeRequest should return Promise.reject when the post body is of an unknown format', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -738,7 +738,7 @@ test('API _executeRequest should return Promise.reject when the post body is of 
 test('API _executeRequest should set custom request headers', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -772,7 +772,7 @@ test('API _executeRequest should set custom request headers', () => {
 test('API _executeRequest should accept no custom request headers', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -800,7 +800,7 @@ test('API _executeRequest should accept no custom request headers', () => {
 test('API _executeRequest should return a JSON object on a request', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -865,7 +865,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
 test('API _executeRequest should log a warning and return json when fetch returns a warning code with valid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -931,7 +931,7 @@ test('API _executeRequest should log a warning and return json when fetch return
 test('API _executeRequest should log an error and Promise.reject when fetch returns an error code with valid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -995,7 +995,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 test('API _executeRequest should return an empty object when fetch returns 204 No Content', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1050,7 +1050,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
 test('API _executeRequest should log an error and Promise.reject when fetch returns any response with invalid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1114,7 +1114,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 test('API isWarningCode should return true between 300-399 and 404', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     expect(API.isWarningCode(300)).toEqual(true);
     expect(API.isWarningCode(302)).toEqual(true);
@@ -1128,7 +1128,7 @@ test('API isWarningCode should return true between 300-399 and 404', () => {
 test('API isErrorCode should return true on 400+ except 404', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     expect(API.isErrorCode(300)).toEqual(false);
     expect(API.isErrorCode(302)).toEqual(false);
@@ -1142,7 +1142,7 @@ test('API isErrorCode should return true on 400+ except 404', () => {
 test('API _executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1196,7 +1196,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
 test('API _executeRequest should log an error when the network request failed or did not complete', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1264,7 +1264,7 @@ test('API _executeRequest should log an error when the network request failed or
 test('API _executeRequest should resolve with an error object when the api returns input validation errors', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {

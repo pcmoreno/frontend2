@@ -1,6 +1,6 @@
-import Logger from './logger';
-import Utils from './utils';
-import AppConfig from '../App.config';
+import Logger from '../logger';
+import Utils from '../utils';
+import AppConfig from '../../App.config';
 
 /**
  * @class API
@@ -8,9 +8,10 @@ import AppConfig from '../App.config';
  */
 class API {
 
-    constructor(apiName) {
+    constructor(apiName, authenticator) {
         this.logger = Logger.instance;
         this.config = AppConfig.api[apiName];
+        this.authenticator = authenticator;
 
         if (!this.config) {
             throw new Error('AppConfig.api.' + apiName + ' is not set. Cannot create API instance.');
@@ -126,6 +127,8 @@ class API {
                 }
             }
 
+            // todo: add authentication headers
+
             // execute the request
             return fetch(parsedUrl, requestParams).then(response => {
 
@@ -174,6 +177,13 @@ class API {
                     });
                     return reject(new Error(self.config.requestFailedMessage));
                 });
+
+
+                // todo: on 401 response cache the call config and renew token
+                // this.authenticator.authenticate(tokens).then(newTokens => {
+                //
+                //     // todo: retry call with new tokens
+                // });
 
             }).catch(error => {
                 self.logger.error({

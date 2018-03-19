@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import * as organisationsActions from './actions/organisations';
 import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import API from '../../utils/api';
+import ApiFactory from '../../utils/api/factory';
 import AppConfig from '../../App.config';
 import Organisations from './components/Organisations/Organisations';
 
@@ -69,7 +69,7 @@ class Index extends Component {
 
         document.querySelector('#spinner').classList.remove('hidden');
 
-        const api = new API('neon'),
+        const api = ApiFactory.get('neon'),
             apiConfig = AppConfig.api.neon;
 
         // request organisations

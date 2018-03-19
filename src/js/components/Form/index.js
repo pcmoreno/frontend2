@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
-import API from '../../utils/api';
+import ApiFactory from '../../utils/api/factory';
 import AppConfig from '../../App.config';
 
 class Index extends Component {
@@ -22,7 +22,7 @@ class Index extends Component {
 
         this.submitForm = this.submitForm.bind(this);
 
-        this.api = new API('neon');
+        this.api = ApiFactory.get('neon');
         this.apiConfig = AppConfig.api.neon;
     }
 

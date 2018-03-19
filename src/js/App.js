@@ -27,54 +27,6 @@ import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
 import faClipboard from '@fortawesome/fontawesome-free-solid/faClipboard';
 
-// examples from here: https://github.com/aws/aws-amplify/tree/amazon-cognito-identity-js%402.0.1/packages/amazon-cognito-identity-js
-// import { CognitoUserPool, CognitoUserAttribute, CognitoUser } from 'amazon-cognito-identity-js';
-
-// const poolData = {
-//     UserPoolId: 'eu-central-1_eeBtQkabk', // development user pool id
-//     ClientId: '7i9ckoogpksm27r7llfagsgfgv' // development client id
-// };
-
-// const poolData = {
-//     UserPoolId: 'eu-central-1_d9eQcCiqa', // acceptance user pool id
-//     ClientId: '5jm7sr5838e4350vnm3oumhagt' // acceptance client id
-// };
-//
-// const poolData = {
-//     UserPoolId: 'eu-central-1_vrgRcljuW', // prod user pool id
-//     ClientId: '2dhqtd611jq2f2ig5hs47qfvl9' // prod client id
-// };
-
-// const userPool = new CognitoUserPool(poolData);
-//
-// const attributeList = [];
-//
-// const dataEmail = {
-//     Name: 'email',
-//     Value: 'email@mydomain.com'
-// };
-//
-// const dataPhoneNumber = {
-//     Name: 'phone_number',
-//     Value: '+15555555555'
-// };
-// const attributeEmail = new CognitoUserAttribute(dataEmail);
-// const attributePhoneNumber = new CognitoUserAttribute(dataPhoneNumber);
-//
-// attributeList.push(attributeEmail);
-// attributeList.push(attributePhoneNumber);
-//
-// let cognitoUser;
-//
-// userPool.signUp('username', 'password', attributeList, null, function(err, result){
-//     if (err) {
-//         return;
-//     }
-//     cognitoUser = result.user;
-//     console.log('user name is ' + cognitoUser.getUsername());
-// });
-
-
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
     faSuitcase,
