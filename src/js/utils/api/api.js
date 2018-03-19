@@ -137,16 +137,7 @@ class API {
 
             // Loop through and set the custom headers
             if (options.headers) {
-
-                // For each header property, read and set key value
-                for (let headerKey in options.headers) {
-
-                    // use hasOwnProperty so default object methods and properties (built-in JS) are skipped
-                    // https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
-                    if (options.headers.hasOwnProperty(headerKey)) {
-                        requestParams.headers[headerKey] = options.headers[headerKey];
-                    }
-                }
+                requestParams = this.buildRequestHeaders(requestParams, options.headers);
             }
 
             // todo: add authentication headers
@@ -166,6 +157,7 @@ class API {
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
                         self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+
                     } else if (API.isErrorCode(response.status) || !response.ok) {
                         self.logError(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return reject(new Error(self.config.requestFailedMessage));
@@ -208,7 +200,12 @@ class API {
      * @param {Object} payload.type - type of the payload [json, form]
      * @returns {Object} Request params with post body appended
      */
-    buildPayload(requestParams, payload) {
+    buildPayload(requestParams, payload = {}) {
+
+        // return by default
+        if (!payload) {
+            return requestParams;
+        }
 
         if (payload.type === 'json') {
 
@@ -233,6 +230,32 @@ class API {
             // Log to logger and reject with a proper error message
             this.logError(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
             throw new Error(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
+        }
+
+        return requestParams;
+    }
+
+    /**
+     * Builds and appends the headers to the given request parameters
+     * @param {Object} requestParams - request parameters
+     * @param {Object} headers - headers as key-value pairs
+     * @returns {Object} Request params with post body appended
+     */
+    buildRequestHeaders(requestParams, headers = {}) {
+
+        // return by default
+        if (!headers) {
+            return requestParams;
+        }
+
+        // For each header property, read and set key value
+        for (const headerKey in headers) {
+
+            // use hasOwnProperty so default object methods and properties (built-in JS) are skipped
+            // https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
+            if (headers.hasOwnProperty(headerKey)) {
+                requestParams.headers[headerKey] = headers[headerKey];
+            }
         }
 
         return requestParams;

@@ -573,6 +573,29 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
     });
 });
 
+test('API buildPayload should return requestParams when no payload is set', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        null
+    )).toEqual({
+        headers: {},
+        method: 'post'
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
 test('API buildPayload should should parse the post body in JSON', () => {
 
     // api instance and mocked config
@@ -895,6 +918,47 @@ test('API _executeRequest should return Promise.reject when payload parsing fail
             // always resolve test to give the signal that we are done
             resolve();
         });
+    });
+});
+
+test('API buildRequestHeaders should return custom headers', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.buildRequestHeaders(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            'X-custom-header': 'xyz',
+            'Authorization': 'hash'
+        }
+    )).toEqual({
+        headers: {
+            'X-custom-header': 'xyz',
+            'Authorization': 'hash'
+        },
+        method: 'post'
+    });
+});
+
+test('API buildRequestHeaders should return requestParams when no headers are set', () => {
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.buildRequestHeaders(
+        {
+            method: 'post',
+            headers: {}
+        },
+        null
+    )).toEqual({
+        headers: {},
+        method: 'post'
     });
 });
 
