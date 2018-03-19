@@ -1,4 +1,5 @@
 import API from './api.js';
+import AbstractAuthenticator from "../authenticator/abstract";
 
 // map where API instances are stored (multi-ton)
 const map = new Map();
@@ -12,7 +13,7 @@ class ApiFactory {
     /**
      * Creates the API instance for the given name/identifier
      * @param {string} apiName - API name/identifier
-     * @param {Authenticator} authenticator - authenticator instance
+     * @param {AbstractAuthenticator} authenticator - authenticator instance
      * @returns {API} API instance
      */
     static create(apiName, authenticator) {
