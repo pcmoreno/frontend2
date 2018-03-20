@@ -9,7 +9,8 @@ module.exports = {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
             endpoints: {
                 abstractSection: '/section',
-                organisation: '/section/organisation'
+                organisation: '/section/organisation',
+                division: '/section/organisation/{identifier}'
             },
             urlEncodeParams: false,
             skipPrefixIndexParams: true,

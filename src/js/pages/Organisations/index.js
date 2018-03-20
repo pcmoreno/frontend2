@@ -65,7 +65,7 @@ class Index extends Component {
 
     getItems() {
 
-        // hide modal and spinner(if not already hidden)
+        // todo: merge this with getChildElements
 
         document.querySelector('#spinner').classList.remove('hidden');
 
@@ -85,7 +85,42 @@ class Index extends Component {
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.getItems(response);
+            // this.actions.getItems(response);
+            this.actions.fetchEntities('FAKE_ROOT_ID_SINCE_IT_LOADS_INITIAL_ITEMS', response);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
+    getChildElements() {
+
+        // todo: rename to fetchEntities
+
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        const api = new API('neon'),
+            apiConfig = AppConfig.api.neon;
+
+        // request organisations
+        // todo: it will ATM always load child entities for this parent id: eentje-2018-02-19
+        api.get(
+            apiConfig.baseUrl,
+            apiConfig.endpoints.division,
+            {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName'
+                    },
+                    identifiers: {
+                        identifier: 'eentje-2018-02-19'
+                    }
+                }
+            }
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            // todo: it will ATM always load child entities for this parent id: eentje-2018-02-19
+            this.actions.fetchEntities('eentje-2018-02-19', response);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
@@ -103,6 +138,9 @@ class Index extends Component {
         return (
             <Organisations
                 items = { this.props.items }
+                items2 = { this.props.items2 }
+                panels = { this.props.panels }
+                getChildElements = { this.getChildElements.bind(this) }
                 forms={this.props.forms}
                 getItems={ this.getItems.bind(this) }
                 refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
@@ -117,6 +155,8 @@ class Index extends Component {
 
 const mapStateToProps = state => ({
     items: state.organisationsReducer.items,
+    items2: state.organisationsReducer.items2,
+    panels: state.organisationsReducer.panels,
     forms: state.organisationsReducer.forms
 });
 

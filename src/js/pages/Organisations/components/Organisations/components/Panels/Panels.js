@@ -11,18 +11,22 @@ export default class Panels extends Component {
     }
 
     render() {
-        const { items } = this.props;
+        const { panels, getChildElements, openModalToAddOrganisation } = this.props;
 
-        /* todo: note that currently these panels are identical (copies) */
+        const panelCollection = [];
+
+        panels.forEach(panel => {
+            panelCollection.push(<Panel
+                items={panel.entities}
+                getChildElements={getChildElements}
+                openModalToAddOrganisation={openModalToAddOrganisation}
+                active={ panel.active }
+            />);
+        });
 
         return (
             <section className={ style.panels } id="panels">
-                <Panel items = { items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
-                <Panel
-                    items = { items }
-                    openModalToAddOrganisation={ this.props.openModalToAddOrganisation }
-                    active = { true }
-                />
+                { panelCollection }
             </section>
         );
     }

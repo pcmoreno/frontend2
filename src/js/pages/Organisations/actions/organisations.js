@@ -16,6 +16,23 @@ export function getItems(items) {
 }
 
 /**
+ * Fetch entities action
+ * @param {string} parentId - parentId
+ * @param {array} entities - entities
+ * @returns {{type, entities: *}} items with action type
+ */
+export function fetchEntities(parentId, entities) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.FETCH_ENTITIES,
+        parentId,
+        entities
+    };
+}
+
+/**
  * Store form data in collection action
  * @param {string} formId - formId
  * @param {array} formFields - form fields

@@ -2,6 +2,8 @@ import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
     items: [],
+    items2: [],
+    panels: [],
     forms: []
 };
 
@@ -17,14 +19,56 @@ export default function organisationsReducer(state = initialState, action) {
 
     switch (action.type) {
 
-        case actionType.GET_ITEMS:
+        // case actionType.GET_ITEMS:
+        //
+        //     // clear current items from newState
+        //     newState.items = [];
+        //
+        //     // loop through newly retrieved items from the action and add to the newState
+        //     action.items.forEach(item => {
+        //         newState.items.push({ id: item.id, organisationName: item.organisation_name });
+        //     });
+        //
+        //     break;
 
-            // clear current items from newState
-            newState.items = [];
+        case actionType.FETCH_ENTITIES:
 
-            // loop through newly retrieved items from the action and add to the newState
-            action.items.forEach(item => {
-                newState.items.push({ id: item.id, organisationName: item.organisation_name });
+            /* todo: here's an example of the new state:
+                {
+                    parentId: 'some-id',
+                    active: false,
+                    entities: [{}, {}, {}]
+                },
+                {
+                    parentId: 'some-other-id',
+                    active: true,
+                    entities: [{}, {}, {}]
+                }
+             */
+
+            // clear all panels from newState
+            newState.panels = [];
+
+            // rebuild panels from state
+            state.panels.forEach(panel => {
+
+                // check it doesnt accidently add a panel entry with the id from the payload (ensures it overwrites)
+                if (panel.id !== action.parentId) {
+
+                    // take all properties from existing panel, except the active state
+                    newState.panels.push({
+                        parentId: panel.id,
+                        active: false,
+                        entities: panel.entities
+                    });
+                }
+            });
+
+            // push the new entities to a new panel id in entities
+            newState.panels.push({
+                parentId: action.id,
+                active: true,
+                entities: action.entities
             });
 
             break;

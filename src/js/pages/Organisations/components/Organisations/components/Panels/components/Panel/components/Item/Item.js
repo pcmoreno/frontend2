@@ -15,15 +15,15 @@ export default class Item extends Component {
     }
 
     render() {
-        const { item } = this.props;
+        const { itemName } = this.props;
 
         return (
-            <li>
+            <li onClick = { this.props.getChildElements }>
                 <ul className={ style.listitem }>
                     <li><FontAwesomeIcon icon="suitcase" /></li>
                     <li className={ style.listitem_properties }>
                         <div>
-                            <span className={ style.title }>{ item }</span>
+                            <span className={ style.title }>{ itemName }</span>
                             <span className={ style.subtitle }>product type</span>
                         </div>
                     </li>

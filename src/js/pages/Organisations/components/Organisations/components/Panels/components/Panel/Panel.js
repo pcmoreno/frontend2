@@ -12,8 +12,25 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { items } = this.props;
-        const itemOutput = items.map(item => <Item item = { item.organisationName } />);
+        const { items, getChildElements } = this.props;
+
+        let itemOutput = [];
+
+        if (items.length > 1) {
+            items.forEach(item => {
+                itemOutput.push(<Item
+                    itemName = { item.organisation_name }
+                    getChildElements = { getChildElements }
+                />);
+            });
+        } else {
+
+            // todo: a single entry is not wrapped inside an array, thus cannot forEach it. fix this in the API.
+            itemOutput = <Item
+                itemName = { items.organisation_name }
+                getChildElements = { getChildElements }
+            />;
+        }
 
         return (
             <section className={ `${style.panel} ${this.props.active ? 'active' : ''}` } >
