@@ -28,7 +28,7 @@ class AbstractAuthenticator {
         throw new Error('Method not implemented.');
     }
 
-    getAuthenticationHeaders() {
+    refresh() {
         throw new Error('Method not implemented.');
     }
 }
