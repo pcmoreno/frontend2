@@ -99,6 +99,19 @@ test('API should return the right endpoint object when getEndpoints() is called'
     expect(api.getEndpoints()).toEqual(apiConfig.neon.endpoints);
 });
 
+test('API should return the right authenticator with the one used for initialisation', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', {
+        prop: 'z'
+    });
+
+    // expected result
+    expect(api.getAuthenticator()).toEqual({
+        prop: 'z'
+    });
+});
+
 test('API logWarning should call logger warning method with correct message', () => {
 
     // api instance and mocked config

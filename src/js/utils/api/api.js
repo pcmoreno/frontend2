@@ -43,6 +43,14 @@ class API {
     }
 
     /**
+     * Returns the authenticator of this API instance.
+     * @returns {AbstractAuthenticator} authenticator instance
+     */
+    getAuthenticator() {
+        return this.authenticator;
+    }
+
+    /**
      * Returns whether the given http status code is considered a warning code
      *
      * @param {number} code - http status code

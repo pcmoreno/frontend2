@@ -34,30 +34,32 @@ class CognitoAuthenticator extends AbstractAuthenticator {
 
         // recreate cognitoUser object when it was not set (for example when opening a new tab in browser)
         if (!this.cognitoUser) {
-
-            // prepare user data (connected with pool
-            const userData = {
-                Username: localStorage.getItem(`CognitoIdentityServiceProvider.${this.config.appClientId}.LastAuthUser`),
-                Pool: this.userPool
-            };
-
-            this.cognitoUser = new CognitoUser(userData);
+            this.cognitoUser = this.userPool.getCurrentUser();
         }
-
-        // fetch the refresh token from the cognito user
-        const refreshToken = this.cognitoUser.getSignInUserSession().getRefreshToken();
 
         // refresh session for cognito user
         return new Promise((resolve, reject) => {
-            this.cognitoUser.refreshSession(refreshToken, err /* result */ => {
 
-                if (err) {
-                    reject(err);
+            this.cognitoUser.getSession((sessionError, session) => {
+
+                if (sessionError) {
+                    reject(sessionError);
+                } else {
+
+                    // fetch the refresh token from the cognito user
+                    const refreshToken = session.getRefreshToken();
+
+                    this.cognitoUser.refreshSession(refreshToken, refreshError /* result */ => {
+
+                        if (refreshError) {
+                            reject(refreshError);
+                        }
+
+                        // if there was no error, resolve by default
+                        // the new tokens are stored automatically
+                        resolve();
+                    });
                 }
-
-                // if there was no error, resolve by default
-                // the new tokens are stored automatically
-                resolve();
             });
         });
     }
