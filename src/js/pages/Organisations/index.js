@@ -46,7 +46,10 @@ class Index extends Component {
         updateNavigationArrow();
 
         // get items for first time
-        this.getItems();
+        // todo: name should be set by .env or App.config.js
+        // todo: I dont like the 'null' parameters in here..
+        // todo: needs documentation
+        this.getChildElements(null, 'LTP', null);
     }
 
     refreshDataWithMessage() {
@@ -60,67 +63,63 @@ class Index extends Component {
         this.actions.addAlert({ type: 'success', text: 'The organisation was successfully saved.' });
 
         // refresh the items
-        this.getItems();
+        // todo: is this actually needed? shouldnt React rerender because the state changes?
+        this.getChildElements(null, 'what to put here', null);
     }
 
-    getItems() {
-
-        // todo: merge this with getChildElements
-
-        document.querySelector('#spinner').classList.remove('hidden');
-
-        const api = new API('neon'),
-            apiConfig = AppConfig.api.neon;
-
-        // request organisations
-        api.get(
-            apiConfig.baseUrl,
-            apiConfig.endpoints.organisation,
-            {
-                urlParams: {
-                    parameters: {
-                        fields: 'id,organisationName'
-                    }
-                }
-            }
-        ).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
-            // this.actions.getItems(response);
-            this.actions.fetchEntities('FAKE_ROOT_ID_SINCE_IT_LOADS_INITIAL_ITEMS', response);
-        }).catch(error => {
-            this.actions.addAlert({ type: 'error', text: error });
-        });
-    }
-
-    getChildElements() {
+    getChildElements(entityId, entityName, panelId) {
 
         // todo: rename to fetchEntities
+        // todo: implement check to see if entities already exist in state.panels. in that case, do not retrieve them again (cache)
 
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = new API('neon'),
             apiConfig = AppConfig.api.neon;
 
-        // request organisations
-        // todo: it will ATM always load child entities for this parent id: eentje-2018-02-19
-        api.get(
-            apiConfig.baseUrl,
-            apiConfig.endpoints.division,
-            {
+        let params, endPoint;
+
+        if (entityId !== null) {
+
+            // a parentId was provided, assume child entities need to be retrieved
+            params = {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName'
                     },
                     identifiers: {
-                        identifier: 'eentje-2018-02-19'
+                        identifier: entityId
                     }
                 }
-            }
+            };
+
+            endPoint = apiConfig.endpoints.division;
+        } else {
+
+            // no parentId was provided, assume the 'root' entities need to be retrieved
+            params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName'
+                    }
+                }
+            };
+
+            endPoint = apiConfig.endpoints.organisation;
+        }
+
+        api.get(
+            apiConfig.baseUrl,
+            endPoint,
+            params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
 
-            // todo: it will ATM always load child entities for this parent id: eentje-2018-02-19
-            this.actions.fetchEntities('eentje-2018-02-19', response);
+            // store panel entities in state
+            this.actions.fetchEntities(entityId ? entityId : null, response);
+
+            // now that the new entities are available in the state, update the path to reflect the change
+            this.actions.updatePath(entityId, entityName, panelId);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
@@ -137,12 +136,10 @@ class Index extends Component {
     render() {
         return (
             <Organisations
-                items = { this.props.items }
-                items2 = { this.props.items2 }
                 panels = { this.props.panels }
+                pathNodes = { this.props.pathNodes }
                 getChildElements = { this.getChildElements.bind(this) }
                 forms={this.props.forms}
-                getItems={ this.getItems.bind(this) }
                 refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
@@ -154,10 +151,9 @@ class Index extends Component {
 }
 
 const mapStateToProps = state => ({
-    items: state.organisationsReducer.items,
-    items2: state.organisationsReducer.items2,
     panels: state.organisationsReducer.panels,
-    forms: state.organisationsReducer.forms
+    forms: state.organisationsReducer.forms,
+    pathNodes: state.organisationsReducer.pathNodes
 });
 
 export default connect(mapStateToProps)(Index);

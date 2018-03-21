@@ -1,10 +1,9 @@
 import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
-    items: [],
-    items2: [],
     panels: [],
-    forms: []
+    forms: [],
+    pathNodes: []
 };
 
 /**
@@ -19,32 +18,38 @@ export default function organisationsReducer(state = initialState, action) {
 
     switch (action.type) {
 
-        // case actionType.GET_ITEMS:
-        //
-        //     // clear current items from newState
-        //     newState.items = [];
-        //
-        //     // loop through newly retrieved items from the action and add to the newState
-        //     action.items.forEach(item => {
-        //         newState.items.push({ id: item.id, organisationName: item.organisation_name });
-        //     });
-        //
-        //     break;
+        case actionType.UPDATE_PATH:
+
+            newState.pathNodes = [];
+
+            // construct the temporary path that is used to populate the new pathNodes state
+            let tempPath;
+
+            if (action.panelId) {
+
+                // user clicked at a certain panel so ensure the pathNodes are sliced up until that point
+                tempPath = state.pathNodes.slice(0, action.panelId);
+            } else {
+                tempPath = state.pathNodes;
+            }
+
+            // build up the new pathNodes state
+            tempPath.forEach(node => {
+                newState.pathNodes.push(node);
+            });
+
+            // push the new entry
+            newState.pathNodes.push({
+                id: action.entityId,
+                name: action.entityName
+            });
+
+            break;
 
         case actionType.FETCH_ENTITIES:
 
-            /* todo: here's an example of the new state:
-                {
-                    parentId: 'some-id',
-                    active: false,
-                    entities: [{}, {}, {}]
-                },
-                {
-                    parentId: 'some-other-id',
-                    active: true,
-                    entities: [{}, {}, {}]
-                }
-             */
+            // will add a panel entity to the state containing all its children. this is NOT a representation of the
+            // panel view since it can contain panels that are no longer visible. this serves as caching only.
 
             // clear all panels from newState
             newState.panels = [];
@@ -53,11 +58,12 @@ export default function organisationsReducer(state = initialState, action) {
             state.panels.forEach(panel => {
 
                 // check it doesnt accidently add a panel entry with the id from the payload (ensures it overwrites)
-                if (panel.id !== action.parentId) {
+                if (panel.parentId !== action.parentId) {
 
                     // take all properties from existing panel, except the active state
+                    // todo: the active property seems a bit redundant since it can be determined from Path in Panels.js
                     newState.panels.push({
-                        parentId: panel.id,
+                        parentId: panel.parentId,
                         active: false,
                         entities: panel.entities
                     });
@@ -66,7 +72,7 @@ export default function organisationsReducer(state = initialState, action) {
 
             // push the new entities to a new panel id in entities
             newState.panels.push({
-                parentId: action.id,
+                parentId: action.parentId,
                 active: true,
                 entities: action.entities
             });

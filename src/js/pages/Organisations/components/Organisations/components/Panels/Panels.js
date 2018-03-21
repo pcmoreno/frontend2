@@ -11,16 +11,29 @@ export default class Panels extends Component {
     }
 
     render() {
-        const { panels, getChildElements, openModalToAddOrganisation } = this.props;
+        const { panels, pathNodes, getChildElements, openModalToAddOrganisation } = this.props;
 
         const panelCollection = [];
+        let panelIndex = 1;
 
-        panels.forEach(panel => {
+        pathNodes.forEach(pathNode => {
+
+            // todo: extract to helper function
+            let currentPanel;
+
+            panels.forEach(panel => {
+                if (panel.parentId === pathNode.id) {
+                    currentPanel = panel;
+                }
+            });
+
             panelCollection.push(<Panel
-                items={panel.entities}
+                panelId={ panelIndex++ }
+                entities={currentPanel.entities}
                 getChildElements={getChildElements}
                 openModalToAddOrganisation={openModalToAddOrganisation}
-                active={ panel.active }
+                active={ currentPanel.active }
+                pathNodes = { pathNodes }
             />);
         });
 

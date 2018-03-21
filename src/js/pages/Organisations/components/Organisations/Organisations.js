@@ -16,11 +16,12 @@ export default class Organisations extends Component {
     }
 
     render() {
-        const { panels, getChildElements, openModalToAddOrganisation } = this.props;
+        const { panels, getChildElements, openModalToAddOrganisation, pathNodes } = this.props;
 
-        // define things for the Panels component
+        // define properties for the Panels component
         const panelContainer = <Panels
             panels={ panels }
+            pathNodes={ pathNodes }
             getChildElements={ getChildElements }
             openModalToAddOrganisation={ openModalToAddOrganisation }
         />;
@@ -28,7 +29,7 @@ export default class Organisations extends Component {
         return (
             <div className={ style.organisations }>
                 { this.props.alertComponent }
-                <Path />
+                <Path pathNodes={ pathNodes } />
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
                     <Detailpanel />

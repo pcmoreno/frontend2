@@ -12,28 +12,42 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { items, getChildElements } = this.props;
+        const { entities, pathNodes, panelId, getChildElements } = this.props;
 
         let itemOutput = [];
 
-        if (items.length > 1) {
-            items.forEach(item => {
+        if (entities.length > 1) {
+            entities.forEach(entity => {
+
+                // todo: extract to separate helper function
+                let panelItemActive = false;
+
+                pathNodes.forEach(pathNode => {
+                    if (pathNode.id === entity.id) {
+                        panelItemActive = true;
+                    }
+                });
+
                 itemOutput.push(<Item
-                    itemName = { item.organisation_name }
+                    panelId = { panelId }
+                    itemName = { entity.organisation_name }
+                    itemId = { entity.id }
                     getChildElements = { getChildElements }
+                    panelItemActive = { panelItemActive }
                 />);
             });
         } else {
 
-            // todo: a single entry is not wrapped inside an array, thus cannot forEach it. fix this in the API.
+            // todo: a single entry is not wrapped inside an array, thus cannot forEach it. fix this in the API (NEON-3633)
             itemOutput = <Item
-                itemName = { items.organisation_name }
+                itemName = { entities.organisation_name }
+                itemId = { entities.id }
                 getChildElements = { getChildElements }
             />;
         }
 
         return (
-            <section className={ `${style.panel} ${this.props.active ? 'active' : ''}` } >
+            <section className={ `${style.panel} ${ this.props.active && 'active' }` } >
                 <PanelHeader openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />
                 <section className={ style.itemlist }>
                     <ul>

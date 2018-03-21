@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import PathNode from './components/PathNode/PathNode';
 import style from './style/path.scss';
 
 export default class Path extends Component {
@@ -10,13 +11,21 @@ export default class Path extends Component {
     }
 
     render() {
+        let { pathNodes } = this.props;
+
+        let nodes = [];
+
+        pathNodes.forEach(pathNode => {
+            nodes.push(<PathNode
+                name = { pathNode.name }
+                id = { pathNode.id }
+            />);
+        });
+
         return (
             <section className={ style.path } id="path">
                 <nav>
-                    <span><a href="#notimplemented">LTP</a></span>
-                    <span><a href="#notimplemented">Organisation name</a></span>
-                    <span><a href="#notimplemented">Project name</a></span>
-                    <span><a href="#notimplemented">Job function that is also very long</a></span>
+                    { nodes }
                 </nav>
             </section>
         );

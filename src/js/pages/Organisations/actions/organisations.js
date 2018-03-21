@@ -1,17 +1,22 @@
 import * as actionType from '../constants/ActionTypes';
 
 /**
- * Fetch item action
- * @param {array} items - items
- * @returns {{type, items: *}} items with action type
+ * Update path action
+ * @param {string} entityId - entityId
+ * @param {string} entityName - entityName
+ * @param {string} panelId - panelId
+ * @returns {{type, path: *}} updated path
  */
-export function getItems(items) {
+export function updatePath(entityId, entityName, panelId) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
+    // todo: an Entity object with an id and name key would be cleaner
     return {
-        type: actionType.GET_ITEMS,
-        items
+        type: actionType.UPDATE_PATH,
+        entityId,
+        entityName,
+        panelId
     };
 }
 
