@@ -21,7 +21,7 @@ export default class Item extends Component {
             <li className={ `${panelItemActive && 'list_item__active'}` } onClick = { () => {
 
                 // console.log('fetching entities for '+itemId+' (the panel id is '+panelId+')');
-                fetchEntities(itemId, itemName, panelId);
+                fetchEntities({ id: itemId, name: itemName }, panelId);
             } }>
                 <ul className={ style.listitem }>
                     <li><FontAwesomeIcon icon="suitcase" /></li>

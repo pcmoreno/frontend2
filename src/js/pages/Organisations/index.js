@@ -49,7 +49,7 @@ class Index extends Component {
         // todo: name should be set by .env or App.config.js
         // todo: I dont like the 'null' parameter in here, but since the root organisation has no ID, I saw no other way
         // todo: needs documentation
-        this.fetchEntities(null, 'LTP', 0);
+        this.fetchEntities({ id: null, name: 'LTP' }, 0);
     }
 
     refreshDataWithMessage() {
@@ -64,10 +64,10 @@ class Index extends Component {
 
         // refresh the items
         // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        this.fetchEntities(null, 'what to put here', null);
+        this.fetchEntities({ id: null, name: 'what to put here' }, null);
     }
 
-    fetchEntities(entityId, entityName, panelId) {
+    fetchEntities(entity, panelId) {
 
         // todo: rename to fetchEntities
         // todo: implement check to see if entities already exist in state.panels. in that case, do not retrieve them again (cache)
@@ -79,16 +79,16 @@ class Index extends Component {
 
         let params, endPoint;
 
-        if (entityId !== null) {
+        if (entity.id !== null) {
 
             // a parentId was provided, assume child entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName'
+                        fields: 'id,organisationName,childOrganisations'
                     },
                     identifiers: {
-                        identifier: entityId
+                        identifier: entity.id
                     }
                 }
             };
@@ -116,10 +116,10 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
 
             // store panel entities in state
-            this.actions.fetchEntities(entityId ? entityId : null, response);
+            this.actions.fetchEntities(entity.id ? entity.id : null, response);
 
             // now that the new entities are available in the state, update the path to reflect the change
-            this.actions.updatePath(entityId, entityName, panelId);
+            this.actions.updatePath(entity, panelId);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });

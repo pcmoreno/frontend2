@@ -19,7 +19,7 @@ class PathNode extends Component {
                 if (id) {
 
                     //console.log('navigating back to path node item number '+panelId)
-                    fetchEntities(id, name, panelId - 1);
+                    fetchEntities({ id, name }, panelId - 1);
                 }
 
             }}>

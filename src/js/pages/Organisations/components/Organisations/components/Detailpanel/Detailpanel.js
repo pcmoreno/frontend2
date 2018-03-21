@@ -25,6 +25,13 @@ export default class Detailpanel extends Component {
     }
 
     render() {
+        const { entity } = this.props;
+
+        let entityName = 'loading';
+
+        if (entity) {
+            entityName = entity.name;
+        }
 
         // todo: finish styling for detail panel NEON-3255
         return (
@@ -32,7 +39,7 @@ export default class Detailpanel extends Component {
                 <header>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>Detail panel with very long name once again</h2>
+                    <h2>{ entityName }</h2>
                 </header>
                 <nav>
                     <span>item</span>

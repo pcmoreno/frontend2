@@ -32,7 +32,7 @@ export default class Organisations extends Component {
                 <Path pathNodes={ pathNodes } fetchEntities={ fetchEntities } />
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
-                    <Detailpanel />
+                    <Detailpanel entity={ pathNodes.slice(-1).pop() } />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_organisation" >
                     <Form

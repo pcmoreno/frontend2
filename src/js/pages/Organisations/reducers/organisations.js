@@ -40,8 +40,8 @@ export default function organisationsReducer(state = initialState, action) {
 
             // push the new entry
             newState.pathNodes.push({
-                id: action.entityId,
-                name: action.entityName
+                id: action.entity.id,
+                name: action.entity.name
             });
 
             break;

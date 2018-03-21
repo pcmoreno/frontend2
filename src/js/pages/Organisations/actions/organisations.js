@@ -2,20 +2,17 @@ import * as actionType from '../constants/ActionTypes';
 
 /**
  * Update path action
- * @param {string} entityId - entityId
- * @param {string} entityName - entityName
+ * @param {Object} entity
  * @param {string} panelId - panelId
  * @returns {{type, path: *}} updated path
  */
-export function updatePath(entityId, entityName, panelId) {
+export function updatePath(entity, panelId) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
-    // todo: an Entity object with an id and name key would be cleaner
     return {
         type: actionType.UPDATE_PATH,
-        entityId,
-        entityName,
+        entity,
         panelId
     };
 }

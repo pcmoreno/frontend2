@@ -16,35 +16,55 @@ export default class Panel extends Component {
 
         let itemOutput = [];
 
-        if (entities.length > 1) {
-            entities.forEach(entity => {
+        // if (entities.length > 1) {
+        //     entities.forEach(entity => {
+        //
+        //         // todo: extract to separate helper function
+        //         let panelItemActive = false;
+        //
+        //         pathNodes.forEach(pathNode => {
+        //             if (pathNode.id === entity.id) {
+        //                 panelItemActive = true;
+        //             }
+        //         });
+        //
+        //         itemOutput.push(<Item
+        //             panelId = { panelId }
+        //             itemName = { entity.organisation_name }
+        //             itemId = { entity.id }
+        //             fetchEntities = { fetchEntities }
+        //             panelItemActive = { panelItemActive }
+        //         />);
+        //     });
+        // } else {
+        //
+        //     // todo: a single entry is not wrapped inside an array, thus cannot forEach it. fix this in the API (NEON-3633)
+        //     itemOutput = <Item
+        //         itemName = { entities.organisation_name }
+        //         itemId = { entities.id }
+        //         fetchEntities = { fetchEntities }
+        //     />;
+        // }
 
-                // todo: extract to separate helper function
-                let panelItemActive = false;
+        entities.forEach(entity => {
 
-                pathNodes.forEach(pathNode => {
-                    if (pathNode.id === entity.id) {
-                        panelItemActive = true;
-                    }
-                });
+            // todo: extract to separate helper function
+            let panelItemActive = false;
 
-                itemOutput.push(<Item
-                    panelId = { panelId }
-                    itemName = { entity.organisation_name }
-                    itemId = { entity.id }
-                    fetchEntities = { fetchEntities }
-                    panelItemActive = { panelItemActive }
-                />);
+            pathNodes.forEach(pathNode => {
+                if (pathNode.id === entity.id) {
+                    panelItemActive = true;
+                }
             });
-        } else {
 
-            // todo: a single entry is not wrapped inside an array, thus cannot forEach it. fix this in the API (NEON-3633)
-            itemOutput = <Item
-                itemName = { entities.organisation_name }
-                itemId = { entities.id }
+            itemOutput.push(<Item
+                panelId = { panelId }
+                itemName = { entity.organisation_name }
+                itemId = { entity.id }
                 fetchEntities = { fetchEntities }
-            />;
-        }
+                panelItemActive = { panelItemActive }
+            />);
+        });
 
         return (
             <section className={ `${style.panel} ${ this.props.active && 'active' }` } >
