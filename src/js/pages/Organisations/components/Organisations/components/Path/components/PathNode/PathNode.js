@@ -10,10 +10,22 @@ class PathNode extends Component {
     }
 
     render() {
-        const { name, id } = this.props;
+        const { name, id, panelId, fetchEntities } = this.props;
 
-        // todo: make nodes clickable
-        return (<span className={ style.node }><a href={ id }>{ name }</a></span>);
+        return (<span className={ style.node }>
+            <a href={ id } onClick={ event => {
+                event.preventDefault();
+
+                if (id) {
+
+                    //console.log('navigating back to path node item number '+panelId)
+                    fetchEntities(id, name, panelId - 1);
+                }
+
+            }}>
+                { name }
+            </a>
+        </span>);
     }
 }
 

@@ -47,9 +47,9 @@ class Index extends Component {
 
         // get items for first time
         // todo: name should be set by .env or App.config.js
-        // todo: I dont like the 'null' parameters in here..
+        // todo: I dont like the 'null' parameter in here, but since the root organisation has no ID, I saw no other way
         // todo: needs documentation
-        this.getChildElements(null, 'LTP', null);
+        this.fetchEntities(null, 'LTP', 0);
     }
 
     refreshDataWithMessage() {
@@ -63,11 +63,11 @@ class Index extends Component {
         this.actions.addAlert({ type: 'success', text: 'The organisation was successfully saved.' });
 
         // refresh the items
-        // todo: is this actually needed? shouldnt React rerender because the state changes?
-        this.getChildElements(null, 'what to put here', null);
+        // todo: is this actually needed? shouldnt React re-render because the state changes? test!
+        this.fetchEntities(null, 'what to put here', null);
     }
 
-    getChildElements(entityId, entityName, panelId) {
+    fetchEntities(entityId, entityName, panelId) {
 
         // todo: rename to fetchEntities
         // todo: implement check to see if entities already exist in state.panels. in that case, do not retrieve them again (cache)
@@ -138,7 +138,7 @@ class Index extends Component {
             <Organisations
                 panels = { this.props.panels }
                 pathNodes = { this.props.pathNodes }
-                getChildElements = { this.getChildElements.bind(this) }
+                fetchEntities = { this.fetchEntities.bind(this) }
                 forms={this.props.forms}
                 refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }

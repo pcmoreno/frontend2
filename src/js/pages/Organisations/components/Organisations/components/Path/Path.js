@@ -11,14 +11,17 @@ export default class Path extends Component {
     }
 
     render() {
-        let { pathNodes } = this.props;
+        const { pathNodes, fetchEntities } = this.props;
 
-        let nodes = [];
+        const nodes = [];
+        let panelIndex = 1;
 
         pathNodes.forEach(pathNode => {
             nodes.push(<PathNode
                 name = { pathNode.name }
                 id = { pathNode.id }
+                panelId = { panelIndex++ }
+                fetchEntities = { fetchEntities }
             />);
         });
 

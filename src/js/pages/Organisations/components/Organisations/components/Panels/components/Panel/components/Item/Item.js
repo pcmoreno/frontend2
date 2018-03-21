@@ -15,13 +15,13 @@ export default class Item extends Component {
     }
 
     render() {
-        const { itemName, itemId, panelId, panelItemActive } = this.props;
+        const { itemName, itemId, panelId, panelItemActive, fetchEntities } = this.props;
 
         return (
             <li className={ `${panelItemActive && 'list_item__active'}` } onClick = { () => {
 
                 // console.log('fetching entities for '+itemId+' (the panel id is '+panelId+')');
-                this.props.getChildElements(itemId, itemName, panelId);
+                fetchEntities(itemId, itemName, panelId);
             } }>
                 <ul className={ style.listitem }>
                     <li><FontAwesomeIcon icon="suitcase" /></li>

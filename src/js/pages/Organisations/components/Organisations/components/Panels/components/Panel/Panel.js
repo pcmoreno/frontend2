@@ -12,7 +12,7 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { entities, pathNodes, panelId, getChildElements } = this.props;
+        const { entities, pathNodes, panelId, fetchEntities } = this.props;
 
         let itemOutput = [];
 
@@ -32,7 +32,7 @@ export default class Panel extends Component {
                     panelId = { panelId }
                     itemName = { entity.organisation_name }
                     itemId = { entity.id }
-                    getChildElements = { getChildElements }
+                    fetchEntities = { fetchEntities }
                     panelItemActive = { panelItemActive }
                 />);
             });
@@ -42,7 +42,7 @@ export default class Panel extends Component {
             itemOutput = <Item
                 itemName = { entities.organisation_name }
                 itemId = { entities.id }
-                getChildElements = { getChildElements }
+                fetchEntities = { fetchEntities }
             />;
         }
 
