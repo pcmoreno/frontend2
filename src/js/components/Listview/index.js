@@ -41,8 +41,6 @@ class Index extends Component {
             dispatch
         );
 
-        console.log(this.props.entities);
-
         // introduce local state to keep track of the view
         // todo: rename to localState
         this.state = {
@@ -67,7 +65,25 @@ class Index extends Component {
     componentDidUpdate() {
         // new entities received, update local state so UI re-renders
         // todo: endless loop. fix this.
-        this.setState(this.state.localEntities = this.props.entities);
+        // this.setState(this.state.localEntities = this.props.entities);
+    }
+
+    shouldComponentUpdate(nextProps) {
+
+        // update the local state when its entities do not match the received entities
+        if (nextProps !== this.state.localEntities) {
+            console.log('updating local state and calling render method');
+
+            this.setState(this.state.localEntities = nextProps.entities);
+
+            if (this.props.defaultSortingKey) {
+                this.sortEntities(
+                    this.state.localEntities,
+                    this.props.defaultSortingKey,
+                    this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.state.sortOrder
+                );
+            }
+        }
     }
 
     sortingKey(entity) {
