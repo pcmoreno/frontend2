@@ -18,7 +18,7 @@ export default function organisationsReducer(state = initialState, action) {
 
     switch (action.type) {
 
-        case actionType.UPDATE_PATH:
+        case actionType.UPDATE_PATH: {
 
             newState.pathNodes = [];
 
@@ -45,6 +45,7 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+        }
 
         case actionType.FETCH_ENTITIES:
 

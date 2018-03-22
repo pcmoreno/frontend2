@@ -1,6 +1,6 @@
 // use common.js for functions that need to be executed on page load
 
-// performs feature query for navigator, then initialises service worker
+// checks for https, then performs feature query for navigator, then initialises service worker
 if(location.protocol === 'https:'){
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

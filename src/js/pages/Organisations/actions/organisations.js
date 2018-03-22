@@ -2,7 +2,7 @@ import * as actionType from '../constants/ActionTypes';
 
 /**
  * Update path action
- * @param {Object} entity
+ * @param {Object} entity - entity
  * @param {string} panelId - panelId
  * @returns {{type, path: *}} updated path
  */
