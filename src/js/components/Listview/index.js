@@ -41,6 +41,8 @@ class Index extends Component {
             dispatch
         );
 
+        console.log(this.props.entities);
+
         // introduce local state to keep track of the view
         // todo: rename to localState
         this.state = {
@@ -60,6 +62,12 @@ class Index extends Component {
                 this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.state.sortOrder
             );
         }
+    }
+
+    componentDidUpdate() {
+        // new entities received, update local state so UI re-renders
+        // todo: endless loop. fix this.
+        this.setState(this.state.localEntities = this.props.entities);
     }
 
     sortingKey(entity) {
@@ -158,7 +166,7 @@ class Index extends Component {
         const { entities, i18n, translationKey } = this.props;
 
         if (entities.length === 0) {
-            return (<div>{ i18n.translations['listview|no-results'] }</div>);
+            return (<div>No results</div>);
         }
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
@@ -178,7 +186,8 @@ class Index extends Component {
             if (label === key) {
 
                 // translationKey was not provided, see if a generic translation can be found
-                const genericLabel = i18n.translations['listview|' + key];
+                // const genericLabel = i18n.translations['listview|' + key];
+                const genericLabel = 'some label';
 
                 label = genericLabel ? genericLabel : key;
             }

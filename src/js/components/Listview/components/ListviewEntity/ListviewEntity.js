@@ -9,6 +9,8 @@ export default class ListviewEntity extends Component {
         const { entity, i18n, translationKey } = this.props;
         const entityItems = [];
 
+        console.log(entity);
+
         Object.keys(entity).forEach(key => {
             const value = entity[key].value;
 

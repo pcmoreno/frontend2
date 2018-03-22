@@ -28,6 +28,8 @@ export default class ListviewEntityItem extends Component {
     render() {
         let { entityId, value } = this.props;
 
+        console.log(entityId);
+
         if (Array.isArray(value)) {
 
             // value is an array: iterate over it, find translation for each element, and construct as type string
@@ -65,11 +67,12 @@ export default class ListviewEntityItem extends Component {
                 buttonLink = { buttonLink }
                 buttonClass = { buttonClass }
             />;
-        } else if (value !== null && value.length > 0) {
-
-            // value is not a link. get translation (if applicable)
-            value = this.translate(value);
-        }
+        };
+        // else if (value !== null && value.length > 0) {
+        //
+        //     // value is not a link. get translation (if applicable)
+        //     value = this.translate(value);
+        // }
 
         return (
             <td title={ value } className={ entityId }>
