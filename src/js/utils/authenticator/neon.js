@@ -3,8 +3,8 @@ import CognitoAuthenticator from './cognito';
 import ApiFactory from '../api/factory';
 
 /**
- * @class API
- * @description Generic API module to perform network requests to a backend
+ * @class NeonAuthenticator
+ * @description Performs all neon authentication
  */
 class NeonAuthenticator extends AbstractAuthenticator {
 
@@ -12,6 +12,24 @@ class NeonAuthenticator extends AbstractAuthenticator {
         super('neon');
 
         this.cognitoAuthenticator = new CognitoAuthenticator();
+        this.user = null;
+    }
+
+    /**
+     * Returns the user. You must've been authenticated before calling this method
+     * @returns {Object|null} user
+     */
+    getUser() {
+        return this.user;
+    }
+
+    /**
+     * Returns whether the user should be authenticated.
+     * This does not guarantee that there are valid tokens, just that this user WAS/IS authenticated.
+     * @returns {boolean} authenticated
+     */
+    isAuthenticated() {
+        return (this.user !== null);
     }
 
     /**
@@ -43,13 +61,20 @@ class NeonAuthenticator extends AbstractAuthenticator {
 
                     // authenticate was ok, resolve with json response (user)
                     response.json().then(user => {
+
+                        // save and return the user
+                        this.user = user;
                         resolve(user);
                     });
                 } else if (response.status === 401) {
 
                     // either the cognito token or the neon token is expired. We will try again by refreshing them both
                     this.refreshTokens().then(user => {
+
+                        // save and return the user
+                        this.user = user;
                         resolve(user);
+
                     }).catch(error => {
 
                         // refreshing failed, meaning that the cognito token is expired
@@ -126,11 +151,12 @@ class NeonAuthenticator extends AbstractAuthenticator {
             this.cognitoAuthenticator.authenticate(credentials).then(cognitoToken => {
 
                 // fetch a new neon token and return the user
+                // in general we would expect this always to succeed once we have a correct login/token from cognito
                 this.fetchNeonApiTokenAndUser(cognitoToken).then(user => {
                     resolve(user);
                 }).catch(error => {
 
-                    // cognito token is expired or there was an unexpected error. Token renewal failed here.
+                    // neon api could not process the cognito token, this is unexpected.
                     reject(error);
                 });
 

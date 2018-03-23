@@ -11,6 +11,7 @@ import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
 import ApiFactory from './utils/api/factory';
 import NeonAuthenticator from './utils/authenticator/neon';
+import Login from './pages/Login';
 
 /** @jsx h */
 
@@ -67,6 +68,7 @@ let store = createStore(rootReducer);
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
 ApiFactory.create('neon', new NeonAuthenticator());
+const api = ApiFactory.get('neon');
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
@@ -131,28 +133,57 @@ function getParticipants() {
 
 import Header from './components/Header';
 
-render(
-    <Provider store={ store }>
-        <section id="layout">
-            <Header key="header"/>
-            <main>
-                <Alert />
-                <Router>
-                    <AsyncRoute path="/example" getComponent={ getExample } />
-                    <AsyncRoute path="/login" getComponent={ getLogin } />
-                    <AsyncRoute path="/inbox" getComponent={ getInbox } />
-                    <AsyncRoute path="/organisations" getComponent={ getOrganisations } />
-                    <AsyncRoute path="/tasks" getComponent={ getTasks } />
-                    <AsyncRoute path="/users" getComponent={ getUsers } />
-                    <AsyncRoute path="/participants" getComponent={ getParticipants } />
-                </Router>
-            </main>
-        </section>
-    </Provider>,
-    document.querySelector('body'),
-    document.querySelector('body').firstChild
 
-);
+/**
+ * Renders the app
+ * @returns {{}} app
+ */
+function renderApp() {
+    render(
+        <Provider store={ store }>
+            <section id="layout">
+                <Header key="header"/>
+                <main>
+                    <Alert />
+                    <Router>
+                        <AsyncRoute path="/login" getComponent={ getLogin } />
+                        <AsyncRoute default path="/inbox" getComponent={ getInbox } />
+                        <AsyncRoute path="/organisations" getComponent={ getOrganisations } />
+                        <AsyncRoute path="/tasks" getComponent={ getTasks } />
+                        <AsyncRoute path="/users" getComponent={ getUsers } />
+                        <AsyncRoute path="/participants" getComponent={ getParticipants } />
+                    </Router>
+                </main>
+            </section>
+        </Provider>,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild
+    );
+}
+
+/**
+ * Renders the login component
+ * @param {string} redirectPath - redirect path (should match a route)
+ * @returns {{}} login
+ */
+function renderLogin(redirectPath) {
+    render(
+        <Login redirectPath={ redirectPath }/>,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild
+    );
+}
+
+
+// before rendering the app, always first fetch the current user (if available)
+api.getAuthenticator().getAuthenticatedUser().then((/* user */) => {
+
+    // todo: store user in state/store?
+    renderApp();
+
+}).catch(() => {
+    renderLogin(location.pathname);
+});
 
 if (process.env.NODE_ENV === 'production') {
 

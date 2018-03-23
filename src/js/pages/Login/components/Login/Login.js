@@ -9,7 +9,7 @@ export default class Login extends Component {
         return (
             <section className={ style.login }>
                 <div className={ style.modal }>
-                    <section>
+                    <section className={ style.loginMargin }>
                         <form>
                             <header className={ style.modal_header }>
                                 <h3>Log in</h3>

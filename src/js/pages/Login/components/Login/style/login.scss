@@ -4,11 +4,15 @@
 
     /* todo: remove these 2 when figured out how to hide the main navigation element */
     margin-top: -10px;
-    height: 100%;
+    height: 100vh;
 
     form {
         box-shadow: none;
     }
+}
+
+.loginMargin {
+    margin-top: 100px;
 }
 
 .modal {

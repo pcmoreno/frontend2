@@ -31,6 +31,14 @@ class AbstractAuthenticator {
     refreshTokens() {
         throw new Error('Method not implemented.');
     }
+
+    getUser() {
+        throw new Error('Method not implemented.');
+    }
+
+    isAuthenticated() {
+        throw new Error('Method not implemented.');
+    }
 }
 
 export default AbstractAuthenticator;

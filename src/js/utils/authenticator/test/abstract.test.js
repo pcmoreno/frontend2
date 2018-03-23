@@ -60,3 +60,23 @@ test('AbstractAuthenticator should have method refreshTokens, but should throw i
         expect(e).toEqual(new Error('Method not implemented.'));
     }
 });
+
+test('AbstractAuthenticator should have method isAuthenticated, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    try {
+        authenticator.isAuthenticated();
+    } catch (e) {
+        expect(e).toEqual(new Error('Method not implemented.'));
+    }
+});
+
+test('AbstractAuthenticator should have method getUser, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    try {
+        authenticator.getUser();
+    } catch (e) {
+        expect(e).toEqual(new Error('Method not implemented.'));
+    }
+});
