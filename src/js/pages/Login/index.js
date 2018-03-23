@@ -42,9 +42,13 @@ export default class Index extends Component {
             api.getAuthenticator().authenticate({
                 username,
                 password
-            }).then(user => {
+            }).then((/* user */) => {
 
-            }).catch(error => {
+            }).catch((/* error */) => {
+
+                // todo: translate message
+                newState.error = 'Inloggen mislukt. Probeer opnieuw.';
+                newState.submitDisabled = false;
             });
 
         } else {
