@@ -76,14 +76,6 @@ import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
 
 /**
- * Returns the example page
- * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} example page
- */
-function getExample() {
-    return System.import('./pages/Example').then(module => module.default);
-}
-
-/**
  * Returns the login page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} login page
  */
