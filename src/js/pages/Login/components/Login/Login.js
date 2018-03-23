@@ -5,7 +5,10 @@ import { h, Component } from 'preact';
 import style from './style/login.scss';
 
 export default class Login extends Component {
+
     render() {
+        const { onSubmit, handleChange, localState } = this.props;
+
         return (
             <section className={ style.login }>
                 <div className={ style.modal }>
@@ -25,6 +28,7 @@ export default class Login extends Component {
                                         value=""
                                         autoComplete="off"
                                         placeholder="E-mailadres"
+                                        onChange={ handleChange }
                                         required
                                     />
                                 </div>
@@ -37,6 +41,7 @@ export default class Login extends Component {
                                         name="password"
                                         autoComplete="off"
                                         placeholder="Wachtwoord"
+                                        onChange={ handleChange }
                                         required
                                     />
                                 </div>
@@ -45,13 +50,13 @@ export default class Login extends Component {
                                 </span>
                                 <span className={ style.errors }>
                                     <div>
-                                        (errors go here)
+                                        { localState.error }
                                     </div>
                                 </span>
                             </main>
                             <footer className={ style.modal_footer } >
                                 <nav>
-                                    <button className={ 'action_button' } type="submit">
+                                    <button className={ 'action_button' } disabled={ localState.submitDisabled } onClick={ onSubmit }>
                                         Inloggen
                                     </button>
                                 </nav>

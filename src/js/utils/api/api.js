@@ -123,6 +123,12 @@ class API {
                 headers: {}
             };
 
+            // allow to use cross-domain cookies for authentication
+            // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+            if (this.config.credentials) {
+                requestParams.credentials = this.config.credentials;
+            }
+
             // builds the url with the given identifiers and parameters
             const parsedUrl = self.buildURL(url, options.urlParams);
 
