@@ -20,7 +20,7 @@ class AbstractAuthenticator {
         }
     }
 
-    isAuthenticated() {
+    getAuthenticatedUser() {
         throw new Error('Method not implemented.');
     }
 
@@ -28,7 +28,7 @@ class AbstractAuthenticator {
         throw new Error('Method not implemented.');
     }
 
-    refresh() {
+    refreshTokens() {
         throw new Error('Method not implemented.');
     }
 }
