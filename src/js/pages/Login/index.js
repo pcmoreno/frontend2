@@ -35,6 +35,9 @@ export default class Index extends Component {
 
         if (this.inputValues.email && this.inputValues.password) {
 
+            // disable button
+            newState.submitDisabled = true;
+
             const api = ApiFactory.get('neon');
             const username = this.inputValues.email;
             const password = this.inputValues.password;
@@ -49,6 +52,9 @@ export default class Index extends Component {
                 // todo: translate message
                 newState.error = 'Inloggen mislukt. Probeer opnieuw.';
                 newState.submitDisabled = false;
+
+                // set state (async)
+                this.setState(newState);
             });
 
         } else {
