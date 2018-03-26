@@ -1,9 +1,10 @@
-import { h, Component } from 'preact';
+import { h, Component, render } from 'preact';
 import ApiFactory from '../../utils/api/factory';
 
 /** @jsx h */
 
 import Login from './components/Login/Login';
+import Redirect from "../Redirect";
 
 export default class Index extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class Index extends Component {
 
         this.localState = {
             submitDisabled: false,
-            error: 'f'
+            error: 'f1'
         };
     }
 
@@ -38,6 +39,8 @@ export default class Index extends Component {
             // disable button
             newState.submitDisabled = true;
 
+            // todo: show a loader (set new state!)
+
             const api = ApiFactory.get('neon');
             const username = this.inputValues.email;
             const password = this.inputValues.password;
@@ -47,8 +50,11 @@ export default class Index extends Component {
                 password
             }).then((/* user */) => {
 
+                render(<Redirect path={ this.redirectPath }/>);
             }).catch((/* error */) => {
 
+                console.log('here error');
+                this.setErrorMessage();
                 // todo: translate message
                 newState.error = 'Inloggen mislukt. Probeer opnieuw.';
                 newState.submitDisabled = false;
@@ -63,8 +69,26 @@ export default class Index extends Component {
             newState.error = 'Voer a.u.b. de verplichte velden in.';
         }
 
+        // todo: changing the state here does not work!
         // always set the new state
         this.setState(newState);
+    }
+
+    setErrorMessage(error) {
+        console.log('');
+        this.setState({
+            error: 'errorrr'
+        });
+    }
+
+    componentDidMount() {
+        window.setTimeout(() => {
+            console.log('call set state');
+            console.log(this.localState.error);
+            this.setState({
+                localState: {error: 'errorrr'}
+            });
+        }, 5000);
     }
 
     render() {
