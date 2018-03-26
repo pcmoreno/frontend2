@@ -3,7 +3,6 @@
  * Write any (default) configuration here
  * @type {{}}
  */
-// todo: note that participants is currently modeled as organisations due to the relationship fix not being deployed yet
 module.exports = {
     api: {
         neon: {
