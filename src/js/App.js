@@ -9,6 +9,8 @@ import { h, render } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
+import ApiFactory from './utils/api/factory';
+import NeonAuthenticator from './utils/authenticator/neon';
 
 /** @jsx h */
 
@@ -61,6 +63,10 @@ const rootReducer = combineReducers({
 
 // configure redux store with the combined reducers
 let store = createStore(rootReducer);
+
+// configure the Neon API once, so we can use it in any component from now
+// this can be fetched by calling ApiFactory.get('neon')
+ApiFactory.create('neon', new NeonAuthenticator());
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
