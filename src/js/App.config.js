@@ -11,7 +11,7 @@ module.exports = {
             endpoints: {
                 abstractSection: '/section',
                 organisation: '/section/organisation',
-                participants: '/section/organisation'
+                participants: '/section/participant'
             },
             urlEncodeParams: false,
             skipPrefixIndexParams: true,

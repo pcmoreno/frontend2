@@ -47,7 +47,7 @@ class Index extends Component {
             {
                 urlParams: {
                     parameters: {
-                        fields: 'id'
+                        fields: 'uuid,participantAppointmentDate,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType'
                     }
                 }
             }

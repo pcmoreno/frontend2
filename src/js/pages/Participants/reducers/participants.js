@@ -11,7 +11,7 @@ const initialState = {
  * @returns {Object} state
  */
 export default function participantsReducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
 
     switch (action.type) {
 
@@ -22,7 +22,25 @@ export default function participantsReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.participants.forEach(participant => {
-                newState.participants.push({ id: participant.id });
+                newState.participants.push(
+                    {
+                        name: {
+                            value: `${participant.firstName} ${participant.infix} ${participant.lastName}`
+                        },
+                        assessmentdate: {
+                            value: participant.participantAppointmentDate
+                        },
+                        organisation: {
+                            value: participant.organisationName
+                        },
+                        consultant: {
+                            value: participant.consultant
+                        },
+                        status: {
+                            value: participant.genericRoleStatus
+                        }
+                    }
+                );
             });
 
             break;

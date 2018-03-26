@@ -8,34 +8,35 @@ export default class ListviewEntityItem extends Component {
     translate(element) {
 
         // returns either the translation for element, or the original element
-        const { translationKey, i18n } = this.props;
+        // const { translationKey, i18n } = this.props;
+        //
+        // if (translationKey) {
+        //
+        //     // convert to lowercase and replace space with dash
+        //     const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
+        //
+        //     if (i18n.translations[translationKey + '|' + translatableElement]) {
+        //         return i18n.translations[translationKey + '|' + translatableElement];
+        //     } else {
+        //         return element;
+        //     }
+        // }
 
-        if (translationKey) {
+        // todo: do this when Lokalise is integrated
 
-            // convert to lowercase and replace space with dash
-            const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
-
-            if (i18n.translations[translationKey + '|' + translatableElement]) {
-                return i18n.translations[translationKey + '|' + translatableElement];
-            } else {
-                return element;
-            }
-        } else {
-            return element;
-        }
+        return element;
     }
 
     render() {
-        let { entityId, value } = this.props;
-
-        console.log(entityId);
+        const { entityId } = this.props;
+        let { value } = this.props;
 
         if (Array.isArray(value)) {
 
             // value is an array: iterate over it, find translation for each element, and construct as type string
             let convertedValues = '';
 
-            value.map((key, index) => {
+            value.forEach((key, index) => {
 
                 // if object was provided, extract take object.value
                 if (key.hasOwnProperty('value')) {
@@ -48,7 +49,6 @@ export default class ListviewEntityItem extends Component {
                 convertedValues += this.translate(key);
 
                 // if not the last entry, add a comma
-
                 if (index < value.length - 1) {
                     convertedValues += ', ';
                 }
@@ -67,12 +67,11 @@ export default class ListviewEntityItem extends Component {
                 buttonLink = { buttonLink }
                 buttonClass = { buttonClass }
             />;
-        };
-        // else if (value !== null && value.length > 0) {
-        //
-        //     // value is not a link. get translation (if applicable)
-        //     value = this.translate(value);
-        // }
+        } else if (value !== null && value !== 'undefined') {
+
+            // value is not a link so, get its translation
+            value = this.translate(value);
+        }
 
         return (
             <td title={ value } className={ entityId }>
