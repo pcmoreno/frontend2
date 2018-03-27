@@ -9,6 +9,8 @@ import { h, render } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
+import ApiFactory from './utils/api/factory';
+import NeonAuthenticator from './utils/authenticator/neon';
 
 /** @jsx h */
 
@@ -25,7 +27,7 @@ import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
-import faClipboard from '@fortawesome/fontawesome-free-solid/faClipboard';
+import faClipboardList from '@fortawesome/fontawesome-free-solid/faClipboardList';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
@@ -38,7 +40,7 @@ fontawesome.library.add(
     faUsers,
     faBuilding,
     faEnvelope,
-    faClipboard
+    faClipboardList
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
@@ -61,6 +63,10 @@ const rootReducer = combineReducers({
 
 // configure redux store with the combined reducers
 let store = createStore(rootReducer);
+
+// configure the Neon API once, so we can use it in any component from now
+// this can be fetched by calling ApiFactory.get('neon')
+ApiFactory.create('neon', new NeonAuthenticator());
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars

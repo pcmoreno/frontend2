@@ -11,7 +11,7 @@ export default class navigationItem extends Component {
     }
 
     render() {
-        let { label, link } = this.props;
+        const { label, link } = this.props;
 
         let iconType;
 
@@ -23,7 +23,7 @@ export default class navigationItem extends Component {
                 iconType = 'building';
                 break;
             case 'Tasks':
-                iconType = 'clipboard';
+                iconType = 'clipboard-list';
                 break;
             case 'Users':
                 iconType = 'users';
