@@ -129,6 +129,14 @@ function getParticipants() {
     return System.import('./pages/Participants').then(module => module.default);
 }
 
+/**
+ * Returns the error page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} error page
+ */
+function getError() {
+    return System.import('./pages/Error').then(module => module.default);
+}
+
 import Header from './components/Header';
 
 render(
@@ -145,6 +153,7 @@ render(
                     <AsyncRoute path="/tasks" getComponent={ getTasks } />
                     <AsyncRoute path="/users" getComponent={ getUsers } />
                     <AsyncRoute path="/participants" getComponent={ getParticipants } />
+                    <AsyncRoute path="/error" default getComponent={ getError } />
                 </Router>
             </main>
         </section>
