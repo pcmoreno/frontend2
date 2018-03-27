@@ -18,7 +18,6 @@ export default class Panels extends Component {
 
         pathNodes.forEach(pathNode => {
 
-            // todo: extract to helper function
             let currentPanel;
 
             panels.forEach(panel => {
@@ -28,11 +27,11 @@ export default class Panels extends Component {
             });
 
             panelCollection.push(<Panel
-                panelId={ panelIndex++ }
-                entities={currentPanel.entities}
-                fetchEntities={fetchEntities}
-                openModalToAddOrganisation={openModalToAddOrganisation}
-                active={ currentPanel.active }
+                panelId = { panelIndex++ }
+                entities = { currentPanel.entities }
+                fetchEntities = { fetchEntities }
+                openModalToAddOrganisation = { openModalToAddOrganisation }
+                active = { currentPanel.active }
                 pathNodes = { pathNodes }
             />);
         });

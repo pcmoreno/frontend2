@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import * as organisationsActions from './actions/organisations';
 import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import API from '../../utils/api';
-import AppConfig from '../../App.config';
+import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
 
 class Index extends Component {
@@ -69,23 +68,22 @@ class Index extends Component {
 
     fetchEntities(entity, panelId) {
 
-        // todo: rename to fetchEntities
-        // todo: implement check to see if entities already exist in state.panels. in that case, do not retrieve them again (cache)
+        // hide modal and spinner(if not already hidden)
 
         document.querySelector('#spinner').classList.remove('hidden');
 
-        const api = new API('neon'),
-            apiConfig = AppConfig.api.neon;
+        const api = ApiFactory.get('neon');
 
         let params, endPoint;
+        const apiConfig = api.getConfig();
 
         if (entity.id !== null) {
 
-            // a parentId was provided, assume child entities need to be retrieved
+            // a parentId was provided, assume 'child' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,childOrganisations'
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
                     },
                     identifiers: {
                         identifier: entity.id
@@ -108,8 +106,9 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisation;
         }
 
+        // request entities
         api.get(
-            apiConfig.baseUrl,
+            api.getBaseUrl(),
             endPoint,
             params
         ).then(response => {

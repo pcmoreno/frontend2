@@ -47,7 +47,7 @@ export default function organisationsReducer(state = initialState, action) {
             break;
         }
 
-        case actionType.FETCH_ENTITIES:
+        case actionType.FETCH_ENTITIES: {
 
             // will add a panel entity to the state containing all its children. this is NOT a representation of the
             // panel view since it can contain panels that are no longer visible. this serves as caching only.
@@ -71,14 +71,87 @@ export default function organisationsReducer(state = initialState, action) {
                 }
             });
 
-            // push the new entities to a new panel id in entities
+            // now the entities need to be constructed from the raw entity structure received from the API
+            const tempEntities = [];
+
+            // if entities contains organisations, process them
+            if (action.entities.child_organisations) {
+                action.entities.child_organisations.forEach(entity => {
+
+                    // attempt to extract product name if it exists
+                    let productName = null;
+
+                    if (entity.projects[0] && entity.projects[0].product) {
+                        productName = entity.projects[0].product.product_name;
+                    }
+
+                    tempEntities.push({
+                        name: entity.organisation_name,
+                        id: entity.id,
+                        type: 'project',
+                        productName
+                    });
+                });
+            }
+
+            // if entities contains projects, process them
+            if (action.entities.projects) {
+                action.entities.projects.forEach(entity => {
+
+                    // attempt to extract product name if it exists
+                    let productName = null;
+
+                    if (entity.product) {
+                        productName = entity.product.product_name;
+                    }
+
+                    tempEntities.push({
+                        name: entity.project_name,
+                        id: entity.id,
+                        type: 'jobfunction',
+                        productName
+                    });
+                });
+            }
+
+            // process (remaining?) entities (that are likely to be root entities / organisations)
+            if (action.entities.length) {
+                action.entities.forEach(entity => {
+
+                    // ensure the entity is a (root) organisation, then extract its properties and push to tempEntities
+                    if (entity.id && entity.organisation_name) {
+                        tempEntities.push({
+                            name: entity.organisation_name,
+                            id: entity.id,
+                            type: 'organisation'
+                        });
+                    }
+                });
+            }
+
+            // sort alphabetically todo: move to utils
+            tempEntities.sort((a, b) => {
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
             newState.panels.push({
                 parentId: action.parentId,
                 active: true,
-                entities: action.entities
+                entities: tempEntities
             });
 
             break;
+
+        }
 
         case actionType.STORE_FORM_DATA:
 

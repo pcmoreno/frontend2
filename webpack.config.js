@@ -132,7 +132,7 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8001/api/v1')
+                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/api/v1')
             }
         }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),

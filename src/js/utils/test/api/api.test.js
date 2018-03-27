@@ -1,10 +1,10 @@
-import Logger from '../logger';
-import Utils from '../utils';
-import API from '../api';
-import AppConfig from '../../App.config';
+import Logger from '../../logger';
+import Utils from '../../utils';
+import API from '../../api/api';
+import AppConfig from '../../../App.config';
 
 // Mock the application api config
-jest.mock('../../App.config', () => {
+jest.mock('../../../App.config', () => {
     return {
         api: {
             neon: {
@@ -53,7 +53,7 @@ const apiConfig = AppConfig.api;
 test('API should construct properly with the correct api key config', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // expect config to match
     expect(api.config).toEqual(apiConfig.neon);
@@ -62,21 +62,98 @@ test('API should construct properly with the correct api key config', () => {
 test('API should through an error when it was constructed with a non existing api key (config)', () => {
 
     try {
-        let api = new API('doesnotexist');
+
+        // api instance and mocked config
+        let api = new API('doesnotexist', null);
     } catch (e) {
+
+        // expected result
         expect(e).toEqual(new Error('AppConfig.api.doesnotexist is not set. Cannot create API instance.'));
     }
+});
+
+test('API should return the right config object when getConfig() is called', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.getConfig()).toEqual(apiConfig.neon);
+});
+
+test('API should return the right baseUrl when getBaseUrl() is called', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.getBaseUrl()).toEqual(apiConfig.neon.baseUrl);
+});
+
+test('API should return the right endpoint object when getEndpoints() is called', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.getEndpoints()).toEqual(apiConfig.neon.endpoints);
+});
+
+test('API logWarning should call logger warning method with correct message', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'warning');
+
+    // call api warning
+    api.logWarning('This is a warning message');
+
+    // expected result
+    expect(Logger.instance.warning.calls.count()).toBe(1);
+    expect(Logger.instance.warning.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'This is a warning message'
+            }
+        ]
+    ]);
+});
+
+test('API logError should call logger error method with correct message', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logError('This is an error message');
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'This is an error message'
+            }
+        ]
+    ]);
 });
 
 test('API get should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.get(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.get(apiConfig.neon.baseUrl, api.getEndpoints().organisation, {
         t: 1,
         d: true,
         x: 'random'
@@ -100,12 +177,12 @@ test('API get should call to execute request with the correct parameters', () =>
 test('API post should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.post(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.post(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 2,
         d: false,
         x: 'random'
@@ -129,12 +206,12 @@ test('API post should call to execute request with the correct parameters', () =
 test('API put should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.put(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.put(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 3,
         d: false,
         x: 'random'
@@ -158,12 +235,12 @@ test('API put should call to execute request with the correct parameters', () =>
 test('API options should call to execute request with the correct parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on methods
     spyOn(api, '_executeRequest');
 
-    api.options(apiConfig.neon.baseUrl, apiConfig.neon.endpoints.organisation, {
+    api.options(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 4,
         d: true,
         p: ['x', 'y'],
@@ -189,14 +266,14 @@ test('API options should call to execute request with the correct parameters', (
 test('API executeRequest should call buildURL to build the url', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL');
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+        api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
             urlParams: {
@@ -234,7 +311,7 @@ test('API executeRequest should call buildURL to build the url', () => {
 test('API buildURL should replace the right identifiers in the url', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
@@ -242,7 +319,7 @@ test('API buildURL should replace the right identifiers in the url', () => {
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
+        api.getBaseUrl() + api.getEndpoints().twoIds,
         {
             identifiers: {
                 orgId: '123',
@@ -258,7 +335,7 @@ test('API buildURL should replace the right identifiers in the url', () => {
 test('API buildURL should return null when not all identifiers could be replaced', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
@@ -266,7 +343,7 @@ test('API buildURL should return null when not all identifiers could be replaced
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.twoIds,
+        api.getBaseUrl() + api.getEndpoints().twoIds,
         {
             identifiers: {
                 orgId: '123'
@@ -281,7 +358,7 @@ test('API buildURL should return null when not all identifiers could be replaced
 test('API buildURL should parse the url parameters correctly with urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     api.config.urlEncodeParams = true;
     api.config.skipPrefixIndexParams = true;
 
@@ -292,7 +369,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -312,7 +389,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 test('API buildURL should parse the url parameters correctly with urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     api.config.urlEncodeParams = true;
     api.config.skipPrefixIndexParams = false;
 
@@ -323,7 +400,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -343,7 +420,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 test('API buildURL should parse the url parameters correctly without urlEncoding and without skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     apiConfig.neon.urlEncodeParams = false;
     apiConfig.neon.skipPrefixIndexParams = false;
 
@@ -354,7 +431,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -374,7 +451,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 test('API buildURL should parse the url parameters correctly without urlEncoding and with skipPrefixIndexParams', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
     apiConfig.neon.urlEncodeParams = false;
     apiConfig.neon.skipPrefixIndexParams = true;
 
@@ -385,7 +462,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // call method
     let result = api.buildURL(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         {
             parameters: {
                 x: 'y,x',
@@ -405,7 +482,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 test('API _executeRequest should use the parsed url with the correct identifiers and parameters', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
@@ -413,7 +490,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+        api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
             urlParams: {
@@ -460,7 +537,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
 test('API _executeRequest should return Promise.reject when buildURL was unsuccessful', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
@@ -471,7 +548,7 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisationById,
+            api.getBaseUrl() + api.getEndpoints().organisationById,
             'post',
             {}
         ).then().catch(error => {
@@ -496,17 +573,235 @@ test('API _executeRequest should return Promise.reject when buildURL was unsucce
     });
 });
 
-test('API _executeRequest should should parse the post body in JSON', () => {
+test('API buildPayload should return requestParams when no payload is set', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        null
+    )).toEqual({
+        headers: {},
+        method: 'post'
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
+test('API buildPayload should should parse the post body in JSON', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: {
+                x: 'y',
+                y: [
+                    'x',
+                    'y'
+                ],
+                z: {
+                    x: 'y'
+                }
+            },
+            type: 'json'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: "{\"x\":\"y\",\"y\":[\"x\",\"y\"],\"z\":{\"x\":\"y\"}}"
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
+test('API buildPayload should should parse the post body in form data', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: {
+                x: 'y',
+                y: 'x',
+                z: 'z'
+            },
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: "form[x]=y&form[y]=x&form[z]=z"
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should return a string when given JSON payload is not an object or array', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise');
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: 'invalid json should be returned as a string only []2497&^^424',
+            type: 'json'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: "\"invalid json should be returned as a string only []2497&^^424\""
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(0);
+});
+
+test('API buildPayload should return an empty string when the form data post body cannot be parsed', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: null,
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: ''
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should return a char string when the form data post body cannot be parsed', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: 'bla',
+            type: 'form'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: 'form[0]=b&form[1]=l&form[2]=a'
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
+test('API buildPayload should log and throw an error when the post body is of an unknown format', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(api, 'logError');
+
+    try {
+        // expected result
+        expect(api.buildPayload(
+            {
+                method: 'post',
+                headers: {}
+            },
+            {
+                data: {
+                    x: 'y'
+                },
+                type: null
+            }
+        ));
+    } catch (e) {
+        expect(e).toEqual(new Error('Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}'));
+    }
+
+    // expected result
+    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(api.logError.calls.count()).toBe(1);
+    expect(api.logError.calls.allArgs()).toEqual([
+        [
+            'Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}'
+        ]
+    ]);
+});
+
+test('API _executeRequest should be set with the right JSON payload', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -541,17 +836,17 @@ test('API _executeRequest should should parse the post body in JSON', () => {
     ]);
 });
 
-test('API _executeData should should parse the post body in form data', () => {
+test('API _executeRequest should be set with the right form data payload', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
             payload: {
@@ -581,129 +876,21 @@ test('API _executeData should should parse the post body in form data', () => {
     ]);
 });
 
-test('API _executeRequest should return a string when given JSON payload is not an object or array', () => {
+test('API _executeRequest should return Promise.reject when payload parsing fails', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
-        'post',
-        {
-            payload: {
-                data: 'invalid json should be returned as a string only []2497&^^424',
-                type: 'json'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: "\"invalid json should be returned as a string only []2497&^^424\""
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return an empty string when the form data post body cannot be parsed', () => {
-
-    // api instance and mocked config
-    let api = new API('neon');
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
-        'post',
-        {
-            payload: {
-                data: null,
-                type: 'form'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                method: 'post',
-                body: ''
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return a char string when the form data post body cannot be parsed', () => {
-
-    // api instance and mocked config
-    let api = new API('neon');
-
-    // spy on method
-    spyOn(global, 'fetch');
-
-    // call method
-    api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
-        'post',
-        {
-            payload: {
-                data: 'bla',
-                type: 'form'
-            }
-        }
-    );
-
-    // expected result
-    expect(global.fetch.calls.count()).toBe(1);
-    expect(global.fetch.calls.allArgs()).toEqual([
-        [
-            'https://ltp.nl/organisations',
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                method: 'post',
-                body: 'form[0]=b&form[1]=l&form[2]=a'
-            }
-        ]
-    ]);
-});
-
-test('API _executeRequest should return Promise.reject when the post body is of an unknown format', () => {
-
-    // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
     spyOn(api, '_executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
-    spyOn(api, 'buildURL').and.callThrough();
+    spyOn(api, 'buildPayload').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'post',
             {
                 payload: {
@@ -720,9 +907,8 @@ test('API _executeRequest should return Promise.reject when the post body is of 
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        component: 'API',
-                        message: 'Could not parse post body (payload.data). payload.type was not given on request: ' +
-                        'POST on URL: https://ltp.nl/organisations'
+                        component: "API",
+                        message: "Could not parse post body (payload.data). payload.type was not given on request: {\"method\":\"post\",\"headers\":{}}"
                     }
                 ]
             ]);
@@ -735,17 +921,58 @@ test('API _executeRequest should return Promise.reject when the post body is of 
     });
 });
 
+test('API buildRequestHeaders should return custom headers', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.buildRequestHeaders(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            'X-custom-header': 'xyz',
+            'Authorization': 'hash'
+        }
+    )).toEqual({
+        headers: {
+            'X-custom-header': 'xyz',
+            'Authorization': 'hash'
+        },
+        method: 'post'
+    });
+});
+
+test('API buildRequestHeaders should return requestParams when no headers are set', () => {
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // expected result
+    expect(api.buildRequestHeaders(
+        {
+            method: 'post',
+            headers: {}
+        },
+        null
+    )).toEqual({
+        headers: {},
+        method: 'post'
+    });
+});
+
 test('API _executeRequest should set custom request headers', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {
             headers: {
@@ -772,14 +999,14 @@ test('API _executeRequest should set custom request headers', () => {
 test('API _executeRequest should accept no custom request headers', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
 
     // call method
     api._executeRequest(
-        apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+        api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {}
     );
@@ -800,7 +1027,7 @@ test('API _executeRequest should accept no custom request headers', () => {
 test('API _executeRequest should return a JSON object on a request', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -829,7 +1056,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -865,7 +1092,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
 test('API _executeRequest should log a warning and return json when fetch returns a warning code with valid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -893,7 +1120,7 @@ test('API _executeRequest should log a warning and return json when fetch return
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -931,7 +1158,7 @@ test('API _executeRequest should log a warning and return json when fetch return
 test('API _executeRequest should log an error and Promise.reject when fetch returns an error code with valid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -959,7 +1186,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -995,7 +1222,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 test('API _executeRequest should return an empty object when fetch returns 204 No Content', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1022,7 +1249,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
@@ -1050,7 +1277,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
 test('API _executeRequest should log an error and Promise.reject when fetch returns any response with invalid JSON', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1078,7 +1305,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1114,7 +1341,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 test('API isWarningCode should return true between 300-399 and 404', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     expect(API.isWarningCode(300)).toEqual(true);
     expect(API.isWarningCode(302)).toEqual(true);
@@ -1128,7 +1355,7 @@ test('API isWarningCode should return true between 300-399 and 404', () => {
 test('API isErrorCode should return true on 400+ except 404', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     expect(API.isErrorCode(300)).toEqual(false);
     expect(API.isErrorCode(302)).toEqual(false);
@@ -1142,7 +1369,7 @@ test('API isErrorCode should return true on 400+ except 404', () => {
 test('API _executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1160,7 +1387,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1196,7 +1423,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
 test('API _executeRequest should log an error when the network request failed or did not complete', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1226,7 +1453,7 @@ test('API _executeRequest should log an error when the network request failed or
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then().catch(error => {
@@ -1264,7 +1491,7 @@ test('API _executeRequest should log an error when the network request failed or
 test('API _executeRequest should resolve with an error object when the api returns input validation errors', () => {
 
     // api instance and mocked config
-    let api = new API('neon');
+    let api = new API('neon', null);
 
     // mock fetch method and return json by default
     global.fetch = jest.fn().mockImplementation((url, options) => {
@@ -1301,7 +1528,7 @@ test('API _executeRequest should resolve with an error object when the api retur
     // expected (async) result
     return new Promise((resolve, reject) => {
         api._executeRequest(
-            apiConfig.neon.baseUrl + apiConfig.neon.endpoints.organisation,
+            api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
         ).then(response => {
