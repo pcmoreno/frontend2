@@ -4,7 +4,7 @@ import ApiFactory from '../../utils/api/factory';
 /** @jsx h */
 
 import Login from './components/Login/Login';
-import Redirect from "../Redirect";
+import Redirect from '../../utils/components/Redirect';
 
 export default class Index extends Component {
     constructor(props) {
@@ -17,8 +17,12 @@ export default class Index extends Component {
         this.handleChange = this.handleChange.bind(this);
 
         this.localState = {
-            submitDisabled: false,
-            error: 'f1'
+            buttons: {
+                submitDisabled: false
+            },
+            errors: {
+                login: ''
+            }
         };
     }
 
@@ -34,12 +38,13 @@ export default class Index extends Component {
 
         const newState = Object.assign({}, this.localState);
 
+        // reset error on the login page
+        newState.errors.login = '';
+
         if (this.inputValues.email && this.inputValues.password) {
 
             // disable button
-            newState.submitDisabled = true;
-
-            // todo: show a loader (set new state!)
+            newState.buttons.submitDisabled = true;
 
             const api = ApiFactory.get('neon');
             const username = this.inputValues.email;
@@ -50,14 +55,16 @@ export default class Index extends Component {
                 password
             }).then((/* user */) => {
 
-                render(<Redirect path={ this.redirectPath }/>);
+                // to avoid possible issues when routing in the same session to login page, enable the button
+                newState.buttons.submitDisabled = false;
+
+                render(<Redirect path={this.redirectPath}/>);
+
             }).catch((/* error */) => {
 
-                console.log('here error');
-                this.setErrorMessage();
                 // todo: translate message
-                newState.error = 'Inloggen mislukt. Probeer opnieuw.';
-                newState.submitDisabled = false;
+                newState.errors.login = 'Inloggen mislukt. Probeer het opnieuw.';
+                newState.buttons.submitDisabled = false;
 
                 // set state (async)
                 this.setState(newState);
@@ -66,29 +73,11 @@ export default class Index extends Component {
         } else {
 
             // todo: translate message
-            newState.error = 'Voer a.u.b. de verplichte velden in.';
+            newState.errors.login = 'Voer a.u.b. de verplichte velden in.';
         }
 
-        // todo: changing the state here does not work!
         // always set the new state
         this.setState(newState);
-    }
-
-    setErrorMessage(error) {
-        console.log('');
-        this.setState({
-            error: 'errorrr'
-        });
-    }
-
-    componentDidMount() {
-        window.setTimeout(() => {
-            console.log('call set state');
-            console.log(this.localState.error);
-            this.setState({
-                localState: {error: 'errorrr'}
-            });
-        }, 5000);
     }
 
     render() {

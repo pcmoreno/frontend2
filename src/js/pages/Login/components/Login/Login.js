@@ -9,6 +9,7 @@ export default class Login extends Component {
     render() {
         const { onSubmit, handleChange, localState } = this.props;
 
+        // todo: translate text of input fields and labels
         return (
             <section className={ style.login }>
                 <div className={ style.modal }>
@@ -25,7 +26,6 @@ export default class Login extends Component {
                                         type="text"
                                         id="email"
                                         name="username"
-                                        value=""
                                         autoComplete="off"
                                         placeholder="E-mailadres"
                                         onChange={ handleChange }
@@ -49,14 +49,12 @@ export default class Login extends Component {
                                     <a href="#notimplemented">Wachtwoord vergeten?</a>
                                 </span>
                                 <span className={ style.errors }>
-                                    <div>
-                                        { localState.error }
-                                    </div>
+                                    { localState.errors.login }
                                 </span>
                             </main>
                             <footer className={ style.modal_footer } >
                                 <nav>
-                                    <button className={ 'action_button' } disabled={ localState.submitDisabled } onClick={ onSubmit }>
+                                    <button className={ 'action_button' } disabled={ localState.buttons.submitDisabled } onClick={ onSubmit }>
                                         Inloggen
                                     </button>
                                 </nav>

@@ -1,10 +1,9 @@
 import { Component } from 'preact';
+import { route } from 'preact-router';
 
 export default class Redirect extends Component {
     componentWillMount() {
-
-        // todo change to route() https://github.com/developit/preact-router/issues/197
-        window.location = this.props.path;
+        route(this.props.path);
     }
 
     render() {

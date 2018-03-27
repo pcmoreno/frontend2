@@ -1,5 +1,6 @@
 {
     "presets": [
+        "stage-0", // this is necessary to compile the rest spread operator (...rest)
         [
             "env",
             {
