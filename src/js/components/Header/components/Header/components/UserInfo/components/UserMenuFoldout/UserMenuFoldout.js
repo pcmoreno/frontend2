@@ -11,6 +11,9 @@ export default class UserMenuFoldout extends Component {
     }
 
     render() {
+
+        const { logoutAction } = this.props;
+
         return (
             <div className={ `${style.user_menu_foldout} hidden` } id="user_menu_foldout">
                 <ul>
@@ -25,7 +28,7 @@ export default class UserMenuFoldout extends Component {
                         </a>
                     </li>
                     <li>
-                        <a href="#notimplemented">
+                        <a href='#logout' onClick={logoutAction}>
                             <span>
                                 <FontAwesomeIcon icon="sign-out-alt" />
                             </span>

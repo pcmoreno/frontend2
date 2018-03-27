@@ -26,6 +26,14 @@ export default class Index extends Component {
         };
     }
 
+    componentWillMount() {
+        const api = ApiFactory.get('neon');
+
+        if (api.getAuthenticator().isAuthenticated()) {
+            render(<Redirect path={'/'}/>);
+        }
+    }
+
     handleChange(event) {
         event.preventDefault();
 
@@ -58,7 +66,7 @@ export default class Index extends Component {
                 // to avoid possible issues when routing in the same session to login page, enable the button
                 newState.buttons.submitDisabled = false;
 
-                render(<Redirect path={this.redirectPath}/>);
+                render(<Redirect path={this.redirectPath} refresh={'true'}/>);
 
             }).catch((/* error */) => {
 

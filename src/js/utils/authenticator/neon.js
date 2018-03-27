@@ -167,6 +167,40 @@ class NeonAuthenticator extends AbstractAuthenticator {
             });
         });
     }
+
+    /**
+     * Logs out the user from the neon api (clears cookie)
+     * @returns {Promise} promise
+     */
+    logout() {
+        const api = ApiFactory.get('neon');
+
+        return new Promise((resolve, reject) => {
+            this.cognitoAuthenticator.logout().then(() => {
+
+                fetch(
+                    api.getBaseUrl() + api.getEndpoints().logout,
+                    {
+                        method: 'get',
+                        credentials: 'include', // allows cookies to be sent and received
+                        cache: 'no-store' // make sure no responses are cached
+                    }
+                ).then(response => {
+
+                    if (response.status === 200) {
+                        resolve();
+                    } else {
+                        reject(new Error('logout failed'));
+                    }
+
+                }).catch(error => {
+
+                    // unexpected result, logout call failed
+                    reject(error);
+                });
+            });
+        });
+    }
 }
 
 export default NeonAuthenticator;

@@ -9,6 +9,7 @@ module.exports = {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
             endpoints: {
                 authorise: '/user/authorize',
+                logout: '/user/logout',
                 abstractSection: '/section',
                 organisation: '/section/organisation'
             },

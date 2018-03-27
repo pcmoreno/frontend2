@@ -117,6 +117,26 @@ class CognitoAuthenticator extends AbstractAuthenticator {
             });
         });
     }
+
+    /**
+     * Logs out the user from cognito
+     * @returns {Promise} promise
+     */
+    logout() {
+
+        // recreate cognitoUser object when it was not set (for example when opening a new tab in browser)
+        if (!this.cognitoUser) {
+            this.cognitoUser = this.userPool.getCurrentUser();
+        }
+
+        return new Promise(resolve => {
+            if (this.cognitoUser) {
+                this.cognitoUser.signOut();
+            }
+
+            resolve();
+        });
+    }
 }
 
 export default CognitoAuthenticator;

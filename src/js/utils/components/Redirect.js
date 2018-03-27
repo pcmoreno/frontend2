@@ -3,7 +3,13 @@ import { route } from 'preact-router';
 
 export default class Redirect extends Component {
     componentWillMount() {
-        route(this.props.path);
+
+        // todo: is there another possibility to rerender certain components, for example the header after a login
+        if (this.props.refresh) {
+            window.location = this.props.path;
+        } else {
+            route(this.props.path);
+        }
     }
 
     render() {

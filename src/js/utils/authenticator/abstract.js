@@ -39,6 +39,10 @@ class AbstractAuthenticator {
     isAuthenticated() {
         throw new Error('Method not implemented.');
     }
+
+    logout() {
+        throw new Error('Method not implemented.');
+    }
 }
 
 export default AbstractAuthenticator;

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import Redirect from './Redirect';
-import AsyncRoute from 'preact-router';
+import AsyncRoute from 'preact-async-route';
 
 const AuthenticatedRoute = ({ api, path, ...rest }) => ( // eslint-disable-line no-confusing-arrow
     api.getAuthenticator().isAuthenticated() === true
