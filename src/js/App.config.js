@@ -3,6 +3,7 @@
  * Write any (default) configuration here
  * @type {{}}
  */
+// todo: rename organisation, division to rootNodes, childNodes
 module.exports = {
     api: {
         neon: {
