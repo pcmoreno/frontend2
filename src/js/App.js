@@ -142,7 +142,7 @@ function renderApp() {
                     <Alert />
                     <Router>
                         <AsyncRoute api={api} path="/login" getComponent={ getLogin } />
-                        <AuthenticatedRoute api={api} default path="/inbox" getComponent={ getInbox } />
+                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } default/>
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                         <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
                         <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
