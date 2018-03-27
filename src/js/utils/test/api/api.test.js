@@ -276,6 +276,8 @@ test('API options should call to execute request with the correct parameters', (
     ]);
 });
 
+// todo: add test that checks the credentials property
+
 test('API executeRequest should call buildURL to build the url', () => {
 
     // api instance and mocked config
