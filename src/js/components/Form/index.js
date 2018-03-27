@@ -41,12 +41,14 @@ class Index extends Component {
     }
 
     getFormFields() {
+
+        // todo: currently this method never receives a valid response. seems to be an issue in API. see NEON-3633
+
         const formId = this.props.formId;
 
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');
 
-        // execute request
         this.api.options(
             this.api.getBaseUrl(),
             `${this.api.getEndpoints().abstractSection}/${formId}`
@@ -55,7 +57,6 @@ class Index extends Component {
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
             this.props.storeFormDataInFormsCollection(formId, response.fields);
-
         }).catch((/* error */) => {
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });

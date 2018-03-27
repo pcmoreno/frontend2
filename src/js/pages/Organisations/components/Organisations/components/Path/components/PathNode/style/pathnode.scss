@@ -1,0 +1,13 @@
+.node {
+    /* note that the path component deliberately uses span instead of floated li's so ellipsis can be used */
+
+    a {
+        color: $blue;
+    }
+
+    &:not(:first-child):before {
+        content: '›';
+        margin: 0 .8rem;
+        color: $blue;
+    }
+}

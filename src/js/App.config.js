@@ -3,6 +3,7 @@
  * Write any (default) configuration here
  * @type {{}}
  */
+// todo: rename organisation, division to rootNodes, childNodes
 module.exports = {
     api: {
         neon: {
@@ -11,7 +12,8 @@ module.exports = {
                 authorise: '/user/authorize',
                 logout: '/user/logout',
                 abstractSection: '/section',
-                organisation: '/section/organisation'
+                organisation: '/section/fieldvalue/organisation/organisationType?value=organisation',
+                division: '/section/organisation/id/{identifier}'
             },
             urlEncodeParams: false,
             skipPrefixIndexParams: true,

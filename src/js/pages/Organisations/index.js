@@ -45,7 +45,10 @@ class Index extends Component {
         updateNavigationArrow();
 
         // get items for first time
-        this.getItems();
+        // todo: name should be set by .env or App.config.js
+        // todo: I dont like the 'null' parameter in here, but since the root organisation has no ID, I saw no other way
+        // todo: needs documentation
+        this.fetchEntities({ id: null, name: 'LTP' }, 0);
     }
 
     refreshDataWithMessage() {
@@ -59,10 +62,11 @@ class Index extends Component {
         this.actions.addAlert({ type: 'success', text: 'The organisation was successfully saved.' });
 
         // refresh the items
-        this.getItems();
+        // todo: is this actually needed? shouldnt React re-render because the state changes? test!
+        this.fetchEntities({ id: null, name: 'what to put here' }, null);
     }
 
-    getItems() {
+    fetchEntities(entity, panelId) {
 
         // hide modal and spinner(if not already hidden)
 
@@ -70,20 +74,51 @@ class Index extends Component {
 
         const api = ApiFactory.get('neon');
 
-        // request organisations
-        api.get(
-            api.getBaseUrl(),
-            api.getEndpoints().organisation,
-            {
+        let params, endPoint;
+        const apiConfig = api.getConfig();
+
+        if (entity.id !== null) {
+
+            // a parentId was provided, assume 'child' entities need to be retrieved
+            params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id
+                    }
+                }
+            };
+
+            endPoint = apiConfig.endpoints.division;
+        } else {
+
+            // no parentId was provided, assume the 'root' entities need to be retrieved
+            params = {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName'
                     }
                 }
-            }
+            };
+
+            endPoint = apiConfig.endpoints.organisation;
+        }
+
+        // request entities
+        api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.getItems(response);
+
+            // store panel entities in state
+            this.actions.fetchEntities(entity.id ? entity.id : null, response);
+
+            // now that the new entities are available in the state, update the path to reflect the change
+            this.actions.updatePath(entity, panelId);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
@@ -100,9 +135,10 @@ class Index extends Component {
     render() {
         return (
             <Organisations
-                items = { this.props.items }
+                panels = { this.props.panels }
+                pathNodes = { this.props.pathNodes }
+                fetchEntities = { this.fetchEntities.bind(this) }
                 forms={this.props.forms}
-                getItems={ this.getItems.bind(this) }
                 refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
@@ -114,8 +150,9 @@ class Index extends Component {
 }
 
 const mapStateToProps = state => ({
-    items: state.organisationsReducer.items,
-    forms: state.organisationsReducer.forms
+    panels: state.organisationsReducer.panels,
+    forms: state.organisationsReducer.forms,
+    pathNodes: state.organisationsReducer.pathNodes
 });
 
 export default connect(mapStateToProps)(Index);

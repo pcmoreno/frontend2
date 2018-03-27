@@ -45,3 +45,9 @@
         display: none;
     }
 }
+
+/* active list items in organisations view */
+.list_item__active {
+    background: $black;
+    color: $white;
+}

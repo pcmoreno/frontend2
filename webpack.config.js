@@ -1,4 +1,5 @@
 
+// todo: figure out how sourcemaps can be enabled by default for dev and acc environments
 let sourceMapsEnabled = false;
 let gzippedAssets = false;
 

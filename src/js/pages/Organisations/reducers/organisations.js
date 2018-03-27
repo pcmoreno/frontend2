@@ -1,8 +1,9 @@
 import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
-    items: [],
-    forms: []
+    panels: [],
+    forms: [],
+    pathNodes: []
 };
 
 /**
@@ -17,17 +18,140 @@ export default function organisationsReducer(state = initialState, action) {
 
     switch (action.type) {
 
-        case actionType.GET_ITEMS:
+        case actionType.UPDATE_PATH: {
 
-            // clear current items from newState
-            newState.items = [];
+            newState.pathNodes = [];
 
-            // loop through newly retrieved items from the action and add to the newState
-            action.items.forEach(item => {
-                newState.items.push({ id: item.id, organisationName: item.organisation_name });
+            // construct the temporary path that is used to populate the new pathNodes state
+            let tempPath;
+
+            if (action.panelId) {
+
+                // user clicked at a certain panel so ensure the pathNodes are sliced up until that point
+                tempPath = state.pathNodes.slice(0, action.panelId);
+            } else {
+                tempPath = state.pathNodes;
+            }
+
+            // build up the new pathNodes state
+            tempPath.forEach(node => {
+                newState.pathNodes.push(node);
+            });
+
+            // push the new entry
+            newState.pathNodes.push({
+                id: action.entity.id,
+                name: action.entity.name
             });
 
             break;
+        }
+
+        case actionType.FETCH_ENTITIES: {
+
+            // will add a panel entity to the state containing all its children. this is NOT a representation of the
+            // panel view since it can contain panels that are no longer visible. this serves as caching only.
+
+            // clear all panels from newState
+            newState.panels = [];
+
+            // rebuild panels from state
+            state.panels.forEach(panel => {
+
+                // check it doesnt accidently add a panel entry with the id from the payload (ensures it overwrites)
+                if (panel.parentId !== action.parentId) {
+
+                    // take all properties from existing panel, except the active state
+                    // todo: the active property seems a bit redundant since it can be determined from Path in Panels.js
+                    newState.panels.push({
+                        parentId: panel.parentId,
+                        active: false,
+                        entities: panel.entities
+                    });
+                }
+            });
+
+            // now the entities need to be constructed from the raw entity structure received from the API
+            const tempEntities = [];
+
+            // if entities contains organisations, process them
+            if (action.entities.child_organisations) {
+                action.entities.child_organisations.forEach(entity => {
+
+                    // attempt to extract product name if it exists
+                    let productName = null;
+
+                    if (entity.projects[0] && entity.projects[0].product) {
+                        productName = entity.projects[0].product.product_name;
+                    }
+
+                    tempEntities.push({
+                        name: entity.organisation_name,
+                        id: entity.id,
+                        type: 'project',
+                        productName
+                    });
+                });
+            }
+
+            // if entities contains projects, process them
+            if (action.entities.projects) {
+                action.entities.projects.forEach(entity => {
+
+                    // attempt to extract product name if it exists
+                    let productName = null;
+
+                    if (entity.product) {
+                        productName = entity.product.product_name;
+                    }
+
+                    tempEntities.push({
+                        name: entity.project_name,
+                        id: entity.id,
+                        type: 'jobfunction',
+                        productName
+                    });
+                });
+            }
+
+            // process (remaining?) entities (that are likely to be root entities / organisations)
+            if (action.entities.length) {
+                action.entities.forEach(entity => {
+
+                    // ensure the entity is a (root) organisation, then extract its properties and push to tempEntities
+                    if (entity.id && entity.organisation_name) {
+                        tempEntities.push({
+                            name: entity.organisation_name,
+                            id: entity.id,
+                            type: 'organisation'
+                        });
+                    }
+                });
+            }
+
+            // sort alphabetically todo: move to utils
+            tempEntities.sort((a, b) => {
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
+            newState.panels.push({
+                parentId: action.parentId,
+                active: true,
+                entities: tempEntities
+            });
+
+            break;
+
+        }
 
         case actionType.STORE_FORM_DATA:
 
