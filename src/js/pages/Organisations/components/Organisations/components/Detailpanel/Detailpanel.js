@@ -38,7 +38,7 @@ export default class Detailpanel extends Component {
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
                     <div className={ style.spinner_container }>
-                        <span className={style.spinner } id="spinner_detail_panel"><FontAwesomeIcon icon="spinner"/></span>
+                        <span id="spinner_detail_panel" className={ `${style.spinner} hidden` }><FontAwesomeIcon icon="spinner"/></span>
                     </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>

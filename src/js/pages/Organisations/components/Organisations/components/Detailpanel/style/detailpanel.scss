@@ -142,27 +142,26 @@ $detailpanel-margin: 10px;
 
 .spinner_container {
     position: relative;
-    display: none;
 
-    .spinner {
-        position: absolute;
-        top: .25rem;
-        right: -.75rem;
-
-        svg {
-            padding: 0 1rem;
-            font-size: 1.5rem;
-            color: $white;
-            animation-name: spinner;
-            animation-duration: 4s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-    }
-
-    /* hide spinner on small viewports */
+    /* hide spinner on small viewports todo: does this still work? */
     @media screen and (min-width: $grid-breakpoints-lg) {
-        display: block;
+        // display: block;
+    }
+}
+
+.spinner {
+    position: absolute;
+    top: .25rem;
+    right: -.75rem;
+
+    svg {
+        padding: 0 1rem;
+        font-size: 1.5rem;
+        color: $white;
+        animation-name: spinner;
+        animation-duration: 4s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
     }
 }
 

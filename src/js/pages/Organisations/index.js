@@ -127,10 +127,10 @@ class Index extends Component {
     }
 
     fetchDetailPanelData(organisationId) {
-
         // note that the LTP root organisation with id 0 has no associated detail panel data and is thus ignored
-
         if (organisationId > 0) {
+            console.log('showing');
+            document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             let params, endPoint;
             const apiConfig = api.getConfig();
@@ -154,6 +154,8 @@ class Index extends Component {
                 endPoint,
                 params
             ).then(response => {
+                console.log('hiding');
+                document.querySelector('#spinner_detail_panel').classList.add('hidden');
                 this.actions.fetchDetailPanelData(organisationId, response);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
