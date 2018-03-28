@@ -21,7 +21,8 @@ module.exports = {
 
             // allow to use cross-domain cookies for authentication
             // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
-            credentials: 'include'
+            credentials: 'include',
+            logoutRedirect: '/login'
         }
     },
     authenticator: {

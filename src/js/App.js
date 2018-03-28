@@ -166,7 +166,7 @@ function renderApp() {
 }
 
 // before rendering the app, always first fetch the current user (if available)
-api.getAuthenticator().getAuthenticatedUser().then((/* user */) => {
+api.getAuthenticator().refreshAndGetUser().then((/* user */) => {
     renderApp();
 }).catch(() => {
     renderApp();

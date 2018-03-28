@@ -125,7 +125,7 @@ class NeonAuthenticator extends AbstractAuthenticator {
      * Returns the authenticated user. If a token refresh is required, then this will be handled by this method automatically
      * @returns {Promise} promise
      */
-    getAuthenticatedUser() {
+    refreshAndGetUser() {
         return new Promise((resolve, reject) => {
 
             // fetch the neon api token and authenticated user. Token renewal is covered in this method

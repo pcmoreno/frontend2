@@ -20,7 +20,7 @@ class AbstractAuthenticator {
         }
     }
 
-    getAuthenticatedUser() {
+    refreshAndGetUser() {
         throw new Error('Method not implemented.');
     }
 
