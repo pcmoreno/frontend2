@@ -232,9 +232,6 @@ export default function organisationsReducer(state = initialState, action) {
                 }
             });
 
-            console.log('newstate:');
-            console.table(newState.detailPanelData);
-
             break;
         }
 

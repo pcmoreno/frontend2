@@ -119,7 +119,7 @@ class Index extends Component {
             // now that the new entities are available in the state, update the path to reflect the change
             this.actions.updatePath(entity, panelId);
 
-            // last, update the detail panel
+            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
             this.fetchDetailPanelData(entity.id);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
@@ -127,9 +127,10 @@ class Index extends Component {
     }
 
     fetchDetailPanelData(organisationId) {
+        console.log('fetching detail panel data for id ',organisationId);
+
         // note that the LTP root organisation with id 0 has no associated detail panel data and is thus ignored
         if (organisationId > 0) {
-            console.log('showing');
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             let params, endPoint;
@@ -154,7 +155,6 @@ class Index extends Component {
                 endPoint,
                 params
             ).then(response => {
-                console.log('hiding');
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
                 this.actions.fetchDetailPanelData(organisationId, response);
             }).catch(error => {
@@ -172,12 +172,14 @@ class Index extends Component {
     }
 
     render() {
+        // todo: why bind here when you can do it at the top of index.js like the rest?
         return (
             <Organisations
                 panels = { this.props.panels }
                 detailPanelData = { this.props.detailPanelData }
                 pathNodes = { this.props.pathNodes }
                 fetchEntities = { this.fetchEntities.bind(this) }
+                fetchDetailPanelData = { this.fetchDetailPanelData.bind(this) }
                 forms={this.props.forms}
                 refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }

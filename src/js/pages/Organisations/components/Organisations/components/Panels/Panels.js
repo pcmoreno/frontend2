@@ -14,7 +14,7 @@ export default class Panels extends Component {
     }
 
     render() {
-        const { panels, pathNodes, fetchEntities, openModalToAddOrganisation } = this.props;
+        const { panels, pathNodes, fetchEntities, openModalToAddOrganisation, fetchDetailPanelData } = this.props;
 
         const panelCollection = [];
         let panelIndex = 1;
@@ -48,6 +48,7 @@ export default class Panels extends Component {
                 panelId = { panelIndex++ }
                 entities = { currentPanel.entities }
                 fetchEntities = { fetchEntities }
+                fetchDetailPanelData = { fetchDetailPanelData }
                 openModalToAddOrganisation = { openModalToAddOrganisation }
                 active = { active }
                 pathNodes = { pathNodes }

@@ -12,7 +12,7 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { pathNodes, panelId, fetchEntities } = this.props;
+        const { pathNodes, panelId, fetchEntities, fetchDetailPanelData } = this.props;
         const entities = this.props.entities;
         const itemOutput = [];
 
@@ -32,6 +32,7 @@ export default class Panel extends Component {
                     itemName={entity.name}
                     itemId={entity.id}
                     fetchEntities={fetchEntities}
+                    fetchDetailPanelData={fetchDetailPanelData}
                     panelItemActive={panelItemActive}
                     type={entity.type}
                     productName={entity.productName}

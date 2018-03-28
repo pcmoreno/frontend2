@@ -10,14 +10,8 @@ export default class Item extends Component {
         super(props);
     }
 
-    openDetailPanel(event) {
-        event.stopPropagation();
-
-        document.querySelector('#detailpanel').classList.remove('hidden');
-    }
-
     render() {
-        const { itemName, itemId, panelId, type, panelItemActive, fetchEntities, productName } = this.props;
+        const { itemName, itemId, panelId, type, panelItemActive, fetchEntities, fetchDetailPanelData, productName } = this.props;
 
         let fontAwesomeIcon;
 
@@ -52,7 +46,11 @@ export default class Item extends Component {
                         </div>
                     </li>
                     <li>
-                        <span tabIndex="0" onClick={ event => this.openDetailPanel(event) } role="button">
+                        <span tabIndex="0" onClick={ event => {
+                            event.stopPropagation();
+                            fetchDetailPanelData(itemId);
+                            document.querySelector('#detailpanel').classList.remove('hidden');
+                        } } role="button">
                             <FontAwesomeIcon icon="eye"/>
                         </span>
                     </li>
