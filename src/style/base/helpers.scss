@@ -58,3 +58,16 @@
     background: $black;
     color: $white;
 }
+
+table thead th.assessmentdate,
+table td.assessmentdate,
+table thead th.consultant,
+table td.consultant,
+table thead th.organisation,
+table td.organisation {
+    display: none;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        display: table-cell;
+    }
+}

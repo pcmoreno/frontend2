@@ -52,12 +52,14 @@ import { createStore, combineReducers } from 'redux';
 // import all reducers
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
+import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
 
 // combine into one
 const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
+    participantsReducer,
     alertReducer
 });
 

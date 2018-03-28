@@ -19,12 +19,12 @@ export default function updateNavigationArrow() {
 
     // add active class to the current navigation node
     const path = (window.location.pathname).replace(new RegExp('/', 'g'), '').toLowerCase();
+    const activeItem = document.querySelector(`body header ul > li#${path}`);
 
     // move the indicator out of view (in case of unexpected path not matching a navigation node)
     document.querySelector('#indicator svg').style.left = '-10000px';
 
     if (path) {
-        const activeItem = document.querySelector('body header ul > li#' + path);
 
         if (activeItem !== null) {
             activeItem.classList.add('active');
