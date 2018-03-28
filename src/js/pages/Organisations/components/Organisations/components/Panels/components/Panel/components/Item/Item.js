@@ -10,7 +10,9 @@ export default class Item extends Component {
         super(props);
     }
 
-    openDetailPanel() {
+    openDetailPanel(event) {
+        event.stopPropagation();
+
         document.querySelector('#detailpanel').classList.remove('hidden');
     }
 
@@ -50,7 +52,7 @@ export default class Item extends Component {
                         </div>
                     </li>
                     <li>
-                        <span tabIndex="0" onClick={ this.openDetailPanel } role="button">
+                        <span tabIndex="0" onClick={ event => this.openDetailPanel(event) } role="button">
                             <FontAwesomeIcon icon="eye"/>
                         </span>
                     </li>

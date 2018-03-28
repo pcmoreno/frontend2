@@ -4,7 +4,8 @@ import Logger from '../../../utils/logger';
 const initialState = {
     panels: [],
     forms: [],
-    pathNodes: []
+    pathNodes: [],
+    detailPanelData: []
 };
 
 /**
@@ -212,6 +213,30 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+
+        case actionType.FETCH_DETAIL_PANEL_DATA: {
+
+            // clear all detailPanel data
+            newState.detailPanelData = [];
+
+            // first build up the forms with data from state
+            state.detailPanelData.forEach(data => {
+                newState.detailPanelData.push(data);
+            });
+
+            // now add the new data taken from the action
+            newState.detailPanelData.push({
+                id: action.organisationId,
+                data: {
+                    name: action.data.organisation_name
+                }
+            });
+
+            console.log('newstate:');
+            console.table(newState.detailPanelData);
+
+            break;
+        }
 
         default:
             return state;

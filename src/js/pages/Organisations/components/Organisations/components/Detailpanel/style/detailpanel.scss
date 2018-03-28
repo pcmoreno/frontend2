@@ -139,3 +139,40 @@ $detailpanel-margin: 10px;
         display: block;
     }
 }
+
+.spinner_container {
+    position: relative;
+    display: none;
+
+    .spinner {
+        position: absolute;
+        top: .25rem;
+        right: -.75rem;
+
+        svg {
+            padding: 0 1rem;
+            font-size: 1.5rem;
+            color: $white;
+            animation-name: spinner;
+            animation-duration: 4s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+    }
+
+    /* hide spinner on small viewports */
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        display: block;
+    }
+}
+
+/* todo: figure out how this can be linted okay, see: https://github.com/stylelint/stylelint/issues/1513 */
+@keyframes spinner {
+0 {
+    transform: rotate(0deg);
+}
+
+100% {
+       transform: rotate(360deg);
+   }
+}

@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
 export default class Detailpanel extends Component {
@@ -25,21 +26,23 @@ export default class Detailpanel extends Component {
     }
 
     render() {
-        const { entity } = this.props;
+        const { data, name } = this.props;
 
-        let entityName = 'loading';
-
-        if (entity) {
-            entityName = entity.name;
+        // todo: just an example of how data is passed through. this data comes in from the API and is sent over props.
+        let actualData = '(loading)';
+        if (data && data.hasOwnProperty('name')) {
+            actualData = data.name;
         }
 
-        // todo: finish styling for detail panel NEON-3255
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
+                    <div className={ style.spinner_container }>
+                        <span className={style.spinner } id="spinner_detail_panel"><FontAwesomeIcon icon="spinner"/></span>
+                    </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>{ entityName }</h2>
+                    <h2>{ name }</h2>
                 </header>
                 <nav>
                     <span>item</span>
@@ -49,9 +52,9 @@ export default class Detailpanel extends Component {
                     <span>item</span>
                 </nav>
                 <main>
-                    <p>some bla bla</p>
+                    <p>(the data below comes from the API)</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <p>some bla bla</p>
+                    <p>{ actualData }</p>
                 </main>
             </aside>
         );

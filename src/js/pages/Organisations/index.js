@@ -118,9 +118,47 @@ class Index extends Component {
 
             // now that the new entities are available in the state, update the path to reflect the change
             this.actions.updatePath(entity, panelId);
+
+            // last, update the detail panel
+            this.fetchDetailPanelData(entity.id);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
+    }
+
+    fetchDetailPanelData(organisationId) {
+
+        // note that the LTP root organisation with id 0 has no associated detail panel data and is thus ignored
+
+        if (organisationId > 0) {
+            const api = ApiFactory.get('neon');
+            let params, endPoint;
+            const apiConfig = api.getConfig();
+
+            params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: organisationId
+                    }
+                }
+            };
+
+            endPoint = apiConfig.endpoints.organisations.detailPanelData;
+
+            // request entities
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                this.actions.fetchDetailPanelData(organisationId, response);
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+            });
+        }
     }
 
     openModalToAddOrganisation() {
@@ -135,6 +173,7 @@ class Index extends Component {
         return (
             <Organisations
                 panels = { this.props.panels }
+                detailPanelData = { this.props.detailPanelData }
                 pathNodes = { this.props.pathNodes }
                 fetchEntities = { this.fetchEntities.bind(this) }
                 forms={this.props.forms}
@@ -150,6 +189,7 @@ class Index extends Component {
 
 const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
+    detailPanelData: state.organisationsReducer.detailPanelData,
     forms: state.organisationsReducer.forms,
     pathNodes: state.organisationsReducer.pathNodes
 });
