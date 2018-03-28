@@ -5,7 +5,9 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as participantsActions from './actions/participants';
+import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
+import ApiFactory from '../../utils/api/factory';
 import Participants from './components/Participants/Participants';
 
 class Index extends Component {
@@ -15,28 +17,59 @@ class Index extends Component {
         const { dispatch } = this.props;
 
         this.actions = bindActionCreators(
-            Object.assign({}, participantsActions),
+            Object.assign({}, participantsActions, alertActions),
             dispatch
         );
     }
 
     componentDidMount() {
         updateNavigationArrow();
+
+        // get items for first time
+        this.getParticipants();
     }
 
     componentWillMount() {
         document.title = 'Participants';
     }
 
+    getParticipants() {
+
+        // show spinner
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        const api = ApiFactory.get('neon');
+
+        // request participants
+        api.get(
+            api.getBaseUrl(),
+            api.getEndpoints().participants,
+            {
+                urlParams: {
+                    parameters: {
+                        fields: 'uuid,participantAppointmentDate,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType'
+                    }
+                }
+            }
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.getParticipants(response);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
     render() {
         return (
             <Participants
+                participants = { this.props.participants }
             />
         );
     }
 }
 
-const mapStateToProps = (/* state */) => ({
+const mapStateToProps = state => ({
+    participants: state.participantsReducer.participants
 });
 
 export default connect(mapStateToProps)(Index);
