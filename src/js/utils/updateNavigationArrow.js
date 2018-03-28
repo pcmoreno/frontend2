@@ -24,13 +24,17 @@ export default function updateNavigationArrow() {
     // move the indicator out of view (in case of unexpected path not matching a navigation node)
     document.querySelector('#indicator svg').style.left = '-10000px';
 
-    if (activeItem !== 'undefined') {
-        activeItem.classList.add('active');
+    if (path) {
+        const activeItem = document.querySelector('body header ul > li#' + path);
 
-        // move indicator arrow to the middle of the active navigation node
-        const activeItemBox = activeItem.getBoundingClientRect();
-        const activeItemMiddle = activeItemBox.left + ((activeItemBox.right - activeItemBox.left) / 2);
+        if (activeItem !== null) {
+            activeItem.classList.add('active');
 
-        document.querySelector('#indicator svg').style.left = (activeItemMiddle - 12) + 'px';
+            // move indicator arrow to the middle of the active navigation node
+            const activeItemBox = activeItem.getBoundingClientRect();
+            const activeItemMiddle = activeItemBox.left + ((activeItemBox.right - activeItemBox.left) / 2);
+
+            document.querySelector('#indicator svg').style.left = (activeItemMiddle - 12) + 'px';
+        }
     }
 }

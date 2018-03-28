@@ -46,6 +46,12 @@
     }
 }
 
+/* active list items in organisations view */
+.list_item__active {
+    background: $black;
+    color: $white;
+}
+
 table thead th.assessmentdate,
 table td.assessmentdate,
 table thead th.consultant,

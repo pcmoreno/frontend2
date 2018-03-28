@@ -15,16 +15,38 @@ export default class Item extends Component {
     }
 
     render() {
-        const { item } = this.props;
+        const { itemName, itemId, panelId, type, panelItemActive, fetchEntities, productName } = this.props;
+
+        let fontAwesomeIcon;
+
+        switch (type) {
+            case 'organisation':
+                fontAwesomeIcon = 'building';
+                break;
+
+            case 'project':
+                fontAwesomeIcon = 'suitcase';
+                break;
+
+            case 'jobfunction':
+                fontAwesomeIcon = 'clipboard-list';
+                break;
+
+            default:
+                fontAwesomeIcon = 'building';
+                break;
+        }
 
         return (
-            <li>
+            <li className={ `${panelItemActive && 'list_item__active'}` } onClick = { () => {
+                fetchEntities({ id: itemId, name: itemName }, panelId);
+            } }>
                 <ul className={ style.listitem }>
-                    <li><FontAwesomeIcon icon="suitcase" /></li>
+                    <li><FontAwesomeIcon icon={ fontAwesomeIcon } /></li>
                     <li className={ style.listitem_properties }>
                         <div>
-                            <span className={ style.title }>{ item }</span>
-                            <span className={ style.subtitle }>product type</span>
+                            <span className={ style.title }>{ itemName }</span>
+                            <span className={ style.subtitle }>{ productName }</span>
                         </div>
                     </li>
                     <li>
