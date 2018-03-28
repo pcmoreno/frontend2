@@ -11,20 +11,26 @@ export default class Panels extends Component {
     }
 
     render() {
-        const { panels, pathNodes, fetchEntities, openModalToAddOrganisation } = this.props;
+        const { panels, pathNodes, fetchEntities, openModalToAddOrganisation, addAlert } = this.props;
 
         const panelCollection = [];
         let panelIndex = 1;
 
+        // for each of the nodes in path, find the matching panel in panels and add it to the collection for output
         pathNodes.forEach(pathNode => {
 
             let currentPanel;
 
             panels.forEach(panel => {
-                if (panel.parentId === pathNode.id) {
+                if (panel.parentId === '1') {
                     currentPanel = panel;
                 }
             });
+
+            if (!currentPanel) {
+                addAlert({ type: 'error', text: `Couldnt find matching panel with id ${pathNode.id}` });
+                //self.logError(`Couldnt find matching panel with id ${pathNode.id}`);
+            }
 
             panelCollection.push(<Panel
                 panelId = { panelIndex++ }

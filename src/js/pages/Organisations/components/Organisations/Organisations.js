@@ -24,6 +24,7 @@ export default class Organisations extends Component {
             pathNodes={ pathNodes }
             fetchEntities={ fetchEntities }
             openModalToAddOrganisation={ openModalToAddOrganisation }
+            addAlert={this.props.addAlert}
         />;
 
         return (
@@ -34,27 +35,27 @@ export default class Organisations extends Component {
                     { panelContainer }
                     <Detailpanel entity={ pathNodes.slice(-1).pop() } />
                 </section>
-                <aside className={ `${style.modal_container} hidden` } id="modal_organisation" >
-                    <Form
-                        formId={ 'organisation' }
-                        ignoredFields={ [
-                            'uuid',
-                            'created',
-                            'updated',
-                            'manyOrganisationToManyCompetency',
-                            'manyOrganisationToManyProduct',
-                            'oneOrganisationToManyOrganisation',
-                            'updated',
-                            'updated',
-                            'organisationType',
-                            'organisationSlug'
-                        ] }
-                        forms = { this.props.forms }
-                        storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
-                        changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
-                        afterSubmit = { this.props.refreshDataWithMessage }
-                        closeModal={ this.props.closeModalToAddOrganisation }
-                    />
+                <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
+                    {/*<Form*/}
+                        {/*formId={ 'organisation' }*/}
+                        {/*ignoredFields={ [*/}
+                            {/*'uuid',*/}
+                            {/*'created',*/}
+                            {/*'updated',*/}
+                            {/*'manyOrganisationToManyCompetency',*/}
+                            {/*'manyOrganisationToManyProduct',*/}
+                            {/*'oneOrganisationToManyOrganisation',*/}
+                            {/*'updated',*/}
+                            {/*'updated',*/}
+                            {/*'organisationType',*/}
+                            {/*'organisationSlug'*/}
+                        {/*] }*/}
+                        {/*forms = { this.props.forms }*/}
+                        {/*storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }*/}
+                        {/*changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }*/}
+                        {/*afterSubmit = { this.props.refreshDataWithMessage }*/}
+                        {/*closeModal={ this.props.closeModalToAddOrganisation }*/}
+                    {/*/>*/}
                 </aside>
             </div>
         );

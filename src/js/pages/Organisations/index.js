@@ -144,6 +144,7 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                addAlert={this.actions.addAlert}
             />
         );
     }
