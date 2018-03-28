@@ -25,7 +25,6 @@ export default function updateNavigationArrow() {
     document.querySelector('#indicator svg').style.left = '-10000px';
 
     if (path) {
-        const activeItem = document.querySelector('body header ul > li#' + path);
 
         if (activeItem !== null) {
             activeItem.classList.add('active');
