@@ -1,4 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
+import Logger from '../../../utils/logger';
 
 const initialState = {
     panels: [],
@@ -15,6 +16,8 @@ const initialState = {
 export default function organisationsReducer(state = initialState, action) {
     let newState = Object.assign({}, state),
         newForm;
+
+    let logger = Logger.instance;
 
     switch (action.type) {
 
@@ -51,6 +54,14 @@ export default function organisationsReducer(state = initialState, action) {
 
             // will add a panel entity to the state containing all its children. this is NOT a representation of the
             // panel view since it can contain panels that are no longer visible. this serves as caching only.
+
+            // ensure a valid id is received
+            if (action.parentId === 'undefined' || action.parentId === null) {
+                logger.error({
+                    component: 'PathNode',
+                    message: 'encountered pathNode with invalid id'
+                });
+            }
 
             // clear all panels from newState
             newState.panels = [];

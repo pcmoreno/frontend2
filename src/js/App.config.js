@@ -17,5 +17,10 @@ module.exports = {
             skipPrefixIndexParams: true,
             requestFailedMessage: 'An error occurred while processing your request.'
         }
+    },
+    global: {
+        organisations: {
+            rootEntitiesParentName: 'LTP'
+        }
     }
 };

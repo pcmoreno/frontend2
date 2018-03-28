@@ -22,12 +22,13 @@ export default class Panels extends Component {
             let currentPanel;
 
             panels.forEach(panel => {
-                if (panel.parentId === '1') {
+                if (panel.parentId === pathNode.id) {
                     currentPanel = panel;
                 }
             });
 
             if (!currentPanel) {
+                // todo: make this a (working) logError instead of alert
                 addAlert({ type: 'error', text: `Couldnt find matching panel with id ${pathNode.id}` });
                 //self.logError(`Couldnt find matching panel with id ${pathNode.id}`);
             }
