@@ -34,7 +34,7 @@ export default class Organisations extends Component {
                     { panelContainer }
                     <Detailpanel entity={ pathNodes.slice(-1).pop() } />
                 </section>
-                <aside className={ `${style.modal_container} hidden` } id="modal_organisation" >
+                <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
                     <Form
                         formId={ 'organisation' }
                         ignoredFields={ [

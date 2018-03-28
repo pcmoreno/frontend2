@@ -9,6 +9,7 @@ import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
+import AppConfig from './../../App.config';
 
 class Index extends Component {
     constructor(props) {
@@ -44,11 +45,8 @@ class Index extends Component {
     componentDidMount() {
         updateNavigationArrow();
 
-        // get items for first time
-        // todo: name should be set by .env or App.config.js
-        // todo: I dont like the 'null' parameter in here, but since the root organisation has no ID, I saw no other way
-        // todo: needs documentation
-        this.fetchEntities({ id: null, name: 'LTP' }, 0);
+        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
+        this.fetchEntities({ id: 0, name: AppConfig.global.organisations.rootEntitiesParentName }, 0);
     }
 
     refreshDataWithMessage() {
@@ -63,7 +61,7 @@ class Index extends Component {
 
         // refresh the items
         // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        this.fetchEntities({ id: null, name: 'what to put here' }, null);
+        this.fetchEntities({ id: 0, name: 'what to put here' }, null);
     }
 
     fetchEntities(entity, panelId) {
@@ -77,7 +75,8 @@ class Index extends Component {
         let params, endPoint;
         const apiConfig = api.getConfig();
 
-        if (entity.id !== null) {
+        //
+        if (entity.id > 0) {
 
             // a parentId was provided, assume 'child' entities need to be retrieved
             params = {
@@ -91,10 +90,10 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.division;
+            endPoint = apiConfig.endpoints.organisations.childEntities;
         } else {
 
-            // no parentId was provided, assume the 'root' entities need to be retrieved
+            // parentId is '0', assume the 'root' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
@@ -103,7 +102,7 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.organisation;
+            endPoint = apiConfig.endpoints.organisations.rootEntities;
         }
 
         // request entities
@@ -115,7 +114,7 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
 
             // store panel entities in state
-            this.actions.fetchEntities(entity.id ? entity.id : null, response);
+            this.actions.fetchEntities(entity.id, response);
 
             // now that the new entities are available in the state, update the path to reflect the change
             this.actions.updatePath(entity, panelId);

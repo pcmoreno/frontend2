@@ -40,7 +40,7 @@ export default class Panel extends Component {
         }
 
         return (
-            <section className={ `${style.panel} ${this.props.active && 'active'}` } >
+            <section className={ `${style.panel}${this.props.active ? ' active' : ''}` } >
                 <PanelHeader openModalToAddOrganisation={this.props.openModalToAddOrganisation} />
                 <section className={ style.itemlist }>
                     <ul>

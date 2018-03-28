@@ -46,6 +46,13 @@
     }
 }
 
+/* active panels in organisation view when below responsive breakpoint */
+@media screen and (max-width: $grid-breakpoints-lg) {
+    #panels > section.active {
+        display: block;
+    }
+}
+
 /* active list items in organisations view */
 .list_item__active {
     background: $black;

@@ -25,10 +25,8 @@
     @media screen and (max-width: $grid-breakpoints-lg) {
         min-width: 320px;
 
-        &:not(.active) {
-            /* probably no longer needed
-             display: none; */
-        }
+        /* hide all panels (look inside helpers.scss for the  css that displays .panel.active) */
+        display: none;
     }
 
     @media screen and (max-width: $grid-breakpoints-md) {

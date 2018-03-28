@@ -43,7 +43,7 @@ class Index extends Component {
         // request participants
         api.get(
             api.getBaseUrl(),
-            api.getEndpoints().participants,
+            api.getEndpoints().participants.entities,
             {
                 urlParams: {
                     parameters: {
