@@ -75,6 +75,7 @@ class Index extends Component {
         let params, endPoint;
         const apiConfig = api.getConfig();
 
+        //
         if (entity.id > 0) {
 
             // a parentId was provided, assume 'child' entities need to be retrieved
@@ -89,7 +90,7 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.childEntities;
+            endPoint = apiConfig.endpoints.organisations.childEntities;
         } else {
 
             // parentId is '0', assume the 'root' entities need to be retrieved
@@ -101,7 +102,7 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.rootEntities;
+            endPoint = apiConfig.endpoints.organisations.rootEntities;
         }
 
         // request entities
