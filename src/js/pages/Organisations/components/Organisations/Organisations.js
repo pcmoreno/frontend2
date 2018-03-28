@@ -24,7 +24,6 @@ export default class Organisations extends Component {
             pathNodes={ pathNodes }
             fetchEntities={ fetchEntities }
             openModalToAddOrganisation={ openModalToAddOrganisation }
-            addAlert={this.props.addAlert}
         />;
 
         return (

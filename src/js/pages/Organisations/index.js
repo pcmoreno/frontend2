@@ -89,7 +89,7 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.division;
+            endPoint = apiConfig.endpoints.childEntities;
         } else {
 
             // parentId is '0', assume the 'root' entities need to be retrieved
@@ -101,7 +101,7 @@ class Index extends Component {
                 }
             };
 
-            endPoint = apiConfig.endpoints.organisation;
+            endPoint = apiConfig.endpoints.rootEntities;
         }
 
         // request entities
@@ -142,7 +142,6 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-                addAlert={this.actions.addAlert}
             />
         );
     }

@@ -28,12 +28,15 @@ export default function organisationsReducer(state = initialState, action) {
             // construct the temporary path that is used to populate the new pathNodes state
             let tempPath;
 
-            if (action.panelId) {
+            if (action.panelId >= 0) {
 
                 // user clicked at a certain panel so ensure the pathNodes are sliced up until that point
                 tempPath = state.pathNodes.slice(0, action.panelId);
             } else {
-                tempPath = state.pathNodes;
+                logger.error({
+                    component: 'UPDATE_PATH',
+                    message: 'attempting to update the path without a panelId'
+                });
             }
 
             // build up the new pathNodes state
@@ -58,7 +61,7 @@ export default function organisationsReducer(state = initialState, action) {
             // ensure a valid id is received
             if (action.parentId === 'undefined' || action.parentId === null) {
                 logger.error({
-                    component: 'PathNode',
+                    component: 'FETCH_ENTITIES',
                     message: 'encountered pathNode with invalid id'
                 });
             }
@@ -73,10 +76,8 @@ export default function organisationsReducer(state = initialState, action) {
                 if (panel.parentId !== action.parentId) {
 
                     // take all properties from existing panel, except the active state
-                    // todo: the active property seems a bit redundant since it can be determined from Path in Panels.js
                     newState.panels.push({
                         parentId: panel.parentId,
-                        active: false,
                         entities: panel.entities
                     });
                 }
