@@ -1,14 +1,15 @@
 /* some overloads were needed because the login form doesnt look exactly like the modals */
 .login {
     background: $blue;
-
-    /* todo: remove these 2 when figured out how to hide the main navigation element */
-    margin-top: -10px;
-    height: 100%;
+    height: 100vh;
 
     form {
         box-shadow: none;
     }
+}
+
+.loginMargin {
+    margin-top: 100px;
 }
 
 .modal {
@@ -25,6 +26,9 @@
 
 .errors {
     color: $signal-red;
+    margin-top: 10px;
+    display: block;
+    min-height: 1.2rem;
 }
 
 .modal_footer {

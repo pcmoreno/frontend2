@@ -1,7 +1,38 @@
 import AbstractAuthenticator from '../abstract';
 
+// below seems unused, but is required for jest to mock/overwrite it
+import AppConfig from '../../../App.config';
+
+// Mock the application api config
+jest.mock('../../../App.config', () => {
+    return {
+        authenticator: {
+            neon: {
+                x: 'y'
+            },
+            fake: {
+
+            }
+        }
+    }
+});
+
+test('AbstractAuthenticator should fetch the correct config when constructing', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    expect(authenticator.config.x).toEqual('y');
+});
+
+test('AbstractAuthenticator should throw an error when the authenticator config is not available', () => {
+    try {
+        new AbstractAuthenticator(null);
+    } catch (e) {
+        expect(e).toEqual(new Error('AppConfig.authenticator.null is not set. Cannot create authenticator instance.'));
+    }
+});
+
 test('AbstractAuthenticator should have method authenticate, but should throw is not implemented', () => {
-    const authenticator = new AbstractAuthenticator();
+    const authenticator = new AbstractAuthenticator('neon');
 
     try {
         authenticator.authenticate();
@@ -10,8 +41,28 @@ test('AbstractAuthenticator should have method authenticate, but should throw is
     }
 });
 
+test('AbstractAuthenticator should have method refreshAndGetUser, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    try {
+        authenticator.refreshAndGetUser();
+    } catch (e) {
+        expect(e).toEqual(new Error('Method not implemented.'));
+    }
+});
+
+test('AbstractAuthenticator should have method refreshTokens, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    try {
+        authenticator.refreshTokens();
+    } catch (e) {
+        expect(e).toEqual(new Error('Method not implemented.'));
+    }
+});
+
 test('AbstractAuthenticator should have method isAuthenticated, but should throw is not implemented', () => {
-    const authenticator = new AbstractAuthenticator();
+    const authenticator = new AbstractAuthenticator('neon');
 
     try {
         authenticator.isAuthenticated();
@@ -20,11 +71,21 @@ test('AbstractAuthenticator should have method isAuthenticated, but should throw
     }
 });
 
-test('AbstractAuthenticator should have method getAuthenticationHeaders, but should throw is not implemented', () => {
-    const authenticator = new AbstractAuthenticator();
+test('AbstractAuthenticator should have method getUser, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
 
     try {
-        authenticator.getAuthenticationHeaders();
+        authenticator.getUser();
+    } catch (e) {
+        expect(e).toEqual(new Error('Method not implemented.'));
+    }
+});
+
+test('AbstractAuthenticator should have method logout, but should throw is not implemented', () => {
+    const authenticator = new AbstractAuthenticator('neon');
+
+    try {
+        authenticator.logout();
     } catch (e) {
         expect(e).toEqual(new Error('Method not implemented.'));
     }

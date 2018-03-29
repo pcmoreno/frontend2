@@ -43,6 +43,14 @@ class API {
     }
 
     /**
+     * Returns the authenticator of this API instance.
+     * @returns {AbstractAuthenticator} authenticator instance
+     */
+    getAuthenticator() {
+        return this.authenticator;
+    }
+
+    /**
      * Returns whether the given http status code is considered a warning code
      *
      * @param {number} code - http status code
@@ -104,8 +112,13 @@ class API {
      * @private
      * @returns {Promise} network request promise
      */
-    _executeRequest(url, method, options = {}) {
+    executeRequest(url, method, options = {}) {
         const self = this;
+        const cachedRequest = {
+            url,
+            method,
+            options
+        };
 
         return new Promise((resolve, reject) => {
 
@@ -114,6 +127,12 @@ class API {
                 method,
                 headers: {}
             };
+
+            // allow to use cross-domain cookies for authentication
+            // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+            if (this.config.credentials) {
+                requestParams.credentials = this.config.credentials;
+            }
 
             // builds the url with the given identifiers and parameters
             const parsedUrl = self.buildURL(url, options.urlParams);
@@ -140,8 +159,6 @@ class API {
                 requestParams = this.buildRequestHeaders(requestParams, options.headers);
             }
 
-            // todo: add authentication headers
-
             // execute the request
             return fetch(parsedUrl, requestParams).then(response => {
 
@@ -152,6 +169,21 @@ class API {
                     if (response.status === 400 && json.errors) {
                         self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return resolve({ errors: json.errors });
+                    }
+
+                    // renew token if 401 was returned, and try the same API call again
+                    if (response.status === 401) {
+                        if (!options.retry) {
+                            return self.authenticator.refreshAndGetUser().then(() => {
+                                cachedRequest.options.retry = true;
+                                return self.executeRequest(cachedRequest.url, cachedRequest.method, cachedRequest.options);
+                            });
+                        }
+
+                        // we already retried and we still get 401. Consider this logged out...
+                        return self.authenticator.logout().then(() => {
+                            window.location = self.getConfig().logoutRedirect;
+                        });
                     }
 
                     // log and/or reject based on our http status code checks
@@ -334,7 +366,7 @@ class API {
      * @returns {Promise} network request promise
      */
     get(baseUrl, endpoint, options) {
-        return this._executeRequest(baseUrl + endpoint, 'get', options);
+        return this.executeRequest(baseUrl + endpoint, 'get', options);
     }
 
     /**
@@ -353,7 +385,7 @@ class API {
      * @returns {Promise} network request promise
      */
     post(baseUrl, endpoint, options) {
-        return this._executeRequest(baseUrl + endpoint, 'post', options);
+        return this.executeRequest(baseUrl + endpoint, 'post', options);
     }
 
     /**
@@ -372,7 +404,7 @@ class API {
      * @returns {Promise} network request promise
      */
     put(baseUrl, endpoint, options) {
-        return this._executeRequest(baseUrl + endpoint, 'put', options);
+        return this.executeRequest(baseUrl + endpoint, 'put', options);
     }
 
     /**
@@ -391,7 +423,7 @@ class API {
      * @returns {Promise} network request promise
      */
     options(baseUrl, endpoint, options) {
-        return this._executeRequest(baseUrl + endpoint, 'options', options);
+        return this.executeRequest(baseUrl + endpoint, 'options', options);
     }
 }
 
