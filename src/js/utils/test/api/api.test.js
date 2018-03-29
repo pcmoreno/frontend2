@@ -381,7 +381,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -399,7 +399,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B%5D=d&f%5B%5D=x&y=x');
 });
 
@@ -412,7 +412,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -430,7 +430,7 @@ test('API buildURL should parse the url parameters correctly with urlEncoding an
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y%2Cx&f%5B0%5D=d&f%5B1%5D=x&y=x');
 });
 
@@ -443,7 +443,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -461,7 +461,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[0]=d&f[1]=x&y=x');
 });
 
@@ -474,7 +474,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
 
     // spy on method
     spyOn(api, 'buildURL').and.callThrough();
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // call method
@@ -492,7 +492,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
         });
 
     expect(Utils.buildQueryString.calls.count()).toBe(1);
-    expect(Utils.serialise.calls.count()).toBe(2); // expected the initial call plus one for a child array
+    expect(Utils.serialize.calls.count()).toBe(2); // expected the initial call plus one for a child array
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[]=d&f[]=x&y=x');
 });
 
@@ -596,7 +596,7 @@ test('API buildPayload should return requestParams when no payload is set', () =
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise');
+    spyOn(Utils, 'serialize');
 
     // expected result
     expect(api.buildPayload(
@@ -610,7 +610,7 @@ test('API buildPayload should return requestParams when no payload is set', () =
         method: 'post'
     });
 
-    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(Utils.serialize.calls.count()).toBe(0);
 });
 
 test('API buildPayload should should parse the post body in JSON', () => {
@@ -619,7 +619,7 @@ test('API buildPayload should should parse the post body in JSON', () => {
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise');
+    spyOn(Utils, 'serialize');
 
     // expected result
     expect(api.buildPayload(
@@ -648,7 +648,7 @@ test('API buildPayload should should parse the post body in JSON', () => {
         body: "{\"x\":\"y\",\"y\":[\"x\",\"y\"],\"z\":{\"x\":\"y\"}}"
     });
 
-    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(Utils.serialize.calls.count()).toBe(0);
 });
 
 test('API buildPayload should should parse the post body in form data', () => {
@@ -657,7 +657,7 @@ test('API buildPayload should should parse the post body in form data', () => {
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
 
     // expected result
     expect(api.buildPayload(
@@ -681,7 +681,7 @@ test('API buildPayload should should parse the post body in form data', () => {
         body: "form[x]=y&form[y]=x&form[z]=z"
     });
 
-    expect(Utils.serialise.calls.count()).toBe(1);
+    expect(Utils.serialize.calls.count()).toBe(1);
 });
 
 test('API buildPayload should return a string when given JSON payload is not an object or array', () => {
@@ -690,7 +690,7 @@ test('API buildPayload should return a string when given JSON payload is not an 
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise');
+    spyOn(Utils, 'serialize');
 
     // expected result
     expect(api.buildPayload(
@@ -710,7 +710,7 @@ test('API buildPayload should return a string when given JSON payload is not an 
         body: "\"invalid json should be returned as a string only []2497&^^424\""
     });
 
-    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(Utils.serialize.calls.count()).toBe(0);
 });
 
 test('API buildPayload should return an empty string when the form data post body cannot be parsed', () => {
@@ -719,7 +719,7 @@ test('API buildPayload should return an empty string when the form data post bod
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
 
     // expected result
     expect(api.buildPayload(
@@ -739,7 +739,7 @@ test('API buildPayload should return an empty string when the form data post bod
         body: ''
     });
 
-    expect(Utils.serialise.calls.count()).toBe(1);
+    expect(Utils.serialize.calls.count()).toBe(1);
 });
 
 test('API buildPayload should return a char string when the form data post body cannot be parsed', () => {
@@ -748,7 +748,7 @@ test('API buildPayload should return a char string when the form data post body 
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
 
     // expected result
     expect(api.buildPayload(
@@ -768,7 +768,7 @@ test('API buildPayload should return a char string when the form data post body 
         body: 'form[0]=b&form[1]=l&form[2]=a'
     });
 
-    expect(Utils.serialise.calls.count()).toBe(1);
+    expect(Utils.serialize.calls.count()).toBe(1);
 });
 
 test('API buildPayload should log and throw an error when the post body is of an unknown format', () => {
@@ -777,7 +777,7 @@ test('API buildPayload should log and throw an error when the post body is of an
     let api = new API('neon', null);
 
     // watch method
-    spyOn(Utils, 'serialise').and.callThrough();
+    spyOn(Utils, 'serialize').and.callThrough();
     spyOn(api, 'logError');
 
     try {
@@ -799,7 +799,7 @@ test('API buildPayload should log and throw an error when the post body is of an
     }
 
     // expected result
-    expect(Utils.serialise.calls.count()).toBe(0);
+    expect(Utils.serialize.calls.count()).toBe(0);
     expect(api.logError.calls.count()).toBe(1);
     expect(api.logError.calls.allArgs()).toEqual([
         [
