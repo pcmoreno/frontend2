@@ -6,6 +6,12 @@ import DateTimeField from './components/DateTimeField/DateTimeField';
 import TextInput from './components/TextInput/TextInput';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
+import Relationship from './components/Relationship/Relationship';
+
+export const DATE_TIME_FIELD = 'DateTimeField';
+export const TEXT_INPUT = 'TextInput';
+export const CHOICE = 'Choice';
+export const RELATIONSHIP = 'Relationship';
 
 export default class Form extends Component {
     constructor(props) {
@@ -30,7 +36,7 @@ export default class Form extends Component {
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
-            case 'DateTimeField':
+            case DATE_TIME_FIELD:
                 return (<DateTimeField
                     name={name}
                     localState={this.localState}
@@ -38,7 +44,7 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case 'TextInput':
+            case TEXT_INPUT:
                 return (<TextInput
                     name={name}
                     localState={this.localState}
@@ -46,7 +52,7 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case 'Choice':
+            case CHOICE:
                 return (<Choice
                     name={name}
                     localState={this.localState}
@@ -55,6 +61,11 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
+            case RELATIONSHIP:
+                return (<Relationship
+                    localState={ this.localState }
+                    options={ formFieldOptions }
+                    onChange={ this.handleChange }/>);
             default:
 
                 // console.log('input type unknown!');
@@ -65,16 +76,31 @@ export default class Form extends Component {
     handleChange(event) {
         event.preventDefault();
 
+        const target = event.currentTarget;
+
         // controlled component pattern: form state is kept in state and persisted across page components
         const formId = this.props.formId;
         const formInputId = event.currentTarget.id;
-        const formInputValue = event.currentTarget.value;
 
         this.props.changeFormFieldValueForFormId(
             formId,
             formInputId,
-            formInputValue
+            this.getFieldValue(target)
         );
+    }
+
+    getFieldValue(target) {
+        let formInputValue;
+
+        // If we have a selectedOptions property
+        // We are dealing with a field that supports multiselect
+        if (typeof target.selectedOptions !== 'undefined') {
+            formInputValue = Array.from(target.selectedOptions).map(option => option.value);
+        } else {
+            formInputValue = target.value;
+        }
+
+        return formInputValue;
     }
 
     handleSubmit(event) {
@@ -82,12 +108,14 @@ export default class Form extends Component {
 
         // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour (multiple calls)
         // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
-
         // todo: frontend form input validation (read validation rules from options calls)
 
         let changedFields = [];
 
         this.props.forms.forEach(form => {
+
+            console.log(form);
+
             if (form.id === this.props.formId) {
 
                 // in the right form
@@ -100,6 +128,7 @@ export default class Form extends Component {
 
                         // only submit the changed fields (for now, those with a value that is not empty)
                         const fieldId = name;
+
                         const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
@@ -107,6 +136,8 @@ export default class Form extends Component {
                 });
             }
         });
+
+        console.log('CHANGED FIELDS', changedFields);
 
         this.props.submitForm(changedFields).then(response => {
             if (response && response.errors) {
@@ -211,7 +242,7 @@ export default class Form extends Component {
                             const handle = formField[name].handle;
                             const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
                             const value = formField[name].value ? formField[name].value : null;
-                            const formFieldOptions = formField[name].form.all;
+                            const formFieldOptions = formField[name];
 
                             buildField = this.buildInputType(name, type, handle, label, value, formFieldOptions);
                         }

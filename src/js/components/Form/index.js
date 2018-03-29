@@ -47,9 +47,9 @@ class Index extends Component {
         document.querySelector('#spinner').classList.remove('hidden');
 
         // execute request
-        this.api.options(
+        this.api.get(
             this.api.getBaseUrl(),
-            `${this.api.getEndpoints().abstractSection}/${formId}`
+            `${this.api.getEndpoints().sectionInfo}/${formId}`
         ).then(response => {
 
             // hide loader and pass the fields to the form

@@ -57,7 +57,6 @@ export default function organisationsReducer(state = initialState, action) {
             // build up the forms with data from state
             state.forms.forEach(form => {
                 if (form.id === action.formId) {
-
                     // in the right form
                     form.formFields.map(field => {
 

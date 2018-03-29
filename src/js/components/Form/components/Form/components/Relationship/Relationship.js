@@ -14,6 +14,8 @@ export default class Relationship extends Component {
     render() {
         const { options, onChange } = this.props;
 
+        console.log(options);
+
         switch (options.kind) {
             case MANY_TO_MANY:
                 return (<ManyToMany options={options} onChange={onChange} />);

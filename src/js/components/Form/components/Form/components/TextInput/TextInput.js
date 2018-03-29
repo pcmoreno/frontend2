@@ -12,17 +12,18 @@ export default class TextInput extends Component {
     render() {
         const { localState, handle, label, onChange, value } = this.props;
 
-        return (<div>
-            <label htmlFor={ handle }>{ label }</label>
-            <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
-            <input
-                type="text"
-                id={ handle }
-                value={ value }
-                name={ 'form[' + handle + ']'}
-                onChange={ onChange }
-            />
-        </div>
+        return (
+            <div>
+                <label htmlFor={ handle }>{ label }</label>
+                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
+                <input
+                    type="text"
+                    id={ handle }
+                    value={ value }
+                    name={ 'form[' + handle + ']'}
+                    onChange={ onChange }
+                />
+            </div>
         );
     }
 }
