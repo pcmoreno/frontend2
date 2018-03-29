@@ -69,7 +69,6 @@ class Index extends Component {
     }
 
     fetchEntities(entity, panelId) {
-
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
@@ -79,7 +78,7 @@ class Index extends Component {
         //
         if (entity.id === 0) {
 
-            // parentId is '0', assume the 'root' entities need to be retrieved
+            // entity.id is '0', assume the 'root' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
@@ -91,7 +90,7 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.rootEntities;
         } else {
 
-            // a parentId was provided, assume 'child' entities need to be retrieved
+            // an entity.id was provided, assume 'child' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
@@ -122,21 +121,23 @@ class Index extends Component {
             this.actions.updatePath(entity, panelId);
 
             // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-            this.fetchDetailPanelData(entity.id, entity.type, entity.name);
+            this.fetchDetailPanelData(entity);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
 
-    fetchDetailPanelData(entityId, entityType, entityName) {
+    fetchDetailPanelData(entity) {
 
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
-        if (entityId > 0) {
+        if (entity.id > 0) {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             const apiConfig = api.getConfig();
 
-            switch (entityType) {
+            let entityType;
+
+            switch (entity.type) {
 
                 // a jobfunction should fetch its children from the /project/ section
                 case 'jobfunction': entityType = 'project';
@@ -149,6 +150,9 @@ class Index extends Component {
                 // an organisation should fetch its children from the /organisation/ section
                 case 'organisation': entityType = 'organisation';
                     break;
+
+                default: entityType = 'organisation';
+                    break;
             }
 
             const params = {
@@ -157,7 +161,7 @@ class Index extends Component {
                         fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
                     },
                     identifiers: {
-                        identifier: entityId,
+                        identifier: entity.id,
                         type: entityType
                     }
                 }
@@ -174,7 +178,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state
-                this.actions.fetchDetailPanelData({ id: entityId, type: entityType, name: entityName }, response);
+                this.actions.fetchDetailPanelData({ id: entity.id, type: entityType, name: entity.name }, response);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -190,12 +194,14 @@ class Index extends Component {
     }
 
     render() {
+        const { panels, forms, detailPanelData, pathNodes } = this.props;
+
         return (
             <Organisations
-                panels = { this.props.panels }
-                forms={ this.props.forms }
-                detailPanelData = { this.props.detailPanelData }
-                pathNodes = { this.props.pathNodes }
+                panels = { panels }
+                forms={ forms }
+                detailPanelData = { detailPanelData }
+                pathNodes = { pathNodes }
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshDataWithMessage={ this.refreshDataWithMessage }

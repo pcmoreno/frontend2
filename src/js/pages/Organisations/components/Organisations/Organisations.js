@@ -7,7 +7,6 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import Detailpanel from './components/Detailpanel/Detailpanel';
 import AppConfig from './../../../../App.config';
-/* todo: there is a webpack plugin that can search within a root path which prevents ./../../../.. hell like this */
 import Form from './../../../../components/Form';
 import style from './style/organisations.scss';
 
@@ -26,7 +25,12 @@ export default class Organisations extends Component {
             pathNodes,
             detailPanelData,
             alertComponent,
-            fetchDetailPanelData
+            fetchDetailPanelData,
+            forms,
+            storeFormDataInFormsCollection,
+            changeFormFieldValueForFormId,
+            refreshDataWithMessage,
+            closeModalToAddOrganisation
         } = this.props;
 
         // define properties for the Panels component
@@ -40,7 +44,7 @@ export default class Organisations extends Component {
 
         // note that the name of the detail panel is taken from the path, not the state (much faster)
         let nameForCurrentEntity = AppConfig.global.organisations.rootEntitiesParentName;
-        let dataForCurrentEntity;
+        let dataForCurrentEntity = {};
 
         // find the active data 'panel' (if available)
         if (detailPanelData) {
@@ -51,7 +55,7 @@ export default class Organisations extends Component {
                     dataForCurrentEntity = dataForEntity;
 
                     // overwrite the default name (not taken from the data, to ensure its always defaulting to LTP)
-                    nameForCurrentEntity = dataForEntity.entityName;
+                    nameForCurrentEntity = dataForEntity.entity.name;
                 }
             });
         } else {
@@ -73,26 +77,26 @@ export default class Organisations extends Component {
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
-                    {/*<Form*/}
-                        {/*formId={ 'organisation' }*/}
-                        {/*ignoredFields={ [*/}
-                            {/*'uuid',*/}
-                            {/*'created',*/}
-                            {/*'updated',*/}
-                            {/*'manyOrganisationToManyCompetency',*/}
-                            {/*'manyOrganisationToManyProduct',*/}
-                            {/*'oneOrganisationToManyOrganisation',*/}
-                            {/*'updated',*/}
-                            {/*'updated',*/}
-                            {/*'organisationType',*/}
-                            {/*'organisationSlug'*/}
-                        {/*] }*/}
-                        {/*forms = { this.props.forms }*/}
-                        {/*storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }*/}
-                        {/*changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }*/}
-                        {/*afterSubmit = { this.props.refreshDataWithMessage }*/}
-                        {/*closeModal={ this.props.closeModalToAddOrganisation }*/}
-                    {/*/>*/}
+                    <Form
+                        formId={ 'organisation' }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'manyOrganisationToManyCompetency',
+                            'manyOrganisationToManyProduct',
+                            'oneOrganisationToManyOrganisation',
+                            'updated',
+                            'updated',
+                            'organisationType',
+                            'organisationSlug'
+                        ] }
+                        forms = { forms }
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        afterSubmit = { refreshDataWithMessage }
+                        closeModal={ closeModalToAddOrganisation }
+                    />
                 </aside>
             </div>
         );

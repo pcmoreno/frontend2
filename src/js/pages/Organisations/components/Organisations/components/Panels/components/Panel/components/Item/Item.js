@@ -48,6 +48,7 @@ export default class Item extends Component {
         return (
             <li
                 key = { entity.id }
+                id = { entity.id }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
                 onClick = { () => {
 
@@ -59,7 +60,7 @@ export default class Item extends Component {
                     <li><FontAwesomeIcon icon={ fontAwesomeIcon } /></li>
                     <li className={ style.listitem_properties }>
                         <div>
-                            <span className={ style.title }>{ entity.id } - { entity.name }</span>
+                            <span className={ style.title }>{ entity.name }</span>
                             <span className={ style.subtitle }>{ entity.productName }</span>
                         </div>
                     </li>
@@ -68,13 +69,12 @@ export default class Item extends Component {
                             tabIndex="0"
                             role="button"
                             onClick={ event => {
-                                console.log('going to fetch detail panel data for entity id '+entity.id);
 
                                 // ensure fetchEntities is not called
                                 event.stopPropagation();
 
                                 // fetch data to populate detail panel (again, entityType overwrites entity.type)
-                                fetchDetailPanelData(entity.id, entityType, entity.name);
+                                fetchDetailPanelData({ id: entity.id, type: entityType, name: entity.name });
 
                                 // ensure detail panel becomes visible (mostly important on responsive views)
                                 document.querySelector('#detailpanel').classList.remove('hidden');

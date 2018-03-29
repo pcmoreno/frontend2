@@ -226,14 +226,12 @@ export default function organisationsReducer(state = initialState, action) {
                 newState.detailPanelData.push(data);
             });
 
-            // todo: currently it always re-adds each entry. ensure it skips pushing data for the id we are requesting.
+            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
 
             // now add the new data taken from the action
             newState.detailPanelData.push({
                 active: true,
-                entityId: action.entity.id,
-                entityType: action.entity.type,
-                entityName: action.entity.name
+                entity: action.entity
             });
 
             break;

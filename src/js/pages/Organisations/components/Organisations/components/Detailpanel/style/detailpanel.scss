@@ -73,10 +73,12 @@ $detailpanel-margin: 10px;
         }
     }
 
+    /* stylelint-disable */
     main {
         /* the height of the content part of the detail panel is calculated as follows: */
         height: calc(100vh - calc($application-header-height + $organisations-path-height + $detailpanel-margin + $detailpanel-header-height + $detailpanel-nav-height + $detailpanel-margin));
     }
+    /* stylelint-enable */
 
     .detailpanel_divider {
         background: $beige-darken;
@@ -108,22 +110,6 @@ $detailpanel-margin: 10px;
     }
 }
 
-/*
-.button_show_detailpanel {
-      only show the show detailpanel button on responsive views
-    display: none;
-    float: right;
-    margin: 9px 0;
-    color: $beige-darken;
-    font-size: 1rem;
-    height: 1rem;
-
-    @media screen and (max-width: 960px) {
-        display: inline-block;
-    }
-}
-*/
-
 .button_hide_detailpanel {
     /*  only show the hide detailpanel button on responsive views */
     display: none;
@@ -142,17 +128,17 @@ $detailpanel-margin: 10px;
 
 .spinner_container {
     position: relative;
-
-    /* hide spinner on small viewports todo: does this still work? */
-    @media screen and (min-width: $grid-breakpoints-lg) {
-        // display: block;
-    }
 }
 
 .spinner {
     position: absolute;
     top: .25rem;
     right: -.75rem;
+
+    /* spinner appears on the left on responsive views */
+    @media screen and (max-width: $grid-breakpoints-lg) {
+        left: -.75rem;
+    }
 
     svg {
         padding: 0 1rem;
