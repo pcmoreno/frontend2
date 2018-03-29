@@ -26,6 +26,8 @@ class Index extends Component {
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+        this.fetchEntities = this.fetchEntities.bind(this);
+        this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -35,6 +37,8 @@ class Index extends Component {
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+
+        // react controlled component pattern takes over the built-in form state when input changes
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
@@ -66,32 +70,14 @@ class Index extends Component {
 
     fetchEntities(entity, panelId) {
 
-        // hide modal and spinner(if not already hidden)
-
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
-
-        let params, endPoint;
         const apiConfig = api.getConfig();
+        let params, endPoint;
 
         //
-        if (entity.id > 0) {
-
-            // a parentId was provided, assume 'child' entities need to be retrieved
-            params = {
-                urlParams: {
-                    parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
-                    },
-                    identifiers: {
-                        identifier: entity.id
-                    }
-                }
-            };
-
-            endPoint = apiConfig.endpoints.organisations.childEntities;
-        } else {
+        if (entity.id === 0) {
 
             // parentId is '0', assume the 'root' entities need to be retrieved
             params = {
@@ -103,6 +89,22 @@ class Index extends Component {
             };
 
             endPoint = apiConfig.endpoints.organisations.rootEntities;
+        } else {
+
+            // a parentId was provided, assume 'child' entities need to be retrieved
+            params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id,
+                        type: entity.type
+                    }
+                }
+            };
+
+            endPoint = apiConfig.endpoints.organisations.childEntities;
         }
 
         // request entities
@@ -120,43 +122,59 @@ class Index extends Component {
             this.actions.updatePath(entity, panelId);
 
             // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-            this.fetchDetailPanelData(entity.id);
+            this.fetchDetailPanelData(entity.id, entity.type, entity.name);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
 
-    fetchDetailPanelData(organisationId) {
-        console.log('fetching detail panel data for id ',organisationId);
+    fetchDetailPanelData(entityId, entityType, entityName) {
 
-        // note that the LTP root organisation with id 0 has no associated detail panel data and is thus ignored
-        if (organisationId > 0) {
+        // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
+        if (entityId > 0) {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
-            let params, endPoint;
             const apiConfig = api.getConfig();
 
-            params = {
+            switch (entityType) {
+
+                // a jobfunction should fetch its children from the /project/ section
+                case 'jobfunction': entityType = 'project';
+                    break;
+
+                // an project should fetch its children from the /organisation/ section
+                case 'project': entityType = 'organisation';
+                    break;
+
+                // an organisation should fetch its children from the /organisation/ section
+                case 'organisation': entityType = 'organisation';
+                    break;
+            }
+
+            const params = {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
                     },
                     identifiers: {
-                        identifier: organisationId
+                        identifier: entityId,
+                        type: entityType
                     }
                 }
             };
 
-            endPoint = apiConfig.endpoints.organisations.detailPanelData;
+            const endPoint = apiConfig.endpoints.organisations.detailPanelData;
 
-            // request entities
+            // request data for detail panel
             api.get(
                 api.getBaseUrl(),
                 endPoint,
                 params
             ).then(response => {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
-                this.actions.fetchDetailPanelData(organisationId, response);
+
+                // store detail panel data in the state
+                this.actions.fetchDetailPanelData({ id: entityId, type: entityType, name: entityName }, response);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -172,16 +190,15 @@ class Index extends Component {
     }
 
     render() {
-        // todo: why bind here when you can do it at the top of index.js like the rest?
         return (
             <Organisations
                 panels = { this.props.panels }
+                forms={ this.props.forms }
                 detailPanelData = { this.props.detailPanelData }
                 pathNodes = { this.props.pathNodes }
-                fetchEntities = { this.fetchEntities.bind(this) }
-                fetchDetailPanelData = { this.fetchDetailPanelData.bind(this) }
-                forms={this.props.forms}
-                refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
+                fetchEntities = { this.fetchEntities }
+                fetchDetailPanelData = { this.fetchDetailPanelData }
+                refreshDataWithMessage={ this.refreshDataWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }

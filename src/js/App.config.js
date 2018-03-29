@@ -15,8 +15,8 @@ module.exports = {
                 },
                 organisations: {
                     rootEntities: '/section/fieldvalue/organisation/organisationType?value=organisation',
-                    childEntities: '/section/organisation/id/{identifier}',
-                    detailPanelData: '/section/organisation/id/{identifier}' // todo: insert proper custom endpoint here
+                    childEntities: '/section/{type}/id/{identifier}',
+                    detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here and also allow injecting {type}
                 }
             },
             urlEncodeParams: false,

@@ -39,35 +39,26 @@ export default class Organisations extends Component {
         />;
 
         // note that the name of the detail panel is taken from the path, not the state (much faster)
-        let detailPanelName = AppConfig.global.organisations.rootEntitiesParentName;
-        let detailPanelDataForCurrentItem;
+        let nameForCurrentEntity = AppConfig.global.organisations.rootEntitiesParentName;
+        let dataForCurrentEntity;
 
-        // as soon as pathNodes length > 1 (not just root elements open), extract artifacts to populate the detail panel
-        if (pathNodes.length > 1) {
-            // todo: you cant leave this at > 1 since in responsive views the details need to be fetched on first panel
+        // find the active data 'panel' (if available)
+        if (detailPanelData) {
+            detailPanelData.forEach(dataForEntity => {
+                if (dataForEntity.active) {
 
-            // grab the last entry of the current path
-            const currentItem = pathNodes.slice().pop();
+                    // grab its data
+                    dataForCurrentEntity = dataForEntity;
 
-            // take its name and id
-            detailPanelName = currentItem.name;
-            const activePathNodeId = currentItem.id;
-            // todo: it will keep showing details for the last item in path which is, in responsive views, incorrect one
-            console.log('displaying detail panel data for id '+activePathNodeId);
-
-            // find the data whose entity id matches the one currently active (if already available)
-            if (detailPanelData) {
-                detailPanelData.forEach(panel => {
-                    if (panel.id === activePathNodeId) {
-                        detailPanelDataForCurrentItem = panel.data;
-                    }
-                });
-            } else {
-                this.logger.error({
-                    component: 'Organisations',
-                    message: 'no detail panel data exists'
-                });
-            }
+                    // overwrite the default name (not taken from the data, to ensure its always defaulting to LTP)
+                    nameForCurrentEntity = dataForEntity.entityName;
+                }
+            });
+        } else {
+            this.logger.error({
+                component: 'Organisations',
+                message: 'no detail panel data exists'
+            });
         }
 
         return (
@@ -77,31 +68,31 @@ export default class Organisations extends Component {
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
                     <Detailpanel
-                        name = { detailPanelName }
-                        data = { detailPanelDataForCurrentItem }
+                        name = { nameForCurrentEntity }
+                        data = { dataForCurrentEntity }
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
-                    <Form
-                        formId={ 'organisation' }
-                        ignoredFields={ [
-                            'uuid',
-                            'created',
-                            'updated',
-                            'manyOrganisationToManyCompetency',
-                            'manyOrganisationToManyProduct',
-                            'oneOrganisationToManyOrganisation',
-                            'updated',
-                            'updated',
-                            'organisationType',
-                            'organisationSlug'
-                        ] }
-                        forms = { this.props.forms }
-                        storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }
-                        changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }
-                        afterSubmit = { this.props.refreshDataWithMessage }
-                        closeModal={ this.props.closeModalToAddOrganisation }
-                    />
+                    {/*<Form*/}
+                        {/*formId={ 'organisation' }*/}
+                        {/*ignoredFields={ [*/}
+                            {/*'uuid',*/}
+                            {/*'created',*/}
+                            {/*'updated',*/}
+                            {/*'manyOrganisationToManyCompetency',*/}
+                            {/*'manyOrganisationToManyProduct',*/}
+                            {/*'oneOrganisationToManyOrganisation',*/}
+                            {/*'updated',*/}
+                            {/*'updated',*/}
+                            {/*'organisationType',*/}
+                            {/*'organisationSlug'*/}
+                        {/*] }*/}
+                        {/*forms = { this.props.forms }*/}
+                        {/*storeFormDataInFormsCollection={ this.props.storeFormDataInFormsCollection }*/}
+                        {/*changeFormFieldValueForFormId={ this.props.changeFormFieldValueForFormId }*/}
+                        {/*afterSubmit = { this.props.refreshDataWithMessage }*/}
+                        {/*closeModal={ this.props.closeModalToAddOrganisation }*/}
+                    {/*/>*/}
                 </aside>
             </div>
         );

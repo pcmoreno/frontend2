@@ -28,10 +28,11 @@ export default class Detailpanel extends Component {
     render() {
         const { data, name } = this.props;
 
-        // todo: just an example of how data is passed through. this data comes in from the API and is sent over props.
-        let actualData;
-        if (data && data.hasOwnProperty('name')) {
-            actualData = data.name;
+        // todo: just an example of how data is passed through. this data comes in from the API and is sent over props
+        let outputTab = <p />;
+
+        if (data && data.hasOwnProperty('entityId') && data.hasOwnProperty('entityType')) {
+            outputTab = <p>{name} ({data.entityId})<br />{data.entityType}</p>;
         }
 
         return (
@@ -45,16 +46,16 @@ export default class Detailpanel extends Component {
                     <h2>{ name }</h2>
                 </header>
                 <nav>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
                 </nav>
                 <main>
                     <p>(any data below comes from the API)</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <p>{ actualData }</p>
+                    <p>{ outputTab }</p>
                 </main>
             </aside>
         );

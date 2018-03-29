@@ -48,7 +48,8 @@ export default function organisationsReducer(state = initialState, action) {
             // push the new entry
             newState.pathNodes.push({
                 id: action.entity.id,
-                name: action.entity.name
+                name: action.entity.name,
+                type: action.entity.type
             });
 
             break;
@@ -221,15 +222,18 @@ export default function organisationsReducer(state = initialState, action) {
 
             // first build up the forms with data from state
             state.detailPanelData.forEach(data => {
+                data.active = false;
                 newState.detailPanelData.push(data);
             });
 
+            // todo: currently it always re-adds each entry. ensure it skips pushing data for the id we are requesting.
+
             // now add the new data taken from the action
             newState.detailPanelData.push({
-                id: action.organisationId,
-                data: {
-                    name: action.data.organisation_name
-                }
+                active: true,
+                entityId: action.entity.id,
+                entityType: action.entity.type,
+                entityName: action.entity.name
             });
 
             break;

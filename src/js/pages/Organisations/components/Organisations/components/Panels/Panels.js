@@ -14,7 +14,13 @@ export default class Panels extends Component {
     }
 
     render() {
-        const { panels, pathNodes, fetchEntities, openModalToAddOrganisation, fetchDetailPanelData } = this.props;
+        const {
+            panels,
+            pathNodes,
+            fetchEntities,
+            openModalToAddOrganisation,
+            fetchDetailPanelData
+        } = this.props;
 
         const panelCollection = [];
         let panelIndex = 1;
@@ -22,13 +28,14 @@ export default class Panels extends Component {
         // for each of the nodes in path, find the matching panel in panels and add it to the collection for output
         pathNodes.forEach(pathNode => {
 
-            let active = false;
+            // if the current panel index matches the length of the pathNodes, this is the last panel, and it is active
+            let isPanelActive = false;
 
             if (panelIndex === pathNodes.length) {
-                active = true;
+                isPanelActive = true;
             }
 
-            let currentPanel;
+            let currentPanel = {};
 
             panels.forEach(panel => {
                 if (panel.parentId === pathNode.id) {
@@ -50,7 +57,7 @@ export default class Panels extends Component {
                 fetchEntities = { fetchEntities }
                 fetchDetailPanelData = { fetchDetailPanelData }
                 openModalToAddOrganisation = { openModalToAddOrganisation }
-                active = { active }
+                isPanelActive = { isPanelActive }
                 pathNodes = { pathNodes }
             />);
         });

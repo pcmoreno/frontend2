@@ -165,7 +165,7 @@ $detailpanel-margin: 10px;
     }
 }
 
-/* todo: figure out how this can be linted okay, see: https://github.com/stylelint/stylelint/issues/1513 */
+/* stylelint-disable */
 @keyframes spinner {
 0 {
     transform: rotate(0deg);
@@ -175,3 +175,4 @@ $detailpanel-margin: 10px;
        transform: rotate(360deg);
    }
 }
+/* stylelint-enable */
