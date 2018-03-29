@@ -34,7 +34,9 @@ class Header extends Component {
 
         return (<header className={ style.header }>
             <Navigation items={ navigationItems } />
-            <UserInfo />
+            <UserInfo
+                logoutAction={this.props.logoutAction}
+            />
             <Indicator />
         </header>);
     }

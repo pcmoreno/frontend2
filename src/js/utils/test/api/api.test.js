@@ -99,6 +99,19 @@ test('API should return the right endpoint object when getEndpoints() is called'
     expect(api.getEndpoints()).toEqual(apiConfig.neon.endpoints);
 });
 
+test('API should return the right authenticator with the one used for initialisation', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', {
+        prop: 'z'
+    });
+
+    // expected result
+    expect(api.getAuthenticator()).toEqual({
+        prop: 'z'
+    });
+});
+
 test('API logWarning should call logger warning method with correct message', () => {
 
     // api instance and mocked config
@@ -151,7 +164,7 @@ test('API get should call to execute request with the correct parameters', () =>
     let api = new API('neon', null);
 
     // spy on methods
-    spyOn(api, '_executeRequest');
+    spyOn(api, 'executeRequest');
 
     api.get(apiConfig.neon.baseUrl, api.getEndpoints().organisation, {
         t: 1,
@@ -160,8 +173,8 @@ test('API get should call to execute request with the correct parameters', () =>
     });
 
     // expected result
-    expect(api._executeRequest.calls.count()).toBe(1);
-    expect(api._executeRequest.calls.allArgs()).toEqual([
+    expect(api.executeRequest.calls.count()).toBe(1);
+    expect(api.executeRequest.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisations',
             'get',
@@ -180,7 +193,7 @@ test('API post should call to execute request with the correct parameters', () =
     let api = new API('neon', null);
 
     // spy on methods
-    spyOn(api, '_executeRequest');
+    spyOn(api, 'executeRequest');
 
     api.post(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 2,
@@ -189,8 +202,8 @@ test('API post should call to execute request with the correct parameters', () =
     });
 
     // expected result
-    expect(api._executeRequest.calls.count()).toBe(1);
-    expect(api._executeRequest.calls.allArgs()).toEqual([
+    expect(api.executeRequest.calls.count()).toBe(1);
+    expect(api.executeRequest.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisations',
             'post',
@@ -209,7 +222,7 @@ test('API put should call to execute request with the correct parameters', () =>
     let api = new API('neon', null);
 
     // spy on methods
-    spyOn(api, '_executeRequest');
+    spyOn(api, 'executeRequest');
 
     api.put(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 3,
@@ -218,8 +231,8 @@ test('API put should call to execute request with the correct parameters', () =>
     });
 
     // expected result
-    expect(api._executeRequest.calls.count()).toBe(1);
-    expect(api._executeRequest.calls.allArgs()).toEqual([
+    expect(api.executeRequest.calls.count()).toBe(1);
+    expect(api.executeRequest.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisations',
             'put',
@@ -238,7 +251,7 @@ test('API options should call to execute request with the correct parameters', (
     let api = new API('neon', null);
 
     // spy on methods
-    spyOn(api, '_executeRequest');
+    spyOn(api, 'executeRequest');
 
     api.options(api.getBaseUrl(), api.getEndpoints().organisation, {
         t: 4,
@@ -248,8 +261,8 @@ test('API options should call to execute request with the correct parameters', (
     });
 
     // expected result
-    expect(api._executeRequest.calls.count()).toBe(1);
-    expect(api._executeRequest.calls.allArgs()).toEqual([
+    expect(api.executeRequest.calls.count()).toBe(1);
+    expect(api.executeRequest.calls.allArgs()).toEqual([
         [
             'https://ltp.nl/organisations',
             'options',
@@ -263,6 +276,10 @@ test('API options should call to execute request with the correct parameters', (
     ]);
 });
 
+// todo: add test that checks the credentials property
+
+// todo: add test that checks the 401 refresh/authorize call, that will execute api call again and eventually trigger logout
+
 test('API executeRequest should call buildURL to build the url', () => {
 
     // api instance and mocked config
@@ -272,7 +289,7 @@ test('API executeRequest should call buildURL to build the url', () => {
     spyOn(api, 'buildURL');
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
@@ -479,7 +496,7 @@ test('API buildURL should parse the url parameters correctly without urlEncoding
     expect(result).toEqual('https://ltp.nl/organisations?x=y,x&f[]=d&f[]=x&y=x');
 });
 
-test('API _executeRequest should use the parsed url with the correct identifiers and parameters', () => {
+test('API executeRequest should use the parsed url with the correct identifiers and parameters', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -489,7 +506,7 @@ test('API _executeRequest should use the parsed url with the correct identifiers
     spyOn(api, 'buildURL').and.callThrough();
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisationById,
         'get',
         {
@@ -534,20 +551,20 @@ test('API _executeRequest should use the parsed url with the correct identifiers
     ]);
 });
 
-test('API _executeRequest should return Promise.reject when buildURL was unsuccessful', () => {
+test('API executeRequest should return Promise.reject when buildURL was unsuccessful', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisationById,
             'post',
             {}
@@ -791,7 +808,7 @@ test('API buildPayload should log and throw an error when the post body is of an
     ]);
 });
 
-test('API _executeRequest should be set with the right JSON payload', () => {
+test('API executeRequest should be set with the right JSON payload', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -800,7 +817,7 @@ test('API _executeRequest should be set with the right JSON payload', () => {
     spyOn(global, 'fetch');
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
@@ -836,7 +853,7 @@ test('API _executeRequest should be set with the right JSON payload', () => {
     ]);
 });
 
-test('API _executeRequest should be set with the right form data payload', () => {
+test('API executeRequest should be set with the right form data payload', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -845,7 +862,7 @@ test('API _executeRequest should be set with the right form data payload', () =>
     spyOn(global, 'fetch');
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisation,
         'post',
         {
@@ -876,20 +893,20 @@ test('API _executeRequest should be set with the right form data payload', () =>
     ]);
 });
 
-test('API _executeRequest should return Promise.reject when payload parsing fails', () => {
+test('API executeRequest should return Promise.reject when payload parsing fails', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
 
     // spy on method
     spyOn(global, 'fetch');
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(api, 'buildPayload').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'post',
             {
@@ -962,7 +979,7 @@ test('API buildRequestHeaders should return requestParams when no headers are se
     });
 });
 
-test('API _executeRequest should set custom request headers', () => {
+test('API executeRequest should set custom request headers', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -971,7 +988,7 @@ test('API _executeRequest should set custom request headers', () => {
     spyOn(global, 'fetch');
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {
@@ -996,7 +1013,7 @@ test('API _executeRequest should set custom request headers', () => {
     ]);
 });
 
-test('API _executeRequest should accept no custom request headers', () => {
+test('API executeRequest should accept no custom request headers', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1005,7 +1022,7 @@ test('API _executeRequest should accept no custom request headers', () => {
     spyOn(global, 'fetch');
 
     // call method
-    api._executeRequest(
+    api.executeRequest(
         api.getBaseUrl() + api.getEndpoints().organisation,
         'get',
         {}
@@ -1024,7 +1041,7 @@ test('API _executeRequest should accept no custom request headers', () => {
     ]);
 });
 
-test('API _executeRequest should return a JSON object on a request', () => {
+test('API executeRequest should return a JSON object on a request', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1048,14 +1065,14 @@ test('API _executeRequest should return a JSON object on a request', () => {
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(Logger.instance, 'warning');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1089,7 +1106,7 @@ test('API _executeRequest should return a JSON object on a request', () => {
 // and in the warning log expectation. However, this is required as we cannot mock different responses for global.fetch
 // as we are doing multiple async calls to an async method. It would not be possible to overwrite the fetch mock
 // and still tests all outcome within ONE test method.
-test('API _executeRequest should log a warning and return json when fetch returns a warning code with valid JSON', () => {
+test('API executeRequest should log a warning and return json when fetch returns a warning code with valid JSON', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1113,13 +1130,13 @@ test('API _executeRequest should log a warning and return json when fetch return
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'warning');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1155,7 +1172,7 @@ test('API _executeRequest should log a warning and return json when fetch return
     });
 });
 
-test('API _executeRequest should log an error and Promise.reject when fetch returns an error code with valid JSON', () => {
+test('API executeRequest should log an error and Promise.reject when fetch returns an error code with valid JSON', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1179,13 +1196,13 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1219,7 +1236,7 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
     });
 });
 
-test('API _executeRequest should return an empty object when fetch returns 204 No Content', () => {
+test('API executeRequest should return an empty object when fetch returns 204 No Content', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1243,12 +1260,12 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1274,7 +1291,7 @@ test('API _executeRequest should return an empty object when fetch returns 204 N
     });
 });
 
-test('API _executeRequest should log an error and Promise.reject when fetch returns any response with invalid JSON', () => {
+test('API executeRequest should log an error and Promise.reject when fetch returns any response with invalid JSON', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1298,13 +1315,13 @@ test('API _executeRequest should log an error and Promise.reject when fetch retu
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1366,7 +1383,7 @@ test('API isErrorCode should return true on 400+ except 404', () => {
     expect(API.isErrorCode(500)).toEqual(true);
 });
 
-test('API _executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
+test('API executeRequest should log an error and return Promise.reject when fetch response.ok is false', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1380,13 +1397,13 @@ test('API _executeRequest should log an error and return Promise.reject when fet
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(Logger.instance, 'error');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1420,7 +1437,7 @@ test('API _executeRequest should log an error and return Promise.reject when fet
     });
 });
 
-test('API _executeRequest should log an error when the network request failed or did not complete', () => {
+test('API executeRequest should log an error when the network request failed or did not complete', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1444,7 +1461,7 @@ test('API _executeRequest should log an error when the network request failed or
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(API, 'isWarningCode').and.callThrough();
     spyOn(API, 'isErrorCode').and.callThrough();
     spyOn(Logger.instance, 'error');
@@ -1452,7 +1469,7 @@ test('API _executeRequest should log an error when the network request failed or
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
@@ -1488,7 +1505,7 @@ test('API _executeRequest should log an error when the network request failed or
     });
 });
 
-test('API _executeRequest should resolve with an error object when the api returns input validation errors', () => {
+test('API executeRequest should resolve with an error object when the api returns input validation errors', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1519,7 +1536,7 @@ test('API _executeRequest should resolve with an error object when the api retur
 
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
-    spyOn(api, '_executeRequest').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
     spyOn(API, 'isWarningCode').and.callThrough();
     spyOn(API, 'isErrorCode').and.callThrough();
     spyOn(Logger.instance, 'warning');
@@ -1527,7 +1544,7 @@ test('API _executeRequest should resolve with an error object when the api retur
 
     // expected (async) result
     return new Promise((resolve, reject) => {
-        api._executeRequest(
+        api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
