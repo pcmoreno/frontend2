@@ -1,4 +1,5 @@
 
+// todo: figure out how sourcemaps can be enabled by default for dev and acc environments
 let sourceMapsEnabled = false;
 let gzippedAssets = false;
 
@@ -131,6 +132,8 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+                COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID || 'eu-central-1_eeBtQkabk'),
+                COGNITO_APP_CLIENT_ID: JSON.stringify(process.env.COGNITO_APP_CLIENT_ID || '7i9ckoogpksm27r7llfagsgfgv'),
                 NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/app_dev.php/api/v1')
             }
         }),

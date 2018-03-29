@@ -1,17 +1,36 @@
 import * as actionType from '../constants/ActionTypes';
 
 /**
- * Fetch item action
- * @param {array} items - items
- * @returns {{type, items: *}} items with action type
+ * Update path action
+ * @param {Object} entity - entity
+ * @param {string} panelId - panelId
+ * @returns {{type, path: *}} updated path
  */
-export function getItems(items) {
+export function updatePath(entity, panelId) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
     return {
-        type: actionType.GET_ITEMS,
-        items
+        type: actionType.UPDATE_PATH,
+        entity,
+        panelId
+    };
+}
+
+/**
+ * Fetch entities action
+ * @param {string} parentId - parentId
+ * @param {array} entities - entities
+ * @returns {{type, entities: *}} items with action type
+ */
+export function fetchEntities(parentId, entities) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.FETCH_ENTITIES,
+        parentId,
+        entities
     };
 }
 

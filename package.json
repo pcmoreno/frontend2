@@ -3,7 +3,7 @@
     "license": "UNLICENSED",
     "devDependencies": {
         "@fortawesome/fontawesome": "^1.1.3",
-        "@fortawesome/fontawesome-free-solid": "^5.0.6",
+        "@fortawesome/fontawesome-free-solid": "^5.0.8",
         "@fortawesome/react-fontawesome": "^0.0.17",
         "@types/node": "^8.0.34",
         "amazon-cognito-identity-js": "^2.0.1",
@@ -15,6 +15,7 @@
         "babel-polyfill": "^6.26.0",
         "babel-preset-env": "^1.6.1",
         "babel-preset-preact": "^1.1.0",
+        "babel-preset-stage-0": "^6.24.1",
         "clean-webpack-plugin": "^0.1.17",
         "compression-webpack-plugin": "^1.0.1",
         "copy-webpack-plugin": "^4.2.0",
@@ -85,7 +86,7 @@
         "lint:js": "eslint src test",
         "lint:css": "stylelint src/**/*.css src/**/*.scss --syntax scss",
         "build:dev": "webpack",
-        "build:acc": "yarn run lint && yarn run jest && NODE_ENV=production NEON_API_BASE_URL=${NEON_API_ACC_BASE_URL} webpack -p",
-        "build:prod": "yarn run lint && yarn run jest && NODE_ENV=production NEON_API_BASE_URL=${NEON_API_PROD_BASE_URL} webpack -p"
+        "build:acc": "yarn run lint && yarn run jest && NODE_ENV=production NEON_API_BASE_URL=${NEON_API_ACC_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_ACC_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_ACC_APP_CLIENT_ID} webpack -p",
+        "build:prod": "yarn run lint && yarn run jest && NODE_ENV=production NEON_API_BASE_URL=${NEON_API_PROD_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_PROD_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_PROD_APP_CLIENT_ID} webpack -p"
     }
 }

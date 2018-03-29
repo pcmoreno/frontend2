@@ -16,18 +16,25 @@ export default class Organisations extends Component {
     }
 
     render() {
-        const { items } = this.props;
-        const panels = <Panels items={ items } openModalToAddOrganisation={ this.props.openModalToAddOrganisation } />;
+        const { panels, fetchEntities, openModalToAddOrganisation, pathNodes } = this.props;
+
+        // define properties for the Panels component
+        const panelContainer = <Panels
+            panels={ panels }
+            pathNodes={ pathNodes }
+            fetchEntities={ fetchEntities }
+            openModalToAddOrganisation={ openModalToAddOrganisation }
+        />;
 
         return (
             <div className={ style.organisations }>
                 { this.props.alertComponent }
-                <Path />
+                <Path pathNodes={ pathNodes } fetchEntities={ fetchEntities } />
                 <section className={ style.panels_container } id="panels_container">
-                    { panels }
-                    <Detailpanel />
+                    { panelContainer }
+                    <Detailpanel entity={ pathNodes.slice(-1).pop() } />
                 </section>
-                <aside className={ `${style.modal_container} hidden` } id="modal_organisation" >
+                <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
                     <Form
                         formId={ 'organisation' }
                         ignoredFields={ [

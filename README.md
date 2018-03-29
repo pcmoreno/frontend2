@@ -85,6 +85,10 @@ building assets: (lint, test, build)
 
 note that if you add a '--quiet' parameter to a linting command, warnings will be suppressed.
 
+Run a local webserver to serve the resources by runniong
+
+`php -S dev.ltponline.com:9002`
+
 ## Env / build variables
 Environment variables are configured in the repository CI settings.
 The required variables to build the project can be found in the scripts configuration in `package.json`.

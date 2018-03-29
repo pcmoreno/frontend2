@@ -45,3 +45,29 @@
         display: none;
     }
 }
+
+/* active panels in organisation view when below responsive breakpoint */
+@media screen and (max-width: $grid-breakpoints-lg) {
+    #panels > section.active {
+        display: block;
+    }
+}
+
+/* active list items in organisations view */
+.list_item__active {
+    background: $black;
+    color: $white;
+}
+
+table thead th.assessmentdate,
+table td.assessmentdate,
+table thead th.consultant,
+table td.consultant,
+table thead th.organisation,
+table td.organisation {
+    display: none;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        display: table-cell;
+    }
+}

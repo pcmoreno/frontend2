@@ -5,11 +5,15 @@ import { h, Component } from 'preact';
 import style from './style/login.scss';
 
 export default class Login extends Component {
+
     render() {
+        const { onSubmit, handleChange, localState } = this.props;
+
+        // todo: translate text of input fields and labels
         return (
             <section className={ style.login }>
                 <div className={ style.modal }>
-                    <section>
+                    <section className={ style.loginMargin }>
                         <form>
                             <header className={ style.modal_header }>
                                 <h3>Log in</h3>
@@ -22,9 +26,9 @@ export default class Login extends Component {
                                         type="text"
                                         id="email"
                                         name="username"
-                                        value=""
                                         autoComplete="off"
                                         placeholder="E-mailadres"
+                                        onChange={ handleChange }
                                         required
                                     />
                                 </div>
@@ -37,6 +41,7 @@ export default class Login extends Component {
                                         name="password"
                                         autoComplete="off"
                                         placeholder="Wachtwoord"
+                                        onChange={ handleChange }
                                         required
                                     />
                                 </div>
@@ -44,14 +49,12 @@ export default class Login extends Component {
                                     <a href="#notimplemented">Wachtwoord vergeten?</a>
                                 </span>
                                 <span className={ style.errors }>
-                                    <div>
-                                        (errors go here)
-                                    </div>
+                                    { localState.errors.login }
                                 </span>
                             </main>
                             <footer className={ style.modal_footer } >
                                 <nav>
-                                    <button className={ 'action_button' } type="submit">
+                                    <button className={ 'action_button' } disabled={ localState.buttons.submitDisabled } onClick={ onSubmit }>
                                         Inloggen
                                     </button>
                                 </nav>

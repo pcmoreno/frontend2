@@ -27,7 +27,7 @@ import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
-import faClipboard from '@fortawesome/fontawesome-free-solid/faClipboard';
+import faClipboardList from '@fortawesome/fontawesome-free-solid/faClipboardList';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
@@ -40,7 +40,7 @@ fontawesome.library.add(
     faUsers,
     faBuilding,
     faEnvelope,
-    faClipboard
+    faClipboardList
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
@@ -52,12 +52,14 @@ import { createStore, combineReducers } from 'redux';
 // import all reducers
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
+import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
 
 // combine into one
 const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
+    participantsReducer,
     alertReducer
 });
 
@@ -67,19 +69,16 @@ let store = createStore(rootReducer);
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
 ApiFactory.create('neon', new NeonAuthenticator());
+const api = ApiFactory.get('neon');
+
+// The authenticated route and component are dependent on the neon api instance
+import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
+import AuthenticatedComponent from './utils/components/AuthenticatedComponent';
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.
-
-/**
- * Returns the example page
- * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} example page
- */
-function getExample() {
-    return System.import('./pages/Example').then(module => module.default);
-}
 
 /**
  * Returns the login page
@@ -129,30 +128,51 @@ function getParticipants() {
     return System.import('./pages/Participants').then(module => module.default);
 }
 
+/**
+ * Returns the error page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} error page
+ */
+function getError() {
+    return System.import('./pages/Error').then(module => module.default);
+}
+
 import Header from './components/Header';
 
-render(
-    <Provider store={ store }>
-        <section id="layout">
-            <Header key="header"/>
-            <main>
-                <Alert />
-                <Router>
-                    <AsyncRoute path="/example" getComponent={ getExample } />
-                    <AsyncRoute path="/login" getComponent={ getLogin } />
-                    <AsyncRoute path="/inbox" getComponent={ getInbox } />
-                    <AsyncRoute path="/organisations" getComponent={ getOrganisations } />
-                    <AsyncRoute path="/tasks" getComponent={ getTasks } />
-                    <AsyncRoute path="/users" getComponent={ getUsers } />
-                    <AsyncRoute path="/participants" getComponent={ getParticipants } />
-                </Router>
-            </main>
-        </section>
-    </Provider>,
-    document.querySelector('body'),
-    document.querySelector('body').firstChild
+/**
+ * Renders the app
+ * @returns {{}} app
+ */
+function renderApp() {
+    render(
+        <Provider store={ store }>
+            <section id="layout">
+                <AuthenticatedComponent api={api} component={Header} key="header" />
+                <main>
+                    <Alert />
+                    <Router>
+                        <AsyncRoute api={api} path="/login" getComponent={ getLogin } />
+                        <AuthenticatedRoute api={api} path="/" getComponent={ getInbox } />
+                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
+                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
+                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
+                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                        <AsyncRoute path="/error" default getComponent={ getError } />
+                    </Router>
+                </main>
+            </section>
+        </Provider>,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild
+    );
+}
 
-);
+// before rendering the app, always first fetch the current user (if available)
+api.getAuthenticator().refreshAndGetUser().then((/* user */) => {
+    renderApp();
+}).catch(() => {
+    renderApp();
+});
 
 if (process.env.NODE_ENV === 'production') {
 

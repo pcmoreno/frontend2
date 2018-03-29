@@ -1,0 +1,1 @@
+export const GET_PARTICIPANTS = 'GET_PARTICIPANTS';

@@ -55,7 +55,6 @@ class Index extends Component {
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
             this.props.storeFormDataInFormsCollection(formId, response.fields);
-
         }).catch((/* error */) => {
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
