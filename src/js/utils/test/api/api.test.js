@@ -278,7 +278,7 @@ test('API options should call to execute request with the correct parameters', (
 
 // todo: add test that checks the credentials property
 
-// todo: add test that checks the 401 refresh/authorise call, that will execute api call again and eventually trigger logout
+// todo: add test that checks the 401 refresh/authorize call, that will execute api call again and eventually trigger logout
 
 test('API executeRequest should call buildURL to build the url', () => {
 
