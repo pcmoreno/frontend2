@@ -4,7 +4,8 @@ import Logger from '../../../utils/logger';
 const initialState = {
     panels: [],
     forms: [],
-    pathNodes: []
+    pathNodes: [],
+    detailPanelData: []
 };
 
 /**
@@ -47,7 +48,8 @@ export default function organisationsReducer(state = initialState, action) {
             // push the new entry
             newState.pathNodes.push({
                 id: action.entity.id,
-                name: action.entity.name
+                name: action.entity.name,
+                type: action.entity.type
             });
 
             break;
@@ -212,6 +214,28 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+
+        case actionType.FETCH_DETAIL_PANEL_DATA: {
+
+            // clear all detailPanel data
+            newState.detailPanelData = [];
+
+            // first build up the forms with data from state
+            state.detailPanelData.forEach(data => {
+                data.active = false;
+                newState.detailPanelData.push(data);
+            });
+
+            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
+
+            // now add the new data taken from the action
+            newState.detailPanelData.push({
+                active: true,
+                entity: action.entity
+            });
+
+            break;
+        }
 
         default:
             return state;

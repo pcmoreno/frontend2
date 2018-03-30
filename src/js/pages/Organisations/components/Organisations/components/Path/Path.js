@@ -20,6 +20,7 @@ export default class Path extends Component {
             nodes.push(<PathNode
                 name = { pathNode.name }
                 id = { pathNode.id }
+                type = { pathNode.type }
                 panelId = { panelIndex++ }
                 fetchEntities = { fetchEntities }
             />);

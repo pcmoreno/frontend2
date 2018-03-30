@@ -69,3 +69,20 @@ export function changeFormFieldValueForFormId(formId, formInputId, formInputValu
         formInputValue
     };
 }
+
+/**
+ * Fetch entities action
+ * @param {Object} entity - entity
+ * @param {array} data - data
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchDetailPanelData(entity, data) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.FETCH_DETAIL_PANEL_DATA,
+        entity,
+        data
+    };
+}

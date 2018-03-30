@@ -26,6 +26,8 @@ class Index extends Component {
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+        this.fetchEntities = this.fetchEntities.bind(this);
+        this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -35,6 +37,8 @@ class Index extends Component {
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+
+        // react controlled component pattern takes over the built-in form state when input changes
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
@@ -65,35 +69,16 @@ class Index extends Component {
     }
 
     fetchEntities(entity, panelId) {
-
-        // hide modal and spinner(if not already hidden)
-
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
-
-        let params, endPoint;
         const apiConfig = api.getConfig();
+        let params, endPoint;
 
         //
-        if (entity.id > 0) {
+        if (entity.id === 0) {
 
-            // a parentId was provided, assume 'child' entities need to be retrieved
-            params = {
-                urlParams: {
-                    parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
-                    },
-                    identifiers: {
-                        identifier: entity.id
-                    }
-                }
-            };
-
-            endPoint = apiConfig.endpoints.organisations.childEntities;
-        } else {
-
-            // parentId is '0', assume the 'root' entities need to be retrieved
+            // entity.id is '0', assume the 'root' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
@@ -103,6 +88,22 @@ class Index extends Component {
             };
 
             endPoint = apiConfig.endpoints.organisations.rootEntities;
+        } else {
+
+            // an entity.id was provided, assume 'child' entities need to be retrieved
+            params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id,
+                        type: entity.type
+                    }
+                }
+            };
+
+            endPoint = apiConfig.endpoints.organisations.childEntities;
         }
 
         // request entities
@@ -118,9 +119,70 @@ class Index extends Component {
 
             // now that the new entities are available in the state, update the path to reflect the change
             this.actions.updatePath(entity, panelId);
+
+            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+            this.fetchDetailPanelData(entity);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
+    }
+
+    fetchDetailPanelData(entity) {
+
+        // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
+        if (entity.id > 0) {
+            document.querySelector('#spinner_detail_panel').classList.remove('hidden');
+            const api = ApiFactory.get('neon');
+            const apiConfig = api.getConfig();
+
+            let entityType;
+
+            switch (entity.type) {
+
+                // a jobfunction should fetch its children from the /project/ section
+                case 'jobfunction': entityType = 'project';
+                    break;
+
+                // an project should fetch its children from the /organisation/ section
+                case 'project': entityType = 'organisation';
+                    break;
+
+                // an organisation should fetch its children from the /organisation/ section
+                case 'organisation': entityType = 'organisation';
+                    break;
+
+                default: entityType = 'organisation';
+                    break;
+            }
+
+            const params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id,
+                        type: entityType
+                    }
+                }
+            };
+
+            const endPoint = apiConfig.endpoints.organisations.detailPanelData;
+
+            // request data for detail panel
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner_detail_panel').classList.add('hidden');
+
+                // store detail panel data in the state
+                this.actions.fetchDetailPanelData({ id: entity.id, type: entityType, name: entity.name }, response);
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+            });
+        }
     }
 
     openModalToAddOrganisation() {
@@ -132,13 +194,17 @@ class Index extends Component {
     }
 
     render() {
+        const { panels, forms, detailPanelData, pathNodes } = this.props;
+
         return (
             <Organisations
-                panels = { this.props.panels }
-                pathNodes = { this.props.pathNodes }
-                fetchEntities = { this.fetchEntities.bind(this) }
-                forms={this.props.forms}
-                refreshDataWithMessage={ this.refreshDataWithMessage.bind(this) }
+                panels = { panels }
+                forms={ forms }
+                detailPanelData = { detailPanelData }
+                pathNodes = { pathNodes }
+                fetchEntities = { this.fetchEntities }
+                fetchDetailPanelData = { this.fetchDetailPanelData }
+                refreshDataWithMessage={ this.refreshDataWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
@@ -150,6 +216,7 @@ class Index extends Component {
 
 const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
+    detailPanelData: state.organisationsReducer.detailPanelData,
     forms: state.organisationsReducer.forms,
     pathNodes: state.organisationsReducer.pathNodes
 });

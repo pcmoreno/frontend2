@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
 export default class Detailpanel extends Component {
@@ -25,33 +26,35 @@ export default class Detailpanel extends Component {
     }
 
     render() {
-        const { entity } = this.props;
+        const { data, name } = this.props;
 
-        let entityName = 'loading';
+        let outputTab = <p />;
 
-        if (entity) {
-            entityName = entity.name;
+        if (data && data.hasOwnProperty('entity')) {
+            outputTab = <p>name: {name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
         }
 
-        // todo: finish styling for detail panel NEON-3255
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
+                    <div className={ style.spinner_container }>
+                        <span id="spinner_detail_panel" className={ `${style.spinner} hidden` }><FontAwesomeIcon icon="spinner"/></span>
+                    </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>{ entityName }</h2>
+                    <h2>{ name }</h2>
                 </header>
                 <nav>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
-                    <span>item</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
+                    <span>tab</span>
                 </nav>
                 <main>
-                    <p>some bla bla</p>
+                    <p>(any data below comes from the API)</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <p>some bla bla</p>
+                    <p>{ outputTab }</p>
                 </main>
             </aside>
         );
