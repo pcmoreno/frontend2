@@ -59,20 +59,6 @@ $detailpanel-margin: 10px;
         }
     }
 
-    nav {
-        background: $blue;
-        height: $detailpanel-nav-height;
-        padding: 0 10px;
-        font-size: .8rem;
-        text-align: center;
-
-        span {
-            margin: 0 10px;
-            text-decoration: none;
-            color: $black;
-        }
-    }
-
     main {
         /* the height of the content part of the detail panel is calculated as follows: */
         height: calc(100vh - calc($application-header-height + $organisations-path-height + $detailpanel-margin + $detailpanel-header-height + $detailpanel-nav-height + $detailpanel-margin));
