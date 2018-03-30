@@ -106,7 +106,7 @@ class API {
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
      * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
-     * @param {Object} [options.payload.data] - object or array with un-serialized content
+     * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @private
@@ -228,7 +228,7 @@ class API {
      * Builds and appends the post body and headers to the given request parameters
      * @param {Object} requestParams - request parameters
      * @param {Object} payload - post body object
-     * @param {Object} payload.data - object or array with un-serialized content
+     * @param {Object} payload.data - object or array with un-serialised content
      * @param {Object} payload.type - type of the payload [json, form]
      * @returns {Object} Request params with post body appended
      */
@@ -249,7 +249,7 @@ class API {
         } else if (payload.type === 'form') {
 
             // parse as form data (query string: formData[key]=value&formData[key1]=value1
-            requestParams.body = Utils.serialize(
+            requestParams.body = Utils.serialise(
                 payload.data,
                 'form',
                 this.config.urlEncodeParams,
@@ -296,7 +296,7 @@ class API {
     /**
      * Builds the url with the given identifiers and parameters
      * identifiers: {id:1} will replace '{id}' in the url with 1
-     * parameters: all parameters (including arrays) are serialized, eventually with url encoding
+     * parameters: all parameters (including arrays) are serialised, eventually with url encoding
      * and/or index parameters. Index parameters are used in arrays. With this skip option on the result will be
      * k[]=v rather than k[0]=v
      *
@@ -360,7 +360,7 @@ class API {
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
      * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
-     * @param {Object} [options.payload.data] - object or array with un-serialized content
+     * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @returns {Promise} network request promise
@@ -379,7 +379,7 @@ class API {
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
      * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
-     * @param {Object} [options.payload.data] - object or array with un-serialized content
+     * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @returns {Promise} network request promise
@@ -398,7 +398,7 @@ class API {
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
      * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
-     * @param {Object} [options.payload.data] - object or array with un-serialized content
+     * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @returns {Promise} network request promise
@@ -417,7 +417,7 @@ class API {
      * @param {Object} [options.urlParams.parameters] - url parameters to append on the end of the url
      * @param {Object} [options.urlParams.identifiers] - url identifiers to replace inside the url or endpoint
      * @param {Object} [options.payload] - post body object
-     * @param {Object} [options.payload.data] - object or array with un-serialized content
+     * @param {Object} [options.payload.data] - object or array with un-serialised content
      * @param {Object} [options.payload.type] - type of the payload [json, form]
      * @param {Object} [options.headers] - key value pairs of headers to be set
      * @returns {Promise} network request promise

@@ -1,39 +1,39 @@
 import Utils from '../utils';
 
-test('Utils serialize should serialize an object', () => {
+test('Utils serialise should serialise an object', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize({
+    expect(Utils.serialise({
         x: 'y',
         y: 'z'
     })).toEqual('x=y&y=z');
-    expect(Utils.serialize.calls.count()).toBe(1);
+    expect(Utils.serialise.calls.count()).toBe(1);
 });
 
-test('Utils serialize should serialize an object with a child array', () => {
+test('Utils serialise should serialise an object with a child array', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize({
+    expect(Utils.serialise({
         x: 'y',
         y: 'z',
         z: ['a', 'b']
     })).toEqual('x=y&y=z&z[0]=a&z[1]=b');
-    expect(Utils.serialize.calls.count()).toBe(2);
+    expect(Utils.serialise.calls.count()).toBe(2);
 });
 
-test('Utils serialize should serialize an object with a child object and call recursively', () => {
+test('Utils serialise should serialise an object with a child object and call recursively', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize({
+    expect(Utils.serialise({
         x: 'y',
         y: 'z',
         z: ['a', 'b'],
@@ -42,16 +42,16 @@ test('Utils serialize should serialize an object with a child object and call re
             c: 'd'
         }
     })).toEqual('x=y&y=z&z[0]=a&z[1]=b&a[b]=c&a[c]=d');
-    expect(Utils.serialize.calls.count()).toBe(3);
+    expect(Utils.serialise.calls.count()).toBe(3);
 });
 
-test('Utils serialize should serialize an object with a child array, url encoded', () => {
+test('Utils serialise should serialise an object with a child array, url encoded', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize(
+    expect(Utils.serialise(
         {
             x: 'y',
             y: 'z',
@@ -65,16 +65,16 @@ test('Utils serialize should serialize an object with a child array, url encoded
         true,
         false
     )).toEqual('x=y&y=z&z%5B0%5D=a&z%5B1%5D=b&a%5Bb%5D=c&a%5Bc%5D=d');
-    expect(Utils.serialize.calls.count()).toBe(3);
+    expect(Utils.serialise.calls.count()).toBe(3);
 });
 
-test('Utils serialize should serialize an object with a child array, url encoded and skip prefixed index', () => {
+test('Utils serialise should serialise an object with a child array, url encoded and skip prefixed index', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize(
+    expect(Utils.serialise(
         {
             x: 'y',
             y: 'z',
@@ -88,16 +88,16 @@ test('Utils serialize should serialize an object with a child array, url encoded
         true,
         true
     )).toEqual('x=y&y=z&z%5B%5D=a&z%5B%5D=b&a%5B%5D=c&a%5B%5D=d');
-    expect(Utils.serialize.calls.count()).toBe(3);
+    expect(Utils.serialise.calls.count()).toBe(3);
 });
 
-test('Utils serialize should serialize an object with a child array and skip prefix index', () => {
+test('Utils serialise should serialise an object with a child array and skip prefix index', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
 
     // expected result
-    expect(Utils.serialize(
+    expect(Utils.serialise(
         {
             x: 'y',
             y: 'z',
@@ -111,13 +111,13 @@ test('Utils serialize should serialize an object with a child array and skip pre
         false,
         true
     )).toEqual('x=y&y=z&z[]=a&z[]=b&a[]=c&a[]=d');
-    expect(Utils.serialize.calls.count()).toBe(3);
+    expect(Utils.serialise.calls.count()).toBe(3);
 });
 
-test('Utils buildQueryString should call serialize with the given object to parse as url parameters', () => {
+test('Utils buildQueryString should call serialise with the given object to parse as url parameters', () => {
 
     // spy on method
-    spyOn(Utils, 'serialize').and.callThrough();
+    spyOn(Utils, 'serialise').and.callThrough();
     spyOn(Utils, 'buildQueryString').and.callThrough();
 
     // expected result
@@ -133,7 +133,7 @@ test('Utils buildQueryString should call serialize with the given object to pars
             }
         }
     );
-    expect(Utils.serialize.calls.count()).toBe(3);
+    expect(Utils.serialise.calls.count()).toBe(3);
 });
 
 test('Utils buildQueryString should append ? on a url without existing url parameters', () => {
