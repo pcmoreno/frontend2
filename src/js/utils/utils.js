@@ -95,6 +95,40 @@ const Utils = {
             replaceString = replaceString.replace(find[i], replace[i]);
         }
         return replaceString;
+    },
+
+    /**
+     * Removes the given keys in exclude from the given source
+     * @param {Object} exclude - array of keys to exclude
+     * @param {Object} source - source object
+     * @returns {Object} object
+     */
+    excludeProps(exclude, source) {
+        const result = {};
+
+        if (source) {
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (exclude.indexOf(key) === -1) {
+                        result[key] = source[key];
+                    }
+                }
+            }
+        }
+
+        return result;
+    },
+
+    /**
+     * Checks whether the given parameters is an array
+     * @param {*} object - object
+     * @returns {boolean} is array
+     */
+    isArray(object) {
+        const nativeIsArray = Array.isArray;
+        const toString = Object.prototype.toString;
+
+        return nativeIsArray(object) || toString.call(object) === '[object Array]';
     }
 };
 
