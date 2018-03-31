@@ -20,28 +20,32 @@ export default class Item extends Component {
         } = this.props;
 
         let fontAwesomeIcon;
-        let entityType;
+        let section = null;
 
         // correctly determine the icon and the key to construct the endpoint used to fetch detail panel data
         switch (entity.type) {
             case 'organisation':
                 fontAwesomeIcon = 'building';
-                entityType = 'organisation';
+
+                // this is where its children should be fetched from
+                section = 'organisation';
                 break;
 
             case 'project':
-                fontAwesomeIcon = 'suitcase';
-                entityType = 'organisation';
+                fontAwesomeIcon = 'clipboard-list';
+
+                // note there is no section here. a project cannot have children.
                 break;
 
-            case 'jobfunction':
-                fontAwesomeIcon = 'clipboard-list';
-                entityType = 'project';
+            case 'jobFunction':
+                fontAwesomeIcon = 'suitcase';
+
+                // this is where its children should be fetched from
+                section = 'organisation';
                 break;
 
             default:
                 fontAwesomeIcon = 'building';
-                entityType = 'organisation';
                 break;
         }
 
@@ -50,10 +54,13 @@ export default class Item extends Component {
                 key = { entity.id }
                 id = { entity.id }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
+
+                // todo: there shouldnt be an onClick when section === null (which means its a project)
                 onClick = { () => {
 
                     // note that entityType overwrites entity.type in order to reach the right endpoint (see switch)
-                    fetchEntities({ id: entity.id, name: entity.name, type: entityType }, panelId);
+                    // todo: use spread here
+                    fetchEntities({ id: entity.id, name: entity.name, section }, panelId);
                 } }
             >
                 <ul className={ style.listitem }>
@@ -74,7 +81,8 @@ export default class Item extends Component {
                                 event.stopPropagation();
 
                                 // fetch data to populate detail panel (again, entityType overwrites entity.type)
-                                fetchDetailPanelData({ id: entity.id, type: entityType, name: entity.name });
+                                // todo: use spread here
+                                fetchDetailPanelData({ id: entity.id, name: entity.name, section });
 
                                 // ensure detail panel becomes visible (mostly important on responsive views)
                                 document.querySelector('#detailpanel').classList.remove('hidden');

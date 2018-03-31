@@ -10,12 +10,12 @@ class PathNode extends Component {
     }
 
     render() {
-        const { name, id, type, panelId, fetchEntities } = this.props;
+        const { name, id, type, section, panelId, fetchEntities } = this.props;
 
         return (<span className={ style.node }>
             <a href={ id } onClick={ event => {
                 event.preventDefault();
-                fetchEntities({ id, name, type }, panelId - 1);
+                fetchEntities({ id, name, type, section }, panelId - 1);
             }}>{ name }</a>
         </span>);
     }

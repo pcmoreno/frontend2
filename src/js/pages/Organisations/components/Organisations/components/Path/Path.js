@@ -21,6 +21,7 @@ export default class Path extends Component {
                 name = { pathNode.name }
                 id = { pathNode.id }
                 type = { pathNode.type }
+                section = { pathNode.section }
                 panelId = { panelIndex++ }
                 fetchEntities = { fetchEntities }
             />);
