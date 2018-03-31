@@ -113,7 +113,7 @@ export default function organisationsReducer(state = initialState, action) {
                     tempEntities.push({
                         name: entity.organisation_name,
                         id: entity.id,
-                        type: type,
+                        type,
                         productName
                     });
                 });

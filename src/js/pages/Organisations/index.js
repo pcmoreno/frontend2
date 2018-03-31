@@ -123,7 +123,7 @@ class Index extends Component {
                 // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
                 this.fetchDetailPanelData(entity);
             }).catch(error => {
-                this.actions.addAlert({type: 'error', text: error});
+                this.actions.addAlert({ type: 'error', text: error });
             });
         }
     }
