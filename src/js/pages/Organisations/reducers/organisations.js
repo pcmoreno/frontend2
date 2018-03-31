@@ -101,7 +101,7 @@ export default function organisationsReducer(state = initialState, action) {
                         productName = entity.projects[0].product.product_name;
                     }
 
-                    // extract type from the entity. this is new and should solve many issues
+                    // extract type from the entity
                     let type;
 
                     if (entity.organisation_type === 'jobFunction') {
@@ -175,7 +175,6 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
-
         }
 
         case actionType.STORE_FORM_DATA:

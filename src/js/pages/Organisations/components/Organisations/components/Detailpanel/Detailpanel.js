@@ -47,7 +47,7 @@ export default class Detailpanel extends Component {
             entity = data.entity;
         } else {
 
-            // this is the default todo: I dont like this.
+            // this is the default todo: I dont like this. this should be set / fed over props. not conditionally here.
             entity = { name: 'LTP', type: 'organisation' };
         }
 

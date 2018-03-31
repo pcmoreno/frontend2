@@ -105,7 +105,7 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.childEntities;
         }
 
-        // request entities
+        // request entities (todo: the check for null is new and causes issues outlined below)
         if (entity.section !== null) {
             api.get(
                 api.getBaseUrl(),
@@ -121,6 +121,9 @@ class Index extends Component {
                 // todo: its possible to skip the API call, but that would mean the following two
                 // todo: subsequent requests wont be executed. so its impossible to retrieve information
                 // todo: from a project currently, or update the path. need to find a solution for that.
+
+                // todo: actually I dont like the fact it has to wait for the API call to return before
+                // todo: it shows the details either. this should all be solved somehow.
 
                 // now that the new entities are available in the state, update the path to reflect the change
                 this.actions.updatePath(entity, panelId);

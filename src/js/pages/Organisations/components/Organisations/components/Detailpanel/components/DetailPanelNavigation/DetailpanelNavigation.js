@@ -17,6 +17,9 @@ export default class DetailpanelNavigation extends Component {
 
         let tabOutput = null;
 
+        // todo: in many cases, tabs are no longer being rendered. this seems tied to the issue with the information
+        // todo: requested on a project not being shown anymore.
+
         switch (entity.type) {
             case 'organisation':
                 tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab }/></ul>;
