@@ -4,6 +4,7 @@ import { h, Component } from 'preact';
 
 import DetailpanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
 import DetailpanelContent from './components/DetailpanelContent/DetailpanelContent';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
 export default class Detailpanel extends Component {
@@ -37,28 +38,28 @@ export default class Detailpanel extends Component {
     }
 
     render() {
-        //const { entity } = this.props;
+        const { data, name } = this.props;
+        let outputTab = <p />;
+        let entity;
 
-        const entity = {
-            id: 2,
-            name: 'some name',
-            type: 'project'
-        };
+        if (data && data.hasOwnProperty('entity')) {
+            outputTab = <p>name: {name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+            entity = data.entity;
+        } else {
 
-        let entityName = 'loading';
-
-        if (entity) {
-            // todo: use entity.name in the jsx instead
-            entityName = entity.name;
+            // this is the default todo: I dont like this.
+            entity = { name: 'LTP', type: 'organisation' };
         }
 
-        // todo: finish styling for detail panel NEON-3255
         return (
-            <aside className={`${style.detailpanel} hidden_DISABLED`} id="detailpanel">
+            <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
+                    <div className={ style.spinner_container }>
+                        <span id="spinner_detail_panel" className={ `${style.spinner} hidden` }><FontAwesomeIcon icon="spinner"/></span>
+                    </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>{ entityName }</h2>
+                    <h2>{ name }</h2>
                 </header>
                 <DetailpanelNavigation
                     entity={ entity }
@@ -66,9 +67,9 @@ export default class Detailpanel extends Component {
                     switchTab={ this.switchTab }
                 />
                 <main>
-                    <p>some bla bla</p>
+                    <p>(any data below comes from the API)</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <p>some bla bla</p>
+                    <p>{ outputTab }</p>
                     <DetailpanelContent activeTab={ this.localState.activeTab } />
                 </main>
             </aside>

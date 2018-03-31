@@ -21,7 +21,7 @@ export default class DetailpanelNavigation extends Component {
             case 'organisation':
                 tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab }/></ul>;
                 break;
-            case 'jobfunction':
+            case 'jobFunction':
                 tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab } /></ul>;
                 break;
             case 'project':

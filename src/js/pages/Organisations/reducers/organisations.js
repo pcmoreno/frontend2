@@ -4,7 +4,8 @@ import Logger from '../../../utils/logger';
 const initialState = {
     panels: [],
     forms: [],
-    pathNodes: []
+    pathNodes: [],
+    detailPanelData: []
 };
 
 /**
@@ -47,7 +48,9 @@ export default function organisationsReducer(state = initialState, action) {
             // push the new entry
             newState.pathNodes.push({
                 id: action.entity.id,
-                name: action.entity.name
+                name: action.entity.name,
+                type: action.entity.type,
+                section: action.entity.section
             });
 
             break;
@@ -57,6 +60,7 @@ export default function organisationsReducer(state = initialState, action) {
 
             // will add a panel entity to the state containing all its children. this is NOT a representation of the
             // panel view since it can contain panels that are no longer visible. this serves as caching only.
+            // todo: actually it currently overwrites the requested entity. ensure it skips the API call in such cases.
 
             // ensure a valid id is received
             if (action.parentId === 'undefined' || action.parentId === null) {
@@ -97,10 +101,19 @@ export default function organisationsReducer(state = initialState, action) {
                         productName = entity.projects[0].product.product_name;
                     }
 
+                    // extract type from the entity. this is new and should solve many issues
+                    let type;
+
+                    if (entity.organisation_type === 'jobFunction') {
+                        type = 'jobFunction';
+                    } else {
+                        type = 'organisation';
+                    }
+
                     tempEntities.push({
                         name: entity.organisation_name,
                         id: entity.id,
-                        type: 'project',
+                        type,
                         productName
                     });
                 });
@@ -120,7 +133,7 @@ export default function organisationsReducer(state = initialState, action) {
                     tempEntities.push({
                         name: entity.project_name,
                         id: entity.id,
-                        type: 'jobfunction',
+                        type: 'project',
                         productName
                     });
                 });
@@ -212,6 +225,28 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+
+        case actionType.FETCH_DETAIL_PANEL_DATA: {
+
+            // clear all detailPanel data
+            newState.detailPanelData = [];
+
+            // first build up the forms with data from state
+            state.detailPanelData.forEach(data => {
+                data.active = false;
+                newState.detailPanelData.push(data);
+            });
+
+            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
+
+            // now add the new data taken from the action
+            newState.detailPanelData.push({
+                active: true,
+                entity: action.entity
+            });
+
+            break;
+        }
 
         default:
             return state;
