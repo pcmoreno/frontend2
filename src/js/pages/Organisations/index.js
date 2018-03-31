@@ -144,6 +144,7 @@ class Index extends Component {
                     break;
 
                 // an project should fetch its children from the /organisation/ section
+                // todo: wrong. project is modeled incorrectly. in this case it should be a job function, which does indeed fetch from /organisation/ endpoint
                 case 'project': entityType = 'organisation';
                     break;
 

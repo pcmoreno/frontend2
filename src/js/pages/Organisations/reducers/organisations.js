@@ -99,6 +99,7 @@ export default function organisationsReducer(state = initialState, action) {
                         productName = entity.projects[0].product.product_name;
                     }
 
+                    // todo: type can be either job function or organisation, this can be read from the organisation_type parameter returned by the API
                     tempEntities.push({
                         name: entity.organisation_name,
                         id: entity.id,
@@ -119,6 +120,7 @@ export default function organisationsReducer(state = initialState, action) {
                         productName = entity.product.product_name;
                     }
 
+                    // todo: type shold always be project
                     tempEntities.push({
                         name: entity.project_name,
                         id: entity.id,
