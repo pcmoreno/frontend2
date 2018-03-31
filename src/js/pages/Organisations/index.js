@@ -75,14 +75,13 @@ class Index extends Component {
         const apiConfig = api.getConfig();
         let params, endPoint;
 
-        //
         if (entity.id === 0) {
 
             // entity.id is '0', assume the 'root' entities need to be retrieved
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName'
+                        fields: 'id,organisationName,organisationType'
                     }
                 }
             };
@@ -94,11 +93,11 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                        fields: 'id,organisationName,organisationType,childOrganisations,projects,projectName,product,productName'
                     },
                     identifiers: {
                         identifier: entity.id,
-                        type: entity.type
+                        type: entity.section
                     }
                 }
             };
@@ -107,24 +106,26 @@ class Index extends Component {
         }
 
         // request entities
-        api.get(
-            api.getBaseUrl(),
-            endPoint,
-            params
-        ).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
+        if (entity.section !== null) {
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner').classList.add('hidden');
 
-            // store panel entities in state
-            this.actions.fetchEntities(entity.id, response);
+                // store panel entities in state
+                this.actions.fetchEntities(entity.id, response);
 
-            // now that the new entities are available in the state, update the path to reflect the change
-            this.actions.updatePath(entity, panelId);
+                // now that the new entities are available in the state, update the path to reflect the change
+                this.actions.updatePath(entity, panelId);
 
-            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-            this.fetchDetailPanelData(entity);
-        }).catch(error => {
-            this.actions.addAlert({ type: 'error', text: error });
-        });
+                // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+                this.fetchDetailPanelData(entity);
+            }).catch(error => {
+                this.actions.addAlert({type: 'error', text: error});
+            });
+        }
     }
 
     fetchDetailPanelData(entity) {
@@ -135,54 +136,56 @@ class Index extends Component {
             const api = ApiFactory.get('neon');
             const apiConfig = api.getConfig();
 
-            let entityType;
+            // let entityType;
+            //
+            // switch (entity.section) {
+            //
+            //     // a jobfunction should fetch its children from the /project/ section
+            //     case 'jobfunction': entityType = 'project';
+            //         break;
+            //
+            //     // an project should fetch its children from the /organisation/ section
+            //     // todo: wrong. project is modeled incorrectly. in this case it should be a job function, which does indeed fetch from /organisation/ endpoint
+            //     case 'project': entityType = 'organisation';
+            //         break;
+            //
+            //     // an organisation should fetch its children from the /organisation/ section
+            //     case 'organisation': entityType = 'organisation';
+            //         break;
+            //
+            //     default: entityType = 'organisation';
+            //         break;
+            // }
 
-            switch (entity.type) {
-
-                // a jobfunction should fetch its children from the /project/ section
-                case 'jobfunction': entityType = 'project';
-                    break;
-
-                // an project should fetch its children from the /organisation/ section
-                // todo: wrong. project is modeled incorrectly. in this case it should be a job function, which does indeed fetch from /organisation/ endpoint
-                case 'project': entityType = 'organisation';
-                    break;
-
-                // an organisation should fetch its children from the /organisation/ section
-                case 'organisation': entityType = 'organisation';
-                    break;
-
-                default: entityType = 'organisation';
-                    break;
-            }
-
-            const params = {
-                urlParams: {
-                    parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
-                    },
-                    identifiers: {
-                        identifier: entity.id,
-                        type: entityType
+            if (entity.section !== null) {
+                const params = {
+                    urlParams: {
+                        parameters: {
+                            fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                        },
+                        identifiers: {
+                            identifier: entity.id,
+                            type: entity.section
+                        }
                     }
-                }
-            };
+                };
 
-            const endPoint = apiConfig.endpoints.organisations.detailPanelData;
+                const endPoint = apiConfig.endpoints.organisations.detailPanelData;
 
-            // request data for detail panel
-            api.get(
-                api.getBaseUrl(),
-                endPoint,
-                params
-            ).then(response => {
-                document.querySelector('#spinner_detail_panel').classList.add('hidden');
+                // request data for detail panel
+                api.get(
+                    api.getBaseUrl(),
+                    endPoint,
+                    params
+                ).then(response => {
+                    document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
-                // store detail panel data in the state
-                this.actions.fetchDetailPanelData({ id: entity.id, type: entityType, name: entity.name }, response);
-            }).catch(error => {
-                this.actions.addAlert({ type: 'error', text: error });
-            });
+                    // store detail panel data in the state
+                    this.actions.fetchDetailPanelData({ id: entity.id, type: entity.type, section: entity.section, name: entity.name }, response);
+                }).catch(error => {
+                    this.actions.addAlert({ type: 'error', text: error });
+                });
+            }
         }
     }
 
