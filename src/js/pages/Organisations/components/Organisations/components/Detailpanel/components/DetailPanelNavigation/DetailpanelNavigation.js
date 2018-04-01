@@ -5,7 +5,6 @@ import { h, Component } from 'preact';
 import Information from './components/Information/Information';
 import Settings from './components/Settings/Settings';
 import Participants from './components/Participants/Participants';
-import AppConfig from './../../../../../../../../App.config';
 import style from './style/detailpanelnavigation.scss';
 
 export default class DetailpanelNavigation extends Component {
@@ -15,7 +14,7 @@ export default class DetailpanelNavigation extends Component {
 
     render() {
         const { entity, activeTab, switchTab } = this.props;
-        let tabOutput = null;
+        let tabOutput;
 
         switch (entity.type) {
             case 'organisation':
@@ -24,7 +23,7 @@ export default class DetailpanelNavigation extends Component {
                     // just to ensure the root detail panel details have no sub navigation
                     tabOutput = <ul />;
                 } else {
-                    tabOutput = <ul><Information active={activeTab === 'information'} switchTab={switchTab}/></ul>;
+                    tabOutput = <ul><Information active={activeTab === 'information'} switchTab={ switchTab }/></ul>;
                 }
                 break;
             case 'jobFunction':

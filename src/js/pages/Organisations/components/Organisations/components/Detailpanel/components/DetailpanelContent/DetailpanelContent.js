@@ -11,7 +11,7 @@ export default class DetailpanelContent extends Component {
         const { activeTab } = this.props;
 
         return (
-            <p>content for {activeTab} goes here</p>
+            <p>content for {activeTab} tab goes here</p>
         );
     }
 }

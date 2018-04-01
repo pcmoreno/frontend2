@@ -88,26 +88,26 @@ export default class Organisations extends Component {
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
-                    {/*<Form*/}
-                        {/*formId={ 'organisation' }*/}
-                        {/*ignoredFields={ [*/}
-                            {/*'uuid',*/}
-                            {/*'created',*/}
-                            {/*'updated',*/}
-                            {/*'manyOrganisationToManyCompetency',*/}
-                            {/*'manyOrganisationToManyProduct',*/}
-                            {/*'oneOrganisationToManyOrganisation',*/}
-                            {/*'updated',*/}
-                            {/*'updated',*/}
-                            {/*'organisationType',*/}
-                            {/*'organisationSlug'*/}
-                        {/*] }*/}
-                        {/*forms = { forms }*/}
-                        {/*storeFormDataInFormsCollection={ storeFormDataInFormsCollection }*/}
-                        {/*changeFormFieldValueForFormId={ changeFormFieldValueForFormId }*/}
-                        {/*afterSubmit = { refreshDataWithMessage }*/}
-                        {/*closeModal={ closeModalToAddOrganisation }*/}
-                    {/*/>*/}
+                    <Form
+                        formId={ 'organisation' }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'manyOrganisationToManyCompetency',
+                            'manyOrganisationToManyProduct',
+                            'oneOrganisationToManyOrganisation',
+                            'updated',
+                            'updated',
+                            'organisationType',
+                            'organisationSlug'
+                        ] }
+                        forms = { forms }
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        afterSubmit = { refreshDataWithMessage }
+                        closeModal={ closeModalToAddOrganisation }
+                    />
                 </aside>
             </div>
         );

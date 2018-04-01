@@ -43,6 +43,11 @@ export default class Detailpanel extends Component {
         const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
         const entity = data.entity;
 
+        // note the detailpanel will always receive an entity. either the root organisation entity, sent by the
+        // intialState, the constructed entity - while the real entity loads, or the real entity including all the data
+
+        // todo: add check to see if data holds more than just the entity. in that case, populate the tab contents.
+
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
                 <header>
@@ -59,9 +64,8 @@ export default class Detailpanel extends Component {
                     switchTab={ this.switchTab }
                 />
                 <main>
-                    <p>(any data below comes from the API)</p>
-                    <span className={ style.detailpanel_divider }>some divider</span>
                     <p>{ outputTab }</p>
+                    <span className={ style.detailpanel_divider }>some divider</span>
                     <DetailpanelContent activeTab={ this.localState.activeTab } />
                 </main>
             </aside>
