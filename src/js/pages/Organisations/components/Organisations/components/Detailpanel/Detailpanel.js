@@ -11,6 +11,7 @@ export default class Detailpanel extends Component {
     constructor(props) {
         super(props);
 
+        // keep track of opened tab (defaults to organisation)
         this.localState = {
             activeTab: 'information'
         };
@@ -42,6 +43,7 @@ export default class Detailpanel extends Component {
         let outputTab = <p />;
         let entity;
 
+        // todo: this if.. logic shouldnt be needed. ensure detailpanel always receives an entity from initial state or whatever
         if (data && data.hasOwnProperty('entity')) {
             outputTab = <p>name: {name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
             entity = data.entity;

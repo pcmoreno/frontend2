@@ -10,6 +10,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
+import Logger from '../../utils/logger';
 
 class Index extends Component {
     constructor(props) {
@@ -28,6 +29,8 @@ class Index extends Component {
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
+
+        this.logger = Logger.instance;
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -68,6 +71,30 @@ class Index extends Component {
         this.fetchEntities({ id: 0, name: 'what to put here' }, null);
     }
 
+    getSectionForEntityType(entity) {
+
+        // determines the endpoint for which children or detail panel data should be fetched from
+        switch (entity.type) {
+            case 'organisation':
+                return 'organisation';
+
+            case 'project':
+
+                // even though projects cant have children - which may change in the future, perform the API call anyway
+                return 'organisation';
+
+            case 'jobFunction':
+                return 'organisation';
+
+            default:
+                this.logger.error({
+                    component: 'index',
+                    message: `no entity.type available on entity ${entity.name}`
+                });
+                return false;
+        }
+    }
+
     fetchEntities(entity, panelId) {
         document.querySelector('#spinner').classList.remove('hidden');
 
@@ -89,6 +116,8 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.rootEntities;
         } else {
 
+            const section = this.getSectionForEntityType(entity);
+
             // an entity.id was provided, assume 'child' entities need to be retrieved
             params = {
                 urlParams: {
@@ -97,7 +126,7 @@ class Index extends Component {
                     },
                     identifiers: {
                         identifier: entity.id,
-                        type: entity.section
+                        type: section
                     }
                 }
             };
@@ -105,35 +134,29 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.childEntities;
         }
 
-        // request entities (todo: the check for null is new and causes issues outlined below)
-        if (entity.section !== null) {
-            api.get(
-                api.getBaseUrl(),
-                endPoint,
-                params
-            ).then(response => {
-                document.querySelector('#spinner').classList.add('hidden');
+        // request entities
+        api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
 
-                // store panel entities in state
+            if (entity.type !== 'project') {
+
+                // store panel entities in state UNLESS they are children of a project (they do not exist!)
+                // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
                 this.actions.fetchEntities(entity.id, response);
+            }
 
-                // todo: in case user clicked a project, that has no children, so API request will fail
-                // todo: its possible to skip the API call, but that would mean the following two
-                // todo: subsequent requests wont be executed. so its impossible to retrieve information
-                // todo: from a project currently, or update the path. need to find a solution for that.
+            // now that the new entities are available in the state, update the path to reflect the change
+            this.actions.updatePath(entity, panelId);
 
-                // todo: actually I dont like the fact it has to wait for the API call to return before
-                // todo: it shows the details either. this should all be solved somehow.
-
-                // now that the new entities are available in the state, update the path to reflect the change
-                this.actions.updatePath(entity, panelId);
-
-                // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-                this.fetchDetailPanelData(entity);
-            }).catch(error => {
-                this.actions.addAlert({ type: 'error', text: error });
-            });
-        }
+            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+            this.fetchDetailPanelData(entity);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
     }
 
     fetchDetailPanelData(entity) {
@@ -143,36 +166,35 @@ class Index extends Component {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             const apiConfig = api.getConfig();
+            const section = this.getSectionForEntityType(entity);
 
-            if (entity.section !== null) {
-                const params = {
-                    urlParams: {
-                        parameters: {
-                            fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
-                        },
-                        identifiers: {
-                            identifier: entity.id,
-                            type: entity.section
-                        }
+            const params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id,
+                        type: section
                     }
-                };
+                }
+            };
 
-                const endPoint = apiConfig.endpoints.organisations.detailPanelData;
+            const endPoint = apiConfig.endpoints.organisations.detailPanelData;
 
-                // request data for detail panel
-                api.get(
-                    api.getBaseUrl(),
-                    endPoint,
-                    params
-                ).then(response => {
-                    document.querySelector('#spinner_detail_panel').classList.add('hidden');
+            // request data for detail panel
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
-                    // store detail panel data in the state
-                    this.actions.fetchDetailPanelData({ id: entity.id, type: entity.type, section: entity.section, name: entity.name }, response);
-                }).catch(error => {
-                    this.actions.addAlert({ type: 'error', text: error });
-                });
-            }
+                // store detail panel data in the state
+                this.actions.fetchDetailPanelData(entity, response);
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+            });
         }
     }
 

@@ -18,7 +18,7 @@ export default function organisationsReducer(state = initialState, action) {
     let newState = Object.assign({}, state),
         newForm;
 
-    let logger = Logger.instance;
+    const logger = Logger.instance;
 
     switch (action.type) {
 
@@ -101,19 +101,10 @@ export default function organisationsReducer(state = initialState, action) {
                         productName = entity.projects[0].product.product_name;
                     }
 
-                    // extract type from the entity
-                    let type;
-
-                    if (entity.organisation_type === 'jobFunction') {
-                        type = 'jobFunction';
-                    } else {
-                        type = 'organisation';
-                    }
-
                     tempEntities.push({
                         name: entity.organisation_name,
                         id: entity.id,
-                        type,
+                        type: entity.organisation_type === 'jobFunction' ? 'jobFunction' : 'organisation',
                         productName
                     });
                 });
@@ -123,18 +114,11 @@ export default function organisationsReducer(state = initialState, action) {
             if (action.entities.projects) {
                 action.entities.projects.forEach(entity => {
 
-                    // attempt to extract product name if it exists
-                    let productName = null;
-
-                    if (entity.product) {
-                        productName = entity.product.product_name;
-                    }
-
                     tempEntities.push({
                         name: entity.project_name,
                         id: entity.id,
                         type: 'project',
-                        productName
+                        productName: entity.product ? entity.product.product_name : null
                     });
                 });
             }

@@ -5,6 +5,7 @@ import { h, Component } from 'preact';
 import Information from './components/Information/Information';
 import Settings from './components/Settings/Settings';
 import Participants from './components/Participants/Participants';
+import AppConfig from './../../../../../../../../App.config';
 import style from './style/detailpanelnavigation.scss';
 
 export default class DetailpanelNavigation extends Component {
@@ -17,12 +18,13 @@ export default class DetailpanelNavigation extends Component {
 
         let tabOutput = null;
 
-        // todo: in many cases, tabs are no longer being rendered. this seems tied to the issue with the information
-        // todo: requested on a project not being shown anymore.
-
         switch (entity.type) {
             case 'organisation':
-                tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab }/></ul>;
+                if (entity.name === AppConfig.global.organisations.rootEntitiesParentName) {
+                    tabOutput = <ul />;
+                } else {
+                    tabOutput = <ul><Information active={activeTab === 'information'} switchTab={switchTab}/></ul>;
+                }
                 break;
             case 'jobFunction':
                 tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab } /></ul>;

@@ -28,6 +28,7 @@ export default class Panel extends Component {
 
                 let isPanelItemActive = false;
 
+                // see if the entity is active (highlighted in the panel)
                 pathNodes.forEach(pathNode => {
                     if (pathNode.id === entity.id) {
                         isPanelItemActive = true;

@@ -12,36 +12,26 @@ export default class Item extends Component {
 
     render() {
         const {
-            panelId,
             entity,
+            panelId,
             isPanelItemActive,
             fetchEntities,
             fetchDetailPanelData
         } = this.props;
 
         let fontAwesomeIcon;
-        let section = null;
 
-        // correctly determine the icon and the key to construct the endpoint used to fetch detail panel data
         switch (entity.type) {
             case 'organisation':
                 fontAwesomeIcon = 'building';
-
-                // this is where its children should be fetched from
-                section = 'organisation';
                 break;
 
             case 'project':
                 fontAwesomeIcon = 'clipboard-list';
-
-                // note there is no section here. a project cannot have children.
                 break;
 
             case 'jobFunction':
                 fontAwesomeIcon = 'suitcase';
-
-                // this is where its children should be fetched from
-                section = 'organisation';
                 break;
 
             default:
@@ -51,16 +41,11 @@ export default class Item extends Component {
 
         return (
             <li
-                key = { entity.id }
                 id = { entity.id }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
-
-                // todo: there shouldnt be an onClick when section === null (which means its a project)
                 onClick = { () => {
 
-                    // note that entityType overwrites entity.type in order to reach the right endpoint (see switch)
-                    // todo: use spread here
-                    fetchEntities({ id: entity.id, name: entity.name, section }, panelId);
+                    fetchEntities(entity, panelId);
                 } }
             >
                 <ul className={ style.listitem }>
@@ -77,12 +62,10 @@ export default class Item extends Component {
                             role="button"
                             onClick={ event => {
 
-                                // ensure fetchEntities is not called
+                                // ensure fetchEntities (on the parent element) is not called
                                 event.stopPropagation();
 
-                                // fetch data to populate detail panel (again, entityType overwrites entity.type)
-                                // todo: use spread here
-                                fetchDetailPanelData({ id: entity.id, name: entity.name, section });
+                                fetchDetailPanelData(entity);
 
                                 // ensure detail panel becomes visible (mostly important on responsive views)
                                 document.querySelector('#detailpanel').classList.remove('hidden');

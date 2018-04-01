@@ -35,7 +35,7 @@ export default class Panels extends Component {
                 isPanelActive = true;
             }
 
-            let currentPanel = {};
+            let currentPanel;
 
             panels.forEach(panel => {
                 if (panel.parentId === pathNode.id) {
@@ -43,23 +43,19 @@ export default class Panels extends Component {
                 }
             });
 
-            // log error if a panel could not be created
-            if (!currentPanel) {
-                this.logger.error({
-                    component: 'Panels',
-                    message: `could not find matching panel for Pathnode ${pathNode.id}`
-                });
+            // be sure to check if currentPanel was found: for projects there wont be any panel data stored in state!
+            if (currentPanel) {
+                panelCollection.push(<Panel
+                    panelId = { panelIndex++ }
+                    entities = { currentPanel.entities }
+                    parentId = { currentPanel.parentId }
+                    fetchEntities = { fetchEntities }
+                    fetchDetailPanelData = { fetchDetailPanelData }
+                    openModalToAddOrganisation = { openModalToAddOrganisation }
+                    isPanelActive = { isPanelActive }
+                    pathNodes = { pathNodes }
+                />);
             }
-
-            panelCollection.push(<Panel
-                panelId = { panelIndex++ }
-                entities = { currentPanel.entities }
-                fetchEntities = { fetchEntities }
-                fetchDetailPanelData = { fetchDetailPanelData }
-                openModalToAddOrganisation = { openModalToAddOrganisation }
-                isPanelActive = { isPanelActive }
-                pathNodes = { pathNodes }
-            />);
         });
 
         return (
