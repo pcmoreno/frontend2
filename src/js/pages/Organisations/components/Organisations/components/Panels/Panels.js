@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
-import Logger from '../../../../../../utils/logger';
 
 /** @jsx h */
 
+import Logger from '../../../../../../utils/logger';
 import Panel from './components/Panel/Panel';
 import style from './style/panels.scss';
 

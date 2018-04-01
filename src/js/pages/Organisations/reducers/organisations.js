@@ -1,11 +1,18 @@
 import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
+import AppConfig from './../../../App.config';
 
 const initialState = {
     panels: [],
     forms: [],
     pathNodes: [],
-    detailPanelData: []
+    detailPanelData: [{
+        entity: {
+            name: AppConfig.global.organisations.rootEntitiesParentName,
+            id: 0,
+            type: 'organisation'
+        }
+    }]
 };
 
 /**
@@ -216,7 +223,6 @@ export default function organisationsReducer(state = initialState, action) {
 
             // first build up the forms with data from state
             state.detailPanelData.forEach(data => {
-                data.active = false;
                 newState.detailPanelData.push(data);
             });
 
@@ -224,7 +230,6 @@ export default function organisationsReducer(state = initialState, action) {
 
             // now add the new data taken from the action
             newState.detailPanelData.push({
-                active: true,
                 entity: action.entity
             });
 

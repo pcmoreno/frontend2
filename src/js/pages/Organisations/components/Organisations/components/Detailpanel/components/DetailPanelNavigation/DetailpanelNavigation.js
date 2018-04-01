@@ -15,12 +15,13 @@ export default class DetailpanelNavigation extends Component {
 
     render() {
         const { entity, activeTab, switchTab } = this.props;
-
         let tabOutput = null;
 
         switch (entity.type) {
             case 'organisation':
-                if (entity.name === AppConfig.global.organisations.rootEntitiesParentName) {
+                if (entity.id === 0) {
+
+                    // just to ensure the root detail panel details have no sub navigation
                     tabOutput = <ul />;
                 } else {
                     tabOutput = <ul><Information active={activeTab === 'information'} switchTab={switchTab}/></ul>;

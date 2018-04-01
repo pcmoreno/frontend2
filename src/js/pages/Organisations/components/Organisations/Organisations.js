@@ -6,7 +6,6 @@ import Logger from '../../../../utils/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import Detailpanel from './components/Detailpanel/Detailpanel';
-import AppConfig from './../../../../App.config';
 import Form from './../../../../components/Form';
 import style from './style/organisations.scss';
 
@@ -15,6 +14,34 @@ export default class Organisations extends Component {
         super(props);
 
         this.logger = Logger.instance;
+        this.getDetailPanelDataForPathNode = this.getDetailPanelDataForPathNode.bind(this);
+    }
+
+    getDetailPanelDataForPathNode(pathNode) {
+
+        let newDetailPanelData;
+
+        // see if currently processed data from collection matches active path node id
+        this.props.detailPanelData.forEach(dataForEntity => {
+            if (dataForEntity.entity.id === pathNode.id) {
+                newDetailPanelData = dataForEntity;
+            }
+        });
+
+        if (newDetailPanelData) {
+            return newDetailPanelData;
+        }
+
+        // panel data not loaded yet. while it loads, show empty detail panel with name from requested pathNode
+        // and id set to 0, so no tabs will be shown by the detailPanelNavigation component further down
+        return {
+            entity:
+            {
+                name: pathNode.name,
+                type: 'organisation',
+                id: 0
+            }
+        };
     }
 
     render() {
@@ -23,7 +50,6 @@ export default class Organisations extends Component {
             fetchEntities,
             openModalToAddOrganisation,
             pathNodes,
-            detailPanelData,
             alertComponent,
             fetchDetailPanelData,
             forms,
@@ -42,28 +68,14 @@ export default class Organisations extends Component {
             openModalToAddOrganisation={ openModalToAddOrganisation }
         />;
 
-        // note that the name of the detail panel is taken from the path, not the state (much faster)
-        let nameForCurrentEntity = AppConfig.global.organisations.rootEntitiesParentName;
-        let dataForCurrentEntity = {};
+        let pathNode = { id: 0 }; // default to 0 for root organisation in case pathNodes are not defined yet todo: still needed?
 
-        // find the active data 'panel' (if available)
-        if (detailPanelData) {
-            detailPanelData.forEach(dataForEntity => {
-                if (dataForEntity.active) {
-
-                    // grab its data
-                    dataForCurrentEntity = dataForEntity;
-
-                    // overwrite the default name (not taken from the data, to ensure its always defaulting to LTP)
-                    nameForCurrentEntity = dataForEntity.entity.name;
-                }
-            });
-        } else {
-            this.logger.error({
-                component: 'Organisations',
-                message: 'no detail panel data exists'
-            });
+        // determine id of currently active pathNode so it can be matched with already received detail panel data
+        if (pathNodes.length > 0) {
+            pathNode = pathNodes[pathNodes.length - 1];
         }
+
+        const dataForCurrentEntity = this.getDetailPanelDataForPathNode(pathNode);
 
         return (
             <div className={ style.organisations }>
@@ -72,7 +84,6 @@ export default class Organisations extends Component {
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
                     <Detailpanel
-                        name = { nameForCurrentEntity }
                         data = { dataForCurrentEntity }
                     />
                 </section>

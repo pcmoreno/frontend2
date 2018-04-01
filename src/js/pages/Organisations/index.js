@@ -53,7 +53,10 @@ class Index extends Component {
         updateNavigationArrow();
 
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
-        this.fetchEntities({ id: 0, name: AppConfig.global.organisations.rootEntitiesParentName }, 0);
+        this.fetchEntities({
+            id: 0,
+            name: AppConfig.global.organisations.rootEntitiesParentName
+        }, 0);
     }
 
     refreshDataWithMessage() {

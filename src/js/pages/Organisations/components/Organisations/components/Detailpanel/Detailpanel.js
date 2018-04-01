@@ -39,19 +39,9 @@ export default class Detailpanel extends Component {
     }
 
     render() {
-        const { data, name } = this.props;
-        let outputTab = <p />;
-        let entity;
-
-        // todo: this if.. logic shouldnt be needed. ensure detailpanel always receives an entity from initial state or whatever
-        if (data && data.hasOwnProperty('entity')) {
-            outputTab = <p>name: {name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
-            entity = data.entity;
-        } else {
-
-            // this is the default todo: I dont like this. this should be set / fed over props. not conditionally here.
-            entity = { name: 'LTP', type: 'organisation' };
-        }
+        const { data } = this.props;
+        const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+        const entity = data.entity;
 
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
@@ -61,7 +51,7 @@ export default class Detailpanel extends Component {
                     </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>{ name }</h2>
+                    <h2>{ entity.name }</h2>
                 </header>
                 <DetailpanelNavigation
                     entity={ entity }
