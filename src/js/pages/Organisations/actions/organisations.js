@@ -20,16 +20,18 @@ export function updatePath(entity, panelId) {
 /**
  * Fetch entities action
  * @param {string} parentId - parentId
+ * @param {string} parentType - parentType
  * @param {array} entities - entities
  * @returns {{type, entities: *}} items with action type
  */
-export function fetchEntities(parentId, entities) {
+export function fetchEntities(parentId, parentType, entities) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
     return {
         type: actionType.FETCH_ENTITIES,
         parentId,
+        parentType,
         entities
     };
 }

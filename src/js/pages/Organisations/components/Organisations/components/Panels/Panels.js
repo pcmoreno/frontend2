@@ -47,7 +47,9 @@ export default class Panels extends Component {
             let currentPanel;
 
             panels.forEach(panel => {
-                if (panel.parentId === pathNode.id) {
+
+                // note you HAVE to check for id AND type: id's are NOT unique between organisations and projects!
+                if (panel.parentId === pathNode.id && panel.parentType === pathNode.type) {
                     currentPanel = panel;
                 }
             });
@@ -58,6 +60,7 @@ export default class Panels extends Component {
                     panelId = { panelIndex++ }
                     entities = { currentPanel.entities }
                     parentId = { currentPanel.parentId }
+                    parentType = { currentPanel.parentType }
                     fetchEntities = { fetchEntities }
                     fetchDetailPanelData = { fetchDetailPanelData }
                     openModalToAddOrganisation = { openModalToAddOrganisation }

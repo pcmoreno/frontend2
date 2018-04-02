@@ -73,7 +73,15 @@ export default function organisationsReducer(state = initialState, action) {
             if (action.parentId === 'undefined' || action.parentId === null) {
                 logger.error({
                     component: 'FETCH_ENTITIES',
-                    message: 'encountered pathNode with invalid id'
+                    message: 'encountered pathNode with invalid parent id'
+                });
+            }
+
+            // ensure a valid type is received
+            if (action.parentType === 'undefined' || action.parentType === null) {
+                logger.error({
+                    component: 'FETCH_ENTITIES',
+                    message: 'encountered pathNode with invalid parent type'
                 });
             }
 
@@ -87,8 +95,10 @@ export default function organisationsReducer(state = initialState, action) {
                 if (panel.parentId !== action.parentId) {
 
                     // take all properties from existing panel, except the active state
+                    // note that parentType is needed to distinct between organisations and projects with similar id's
                     newState.panels.push({
                         parentId: panel.parentId,
+                        parentType: panel.parentType,
                         entities: panel.entities
                     });
                 }
@@ -161,6 +171,7 @@ export default function organisationsReducer(state = initialState, action) {
 
             newState.panels.push({
                 parentId: action.parentId,
+                parentType: action.parentType,
                 active: true,
                 entities: tempEntities
             });

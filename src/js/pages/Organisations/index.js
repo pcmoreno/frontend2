@@ -147,7 +147,7 @@ class Index extends Component {
 
                 // store panel entities in state UNLESS they are children of a project (they do not exist!)
                 // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
-                this.actions.fetchEntities(entity.id, response);
+                this.actions.fetchEntities(entity.id, entity.type, response);
             }
 
             // now that the new entities are available in the state, update the path to reflect the change
