@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-export default class DetailpanelContent extends Component {
+export default class DetailPanelContent extends Component {
     constructor(props) {
         super(props);
     }

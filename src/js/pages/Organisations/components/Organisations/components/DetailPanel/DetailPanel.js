@@ -2,12 +2,12 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import DetailpanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
-import DetailpanelContent from './components/DetailpanelContent/DetailpanelContent';
+import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
+import DetailPanelContent from './components/DetailPanelContent/DetailPanelContent';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
-export default class Detailpanel extends Component {
+export default class DetailPanel extends Component {
     constructor(props) {
         super(props);
 
@@ -56,7 +56,7 @@ export default class Detailpanel extends Component {
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
                     <h2>{ entity.name }</h2>
                 </header>
-                <DetailpanelNavigation
+                <DetailPanelNavigation
                     entity={ entity }
                     activeTab={ this.localState.activeTab }
                     switchTab={ this.switchTab }
@@ -64,7 +64,7 @@ export default class Detailpanel extends Component {
                 <main>
                     <p>{ outputTab }</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <DetailpanelContent activeTab={ this.localState.activeTab } />
+                    <DetailPanelContent activeTab={ this.localState.activeTab } />
                 </main>
             </aside>
         );

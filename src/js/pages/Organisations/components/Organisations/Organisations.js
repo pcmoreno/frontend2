@@ -5,8 +5,9 @@ import { h, Component } from 'preact';
 import Logger from '../../../../utils/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
-import Detailpanel from './components/Detailpanel/Detailpanel';
+import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
+import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 
 export default class Organisations extends Component {
@@ -39,7 +40,7 @@ export default class Organisations extends Component {
             {
                 name: pathNode.name,
                 type: pathNode.type,
-                id: 0
+                id: AppConfig.global.organisations.rootEntity.id
             }
         };
     }
@@ -83,7 +84,7 @@ export default class Organisations extends Component {
                 <Path pathNodes={ pathNodes } fetchEntities={ fetchEntities } />
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
-                    <Detailpanel
+                    <DetailPanel
                         data = { dataForCurrentEntity }
                     />
                 </section>
