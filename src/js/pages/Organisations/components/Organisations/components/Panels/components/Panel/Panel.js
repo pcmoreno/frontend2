@@ -29,6 +29,7 @@ export default class Panel extends Component {
                 let isPanelItemActive = false;
 
                 // see if the entity is active (highlighted in the panel)
+                // todo: there seems to be an issue here. entity.id is not unique between organisations and projects.
                 pathNodes.forEach(pathNode => {
                     if (pathNode.id === entity.id) {
                         isPanelItemActive = true;

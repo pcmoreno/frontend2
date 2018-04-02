@@ -38,7 +38,7 @@ export default class Organisations extends Component {
             entity:
             {
                 name: pathNode.name,
-                type: 'organisation',
+                type: pathNode.type,
                 id: 0
             }
         };

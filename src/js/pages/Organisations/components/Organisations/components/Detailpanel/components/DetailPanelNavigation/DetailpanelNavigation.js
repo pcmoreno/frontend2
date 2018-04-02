@@ -20,13 +20,19 @@ export default class DetailpanelNavigation extends Component {
             case 'organisation':
                 if (entity.id === 0) {
 
-                    // just to ensure the root detail panel details have no sub navigation
+                    // just to ensure the root detail panel (and other panels while data loads) has no sub navigation
                     tabOutput = <ul />;
                 } else {
+                    if (activeTab !== 'information') {
+                        switchTab('information');
+                    }
                     tabOutput = <ul><Information active={activeTab === 'information'} switchTab={ switchTab }/></ul>;
                 }
                 break;
             case 'jobFunction':
+                if (activeTab !== 'information') {
+                    switchTab('information');
+                }
                 tabOutput = <ul><Information active={ activeTab === 'information' } switchTab={ switchTab } /></ul>;
                 break;
             case 'project':

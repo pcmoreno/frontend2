@@ -8,9 +8,9 @@ const initialState = {
     pathNodes: [],
     detailPanelData: [{
         entity: {
-            name: AppConfig.global.organisations.rootEntitiesParentName,
-            id: 0,
-            type: 'organisation'
+            name: AppConfig.global.organisations.rootEntity.name,
+            id: AppConfig.global.organisations.rootEntity.id,
+            type: AppConfig.global.organisations.rootEntity.type
         }
     }]
 };
@@ -228,7 +228,7 @@ export default function organisationsReducer(state = initialState, action) {
 
             // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
 
-            // now add the new data taken from the action
+            // now add the new data taken from the action (it currently only adds the entity, there is no content yet)
             newState.detailPanelData.push({
                 entity: action.entity
             });

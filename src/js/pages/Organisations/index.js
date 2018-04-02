@@ -53,10 +53,7 @@ class Index extends Component {
         updateNavigationArrow();
 
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
-        this.fetchEntities({
-            id: 0,
-            name: AppConfig.global.organisations.rootEntitiesParentName
-        }, 0);
+        this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
     refreshDataWithMessage() {
@@ -83,7 +80,8 @@ class Index extends Component {
 
             case 'project':
 
-                // even though projects cant have children - which may change in the future, perform the API call anyway
+                // even though projects cant have children, perform the API call. this is because this behaviour may
+                // change in the future, and, more important, the subsequent actions need to be triggered
                 return 'organisation';
 
             case 'jobFunction':

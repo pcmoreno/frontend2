@@ -11,7 +11,7 @@ export default class Detailpanel extends Component {
     constructor(props) {
         super(props);
 
-        // keep track of opened tab (defaults to organisation)
+        // keep track of opened tab (defaults to information)
         this.localState = {
             activeTab: 'information'
         };
@@ -44,9 +44,7 @@ export default class Detailpanel extends Component {
         const entity = data.entity;
 
         // note the detailpanel will always receive an entity. either the root organisation entity, sent by the
-        // intialState, the constructed entity - while the real entity loads, or the real entity including all the data
-
-        // todo: add check to see if data holds more than just the entity. in that case, populate the tab contents.
+        // intialState, the constructed entity - while the real entity loads, or the real entity including all its data
 
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
