@@ -19,7 +19,7 @@ export default class DetailPanelNavigation extends Component {
 
         if (entity.id === AppConfig.global.organisations.rootEntity.id) {
 
-            // just to ensure the root detail panel (and other panels while data loads) has no sub navigation
+            // just to ensure the root detail panel has no sub navigation
             tabOutput = <ul />;
         } else {
             switch (entity.type) {

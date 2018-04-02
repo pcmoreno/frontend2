@@ -223,13 +223,16 @@ export default function organisationsReducer(state = initialState, action) {
 
             // first build up the forms with data from state
             state.detailPanelData.forEach(data => {
+                data.active = false;
                 newState.detailPanelData.push(data);
             });
 
             // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
 
             // now add the new data taken from the action (it currently only adds the entity, there is no content yet)
+            // the 'active' flag ensures the detail panel shows right details, especially in responsive views
             newState.detailPanelData.push({
+                active: true,
                 entity: action.entity
             });
 

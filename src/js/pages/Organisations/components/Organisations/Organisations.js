@@ -15,16 +15,16 @@ export default class Organisations extends Component {
         super(props);
 
         this.logger = Logger.instance;
-        this.getDetailPanelDataForPathNode = this.getDetailPanelDataForPathNode.bind(this);
+        this.getDetailPanelData = this.getDetailPanelData.bind(this);
     }
 
-    getDetailPanelDataForPathNode(pathNode) {
+    getDetailPanelData() {
 
         let newDetailPanelData;
 
-        // see if currently processed data from collection matches active path node id
+        // return the active detail panel data instance
         this.props.detailPanelData.forEach(dataForEntity => {
-            if (dataForEntity.entity.id === pathNode.id) {
+            if (dataForEntity.active) {
                 newDetailPanelData = dataForEntity;
             }
         });
@@ -33,16 +33,8 @@ export default class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // panel data not loaded yet. while it loads, show empty detail panel with name from requested pathNode
-        // and id set to 0, so no tabs will be shown by the detailPanelNavigation component further down
-        return {
-            entity:
-            {
-                name: pathNode.name,
-                type: pathNode.type,
-                id: AppConfig.global.organisations.rootEntity.id
-            }
-        };
+        // no panel data not loaded yet. while it loads, show empty detail panel with root entity data
+        return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     render() {
@@ -69,14 +61,7 @@ export default class Organisations extends Component {
             openModalToAddOrganisation={ openModalToAddOrganisation }
         />;
 
-        let pathNode = { id: 0 }; // default to 0 for root organisation in case pathNodes are not defined yet todo: still needed?
-
-        // determine id of currently active pathNode so it can be matched with already received detail panel data
-        if (pathNodes.length > 0) {
-            pathNode = pathNodes[pathNodes.length - 1];
-        }
-
-        const dataForCurrentEntity = this.getDetailPanelDataForPathNode(pathNode);
+        const dataForCurrentEntity = this.getDetailPanelData();
 
         return (
             <div className={ style.organisations }>
