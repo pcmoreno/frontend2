@@ -61,11 +61,11 @@ class AbstractAuthoriser {
         }
 
         if (!component) {
-            throw new Error(`Component ${component} was not defined in the configuration`)
+            throw new Error(`Component ${component} was not defined in the configuration`);
         }
 
         if (!action) {
-            throw new Error(`Action ${action} was not defined in the configuration`)
+            throw new Error(`Action ${action} was not defined in the configuration`);
         }
 
         const allowedRoles = this.getAllowedRolesForComponentAction(component, action);
