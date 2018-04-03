@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Alert from './components/Alert/Alert';
+import AppConfig from './../../App.config';
 
 class Index extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Index extends Component {
         );
 
         // define timeout in ms for alerts
-        this.alertTimeout = 5000;
+        this.alertTimeout = AppConfig.global.alertTimeout;
     }
 
     componentDidUpdate() {

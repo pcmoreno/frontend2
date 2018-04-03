@@ -6,6 +6,13 @@
     /* the alert overlaps the header with 15px */
     top: calc($application-header-height - 15px);
 
+    @media screen and (max-width: $grid-breakpoints-lg) {
+
+        // on responsive views, the alert sticks to the bottom to reduce clutter and wrong overlaps of the detail panel
+        top: unset;
+        bottom: 0;
+    }
+
     height: 1.3rem;
     line-height: 1.3rem;
     padding: 0 1rem;
