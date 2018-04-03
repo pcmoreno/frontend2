@@ -153,6 +153,8 @@ class Index extends Component {
             ignoredFields={this.props.ignoredFields}
             forms={this.props.forms}
             submitForm={this.submitForm}
+            headerText={this.props.headerText}
+            submitButtonText={this.props.submitButtonText}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
             closeModal={ this.props.closeModal }
         />);

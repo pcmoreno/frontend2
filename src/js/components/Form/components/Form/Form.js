@@ -221,9 +221,7 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, formId } = this.props;
-
-        console.log('IGNORED FIELDS', ignoredFields);
+        const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = `loading ${formId}`;
         let formSubmitButton = null;
@@ -252,7 +250,7 @@ export default class Form extends Component {
                     });
 
                     // todo: header en submit button text
-                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
+                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
                 }
             });
         }
@@ -262,7 +260,7 @@ export default class Form extends Component {
             <form id={formId}>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
-                    <h3>Add Organisation</h3>
+                    <h3>{ headerText }</h3>
                     <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
                 <main>

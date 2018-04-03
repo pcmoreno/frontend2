@@ -91,7 +91,9 @@ export default class Organisations extends Component {
                             'organisationType',
                             'organisationSlug'
                         ] }
-                        forms = { forms }
+                        headerText='Add organisation'
+                        submitButtonText='Add'
+                        forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         afterSubmit = { refreshDataWithMessage }
