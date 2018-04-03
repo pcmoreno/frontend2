@@ -21,7 +21,7 @@ export default class UserMenu extends Component {
                 </li>
                 <li className={ style.user_name }>
                     <span>
-                        Robbin van Ooij
+                        Development at LTP
                     </span>
                 </li>
                 <li className={ style.btn_foldout } id="user_btn_foldout">
