@@ -69,12 +69,13 @@ class AbstractAuthoriser {
         }
 
         const allowedRoles = this.getAllowedRolesForComponentAction(component, action);
-        const userRoles = user.getRoles();
+        const userRoles = user.getRoles().map(role => role.toLowerCase());
         let allowed = false;
 
+        // loop through all allowed roles (lowercase) and match them with the user role
         for (let i in allowedRoles) {
             if (allowedRoles.hasOwnProperty(i)) {
-                if (~userRoles.indexOf(allowedRoles[i])) {
+                if (~userRoles.indexOf(allowedRoles[i].toLowerCase())) {
                     allowed = true;
                     break;
                 }
