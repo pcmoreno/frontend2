@@ -95,7 +95,7 @@ export default function organisationsReducer(state = initialState, action) {
                 if (panel.parentId !== action.parentId) {
 
                     // take all properties from existing panel, except the active state
-                    // note that parentType is needed to distinct between organisations and projects with similar id's
+                    // note that parentType is needed to distinguish between organisations and projects with similar id's
                     newState.panels.push({
                         parentId: panel.parentId,
                         parentType: panel.parentType,
