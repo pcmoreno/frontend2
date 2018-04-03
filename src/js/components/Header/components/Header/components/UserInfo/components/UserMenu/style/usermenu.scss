@@ -40,6 +40,7 @@
             font-weight: 700;
             color: $orange;
             font-size: .9rem;
+            font-family: $fontheavy;
         }
     }
 
@@ -50,7 +51,7 @@
         line-height: 60px;
         font-weight: normal;
         text-decoration: none;
-        color: $orange-darken;
+        color: $orange;
         display: none;
 
         @media screen and (min-width: $grid-breakpoints-lg) {

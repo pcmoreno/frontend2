@@ -40,9 +40,8 @@ $detailpanel-margin: 10px;
             display: none;
 
             @supports (display: grid) {
-                display: block;
+                display: inline-block;
                 cursor: pointer;
-                text-align: left;
 
                 @media screen and (max-width: $grid-breakpoints-lg) {
                     display: none;
@@ -56,6 +55,17 @@ $detailpanel-margin: 10px;
             overflow: hidden;
             text-align: center;
             color: $beige-lighten;
+            font-family: $fontheavy;
+            font-weight: 500;
+
+            @media screen and (max-width: $grid-breakpoints-lg) {
+                width: 85%;
+                margin: 0 auto;
+            }
+        }
+
+        > span[role='button'] {
+            outline: none;
         }
     }
 

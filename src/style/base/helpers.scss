@@ -75,3 +75,8 @@ table td.organisation {
 #detail_panel_navigation > ul > li.active span {
     color: $white;
 }
+
+/* arrow on toggle button is reversed when detail panel is in full-width mode */
+#panels_container.single_fragment #detailpanel header span:last-of-type {
+    transform: rotate(180deg);
+}
