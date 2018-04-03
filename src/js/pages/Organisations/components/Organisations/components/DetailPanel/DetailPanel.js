@@ -64,7 +64,10 @@ export default class DetailPanel extends Component {
                 <main>
                     <p>{ outputTab }</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <DetailPanelContent activeTab={ this.localState.activeTab } />
+                    <DetailPanelContent
+                        openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                        closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                        activeTab={ this.localState.activeTab } />
                 </main>
             </aside>
         );
