@@ -39,6 +39,7 @@ module.exports = {
         }
     },
     global: {
+        alertTimeout: 5000,
         organisations: {
             rootEntity: {
                 id: 0,
