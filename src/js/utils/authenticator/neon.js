@@ -43,19 +43,19 @@ class NeonAuthenticator extends AbstractAuthenticator {
                 if (response.status === 200) {
 
                     // authenticate was ok, resolve with json response (user)
-                    response.json().then(userResp => {
+                    response.json().then(userResponse => {
 
                         // save and return the user
-                        this.user = new NeonUser(userResp.user);
+                        this.user = new NeonUser(userResponse.user);
                         resolve(this.user);
                     });
                 } else if (response.status === 401) {
 
                     // either the cognito token or the neon token is expired. We will try again by refreshing them both
-                    this.refreshTokens().then(userResp => {
+                    this.refreshTokens().then(userResponse => {
 
                         // save and return the user
-                        this.user = new NeonUser(userResp.user);
+                        this.user = new NeonUser(userResponse.user);
                         resolve(this.user);
 
                     }).catch(error => {

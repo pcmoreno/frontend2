@@ -7,8 +7,8 @@ import AsyncRoute from 'preact-async-route';
  * This will either return an async route or a redirect, based on whether the user is authorised or not.
  * Redirect will only trigger once the path is visited.
  * By default the authoriser action is "route". See config example below.
- * authorisers: {
- *     authoriser: {
+ * authoriser: {
+ *     neon: {
  *         componentName: {
  *             route: ['role']
  *         }

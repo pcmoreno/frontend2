@@ -6,8 +6,8 @@ import utils from '../utils';
  * when a user is authorised.
  * See config example below
  *
- * authorisers: {
- *     authoriser: {
+ * authoriser: {
+ *     neon: {
  *         componentName: {
  *             editAction: ['role']
  *         }

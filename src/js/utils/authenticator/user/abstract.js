@@ -9,9 +9,9 @@ class AbstractUser {
      * @param {Object} props - user properties
      * @param {string} props.username - username
      * @param {Array} props.roles - roles array
-     * @param {string} [props.firstName] - roles array
-     * @param {string} [props.infix] - roles array
-     * @param {string} [props.lastName] - roles array
+     * @param {string} [props.firstName] - firstName
+     * @param {string} [props.infix] - infix
+     * @param {string} [props.lastName] - lastName
      */
     constructor(props) {
 

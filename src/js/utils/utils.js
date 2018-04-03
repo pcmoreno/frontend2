@@ -146,7 +146,7 @@ const Utils = {
      * </Authenticated>
      *
      * @example
-     * // below JSX example will have object[0] as a string "hello" and object[1] as a react element
+     * // below JSX example will have object[0] as a string "hello" and object[1] as a (p)react element
      * // this will return: <div>Hello <RenderedUserName/></div>, as we will always need one root element
      * <Authenticated>
      *     hello
@@ -154,8 +154,8 @@ const Utils = {
      * </Authenticated>
      *
      * @example
-     * // below example will render an element from a string: <div prop="hi">hello</div>
-     * createRootElement("hello", {prop:"hi"});
+     * // below example will render an element from a string: <div key="hi">hello</div>
+     * createRootElement("hello", {key:"hi"});
      *
      * @example
      * // below example will render a react component directly with the given props

@@ -11,7 +11,7 @@ import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
 import ApiFactory from './utils/api/factory';
 import NeonAuthenticator from './utils/authenticator/neon';
-import NeonAuthoriser from './utils/authorisers/neon';
+import NeonAuthoriser from './utils/authoriser/neon';
 
 /** @jsx h */
 
