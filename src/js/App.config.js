@@ -1,10 +1,11 @@
+import UserRoles from './constants/UserRoles';
+
 /**
  * Configuration module
  * Write any (default) configuration here
  * @type {{}}
  */
-
-module.exports = {
+const AppConfig = {
     api: {
         neon: {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
@@ -38,6 +39,16 @@ module.exports = {
             appClientId: `${process.env.COGNITO_APP_CLIENT_ID}`
         }
     },
+    authoriser: {
+        neon: {
+
+            // example component. Can be removed once a real component/action is added.
+            component: {
+                editAction: [UserRoles.APPLICATION_MANAGER],
+                route: [UserRoles.APPLICATION_MANAGER]
+            }
+        }
+    },
     global: {
         alertTimeout: 5000,
         organisations: {
@@ -49,3 +60,5 @@ module.exports = {
         }
     }
 };
+
+export default AppConfig;

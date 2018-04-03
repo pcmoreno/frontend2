@@ -13,14 +13,15 @@ class ApiFactory {
      * Creates the API instance for the given name/identifier
      * @param {string} apiName - API name/identifier
      * @param {AbstractAuthenticator} authenticator - authenticator instance
+     * @param {AbstractAuthoriser} authoriser - authoriser instance
      * @returns {API} API instance
      */
-    static create(apiName, authenticator) {
+    static create(apiName, authenticator, authoriser) {
         if (map.get(apiName)) {
             throw new Error(`ApiFactory: API ${apiName} already exists`);
         }
 
-        const api = new API(apiName, authenticator);
+        const api = new API(apiName, authenticator, authoriser);
 
         map.set(apiName, api);
 

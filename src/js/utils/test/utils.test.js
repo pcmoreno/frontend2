@@ -194,3 +194,7 @@ test('Utils replaceString should replace a given set of values with new values',
         ]
     )).toEqual('https://google.com/123/division/456');
 });
+
+// todo: add unit test for method excludeProps
+// todo: add unit test for method isArray
+// todo: add unit test for method createRootElement

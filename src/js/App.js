@@ -11,6 +11,7 @@ import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
 import ApiFactory from './utils/api/factory';
 import NeonAuthenticator from './utils/authenticator/neon';
+import NeonAuthoriser from './utils/authoriser/neon';
 
 /** @jsx h */
 
@@ -68,12 +69,12 @@ let store = createStore(rootReducer);
 
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
-ApiFactory.create('neon', new NeonAuthenticator());
+ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
 import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
-import AuthenticatedComponent from './utils/components/AuthenticatedComponent';
+import Authenticated from './utils/components/Authenticated';
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
@@ -146,11 +147,13 @@ function renderApp() {
     render(
         <Provider store={ store }>
             <section id="layout">
-                <AuthenticatedComponent api={api} component={Header} key="header" />
+                <Authenticated api={api}>
+                    <Header key="header"/>
+                </Authenticated>
                 <main>
                     <Alert />
                     <Router>
-                        <AsyncRoute api={api} path="/login" getComponent={ getLogin } />
+                        <AsyncRoute path="/login" getComponent={ getLogin } />
                         <AuthenticatedRoute api={api} path="/" getComponent={ getInbox } />
                         <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
