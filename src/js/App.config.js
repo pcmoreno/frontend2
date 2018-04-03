@@ -37,6 +37,15 @@ module.exports = {
             appClientId: `${process.env.COGNITO_APP_CLIENT_ID}`
         }
     },
+    authoriser: {
+        neon: {
+
+            // example component. Can be removed once a real component/action is added.
+            component: {
+                action: ['Application Manager']
+            }
+        }
+    },
     global: {
         organisations: {
             rootEntitiesParentName: 'LTP'

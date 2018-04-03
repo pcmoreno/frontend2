@@ -13,24 +13,6 @@ class NeonAuthenticator extends AbstractAuthenticator {
         super('neon');
 
         this.cognitoAuthenticator = new CognitoAuthenticator();
-        this.user = null;
-    }
-
-    /**
-     * Returns the user. You must've been authenticated before calling this method
-     * @returns {Object|null} user
-     */
-    getUser() {
-        return this.user;
-    }
-
-    /**
-     * Returns whether the user should be authenticated.
-     * This does not guarantee that there are valid tokens, just that this user WAS/IS authenticated.
-     * @returns {boolean} authenticated
-     */
-    isAuthenticated() {
-        return (this.user !== null);
     }
 
     /**

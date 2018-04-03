@@ -11,6 +11,7 @@ import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
 import ApiFactory from './utils/api/factory';
 import NeonAuthenticator from './utils/authenticator/neon';
+import NeonAuthoriser from './utils/authorisers/neon';
 
 /** @jsx h */
 
@@ -68,7 +69,7 @@ let store = createStore(rootReducer);
 
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
-ApiFactory.create('neon', new NeonAuthenticator());
+ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
