@@ -1,0 +1,22 @@
+.detailpanelnavigation {
+    background: $blue;
+    height: $detailpanel-nav-height;
+    padding: 0 10px;
+    text-align: center;
+
+    ul {
+        display: inline-block;
+
+        li {
+            font-size: .75rem;
+            float: left;
+            margin: 0 10px;
+            text-decoration: none;
+            color: $black;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

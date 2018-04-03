@@ -10,6 +10,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
+import Logger from '../../utils/logger';
 
 class Index extends Component {
     constructor(props) {
@@ -28,6 +29,8 @@ class Index extends Component {
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
+
+        this.logger = Logger.instance;
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -50,7 +53,7 @@ class Index extends Component {
         updateNavigationArrow();
 
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
-        this.fetchEntities({ id: 0, name: AppConfig.global.organisations.rootEntitiesParentName }, 0);
+        this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
     refreshDataWithMessage() {
@@ -66,6 +69,31 @@ class Index extends Component {
         // refresh the items
         // todo: is this actually needed? shouldnt React re-render because the state changes? test!
         this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+    }
+
+    getSectionForEntityType(entity) {
+
+        // determines the endpoint for which children or detail panel data should be fetched from
+        switch (entity.type) {
+            case 'organisation':
+                return 'organisation';
+
+            case 'project':
+
+                // even though projects cant have children, perform the API call. this is because this behaviour may
+                // change in the future, and, more important, the subsequent actions need to be triggered
+                return 'project';
+
+            case 'jobFunction':
+                return 'organisation';
+
+            default:
+                this.logger.error({
+                    component: 'index',
+                    message: `no entity.type available on entity ${entity.name}`
+                });
+                return false;
+        }
     }
 
     fetchEntities(entity, panelId) {
@@ -89,6 +117,8 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.rootEntities;
         } else {
 
+            const section = this.getSectionForEntityType(entity);
+
             // an entity.id was provided, assume 'child' entities need to be retrieved
             params = {
                 urlParams: {
@@ -97,7 +127,7 @@ class Index extends Component {
                     },
                     identifiers: {
                         identifier: entity.id,
-                        type: entity.section
+                        type: section
                     }
                 }
             };
@@ -106,26 +136,28 @@ class Index extends Component {
         }
 
         // request entities
-        if (entity.section !== null) {
-            api.get(
-                api.getBaseUrl(),
-                endPoint,
-                params
-            ).then(response => {
-                document.querySelector('#spinner').classList.add('hidden');
+        api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
 
-                // store panel entities in state
-                this.actions.fetchEntities(entity.id, response);
+            if (entity.type !== 'project') {
 
-                // now that the new entities are available in the state, update the path to reflect the change
-                this.actions.updatePath(entity, panelId);
+                // store panel entities in state UNLESS they are children of a project (they do not exist!)
+                // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
+                this.actions.fetchEntities(entity.id, entity.type, response);
+            }
 
-                // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-                this.fetchDetailPanelData(entity);
-            }).catch(error => {
-                this.actions.addAlert({ type: 'error', text: error });
-            });
-        }
+            // now that the new entities are available in the state, update the path to reflect the change
+            this.actions.updatePath(entity, panelId);
+
+            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+            this.fetchDetailPanelData(entity);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
     }
 
     fetchDetailPanelData(entity) {
@@ -135,57 +167,35 @@ class Index extends Component {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             const apiConfig = api.getConfig();
+            const section = this.getSectionForEntityType(entity);
 
-            // let entityType;
-            //
-            // switch (entity.section) {
-            //
-            //     // a jobfunction should fetch its children from the /project/ section
-            //     case 'jobfunction': entityType = 'project';
-            //         break;
-            //
-            //     // an project should fetch its children from the /organisation/ section
-            //     // todo: wrong. project is modeled incorrectly. in this case it should be a job function, which does indeed fetch from /organisation/ endpoint
-            //     case 'project': entityType = 'organisation';
-            //         break;
-            //
-            //     // an organisation should fetch its children from the /organisation/ section
-            //     case 'organisation': entityType = 'organisation';
-            //         break;
-            //
-            //     default: entityType = 'organisation';
-            //         break;
-            // }
-
-            if (entity.section !== null) {
-                const params = {
-                    urlParams: {
-                        parameters: {
-                            fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
-                        },
-                        identifiers: {
-                            identifier: entity.id,
-                            type: entity.section
-                        }
+            const params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                    },
+                    identifiers: {
+                        identifier: entity.id,
+                        type: section
                     }
-                };
+                }
+            };
 
-                const endPoint = apiConfig.endpoints.organisations.detailPanelData;
+            const endPoint = apiConfig.endpoints.organisations.detailPanelData;
 
-                // request data for detail panel
-                api.get(
-                    api.getBaseUrl(),
-                    endPoint,
-                    params
-                ).then(response => {
-                    document.querySelector('#spinner_detail_panel').classList.add('hidden');
+            // request data for detail panel
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
-                    // store detail panel data in the state
-                    this.actions.fetchDetailPanelData({ id: entity.id, type: entity.type, section: entity.section, name: entity.name }, response);
-                }).catch(error => {
-                    this.actions.addAlert({ type: 'error', text: error });
-                });
-            }
+                // store detail panel data in the state
+                this.actions.fetchDetailPanelData(entity, response);
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+            });
         }
     }
 

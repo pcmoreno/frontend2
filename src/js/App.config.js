@@ -40,7 +40,11 @@ module.exports = {
     },
     global: {
         organisations: {
-            rootEntitiesParentName: 'LTP'
+            rootEntity: {
+                id: 0,
+                name: 'LTP',
+                type: 'organisation'
+            }
         }
     }
 };

@@ -2,12 +2,25 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
+import DetailPanelContent from './components/DetailPanelContent/DetailPanelContent';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
-export default class Detailpanel extends Component {
+export default class DetailPanel extends Component {
     constructor(props) {
         super(props);
+
+        // keep track of opened tab (defaults to information)
+        this.localState = {
+            activeTab: 'information'
+        };
+
+        this.switchTab = this.switchTab.bind(this);
+    }
+
+    switchTab(tabName) {
+        this.setState(this.localState.activeTab = tabName);
     }
 
     toggleFullWidthDetailPanel() {
@@ -26,13 +39,12 @@ export default class Detailpanel extends Component {
     }
 
     render() {
-        const { data, name } = this.props;
+        const { data } = this.props;
+        const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+        const entity = data.entity;
 
-        let outputTab = <p />;
-
-        if (data && data.hasOwnProperty('entity')) {
-            outputTab = <p>name: {name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
-        }
+        // note the detailpanel will always receive an entity. either the root organisation entity, sent by the
+        // intialState, the constructed entity - while the real entity loads, or the real entity including all its data
 
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
@@ -42,19 +54,17 @@ export default class Detailpanel extends Component {
                     </div>
                     <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
                     <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
-                    <h2>{ name }</h2>
+                    <h2>{ entity.name }</h2>
                 </header>
-                <nav>
-                    <span>tab</span>
-                    <span>tab</span>
-                    <span>tab</span>
-                    <span>tab</span>
-                    <span>tab</span>
-                </nav>
+                <DetailPanelNavigation
+                    entity={ entity }
+                    activeTab={ this.localState.activeTab }
+                    switchTab={ this.switchTab }
+                />
                 <main>
-                    <p>(any data below comes from the API)</p>
-                    <span className={ style.detailpanel_divider }>some divider</span>
                     <p>{ outputTab }</p>
+                    <span className={ style.detailpanel_divider }>some divider</span>
+                    <DetailPanelContent activeTab={ this.localState.activeTab } />
                 </main>
             </aside>
         );

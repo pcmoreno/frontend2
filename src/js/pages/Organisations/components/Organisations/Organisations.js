@@ -5,9 +5,9 @@ import { h, Component } from 'preact';
 import Logger from '../../../../utils/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
-import Detailpanel from './components/Detailpanel/Detailpanel';
-import AppConfig from './../../../../App.config';
+import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
+import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 
 export default class Organisations extends Component {
@@ -15,6 +15,26 @@ export default class Organisations extends Component {
         super(props);
 
         this.logger = Logger.instance;
+        this.getDetailPanelData = this.getDetailPanelData.bind(this);
+    }
+
+    getDetailPanelData() {
+
+        let newDetailPanelData;
+
+        // return the active detail panel data instance
+        this.props.detailPanelData.forEach(dataForEntity => {
+            if (dataForEntity.active) {
+                newDetailPanelData = dataForEntity;
+            }
+        });
+
+        if (newDetailPanelData) {
+            return newDetailPanelData;
+        }
+
+        // no panel data loaded yet. while it loads, show empty detail panel with root entity data
+        return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     render() {
@@ -23,7 +43,6 @@ export default class Organisations extends Component {
             fetchEntities,
             openModalToAddOrganisation,
             pathNodes,
-            detailPanelData,
             alertComponent,
             fetchDetailPanelData,
             forms,
@@ -42,28 +61,7 @@ export default class Organisations extends Component {
             openModalToAddOrganisation={ openModalToAddOrganisation }
         />;
 
-        // note that the name of the detail panel is taken from the path, not the state (much faster)
-        let nameForCurrentEntity = AppConfig.global.organisations.rootEntitiesParentName;
-        let dataForCurrentEntity = {};
-
-        // find the active data 'panel' (if available)
-        if (detailPanelData) {
-            detailPanelData.forEach(dataForEntity => {
-                if (dataForEntity.active) {
-
-                    // grab its data
-                    dataForCurrentEntity = dataForEntity;
-
-                    // overwrite the default name (not taken from the data, to ensure its always defaulting to LTP)
-                    nameForCurrentEntity = dataForEntity.entity.name;
-                }
-            });
-        } else {
-            this.logger.error({
-                component: 'Organisations',
-                message: 'no detail panel data exists'
-            });
-        }
+        const dataForCurrentEntity = this.getDetailPanelData();
 
         return (
             <div className={ style.organisations }>
@@ -71,8 +69,7 @@ export default class Organisations extends Component {
                 <Path pathNodes={ pathNodes } fetchEntities={ fetchEntities } />
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
-                    <Detailpanel
-                        name = { nameForCurrentEntity }
+                    <DetailPanel
                         data = { dataForCurrentEntity }
                     />
                 </section>
