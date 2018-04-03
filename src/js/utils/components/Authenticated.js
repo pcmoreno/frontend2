@@ -28,6 +28,6 @@ export default class Authenticated extends Component {
 
         // create given root elements, so that the stack can be rendered
         // the children of this (Authenticated) component are considered the root elements
-        return authenticated ? utils.createRootElements(this.props.children, propsToForward) : null;
+        return authenticated ? utils.createRootElement(this.props.children, propsToForward) : null;
     }
 }

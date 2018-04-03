@@ -1,3 +1,5 @@
+import { h, cloneElement } from 'preact';
+
 /**
  * Utils module
  * Write any (default) function
@@ -129,6 +131,78 @@ const Utils = {
         const toString = Object.prototype.toString;
 
         return nativeIsArray(object) || toString.call(object) === '[object Array]';
+    },
+
+    /**
+     * Create a root element for multiple children to be rendered or clone a component.
+     * This can be used for either rendering a set of child elements at once, or when the component to be rendered
+     * is called dynamically.
+     *
+     * @example
+     * // below JSX example will have object[0] as a string "hello"
+     * // this will return: <div class="hi">Hello</div>, as we will always need one root element
+     * <Authenticated className="hi">
+     *     hello
+     * </Authenticated>
+     *
+     * @example
+     * // below JSX example will have object[0] as a string "hello" and object[1] as a react element
+     * // this will return: <div>Hello <RenderedUserName/></div>, as we will always need one root element
+     * <Authenticated>
+     *     hello
+     *     <UserName />
+     * </Authenticated>
+     *
+     * @example
+     * // below example will render an element from a string: <div prop="hi">hello</div>
+     * createRootElement("hello", {prop:"hi"});
+     *
+     * @example
+     * // below example will render a react component directly with the given props
+     * createRootElement(Component, props);
+     *
+     * @param {string|array|Object} object - object(s) to be rendered
+     * @param {Object} props - properties for the root element
+     * @returns {Object} react or html element
+     */
+    createRootElement(object, props) {
+        let newObject;
+
+        // usually object is an array of elements
+        if (typeof object === 'string' || this.isArray(object)) {
+            if (!props) {
+                props = {};
+            }
+
+            // render the given elements inside a div, as we can only return one root element
+            // otherwise it would not be possible to render multiple given elements
+            newObject = <div {...props}>{ object }</div>;
+        } else {
+            const newProps = props;
+            let newChildren = [];
+
+            if (object.props) {
+
+                // we are dealing with a component
+                // prepare the properties and children (separate them) for cloneElement
+                for (const key in object.props) {
+                    if (object.props.hasOwnProperty(key)) {
+                        const value = object.props[key];
+
+                        if (key === 'children') {
+                            newChildren = value;
+                        } else {
+                            newProps[key] = value;
+                        }
+                    }
+                }
+            }
+
+            // clone/render the given component
+            newObject = cloneElement(object, newProps, newChildren);
+        }
+
+        return newObject;
     }
 };
 
