@@ -12,36 +12,44 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { pathNodes, panelId, fetchEntities } = this.props;
-        const entities = this.props.entities;
+        const {
+            pathNodes,
+            panelId,
+            fetchEntities,
+            fetchDetailPanelData,
+            openModalToAddOrganisation,
+            isPanelActive,
+            entities
+        } = this.props;
         const itemOutput = [];
 
         if (entities && entities.length > 0) {
             entities.forEach(entity => {
 
-                let panelItemActive = false;
+                let isPanelItemActive = false;
 
+                // see if the entity is active (highlighted in the panel)
                 pathNodes.forEach(pathNode => {
-                    if (pathNode.id === entity.id) {
-                        panelItemActive = true;
+
+                    // note you HAVE to check for id AND type: id's are NOT unique between organisations and projects!
+                    if (pathNode.id === entity.id && pathNode.type === entity.type) {
+                        isPanelItemActive = true;
                     }
                 });
 
                 itemOutput.push(<Item
+                    entity={entity}
                     panelId={panelId}
-                    itemName={entity.name}
-                    itemId={entity.id}
                     fetchEntities={fetchEntities}
-                    panelItemActive={panelItemActive}
-                    type={entity.type}
-                    productName={entity.productName}
+                    fetchDetailPanelData={fetchDetailPanelData}
+                    isPanelItemActive={isPanelItemActive}
                 />);
             });
         }
 
         return (
-            <section className={ `${style.panel}${this.props.active ? ' active' : ''}` } >
-                <PanelHeader openModalToAddOrganisation={this.props.openModalToAddOrganisation} />
+            <section className={ `${style.panel}${isPanelActive ? ' active' : ''}` } >
+                <PanelHeader openModalToAddOrganisation={openModalToAddOrganisation} />
                 <section className={ style.itemlist }>
                     <ul>
                         { itemOutput }

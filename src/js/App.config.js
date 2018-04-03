@@ -18,7 +18,8 @@ module.exports = {
                 },
                 organisations: {
                     rootEntities: '/section/fieldvalue/organisation/organisationType?value=organisation',
-                    childEntities: '/section/organisation/id/{identifier}'
+                    childEntities: '/section/{type}/id/{identifier}',
+                    detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 }
             },
             urlEncodeParams: false,
@@ -40,7 +41,11 @@ module.exports = {
     },
     global: {
         organisations: {
-            rootEntitiesParentName: 'LTP'
+            rootEntity: {
+                id: 0,
+                name: 'LTP',
+                type: 'organisation'
+            }
         }
     }
 };
