@@ -33,7 +33,7 @@ export default class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // no panel data not loaded yet. while it loads, show empty detail panel with root entity data
+        // no panel data loaded yet. while it loads, show empty detail panel with root entity data
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 
