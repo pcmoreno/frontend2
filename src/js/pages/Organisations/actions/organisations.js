@@ -20,16 +20,18 @@ export function updatePath(entity, panelId) {
 /**
  * Fetch entities action
  * @param {string} parentId - parentId
+ * @param {string} parentType - parentType
  * @param {array} entities - entities
  * @returns {{type, entities: *}} items with action type
  */
-export function fetchEntities(parentId, entities) {
+export function fetchEntities(parentId, parentType, entities) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
     return {
         type: actionType.FETCH_ENTITIES,
         parentId,
+        parentType,
         entities
     };
 }
@@ -67,5 +69,22 @@ export function changeFormFieldValueForFormId(formId, formInputId, formInputValu
         formId,
         formInputId,
         formInputValue
+    };
+}
+
+/**
+ * Fetch entities action
+ * @param {Object} entity - entity
+ * @param {array} data - data
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchDetailPanelData(entity, data) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.FETCH_DETAIL_PANEL_DATA,
+        entity,
+        data
     };
 }

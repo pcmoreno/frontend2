@@ -71,3 +71,7 @@ table td.organisation {
         display: table-cell;
     }
 }
+
+#detail_panel_navigation > ul > li.active span {
+    color: $white;
+}

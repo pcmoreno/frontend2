@@ -1,10 +1,18 @@
 import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
+import AppConfig from './../../../App.config';
 
 const initialState = {
     panels: [],
     forms: [],
-    pathNodes: []
+    pathNodes: [],
+    detailPanelData: [{
+        entity: {
+            name: AppConfig.global.organisations.rootEntity.name,
+            id: AppConfig.global.organisations.rootEntity.id,
+            type: AppConfig.global.organisations.rootEntity.type
+        }
+    }]
 };
 
 /**
@@ -17,7 +25,7 @@ export default function organisationsReducer(state = initialState, action) {
     let newState = Object.assign({}, state),
         newForm;
 
-    let logger = Logger.instance;
+    const logger = Logger.instance;
 
     switch (action.type) {
 
@@ -47,7 +55,9 @@ export default function organisationsReducer(state = initialState, action) {
             // push the new entry
             newState.pathNodes.push({
                 id: action.entity.id,
-                name: action.entity.name
+                name: action.entity.name,
+                type: action.entity.type,
+                section: action.entity.section
             });
 
             break;
@@ -57,12 +67,21 @@ export default function organisationsReducer(state = initialState, action) {
 
             // will add a panel entity to the state containing all its children. this is NOT a representation of the
             // panel view since it can contain panels that are no longer visible. this serves as caching only.
+            // todo: actually it currently overwrites the requested entity. ensure it skips the API call in such cases.
 
             // ensure a valid id is received
             if (action.parentId === 'undefined' || action.parentId === null) {
                 logger.error({
                     component: 'FETCH_ENTITIES',
-                    message: 'encountered pathNode with invalid id'
+                    message: 'encountered pathNode with invalid parent id'
+                });
+            }
+
+            // ensure a valid type is received
+            if (action.parentType === 'undefined' || action.parentType === null) {
+                logger.error({
+                    component: 'FETCH_ENTITIES',
+                    message: 'encountered pathNode with invalid parent type'
                 });
             }
 
@@ -76,8 +95,10 @@ export default function organisationsReducer(state = initialState, action) {
                 if (panel.parentId !== action.parentId) {
 
                     // take all properties from existing panel, except the active state
+                    // note that parentType is needed to distinguish between organisations and projects with similar id's
                     newState.panels.push({
                         parentId: panel.parentId,
+                        parentType: panel.parentType,
                         entities: panel.entities
                     });
                 }
@@ -100,7 +121,7 @@ export default function organisationsReducer(state = initialState, action) {
                     tempEntities.push({
                         name: entity.organisation_name,
                         id: entity.id,
-                        type: 'project',
+                        type: entity.organisation_type === 'jobFunction' ? 'jobFunction' : 'organisation',
                         productName
                     });
                 });
@@ -110,18 +131,11 @@ export default function organisationsReducer(state = initialState, action) {
             if (action.entities.projects) {
                 action.entities.projects.forEach(entity => {
 
-                    // attempt to extract product name if it exists
-                    let productName = null;
-
-                    if (entity.product) {
-                        productName = entity.product.product_name;
-                    }
-
                     tempEntities.push({
                         name: entity.project_name,
                         id: entity.id,
-                        type: 'jobfunction',
-                        productName
+                        type: 'project',
+                        productName: entity.product ? entity.product.product_name : null
                     });
                 });
             }
@@ -157,12 +171,12 @@ export default function organisationsReducer(state = initialState, action) {
 
             newState.panels.push({
                 parentId: action.parentId,
+                parentType: action.parentType,
                 active: true,
                 entities: tempEntities
             });
 
             break;
-
         }
 
         case actionType.STORE_FORM_DATA:
@@ -212,6 +226,29 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+
+        case actionType.FETCH_DETAIL_PANEL_DATA: {
+
+            // clear all detailPanel data
+            newState.detailPanelData = [];
+
+            // first build up the forms with data from state
+            state.detailPanelData.forEach(data => {
+                data.active = false;
+                newState.detailPanelData.push(data);
+            });
+
+            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
+
+            // now add the new data taken from the action (it currently only adds the entity, there is no content yet)
+            // the 'active' flag ensures the detail panel shows right details, especially in responsive views
+            newState.detailPanelData.push({
+                active: true,
+                entity: action.entity
+            });
+
+            break;
+        }
 
         default:
             return state;
