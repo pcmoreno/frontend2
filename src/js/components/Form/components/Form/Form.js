@@ -114,8 +114,6 @@ export default class Form extends Component {
 
         this.props.forms.forEach(form => {
 
-            console.log(form);
-
             if (form.id === this.props.formId) {
 
                 // in the right form
@@ -224,6 +222,9 @@ export default class Form extends Component {
 
     render() {
         const { forms, ignoredFields, formId } = this.props;
+
+        console.log('IGNORED FIELDS', ignoredFields);
+
         let formFields = `loading ${formId}`;
         let formSubmitButton = null;
 
