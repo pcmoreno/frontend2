@@ -82,7 +82,7 @@ class Index extends Component {
 
                 // even though projects cant have children, perform the API call. this is because this behaviour may
                 // change in the future, and, more important, the subsequent actions need to be triggered
-                return 'organisation';
+                return 'project';
 
             case 'jobFunction':
                 return 'organisation';
