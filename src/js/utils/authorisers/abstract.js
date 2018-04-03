@@ -36,8 +36,12 @@ class AbstractAuthoriser {
     getAllowedRolesForComponentAction(component, action) {
         const config = this.getComponentConfig(component);
 
-        if (!config || !config[action]) {
-            throw new Error(`Authoriser component ${component} and/or action ${action} did not exist in the configuration`);
+        if (!config) {
+            throw new Error(`Authoriser component: ${component} did not exist in the configuration`);
+        }
+
+        if (!config[action]) {
+            throw new Error(`Authoriser action: ${action} did not exist for component: ${component}`);
         }
 
         return config[action];
@@ -52,8 +56,16 @@ class AbstractAuthoriser {
      */
     authorise(user, component, action) {
 
-        if (!user || !component || !action) {
+        if (!user) {
             return false;
+        }
+
+        if (!component) {
+            throw new Error(`Component ${component} was not defined in the configuration`)
+        }
+
+        if (!action) {
+            throw new Error(`Action ${action} was not defined in the configuration`)
         }
 
         const allowedRoles = this.getAllowedRolesForComponentAction(component, action);

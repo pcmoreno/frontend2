@@ -4,6 +4,15 @@ import utils from '../utils';
 /**
  * Authorised component. Can be used to make sure that child components are only rendered
  * when a user is authorised.
+ * See config example below
+ *
+ * authorisers: {
+ *     authoriser: {
+ *         componentName: {
+ *             editAction: ['role']
+ *         }
+ *     }
+ * }
  *
  * @example
  * // only renders Component when the api authoriser find matching user roles for this component/action

@@ -42,7 +42,8 @@ module.exports = {
 
             // example component. Can be removed once a real component/action is added.
             component: {
-                action: ['Application Manager']
+                editAction: ['Application Manager'],
+                route: ['Application Manager']
             }
         }
     },

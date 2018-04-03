@@ -10,7 +10,7 @@ import AsyncRoute from 'preact-async-route';
  * @example
  * <AuthenticatedRoute api={api} path={'/path'} ...rest />
  *
- * @param {api} api - api instance
+ * @param {API} api - api instance
  * @param {string} path - redirect path
  * @param {{}} rest - rest params
  * @returns {*} Redirect or AsyncRoute component
