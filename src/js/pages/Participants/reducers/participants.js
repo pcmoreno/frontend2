@@ -84,6 +84,7 @@ export default function participantsReducer(state = initialState, action) {
 
                         // if an appointmentDate was set and the appointmentDate is before today, do not add to state
                         if (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) < startDate) {
+
                             // todo: this doesnt work correctly, could use some help here
                         } else {
                             newState.participants.push(
