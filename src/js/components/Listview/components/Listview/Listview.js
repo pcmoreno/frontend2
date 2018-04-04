@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/listview.scss';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
+import style from './style/listview.scss';
 
 /** Preact Listview Component v2.0
  *
@@ -32,35 +32,22 @@ export default class Listview extends Component {
 
         // introduce localState to keep track of the view
         this.localState = {
-            localEntities: this.props.entities,
+            localEntities: [],
             sortBy: '',
             sortOrder: 'asc'
         };
     }
 
-    componentWillMount() {
+    componentDidUpdate() {
 
-        // if a defaultSortingKey was provided, sort entities by this key. if sortingOrder was provided, in that order.
-        if (this.props.defaultSortingKey) {
-            this.sortEntities(
-                this.localState.localEntities,
-                this.props.defaultSortingKey,
-                this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.localState.sortOrder
-            );
-        }
-    }
+        // filling up localState initially
+        if (this.localState.localEntities === []) {
+            this.setState(this.localState.localEntities = this.props.entities);
 
-    shouldComponentUpdate(nextProps) {
-
-        // update the localState when its entities do not match the received entities
-        if (nextProps !== this.localState.localEntities) {
-
-            // updating localState and calling render method
-            this.setState(this.localState.localEntities = nextProps.entities);
-
+            // if a defaultSortingKey was provided, sort entities by it. if sortingOrder was provided, in that order.
             if (this.props.defaultSortingKey) {
                 this.sortEntities(
-                    this.state.localEntities,
+                    this.localState.localEntities,
                     this.props.defaultSortingKey,
                     this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.localState.sortOrder
                 );
@@ -162,7 +149,7 @@ export default class Listview extends Component {
             } else {
                 this.localState.sortOrder = 'asc';
             }
-            this.sortEntities(this.state.localEntities, sortBy, this.localState.sortOrder);
+            this.sortEntities(this.localState.localEntities, sortBy, this.localState.sortOrder);
         }
 
         // update the localState with newly sorted array (setState causes re-render of component)
@@ -194,6 +181,7 @@ export default class Listview extends Component {
                 // translationKey was not provided, see if a generic translation can be found
                 // const genericLabel = i18n.translations['listview|' + key];
                 // todo: do this when Lokalise is integrated
+
                 const genericLabel = key;
 
                 label = genericLabel ? genericLabel : key;
@@ -201,6 +189,14 @@ export default class Listview extends Component {
 
             labels.push([label, key]);
         });
+
+        let output = this.localState.localEntities.map((entity, index) =>
+            <ListviewEntity
+                key={ index }
+                entity={ entity }
+                i18n={ i18n }
+                translationKey={ translationKey }
+            />);
 
         return (
             <table className={ style.listview }>
@@ -219,15 +215,7 @@ export default class Listview extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        this.localState.localEntities.map((entity, index) =>
-                            <ListviewEntity
-                                key={ index }
-                                entity={ entity }
-                                i18n={ i18n }
-                                translationKey={ translationKey }
-                            />)
-                    }
+                    { output }
                 </tbody>
             </table>
         );

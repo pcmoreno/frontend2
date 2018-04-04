@@ -3,6 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
+import style from './style/listviewentityitem.scss';
 
 export default class ListviewEntityItem extends Component {
     translate(element) {
@@ -74,7 +75,7 @@ export default class ListviewEntityItem extends Component {
         }
 
         return (
-            <td title={ value } className={ entityId }>
+            <td title={ value } className={ `${style.td} ${entityId}` }>
                 { value }
             </td>
         );

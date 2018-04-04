@@ -1,52 +1,65 @@
 .listview {
     table-layout: fixed;
     word-wrap: break-word;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
 
-    thead th {
-        background: $white;
-        line-height: .9rem;
-        color: $blue;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-        font-weight: 500;
-        padding: 7px 15px;
-        text-align: left;
-        white-space: nowrap;
-        display: table-cell;
+    thead {
+        tr {
+            margin-bottom: 20px;
 
-        &:first-child {
-            border-left: 3px;
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
-        }
+            th {
+                background: $white;
+                line-height: .9rem;
+                color: $blue;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                font-weight: 500;
+                padding: 7px 15px;
+                text-align: left;
+                white-space: nowrap;
+                display: table-cell;
+                border: 3px solid #edece8;
 
-        &:last-child {
-            border-right: 3px;
-            border-top-right-radius: 15px;
-            border-bottom-right-radius: 15px;
-        }
+                &:first-child {
+                    border-left: 3px;
+                    border-top-left-radius: 15px;
+                    border-bottom-left-radius: 15px;
+                }
 
-        &:hover {
-            cursor: pointer;
+                &:last-child {
+                    border-right: 3px;
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
     }
 
-    tbody::before {
-        margin-top: .3rem;
-        content: '';
-    }
+    tbody {
+        &::before {
+            line-height: .5rem;
+            content: '\200C';
+            display: block;
+        }
 
-    tbody tr {
-        margin: 0 50px;
-    }
+        tr {
+            margin: 0 50px;
 
-    td {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+            td {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
 
-        &:hover {
-            cursor: help;
+                &:hover {
+                    cursor: help;
+                }
+            }
         }
     }
 }
