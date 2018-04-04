@@ -83,8 +83,7 @@ export default function participantsReducer(state = initialState, action) {
                         const startDate = new Date(`${nowDate.getDate()}-${(nowDate.getMonth() + 1)}-${nowDate.getFullYear()} 00:00`);
 
                         // if an appointmentDate was set and the appointmentDate is before today, do not add to state
-                        if (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) < startDate) {
-                        } else {
+                        if (appointmentDate === '' || (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) > startDate)) {
                             newState.participants.push(
                                 {
                                     name: {
