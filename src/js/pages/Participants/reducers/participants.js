@@ -74,7 +74,7 @@ export default function participantsReducer(state = initialState, action) {
                             const hours = tempDate.getHours() > 9 ? tempDate.getHours() : `0${tempDate.getHours()}`;
                             const minutes = tempDate.getMinutes() > 9 ? tempDate.getMinutes() : `0${tempDate.getMinutes()}`;
 
-                            appointmentDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+                            appointmentDate = `${month}-${day}-${year} ${hours}:${minutes}`;
                             sortvalueForAppointmentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
                         }
 
@@ -84,8 +84,6 @@ export default function participantsReducer(state = initialState, action) {
 
                         // if an appointmentDate was set and the appointmentDate is before today, do not add to state
                         if (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) < startDate) {
-
-                            // todo: this doesnt work correctly, could use some help here
                         } else {
                             newState.participants.push(
                                 {

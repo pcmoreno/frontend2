@@ -41,7 +41,7 @@ export default class Listview extends Component {
     componentDidUpdate() {
 
         // filling up localState initially
-        if (this.localState.localEntities === []) {
+        if (this.localState.localEntities.length === 0) {
             this.setState(this.localState.localEntities = this.props.entities);
 
             // if a defaultSortingKey was provided, sort entities by it. if sortingOrder was provided, in that order.
