@@ -19,6 +19,9 @@ const AppConfig = {
                 tasks: {
                     entities: '/section/participant'
                 },
+                users: {
+                    entities: '/section/account'
+                },
                 organisations: {
                     rootEntities: '/section/fieldvalue/organisation/organisationType?value=organisation',
                     childEntities: '/section/{type}/id/{identifier}',

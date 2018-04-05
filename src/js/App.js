@@ -54,6 +54,7 @@ import { createStore, combineReducers } from 'redux';
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
 import tasksReducer from './pages/Tasks/reducers/tasks';
+import usersReducer from './pages/Users/reducers/users';
 import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
 
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
     tasksReducer,
+    usersReducer,
     participantsReducer,
     alertReducer
 });

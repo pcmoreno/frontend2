@@ -26,7 +26,7 @@ export default function tasksReducer(state = initialState, action) {
                 let participantInfix = ' ';
                 let consultantName = '';
                 let consultantInfix = ' ';
-                let sortvalueForConsultantName = '';
+                let sortValueForConsultantName = '';
 
                 // extract participant infix
                 if (account.hasOwnProperty('infix') && account.infix !== 'undefined') {
@@ -35,7 +35,7 @@ export default function tasksReducer(state = initialState, action) {
 
                 // construct participant name
                 const participantName = `${account.first_name}${participantInfix}${account.last_name}`;
-                const sortvalueForParticipantName = `${account.last_name}${participantInfix}${account.first_name}`;
+                const sortValueForParticipantName = `${account.last_name}${participantInfix}${account.first_name}`;
 
                 // extract consultant name
                 if (task.hasOwnProperty('consultant')) {
@@ -47,12 +47,12 @@ export default function tasksReducer(state = initialState, action) {
 
                     // construct consultant name
                     consultantName = `${task.consultant.account.first_name}${consultantInfix}${task.consultant.account.last_name}`;
-                    sortvalueForConsultantName = `${task.consultant.account.last_name}${consultantInfix}${task.consultant.account.first_name}`;
+                    sortValueForConsultantName = `${task.consultant.account.last_name}${consultantInfix}${task.consultant.account.first_name}`;
                 }
 
                 // extract appointment date
                 let appointmentDate = '';
-                let sortvalueForAppointmentDate = '';
+                let sortValueForAppointmentDate = '';
 
                 if (task.hasOwnProperty('participant_appointment_date')) {
 
@@ -66,22 +66,22 @@ export default function tasksReducer(state = initialState, action) {
 
                     // construct appointment date
                     appointmentDate = `${month}-${day}-${year} ${hours}:${minutes}`;
-                    sortvalueForAppointmentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+                    sortValueForAppointmentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
                 }
 
                 newState.tasks.push(
                     {
                         name: {
                             value: participantName,
-                            sortingKey: sortvalueForParticipantName
+                            sortingKey: sortValueForParticipantName
                         },
                         consultant: {
                             value: consultantName,
-                            sortingKey: sortvalueForConsultantName
+                            sortingKey: sortValueForConsultantName
                         },
                         assessmentdate: {
                             value: appointmentDate,
-                            sortingKey: sortvalueForAppointmentDate
+                            sortingKey: sortValueForAppointmentDate
                         },
                         organisation: {
                             value: project.organisation.organisation_name
