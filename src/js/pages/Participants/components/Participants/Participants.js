@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/participants.scss';
 import Listview from '../../../../components/Listview';
+import style from './style/participants.scss';
 
 export default class Users extends Component {
     render() {
@@ -11,7 +11,11 @@ export default class Users extends Component {
 
         return (
             <section className={ style.participants }>
-                <Listview entities={ participants } />
+                <Listview
+                    entities={ participants }
+                    defaultSortingKey={ 'name' }
+                    defaultSortingOrder={ 'desc' }
+                />
             </section>
         );
     }

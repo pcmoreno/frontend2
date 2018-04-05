@@ -32,6 +32,8 @@ class Index extends Component {
     render() {
         return (<Listview
             entities = { this.props.entities }
+            defaultSortingKey = { this.props.defaultSortingKey }
+            defaultSortingOrder = { this.props.defaultSortingOrder }
             alerts = { this.props.alerts }
         />);
     }
