@@ -72,35 +72,33 @@ export default function tasksReducer(state = initialState, action) {
 
                 // if an appointmentDate was set and the appointmentDate is before today, do not add to state
                 if (appointmentDate === '' || (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) > startDate)) {
-
-                }
-
-                newState.tasks.push(
-                    {
-                        name: {
-                            value: participantName
-                        },
-                        consultant: {
-                            value: consultantName,
-                            sortingKey: sortvalueForConsultantName
-                        },
-                        assessmentdate: {
-                            value: appointmentDate,
-                            sortingKey: sortvalueForAppointmentDate
-                        },
-                        organisation: {
-                            value: project.organisation.organisation_name
-                        },
-                        results: {
-                            value: 'show results',
-                            link: '#notimplemented'
-                        },
-                        report: {
-                            value: 'write report',
-                            link: '#notimplemented'
+                    newState.tasks.push(
+                        {
+                            name: {
+                                value: participantName
+                            },
+                            consultant: {
+                                value: consultantName,
+                                sortingKey: sortvalueForConsultantName
+                            },
+                            assessmentdate: {
+                                value: appointmentDate,
+                                sortingKey: sortvalueForAppointmentDate
+                            },
+                            organisation: {
+                                value: project.organisation.organisation_name
+                            },
+                            results: {
+                                value: 'show results',
+                                link: '#notimplemented'
+                            },
+                            report: {
+                                value: 'write report',
+                                link: '#notimplemented'
+                            }
                         }
-                    }
-                );
+                    );
+                }
             });
 
             break;
