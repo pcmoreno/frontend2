@@ -21,8 +21,6 @@ export default function tasksReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.tasks.forEach(task => {
-
-                // do not process consultants
                 const account = task.account_has_role.account;
                 const project = task.project;
                 let participantInfix = ' ';
@@ -35,6 +33,7 @@ export default function tasksReducer(state = initialState, action) {
                     participantInfix = ` ${account.infix} `;
                 }
 
+                // construct participant name
                 const participantName = `${account.first_name}${participantInfix}${account.last_name}`;
 
                 // extract consultant name
@@ -45,60 +44,56 @@ export default function tasksReducer(state = initialState, action) {
                         consultantInfix = ` ${account.infix} `;
                     }
 
+                    // construct consultant name
                     consultantName = `${task.consultant.account.first_name}${consultantInfix}${task.consultant.account.last_name}`;
                     sortvalueForConsultantName = `${task.consultant.account.last_name}${consultantInfix}${task.consultant.account.first_name}`;
                 }
 
-                // construct appointment date
+                // extract appointment date
                 let appointmentDate = '';
                 let sortvalueForAppointmentDate = '';
 
                 if (task.hasOwnProperty('participant_appointment_date')) {
-                    const tempDate = new Date(task.participant_appointment_date);
 
+                    // transform appointment date
+                    const tempDate = new Date(task.participant_appointment_date);
                     const month = (tempDate.getMonth() + 1) > 9 ? (tempDate.getMonth() + 1) : `0${(tempDate.getMonth() + 1)}`;
                     const day = tempDate.getDate() > 9 ? tempDate.getDate() : `0${tempDate.getDate()}`;
                     const year = tempDate.getFullYear();
                     const hours = tempDate.getHours() > 9 ? tempDate.getHours() : `0${tempDate.getHours()}`;
                     const minutes = tempDate.getMinutes() > 9 ? tempDate.getMinutes() : `0${tempDate.getMinutes()}`;
 
+                    // construct appointment date
                     appointmentDate = `${month}-${day}-${year} ${hours}:${minutes}`;
                     sortvalueForAppointmentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
                 }
 
-                // construct startDate based on current Date with hours,minutes,seconds set to 00:00:00
-                const nowDate = new Date();
-                const startDate = new Date(`${nowDate.getDate()}-${(nowDate.getMonth() + 1)}-${nowDate.getFullYear()} 00:00`);
-
-                // if an appointmentDate was set and the appointmentDate is before today, do not add to state
-                if (appointmentDate === '' || (appointmentDate !== '' && new Date(appointmentDate) && new Date(appointmentDate) > startDate)) {
-                    newState.tasks.push(
-                        {
-                            name: {
-                                value: participantName
-                            },
-                            consultant: {
-                                value: consultantName,
-                                sortingKey: sortvalueForConsultantName
-                            },
-                            assessmentdate: {
-                                value: appointmentDate,
-                                sortingKey: sortvalueForAppointmentDate
-                            },
-                            organisation: {
-                                value: project.organisation.organisation_name
-                            },
-                            results: {
-                                value: 'show results',
-                                link: '#notimplemented'
-                            },
-                            report: {
-                                value: 'write report',
-                                link: '#notimplemented'
-                            }
+                newState.tasks.push(
+                    {
+                        name: {
+                            value: participantName
+                        },
+                        consultant: {
+                            value: consultantName,
+                            sortingKey: sortvalueForConsultantName
+                        },
+                        assessmentdate: {
+                            value: appointmentDate,
+                            sortingKey: sortvalueForAppointmentDate
+                        },
+                        organisation: {
+                            value: project.organisation.organisation_name
+                        },
+                        results: {
+                            value: 'show results',
+                            link: '#notimplemented'
+                        },
+                        report: {
+                            value: 'write report',
+                            link: '#notimplemented'
                         }
-                    );
-                }
+                    }
+                );
             });
 
             break;
