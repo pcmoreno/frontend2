@@ -55,8 +55,8 @@ export default function participantsReducer(state = initialState, action) {
                     if (participant.hasOwnProperty('consultant')) {
 
                         // extract consultant infix
-                        if (participant.consultant.hasOwnProperty('infix') && participant.consultant.infix !== 'undefined') {
-                            consultantInfix = ` ${account.infix} `;
+                        if (participant.consultant.account.hasOwnProperty('infix') && participant.consultant.account.infix !== 'undefined') {
+                            consultantInfix = ` ${participant.consultant.account.infix} `;
                         }
 
                         // construct consultant name

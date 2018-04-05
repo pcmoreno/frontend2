@@ -35,13 +35,14 @@ export default function tasksReducer(state = initialState, action) {
 
                 // construct participant name
                 const participantName = `${account.first_name}${participantInfix}${account.last_name}`;
+                const sortvalueForParticipantName = `${account.last_name}${participantInfix}${account.first_name}`;
 
                 // extract consultant name
                 if (task.hasOwnProperty('consultant')) {
 
                     // extract consultant infix
-                    if (task.consultant.hasOwnProperty('infix') && task.consultant.infix !== 'undefined') {
-                        consultantInfix = ` ${account.infix} `;
+                    if (task.consultant.account.hasOwnProperty('infix') && task.consultant.account.infix !== 'undefined') {
+                        consultantInfix = ` ${task.consultant.account.infix} `;
                     }
 
                     // construct consultant name
@@ -71,7 +72,8 @@ export default function tasksReducer(state = initialState, action) {
                 newState.tasks.push(
                     {
                         name: {
-                            value: participantName
+                            value: participantName,
+                            sortingKey: sortvalueForParticipantName
                         },
                         consultant: {
                             value: consultantName,
