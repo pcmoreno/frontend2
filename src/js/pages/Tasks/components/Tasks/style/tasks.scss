@@ -1,3 +1,7 @@
 .tasks {
+    overflow-y: scroll;
+
+    /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
+    height: calc(100vh - $application-header-height - 2rem);
     padding: 1rem;
 }

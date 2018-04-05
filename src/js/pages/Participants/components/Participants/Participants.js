@@ -13,7 +13,7 @@ export default class Users extends Component {
             <section className={ style.participants }>
                 <Listview
                     entities={ participants }
-                    defaultSortingKey={ 'name' }
+                    defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
                 />
             </section>
