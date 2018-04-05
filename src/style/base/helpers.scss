@@ -81,3 +81,8 @@ table td.organisation {
 #panels_container.single_fragment #detailpanel header span:last-of-type {
     transform: rotate(180deg);
 }
+
+/* buttons dont need to float here (in fact I would remove the float in total and add it to the modal style */
+#listview .action_button {
+    float: left;
+}

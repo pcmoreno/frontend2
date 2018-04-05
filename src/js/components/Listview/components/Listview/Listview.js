@@ -199,7 +199,7 @@ export default class Listview extends Component {
             />);
 
         return (
-            <table className={ style.listview }>
+            <table className={ style.listview } id="listview">
                 <thead>
                     <tr>
                         {

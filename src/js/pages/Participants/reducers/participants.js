@@ -22,6 +22,8 @@ export default function participantsReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.participants.forEach(participant => {
+
+                // do not process consultants
                 if (!participant.hasOwnProperty('consultant')) {
 
                     const acceptedStatus = [

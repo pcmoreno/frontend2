@@ -61,7 +61,7 @@ export default class ListviewEntityItem extends Component {
             // value is not an array. see if it is a link
             const buttonLabel = this.translate(value);
             const buttonLink = this.props.link;
-            const buttonClass = 'button-action';
+            const buttonClass = 'action_button';
 
             value = <ListviewEntityItemButton
                 buttonLabel = { buttonLabel }

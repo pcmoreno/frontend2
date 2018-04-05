@@ -53,6 +53,7 @@ import { createStore, combineReducers } from 'redux';
 // import all reducers
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
+import tasksReducer from './pages/Tasks/reducers/tasks';
 import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
 
@@ -60,6 +61,7 @@ import alertReducer from './components/Alert/reducers/alert';
 const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
+    tasksReducer,
     participantsReducer,
     alertReducer
 });
