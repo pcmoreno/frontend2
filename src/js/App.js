@@ -54,6 +54,7 @@ import { createStore, combineReducers } from 'redux';
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
 import tasksReducer from './pages/Tasks/reducers/tasks';
+import reportReducer from './pages/Report/reducers/report';
 import usersReducer from './pages/Users/reducers/users';
 import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
@@ -63,6 +64,7 @@ const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
     tasksReducer,
+    reportReducer,
     usersReducer,
     participantsReducer,
     alertReducer
@@ -118,6 +120,14 @@ function getTasks() {
 }
 
 /**
+ * Returns the report page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} report page
+ */
+function getReport() {
+    return System.import('./pages/Report').then(module => module.default);
+}
+
+/**
  * Returns the users page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} users page
  */
@@ -162,6 +172,7 @@ function renderApp() {
                         <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                         <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                        <AsyncRoute api={api} path="/report/:uuid" getComponent={ getReport } />
                         <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
                         <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
                         <AsyncRoute path="/error" default getComponent={ getError } />
