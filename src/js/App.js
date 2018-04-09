@@ -79,6 +79,7 @@ const api = ApiFactory.get('neon');
 // The authenticated route and component are dependent on the neon api instance
 import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
 import Authenticated from './utils/components/Authenticated';
+import Redirect from './utils/components/Redirect';
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
@@ -158,7 +159,7 @@ function renderApp() {
                     <Alert />
                     <Router>
                         <AsyncRoute path="/login" getComponent={ getLogin } />
-                        <AuthenticatedRoute api={api} path="/" getComponent={ getInbox } />
+                        <Redirect path="/" to="/inbox" />
                         <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                         <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />

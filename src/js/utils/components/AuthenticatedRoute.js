@@ -18,7 +18,7 @@ import AsyncRoute from 'preact-async-route';
 const AuthenticatedRoute = ({ api, path, ...rest }) => ( // eslint-disable-line no-confusing-arrow
     api.getAuthenticator().isAuthenticated() === true
         ? <AsyncRoute {...rest} />
-        : <Redirect path={`/login?redirectPath=${path}`} />
+        : <Redirect to={`/login?redirectPath=${path}`} />
 );
 
 export default AuthenticatedRoute;
