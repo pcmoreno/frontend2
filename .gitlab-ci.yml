@@ -46,7 +46,7 @@ variables:
     paths:
       - node_modules/
   only:
-    - master
+    - issue/report-component # todo; remove
 
 ## Deploy production using aws cli
 #.deploy_prod_stage: &deploy_prod_stage

@@ -29,7 +29,6 @@ class Index extends Component {
     }
 
     render() {
-        console.log(10-10*10+10);
         return (
             <Inbox
             />

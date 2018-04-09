@@ -6,7 +6,8 @@ import style from './style/report.scss';
 
 export default class Report extends Component {
     render() {
-        const { participants } = this.props;
+
+        // const { participants } = this.props;
 
         return (
             <section className={ style.report }>
