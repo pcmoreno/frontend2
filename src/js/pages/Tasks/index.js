@@ -40,7 +40,7 @@ class Index extends Component {
 
         const api = ApiFactory.get('neon');
 
-        // request participants
+        // request tasks
         api.get(
             api.getBaseUrl(),
             api.getEndpoints().tasks.entities,

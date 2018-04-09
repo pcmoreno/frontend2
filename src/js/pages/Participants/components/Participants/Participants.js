@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import Listview from '../../../../components/Listview';
 import style from './style/participants.scss';
 
-export default class Users extends Component {
+export default class Participants extends Component {
     render() {
         const { participants } = this.props;
 
