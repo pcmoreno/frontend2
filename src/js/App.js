@@ -153,7 +153,6 @@ function getError() {
 }
 
 import Header from './components/Header';
-import Report from './pages/Report';
 
 /**
  * Renders the app
@@ -175,7 +174,6 @@ function renderApp() {
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                         <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
                         <AuthenticatedRoute api={api} path="/report" getComponent={ getReport } />
-                        <Report path="/report/:uuid" />
                         <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
                         <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
                         <AsyncRoute path="/error" default getComponent={ getError } />
