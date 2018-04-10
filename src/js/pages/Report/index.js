@@ -61,9 +61,8 @@ class Index extends Component {
 
     render() {
 
+        // todo: use later
         // let arg = this.props.matches.uuid;
-
-        // console.log(arg);
 
         return (
             <Report
