@@ -13,23 +13,28 @@ export default class Users extends Component {
     render() {
         const { users } = this.props;
 
-        const tabs = [
-            {
-                name: 'report',
-                icon: 'users',
-                component: <Report />
-            },
-            {
-                name: 'participant',
-                icon: 'clipboard-list',
-                component: <Participant />
-            },
-            {
-                name: 'project',
-                icon: 'clipboard-list',
-                component: <Project />
-            }
-        ];
+        //
+        // hee sander: dit is voor jou man:
+        //
+        // const tabs = [
+        //     {
+        //         name: 'report',
+        //         icon: 'users',
+        //         component: <Report />
+        //     },
+        //     {
+        //         name: 'participant',
+        //         icon: 'clipboard-list',
+        //         component: <Participant />
+        //     },
+        //     {
+        //         name: 'project',
+        //         icon: 'clipboard-list',
+        //         component: <Project />
+        //     }
+        // ];
+
+        const tabs = [];
 
         return (
             <section className={ style.users }>
