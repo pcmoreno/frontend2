@@ -1,0 +1,25 @@
+.tab {
+    float: left;
+    padding: 0 1rem;
+
+    section {
+        color: $blue;
+        outline: none;
+
+        &.active {
+            color: $white;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        figure {
+            font-size: 1.5rem;
+        }
+
+        span {
+            clear: both;
+        }
+    }
+}

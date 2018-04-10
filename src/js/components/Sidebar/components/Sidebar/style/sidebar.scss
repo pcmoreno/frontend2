@@ -1,0 +1,33 @@
+.sidebar {
+    background: $blue;
+    position: fixed;
+    top: $sidebar-header-top;
+    right: 0;
+
+    /* ensure width matches the grid layout specification */
+    width: 25%;
+    height: 100vh;
+
+    @media screen and (max-width: $grid-breakpoints-lg) {
+        display: none;
+    }
+
+    header {
+        background: $black;
+        height: $sidebar-header-height;
+
+        nav {
+            text-align: center;
+
+            ul {
+                list-style-type: none;
+                display: inline-block;
+            }
+        }
+    }
+
+    main {
+        /* ensure content starts below the indicator */
+        margin-top: 1rem;
+    }
+}

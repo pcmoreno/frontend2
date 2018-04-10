@@ -86,3 +86,13 @@ table td.organisation {
 #listview .action_button {
     float: left;
 }
+
+/* ensure active tab is coloured different from the others */
+#sidebar header section.active {
+    color: $white;
+}
+
+/* ensure active content tab is visible in sidebar */
+#sidebar main section.active {
+    display: block;
+}
