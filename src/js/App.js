@@ -80,6 +80,7 @@ const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
 import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
+import AuthorisedRoute from './utils/components/AuthorisedRoute';
 import Authenticated from './utils/components/Authenticated';
 import Redirect from './utils/components/Redirect';
 
@@ -173,7 +174,7 @@ function renderApp() {
                         <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
                         <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                         <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                        <AuthenticatedRoute api={api} path="/report" getComponent={ getReport } />
+                        <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } />
                         <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
                         <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
                         <AsyncRoute path="/error" default getComponent={ getError } />
