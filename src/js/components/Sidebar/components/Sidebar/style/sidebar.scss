@@ -15,13 +15,28 @@
     header {
         background: $black;
         height: $sidebar-header-height;
+        vertical-align: middle;
 
         nav {
             text-align: center;
+            padding-top: 1.5rem;
 
             ul {
                 list-style-type: none;
                 display: inline-block;
+
+                li:first-child {
+                    color: $white;
+                    float: left;
+                    height: 3rem;
+                    line-height: 3rem;
+                    vertical-align: middle;
+                    font-size: 1rem;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }

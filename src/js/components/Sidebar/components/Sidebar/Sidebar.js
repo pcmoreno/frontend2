@@ -5,6 +5,7 @@ import { h, Component } from 'preact';
 import Indicator from './components/Indicator/Indicator';
 import Tab from './components/Tab/Tab';
 import Content from './components/Content/Content';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/sidebar.scss';
 
 class Sidebar extends Component {
@@ -72,9 +73,9 @@ class Sidebar extends Component {
 
         return (<aside className={ style.sidebar } id="sidebar" >
             <header>
-                <span>toggle</span>
                 <nav>
                     <ul>
+                        <li><FontAwesomeIcon icon={ 'chevron-left' } /></li>
                         { tabOutput }
                     </ul>
                 </nav>

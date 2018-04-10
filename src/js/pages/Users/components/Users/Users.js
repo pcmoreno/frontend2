@@ -5,37 +5,36 @@ import { h, Component } from 'preact';
 import Listview from '../../../../components/Listview';
 import Sidebar from './../../../../components/Sidebar';
 
-// import Report from './components/Report/Report';
-// import Participant from './components/Participant/Participant';
-// import Project from './components/Project/Project';
+import Report from './components/Report/Report';
+import Participant from './components/Participant/Participant';
+import Project from './components/Project/Project';
 import style from './style/users.scss';
 
 export default class Users extends Component {
     render() {
         const { users } = this.props;
 
-        //
         // hee sander: dit is voor jou man:
-        //
-        // const tabs = [
-        //     {
-        //         name: 'report',
-        //         icon: 'users',
-        //         component: <Report />
-        //     },
-        //     {
-        //         name: 'participant',
-        //         icon: 'clipboard-list',
-        //         component: <Participant />
-        //     },
-        //     {
-        //         name: 'project',
-        //         icon: 'clipboard-list',
-        //         component: <Project />
-        //     }
-        // ];
 
-        const tabs = [];
+        const tabs = [
+            {
+                name: 'report',
+                icon: 'envelope',
+                component: <Report />
+            },
+            {
+                name: 'participant',
+                icon: 'users',
+                component: <Participant />
+            },
+            {
+                name: 'project',
+                icon: 'clipboard-list',
+                component: <Project />
+            }
+        ];
+
+        // const tabs = [];
 
         return (
             <section className={ style.users }>
