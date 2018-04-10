@@ -24,13 +24,16 @@ class Sidebar extends Component {
 
     updateDimensions() {
         const activeItem = document.querySelector('#sidebar header li section.active');
-        const activeItemBox = activeItem.getBoundingClientRect();
-        const activeItemMiddle = activeItemBox.left + ((activeItemBox.right - activeItemBox.left) / 2);
-        const sideBar = document.querySelector('#sidebar');
-        const sideBarBox = sideBar.getBoundingClientRect();
 
-        // move indicator underneath the active tab
-        document.querySelector('#sidebar_indicator svg').style.left = (activeItemMiddle - sideBarBox.left - 20) + 'px';
+        if (activeItem) {
+            const activeItemBox = activeItem.getBoundingClientRect();
+            const activeItemMiddle = activeItemBox.left + ((activeItemBox.right - activeItemBox.left) / 2);
+            const sideBar = document.querySelector('#sidebar');
+            const sideBarBox = sideBar.getBoundingClientRect();
+
+            // move indicator underneath the active tab
+            document.querySelector('#sidebar_indicator svg').style.left = (activeItemMiddle - sideBarBox.left - 20) + 'px';
+        }
     }
 
     render() {
