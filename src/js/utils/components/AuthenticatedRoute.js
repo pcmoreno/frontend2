@@ -3,7 +3,6 @@ import Redirect from './Redirect';
 import AsyncRoute from 'preact-async-route';
 import utils from '../utils';
 import RedirectHelper from '../redirectHelper';
-import AppConfig from "../../App.config";
 
 /**
  * AuthenticatedRoute component

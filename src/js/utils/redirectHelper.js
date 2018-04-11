@@ -21,7 +21,6 @@ class RedirectHelper {
      */
     setRedirectPath(path) {
         if (path) {
-            console.log('set redirect path to: ', path);
             this.redirectPath = path;
         }
     }
