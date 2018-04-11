@@ -11,6 +11,8 @@ import style from './style/sidebar.scss';
 class Sidebar extends Component {
     constructor() {
         super();
+
+        this.toggleSidebar = this.toggleSidebar.bind(this);
     }
 
     componentDidMount() {
@@ -24,7 +26,7 @@ class Sidebar extends Component {
     }
 
     updateDimensions() {
-        const activeItem = document.querySelector('#sidebar header li section.active');
+        const activeItem = document.querySelector('#sidebar header nav section.active');
 
         if (activeItem) {
             const activeItemBox = activeItem.getBoundingClientRect();
@@ -34,6 +36,14 @@ class Sidebar extends Component {
 
             // move indicator underneath the active tab
             document.querySelector('#sidebar_indicator svg').style.left = (activeItemMiddle - sideBarBox.left - 20) + 'px';
+        }
+    }
+
+    toggleSidebar() {
+        if (document.querySelector('#listview_with_sidebar').classList.contains('full_width_sidebar')) {
+            document.querySelector('#listview_with_sidebar').classList.remove('full_width_sidebar');
+        } else {
+            document.querySelector('#listview_with_sidebar').classList.add('full_width_sidebar');
         }
     }
 
@@ -71,13 +81,13 @@ class Sidebar extends Component {
             });
         }
 
-        return (<aside className={ style.sidebar } id="sidebar" >
+        return (<aside className={ `${style.sidebar}` } id="sidebar" >
             <header>
+                <div className={ style.toggle } id="sidebar_toggle" onClick={ this.toggleSidebar } role="button">
+                    <FontAwesomeIcon icon={ 'chevron-right' } />
+                </div>
                 <nav>
-                    <ul>
-                        <li><FontAwesomeIcon icon={ 'chevron-left' } /></li>
-                        { tabOutput }
-                    </ul>
+                    { tabOutput }
                 </nav>
             </header>
             <Indicator />

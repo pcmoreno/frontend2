@@ -4,39 +4,41 @@
     top: $sidebar-header-top;
     right: 0;
 
-    /* ensure width matches the grid layout specification */
+    /* ensure width matches the grid layout specification (due to fixed position) */
     width: 25%;
     height: 100vh;
-
-    @media screen and (max-width: $grid-breakpoints-lg) {
-        display: none;
-    }
 
     header {
         background: $black;
         height: $sidebar-header-height;
         vertical-align: middle;
 
+        .toggle {
+            color: $white;
+            font-size: 1rem;
+            float: left;
+            width: $sidebar-collapsed-dimensions;
+            text-align: center;
+            padding: 2rem 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
         nav {
             text-align: center;
             padding-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            padding-right: 2rem;
 
-            ul {
-                list-style-type: none;
-                display: inline-block;
-
-                li:first-child {
-                    color: $white;
-                    float: left;
-                    height: 3rem;
-                    line-height: 3rem;
-                    vertical-align: middle;
-                    font-size: 1rem;
-
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
         }
     }

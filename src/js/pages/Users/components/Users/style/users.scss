@@ -8,9 +8,22 @@
 
         @media screen and (max-width: $grid-breakpoints-lg) {
             grid-template-columns: 1fr;
+
+            /* show the listview */
+            #listview_container {
+                display: block;
+            }
+
+            /* on small viewports, hide parts of the sidebar */
+            #sidebar {
+                main {
+                    display: none;
+                }
+            }
         }
     }
 
+    /* to have padding surrounding just the listview - not including the sidebar */
     .listview_container {
         padding: 3rem 1rem 0;
     }

@@ -13,7 +13,7 @@ export default class Tab extends Component {
     switchTab(tabId) {
 
         // remove 'active' class from active tab
-        document.querySelector('#sidebar header li section.active').classList.remove('active');
+        document.querySelector('#sidebar header nav section.active').classList.remove('active');
 
         // add 'active' class to the requested tab
         document.querySelector(`#sidebar header nav #tab_${tabId}`).classList.add('active');
@@ -31,7 +31,7 @@ export default class Tab extends Component {
         const { tabId, name, icon, isTabActive } = this.props;
 
         return (
-            <li className={ `${style.tab}` }>
+            <div className={ `${style.tab}` }>
                 <section className={ `${isTabActive ? 'active' : ''}` }
                     onClick={ () => {
                         this.switchTab(tabId);
@@ -43,7 +43,7 @@ export default class Tab extends Component {
                     <figure><FontAwesomeIcon icon={ icon } /></figure>
                     <span>{ name }</span>
                 </section>
-            </li>
+            </div>
         );
     }
 }
