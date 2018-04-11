@@ -22,8 +22,15 @@ class Index extends Component {
     }
 
     render() {
+        const { user } = this.props;
+
+        if (!user) {
+            return null;
+        }
+
         return (
             <Header
+                user={user}
                 logoutAction={this.logoutAction}
             />
         );

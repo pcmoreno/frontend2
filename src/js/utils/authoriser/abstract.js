@@ -28,6 +28,14 @@ class AbstractAuthoriser {
     }
 
     /**
+     * Returns the login redirect
+     * @returns {string} login redirect
+     */
+    getLoginRedirect() {
+        return this.config.loginRedirect;
+    }
+
+    /**
      * Returns the allowed roles for the given component and action
      * @param {string} component - component name
      * @param {string} action - action name

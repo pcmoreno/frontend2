@@ -1,5 +1,6 @@
 import { Component } from 'preact';
 import { route } from 'preact-router';
+import RedirectHelper from '../redirectHelper';
 
 /**
  * Redirect component
@@ -15,10 +16,15 @@ import { route } from 'preact-router';
  */
 export default class Redirect extends Component {
     componentWillMount() {
-        if (this.props.refresh) {
-            window.location = this.props.to;
-        } else {
-            route(this.props.to);
+
+        // based on the refresh property refresh full page or only route within the application
+        if (this.props.to) {
+            if (this.props.refresh) {
+                window.location = this.props.to;
+            } else {
+                route(this.props.to, true);
+                RedirectHelper.instance.setRedirectPath('');
+            }
         }
     }
 

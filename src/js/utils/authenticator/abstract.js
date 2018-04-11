@@ -36,6 +36,14 @@ class AbstractAuthenticator {
         return (this.user !== null);
     }
 
+    /**
+     * Returns the login redirect
+     * @returns {string} login redirect
+     */
+    getLoginRedirect() {
+        return this.config.loginRedirect;
+    }
+
     refreshAndGetUser() {
         throw new Error('Method not implemented.');
     }

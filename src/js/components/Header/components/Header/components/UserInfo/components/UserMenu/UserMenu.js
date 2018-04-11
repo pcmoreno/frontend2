@@ -11,6 +11,8 @@ export default class UserMenu extends Component {
     }
 
     render() {
+        const { user } = this.props;
+
         return (
             <ul className={ style.user_menu }>
                 <li className={ `${style.spinner} hidden` } id="spinner">
@@ -21,7 +23,7 @@ export default class UserMenu extends Component {
                 </li>
                 <li className={ style.user_name }>
                     <span>
-                        Development at LTP
+                        { user.getDisplayName() }
                     </span>
                 </li>
                 <li className={ style.btn_foldout } id="user_btn_foldout">

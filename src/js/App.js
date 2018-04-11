@@ -5,7 +5,7 @@
 // unclear if and where this polyfill is required, but this seems to be the most common approach
 import 'babel-polyfill';
 
-import { h, render } from 'preact';
+import { h, render, Component } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
@@ -159,45 +159,60 @@ import Header from './components/Header';
  * Renders the app
  * @returns {{}} app
  */
-function renderApp() {
-    render(
-        <Provider store={ store }>
-            <section id="layout">
-                <Authenticated api={api}>
-                    <Header key="header"/>
-                </Authenticated>
-                <main>
-                    <Alert />
-                    <Router>
-                        <AsyncRoute path="/login" getComponent={ getLogin } />
-                        <Redirect path="/" to="/inbox" />
-                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
-                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
-                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                        <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } />
-                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
-                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
-                        <AsyncRoute path="/error" default getComponent={ getError } />
-                    </Router>
-                </main>
-            </section>
-        </Provider>,
-        document.querySelector('body'),
-        document.querySelector('body').firstChild
-    );
+class App extends Component {
+
+    constructor() {
+        super();
+
+        this.applicationState = {
+            user: null
+        };
+    }
+
+    componentDidMount() {
+        this.applicationState.user = this.props.user;
+        this.setState(this.applicationState);
+    }
+
+    render() {
+
+        // user is NeonUser object or null
+        const { user } = this.applicationState;
+
+        return (
+            <Provider store={ store }>
+                <section id="layout">
+                    <Authenticated api={api}>
+                        <Header user={user} key="header"/>
+                    </Authenticated>
+                    <main>
+                        <Alert />
+                        <Router>
+                            <Redirect path="/" to="/inbox" />
+                            <AsyncRoute path="/login" getComponent={ getLogin } />
+                            <AsyncRoute path="/error" default getComponent={ getError } />
+                            <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } component="report" />
+                            <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
+                            <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
+                            <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                            <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
+                            <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                        </Router>
+                    </main>
+                </section>
+            </Provider>
+        );
+    }
 }
 
 // before rendering the app, always first fetch the current user (if available)
-api.getAuthenticator().refreshAndGetUser().then((/* user */) => {
-    renderApp();
+api.getAuthenticator().refreshAndGetUser().then(user => {
+    render(<App user={user} />,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild);
+
 }).catch(() => {
-    renderApp();
+    render(<App />,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild);
 });
-
-if (process.env.NODE_ENV === 'production') {
-
-    // console.log('running in production mode');
-} else {
-
-    // console.log('running in dev mode');
-}
