@@ -83,7 +83,12 @@ class Sidebar extends Component {
 
         return (<aside className={ `${style.sidebar}` } id="sidebar" >
             <header>
-                <div className={ style.toggle } id="sidebar_toggle" onClick={ this.toggleSidebar } role="button">
+                <div
+                    className={ style.toggle }
+                    id="sidebar_toggle"
+                    onClick={ this.toggleSidebar }
+                    role="button"
+                    tabIndex="0">
                     <FontAwesomeIcon icon={ 'chevron-right' } />
                 </div>
                 <nav>
