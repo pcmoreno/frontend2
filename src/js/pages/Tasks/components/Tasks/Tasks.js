@@ -13,8 +13,8 @@ export default class Tasks extends Component {
             <section className={ style.tasks }>
                 <Listview
                     entities={ tasks }
-                    defaultSortingKey={ 'consultant' }
-                    defaultSortingOrder={ 'asc' }
+                    defaultSortingKey={ 'assessmentdate' }
+                    defaultSortingOrder={ 'desc' }
                 />
             </section>
         );

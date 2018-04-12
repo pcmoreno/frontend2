@@ -21,23 +21,36 @@ export default function usersReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.users.forEach(user => {
+                let userName = '';
 
-                let userInfix = ' ';
+                if (user.account.first_name && user.account.last_name) {
+                    let userInfix = ' ';
 
-                // extract participant infix
-                if (user.hasOwnProperty('infix') && user.infix !== 'undefined') {
-                    userInfix = ` ${user.infix} `;
+                    // extract participant infix
+                    if (user.account.hasOwnProperty('infix') && user.account.infix !== 'undefined') {
+                        userInfix = ` ${user.account.infix} `;
+                    }
+
+                    // construct participant name
+                    userName = `${user.account.first_name}${userInfix}${user.account.last_name}`;
                 }
 
-                // construct participant name
-                const userName = `${user.first_name}${userInfix}${user.last_name}`;
-                const sortValueForUserName = `${user.last_name}${userInfix}${user.first_name}`;
+                // do we have roles
+                const userRoles = [];
+
+                // if (user.roles) {
+                //     user.roles.forEach(role => {
+                //         userRoles.push(role.role_name);
+                //     });
+                // }
 
                 newState.users.push(
                     {
                         name: {
-                            value: userName,
-                            sortingKey: sortValueForUserName
+                            value: userName
+                        },
+                        roles: {
+                            value: userRoles
                         }
                     }
                 );
