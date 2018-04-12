@@ -23,6 +23,8 @@ import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
+import faChevronLeft from '@fortawesome/fontawesome-free-solid/faChevronLeft';
+import faChevronRight from '@fortawesome/fontawesome-free-solid/faChevronRight';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
@@ -36,6 +38,8 @@ fontawesome.library.add(
     faEye,
     faUser,
     faAngleDown,
+    faChevronLeft,
+    faChevronRight,
     faSignOutAlt,
     faSpinner,
     faUsers,

@@ -1,7 +1,30 @@
 .users {
     overflow-y: scroll;
+    height: calc(100vh - $application-header-height);
 
-    /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
-    height: calc(100vh - $application-header-height - 2rem);
-    padding: 1rem;
+    @supports (display: grid) {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            grid-template-columns: 1fr;
+
+            /* show the listview */
+            #listview_container {
+                display: block;
+            }
+
+            /* on small viewports, hide parts of the sidebar */
+            #sidebar {
+                main {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    /* to have padding surrounding just the listview - not including the sidebar */
+    .listview_container {
+        padding: 3rem 1rem 0;
+    }
 }

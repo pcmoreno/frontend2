@@ -20,7 +20,7 @@ const AppConfig = {
                     entities: '/section/participant'
                 },
                 users: {
-                    entities: '/section/account'
+                    entities: '/section/accountHasRole'
                 },
                 organisations: {
                     rootEntities: '/section/fieldvalue/organisation/organisationType?value=organisation',
