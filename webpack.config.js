@@ -35,6 +35,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // this is used to interact with webpack
 const webpack = require('webpack');
 
+// visaulizer tool of size of package/bundle of webpack
+const Visualizer = require('webpack-visualizer-plugin');
+
 /* configure webpack **************************************************************************************************/
 
 // configure the 'task' for Webpack to run by default (Webpack) or, if configured, when using NPM script: Yarn run build
@@ -129,6 +132,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new Visualizer({
+            filename: '../statistics.html'
+        }),
         // configure plugins used by webpack
         new webpack.DefinePlugin({
             "process.env": {
