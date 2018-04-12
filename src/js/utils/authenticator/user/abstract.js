@@ -26,9 +26,9 @@ class AbstractUser {
         this.username = props.username;
         this.roles = props.roles;
 
-        this.firstName = props.firstName || null;
-        this.infix = props.infix || null;
-        this.lastName = props.lastName || null;
+        this.firstName = props.firstName || '';
+        this.infix = props.infix || '';
+        this.lastName = props.lastName || '';
     }
 
     /**
@@ -69,6 +69,18 @@ class AbstractUser {
      */
     getLastName() {
         return this.lastName;
+    }
+
+    /**
+     * Returns the display name / full name
+     * @returns {string} display/full name
+     */
+    getDisplayName() {
+        if (this.infix !== '') {
+            return `${this.firstName} ${this.infix} ${this.lastName}`;
+        }
+
+        return `${this.firstName} ${this.lastName}`;
     }
 }
 

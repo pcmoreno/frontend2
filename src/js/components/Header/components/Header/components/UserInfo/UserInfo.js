@@ -22,9 +22,13 @@ export default class UserInfo extends Component {
     }
 
     render() {
+        const { user } = this.props;
+
         return (
             <nav className={ style.user_info } onClick={ this.toggleUserMenu }>
-                <UserMenu />
+                <UserMenu
+                    user={user}
+                />
                 <UserMenuFoldout
                     logoutAction={this.props.logoutAction}
                 />

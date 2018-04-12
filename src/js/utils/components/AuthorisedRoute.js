@@ -1,6 +1,8 @@
-import { h } from 'preact'; // this import is required, otherwise we will get render issues (although it may seem unused)
+import { h, Component } from 'preact'; // this import is required, otherwise we will get render issues (although it may seem unused)
 import Redirect from './Redirect';
 import AsyncRoute from 'preact-async-route';
+import utils from '../utils';
+import RedirectHelper from '../redirectHelper';
 
 /**
  * AuthorisedRoute component
@@ -24,10 +26,41 @@ import AsyncRoute from 'preact-async-route';
  * @param {{}} rest - rest params
  * @returns {*} Redirect or AsyncRoute component
  */
-const AuthorisedRoute = ({ api, path, component, ...rest }) => ( // eslint-disable-line no-confusing-arrow
-    api.getAuthoriser().authorise(api.getAuthenticator().getUser(), component, 'route') === true
-        ? <AsyncRoute {...rest} />
-        : <Redirect to={`/login?redirectPath=${path}`} />
-);
+export default class AuthorisedRoute extends Component {
 
-export default AuthorisedRoute;
+    render() {
+        const { api, component, path } = this.props;
+
+        if (!api) {
+            throw new Error('<AuthorisedRoute> api property must be defined.');
+        }
+
+        if (!component) {
+            throw new Error('<AuthorisedRoute> component property must be defined.');
+        }
+
+        if (!path) {
+            throw new Error('<AuthorisedRoute> path property must be defined.');
+        }
+
+        // the authoriser will validate whether we have a user
+        const authenticated = api.getAuthenticator().isAuthenticated();
+        const authorised = api.getAuthoriser().authorise(api.getAuthenticator().getUser(), component, 'route');
+
+        // we want to forward all original props, except api (which we used here)
+        const propsToForward = utils.excludeProps(['api', 'component'], this.props);
+
+        // determine redirect path, login if not authenticated. If authenticated, then just go to the main/default page
+        let redirectPath = '/';
+
+        // if not authenticated then redirect to login and save redirect path
+        if (!authenticated) {
+            RedirectHelper.instance.setRedirectPath(window.location.pathname);
+            redirectPath = api.getAuthoriser().getLoginRedirect();
+        }
+
+        // create given root elements, so that the stack can be rendered
+        // the children of this (Authorised) component are considered the root elements
+        return authorised ? <AsyncRoute { ...propsToForward } /> : <Redirect to={redirectPath} />;
+    }
+}

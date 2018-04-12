@@ -1,6 +1,8 @@
-import { h } from 'preact'; // this import is required, otherwise we will get render issues (although it may seem unused)
+import { h, Component } from 'preact'; // this import is required, otherwise we will get render issues (although it may seem unused)
 import Redirect from './Redirect';
 import AsyncRoute from 'preact-async-route';
+import utils from '../utils';
+import RedirectHelper from '../redirectHelper';
 
 /**
  * AuthenticatedRoute component
@@ -15,10 +17,36 @@ import AsyncRoute from 'preact-async-route';
  * @param {{}} rest - rest params
  * @returns {*} Redirect or AsyncRoute component
  */
-const AuthenticatedRoute = ({ api, path, ...rest }) => ( // eslint-disable-line no-confusing-arrow
-    api.getAuthenticator().isAuthenticated() === true
-        ? <AsyncRoute {...rest} />
-        : <Redirect to={`/login?redirectPath=${path}`} />
-);
+export default class AuthenticatedRoute extends Component {
 
-export default AuthenticatedRoute;
+    render() {
+        const { api, path } = this.props;
+
+        if (!api) {
+            throw new Error('<AuthenticatedRoute> api property must be defined.');
+        }
+
+        if (!path) {
+            throw new Error('<AuthenticatedRoute> path property must be defined.');
+        }
+
+        // the authenticator will validate whether we have a user
+        const authenticated = api.getAuthenticator().isAuthenticated();
+
+        // we want to forward all original props, except api (which we used here)
+        const propsToForward = utils.excludeProps(['api'], this.props);
+
+        // determine redirect path, login if not authenticated. If authenticated, then just go to the main/default page
+        let redirectPath = '/';
+
+        // set redirect path when not authenticated
+        if (!authenticated) {
+            RedirectHelper.instance.setRedirectPath(window.location.pathname);
+            redirectPath = api.getAuthoriser().getLoginRedirect();
+        }
+
+        // create given root elements, so that the stack can be rendered
+        // the children of this (Authenticated) component are considered the root elements
+        return authenticated ? <AsyncRoute { ...propsToForward } /> : <Redirect to={redirectPath} />;
+    }
+}

@@ -17,13 +17,20 @@ class Index extends Component {
         const api = ApiFactory.get('neon');
 
         api.getAuthenticator().logout().then(() => {
-            render(<Redirect to={'/'} refresh={'true'}/>);
+            render(<Redirect to={'/'} refresh={true}/>);
         });
     }
 
     render() {
+        const { user } = this.props;
+
+        if (!user) {
+            return null;
+        }
+
         return (
             <Header
+                user={user}
                 logoutAction={this.logoutAction}
             />
         );
