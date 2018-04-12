@@ -21,9 +21,9 @@ export default function usersReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.users.forEach(user => {
-                let userName = '';
+                let userName = '(dummy account)';
 
-                if (user.account.first_name && user.account.last_name) {
+                if (user.account && user.account.first_name && user.account.last_name) {
                     let userInfix = ' ';
 
                     // extract participant infix
@@ -38,11 +38,9 @@ export default function usersReducer(state = initialState, action) {
                 // do we have roles
                 const userRoles = [];
 
-                // if (user.roles) {
-                //     user.roles.forEach(role => {
-                //         userRoles.push(role.role_name);
-                //     });
-                // }
+                if (user.role) {
+                    userRoles.push(user.role.role_name);
+                }
 
                 newState.users.push(
                     {
