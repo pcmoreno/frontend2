@@ -22,22 +22,35 @@ export default function usersReducer(state = initialState, action) {
             // loop through newly retrieved items from the action and add to the newState
             action.users.forEach(user => {
 
-                let userInfix = ' ';
+                // todo: remove when dummy account have NAW data
+                let userName = '(dummy account)';
 
-                // extract participant infix
-                if (user.hasOwnProperty('infix') && user.infix !== 'undefined') {
-                    userInfix = ` ${user.infix} `;
+                if (user.account && user.account.first_name && user.account.last_name) {
+                    let userInfix = ' ';
+
+                    // extract user infix
+                    if (user.account.hasOwnProperty('infix') && user.account.infix !== 'undefined') {
+                        userInfix = ` ${user.account.infix} `;
+                    }
+
+                    // construct user name
+                    userName = `${user.account.first_name}${userInfix}${user.account.last_name}`;
                 }
 
-                // construct participant name
-                const userName = `${user.first_name}${userInfix}${user.last_name}`;
-                const sortValueForUserName = `${user.last_name}${userInfix}${user.first_name}`;
+                // do we have roles
+                const userRoles = [];
+
+                if (user.role) {
+                    userRoles.push(user.role.role_name);
+                }
 
                 newState.users.push(
                     {
                         name: {
-                            value: userName,
-                            sortingKey: sortValueForUserName
+                            value: userName
+                        },
+                        roles: {
+                            value: userRoles
                         }
                     }
                 );
