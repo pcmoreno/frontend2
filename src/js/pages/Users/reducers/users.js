@@ -21,17 +21,19 @@ export default function usersReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.users.forEach(user => {
+
+                // todo: remove when dummy account have NAW data
                 let userName = '(dummy account)';
 
                 if (user.account && user.account.first_name && user.account.last_name) {
                     let userInfix = ' ';
 
-                    // extract participant infix
+                    // extract user infix
                     if (user.account.hasOwnProperty('infix') && user.account.infix !== 'undefined') {
                         userInfix = ` ${user.account.infix} `;
                     }
 
-                    // construct participant name
+                    // construct user name
                     userName = `${user.account.first_name}${userInfix}${user.account.last_name}`;
                 }
 
