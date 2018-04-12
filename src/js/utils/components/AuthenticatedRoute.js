@@ -36,13 +36,17 @@ export default class AuthenticatedRoute extends Component {
         // we want to forward all original props, except api (which we used here)
         const propsToForward = utils.excludeProps(['api'], this.props);
 
+        // determine redirect path, login if not authenticated. If authenticated, then just go to the main/default page
+        let redirectPath = '/';
+
         // set redirect path when not authenticated
         if (!authenticated) {
             RedirectHelper.instance.setRedirectPath(window.location.pathname);
+            redirectPath = api.getAuthoriser().getLoginRedirect();
         }
 
         // create given root elements, so that the stack can be rendered
         // the children of this (Authenticated) component are considered the root elements
-        return authenticated ? <AsyncRoute { ...propsToForward } /> : <Redirect to={api.getAuthenticator().getLoginRedirect()} />;
+        return authenticated ? <AsyncRoute { ...propsToForward } /> : <Redirect to={redirectPath} />;
     }
 }

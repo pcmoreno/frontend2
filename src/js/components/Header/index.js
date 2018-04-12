@@ -17,7 +17,7 @@ class Index extends Component {
         const api = ApiFactory.get('neon');
 
         api.getAuthenticator().logout().then(() => {
-            render(<Redirect to={'/'} refresh={'true'}/>);
+            render(<Redirect to={'/'} refresh={true}/>);
         });
     }
 

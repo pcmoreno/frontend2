@@ -66,7 +66,7 @@ export default class Index extends Component {
                 // to avoid possible issues when routing in the same session to login page, enable the button
                 newState.buttons.submitDisabled = false;
 
-                render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={'true'}/>);
+                render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={true}/>);
 
             }).catch((/* error */) => {
 
