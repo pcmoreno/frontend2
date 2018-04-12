@@ -3,7 +3,8 @@
 // the root component combines reducers, sets up the store and ties routing components together
 
 // unclear if and where this polyfill is required, but this seems to be the most common approach
-import 'babel-polyfill';
+// we dont need full babel polyfill. To enable certain features, look at .babelrc
+// import 'babel-polyfill';
 
 import { h, render, Component } from 'preact';
 import Router from 'preact-router';
