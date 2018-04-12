@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import IndicatorArrow from './../../../../../../components/IndicatorArrow';
+import IndicatorArrow from '../../../../../IndicatorArrow/index';
 import style from './style/indicator.scss';
 
 export default class Indicator extends Component {
@@ -12,7 +12,7 @@ export default class Indicator extends Component {
 
     render() {
         return (
-            <span className={ style.indicator } id="indicator">
+            <span className={ style.indicator } id="sidebar_indicator">
                 <IndicatorArrow />
             </span>
         );
