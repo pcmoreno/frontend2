@@ -140,3 +140,8 @@ table td.organisation {
 #listview_with_sidebar:not(.full_width_sidebar) {
     grid-template-columns: 1fr;
 }
+
+/* on the users page the button to add a user should have some margin when the sidebar is active */
+.full_width_sidebar #listview_container button {
+    margin-right: 0;
+}

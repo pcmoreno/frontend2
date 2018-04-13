@@ -36,14 +36,13 @@ class Index extends Component {
         });
 
         if (!formLoaded) {
-            this.getFormFields();
+
+            // disabled retrieving form options, since it is broken right now
+            // this.getFormFields();
         }
     }
 
     getFormFields() {
-
-        // todo: currently this method never receives a valid response. seems to be an issue in API. see NEON-3633
-
         const formId = this.props.formId;
 
         // show loader

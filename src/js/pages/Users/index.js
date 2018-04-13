@@ -20,6 +20,47 @@ class Index extends Component {
             Object.assign({}, usersActions, alertActions),
             dispatch
         );
+
+        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
+        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+        this.openModalToAddUser = this.openModalToAddUser.bind(this);
+        this.closeModalToAddUser = this.closeModalToAddUser.bind(this);
+    }
+
+
+    storeFormDataInFormsCollection(formId, formFields) {
+
+        // dispatch action to update forms[] state with new form data (will overwrite for this id)
+        this.actions.storeFormDataInFormsCollection(formId, formFields);
+    }
+
+    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+
+        // react controlled component pattern takes over the built-in form state when input changes
+        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
+    }
+
+    refreshDataWithMessage() {
+
+        // hide modal
+        document.querySelector('#modal_user').classList.add('hidden');
+
+        // Show a message
+        // todo: translate this message
+        // todo: this message should also be adapted to support delete messages. Something like a form action?
+        this.actions.addAlert({ type: 'success', text: 'The user was successfully saved.' });
+
+        // refresh the items
+        // todo: is this actually needed? shouldnt React re-render because the state changes? test!
+        this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+    }
+
+    openModalToAddUser() {
+        document.querySelector('#modal_user').classList.remove('hidden');
+    }
+
+    closeModalToAddUser() {
+        document.querySelector('#modal_user').classList.add('hidden');
     }
 
     componentDidMount() {
@@ -65,13 +106,20 @@ class Index extends Component {
         return (
             <Users
                 users = { this.props.users }
+                forms={ this.props.forms }
+                refreshDataWithMessage={ this.refreshDataWithMessage }
+                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
+                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+                openModalToAddUser={ this.openModalToAddUser }
+                closeModalToAddUser={ this.closeModalToAddUser }
             />
         );
     }
 }
 
 const mapStateToProps = state => ({
-    users: state.usersReducer.users
+    users: state.usersReducer.users,
+    forms: state.usersReducer.forms
 });
 
 export default connect(mapStateToProps)(Index);
