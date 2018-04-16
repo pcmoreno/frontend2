@@ -50,7 +50,7 @@ fontawesome.library.add(
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
-import { Provider } from 'react-redux';
+import { Provider } from 'preact-redux';
 
 // this defines the redux store
 import { createStore, combineReducers } from 'redux';
