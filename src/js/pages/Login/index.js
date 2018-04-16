@@ -5,12 +5,12 @@ import ApiFactory from '../../utils/api/factory';
 
 import Login from './components/Login/Login';
 import Redirect from '../../utils/components/Redirect';
+import RedirectHelper from '../../utils/redirectHelper';
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.redirectPath = this.props.redirectPath;
         this.inputValues = {};
 
         this.submitLogin = this.submitLogin.bind(this);
@@ -30,7 +30,7 @@ export default class Index extends Component {
         const api = ApiFactory.get('neon');
 
         if (api.getAuthenticator().isAuthenticated()) {
-            render(<Redirect path={'/'}/>);
+            render(<Redirect to={'/'}/>);
         }
     }
 
@@ -66,7 +66,7 @@ export default class Index extends Component {
                 // to avoid possible issues when routing in the same session to login page, enable the button
                 newState.buttons.submitDisabled = false;
 
-                render(<Redirect path={this.redirectPath} refresh={'true'}/>);
+                render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={true}/>);
 
             }).catch((/* error */) => {
 

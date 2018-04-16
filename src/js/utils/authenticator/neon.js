@@ -1,6 +1,7 @@
 import AbstractAuthenticator from './abstract';
 import CognitoAuthenticator from './cognito';
 import ApiFactory from '../api/factory';
+import NeonUser from './user/neon';
 
 /**
  * @class NeonAuthenticator
@@ -12,24 +13,6 @@ class NeonAuthenticator extends AbstractAuthenticator {
         super('neon');
 
         this.cognitoAuthenticator = new CognitoAuthenticator();
-        this.user = null;
-    }
-
-    /**
-     * Returns the user. You must've been authenticated before calling this method
-     * @returns {Object|null} user
-     */
-    getUser() {
-        return this.user;
-    }
-
-    /**
-     * Returns whether the user should be authenticated.
-     * This does not guarantee that there are valid tokens, just that this user WAS/IS authenticated.
-     * @returns {boolean} authenticated
-     */
-    isAuthenticated() {
-        return (this.user !== null);
     }
 
     /**
@@ -60,19 +43,20 @@ class NeonAuthenticator extends AbstractAuthenticator {
                 if (response.status === 200) {
 
                     // authenticate was ok, resolve with json response (user)
-                    response.json().then(user => {
+                    response.json().then(userResponse => {
 
                         // save and return the user
-                        this.user = user;
-                        resolve(user);
+                        this.user = new NeonUser(userResponse.user);
+                        resolve(this.user);
                     });
                 } else if (response.status === 401) {
 
                     // either the cognito token or the neon token is expired. We will try again by refreshing them both
                     this.refreshTokens().then(user => {
 
-                        // save and return the user
-                        this.user = user;
+                        // only resolve with the user
+                        // because this onSuccess is actually the result of the same method, expecting a 200 (see top of this if statement)
+                        // refreshToken will call fetchNeonApiTokenAndUser
                         resolve(user);
 
                     }).catch(error => {

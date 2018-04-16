@@ -3,6 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
+import style from './style/listviewentityitem.scss';
 
 export default class ListviewEntityItem extends Component {
     translate(element) {
@@ -60,7 +61,7 @@ export default class ListviewEntityItem extends Component {
             // value is not an array. see if it is a link
             const buttonLabel = this.translate(value);
             const buttonLink = this.props.link;
-            const buttonClass = 'button-action';
+            const buttonClass = 'action_button';
 
             value = <ListviewEntityItemButton
                 buttonLabel = { buttonLabel }
@@ -74,7 +75,7 @@ export default class ListviewEntityItem extends Component {
         }
 
         return (
-            <td title={ value } className={ entityId }>
+            <td title={ value } className={ `${style.td} ${entityId}` }>
                 { value }
             </td>
         );

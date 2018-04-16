@@ -1,4 +1,3 @@
-import Logger from '../logger';
 import AppConfig from '../../App.config';
 
 /**
@@ -12,12 +11,37 @@ class AbstractAuthenticator {
      * @param {string} authenticatorName - authenticator name
      */
     constructor(authenticatorName) {
-        this.logger = Logger.instance;
         this.config = AppConfig.authenticator[authenticatorName];
+        this.user = null;
 
         if (!this.config) {
             throw new Error(`AppConfig.authenticator.${authenticatorName} is not set. Cannot create authenticator instance.`);
         }
+    }
+
+    /**
+     * Returns the user. You must've been authenticated before calling this method
+     * @returns {AbstractUser|null} user
+     */
+    getUser() {
+        return this.user;
+    }
+
+    /**
+     * Returns whether the user should be authenticated.
+     * This does not guarantee that there are valid tokens, just that this user WAS/IS authenticated.
+     * @returns {boolean} authenticated
+     */
+    isAuthenticated() {
+        return (this.user !== null);
+    }
+
+    /**
+     * Returns the login redirect
+     * @returns {string} login redirect
+     */
+    getLoginRedirect() {
+        return this.config.loginRedirect;
     }
 
     refreshAndGetUser() {
@@ -29,14 +53,6 @@ class AbstractAuthenticator {
     }
 
     refreshTokens() {
-        throw new Error('Method not implemented.');
-    }
-
-    getUser() {
-        throw new Error('Method not implemented.');
-    }
-
-    isAuthenticated() {
         throw new Error('Method not implemented.');
     }
 

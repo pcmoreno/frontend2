@@ -1,0 +1,51 @@
+.sidebar {
+    background: $blue;
+    position: fixed;
+    top: $sidebar-header-top;
+    right: 0;
+
+    /* ensure width matches the grid layout specification (due to fixed position) */
+    width: 25%;
+    height: 100vh;
+
+    header {
+        background: $black;
+        height: $sidebar-header-height;
+        vertical-align: middle;
+
+        .toggle {
+            color: $white;
+            font-size: 1rem;
+            float: left;
+            width: $sidebar-collapsed-dimensions;
+            text-align: center;
+            padding: 2rem 0;
+            outline: 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        nav {
+            text-align: center;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            padding-right: 2rem;
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    main {
+        /* ensure content starts below the indicator */
+        margin-top: 1rem;
+    }
+}

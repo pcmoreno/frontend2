@@ -3,14 +3,16 @@
 // the root component combines reducers, sets up the store and ties routing components together
 
 // unclear if and where this polyfill is required, but this seems to be the most common approach
-import 'babel-polyfill';
+// we dont need full babel polyfill. To enable certain features, look at .babelrc
+// import 'babel-polyfill';
 
-import { h, render } from 'preact';
+import { h, render, Component } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
 import Alert from './components/Alert';
 import ApiFactory from './utils/api/factory';
 import NeonAuthenticator from './utils/authenticator/neon';
+import NeonAuthoriser from './utils/authoriser/neon';
 
 /** @jsx h */
 
@@ -22,6 +24,8 @@ import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
+import faChevronLeft from '@fortawesome/fontawesome-free-solid/faChevronLeft';
+import faChevronRight from '@fortawesome/fontawesome-free-solid/faChevronRight';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
@@ -35,6 +39,8 @@ fontawesome.library.add(
     faEye,
     faUser,
     faAngleDown,
+    faChevronLeft,
+    faChevronRight,
     faSignOutAlt,
     faSpinner,
     faUsers,
@@ -52,6 +58,9 @@ import { createStore, combineReducers } from 'redux';
 // import all reducers
 import exampleReducer from './pages/Example/reducers/example';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
+import tasksReducer from './pages/Tasks/reducers/tasks';
+import reportReducer from './pages/Report/reducers/report';
+import usersReducer from './pages/Users/reducers/users';
 import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
 
@@ -59,6 +68,9 @@ import alertReducer from './components/Alert/reducers/alert';
 const rootReducer = combineReducers({
     exampleReducer,
     organisationsReducer,
+    tasksReducer,
+    reportReducer,
+    usersReducer,
     participantsReducer,
     alertReducer
 });
@@ -68,12 +80,14 @@ let store = createStore(rootReducer);
 
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
-ApiFactory.create('neon', new NeonAuthenticator());
+ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
 import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
-import AuthenticatedComponent from './utils/components/AuthenticatedComponent';
+import AuthorisedRoute from './utils/components/AuthorisedRoute';
+import Authenticated from './utils/components/Authenticated';
+import Redirect from './utils/components/Redirect';
 
 // import common css so it becomes available in all page components. also easier to have client specific css this way!
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
@@ -113,6 +127,14 @@ function getTasks() {
 }
 
 /**
+ * Returns the report page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} report page
+ */
+function getReport() {
+    return System.import('./pages/Report').then(module => module.default);
+}
+
+/**
  * Returns the users page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} users page
  */
@@ -142,42 +164,60 @@ import Header from './components/Header';
  * Renders the app
  * @returns {{}} app
  */
-function renderApp() {
-    render(
-        <Provider store={ store }>
-            <section id="layout">
-                <AuthenticatedComponent api={api} component={Header} key="header" />
-                <main>
-                    <Alert />
-                    <Router>
-                        <AsyncRoute api={api} path="/login" getComponent={ getLogin } />
-                        <AuthenticatedRoute api={api} path="/" getComponent={ getInbox } />
-                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
-                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
-                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
-                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
-                        <AsyncRoute path="/error" default getComponent={ getError } />
-                    </Router>
-                </main>
-            </section>
-        </Provider>,
-        document.querySelector('body'),
-        document.querySelector('body').firstChild
-    );
+class App extends Component {
+
+    constructor() {
+        super();
+
+        this.applicationState = {
+            user: null
+        };
+    }
+
+    componentDidMount() {
+        this.applicationState.user = this.props.user;
+        this.setState(this.applicationState);
+    }
+
+    render() {
+
+        // user is NeonUser object or null
+        const { user } = this.applicationState;
+
+        return (
+            <Provider store={ store }>
+                <section id="layout">
+                    <Authenticated api={api}>
+                        <Header user={user} key="header"/>
+                    </Authenticated>
+                    <main>
+                        <Alert />
+                        <Router>
+                            <Redirect path="/" to="/inbox" />
+                            <AsyncRoute path="/login" getComponent={ getLogin } />
+                            <AsyncRoute path="/error" default getComponent={ getError } />
+                            <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } component="report" />
+                            <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
+                            <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
+                            <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                            <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
+                            <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                        </Router>
+                    </main>
+                </section>
+            </Provider>
+        );
+    }
 }
 
 // before rendering the app, always first fetch the current user (if available)
-api.getAuthenticator().refreshAndGetUser().then((/* user */) => {
-    renderApp();
+api.getAuthenticator().refreshAndGetUser().then(user => {
+    render(<App user={user} />,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild);
+
 }).catch(() => {
-    renderApp();
+    render(<App />,
+        document.querySelector('body'),
+        document.querySelector('body').firstChild);
 });
-
-if (process.env.NODE_ENV === 'production') {
-
-    // console.log('running in production mode');
-} else {
-
-    // console.log('running in dev mode');
-}

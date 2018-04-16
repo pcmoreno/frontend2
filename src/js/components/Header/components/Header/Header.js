@@ -32,9 +32,12 @@ class Header extends Component {
             }
         ];
 
+        const { user } = this.props;
+
         return (<header className={ style.header }>
             <Navigation items={ navigationItems } />
             <UserInfo
+                user={user}
                 logoutAction={this.props.logoutAction}
             />
             <Indicator />

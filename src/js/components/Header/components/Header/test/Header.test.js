@@ -42,17 +42,17 @@ test('check if Navigation items are populated', () => {
     ]);
 });
 
-test('use "deep" instead of "shallow" to test something in a child component', () => {
-    const context = deep(<Header/>);
-
-    expect(context.find('a').length).toBe(9);
-    // expect(context.find('li').contains(<a href="/inbox">Inbox</a>)).toBeTruthy();
-});
-
-test('check for link validity', () => {
-    const context = deep(<Header/>);
-    const child = (context.find('a').at(0));
-
-    expect(child.attr('href')).toBe('/inbox');
-    child.simulate('click'); // dont test if link is being followed. instead test state or className change
-});
+// test('use "deep" instead of "shallow" to test something in a child component', () => {
+//     const context = deep(<Header/>);
+//
+//     expect(context.find('a').length).toBe(9);
+//     // expect(context.find('li').contains(<a href="/inbox">Inbox</a>)).toBeTruthy();
+// });
+//
+// test('check for link validity', () => {
+//     const context = deep(<Header/>);
+//     const child = (context.find('a').at(0));
+//
+//     expect(child.attr('href')).toBe('/inbox');
+//     child.simulate('click'); // dont test if link is being followed. instead test state or className change
+// });

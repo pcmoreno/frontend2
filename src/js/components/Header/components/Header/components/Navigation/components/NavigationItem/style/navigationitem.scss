@@ -11,10 +11,12 @@
         vertical-align: middle;
         color: $blue;
         text-decoration: none;
+        padding-left: .2rem;
 
         span {
             margin-left: 10px;
             color: $blue;
+            font-family: $fontheavy;
             font-weight: 700;
 
             @media screen and (max-width: $grid-breakpoints-lg) {

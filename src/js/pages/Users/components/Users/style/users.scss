@@ -1,3 +1,43 @@
 .users {
-    padding: 1rem;
+    overflow-y: scroll;
+    height: calc(100vh - $application-header-height);
+
+    @supports (display: grid) {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            grid-template-columns: 1fr;
+
+            /* show the listview */
+            #listview_container {
+                display: block;
+            }
+
+            /* on small viewports, hide parts of the sidebar */
+            #sidebar {
+                main {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    /* to have padding surrounding just the listview - not including the sidebar */
+    .listview_container {
+        padding: 2.6rem 1rem 0;
+
+        button {
+            margin: 0 3.5rem 1.5rem 0;
+        }
+    }
+}
+
+/* the container for the modal-background and -modal. it should be specific per modal and per page, so leave it here */
+.modal_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

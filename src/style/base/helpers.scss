@@ -59,6 +59,7 @@
     color: $white;
 }
 
+/* hide these listview th's and td's on participant overview */
 table thead th.assessmentdate,
 table td.assessmentdate,
 table thead th.consultant,
@@ -74,4 +75,73 @@ table td.organisation {
 
 #detail_panel_navigation > ul > li.active span {
     color: $white;
+}
+
+/* arrow on toggle button is reversed when detail panel is in full-width mode */
+#panels_container.single_fragment #detailpanel header span:last-of-type {
+    transform: rotate(180deg);
+}
+
+/* buttons dont need to float here (in fact I would remove the float in total and add it to the modal style */
+#listview .action_button {
+    float: left;
+}
+
+/* ensure active tab is coloured different from the others */
+#sidebar header section.active {
+    color: $white;
+}
+
+/* ensure active content tab is visible in sidebar */
+#sidebar main section.active {
+    display: block;
+}
+
+/* some specifics to allow toggling the sidebar on listviews (and report?) */
+#listview_with_sidebar:not(.full_width_sidebar) {
+    #listview_container {
+        display: block;
+    }
+
+    /* on views where sidebar is hidden, the sidebar becomes a very small clickable box to enlarge it again */
+    #sidebar {
+        width: $sidebar-collapsed-dimensions;
+        height: $sidebar-collapsed-dimensions;
+        box-shadow: 10px 40px 30px -2px #000;
+
+        /* on views where sidebar is hidden, rotate the toggle arrow */
+        #sidebar_toggle {
+            transform: rotate(180deg);
+        }
+
+        /* on views where sidebar is hidden, hide tabs, content and indicator */
+        nav,
+        main,
+        #sidebar_indicator {
+            display: none;
+        }
+    }
+}
+
+/* on responsive views where sidebar is shown, ensure sidebar takes up entire screen width */
+@media screen and (max-width: $grid-breakpoints-lg) {
+    #listview_with_sidebar.full_width_sidebar {
+        #listview_container {
+            display: none;
+        }
+
+        #sidebar {
+            width: 100%;
+        }
+    }
+}
+
+/* on views where sidebar is hidden, ensure listview container takes up entire screen width */
+#listview_with_sidebar:not(.full_width_sidebar) {
+    grid-template-columns: 1fr;
+}
+
+/* on the users page the button to add a user should have some margin when the sidebar is active */
+.full_width_sidebar #listview_container button {
+    margin-right: 0;
 }

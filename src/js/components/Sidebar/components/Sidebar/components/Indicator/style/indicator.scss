@@ -1,0 +1,24 @@
+.indicator {
+    background: $beige;
+
+    @media screen and (max-width: $grid-breakpoints-lg) {
+        display: none;
+    }
+
+    svg {
+        position: absolute;
+        height: 10px;
+        width: 33px;
+
+        /* lose a pixel so the incorrect svg shape doesnt stand out that much.. ;) */
+        top: 89px;
+
+        path:first-child {
+            fill: $black;
+        }
+
+        path:last-child {
+            fill: $black;
+        }
+    }
+}

@@ -8,10 +8,11 @@ import AppConfig from '../../App.config';
  */
 class API {
 
-    constructor(apiName, authenticator) {
+    constructor(apiName, authenticator, authoriser) {
         this.logger = Logger.instance;
         this.config = AppConfig.api[apiName];
         this.authenticator = authenticator;
+        this.authoriser = authoriser;
 
         if (!this.config) {
             throw new Error(`AppConfig.api.${apiName} is not set. Cannot create API instance.`);
@@ -48,6 +49,14 @@ class API {
      */
     getAuthenticator() {
         return this.authenticator;
+    }
+
+    /**
+     * Returns the authoriser of this API instance.
+     * @returns {AbstractAuthoriser} authoriser instance
+     */
+    getAuthoriser() {
+        return this.authoriser;
     }
 
     /**
