@@ -23,6 +23,7 @@ export default function tasksReducer(state = initialState, action) {
             action.tasks.forEach(task => {
                 const account = task.account_has_role.account;
                 const project = task.project;
+                const sessionId = task.uuid;
                 let participantInfix = ' ';
                 let consultantName = '';
                 let consultantInfix = ' ';
@@ -87,12 +88,12 @@ export default function tasksReducer(state = initialState, action) {
                             value: project.organisation.organisation_name
                         },
                         results: {
-                            value: 'show results',
+                            value: 'show results', // todo: translate message
                             link: '#notimplemented'
                         },
                         report: {
-                            value: 'write report',
-                            link: '#notimplemented'
+                            value: 'write report', // todo: translate message
+                            link: `/report/${sessionId}`
                         }
                     }
                 );

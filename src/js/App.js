@@ -196,7 +196,7 @@ class App extends Component {
                             <Redirect path="/" to="/inbox" />
                             <AsyncRoute path="/login" getComponent={ getLogin } />
                             <AsyncRoute path="/error" default getComponent={ getError } />
-                            <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } component="report" />
+                            <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
                             <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
                             <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
                             <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
