@@ -47,9 +47,11 @@ export default class Organisations extends Component {
             fetchDetailPanelData,
             forms,
             storeFormDataInFormsCollection,
+            storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             refreshDataWithMessage,
-            closeModalToAddOrganisation
+            closeModalToAddOrganisation,
+            closeModalToAddParticipant
         } = this.props;
 
         // define properties for the Panels component
@@ -88,9 +90,6 @@ export default class Organisations extends Component {
                             'products',
                             'projects',
                             'organisationType',
-                            'updated',
-                            'updated',
-                            'organisationType',
                             'organisationSlug'
                         ] }
                         headerText='Add organisation'
@@ -104,24 +103,21 @@ export default class Organisations extends Component {
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_participant">
                     <Form
-                        formId={ 'participant' }
+                        formId={ 'account' }
                         ignoredFields={ [
                             'uuid',
                             'created',
                             'updated',
-                            'manyOrganisationToManyCompetency',
-                            'manyOrganisationToManyProduct',
-                            'oneOrganisationToManyOrganisation',
-                            'updated',
-                            'updated',
-                            'organisationType',
-                            'organisationSlug'
+                            'accountHasRoles'
                         ] }
-                        forms = { forms }
+                        headerText='Add participant'
+                        submitButtonText='Add'
+                        forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         afterSubmit = { refreshDataWithMessage }
-                        closeModal={ this.props.closeModalToAddParticipant }
+                        closeModal={ closeModalToAddParticipant }
                     />
                 </aside>
             </div>

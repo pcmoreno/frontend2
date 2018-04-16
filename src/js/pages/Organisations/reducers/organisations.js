@@ -5,6 +5,7 @@ import AppConfig from './../../../App.config';
 const initialState = {
     panels: [],
     forms: [],
+    sectionInfo: {},
     pathNodes: [],
     detailPanelData: [{
         entity: {
@@ -223,6 +224,14 @@ export default function organisationsReducer(state = initialState, action) {
 
                 newState.forms.push(form);
             });
+
+            break;
+
+        case actionType.STORE_SECTION_INFO:
+
+            if (typeof newState.sectionInfo[action.formInputId] !== 'undefined') {
+                newState.sectionInfo[action.formInputId] = action.sectionInfo;
+            }
 
             break;
 

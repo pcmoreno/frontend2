@@ -16,21 +16,30 @@ export default class OneToMany extends Component
     }
 
     render() {
-        const { options, onChange } = this.props;
+        const { options, onChange, localState } = this.props;
 
         return (
             <div>
-                <label htmlFor={ options.handle }>{ options.form.all.label }</label>
-                <span className={ `${style.errorMessage}` }>Errors</span>
-                <select
-                    id={ options.handle }
-                    name={ options.handle }
-                    required="required"
-                    multiple="multiple"
-                    onChange={ onChange }
-                >
-                    { this.createOptions(options[options.to]) }
-                </select>
+                <span className={ `${style.errorMessage}` }>
+                    { localState.errors.fields[options.handle] }
+                </span>
+                <ul>
+                    <li>
+                        <label htmlFor={ options.handle }>{ options.form.all.label }</label>
+                    </li>
+                    <li>
+                        <select
+                            id={ options.handle }
+                            name={ options.handle }
+                            required="required"
+                            data-array="true"
+                            multiple="multiple"
+                            onBlur={ onChange }
+                        >
+                            { this.createOptions(options[options.to]) }
+                        </select>
+                    </li>
+                </ul>
             </div>
         );
     }

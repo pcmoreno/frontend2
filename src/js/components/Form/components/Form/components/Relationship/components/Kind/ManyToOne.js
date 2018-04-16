@@ -18,15 +18,28 @@ export default class ManyToOne extends Component
     }
 
     render() {
-        const { options } = this.props;
+        const { options, localState, onChange } = this.props;
 
         return (
             <div>
-                <label htmlFor={ options.to }>{ options.label }</label>
-                <span className={ `${style.errorMessage}` }>Errors</span>
-                <select id={ options.handle } name={ options.to }>
-                    { this.createOptions() }
-                </select>
+                <span className={ `${style.errorMessage}` }>
+                    { localState.errors.fields[options.handle] }
+                </span>
+                <ul className={ style.fieldGroup }>
+                    <li>
+                        <label htmlFor={ options.to }>{ options.form.all.label }</label>
+                    </li>
+                    <li>
+                        <select
+                            id={ options.handle }
+                            name={ options.to }
+                            data-array="true"
+                            onBlur={ onChange }
+                        >
+                            { this.createOptions() }
+                        </select>
+                    </li>
+                </ul>
             </div>
         );
     }

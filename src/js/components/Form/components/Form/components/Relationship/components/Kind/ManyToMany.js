@@ -12,23 +12,30 @@ export default class ManyToMany extends Component {
     }
 
     render() {
-        const { options, onChange } = this.props;
+        const { localState, options, onChange } = this.props;
 
-        // OK, Right now it's posted like this: form[childOrganisations] = some-slug
-        // It should be form[childOrganisations][] = some-slug
         return (
             <div>
-                <label htmlFor={ options.handle }>{ options.form.all.label }</label>
-                <span className={ `${style.errorMessage}` }>Errors</span>
-                <select
-                    id={ options.handle }
-                    name={ options.handle }
-                    required="required"
-                    multiple="multiple"
-                    onChange={ onChange }
-                >
-                    { this.createOptions(options[options.to]) }
-                </select>
+                <span className={ `${style.errorMessage}` }>
+                    { localState.errors.fields[options.handle] }
+                </span>
+                <ul className={ style.fieldGroup }>
+                    <li>
+                        <label htmlFor={ options.handle }>{ options.form.all.label }</label>
+                    </li>
+                    <li>
+                        <select
+                            id={ options.handle }
+                            name={ options.handle }
+                            required="required"
+                            data-array="true"
+                            multiple="multiple"
+                            onBlur={ onChange }
+                        >
+                            { this.createOptions(options[options.to]) }
+                        </select>
+                    </li>
+                </ul>
             </div>
         );
     }

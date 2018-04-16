@@ -6,27 +6,38 @@ import Option from './components/Option/Option';
 import style from '../style/field.scss';
 
 export default class Choice extends Component {
+
     constructor(props) {
         super(props);
     }
 
-    createOptions() {
-        let choices = this.props.formFieldOptions.choices;
-        let options = Object.keys(choices).map(choice => <Option value={ choice } />);
-
-        return options;
+    createOptions(options) {
+        return Object.keys(options.form.all.choices).map(choice => {
+            return <Option optionValue={options.form.all.choices[choice]} value={choice} />
+        });
     }
 
     render() {
-        const { localState, handle, label } = this.props;
+        const { options, localState, handle, label, onChange } = this.props;
 
-        return (<div>
-            <label htmlFor={ handle }>{ label }</label>
-            <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
-            <select id={ handle } name={ handle }>
-                { this.createOptions() }
-            </select>
-        </div>
+        return (
+            <div>
+                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
+                <ul className={ style.fieldGroup }>
+                    <li>
+                        <label htmlFor={ handle }>{ label }</label>
+                    </li>
+                    <li>
+                        <select
+                            id={ handle }
+                            name={ 'form[' + handle + ']' }
+                            onBlur={ onChange }
+                        >
+                            { this.createOptions(options) }
+                        </select>
+                    </li>
+                </ul>
+            </div>
         );
     }
 }

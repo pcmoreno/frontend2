@@ -7,11 +7,15 @@ import TextInput from './components/TextInput/TextInput';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
 import Relationship from './components/Relationship/Relationship';
+import Email from './components/Email/Email';
+import TextArea from './components/TextArea/TextArea';
 
 export const DATE_TIME_FIELD = 'DateTimeField';
 export const TEXT_INPUT = 'TextInput';
+export const TEXT_AREA = 'TextArea';
 export const CHOICE = 'Choice';
 export const RELATIONSHIP = 'Relationship';
+export const EMAIL = 'Email';
 
 export default class Form extends Component {
     constructor(props) {
@@ -25,9 +29,7 @@ export default class Form extends Component {
         this.localState = {
             errors: {
                 form: '',
-                fields: {
-
-                }
+                fields: {}
             }
         };
     }
@@ -40,6 +42,7 @@ export default class Form extends Component {
                 return (<DateTimeField
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
                     label={label}
                     value={value}
@@ -48,6 +51,16 @@ export default class Form extends Component {
                 return (<TextInput
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    value={value}
+                    onChange={this.handleChange}/>);
+            case TEXT_AREA:
+                return (<TextArea
+                    name={name}
+                    localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
                     label={label}
                     value={value}
@@ -56,16 +69,28 @@ export default class Form extends Component {
                 return (<Choice
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
-                    formFieldOptions={formFieldOptions}
                     label={label}
                     value={value}
-                    onChange={this.handleChange}/>);
+                    onChange={ this.handleChange }
+                />);
             case RELATIONSHIP:
                 return (<Relationship
                     localState={ this.localState }
-                    options={ formFieldOptions }
-                    onChange={ this.handleChange }/>);
+                    options={formFieldOptions}
+                    onChange={ this.handleChange }
+                />);
+            case EMAIL:
+                return (<Email
+                    name={name}
+                    localState={this.localState}
+                    options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    value={value}
+                    onChange={this.handleChange}
+                />);
             default:
 
                 // console.log('input type unknown!');
@@ -78,7 +103,8 @@ export default class Form extends Component {
 
         const target = event.currentTarget;
 
-        // controlled component pattern: form state is kept in state and persisted across page components
+        // controlled component pattern: form state is kept in
+        // state and persisted across page components
         const formId = this.props.formId;
         const formInputId = event.currentTarget.id;
 
@@ -93,8 +119,12 @@ export default class Form extends Component {
         let formInputValue;
 
         // If we have a selectedOptions property
-        // We are dealing with a field that supports multiselect
-        if (typeof target.selectedOptions !== 'undefined') {
+        // And data-array is set with a value of "true"
+        // We want to send the data as an array
+        if (target.getAttribute('data-array') !== null &&
+            target.getAttribute('data-array') === 'true' &&
+            typeof target.selectedOptions !== 'undefined'
+        ) {
             formInputValue = Array.from(target.selectedOptions).map(option => option.value);
         } else {
             formInputValue = target.value;
@@ -126,16 +156,31 @@ export default class Form extends Component {
 
                         // only submit the changed fields (for now, those with a value that is not empty)
                         const fieldId = name;
-
                         const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
+                    } else {
+
+                        // ensure choice fields always submit their first
+                        // value (in case user didnt change anything)
+                        if (field[name].type === CHOICE) {
+                            const fieldName = (Object.keys(field));
+                            const fieldId = (Object.keys(field)[0]);
+                            const choices = [];
+
+                            for (const key in field[fieldName].form.all.choices) {
+                                if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                    choices.push(field[fieldName].form.all.choices[key]);
+                                }
+                            }
+                            const value = choices[0];
+
+                            changedFields.push({ fieldId, value });
+                        }
                     }
                 });
             }
         });
-
-        console.log('CHANGED FIELDS', changedFields);
 
         this.props.submitForm(changedFields).then(response => {
             if (response && response.errors) {
@@ -230,6 +275,7 @@ export default class Form extends Component {
         if (forms && forms.length > 0) {
             forms.forEach(form => {
                 if (form.id === formId) {
+
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
@@ -243,7 +289,9 @@ export default class Form extends Component {
                             const value = formField[name].value ? formField[name].value : null;
                             const formFieldOptions = formField[name];
 
-                            buildField = this.buildInputType(name, type, handle, label, value, formFieldOptions);
+                            buildField = this.buildInputType(
+                                name, type, handle, label, value, formFieldOptions
+                            );
                         }
 
                         return buildField;
