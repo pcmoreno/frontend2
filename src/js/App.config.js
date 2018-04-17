@@ -27,7 +27,9 @@ const AppConfig = {
                     childEntities: '/section/{type}/id/{identifier}',
                     detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 },
-                report: ''
+                report: {
+                    entities: '/section/participantSession/slug/{slug}'
+                }
             },
             urlEncodeParams: false,
             skipPrefixIndexParams: true,
