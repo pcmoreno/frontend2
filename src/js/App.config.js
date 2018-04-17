@@ -17,7 +17,7 @@ const AppConfig = {
                     entities: '/section/participantSession'
                 },
                 tasks: {
-                    entities: '/section/participant'
+                    entities: '/section/participantSession'
                 },
                 users: {
                     entities: '/section/fieldvalue/accountHasRole/role?value=1,2,3,4,5,6,7'
