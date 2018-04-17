@@ -14,7 +14,7 @@ const AppConfig = {
                 logout: '/user/logout',
                 abstractSection: '/section',
                 participants: {
-                    entities: '/section/participant'
+                    entities: '/section/participantSession'
                 },
                 tasks: {
                     entities: '/section/participant'
