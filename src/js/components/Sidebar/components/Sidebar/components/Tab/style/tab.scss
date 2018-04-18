@@ -5,6 +5,10 @@
         color: $blue;
         outline: none;
 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         &:hover {
             cursor: pointer;
         }
