@@ -17,6 +17,7 @@ const initialState = {
         consultant: {
             name: ''
         }
+    }
 };
 
 /**
