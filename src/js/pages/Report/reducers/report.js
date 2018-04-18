@@ -1,5 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
-import Utils from "../../../utils/utils";
+import Utils from '../../../utils/utils';
 
 const initialState = {
     report: {
@@ -17,7 +17,6 @@ const initialState = {
         consultant: {
             name: ''
         }
-    },
 };
 
 /**
