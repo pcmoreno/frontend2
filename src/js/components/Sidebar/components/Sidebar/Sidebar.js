@@ -8,6 +8,25 @@ import Content from './components/Content/Content';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/sidebar.scss';
 
+/**
+ * The sidebar can be imported and used by the following examples.
+ * Make sure that (one of the) parent element(s) has the correct element id and class.
+ *
+ * @example
+ * const tabs = [
+ *     {
+ *         name: 'Deelnemer',
+ *         icon: 'user',
+ *         component: <div />
+ *      }
+ *
+ * // note: id: page_with_sidebar and class: full_width_sidebar are required to make collapsing and response views working
+ * render(
+ *     <section id="page_with_sidebar" className="full_width_sidebar">
+ *         <Sidebar tabs={tabs} />);
+ *     </section>
+ * );
+ */
 class Sidebar extends Component {
     constructor() {
         super();
@@ -40,10 +59,10 @@ class Sidebar extends Component {
     }
 
     toggleSidebar() {
-        if (document.querySelector('#listview_with_sidebar').classList.contains('full_width_sidebar')) {
-            document.querySelector('#listview_with_sidebar').classList.remove('full_width_sidebar');
+        if (document.querySelector('#page_with_sidebar').classList.contains('full_width_sidebar')) {
+            document.querySelector('#page_with_sidebar').classList.remove('full_width_sidebar');
         } else {
-            document.querySelector('#listview_with_sidebar').classList.add('full_width_sidebar');
+            document.querySelector('#page_with_sidebar').classList.add('full_width_sidebar');
         }
     }
 

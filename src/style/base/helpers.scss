@@ -98,7 +98,7 @@ table td.organisation {
 }
 
 /* some specifics to allow toggling the sidebar on listviews (and report?) */
-#listview_with_sidebar:not(.full_width_sidebar) {
+#page_with_sidebar:not(.full_width_sidebar) {
     #listview_container {
         display: block;
     }
@@ -125,7 +125,7 @@ table td.organisation {
 
 /* on responsive views where sidebar is shown, ensure sidebar takes up entire screen width */
 @media screen and (max-width: $grid-breakpoints-lg) {
-    #listview_with_sidebar.full_width_sidebar {
+    #page_with_sidebar.full_width_sidebar {
         #listview_container {
             display: none;
         }
@@ -137,7 +137,7 @@ table td.organisation {
 }
 
 /* on views where sidebar is hidden, ensure listview container takes up entire screen width */
-#listview_with_sidebar:not(.full_width_sidebar) {
+#page_with_sidebar:not(.full_width_sidebar) {
     grid-template-columns: 1fr;
 }
 
