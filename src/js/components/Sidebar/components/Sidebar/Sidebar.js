@@ -20,10 +20,13 @@ import style from './style/sidebar.scss';
  *         component: <div />
  *      }
  *
- * // note: id: page_with_sidebar and class: full_width_sidebar are required to make collapsing and response views working
+ * // note: the two sections with their ids/classes are required for collapsing and responsive views
  * render(
  *     <section id="page_with_sidebar" className="full_width_sidebar">
- *         <Sidebar tabs={tabs} />);
+ *         <section id="page_with_sidebar_container">
+ *             Page content here...
+ *         </section>
+ *         <Sidebar tabs={tabs} />
  *     </section>
  * );
  */

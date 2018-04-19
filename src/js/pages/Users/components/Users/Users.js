@@ -23,7 +23,7 @@ export default class Users extends Component {
 
         return (
             <section className={ `${style.users} full_width_sidebar` } id="page_with_sidebar">
-                <section className={ style.listview_container } id="listview_container">
+                <section className={ style.page_with_sidebar_container } id="page_with_sidebar_container">
                     <button className={ 'action_button '} onClick={ openModalToAddUser }>+ Add user</button>
                     <Listview
                         entities={ users }
