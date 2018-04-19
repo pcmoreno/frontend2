@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/style.scss';
+import style from './style/header.scss';
 
 export default class Header extends Component {
 
@@ -16,7 +16,7 @@ export default class Header extends Component {
             <section className={ style.header }>
                 <h1>{ participant.name }</h1>
                 <h1>{ product.name }</h1>
-                <div>
+                <div className={style.tableContainer}>
                     <table>
                         <tbody>
                             <tr>
@@ -25,12 +25,11 @@ export default class Header extends Component {
                             </tr>
                             <tr>
                                 <th>Job function</th>
-                                <td>{ organisation.jobFunction }</td>
+                                <td>{ organisation.jobFunction || '-' }</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div>
+
                     <table>
                         <tbody>
                             <tr>

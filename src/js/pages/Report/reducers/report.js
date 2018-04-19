@@ -3,6 +3,7 @@ import Utils from '../../../utils/utils';
 
 const initialState = {
     report: {
+        isLoaded: false,
         participant: {
             name: '',
             appointmentDate: ''
@@ -72,6 +73,9 @@ export default function reportReducer(state = initialState, action) {
                 } else {
                     newState.report.consultant.name = `${consultant.first_name} ${consultant.last_name}`;
                 }
+
+                // use a flag in the state to let the component know that the report is loaded
+                newState.report.isLoaded = true;
 
             } catch (e) {
 

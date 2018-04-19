@@ -1,3 +1,43 @@
 .header {
+    h1 {
+        color: $orange;
+        line-height: 3.7rem;
+        font-family: $fontheavy;
 
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .tableContainer {
+        margin-top: 35px;
+        width: 100%;
+    }
+
+    table {
+        display: inline-block;
+        vertical-align: top;
+        border-top: 2px solid $beige-darken;
+        border-collapse: collapse;
+        width: 40%;
+        margin-right: 20px;
+
+        tbody {
+            display: table;
+            width: 100%;
+        }
+
+        tr {
+            border-bottom: 2px solid $beige-darken;
+        }
+
+        td, th {
+            font-weight: normal;
+            color: $medium-brown;
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+            text-align: left;
+            width: 50%;
+        }
+    }
 }

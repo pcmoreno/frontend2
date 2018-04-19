@@ -136,6 +136,11 @@ table td.organisation {
     }
 }
 
+/* reset min-width to avoid overflows of child elements in css grid element */
+#page_with_sidebar_container {
+    min-width: 0;
+}
+
 /* on views where sidebar is hidden, ensure listview container takes up entire screen width */
 #page_with_sidebar:not(.full_width_sidebar) {
     grid-template-columns: 1fr;
