@@ -11,7 +11,7 @@ export default class Login extends Component {
 
         // todo: translate text of input fields and labels
         return (
-            <section className={ style.login }>
+            <main className={ style.login }>
                 <div className={ style.modal }>
                     <section className={ style.loginMargin }>
                         <form>
@@ -62,7 +62,7 @@ export default class Login extends Component {
                         </form>
                     </section>
                 </div>
-            </section>
+            </main>
         );
     }
 }

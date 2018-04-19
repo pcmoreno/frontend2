@@ -22,7 +22,7 @@ export default class Users extends Component {
         const tabs = [];
 
         return (
-            <section className={ `${style.users} full_width_sidebar` } id="page_with_sidebar">
+            <main className={ `${style.users} full_width_sidebar` } id="page_with_sidebar">
                 <section className={ style.page_with_sidebar_container } id="page_with_sidebar_container">
                     <button className={ 'action_button '} onClick={ openModalToAddUser }>+ Add user</button>
                     <Listview
@@ -45,7 +45,7 @@ export default class Users extends Component {
                         closeModal={ closeModalToAddUser }
                     />
                 </aside>
-            </section>
+            </main>
         );
     }
 }

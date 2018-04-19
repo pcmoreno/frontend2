@@ -192,20 +192,18 @@ class App extends Component {
                     <Authenticated api={api}>
                         <Header user={user} key="header"/>
                     </Authenticated>
-                    <main>
-                        <Alert />
-                        <Router>
-                            <Redirect path="/" to="/inbox" />
-                            <AsyncRoute path="/login" getComponent={ getLogin } />
-                            <AsyncRoute path="/error" default getComponent={ getError } />
-                            <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
-                            <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
-                            <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
-                            <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                            <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
-                            <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
-                        </Router>
-                    </main>
+                    <Alert />
+                    <Router>
+                        <Redirect path="/" to="/inbox" />
+                        <AsyncRoute path="/login" getComponent={ getLogin } />
+                        <AsyncRoute path="/error" default getComponent={ getError } />
+                        <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
+                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
+                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
+                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
+                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                    </Router>
                 </section>
             </Provider>
         );
