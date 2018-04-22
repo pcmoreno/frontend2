@@ -26,7 +26,7 @@
         border-top: 2px solid $beige-darken;
         border-collapse: collapse;
         width: 40%;
-        min-width: $grid-breakpoints-sm;
+        min-width: 265px; /* estimated minimum of width */
         margin-right: 20px;
 
         /* align tables vertically on small screens */

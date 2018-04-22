@@ -17,7 +17,10 @@ const initialState = {
         },
         consultant: {
             name: ''
-        }
+        },
+
+        // consist of: texts.fieldName = {name: '', value: ''}
+        texts: {}
     }
 };
 
@@ -44,6 +47,7 @@ export default function reportReducer(state = initialState, action) {
                 const product = action.report.project.product;
                 const organisation = action.report.project.organisation;
                 const consultant = action.report.consultant.account;
+                const report = action.report.report;
 
                 // set display name
                 if (account.infix) {
@@ -72,6 +76,40 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.consultant.name = `${consultant.first_name} ${consultant.infix} ${consultant.last_name}`;
                 } else {
                     newState.report.consultant.name = `${consultant.first_name} ${consultant.last_name}`;
+                }
+
+                // set report texts
+                if (report.text_field_in_reports && report.text_field_in_reports.length) {
+                    const mappedFieldNames = [];
+
+                    report.text_field_in_reports.forEach(textField => {
+                        const mappedTextField = {};
+
+                        // extract score/text (value)
+                        if (textField.text_field_in_report_value) {
+                            mappedTextField.value = textField.text_field_in_report_value;
+                        }
+
+                        // extract field name
+                        if (textField.text_field) {
+                            mappedTextField.name = textField.text_field.text_field_name;
+                            mappedFieldNames.push(mappedTextField.name);
+                        }
+
+                        newState.report.texts[mappedTextField.name] = mappedTextField;
+                    });
+
+                    // get default text fields in case some where not available on the report
+                    newState.textFieldSequence.forEach(textFieldName => {
+
+                        // add default text field if they were not set
+                        if (!~mappedFieldNames.indexOf(textFieldName)) {
+                            newState.report.texts[textFieldName] = {
+                                name: textFieldName,
+                                value: null
+                            };
+                        }
+                    });
                 }
 
                 // use a flag in the state to let the component know that the report is loaded

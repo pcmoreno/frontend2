@@ -5,6 +5,8 @@ import { h, Component } from 'preact';
 import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
+import Section from './components/Section/Section';
+import Column from './components/Column/Column';
 
 export default class Report extends Component {
     render() {
@@ -33,12 +35,23 @@ export default class Report extends Component {
         return (
             <main id="page_with_sidebar" className={ `${style.report} full_width_sidebar` }>
                 <section id="page_with_sidebar_container" className={style.page_with_sidebar_container}>
+
                     <Header
                         participant={report.participant}
                         product={report.product}
                         organisation={report.organisation}
                         consultant={report.consultant}
                     />
+
+                    <Section title={'Introduction'}>
+                        <Column>
+                            {/* todo: add text blocks here */}
+                        </Column>
+                        <Column>
+                            {/* todo: add text blocks here */}
+                        </Column>
+                    </Section>
+
                 </section>
                 <Sidebar tabs={ tabs } />
             </main>

@@ -1,0 +1,31 @@
+.section {
+
+    /* auto calculate the width of child sections (columns) */
+    .autoWidth {
+        /* one item */
+        section:first-child:nth-last-child(1) {
+            width: 100%;
+        }
+
+        /* two items */
+        section:first-child:nth-last-child(2),
+        section:first-child:nth-last-child(2) ~ section {
+            width: 50%;
+            display: inline-block;
+        }
+
+        /* three items */
+        section:first-child:nth-last-child(3),
+        section:first-child:nth-last-child(3) ~ section {
+            width: 33%;
+            display: inline-block;
+        }
+
+        /* four items */
+        section:first-child:nth-last-child(4),
+        section:first-child:nth-last-child(4) ~ section {
+            width: 25%;
+            display: inline-block;
+        }
+    }
+}
