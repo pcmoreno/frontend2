@@ -55,6 +55,8 @@ class Index extends Component {
                     parameters: {
                         fields: 'uuid,participantSessionAppointmentDate,project,projectName,organisation,organisationName,organisationType,product,productName,textsTemplate,textsTemplateName,textFields,textFieldName,accountHasRole,account,firstName,infix,lastName,displayName,consultant,report,textFieldInReports,textFieldInReportValue,textField',
                         depth: 6 // depth control to avoid infinite results for default texts connected to custom texts
+
+                        // todo implement: calculatedScore,scoreName,scoreValue,Type,CompetencyScoreInReport,Competency
                     }
                 }
             }

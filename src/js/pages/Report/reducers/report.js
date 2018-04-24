@@ -64,6 +64,8 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.organisation.name = organisation.organisation_name;
                 } else if (organisation.organisation_type.toLowerCase() === 'jobfunction') {
                     newState.report.organisation.jobFunction = organisation.organisation_name;
+
+                    // todo: in this case we do still need to set the organisation name of our root organisation
                 }
 
                 // set appointment date
@@ -100,12 +102,12 @@ export default function reportReducer(state = initialState, action) {
                     });
 
                     // get default text fields in case some where not available on the report
-                    newState.textFieldSequence.forEach(textFieldName => {
+                    product.texts_template.text_fields.forEach(textField => {
 
                         // add default text field if they were not set
-                        if (!~mappedFieldNames.indexOf(textFieldName)) {
-                            newState.report.texts[textFieldName] = {
-                                name: textFieldName,
+                        if (!~mappedFieldNames.indexOf(textField.text_field_name)) {
+                            newState.report.texts[textField.text_field_name] = {
+                                name: textField.text_field_name,
                                 value: null
                             };
                         }
