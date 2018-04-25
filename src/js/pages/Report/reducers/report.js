@@ -49,6 +49,10 @@ export default function reportReducer(state = initialState, action) {
                 const consultant = action.report.consultant.account;
                 const report = action.report.report;
 
+                if (!report) {
+                    console.log('user has no report data');
+                }
+
                 // set display name
                 if (account.infix) {
                     newState.report.participant.name = `${account.first_name} ${account.infix} ${account.last_name}`;

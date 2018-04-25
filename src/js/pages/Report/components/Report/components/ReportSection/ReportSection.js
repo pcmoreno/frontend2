@@ -2,9 +2,9 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/section.scss';
+import style from './style/reportsection.scss';
 
-export default class Section extends Component {
+export default class ReportSection extends Component {
 
     render() {
         const { title, children } = this.props;
@@ -12,11 +12,9 @@ export default class Section extends Component {
         // todo: title should be translated
 
         return (
-            <section className={style.section}>
+            <section className={style.reportSection}>
                 <h2>{ title }</h2>
-
-                {/* child columns are supported with css auto width up to 4 columns of equal width */}
-                <div className={style.autoWidth}>
+                <div className={style.reportSectionChildren}>
                     { children }
                 </div>
             </section>

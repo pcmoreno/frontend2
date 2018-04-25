@@ -5,9 +5,9 @@ import { h, Component } from 'preact';
 import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
-import Section from './components/Section/Section';
-import Column from './components/Column/Column';
-import TextBlock from './components/TextBlock/TextBlock';
+import ReportSection from './components/ReportSection/ReportSection';
+import ReportColumn from './components/ReportSection/components/ReportColumn/ReportColumn';
+import TextBlock from './components/ReportSection/components/ReportColumn/components/TextBlock/TextBlock';
 
 export default class Report extends Component {
     render() {
@@ -38,8 +38,8 @@ export default class Report extends Component {
         // note: report.text attributes may not be defined depending on the report type
         // these fields while be ignored in the rendering process
         return (
-            <main id="page_with_sidebar" className={ `${style.report} full_width_sidebar` }>
-                <section id="page_with_sidebar_container" className={style.page_with_sidebar_container}>
+            <main className={ `${style.report} full_width_sidebar` } id="page_with_sidebar">
+                <section className={style.page_with_sidebar_container} id="page_with_sidebar_container">
 
                     <Header
                         participant={report.participant}
@@ -48,24 +48,32 @@ export default class Report extends Component {
                         consultant={report.consultant}
                     />
 
-                    <Section title={'Introduction'}>
-                        <Column>
+                    <ReportSection title="Introduction">
+                        <ReportColumn>
                             <TextBlock
                                 field={report.texts.goal}
                             />
                             <TextBlock
                                 field={report.texts.validity}
                             />
-                        </Column>
-                        <Column>
+                        </ReportColumn>
+                        <ReportColumn>
                             <TextBlock
                                 field={report.texts.parts}
                             />
                             <TextBlock
                                 field={report.texts.structure}
                             />
-                        </Column>
-                    </Section>
+                        </ReportColumn>
+                        <ReportColumn>
+                            <TextBlock
+                                field={report.texts.parts}
+                            />
+                            <TextBlock
+                                field={report.texts.structure}
+                            />
+                        </ReportColumn>
+                    </ReportSection>
 
                 </section>
                 <Sidebar tabs={ tabs } />
