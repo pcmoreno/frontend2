@@ -91,7 +91,6 @@ class Sidebar extends Component {
                     icon={ tab.icon }
                     isTabActive={ active }
                     updateDimensions={ this.updateDimensions }
-                    width={ `${Math.floor(100 / tabs.length)}%` }
                 />);
 
                 contentOutput.push(<Content
