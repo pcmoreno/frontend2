@@ -216,7 +216,7 @@ const Utils = {
     },
 
     /**
-     * Formats the given date witht the given format
+     * Formats the given date with the given format
      * Supported types: yyyy, yy, MM, dd, HH, hh, mm, ss
      * @param {Date|string} date - date to format
      * @param {string} format - format string

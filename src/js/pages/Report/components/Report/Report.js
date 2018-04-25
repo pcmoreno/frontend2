@@ -10,6 +10,14 @@ import ReportColumn from './components/ReportSection/components/ReportColumn/Rep
 import TextBlock from './components/ReportSection/components/ReportColumn/components/TextBlock/TextBlock';
 
 export default class Report extends Component {
+    componentDidUpdate() {
+
+        // attempt to hide the sidebar on small screens by default. not sure if componentdidupdate is the right place
+        if (window.innerWidth < 640 && document.querySelector('#page_with_sidebar')) {
+            document.querySelector('#page_with_sidebar').classList.remove('full_width_sidebar');
+        }
+    }
+
     render() {
 
         // todo: titles of blocks/sections should be translated
@@ -39,6 +47,7 @@ export default class Report extends Component {
         // these fields while be ignored in the rendering process
         return (
             <main className={ `${style.report} full_width_sidebar` } id="page_with_sidebar">
+
                 <section className={style.page_with_sidebar_container} id="page_with_sidebar_container">
 
                     <Header
@@ -65,18 +74,12 @@ export default class Report extends Component {
                                 field={report.texts.structure}
                             />
                         </ReportColumn>
-                        <ReportColumn>
-                            <TextBlock
-                                field={report.texts.parts}
-                            />
-                            <TextBlock
-                                field={report.texts.structure}
-                            />
-                        </ReportColumn>
                     </ReportSection>
 
                 </section>
+
                 <Sidebar tabs={ tabs } />
+
             </main>
         );
     }

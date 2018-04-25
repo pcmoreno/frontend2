@@ -1,15 +1,18 @@
 .reportSection {
-    padding-top: 40px;
 
     .reportSectionChildren {
         @supports (display: grid) {
             float: none;
             width: unset;
             display: grid;
-            grid-gap: 10px;
+            grid-gap: 1rem;
 
             /* this automatically fills available space with all columns that are supposed to show, with a min width of 100px */
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+            @media screen and (max-width: $grid-breakpoints-lg) {
+                grid-template-columns: 1fr;
+            }
         }
     }
 
@@ -18,5 +21,7 @@
         font-family: $fontheavy;
         overflow-x: hidden;
         text-overflow: ellipsis;
+        margin-bottom: 10px;
+        margin-top: 40px;
     }
 }

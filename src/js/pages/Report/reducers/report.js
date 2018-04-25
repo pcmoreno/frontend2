@@ -1,5 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
+import Logger from '../../../utils/logger';
 
 const initialState = {
     report: {
@@ -32,6 +33,7 @@ const initialState = {
  */
 export default function reportReducer(state = initialState, action) {
     const newState = Object.assign({}, state);
+    const logger = Logger.instance;
 
     switch (action.type) {
 
@@ -41,8 +43,6 @@ export default function reportReducer(state = initialState, action) {
             newState.report = Object.assign({}, initialState.report);
 
             try {
-
-                // extract objects
                 const account = action.report.account_has_role.account;
                 const product = action.report.project.product;
                 const organisation = action.report.project.organisation;
@@ -50,7 +50,10 @@ export default function reportReducer(state = initialState, action) {
                 const report = action.report.report;
 
                 if (!report) {
-                    console.log('user has no report data');
+                    logger.error({
+                        component: 'report',
+                        message: `no report data exists: ${action}`
+                    });
                 }
 
                 // set display name
