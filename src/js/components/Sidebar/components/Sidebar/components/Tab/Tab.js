@@ -28,10 +28,10 @@ export default class Tab extends Component {
     }
 
     render() {
-        const { tabId, name, icon, isTabActive, width } = this.props;
+        const { tabId, name, icon, isTabActive } = this.props;
 
         return (
-            <div className={ `${style.tab}` } style={`width: ${width}`}>
+            <div className={ `${style.tab}` }>
                 <section className={ `${isTabActive ? 'active' : ''}` }
                     onClick={ () => {
                         this.switchTab(tabId);
