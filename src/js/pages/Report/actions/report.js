@@ -14,3 +14,16 @@ export function getReport(report) {
         report
     };
 }
+
+/**
+ * reset state action
+ * @returns {{type, report: *}} report with action type
+ */
+export function reset() {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.RESET
+    };
+}

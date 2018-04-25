@@ -39,8 +39,27 @@ export default function reportReducer(state = initialState, action) {
 
         case actionType.GET_REPORT:
 
-            // clear current items from newState
-            newState.report = Object.assign({}, initialState.report);
+            // reset all report attributes
+            newState.report = {
+                isLoaded: false,
+                participant: {
+                    name: '',
+                    appointmentDate: ''
+                },
+                product: {
+                    name: ''
+                },
+                organisation: {
+                    name: '',
+                    jobFunction: ''
+                },
+                consultant: {
+                    name: ''
+                },
+
+                // consist of: texts.fieldName = {name: '', value: ''}
+                texts: {}
+            };
 
             try {
                 const account = action.report.account_has_role.account;
@@ -72,7 +91,9 @@ export default function reportReducer(state = initialState, action) {
                 } else if (organisation.organisation_type.toLowerCase() === 'jobfunction') {
                     newState.report.organisation.jobFunction = organisation.organisation_name;
 
-                    // todo: in this case we do still need to set the organisation name of our root organisation
+                    if (organisation.organisation) {
+                        newState.report.organisation.name = organisation.organisation.name;
+                    }
                 }
 
                 // set appointment date
@@ -128,6 +149,15 @@ export default function reportReducer(state = initialState, action) {
 
                 // todo: log/throw an error. Parsing the response of the report page failed.
             }
+
+            break;
+
+        case actionType.RESET:
+
+            // reset all report attributes
+            newState.report = {
+                isLoaded: false
+            };
 
             break;
 
