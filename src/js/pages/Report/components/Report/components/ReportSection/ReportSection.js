@@ -9,6 +9,10 @@ export default class ReportSection extends Component {
     render() {
         const { title, children } = this.props;
 
+        if (!title || !children) {
+            return null;
+        }
+
         // todo: title should be translated
 
         return (

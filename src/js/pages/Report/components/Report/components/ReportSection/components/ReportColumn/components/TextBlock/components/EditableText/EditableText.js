@@ -7,9 +7,13 @@ import style from './style/editabletext.scss';
 export default class EditableText extends Component {
 
     render() {
-        const { text } = this.props;
+        let { text } = this.props;
 
         // todo: text should be translated
+
+        if (!text) {
+            text = '';
+        }
 
         return (
             <section className={style.editableText}>

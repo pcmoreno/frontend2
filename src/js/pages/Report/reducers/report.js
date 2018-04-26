@@ -3,26 +3,7 @@ import Utils from '../../../utils/utils';
 import Logger from '../../../utils/logger';
 
 const initialState = {
-    report: {
-        isLoaded: false,
-        participant: {
-            name: '',
-            appointmentDate: ''
-        },
-        product: {
-            name: ''
-        },
-        organisation: {
-            name: '',
-            jobFunction: ''
-        },
-        consultant: {
-            name: ''
-        },
-
-        // consist of: texts.fieldName = {name: '', value: ''}
-        texts: {}
-    }
+    report: null
 };
 
 /**
@@ -92,7 +73,7 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.organisation.jobFunction = organisation.organisation_name;
 
                     if (organisation.organisation) {
-                        newState.report.organisation.name = organisation.organisation.name;
+                        newState.report.organisation.name = organisation.organisation.organisation_name;
                     }
                 }
 
@@ -152,12 +133,10 @@ export default function reportReducer(state = initialState, action) {
 
             break;
 
-        case actionType.RESET:
+        case actionType.RESET_REPORT:
 
             // reset all report attributes
-            newState.report = {
-                isLoaded: false
-            };
+            newState.report = null;
 
             break;
 

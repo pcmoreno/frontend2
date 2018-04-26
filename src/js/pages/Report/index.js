@@ -32,8 +32,8 @@ class Index extends Component {
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
 
-        // reset state
-        this.actions.reset();
+        // reset state, so old report data is unset, until we get new data
+        this.actions.resetReport();
 
         // fetch report data
         this.getReport(this.participantSessionId);
@@ -75,10 +75,6 @@ class Index extends Component {
     }
 
     render() {
-
-        // todo: use later
-        // let arg = this.props.matches.uuid;
-
         return (
             <Report
                 report = { this.props.report }
