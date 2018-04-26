@@ -10,13 +10,13 @@ export default class Participants extends Component {
         const { participants } = this.props;
 
         return (
-            <section className={ style.participants }>
+            <main className={ style.participants }>
                 <Listview
                     entities={ participants }
                     defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
                 />
-            </section>
+            </main>
         );
     }
 }

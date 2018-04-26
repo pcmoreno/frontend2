@@ -3,7 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';

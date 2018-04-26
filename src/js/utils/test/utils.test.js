@@ -198,3 +198,7 @@ test('Utils replaceString should replace a given set of values with new values',
 // todo: add unit test for method excludeProps
 // todo: add unit test for method isArray
 // todo: add unit test for method createRootElement
+// todo: add unit test for getTodayDate
+// todo: add unit test for formatDate
+// todo: add unit test for repeatPad
+// todo: add unit test for padLeft

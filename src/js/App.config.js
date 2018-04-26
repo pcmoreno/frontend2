@@ -14,10 +14,10 @@ const AppConfig = {
                 logout: '/user/logout',
                 abstractSection: '/section',
                 participants: {
-                    entities: '/section/participant'
+                    entities: '/section/participantSession'
                 },
                 tasks: {
-                    entities: '/section/participant'
+                    entities: '/section/participantSession'
                 },
                 users: {
                     entities: '/section/fieldvalue/accountHasRole/role?value=1,2,3,4,5,6,7'
@@ -27,7 +27,9 @@ const AppConfig = {
                     childEntities: '/section/{type}/id/{identifier}',
                     detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 },
-                report: ''
+                report: {
+                    entities: '/section/participantSession/slug/{slug}'
+                }
             },
             urlEncodeParams: false,
             skipPrefixIndexParams: true,

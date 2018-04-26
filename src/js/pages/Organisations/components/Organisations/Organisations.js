@@ -64,7 +64,7 @@ export default class Organisations extends Component {
         const dataForCurrentEntity = this.getDetailPanelData();
 
         return (
-            <div className={ style.organisations }>
+            <main className={ style.organisations }>
                 { alertComponent }
                 <Path pathNodes={ pathNodes } fetchEntities={ fetchEntities } />
                 <section className={ style.panels_container } id="panels_container">
@@ -95,7 +95,7 @@ export default class Organisations extends Component {
                         closeModal={ closeModalToAddOrganisation }
                     />
                 </aside>
-            </div>
+            </main>
         );
     }
 }

@@ -10,13 +10,13 @@ export default class Tasks extends Component {
         const { tasks } = this.props;
 
         return (
-            <section className={ style.tasks }>
+            <main className={ style.tasks }>
                 <Listview
                     entities={ tasks }
                     defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
                 />
-            </section>
+            </main>
         );
     }
 }

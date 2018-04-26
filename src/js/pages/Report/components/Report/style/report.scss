@@ -4,4 +4,18 @@
     /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
     height: calc(100vh - $application-header-height - 2rem);
     padding: 1rem;
+
+    @supports (display: grid) {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+
+    .page_with_sidebar_container {
+        padding: 0 60px;
+
+        /* smaller padding on smaller screens */
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            padding: 0;
+        }
+    }
 }

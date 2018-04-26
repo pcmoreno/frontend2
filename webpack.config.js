@@ -82,7 +82,7 @@ module.exports = {
                                 // disable css modules (otherwise this css cannot be global)
                                 modules: false,
                                 // define source maps
-                                sourceMap: sourceMapsEnabled
+                                sourceMap: false // temp disable source maps as this causes issues with components being rendered before style is loaded
                             }
                         },
                         {
@@ -109,7 +109,7 @@ module.exports = {
                                 // enables css modules where css is automatically tied to a js component by name
                                 modules: true,
                                 // define source maps
-                                sourceMap: sourceMapsEnabled
+                                sourceMap: false // temp disable source maps as this causes issues with components being rendered before style is loaded
                             }
                         },
                         {

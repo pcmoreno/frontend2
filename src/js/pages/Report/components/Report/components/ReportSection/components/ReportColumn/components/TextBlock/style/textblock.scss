@@ -1,0 +1,18 @@
+.textBlock {
+
+    /* todo: in the old frontend we used a library to determine where a word should break. implement it here, too */
+    word-break: break-word;
+
+    h3 {
+        color: $orange;
+        margin-top: 1rem;
+        margin-bottom: .2rem;
+        font-weight: 700;
+        line-height: 2.2rem;
+    }
+
+    p {
+        margin: .1rem 0;
+        line-height: 1.5;
+    }
+}

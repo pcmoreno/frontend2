@@ -1,4 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
+import Utils from '../../../utils/utils';
 
 const initialState = {
     tasks: []
@@ -23,6 +24,7 @@ export default function tasksReducer(state = initialState, action) {
             action.tasks.forEach(task => {
                 const account = task.account_has_role.account;
                 const project = task.project;
+                const sessionId = task.uuid;
                 let participantInfix = ' ';
                 let consultantName = '';
                 let consultantInfix = ' ';
@@ -54,19 +56,11 @@ export default function tasksReducer(state = initialState, action) {
                 let appointmentDate = '';
                 let sortValueForAppointmentDate = '';
 
-                if (task.hasOwnProperty('participant_appointment_date')) {
-
-                    // transform appointment date
-                    const tempDate = new Date(task.participant_appointment_date);
-                    const month = (tempDate.getMonth() + 1) > 9 ? (tempDate.getMonth() + 1) : `0${(tempDate.getMonth() + 1)}`;
-                    const day = tempDate.getDate() > 9 ? tempDate.getDate() : `0${tempDate.getDate()}`;
-                    const year = tempDate.getFullYear();
-                    const hours = tempDate.getHours() > 9 ? tempDate.getHours() : `0${tempDate.getHours()}`;
-                    const minutes = tempDate.getMinutes() > 9 ? tempDate.getMinutes() : `0${tempDate.getMinutes()}`;
+                if (task.hasOwnProperty('participant_session_appointment_date')) {
 
                     // construct appointment date
-                    appointmentDate = `${month}-${day}-${year} ${hours}:${minutes}`;
-                    sortValueForAppointmentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+                    appointmentDate = Utils.formatDate(task.participant_session_appointment_date, 'dd-MM-yyyy HH:mm');
+                    sortValueForAppointmentDate = Utils.formatDate(task.participant_session_appointment_date, 'yyyy-MM-dd HH:mm');
                 }
 
                 newState.tasks.push(
@@ -87,12 +81,12 @@ export default function tasksReducer(state = initialState, action) {
                             value: project.organisation.organisation_name
                         },
                         results: {
-                            value: 'show results',
+                            value: 'show results', // todo: translate message
                             link: '#notimplemented'
                         },
                         report: {
-                            value: 'write report',
-                            link: '#notimplemented'
+                            value: 'write report', // todo: translate message
+                            link: `/report/${sessionId}`
                         }
                     }
                 );
