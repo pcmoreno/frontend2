@@ -25,7 +25,7 @@ export default class Report extends Component {
         const { report } = this.props;
 
         // don't render without a report
-        if (!report.isLoaded) {
+        if (!report || !report.isLoaded) {
             return null;
         }
 
