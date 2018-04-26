@@ -5,9 +5,7 @@ import { h, Component } from 'preact';
 import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
-import ReportSection from './components/ReportSection/ReportSection';
-import ReportColumn from './components/ReportSection/components/ReportColumn/ReportColumn';
-import TextBlock from './components/ReportSection/components/ReportColumn/components/TextBlock/TextBlock';
+import Introduction from './components/Introduction/Introduction';
 
 export default class Report extends Component {
     componentDidUpdate() {
@@ -57,24 +55,9 @@ export default class Report extends Component {
                         consultant={report.consultant}
                     />
 
-                    <ReportSection title="Introduction">
-                        <ReportColumn>
-                            <TextBlock
-                                field={report.texts.goal}
-                            />
-                            <TextBlock
-                                field={report.texts.validity}
-                            />
-                        </ReportColumn>
-                        <ReportColumn>
-                            <TextBlock
-                                field={report.texts.parts}
-                            />
-                            <TextBlock
-                                field={report.texts.structure}
-                            />
-                        </ReportColumn>
-                    </ReportSection>
+                    <Introduction
+                        texts={report.texts}
+                    />
 
                 </section>
 

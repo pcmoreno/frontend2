@@ -32,6 +32,9 @@ class Index extends Component {
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
 
+        // reset state, so old report data is unset, until we get new data
+        this.actions.resetReport();
+
         // fetch report data
         this.getReport(this.participantSessionId);
     }
@@ -57,6 +60,7 @@ class Index extends Component {
                         depth: 6 // depth control to avoid infinite results for default texts connected to custom texts
 
                         // todo implement: calculatedScore,scoreName,scoreValue,Type,CompetencyScoreInReport,Competency
+                        // this wil be one api call because some day we would like to have one custom endpoint that returns all report information
                     }
                 }
             }
@@ -71,10 +75,6 @@ class Index extends Component {
     }
 
     render() {
-
-        // todo: use later
-        // let arg = this.props.matches.uuid;
-
         return (
             <Report
                 report = { this.props.report }
