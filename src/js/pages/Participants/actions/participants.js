@@ -14,3 +14,13 @@ export function getParticipants(participants) {
         participants
     };
 }
+
+/**
+ * Reset participant
+ * @returns {{}} reset participant items
+ */
+export function resetParticipants() {
+    return {
+        type: actionType.RESET_PARTICIPANTS
+    };
+}

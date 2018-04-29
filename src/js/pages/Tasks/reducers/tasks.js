@@ -101,6 +101,13 @@ export default function tasksReducer(state = initialState, action) {
 
             break;
 
+        case actionType.RESET_TASKS:
+
+            // reset state so all tasks data is refreshed
+            newState.tasks = [];
+
+            break;
+
         default:
             return state;
     }

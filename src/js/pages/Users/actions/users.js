@@ -50,3 +50,13 @@ export function changeFormFieldValueForFormId(formId, formInputId, formInputValu
         formInputValue
     };
 }
+
+/**
+ * Reset users
+ * @returns {{}} reset user items
+ */
+export function resetUsers() {
+    return {
+        type: actionType.RESET_USERS
+    };
+}

@@ -111,6 +111,13 @@ export default function participantsReducer(state = initialState, action) {
 
             break;
 
+        case actionType.RESET_PARTICIPANTS:
+
+            // reset state so all participants data is refreshed
+            newState.participants = [];
+
+            break;
+
         default:
             return state;
     }
