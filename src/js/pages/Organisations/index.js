@@ -52,6 +52,9 @@ class Index extends Component {
     componentDidMount() {
         updateNavigationArrow();
 
+        // reset organisations in state
+        this.actions.resetOrganisations();
+
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }

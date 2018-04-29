@@ -22,6 +22,9 @@ class Index extends Component {
 
     componentDidMount() {
         updateNavigationArrow();
+
+        // reset inbox items in state
+        this.actions.resetInbox();
     }
 
     componentWillMount() {
