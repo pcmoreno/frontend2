@@ -53,6 +53,8 @@ class Index extends Component {
         updateNavigationArrow();
 
         // reset organisations in state
+        // because we currently want to refresh all data when the component is re-opened
+        // in the future we may use the old state to reduce the loading time
         this.actions.resetOrganisations();
 
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig

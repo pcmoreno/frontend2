@@ -24,6 +24,8 @@ class Index extends Component {
         updateNavigationArrow();
 
         // reset inbox items in state
+        // because we currently want to refresh all data when the component is re-opened
+        // in the future we may use the old state to reduce the loading time
         this.actions.resetInbox();
     }
 
