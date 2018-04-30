@@ -7,10 +7,6 @@ import textArea from './style/textarea.scss';
 
 export default class TextArea extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { localState, handle, label, onChange, value } = this.props;
 

@@ -6,10 +6,6 @@ import style from '../style/field.scss';
 
 export default class Email extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { localState, handle, label, onChange, value } = this.props;
 

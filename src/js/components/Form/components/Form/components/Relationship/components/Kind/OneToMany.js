@@ -3,11 +3,7 @@ import { h, Component } from 'preact';
 import Option from '../../components/Option/Option';
 import style from '../../../style/field.scss';
 
-export default class OneToMany extends Component
-{
-    constructor(props) {
-        super(props);
-    }
+export default class OneToMany extends Component {
 
     createOptions(options) {
         return options.map(option => {

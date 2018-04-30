@@ -4,11 +4,7 @@ import Option from '../../components/Option/Option';
 import style from '../../../style/field.scss';
 import formStyle from '../../style/relationship.scss';
 
-export default class OneToOne extends Component
-{
-    constructor(props) {
-        super(props);
-    }
+export default class OneToOne extends Component {
 
     createOptions(options) {
         return options.map(option => {

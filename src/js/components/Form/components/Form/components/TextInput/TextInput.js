@@ -6,10 +6,6 @@ import style from '../style/field.scss';
 
 export default class TextInput extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     isRequired(options) {
         return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
     }
