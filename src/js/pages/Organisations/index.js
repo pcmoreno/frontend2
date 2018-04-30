@@ -49,13 +49,16 @@ class Index extends Component {
         document.title = 'Organisations';
     }
 
-    componentDidMount() {
-        updateNavigationArrow();
+    componentWillUnmount() {
 
         // reset organisations in state
         // because we currently want to refresh all data when the component is re-opened
         // in the future we may use the old state to reduce the loading time
         this.actions.resetOrganisations();
+    }
+
+    componentDidMount() {
+        updateNavigationArrow();
 
         // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
