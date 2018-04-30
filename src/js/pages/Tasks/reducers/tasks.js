@@ -22,7 +22,7 @@ export default function tasksReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.tasks.forEach(task => {
-                const account = task.account_has_role.account;
+                const account = task.accountHasRole.account;
                 const project = task.project;
                 const sessionId = task.uuid;
                 let participantInfix = ' ';
@@ -36,8 +36,8 @@ export default function tasksReducer(state = initialState, action) {
                 }
 
                 // construct participant name
-                const participantName = `${account.first_name}${participantInfix}${account.last_name}`;
-                const sortValueForParticipantName = `${account.last_name}${participantInfix}${account.first_name}`;
+                const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
+                const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
                 // extract consultant name
                 if (task.hasOwnProperty('consultant')) {
@@ -48,8 +48,8 @@ export default function tasksReducer(state = initialState, action) {
                     }
 
                     // construct consultant name
-                    consultantName = `${task.consultant.account.first_name}${consultantInfix}${task.consultant.account.last_name}`;
-                    sortValueForConsultantName = `${task.consultant.account.last_name}${consultantInfix}${task.consultant.account.first_name}`;
+                    consultantName = `${task.consultant.account.firstName}${consultantInfix}${task.consultant.account.lastName}`;
+                    sortValueForConsultantName = `${task.consultant.account.lastName}${consultantInfix}${task.consultant.account.firstName}`;
                 }
 
                 // extract appointment date
@@ -59,15 +59,15 @@ export default function tasksReducer(state = initialState, action) {
                 if (task.hasOwnProperty('participant_session_appointment_date')) {
 
                     // construct appointment date
-                    appointmentDate = Utils.formatDate(task.participant_session_appointment_date, 'dd-MM-yyyy HH:mm');
-                    sortValueForAppointmentDate = Utils.formatDate(task.participant_session_appointment_date, 'yyyy-MM-dd HH:mm');
+                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm');
+                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm');
                 }
 
                 // extract organisation name
-                let organisationName = project.organisation.organisation_name;
+                let organisationName = project.organisation.organisationName;
 
-                if (project.organisation.organisation_type.toLowerCase() === 'jobfunction') {
-                    organisationName = project.organisation.organisation.organisation_name;
+                if (project.organisation.organisationType.toLowerCase() === 'jobfunction') {
+                    organisationName = project.organisation.organisation.organisationName;
                 }
 
                 newState.tasks.push(

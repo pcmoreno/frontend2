@@ -33,7 +33,6 @@ export default class ManyToOne extends Component
                         <select
                             id={ to }
                             name={ 'form[' + to + ']' }
-                            data-array="true"
                             onBlur={ onChange }
                         >
                             { this.createOptions(options[options.to]) }

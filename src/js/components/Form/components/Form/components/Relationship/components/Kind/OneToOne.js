@@ -32,7 +32,6 @@ export default class OneToOne extends Component
                         <select
                             id={ options.handle }
                             name={ 'form[' + options.handle + ']' }
-                            data-array="true"
                             onChange= { onChange }
                         >
                             { this.createOptions(options[options.to]) }

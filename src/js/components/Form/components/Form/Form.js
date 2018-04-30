@@ -171,6 +171,7 @@ export default class Form extends Component {
                             for (const key in field[fieldName].form.all.choices) {
                                 if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
                                     choices.push(field[fieldName].form.all.choices[key]);
+                                    break;
                                 }
                             }
                             const value = choices[0];

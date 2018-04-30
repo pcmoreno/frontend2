@@ -109,20 +109,20 @@ export default function organisationsReducer(state = initialState, action) {
             const tempEntities = [];
 
             // if entities contains organisations, process them
-            if (action.entities.child_organisations) {
-                action.entities.child_organisations.forEach(entity => {
+            if (action.entities.childOrganisations) {
+                action.entities.childOrganisations.forEach(entity => {
 
                     // attempt to extract product name if it exists
                     let productName = null;
 
                     if (entity.projects[0] && entity.projects[0].product) {
-                        productName = entity.projects[0].product.product_name;
+                        productName = entity.projects[0].product.productName;
                     }
 
                     tempEntities.push({
-                        name: entity.organisation_name,
+                        name: entity.organisationName,
                         id: entity.id,
-                        type: entity.organisation_type === 'jobFunction' ? 'jobFunction' : 'organisation',
+                        type: entity.organisationType === 'jobFunction' ? 'jobFunction' : 'organisation',
                         productName
                     });
                 });
@@ -133,10 +133,10 @@ export default function organisationsReducer(state = initialState, action) {
                 action.entities.projects.forEach(entity => {
 
                     tempEntities.push({
-                        name: entity.project_name,
+                        name: entity.projectName,
                         id: entity.id,
                         type: 'project',
-                        productName: entity.product ? entity.product.product_name : null
+                        productName: entity.product ? entity.product.productName : null
                     });
                 });
             }
@@ -146,9 +146,9 @@ export default function organisationsReducer(state = initialState, action) {
                 action.entities.forEach(entity => {
 
                     // ensure the entity is a (root) organisation, then extract its properties and push to tempEntities
-                    if (entity.id && entity.organisation_name) {
+                    if (entity.id && entity.organisationName) {
                         tempEntities.push({
-                            name: entity.organisation_name,
+                            name: entity.organisationName,
                             id: entity.id,
                             type: 'organisation'
                         });

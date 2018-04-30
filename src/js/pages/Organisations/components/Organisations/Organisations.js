@@ -85,7 +85,7 @@ export default class Organisations extends Component {
                             'created',
                             'updated',
                             'childOrganisations',
-                            'competencies',
+                            'availableCompetencies',
                             'manyOrganisationToOneOrganisation',
                             'products',
                             'projects',
@@ -109,12 +109,12 @@ export default class Organisations extends Component {
                             'created',
                             'updated',
                             'calculatedScores',
+                            'accountHasRoleGenericRoleStatus',
                             'oneParticipantSessionToOneReport',
                             'oneParticipantSessionToOneAccountHasRole',
                             'manyParticipantSessionToOneProject',
                             'startedOn',
                             'onlineId',
-                            'accountHasRoleEmail',
                             'participantSessionSlug'
                         ] }
                         headerText='Add participant'
