@@ -27,17 +27,17 @@ export default class TextInput extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.form.all.handle] }</span>
+                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.form.all.handle }>{ options.form.all.label + required }</label>
+                        <label htmlFor={ options.handle }>{ options.form.all.label + required }</label>
                     </li>
                     <li>
                         <input
                             type="text"
-                            id={ options.form.all.handle }
+                            id={ options.handle }
                             value={ value }
-                            name={ 'form[' + options.form.all.handle + ']'}
+                            name={ 'form[' + options.handle + ']'}
                             onChange={ onChange }
                             placeholder={ placeholder }
                         />

@@ -103,12 +103,19 @@ export default class Organisations extends Component {
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_participant">
                     <Form
-                        formId={ 'account' }
+                        formId={ 'participantSession' }
                         ignoredFields={ [
                             'uuid',
                             'created',
                             'updated',
-                            'accountHasRoles'
+                            'calculatedScores',
+                            'oneParticipantSessionToOneReport',
+                            'oneParticipantSessionToOneAccountHasRole',
+                            'manyParticipantSessionToOneProject',
+                            'startedOn',
+                            'onlineId',
+                            'accountHasRoleEmail',
+                            'participantSessionSlug'
                         ] }
                         headerText='Add participant'
                         submitButtonText='Add'

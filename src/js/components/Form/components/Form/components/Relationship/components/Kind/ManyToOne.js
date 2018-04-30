@@ -9,16 +9,16 @@ export default class ManyToOne extends Component
         super(props);
     }
 
-    createOptions() {
-        return [
-            <Option value="Relatie A" optionValue="slug-a" />,
-            <Option value="Relatie B" optionValue="slug-b" />,
-            <Option value="Relatie C" optionValue="slug-c" />
-        ];
+    createOptions(options) {
+        return options.map(option => {
+            return (<Option value={option.name} optionValue={option.slug} />);
+        });
     }
 
     render() {
         const { options, localState, onChange } = this.props;
+
+        const to = typeof options.as !== 'undefined' ? options.as : options.to;
 
         return (
             <div>
@@ -27,16 +27,16 @@ export default class ManyToOne extends Component
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.to }>{ options.form.all.label }</label>
+                        <label htmlFor={ to }>{ options.form.all.label }</label>
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
-                            name={ options.to }
+                            id={ to }
+                            name={ 'form[' + to + ']' }
                             data-array="true"
                             onBlur={ onChange }
                         >
-                            { this.createOptions() }
+                            { this.createOptions(options[options.to]) }
                         </select>
                     </li>
                 </ul>

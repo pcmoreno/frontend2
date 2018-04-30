@@ -30,7 +30,7 @@ export default class OneToMany extends Component
                     <li>
                         <select
                             id={ options.handle }
-                            name={ options.handle }
+                            name={ 'form[' + options.handle + ']' }
                             required="required"
                             data-array="true"
                             multiple="multiple"

@@ -39,7 +39,7 @@ class Index extends Component {
         if (!formLoaded) {
 
             // disabled retrieving form options, since it is broken right now
-            // this.getFormFields();
+            this.getFormFields();
         }
     }
 
