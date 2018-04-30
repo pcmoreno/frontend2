@@ -14,13 +14,3 @@ export function getTasks(tasks) {
         tasks
     };
 }
-
-/**
- * Reset tasks
- * @returns {{}} reset task items
- */
-export function resetTasks() {
-    return {
-        type: actionType.RESET_TASKS
-    };
-}

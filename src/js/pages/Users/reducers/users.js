@@ -108,13 +108,6 @@ export default function usersReducer(state = initialState, action) {
 
             break;
 
-        case actionType.RESET_USERS:
-
-            // reset state so all user data is refreshed
-            newState.users = [];
-
-            break;
-
         default:
             return state;
     }

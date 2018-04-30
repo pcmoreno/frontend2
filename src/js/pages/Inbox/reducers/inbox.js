@@ -1,4 +1,4 @@
-import * as actionType from './../constants/ActionTypes';
+// import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
     items: []
@@ -11,18 +11,12 @@ const initialState = {
  * @returns {{}} new state
  */
 export default function inboxReducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
 
     switch (action.type) {
 
-        case actionType.RESET_INBOX:
-
-            newState.items = [];
-
-            break;
-
         default:
-            return state;
+            break;
     }
 
     return newState;
