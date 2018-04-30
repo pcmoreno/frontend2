@@ -1,0 +1,27 @@
+.reportSection {
+    .reportSectionChildren {
+        @supports (display: grid) {
+            float: none;
+            width: unset;
+            display: grid;
+            grid-gap: 1rem;
+
+            /* this automatically fills available space with all columns that are supposed to show, with a min width of 100px */
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+            @media screen and (max-width: $grid-breakpoints-lg) {
+                grid-template-columns: 1fr;
+                grid-gap: 0;
+            }
+        }
+    }
+
+    h2 {
+        color: $brown;
+        font-family: $fontheavy;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 10px;
+        margin-top: 40px;
+    }
+}

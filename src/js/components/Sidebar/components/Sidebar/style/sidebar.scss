@@ -28,18 +28,13 @@
         }
 
         nav {
-            text-align: center;
             padding-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            padding-right: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+            padding-right: 1.5rem;
 
             div {
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                text-align: center;
             }
         }
     }

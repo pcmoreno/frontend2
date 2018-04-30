@@ -32,6 +32,7 @@ import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
 import faClipboardList from '@fortawesome/fontawesome-free-solid/faClipboardList';
+import faFileAlt from '@fortawesome/fontawesome-free-regular/faFileAlt';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
@@ -46,11 +47,12 @@ fontawesome.library.add(
     faUsers,
     faBuilding,
     faEnvelope,
-    faClipboardList
+    faClipboardList,
+    faFileAlt
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
-import { Provider } from 'react-redux';
+import { Provider } from 'preact-redux';
 
 // this defines the redux store
 import { createStore, combineReducers } from 'redux';
@@ -190,20 +192,18 @@ class App extends Component {
                     <Authenticated api={api}>
                         <Header user={user} key="header"/>
                     </Authenticated>
-                    <main>
-                        <Alert />
-                        <Router>
-                            <Redirect path="/" to="/inbox" />
-                            <AsyncRoute path="/login" getComponent={ getLogin } />
-                            <AsyncRoute path="/error" default getComponent={ getError } />
-                            <AuthorisedRoute api={api} path="/report/:projectId/:participantId" getComponent={ getReport } component="report" />
-                            <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
-                            <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
-                            <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                            <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
-                            <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
-                        </Router>
-                    </main>
+                    <Alert />
+                    <Router>
+                        <Redirect path="/" to="/inbox" />
+                        <AsyncRoute path="/login" getComponent={ getLogin } />
+                        <AsyncRoute path="/error" default getComponent={ getError } />
+                        <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
+                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
+                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
+                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
+                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
+                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                    </Router>
                 </section>
             </Provider>
         );
