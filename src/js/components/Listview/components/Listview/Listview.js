@@ -196,7 +196,7 @@ export default class Listview extends Component {
             labels.push([label, key]);
         });
 
-        let output = entities.map((entity, index) =>
+        let output = this.localEntities.map((entity, index) =>
             <ListviewEntity
                 key={ index }
                 entity={ entity }
