@@ -33,6 +33,7 @@ class Index extends Component {
         return (<Alert alerts = { this.props.alerts } />);
     }
 }
+
 const mapStateToProps = state => ({
     alerts: state.alertReducer.alerts
 });

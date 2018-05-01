@@ -12,13 +12,16 @@ export default class UserMenuFoldout extends Component {
 
     render() {
 
-        const { logoutAction } = this.props;
+        const { logoutAction, switchLanguage } = this.props;
 
         return (
             <div className={ `${style.user_menu_foldout} hidden` } id="user_menu_foldout">
                 <ul>
                     <li>
-                        <a href="#notimplemented">
+                        <a href="#notimplemented" onClick={ event => {
+                            event.preventDefault();
+                            switchLanguage('en');
+                        } }>
                             <span>EN</span>
                         </a>
                     </li>
