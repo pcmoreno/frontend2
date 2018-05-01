@@ -10,9 +10,11 @@ export default class Inbox extends Component {
     }
 
     render() {
+        const { i18n } = this.props;
+
         return (
             <main className={ style.inbox }>
-                Inbox goes here
+                { i18n.about_this_report };
             </main>
         );
     }
