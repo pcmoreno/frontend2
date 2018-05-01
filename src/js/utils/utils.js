@@ -355,6 +355,61 @@ const Utils = {
         }
 
         return comparison;
+    },
+
+    /**
+     * Loads an external javascript source
+     * @param {string} src - source path
+     * @returns {Promise} promise
+     */
+    loadExternalScript(src) {
+        return new Promise((onFulfilled, onRejected) => {
+            const script = document.createElement('script');
+            let loaded;
+
+            // set source path to load
+            script.setAttribute('src', src);
+
+            // ready / loaded listeners
+            script.onreadystatechange = script.onload = function() {
+                if (!loaded) {
+                    onFulfilled(script);
+                }
+                loaded = true;
+            };
+
+            // error listener
+            script.onerror = function() {
+                onRejected(new Error(`Error loading external script: ${src}`));
+            };
+
+            // append the given script
+            document.getElementsByTagName('head')[0].appendChild(script);
+        });
+    },
+
+    /**
+     * Removes the reference to a script and deletes given globals
+     * @param {string} scriptReference - reference to script element
+     * @param {array} globalsToClear - array of strings or objects that should be cleared
+     * @returns {undefined}
+     */
+    removeExternalScript(scriptReference, globalsToClear) {
+
+        // remove head reference to the script
+        if (scriptReference && scriptReference.parentNode) {
+            scriptReference.parentNode.removeChild(scriptReference);
+        }
+
+        // remove any associated globals that were given
+        if (globalsToClear && globalsToClear.length) {
+            globalsToClear.forEach(global => {
+                if (window[global]) {
+                    window[global] = null;
+                    delete window[global];
+                }
+            });
+        }
     }
 };
 

@@ -170,7 +170,15 @@ module.exports = {
             deleteOriginalAssets: false
         }),
         new CopyWebpackPlugin([
-            { from: './src/assets', to: './assets' }
+            { from: './src/assets', to: './assets' },
+
+            // froala editor files
+            { from: './node_modules/froala-editor/js/froala_editor.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/jquery/dist/jquery.slim.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/css/froala_style.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/froala-editor/css/froala_editor.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/font-awesome/css/font-awesome.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/font-awesome/fonts', to: './assets/vendor/froala-editor/fonts/' }
         ])
     ],
     resolve: {

@@ -73,6 +73,10 @@ const AppConfig = {
                 type: 'organisation'
             }
         }
+    },
+    sources: {
+        froala: '/web/assets/vendor/froala-editor/js/froala_editor.min.js',
+        jquery: '/web/assets/vendor/froala-editor/js/jquery.slim.min.js'
     }
 };
 

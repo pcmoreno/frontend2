@@ -6,8 +6,38 @@ import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
 import Introduction from './components/Introduction/Introduction';
+import Utils from '../../../../utils/utils';
+import AppConfig from '../../../../App.config';
 
 export default class Report extends Component {
+
+    componentWillMount() {
+        this.loadExternalEditorScripts();
+    }
+
+    loadExternalEditorScripts() {
+
+        // load external scripts if they were not set
+        if (!window.$ || !window.jQuery) {
+            Utils.loadExternalScript(AppConfig.sources.jquery).then(() => {
+
+                // also check if froala should be loaded
+                if (!window.froalaLoaded) {
+                    Utils.loadExternalScript(AppConfig.sources.froala).then(() => {
+                        window.froalaLoaded = true;
+                    });
+                }
+            });
+
+        } else if (!window.froalaLoaded) {
+
+            // jquery was defined, but froala was not
+            Utils.loadExternalScript(AppConfig.sources.froala).then(() => {
+                window.froalaLoaded = true;
+            });
+        }
+    }
+
     componentDidUpdate() {
 
         // attempt to hide the sidebar on small screens by default. not sure if componentdidupdate is the right place
