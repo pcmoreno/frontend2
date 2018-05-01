@@ -250,6 +250,15 @@ export default function organisationsReducer(state = initialState, action) {
             break;
         }
 
+        case actionType.RESET_ORGANISATIONS:
+
+            // reset state so all organisation data is refreshed
+            newState.panels = [];
+            newState.pathNodes = [];
+            newState.detailPanelData = [];
+
+            break;
+
         default:
             return state;
     }
