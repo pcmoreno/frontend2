@@ -8,9 +8,7 @@ import style from '../style/field.scss';
 export default class Choice extends Component {
 
     createOptions(options) {
-        return Object.keys(options.form.all.choices).map(choice => {
-            return <Option optionValue={options.form.all.choices[choice]} value={choice} />;
-        });
+        return Object.keys(options.form.all.choices).map(choice => <Option optionValue={options.form.all.choices[choice]} value={choice} />);
     }
 
     render() {

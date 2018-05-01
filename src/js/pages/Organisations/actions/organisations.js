@@ -55,9 +55,9 @@ export function storeFormDataInFormsCollection(formId, formFields) {
 
 /**
  * Store section info in collection action
- * @param sectionId
- * @param sectionInfo
- * @returns {{type, sectionId: *, sectionInfo: *}}
+ * @param {int} sectionId Id of section
+ * @param {Object} sectionInfo All relevant section info
+ * @returns {Object} Action
  */
 export function storeSectionInfoInSectionsCollection(sectionId, sectionInfo) {
 

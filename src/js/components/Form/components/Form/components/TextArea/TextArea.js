@@ -3,7 +3,6 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import style from '../style/field.scss';
-import textArea from './style/textarea.scss';
 
 export default class TextArea extends Component {
 

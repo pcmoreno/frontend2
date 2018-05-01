@@ -6,9 +6,7 @@ import style from '../../../style/field.scss';
 export default class OneToMany extends Component {
 
     createOptions(options) {
-        return options.map(option => {
-            return (<Option value={option.name} optionValue={option.slug} />);
-        });
+        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
     }
 
     render() {
@@ -19,7 +17,7 @@ export default class OneToMany extends Component {
                 <span className={ `${style.errorMessage}` }>
                     { localState.errors.fields[options.handle] }
                 </span>
-                <ul>
+                <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ options.handle }>{ options.form.all.label }</label>
                     </li>

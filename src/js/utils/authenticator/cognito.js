@@ -22,8 +22,6 @@ class CognitoAuthenticator extends AbstractAuthenticator {
             ClientId: this.config.appClientId
         };
 
-        console.log(poolData);
-
         // prepare user pool
         this.userPool = new CognitoUserPool(poolData);
     }

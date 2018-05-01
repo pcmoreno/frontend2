@@ -6,9 +6,7 @@ import style from '../../../style/field.scss';
 export default class ManyToMany extends Component {
 
     createOptions(options) {
-        return options.map(option => {
-            return (<Option value={option.name} optionValue={option.slug} />);
-        });
+        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
     }
 
     render() {

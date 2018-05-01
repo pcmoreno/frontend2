@@ -2,14 +2,11 @@ import { h, Component } from 'preact';
 
 import Option from '../../components/Option/Option';
 import style from '../../../style/field.scss';
-import formStyle from '../../style/relationship.scss';
 
 export default class OneToOne extends Component {
 
     createOptions(options) {
-        return options.map(option => {
-            return (<Option value={option.name} optionValue={option.slug} />);
-        });
+        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
     }
 
     render() {
@@ -28,7 +25,7 @@ export default class OneToOne extends Component {
                         <select
                             id={ options.handle }
                             name={ 'form[' + options.handle + ']' }
-                            onChange= { onChange }
+                            onBlur={ onChange }
                         >
                             { this.createOptions(options[options.to]) }
                         </select>
