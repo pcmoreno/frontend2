@@ -33,9 +33,10 @@ class Index extends Component {
     }
 
     switchLanguage(languageId) {
-        console.log('switching to '+languageId);
 
-        this.actions.switchLanguageAction(languageId);
+        // console.log('switching to '+languageId);
+
+        this.actions.switchLanguage(languageId);
     }
 
     render() {

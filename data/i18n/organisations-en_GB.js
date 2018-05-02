@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "access": "access",
     "add": "Add",
     "add_job_function": "add job function",

@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "access": "toegang",
     "add": "Voeg toe",
     "add_job_function": "add job function",

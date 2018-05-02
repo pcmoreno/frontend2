@@ -18,7 +18,7 @@ export default function headerReducer(state = initialState, action) {
 
         case actionType.SWITCH_LANGUAGE:
 
-            console.log('reducer switches to '+action.languageId);
+            // console.log('reducer switches to '+action.languageId);
 
             newState.languageId = action.languageId;
             break;
