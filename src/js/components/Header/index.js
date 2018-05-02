@@ -7,8 +7,8 @@ import Redirect from '../../utils/components/Redirect';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as headerActions from './actions/header';
+import translator from '../../utils/translator';
 import Header from './components/Header/Header';
-import lokaliser from '../../utils/lokaliser';
 
 class Index extends Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class Index extends Component {
                 logoutAction={this.logout}
                 languageId={this.props.languageId}
                 switchLanguage={this.switchLanguage}
-                i18n={ lokaliser(this.props.languageId, 'inbox') }
+                i18n={ translator(this.props.languageId, 'inbox') }
             />
         );
     }
