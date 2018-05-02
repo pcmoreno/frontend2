@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "added": "added",
     "added_invited": "added + invited",
     "consultant": "consultant",

@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "add": "Add",
     "add_user": "Add user",
     "application_manager": "application manager",
