@@ -18,22 +18,39 @@ export default class Report extends Component {
     loadExternalEditorScripts() {
 
         // load external scripts if they were not set
+        // in this case, all external scripts should be loaded in the right order.
         if (!window.$ || !window.jQuery) {
             Utils.loadExternalScript(AppConfig.sources.jquery).then(() => {
-
-                // also check if froala should be loaded
-                if (!window.froalaLoaded) {
-                    Utils.loadExternalScript(AppConfig.sources.froala).then(() => {
-                        window.froalaLoaded = true;
-                    });
-                }
+                this.loadFroalaEditor();
             });
 
-        } else if (!window.froalaLoaded) {
+        } else {
+            this.loadFroalaEditor();
+        }
+    }
 
-            // jquery was defined, but froala was not
+    loadFroalaEditor() {
+        if (!window.froalaLoaded) {
             Utils.loadExternalScript(AppConfig.sources.froala).then(() => {
                 window.froalaLoaded = true;
+                window.$.FroalaEditor.DEFAULTS.key = AppConfig.sources.froalaKey;
+                this.loadFroalaEditorPlugins();
+            });
+        } else {
+            this.loadFroalaEditorPlugins();
+        }
+    }
+
+    loadFroalaEditorPlugins() {
+        if (!window.froalaParagraphPluginLoaded) {
+            Utils.loadExternalScript(AppConfig.sources.froalaParagraphPlugin).then(() => {
+                window.froalaParagraphPluginLoaded = true;
+            });
+        }
+
+        if (!window.froalaListPluginLoaded) {
+            Utils.loadExternalScript(AppConfig.sources.froalaListPlugin).then(() => {
+                window.froalaListPluginLoaded = true;
             });
         }
     }

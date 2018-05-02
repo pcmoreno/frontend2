@@ -1,4 +1,5 @@
 import { h, cloneElement } from 'preact';
+import Logger from './logger';
 
 /**
  * Utils module
@@ -380,6 +381,7 @@ const Utils = {
 
             // error listener
             script.onerror = function() {
+                Logger.instance.error(`Error loading external script: ${src}`);
                 onRejected(new Error(`Error loading external script: ${src}`));
             };
 

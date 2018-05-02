@@ -174,6 +174,8 @@ module.exports = {
 
             // froala editor files
             { from: './node_modules/froala-editor/js/froala_editor.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/js/plugins/paragraph_format.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/js/plugins/lists.min.js', to: './assets/vendor/froala-editor/js/' },
             { from: './node_modules/jquery/dist/jquery.slim.min.js', to: './assets/vendor/froala-editor/js/' },
             { from: './node_modules/froala-editor/css/froala_style.min.css', to: './assets/vendor/froala-editor/css/' },
             { from: './node_modules/froala-editor/css/froala_editor.min.css', to: './assets/vendor/froala-editor/css/' },

@@ -21,17 +21,21 @@ export default class Introduction extends Component {
                 <ReportColumn>
                     <TextBlock
                         field={texts.goal}
+                        editable={true}
                     />
                     <TextBlock
                         field={texts.validity}
+                        editable={true}
                     />
                 </ReportColumn>
                 <ReportColumn>
                     <TextBlock
                         field={texts.parts}
+                        editable={true}
                     />
                     <TextBlock
                         field={texts.structure}
+                        editable={true}
                     />
                 </ReportColumn>
             </ReportSection>
