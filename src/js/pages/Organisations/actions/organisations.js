@@ -88,3 +88,13 @@ export function fetchDetailPanelData(entity, data) {
         data
     };
 }
+
+/**
+ * Reset organisations items
+ * @returns {{}} reset organisation items
+ */
+export function resetOrganisations() {
+    return {
+        type: actionType.RESET_ORGANISATIONS
+    };
+}

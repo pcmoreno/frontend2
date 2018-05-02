@@ -332,6 +332,29 @@ const Utils = {
 
         // repeat the padding for x times and return string with exact width
         return (this.repeatPad(pad, length) + str).slice(0, width);
+    },
+
+    /**
+     * Compares the value of the given parameters
+     * @param {*} value1 - value one to compare
+     * @param {*} value2 - second value to compare
+     * @returns {boolean} comparing result
+     */
+    compareData(value1, value2) {
+        let comparison = false;
+
+        try {
+            const jsonValue1 = JSON.stringify(value1);
+            const jsonValue2 = JSON.stringify(value2);
+
+            // compare json stringified values
+            comparison = (jsonValue1 === jsonValue2);
+        } catch (e) {
+
+            // return false by default
+        }
+
+        return comparison;
     }
 };
 
