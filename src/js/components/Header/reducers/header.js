@@ -2,7 +2,7 @@ import * as actionType from './../constants/ActionTypes';
 
 // todo: populate default id from the AppConfig?
 const initialState = {
-    languageId: 'nl'
+    languageId: 'nl_NL'
 };
 
 /**

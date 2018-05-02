@@ -1,6 +1,6 @@
 
 // todo: figure out how sourcemaps can be enabled by default for dev and acc environments
-let sourceMapsEnabled = true;
+let sourceMapsEnabled = false;
 let gzippedAssets = false;
 
 /* define plugins *****************************************************************************************************/
@@ -145,21 +145,21 @@ module.exports = {
             }
         }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),
-        // new UglifyJSPlugin({
-        //     uglifyOptions: {
-        //         sourceMap: sourceMapsEnabled,
-        //         parallel: true,
-        //         compress: {
-        //             ecma: 5,
-        //             ie8: true,
-        //             warnings: true
-        //         },
-        //         mangle: false,
-        //         output: {
-        //             comments: false
-        //         }
-        //     }
-        // }),
+        new UglifyJSPlugin({
+            uglifyOptions: {
+                sourceMap: sourceMapsEnabled,
+                parallel: true,
+                compress: {
+                    ecma: 5,
+                    ie8: true,
+                    warnings: true
+                },
+                mangle: false,
+                output: {
+                    comments: false
+                }
+            }
+        }),
         new ExtractTextPlugin("css/[name].css"),
         new CompressionPlugin({
             asset: "[path].gz[query]",

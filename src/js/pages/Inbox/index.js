@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as inboxActions from './actions/inbox';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import { setComponent } from '../../utils/lokaliser.js';
 import Inbox from './components/Inbox/Inbox';
 
 class Index extends Component {
@@ -19,8 +18,6 @@ class Index extends Component {
             Object.assign({}, inboxActions),
             dispatch
         );
-
-        setComponent('inbox');
     }
 
     componentDidMount() {

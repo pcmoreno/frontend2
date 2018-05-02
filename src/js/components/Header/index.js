@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as headerActions from './actions/header';
 import Header from './components/Header/Header';
-import { setLanguage } from '../../utils/lokaliser.js';
+import lokaliser from '../../utils/lokaliser';
 
 class Index extends Component {
     constructor(props) {
@@ -35,9 +35,6 @@ class Index extends Component {
 
     switchLanguage(languageId) {
 
-        // set language id in translation util
-        setLanguage(languageId);
-
         // set language in state (so components update and dropdown can be populated)
         this.actions.switchLanguage(languageId);
     }
@@ -49,11 +46,14 @@ class Index extends Component {
             return null;
         }
 
+        /* todo: translations for the header should reside in its own translation file, or general, or menu */
         return (
             <Header
                 user={user}
                 logoutAction={this.logout}
+                languageId={this.props.languageId}
                 switchLanguage={this.switchLanguage}
+                i18n={ lokaliser(this.props.languageId, 'inbox') }
             />
         );
     }
