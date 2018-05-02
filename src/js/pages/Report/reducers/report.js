@@ -78,7 +78,7 @@ export default function reportReducer(state = initialState, action) {
                 }
 
                 // set appointment date
-                newState.report.participant.appointmentDate = Utils.formatDate(action.report.participant_session_appointment_date, 'dd-MM-yyyy HH:mm');
+                newState.report.participant.appointmentDate = Utils.formatDate(action.report.participant_session_appointment_date, 'dd-MM-yyyy');
 
                 // set consultant (display) name
                 if (consultant.display_name) {

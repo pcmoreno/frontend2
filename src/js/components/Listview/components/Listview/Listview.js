@@ -32,27 +32,26 @@ export default class Listview extends Component {
 
         // introduce localState to keep track of the view
         this.localState = {
-            localEntities: [],
             sortBy: '',
             sortOrder: 'asc'
         };
+
+        this.localEntities = [];
     }
 
-    componentDidUpdate() {
+    setDefaultSorting(entities) {
 
-        // filling up localState initially
-        if (this.localState.localEntities.length === 0) {
-            this.setState(this.localState.localEntities = this.props.entities);
+        // get given entities
+        this.localEntities = entities;
 
-            // if a defaultSortingKey was provided, sort entities by it. if sortingOrder was provided, in that order.
-            if (this.props.defaultSortingKey) {
-                this.sortEntities(
-                    this.localState.localEntities,
-                    this.props.defaultSortingKey,
-                    this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.localState.sortOrder
-                );
-            }
+        // set given sorting properties
+        if (this.props.defaultSortingKey) {
+            this.localState.sortBy = this.props.defaultSortingKey;
+            this.localState.sortOrder = this.props.defaultSortingOrder ? this.props.defaultSortingOrder : this.localState.sortOrder;
         }
+
+        // perform default sorting
+        this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
     }
 
     sortingKey(entity) {
@@ -136,12 +135,12 @@ export default class Listview extends Component {
         }
 
         // before sorting, make a copy of current sorted entities
-        const previousSortingState = this.localState.localEntities.slice(0);
+        const previousSortingState = this.localEntities.slice(0);
 
         // sort the array with given key
-        this.sortEntities(this.localState.localEntities, sortBy, this.localState.sortOrder);
+        this.sortEntities(this.localEntities, sortBy, this.localState.sortOrder);
 
-        if (previousSortingState[0] === this.localState.localEntities[0]) {
+        if (previousSortingState[0] === this.localEntities[0]) {
 
             // content already sorted this way, reversing order
             if (this.localState.sortOrder === 'asc') {
@@ -149,24 +148,31 @@ export default class Listview extends Component {
             } else {
                 this.localState.sortOrder = 'asc';
             }
-            this.sortEntities(this.localState.localEntities, sortBy, this.localState.sortOrder);
+            this.sortEntities(this.localEntities, sortBy, this.localState.sortOrder);
         }
 
         // update the localState with newly sorted array (setState causes re-render of component)
-        this.setState({ localEntities: this.localState.localEntities });
+        this.setState(this.localState);
     }
 
     render() {
         const { entities, i18n, translationKey } = this.props;
 
-        if (entities && entities.length === 0) {
-            return (<div />);
+        if (this.localEntities.length === 0) {
+
+            // when localEntities were not set (first render) perform default given sorting
+            if (!entities || entities.length === 0) {
+                return null; // no entities were given, do not render
+            }
+
+            // entities were given, but not yet sorted. Perform default sorting
+            this.setDefaultSorting(entities);
         }
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
         const labels = [];
 
-        Object.keys(entities[0]).forEach(key => {
+        Object.keys(this.localEntities[0]).forEach(key => {
             let label = key;
 
             // if (translationKey) {
@@ -190,7 +196,7 @@ export default class Listview extends Component {
             labels.push([label, key]);
         });
 
-        let output = this.localState.localEntities.map((entity, index) =>
+        let output = this.localEntities.map((entity, index) =>
             <ListviewEntity
                 key={ index }
                 entity={ entity }

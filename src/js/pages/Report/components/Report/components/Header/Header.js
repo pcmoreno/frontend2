@@ -23,10 +23,12 @@ export default class Header extends Component {
                                 <th>Organisation</th>
                                 <td>{ organisation.name }</td>
                             </tr>
-                            <tr>
-                                <th>Job function</th>
-                                <td>{ organisation.jobFunction || '-' }</td>
-                            </tr>
+                            {
+                                organisation.jobFunction && <tr>
+                                    <th>Job function</th>
+                                    <td>{organisation.jobFunction}</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
 

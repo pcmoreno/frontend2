@@ -63,6 +63,13 @@ export default function tasksReducer(state = initialState, action) {
                     sortValueForAppointmentDate = Utils.formatDate(task.participant_session_appointment_date, 'yyyy-MM-dd HH:mm');
                 }
 
+                // extract organisation name
+                let organisationName = project.organisation.organisation_name;
+
+                if (project.organisation.organisation_type.toLowerCase() === 'jobfunction') {
+                    organisationName = project.organisation.organisation.organisation_name;
+                }
+
                 newState.tasks.push(
                     {
                         name: {
@@ -78,7 +85,7 @@ export default function tasksReducer(state = initialState, action) {
                             sortingKey: sortValueForAppointmentDate
                         },
                         organisation: {
-                            value: project.organisation.organisation_name
+                            value: organisationName
                         },
                         results: {
                             value: 'show results', // todo: translate message

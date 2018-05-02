@@ -26,14 +26,17 @@ class Index extends Component {
         document.title = 'Report';
     }
 
+    componentWillUnmount() {
+
+        // reset state, so old report data is unset, until we get new data
+        this.actions.resetReport();
+    }
+
     componentDidMount() {
         updateNavigationArrow();
 
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
-
-        // reset state, so old report data is unset, until we get new data
-        this.actions.resetReport();
 
         // fetch report data
         this.getReport(this.participantSessionId);
