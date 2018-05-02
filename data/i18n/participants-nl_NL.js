@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "added": "toegevoegd",
     "added_invited": "toegevoegd + uitgenodigd",
     "consultant": "adviseur",
