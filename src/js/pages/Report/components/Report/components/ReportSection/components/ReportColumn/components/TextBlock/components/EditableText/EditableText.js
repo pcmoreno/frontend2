@@ -13,7 +13,8 @@ export default class EditableText extends Component {
 
         this.localState = {
             editorEnabled: false,
-            textEditable: false
+            textEditable: false,
+            text: ''
         };
 
         this.froalaConfig = {
@@ -40,48 +41,83 @@ export default class EditableText extends Component {
                 H4: 'Heading',
                 H5: 'Subheading'
             },
-            paragraphFormatSelection: true
+            paragraphFormatSelection: true,
+            events: {
+                'froalaEditor.blur': () => {
+                    this.switchEditor();
+                },
+                'froalaEditor.initialized': (e, editor) => {
+
+                    // call focus so blur events will instantly work. Otherwise you could open multiple editors without focussing them
+                    editor.events.focus();
+                }
+            }
         };
     }
 
     componentDidMount() {
-        let text = this.props.text;
 
         // set whether the text is editable
         this.localState.textEditable = this.props.textEditable;
 
-        if (!text) {
-            text = '';
-        }
+        // prepare current text
+        this.setTextElement();
+    }
 
+    /**
+     * Set the html text on the text element (no editor!)
+     * @param {string} text - text
+     * @returns {undefined}
+     */
+    setTextElement(text = this.localState.text) {
         if (document.querySelector(`#${this.props.id}`)) {
             document.querySelector(`#${this.props.id}`).innerHTML = text;
         }
     }
 
+    /**
+     * Switches the editor on/off, if editing is allowed
+     * @returns {undefined}
+     */
     switchEditor() {
-
-        // switch editor on/off when text is editable
         if (this.localState.textEditable) {
             this.localState.editorEnabled = !this.localState.editorEnabled;
             this.setState(this.localState);
         }
     }
 
-    // handleTextChange(model) {
-    //     console.log('text change: ', model);
-    // }
+    componentDidUpdate() {
+
+        // rerender html text area as the editor was disabled
+        if (!this.localState.editorEnabled) {
+            this.setTextElement();
+        }
+    }
+
+    /**
+     * Updates the state with the given text (from Froala editor)
+     * On each break from typing, this event is triggered.
+     * @param {string} text - text
+     * @returns {undefined}
+     */
+    handleTextChange(text) {
+        this.localState.text = text;
+    }
 
     render() {
+
+        // save text in local state first time
+        if (!this.localState.text) {
+            this.localState.text = this.props.text;
+        }
 
         // render editor or render the text only
         if (this.localState.editorEnabled) {
             return (<FroalaEditor
                 tag='textarea'
                 config={this.froalaConfig}
-                model={this.props.text}
-
-                // onModelChange={this.handleTextChange}
+                model={this.localState.text}
+                onModelChange={this.handleTextChange.bind(this)}
                 onBlur={this.switchEditor.bind(this)}
             />);
         }

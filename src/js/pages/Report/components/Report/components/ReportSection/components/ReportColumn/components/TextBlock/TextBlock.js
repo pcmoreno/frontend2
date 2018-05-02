@@ -23,7 +23,6 @@ export default class TextBlock extends Component {
                     id={ field.name }
                     textEditable={ editable }
                     text={ field.value || 'todo: implement default (translated) text' }
-                    classNames={style.editableText}
                 />
             </section>
         );
