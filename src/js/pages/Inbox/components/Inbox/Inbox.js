@@ -14,7 +14,7 @@ export default class Inbox extends Component {
 
         return (
             <main className={ style.inbox }>
-                { i18n.about_this_report };
+                { i18n.complete_before };
             </main>
         );
     }
