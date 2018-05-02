@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "appointment_date": "appointment date",
     "consultant": "consultant",
     "inbox": "inbox",

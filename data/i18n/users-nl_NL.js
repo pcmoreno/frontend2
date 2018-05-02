@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "add": "Voeg toe",
     "add_user": "Gebruiker toevoegen",
     "application_manager": "applicatiebeheerder",
