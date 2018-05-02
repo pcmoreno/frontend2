@@ -6,10 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as inboxActions from './actions/inbox';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import lokaliser from '../../utils/lokaliser.js';
+import { setComponent } from '../../utils/lokaliser.js';
 import Inbox from './components/Inbox/Inbox';
-
-// import { default as i18n } from '../../../../data/i18n/inbox-nl_NL.js';
 
 class Index extends Component {
     constructor(props) {
@@ -21,6 +19,8 @@ class Index extends Component {
             Object.assign({}, inboxActions),
             dispatch
         );
+
+        setComponent('inbox');
     }
 
     componentDidMount() {
@@ -34,13 +34,13 @@ class Index extends Component {
     render() {
         return (
             <Inbox
-                i18n={ lokaliser('nl') }
             />
         );
     }
 }
 
-const mapStateToProps = (/* state */) => ({
+const mapStateToProps = state => ({
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);
