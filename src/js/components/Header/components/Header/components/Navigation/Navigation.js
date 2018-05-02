@@ -12,13 +12,14 @@ export default class Navigation extends Component {
 
     render() {
         const navigationItems = [];
-        const { items } = this.props;
+        const { items, i18n } = this.props;
 
         items.forEach(item => {
             const navigationItem = <NavigationItem
                 label = { item.label }
                 link = { item.link }
                 key = { item.label }
+                i18n = { i18n }
             />;
 
             navigationItems.push(navigationItem);
@@ -27,7 +28,7 @@ export default class Navigation extends Component {
         return (
             <nav className={ style.app_navigation }>
                 <ul>
-                    <a href="/inbox"><li className={style.logo} /></a>
+                    <a href="/"><li className={style.logo} /></a>
                     { navigationItems }
                 </ul>
             </nav>

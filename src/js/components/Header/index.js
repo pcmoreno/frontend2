@@ -4,21 +4,39 @@ import Redirect from '../../utils/components/Redirect';
 
 /** @jsx h */
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'preact-redux';
+import * as headerActions from './actions/header';
 import Header from './components/Header/Header';
+import lokaliser from '../../utils/lokaliser';
 
 class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.logoutAction = this.logoutAction.bind(this);
+        const { dispatch } = this.props;
+
+        this.actions = bindActionCreators(
+            Object.assign({}, headerActions),
+            dispatch
+        );
+
+        this.logout = this.logout.bind(this);
+        this.switchLanguage = this.switchLanguage.bind(this);
     }
 
-    logoutAction() {
+    logout() {
         const api = ApiFactory.get('neon');
 
         api.getAuthenticator().logout().then(() => {
             render(<Redirect to={'/'} refresh={true}/>);
         });
+    }
+
+    switchLanguage(languageId) {
+
+        // set language in state (so components update and dropdown can be populated)
+        this.actions.switchLanguage(languageId);
     }
 
     render() {
@@ -28,13 +46,21 @@ class Index extends Component {
             return null;
         }
 
+        /* todo: translations for the header should reside in its own translation file, or general, or menu */
         return (
             <Header
                 user={user}
-                logoutAction={this.logoutAction}
+                logoutAction={this.logout}
+                languageId={this.props.languageId}
+                switchLanguage={this.switchLanguage}
+                i18n={ lokaliser(this.props.languageId, 'inbox') }
             />
         );
     }
 }
 
-export default Index;
+const mapStateToProps = state => ({
+    languageId: state.headerReducer.languageId
+});
+
+export default connect(mapStateToProps)(Index);
