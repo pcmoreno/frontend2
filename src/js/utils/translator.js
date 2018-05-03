@@ -1,10 +1,10 @@
 /**
- * @class Lokaliser
+ * @class translator
  * @param {string} languageId - language id
  * @param {string} componentId - component id
- * @returns { Object } i18n
+ * @returns { Object } translations
  */
-export default function lokaliser(languageId, componentId) {
+export default function translator(languageId, componentId) {
     if (languageId && componentId) {
         return require('../../../data/i18n/' + componentId + '-' + languageId).default;
     }
