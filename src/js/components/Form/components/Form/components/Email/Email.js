@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 
 import style from '../style/field.scss';
 
-export default class DateTimeField extends Component {
+export default class Email extends Component {
 
     render() {
         const { localState, handle, label, onChange, value } = this.props;
@@ -18,7 +18,7 @@ export default class DateTimeField extends Component {
                     </li>
                     <li>
                         <input
-                            type="datetime-local"
+                            type="email"
                             id={ handle }
                             value={ value }
                             name={ 'form[' + handle + ']'}

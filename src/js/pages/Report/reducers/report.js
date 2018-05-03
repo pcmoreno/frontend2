@@ -43,7 +43,7 @@ export default function reportReducer(state = initialState, action) {
             };
 
             try {
-                const account = action.report.account_has_role.account;
+                const account = action.report.accountHasRole.account;
                 const product = action.report.project.product;
                 const organisation = action.report.project.organisation;
                 const consultant = action.report.consultant.account;
@@ -58,52 +58,52 @@ export default function reportReducer(state = initialState, action) {
 
                 // set display name
                 if (account.infix) {
-                    newState.report.participant.name = `${account.first_name} ${account.infix} ${account.last_name}`;
+                    newState.report.participant.name = `${account.firstName} ${account.infix} ${account.lastName}`;
                 } else {
-                    newState.report.participant.name = `${account.first_name} ${account.last_name}`;
+                    newState.report.participant.name = `${account.firstName} ${account.lastName}`;
                 }
 
                 // set product name
-                newState.report.product.name = product.product_name;
+                newState.report.product.name = product.productName;
 
                 // set organisation name and/or job function
-                if (organisation.organisation_type.toLowerCase() === 'organisation') {
-                    newState.report.organisation.name = organisation.organisation_name;
-                } else if (organisation.organisation_type.toLowerCase() === 'jobfunction') {
-                    newState.report.organisation.jobFunction = organisation.organisation_name;
+                if (organisation.organisationType.toLowerCase() === 'organisation') {
+                    newState.report.organisation.name = organisation.organisationName;
+                } else if (organisation.organisationType.toLowerCase() === 'jobfunction') {
+                    newState.report.organisation.jobFunction = organisation.organisationName;
 
                     if (organisation.organisation) {
-                        newState.report.organisation.name = organisation.organisation.organisation_name;
+                        newState.report.organisation.name = organisation.organisation.organisationName;
                     }
                 }
 
                 // set appointment date
-                newState.report.participant.appointmentDate = Utils.formatDate(action.report.participant_session_appointment_date, 'dd-MM-yyyy');
+                newState.report.participant.appointmentDate = Utils.formatDate(action.report.participantSessionAppointmentDate, 'dd-MM-yyyy');
 
                 // set consultant (display) name
-                if (consultant.display_name) {
-                    newState.report.consultant.name = consultant.display_name;
+                if (consultant.displayName) {
+                    newState.report.consultant.name = consultant.displayName;
                 } else if (consultant.infix) {
-                    newState.report.consultant.name = `${consultant.first_name} ${consultant.infix} ${consultant.last_name}`;
+                    newState.report.consultant.name = `${consultant.firstName} ${consultant.infix} ${consultant.lastName}`;
                 } else {
-                    newState.report.consultant.name = `${consultant.first_name} ${consultant.last_name}`;
+                    newState.report.consultant.name = `${consultant.firstName} ${consultant.lastName}`;
                 }
 
                 // set report texts
-                if (report.text_field_in_reports && report.text_field_in_reports.length) {
+                if (report.textFieldInReports && report.text_field_in_reports.length) {
                     const mappedFieldNames = [];
 
                     report.text_field_in_reports.forEach(textField => {
                         const mappedTextField = {};
 
                         // extract score/text (value)
-                        if (textField.text_field_in_report_value) {
-                            mappedTextField.value = textField.text_field_in_report_value;
+                        if (textField.textFieldInReportValue) {
+                            mappedTextField.value = textField.textFieldInReportValue;
                         }
 
                         // extract field name
-                        if (textField.text_field) {
-                            mappedTextField.name = textField.text_field.text_field_name;
+                        if (textField.textField) {
+                            mappedTextField.name = textField.textField.textFieldName;
                             mappedFieldNames.push(mappedTextField.name);
                         }
 
@@ -111,12 +111,12 @@ export default function reportReducer(state = initialState, action) {
                     });
 
                     // get default text fields in case some where not available on the report
-                    product.texts_template.text_fields.forEach(textField => {
+                    product.textsTemplate.textFields.forEach(textField => {
 
                         // add default text field if they were not set
-                        if (!~mappedFieldNames.indexOf(textField.text_field_name)) {
-                            newState.report.texts[textField.text_field_name] = {
-                                name: textField.text_field_name,
+                        if (!~mappedFieldNames.indexOf(textField.textFieldName)) {
+                            newState.report.texts[textField.textFieldName] = {
+                                name: textField.textFieldName,
                                 value: null
                             };
                         }

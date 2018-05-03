@@ -6,6 +6,16 @@ import DateTimeField from './components/DateTimeField/DateTimeField';
 import TextInput from './components/TextInput/TextInput';
 import Choice from './components/Choice/Choice';
 import style from './style/form.scss';
+import Relationship from './components/Relationship/Relationship';
+import Email from './components/Email/Email';
+import TextArea from './components/TextArea/TextArea';
+
+export const DATE_TIME_FIELD = 'DateTimeField';
+export const TEXT_INPUT = 'TextInput';
+export const TEXT_AREA = 'TextArea';
+export const CHOICE = 'Choice';
+export const RELATIONSHIP = 'Relationship';
+export const EMAIL = 'Email';
 
 export default class Form extends Component {
     constructor(props) {
@@ -19,9 +29,7 @@ export default class Form extends Component {
         this.localState = {
             errors: {
                 form: '',
-                fields: {
-
-                }
+                fields: {}
             }
         };
     }
@@ -30,31 +38,59 @@ export default class Form extends Component {
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
-            case 'DateTimeField':
+            case DATE_TIME_FIELD:
                 return (<DateTimeField
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case 'TextInput':
+            case TEXT_INPUT:
                 return (<TextInput
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case 'Choice':
+            case TEXT_AREA:
+                return (<TextArea
+                    name={name}
+                    localState={this.localState}
+                    options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    value={value}
+                    onChange={this.handleChange}/>);
+            case CHOICE:
                 return (<Choice
                     name={name}
                     localState={this.localState}
+                    options={formFieldOptions}
                     handle={handle}
-                    formFieldOptions={formFieldOptions}
                     label={label}
                     value={value}
-                    onChange={this.handleChange}/>);
+                    onChange={ this.handleChange }
+                />);
+            case RELATIONSHIP:
+                return (<Relationship
+                    localState={ this.localState }
+                    options={formFieldOptions}
+                    onChange={ this.handleChange }
+                />);
+            case EMAIL:
+                return (<Email
+                    name={name}
+                    localState={this.localState}
+                    options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    value={value}
+                    onChange={this.handleChange}
+                />);
             default:
 
                 // console.log('input type unknown!');
@@ -65,16 +101,36 @@ export default class Form extends Component {
     handleChange(event) {
         event.preventDefault();
 
-        // controlled component pattern: form state is kept in state and persisted across page components
+        const target = event.currentTarget;
+
+        // controlled component pattern: form state is kept in
+        // state and persisted across page components
         const formId = this.props.formId;
         const formInputId = event.currentTarget.id;
-        const formInputValue = event.currentTarget.value;
 
         this.props.changeFormFieldValueForFormId(
             formId,
             formInputId,
-            formInputValue
+            this.getFieldValue(target)
         );
+    }
+
+    getFieldValue(target) {
+        let formInputValue;
+
+        // If we have a selectedOptions property
+        // And data-array is set with a value of "true"
+        // We want to send the data as an array
+        if (target.getAttribute('data-array') !== null &&
+            target.getAttribute('data-array') === 'true' &&
+            typeof target.selectedOptions !== 'undefined'
+        ) {
+            formInputValue = Array.from(target.selectedOptions).map(option => option.value);
+        } else {
+            formInputValue = target.value;
+        }
+
+        return formInputValue;
     }
 
     handleSubmit(event) {
@@ -82,12 +138,12 @@ export default class Form extends Component {
 
         // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour (multiple calls)
         // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
-
         // todo: frontend form input validation (read validation rules from options calls)
 
         let changedFields = [];
 
         this.props.forms.forEach(form => {
+
             if (form.id === this.props.formId) {
 
                 // in the right form
@@ -103,6 +159,25 @@ export default class Form extends Component {
                         const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
+                    } else {
+
+                        // ensure choice fields always submit their first
+                        // value (in case user didnt change anything)
+                        if (field[name].type === CHOICE) {
+                            const fieldName = (Object.keys(field));
+                            const fieldId = (Object.keys(field)[0]);
+                            const choices = [];
+
+                            for (const key in field[fieldName].form.all.choices) {
+                                if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                    choices.push(field[fieldName].form.all.choices[key]);
+                                    break;
+                                }
+                            }
+                            const value = choices[0];
+
+                            changedFields.push({ fieldId, value });
+                        }
                     }
                 });
             }
@@ -192,7 +267,8 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, formId } = this.props;
+        const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
+
         let formFields = `loading ${formId}`;
         let formSubmitButton = null;
 
@@ -200,6 +276,7 @@ export default class Form extends Component {
         if (forms && forms.length > 0) {
             forms.forEach(form => {
                 if (form.id === formId) {
+
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
@@ -211,16 +288,18 @@ export default class Form extends Component {
                             const handle = formField[name].handle;
                             const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
                             const value = formField[name].value ? formField[name].value : null;
-                            const formFieldOptions = formField[name].form.all;
+                            const formFieldOptions = formField[name];
 
-                            buildField = this.buildInputType(name, type, handle, label, value, formFieldOptions);
+                            buildField = this.buildInputType(
+                                name, type, handle, label, value, formFieldOptions
+                            );
                         }
 
                         return buildField;
                     });
 
                     // todo: header en submit button text
-                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >Submit</button>;
+                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
                 }
             });
         }
@@ -230,7 +309,7 @@ export default class Form extends Component {
             <form id={formId}>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
-                    <h3>Add Organisation</h3>
+                    <h3>{ headerText }</h3>
                     <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
                 <main>

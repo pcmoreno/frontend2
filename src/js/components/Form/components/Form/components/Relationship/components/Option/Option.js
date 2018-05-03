@@ -4,10 +4,6 @@ import { h, Component } from 'preact';
 
 export default class Option extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let { optionValue, value } = this.props;
 
