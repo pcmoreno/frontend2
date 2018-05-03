@@ -46,14 +46,13 @@ class Index extends Component {
             return null;
         }
 
-        /* todo: translations for the header should reside in its own translation file, or general, or menu */
         return (
             <Header
                 user={user}
                 logoutAction={this.logout}
                 languageId={this.props.languageId}
                 switchLanguage={this.switchLanguage}
-                i18n={ translator(this.props.languageId, 'inbox') }
+                i18n={ translator(this.props.languageId, 'header') }
             />
         );
     }
