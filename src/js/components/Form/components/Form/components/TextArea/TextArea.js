@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 
 import style from '../style/field.scss';
 
-export default class DateTimeField extends Component {
+export default class TextArea extends Component {
 
     render() {
         const { localState, handle, label, onChange, value } = this.props;
@@ -17,8 +17,8 @@ export default class DateTimeField extends Component {
                         <label htmlFor={ handle }>{ label }</label>
                     </li>
                     <li>
-                        <input
-                            type="datetime-local"
+                        <textarea
+                            type="text"
                             id={ handle }
                             value={ value }
                             name={ 'form[' + handle + ']'}

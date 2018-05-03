@@ -215,6 +215,14 @@ class Index extends Component {
         document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
+    openModalToAddParticipant() {
+        document.querySelector('#modal_participant').classList.remove('hidden');
+    }
+
+    closeModalToAddParticipant() {
+        document.querySelector('#modal_participant').classList.add('hidden');
+    }
+
     render() {
         const { panels, forms, detailPanelData, pathNodes } = this.props;
 
@@ -231,6 +239,8 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                openModalToAddParticipant = { this.openModalToAddParticipant }
+                closeModalToAddParticipant = { this.closeModalToAddParticipant }
             />
         );
     }

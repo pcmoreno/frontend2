@@ -27,7 +27,7 @@ export default function exampleReducer(state = initialState, action) {
 
             // loop through newly retrieved items from the action and add to the newState
             action.items.forEach(item => {
-                newState.items.push({ id: item.id, organisationName: item.organisation_name });
+                newState.items.push({ id: item.id, organisationName: item.organisationName });
             });
 
             break;

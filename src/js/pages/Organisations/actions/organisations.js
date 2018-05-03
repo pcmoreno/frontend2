@@ -54,6 +54,21 @@ export function storeFormDataInFormsCollection(formId, formFields) {
 }
 
 /**
+ * Store section info in collection action
+ * @param {int} sectionId Id of section
+ * @param {Object} sectionInfo All relevant section info
+ * @returns {Object} Action
+ */
+export function storeSectionInfoInSectionsCollection(sectionId, sectionInfo) {
+
+    return {
+        type: actionType.STORE_SECTION_INFO,
+        sectionId,
+        sectionInfo
+    };
+}
+
+/**
  * Change form field action
  * @param {string} formId - formId
  * @param {string} formInputId - form input id
