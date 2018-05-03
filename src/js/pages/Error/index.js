@@ -1,5 +1,7 @@
 import { h, Component } from 'preact';
+
 // todo: translate this
+
 /** @jsx h */
 
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';

@@ -9,6 +9,7 @@ export default class Participants extends Component {
 
     render() {
         const { i18n } = this.props;
+
         return (
             <div>
                 <div className="toolbar">
