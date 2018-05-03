@@ -17,7 +17,7 @@ export default class Information extends Component {
                     switchTab('information');
                 }}
             >
-                <span>Info</span>
+                <span>Info</span> {/* todo: translate this */}
             </li>
         );
     }

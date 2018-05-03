@@ -20,7 +20,7 @@ export default class Report extends Component {
 
         // todo: titles of blocks/sections should be translated
 
-        const { report } = this.props;
+        const { report, i18n } = this.props;
 
         // don't render without a report
         if (!report || !report.isLoaded) {
@@ -30,12 +30,12 @@ export default class Report extends Component {
         // define sidebar tabs
         const tabs = [
             {
-                name: 'Rapport', // todo: translate this label
+                name: i18n.report,
                 icon: ['far', 'file-alt'],
                 component: <div />
             },
             {
-                name: 'Deelnemer', // todo: translate this label
+                name: i18n.participant,
                 icon: 'user',
                 component: <div />
             }
@@ -53,15 +53,17 @@ export default class Report extends Component {
                         product={report.product}
                         organisation={report.organisation}
                         consultant={report.consultant}
+                        i18n={i18n}
                     />
 
                     <Introduction
                         texts={report.texts}
+                        i18n={i18n}
                     />
 
                 </section>
 
-                <Sidebar tabs={ tabs } />
+                <Sidebar tabs={ tabs } i18n={i18n} />
 
             </main>
         );

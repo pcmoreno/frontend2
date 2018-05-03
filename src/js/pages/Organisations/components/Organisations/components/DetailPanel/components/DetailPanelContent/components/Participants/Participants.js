@@ -8,13 +8,14 @@ export default class Participants extends Component {
     }
 
     render() {
+        const { i18n } = this.props;
         return (
             <div>
                 <div className="toolbar">
                     <button
                         onClick={ this.props.openModalToAddParticipant }
                         className="button-action">
-                        add participant
+                        { i18n.add_participant }
                     </button>
                 </div>
                 <div className="scrollable-select-list">

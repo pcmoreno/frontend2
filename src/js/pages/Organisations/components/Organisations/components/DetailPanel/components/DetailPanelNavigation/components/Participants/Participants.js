@@ -8,7 +8,7 @@ export default class Participants extends Component {
     }
 
     render() {
-        const { active, switchTab } = this.props;
+        const { active, switchTab, i18n } = this.props;
 
         return (
             <li
@@ -17,7 +17,7 @@ export default class Participants extends Component {
                     switchTab('participants');
                 }}
             >
-                <span>Participants</span>
+                <span>{ i18n.participants }</span>
             </li>
         );
     }

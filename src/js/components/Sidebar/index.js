@@ -10,10 +10,10 @@ class Index extends Component {
     }
 
     render() {
-        const { tabs } = this.props;
+        const { tabs, i18n } = this.props;
 
         return (
-            <Sidebar tabs={ tabs } />
+            <Sidebar tabs={ tabs } i18n={i18n} />
         );
     }
 }

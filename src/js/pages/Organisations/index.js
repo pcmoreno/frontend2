@@ -11,6 +11,7 @@ import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
+import translator from '../../utils/translator';
 
 class Index extends Component {
     constructor(props) {
@@ -241,6 +242,7 @@ class Index extends Component {
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                i18n = { translator(this.props.languageId, 'organisations') }
             />
         );
     }
@@ -250,7 +252,8 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     detailPanelData: state.organisationsReducer.detailPanelData,
     forms: state.organisationsReducer.forms,
-    pathNodes: state.organisationsReducer.pathNodes
+    pathNodes: state.organisationsReducer.pathNodes,
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);

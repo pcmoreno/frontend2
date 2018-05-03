@@ -19,7 +19,8 @@ export default class Panel extends Component {
             fetchDetailPanelData,
             openModalToAddOrganisation,
             isPanelActive,
-            entities
+            entities,
+            i18n
         } = this.props;
         const itemOutput = [];
 
@@ -49,7 +50,10 @@ export default class Panel extends Component {
 
         return (
             <section className={ `${style.panel}${isPanelActive ? ' active' : ''}` } >
-                <PanelHeader openModalToAddOrganisation={openModalToAddOrganisation} />
+                <PanelHeader
+                    openModalToAddOrganisation={openModalToAddOrganisation}
+                    i18n={i18n}
+                />
                 <section className={ style.itemlist }>
                     <ul>
                         { itemOutput }

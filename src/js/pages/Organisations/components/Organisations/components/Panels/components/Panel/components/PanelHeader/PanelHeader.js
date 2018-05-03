@@ -10,9 +10,10 @@ export default class PanelHeader extends Component {
     }
 
     render() {
+        const {i18n} = this.props;
         return (
             <nav className={ style.add_button }>
-                <button onClick={ this.props.openModalToAddOrganisation }>Add</button>
+                <button onClick={ this.props.openModalToAddOrganisation }>{i18n.add}</button>
             </nav>
         );
     }
