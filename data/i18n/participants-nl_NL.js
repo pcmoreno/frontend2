@@ -1,13 +1,15 @@
-var translations = {
+export default {
     "added": "toegevoegd",
     "added_invited": "toegevoegd + uitgenodigd",
     "consultant": "adviseur",
+    "en_GB": "english",
     "finished": "afgerond",
     "inbox": "inbox",
     "invitation_accepted": "uitnodiging geaccepteerd",
     "invited": "uitgenodigd",
     "log_out": "uitloggen",
     "name": "naam",
+    "nl_NL": "nederlands",
     "organisation": "organisatie",
     "organisations": "organisaties",
     "participants": "deelnemers",

@@ -1,8 +1,10 @@
-var translations = {
+export default {
     "appointment_date": "appointment date",
     "consultant": "consultant",
+    "en_GB": "english",
     "inbox": "inbox",
     "log_out": "log out",
+    "nl_NL": "nederlands",
     "organisation": "organisation",
     "organisations": "organisations",
     "participant": "participant",

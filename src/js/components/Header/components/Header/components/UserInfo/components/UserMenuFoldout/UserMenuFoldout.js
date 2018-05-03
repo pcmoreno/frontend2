@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import * as languageType from '../../../../../../constants/LanguageTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenufoldout.scss';
 
@@ -11,29 +12,39 @@ export default class UserMenuFoldout extends Component {
     }
 
     render() {
-
-        const { logoutAction } = this.props;
+        const { logoutAction, switchLanguage, languageId, toggleUserMenu, i18n } = this.props;
+        const switchableLanguageId = languageId === languageType.NL ? languageType.EN : languageType.NL;
 
         return (
             <div className={ `${style.user_menu_foldout} hidden` } id="user_menu_foldout">
                 <ul>
                     <li>
-                        <a href="#notimplemented">
-                            <span>EN</span>
-                        </a>
+                        <div
+                            role="button"
+                            tabIndex="0"
+                            onClick={ event => {
+                                event.preventDefault();
+                                switchLanguage(switchableLanguageId);
+                                toggleUserMenu();
+                            } }>
+                            <span>{ i18n[switchableLanguageId] }</span>
+                        </div>
                     </li>
                     <li>
-                        <a href="#notimplemented">
+                        <div>
                             <span>Feature toggles</span>
-                        </a>
+                        </div>
                     </li>
                     <li>
-                        <a href='#logout' onClick={logoutAction}>
+                        <div
+                            role="button"
+                            tabIndex="0"
+                            onClick={logoutAction}>
                             <span>
                                 <FontAwesomeIcon icon="sign-out-alt" />
                             </span>
-                            <span>Uitloggen</span>
-                        </a>
+                            <span>{ i18n.log_out }</span>
+                        </div>
                     </li>
                 </ul>
             </div>

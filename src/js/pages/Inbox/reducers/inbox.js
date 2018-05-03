@@ -1,6 +1,7 @@
 // import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
+    items: []
 };
 
 /**
@@ -10,8 +11,13 @@ const initialState = {
  * @returns {{}} new state
  */
 export default function inboxReducer(state = initialState, action) {
+    const newState = Object.assign({}, state);
+
     switch (action.type) {
+
         default:
-            return state;
+            break;
     }
+
+    return newState;
 }

@@ -65,6 +65,10 @@ export default class Organisations extends Component {
 
         const dataForCurrentEntity = this.getDetailPanelData();
 
+        if (!panels || !panels.length) {
+            return null;
+        }
+
         return (
             <main className={ style.organisations }>
                 { alertComponent }

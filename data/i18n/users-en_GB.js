@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "add": "Add",
     "add_user": "Add user",
     "application_manager": "application manager",
@@ -11,6 +11,7 @@ var translations = {
     "client_center": "client center",
     "consultant": "consultant",
     "email_address": "email address",
+    "en_GB": "english",
     "enter_an_email_address": "enter an email address.",
     "fill_this_field": "fill this field.",
     "first_name": "first name",
@@ -18,6 +19,7 @@ var translations = {
     "infix": "infix",
     "log_out": "log out",
     "name": "name",
+    "nl_NL": "nederlands",
     "optional": "optional",
     "organisations": "organisations",
     "participants": "participants",

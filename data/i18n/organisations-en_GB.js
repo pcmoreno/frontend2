@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "access": "access",
     "add": "Add",
     "add_job_function": "add job function",
@@ -39,6 +39,7 @@ var translations = {
     "education_level_low": "middle manual vocational program",
     "education_level_middle": "higher vocational program (Bachelor's degree)",
     "email_address": "email address",
+    "en_GB": "english",
     "english": "English",
     "finished": "finished",
     "first_name": "first name",
@@ -56,6 +57,7 @@ var translations = {
     "log_out": "log out",
     "name": "name",
     "new_manager": "new manager",
+    "nl_NL": "nederlands",
     "organisations": "organisations",
     "participants": "participants",
     "project": "project",

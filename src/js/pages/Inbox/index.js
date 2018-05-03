@@ -36,7 +36,8 @@ class Index extends Component {
     }
 }
 
-const mapStateToProps = (/* state */) => ({
+const mapStateToProps = state => ({
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);

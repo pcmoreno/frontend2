@@ -1,4 +1,4 @@
-var translations = {
+export default {
     "add": "Voeg toe",
     "add_user": "Gebruiker toevoegen",
     "application_manager": "applicatiebeheerder",
@@ -11,6 +11,7 @@ var translations = {
     "client_center": "client center",
     "consultant": "adviseur",
     "email_address": "e-mailadres",
+    "en_GB": "english",
     "enter_an_email_address": "voer een e-mail adres in.",
     "fill_this_field": "vul dit veld in.",
     "first_name": "voornaam",
@@ -18,6 +19,7 @@ var translations = {
     "infix": "tussenvoegsel",
     "log_out": "uitloggen",
     "name": "naam",
+    "nl_NL": "nederlands",
     "optional": "optioneel",
     "organisations": "organisaties",
     "participants": "deelnemers",
