@@ -7,7 +7,7 @@ import style from './style/tasks.scss';
 
 export default class Tasks extends Component {
     render() {
-        const { tasks } = this.props;
+        const { tasks, i18n } = this.props;
 
         return (
             <main className={ style.tasks }>
@@ -15,6 +15,7 @@ export default class Tasks extends Component {
                     entities={ tasks }
                     defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
+                    i18n={i18n}
                 />
             </main>
         );

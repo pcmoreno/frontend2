@@ -51,7 +51,8 @@ export default class Organisations extends Component {
             changeFormFieldValueForFormId,
             refreshDataWithMessage,
             closeModalToAddOrganisation,
-            closeModalToAddParticipant
+            closeModalToAddParticipant,
+            i18n
         } = this.props;
 
         // define properties for the Panels component
@@ -61,6 +62,7 @@ export default class Organisations extends Component {
             fetchEntities={ fetchEntities }
             fetchDetailPanelData={ fetchDetailPanelData }
             openModalToAddOrganisation={ openModalToAddOrganisation }
+            i18n={i18n}
         />;
 
         const dataForCurrentEntity = this.getDetailPanelData();
@@ -79,6 +81,7 @@ export default class Organisations extends Component {
                         data = { dataForCurrentEntity }
                         openModalToAddParticipant = { this.props.openModalToAddParticipant }
                         closeModalToAddParticipant = { this.props.closeModalToAddParticipant }
+                        i18n = { i18n }
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
@@ -96,13 +99,14 @@ export default class Organisations extends Component {
                             'organisationType',
                             'organisationSlug'
                         ] }
-                        headerText='Add organisation'
-                        submitButtonText='Add'
+                        headerText={i18n.add_organisation}
+                        submitButtonText={i18n.add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddOrganisation }
+                        i18n = { i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_participant">
@@ -121,14 +125,15 @@ export default class Organisations extends Component {
                             'onlineId',
                             'participantSessionSlug'
                         ] }
-                        headerText='Add participant'
-                        submitButtonText='Add'
+                        headerText={i18n.add_participant}
+                        submitButtonText={i18n.add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddParticipant }
+                        i18n = { i18n }
                     />
                 </aside>
             </main>

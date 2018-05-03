@@ -8,16 +8,14 @@ import TextBlock from '../ReportSection/components/ReportColumn/components/TextB
 export default class Introduction extends Component {
 
     render() {
-        const { texts } = this.props;
-
-        // todo: translate title
+        const { texts, i18n } = this.props;
 
         if (!texts) {
             return null;
         }
 
         return (
-            <ReportSection title={'Introduction'}>
+            <ReportSection title={i18n.introduction}>
                 <ReportColumn>
                     <TextBlock
                         field={texts.goal}

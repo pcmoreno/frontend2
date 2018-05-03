@@ -90,10 +90,10 @@ export default function reportReducer(state = initialState, action) {
                 }
 
                 // set report texts
-                if (report.textFieldInReports && report.text_field_in_reports.length) {
+                if (report.textFieldInReports && report.textFieldInReports.length) {
                     const mappedFieldNames = [];
 
-                    report.text_field_in_reports.forEach(textField => {
+                    report.textFieldInReports.forEach(textField => {
                         const mappedTextField = {};
 
                         // extract score/text (value)

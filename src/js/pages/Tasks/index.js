@@ -9,6 +9,7 @@ import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Tasks from './components/Tasks/Tasks';
+import translator from '../../utils/translator';
 
 class Index extends Component {
     constructor(props) {
@@ -66,13 +67,15 @@ class Index extends Component {
         return (
             <Tasks
                 tasks = { this.props.tasks }
+                i18n = { translator(this.props.languageId, 'tasks') }
             />
         );
     }
 }
 
 const mapStateToProps = state => ({
-    tasks: state.tasksReducer.tasks
+    tasks: state.tasksReducer.tasks,
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);

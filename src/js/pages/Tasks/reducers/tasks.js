@@ -1,9 +1,13 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
+import translator from '../../../utils/translator';
 
 const initialState = {
     tasks: []
 };
+
+// todo: Move to view component, don't hardcode language code
+const i18n = translator('nl_NL', 'tasks');
 
 /**
  * Returns the new state
@@ -56,7 +60,7 @@ export default function tasksReducer(state = initialState, action) {
                 let appointmentDate = '';
                 let sortValueForAppointmentDate = '';
 
-                if (task.hasOwnProperty('participant_session_appointment_date')) {
+                if (task.hasOwnProperty('participantSessionAppointmentDate')) {
 
                     // construct appointment date
                     appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm');
@@ -67,7 +71,7 @@ export default function tasksReducer(state = initialState, action) {
                 let organisationName = project.organisation.organisationName;
 
                 if (project.organisation.organisationType.toLowerCase() === 'jobfunction') {
-                    organisationName = project.organisation.organisation.organisationName;
+                    organisationName = project.organisation.organisationName;
                 }
 
                 newState.tasks.push(
@@ -88,11 +92,11 @@ export default function tasksReducer(state = initialState, action) {
                             value: organisationName
                         },
                         results: {
-                            value: 'show results', // todo: translate message
+                            value: i18n.showresults, // todo: translate message
                             link: '#notimplemented'
                         },
                         report: {
-                            value: 'write report', // todo: translate message
+                            value: i18n.write_report, // todo: translate message
                             link: `/report/${sessionId}`
                         }
                     }
