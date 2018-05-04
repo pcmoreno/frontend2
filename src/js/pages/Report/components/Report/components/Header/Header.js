@@ -7,7 +7,7 @@ import style from './style/header.scss';
 export default class Header extends Component {
 
     render() {
-        const { participant, product, organisation, consultant } = this.props;
+        const { participant, product, organisation, consultant, i18n } = this.props;
 
         // todo: table headers (th) should be translated
         // todo: product.name should be translated
@@ -20,12 +20,12 @@ export default class Header extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>Organisation</th>
+                                <th>{i18n.organisation}</th>
                                 <td>{ organisation.name }</td>
                             </tr>
                             {
                                 organisation.jobFunction && <tr>
-                                    <th>Job function</th>
+                                    <th>Job function</th> {/* todo: add translation */}
                                     <td>{organisation.jobFunction}</td>
                                 </tr>
                             }
@@ -35,11 +35,11 @@ export default class Header extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>Assessment date</th>
+                                <th>{i18n.assessment_date}</th>
                                 <td>{ participant.appointmentDate }</td>
                             </tr>
                             <tr>
-                                <th>Consultant</th>
+                                <th>{i18n.consultant}</th>
                                 <td>{ consultant.name }</td>
                             </tr>
                         </tbody>

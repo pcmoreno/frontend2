@@ -9,6 +9,7 @@ import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Report from './components/Report/Report';
+import translator from '../../utils/translator';
 
 class Index extends Component {
     constructor(props) {
@@ -195,13 +196,15 @@ class Index extends Component {
             <Report
                 report = { this.props.report }
                 saveReportText={this.saveReportText.bind(this)}
+                i18n = { translator(this.props.languageId, 'report') }
             />
         );
     }
 }
 
 const mapStateToProps = state => ({
-    report: state.reportReducer.report
+    report: state.reportReducer.report,
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);

@@ -13,6 +13,7 @@ const AppConfig = {
                 authorise: '/user/authorize',
                 logout: '/user/logout',
                 abstractSection: '/section',
+                sectionInfo: '/section/info', // This call gives information on how to build the form
                 participants: {
                     entities: '/section/participantSession'
                 },

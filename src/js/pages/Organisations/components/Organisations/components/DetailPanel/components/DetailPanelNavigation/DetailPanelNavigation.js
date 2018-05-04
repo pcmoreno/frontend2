@@ -14,7 +14,7 @@ export default class DetailPanelNavigation extends Component {
     }
 
     render() {
-        const { entity, activeTab, switchTab } = this.props;
+        const { entity, activeTab, switchTab, i18n } = this.props;
         let tabOutput;
 
         if (entity.id === AppConfig.global.organisations.rootEntity.id) {
@@ -39,7 +39,7 @@ export default class DetailPanelNavigation extends Component {
                     tabOutput = <ul>
                         <Information active={activeTab === 'information'} switchTab={switchTab}/>
                         <Settings active={activeTab === 'settings'} switchTab={switchTab}/>
-                        <Participants active={activeTab === 'participants'} switchTab={switchTab}/>
+                        <Participants active={activeTab === 'participants'} switchTab={switchTab} i18n={i18n}/>
                     </ul>;
                     break;
                 default:

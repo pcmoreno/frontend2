@@ -1,13 +1,15 @@
-var translations = {
+export default {
     "added": "added",
     "added_invited": "added + invited",
     "consultant": "consultant",
+    "en_GB": "english",
     "finished": "finished",
     "inbox": "inbox",
     "invitation_accepted": "invitation accepted",
     "invited": "invited",
     "log_out": "log out",
     "name": "name",
+    "nl_NL": "nederlands",
     "organisation": "organisation",
     "organisations": "organisations",
     "participants": "participants",

@@ -18,6 +18,7 @@
             color: $blue;
             font-family: $fontheavy;
             font-weight: 700;
+            text-transform: capitalize;
 
             @media screen and (max-width: $grid-breakpoints-lg) {
                 display: none;

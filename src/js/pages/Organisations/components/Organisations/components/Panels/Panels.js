@@ -19,7 +19,8 @@ export default class Panels extends Component {
             pathNodes,
             fetchEntities,
             openModalToAddOrganisation,
-            fetchDetailPanelData
+            fetchDetailPanelData,
+            i18n
         } = this.props;
 
         const panelCollection = [];
@@ -66,6 +67,7 @@ export default class Panels extends Component {
                     openModalToAddOrganisation = { openModalToAddOrganisation }
                     isPanelActive = { isPanelActive }
                     pathNodes = { pathNodes }
+                    i18n={i18n}
                 />);
             }
         });

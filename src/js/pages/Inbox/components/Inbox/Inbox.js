@@ -11,9 +11,7 @@ export default class Inbox extends Component {
 
     render() {
         return (
-            <main className={ style.inbox }>
-                Inbox goes here
-            </main>
+            <main className={ style.inbox } />
         );
     }
 }

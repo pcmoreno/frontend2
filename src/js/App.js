@@ -59,6 +59,7 @@ import { createStore, combineReducers } from 'redux';
 
 // import all reducers
 import exampleReducer from './pages/Example/reducers/example';
+import headerReducer from './components/Header/reducers/header';
 import organisationsReducer from './pages/Organisations/reducers/organisations';
 import tasksReducer from './pages/Tasks/reducers/tasks';
 import reportReducer from './pages/Report/reducers/report';
@@ -69,6 +70,7 @@ import alertReducer from './components/Alert/reducers/alert';
 // combine into one
 const rootReducer = combineReducers({
     exampleReducer,
+    headerReducer,
     organisationsReducer,
     tasksReducer,
     reportReducer,

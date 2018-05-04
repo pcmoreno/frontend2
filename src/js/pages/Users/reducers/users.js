@@ -27,7 +27,7 @@ export default function usersReducer(state = initialState, action) {
                 // todo: remove when all dummy accounts have NAW data
                 let userName = '(dummy user)';
 
-                if (user.account && user.account.first_name && user.account.last_name) {
+                if (user.account && user.account.firstName && user.account.lastName) {
                     let userInfix = ' ';
 
                     // extract user infix
@@ -36,14 +36,14 @@ export default function usersReducer(state = initialState, action) {
                     }
 
                     // construct user name
-                    userName = `${user.account.first_name}${userInfix}${user.account.last_name}`;
+                    userName = `${user.account.firstName}${userInfix}${user.account.lastName}`;
                 }
 
                 // push all roles to temp array to output later
                 const userRoles = [];
 
                 if (user.role) {
-                    userRoles.push(user.role.role_name);
+                    userRoles.push(user.role.roleName);
                 }
 
                 newState.users.push(

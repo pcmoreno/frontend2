@@ -33,10 +33,10 @@ export default function participantsReducer(state = initialState, action) {
                     'invitationAccepted',
                     'finished'
                 ];
-                const participantStatus = participant.account_has_role.generic_role_status;
+                const participantStatus = participant.accountHasRole.genericRoleStatus;
 
                 if (acceptedStatus.indexOf(participantStatus) >= 0) {
-                    const account = participant.account_has_role.account;
+                    const account = participant.accountHasRole.account;
                     const project = participant.project;
                     let participantInfix = ' ';
                     let consultantName = '';
@@ -49,8 +49,8 @@ export default function participantsReducer(state = initialState, action) {
                     }
 
                     // construct participant name
-                    const participantName = `${account.first_name}${participantInfix}${account.last_name}`;
-                    const sortValueForParticipantName = `${account.last_name}${participantInfix}${account.first_name}`;
+                    const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
+                    const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
                     // extract consultant name
                     if (participant.hasOwnProperty('consultant')) {
@@ -61,8 +61,8 @@ export default function participantsReducer(state = initialState, action) {
                         }
 
                         // construct consultant name
-                        consultantName = `${participant.consultant.account.first_name}${consultantInfix}${participant.consultant.account.last_name}`;
-                        sortValueForConsultantName = `${participant.consultant.account.last_name}${consultantInfix}${participant.consultant.account.first_name}`;
+                        consultantName = `${participant.consultant.account.firstName}${consultantInfix}${participant.consultant.account.lastName}`;
+                        sortValueForConsultantName = `${participant.consultant.account.lastName}${consultantInfix}${participant.consultant.account.firstName}`;
                     }
 
                     // extract appointment date
@@ -72,8 +72,8 @@ export default function participantsReducer(state = initialState, action) {
                     if (participant.hasOwnProperty('participant_session_appointment_date')) {
 
                         // construct appointment date
-                        appointmentDate = Utils.formatDate(participant.participant_session_appointment_date, 'dd-MM-yyyy HH:mm');
-                        sortValueForAppointmentDate = Utils.formatDate(participant.participant_session_appointment_date, 'yyyy-MM-dd HH:mm');
+                        appointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm');
+                        sortValueForAppointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm');
                     }
 
                     // construct startDate based on current Date with hours,minutes,seconds set to 00:00:00
@@ -94,7 +94,7 @@ export default function participantsReducer(state = initialState, action) {
                                     sortingKey: sortValueForAppointmentDate
                                 },
                                 organisation: {
-                                    value: project.organisation.organisation_name
+                                    value: project.organisation.organisationName
                                 },
                                 consultant: {
                                     value: consultantName,

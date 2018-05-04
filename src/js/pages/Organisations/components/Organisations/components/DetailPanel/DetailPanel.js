@@ -39,7 +39,7 @@ export default class DetailPanel extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, i18n } = this.props;
         const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
         const entity = data.entity;
 
@@ -62,11 +62,17 @@ export default class DetailPanel extends Component {
                     entity={ entity }
                     activeTab={ this.localState.activeTab }
                     switchTab={ this.switchTab }
+                    i18n={ i18n }
                 />
                 <main>
                     <p>{ outputTab }</p>
                     <span className={ style.detailpanel_divider }>some divider</span>
-                    <DetailPanelContent activeTab={ this.localState.activeTab } />
+                    <DetailPanelContent
+                        openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                        closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                        activeTab={ this.localState.activeTab }
+                        i18n={i18n}
+                    />
                 </main>
             </aside>
         );

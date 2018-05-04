@@ -11,7 +11,7 @@ export default class navigationItem extends Component {
     }
 
     render() {
-        const { label, link } = this.props;
+        const { label, link, i18n } = this.props;
 
         let iconType;
 
@@ -38,7 +38,7 @@ export default class navigationItem extends Component {
 
         return (
             <li className={ `${style.navigation_item}` } id={ label.toLowerCase() }>
-                <a href={ link }><FontAwesomeIcon icon={ iconType } /><span>{ label }</span></a>
+                <a href={ link }><FontAwesomeIcon icon={ iconType } /><span>{ i18n[label.toLowerCase()] }</span></a>
             </li>
         );
     }

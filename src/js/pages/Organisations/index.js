@@ -11,6 +11,7 @@ import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
+import translator from '../../utils/translator';
 
 class Index extends Component {
     constructor(props) {
@@ -215,6 +216,14 @@ class Index extends Component {
         document.querySelector('#modal_organisation').classList.add('hidden');
     }
 
+    openModalToAddParticipant() {
+        document.querySelector('#modal_participant').classList.remove('hidden');
+    }
+
+    closeModalToAddParticipant() {
+        document.querySelector('#modal_participant').classList.add('hidden');
+    }
+
     render() {
         const { panels, forms, detailPanelData, pathNodes } = this.props;
 
@@ -231,6 +240,9 @@ class Index extends Component {
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                openModalToAddParticipant = { this.openModalToAddParticipant }
+                closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                i18n = { translator(this.props.languageId, 'organisations') }
             />
         );
     }
@@ -240,7 +252,8 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     detailPanelData: state.organisationsReducer.detailPanelData,
     forms: state.organisationsReducer.forms,
-    pathNodes: state.organisationsReducer.pathNodes
+    pathNodes: state.organisationsReducer.pathNodes,
+    languageId: state.headerReducer.languageId
 });
 
 export default connect(mapStateToProps)(Index);

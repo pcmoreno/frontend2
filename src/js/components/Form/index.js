@@ -9,6 +9,7 @@ import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
 
 class Index extends Component {
+
     constructor(props) {
         super(props);
 
@@ -38,7 +39,7 @@ class Index extends Component {
         if (!formLoaded) {
 
             // disabled retrieving form options, since it is broken right now
-            // this.getFormFields();
+            this.getFormFields();
         }
     }
 
@@ -48,14 +49,16 @@ class Index extends Component {
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');
 
-        this.api.options(
+        // execute request
+        this.api.get(
             this.api.getBaseUrl(),
-            `${this.api.getEndpoints().abstractSection}/${formId}`
+            `${this.api.getEndpoints().sectionInfo}/${formId}`
         ).then(response => {
 
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
             this.props.storeFormDataInFormsCollection(formId, response.fields);
+
         }).catch((/* error */) => {
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
@@ -154,6 +157,8 @@ class Index extends Component {
             ignoredFields={this.props.ignoredFields}
             forms={this.props.forms}
             submitForm={this.submitForm}
+            headerText={this.props.headerText}
+            submitButtonText={this.props.submitButtonText}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
             closeModal={ this.props.closeModal }
         />);
