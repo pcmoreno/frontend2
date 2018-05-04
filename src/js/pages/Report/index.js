@@ -20,6 +20,8 @@ class Index extends Component {
             Object.assign({}, reportActions, alertActions),
             dispatch
         );
+
+        this.api = ApiFactory.get('neon');
     }
 
     componentWillMount() {
@@ -42,24 +44,134 @@ class Index extends Component {
         this.getReport(this.participantSessionId);
     }
 
+    /**
+     * Sends an api call to create or update the given report text
+     * ids correspond to the specific textFieldInReportId
+     *
+     * @param {string|null} textFieldInReportSlug - id
+     * @param {string|null} textFieldTemplateSlug - id
+     * @param {string} text - text
+     * @returns {Promise} promise
+     */
+    saveReportText(textFieldInReportSlug, textFieldTemplateSlug, text) {
+        const reportSlug = this.props.report.slug;
+
+        // show loader
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        return new Promise((onFulfilled, onRejected) => {
+
+            if (textFieldInReportSlug) {
+
+                // execute create/post request for given textFieldInReport
+                this.api.put(
+                    this.api.getBaseUrl(),
+                    this.api.getEndpoints().report.updateTextField,
+                    {
+                        urlParams: {
+                            identifiers: {
+                                slug: textFieldInReportSlug
+                            }
+                        },
+                        payload: {
+                            type: 'form',
+                            data: {
+                                textFieldInReportValue: text
+                            }
+                        }
+                    }
+                ).then(response => {
+
+                    // hide loader
+                    document.querySelector('#spinner').classList.add('hidden');
+
+                    // check for input validation errors form the API
+                    if (response.errors) {
+
+                        // todo: show (translated) error message
+                        this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+
+                        return onRejected(new Error('Could not save report text field'));
+                    }
+
+                    // resolve when the call succeeds
+                    return onFulfilled({});
+
+                }).catch((/* error */) => {
+
+                    // todo: show (translated) error message
+                    this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+
+                    return onRejected(new Error('Could not save report text field'));
+                });
+
+            } else {
+
+                // execute create/post request for given textFieldInReport
+                this.api.post(
+                    this.api.getBaseUrl(),
+                    this.api.getEndpoints().report.createTextField,
+                    {
+                        urlParams: {
+                            parameters: {
+                                fields: 'textFieldInReportSlug'
+                            }
+                        },
+                        payload: {
+                            type: 'form',
+                            data: {
+                                report: reportSlug,
+                                textFieldInReportValue: text,
+                                textField: textFieldTemplateSlug
+                            }
+                        }
+                    }
+                ).then(response => {
+
+                    // hide loader
+                    document.querySelector('#spinner').classList.add('hidden');
+
+                    // check for input validation errors form the API
+                    if (response.errors) {
+
+                        // todo: show (translated) error message
+                        this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+
+                        return onRejected(new Error('Could not save report text field'));
+                    }
+
+                    // resolve with the new textFieldInReport id, to avoid multiple posts on this field.
+                    return onFulfilled({
+                        slug: response.entry && response.entry.textFieldInReportSlug
+                    });
+
+                }).catch((/* error */) => {
+
+                    // todo: show (translated) error message
+                    this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+
+                    return onRejected(new Error('Could not save report text field'));
+                });
+            }
+        });
+    }
+
     getReport(participantSessionId) {
 
         // show spinner
         document.querySelector('#spinner').classList.remove('hidden');
 
-        const api = ApiFactory.get('neon');
-
         // request report data
-        api.get(
-            api.getBaseUrl(),
-            api.getEndpoints().report.entities,
+        this.api.get(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().report.entities,
             {
                 urlParams: {
                     identifiers: {
                         slug: participantSessionId
                     },
                     parameters: {
-                        fields: 'uuid,participantSessionAppointmentDate,project,projectName,organisation,organisationName,organisationType,product,productName,textsTemplate,textsTemplateName,textFields,textFieldName,accountHasRole,account,firstName,infix,lastName,displayName,consultant,report,textFieldInReports,textFieldInReportValue,textField',
+                        fields: 'uuid,participantSessionAppointmentDate,project,projectName,organisation,organisationName,organisationType,product,productName,textsTemplate,textsTemplateName,textFields,textFieldName,accountHasRole,account,firstName,infix,lastName,displayName,consultant,report,reportSlug,textFieldInReports,textFieldInReportSlug,textFieldInReportValue,textField,textFieldSlug',
                         depth: 6 // depth control to avoid infinite results for default texts connected to custom texts
 
                         // todo implement: calculatedScore,scoreName,scoreValue,Type,CompetencyScoreInReport,Competency
@@ -73,6 +185,7 @@ class Index extends Component {
             this.actions.getReport(response);
 
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -81,6 +194,7 @@ class Index extends Component {
         return (
             <Report
                 report = { this.props.report }
+                saveReportText={this.saveReportText.bind(this)}
             />
         );
     }
