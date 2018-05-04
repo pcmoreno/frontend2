@@ -11,7 +11,7 @@
             &::before {
                 content: '\002022';
                 color: $orange;
-                margin-left: 0;
+                margin-left: -8px; /* align start of all sentences */
                 margin-top: -3px;
                 font-size: 1.25rem;
                 position: relative;
