@@ -67,7 +67,7 @@ export default class Report extends Component {
 
         // todo: titles of blocks/sections should be translated
 
-        const { report } = this.props;
+        const { report, saveReportText } = this.props;
 
         // don't render without a report
         if (!report || !report.isLoaded) {
@@ -104,6 +104,7 @@ export default class Report extends Component {
 
                     <Introduction
                         texts={report.texts}
+                        saveReportText={saveReportText}
                     />
 
                 </section>

@@ -28,7 +28,9 @@ const AppConfig = {
                     detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 },
                 report: {
-                    entities: '/section/participantSession/slug/{slug}'
+                    entities: '/section/participantSession/slug/{slug}',
+                    createTextField: '/section/textFieldInReport',
+                    updateTextField: '/section/textFieldInReport/slug/{slug}'
                 }
             },
             urlEncodeParams: false,
