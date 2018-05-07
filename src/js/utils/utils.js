@@ -245,6 +245,12 @@ const Utils = {
             format = format.replace('MM', this.padLeft(month.toString(), 2, '0'));
         }
 
+        if (~format.indexOf('mmmm')) {
+            const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+            format = format.replace('mmmm', months[month]);
+        }
+
         // parse year
         if (~format.indexOf('yyyy')) {
             format = format.replace('yyyy', year.toString());

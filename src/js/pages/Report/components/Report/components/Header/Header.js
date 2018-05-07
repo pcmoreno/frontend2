@@ -12,6 +12,16 @@ export default class Header extends Component {
         // todo: table headers (th) should be translated
         // todo: product.name should be translated
 
+        const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+        let date = participant.appointmentDate;
+
+        months.forEach(month => {
+            if (participant.appointmentDate.indexOf(month) >= 0) {
+                date = date.replace(month, i18n[month]);
+            }
+        });
+
         return (
             <section className={ style.header }>
                 <h1>{ participant.name }</h1>
@@ -36,7 +46,7 @@ export default class Header extends Component {
                         <tbody>
                             <tr>
                                 <th>{i18n.assessment_date}</th>
-                                <td>{ participant.appointmentDate }</td>
+                                <td>{ date }</td>
                             </tr>
                             <tr>
                                 <th>{i18n.consultant}</th>
