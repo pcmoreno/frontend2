@@ -372,7 +372,7 @@ const Utils = {
             script.setAttribute('src', src);
 
             // ready / loaded listeners
-            script.onreadystatechange = script.onload = function() {
+            script.onreadystatechange = script.onload = () => {
                 if (!loaded) {
                     onFulfilled(script);
                 }
