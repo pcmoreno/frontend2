@@ -9,6 +9,7 @@ import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
 import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
+import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 
 export default class Organisations extends Component {
     constructor(props) {
@@ -84,15 +85,18 @@ export default class Organisations extends Component {
                         i18n = { i18n }
                     />
                 </section>
-                <aside className={ `${style.modal_container} hidden` } id="modal_organisation">
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_organisation">
                     <Form
-                        formId={ 'organisation' }
+                        formId={ 'addOrganisation' }
+                        sectionId={ 'organisation' }
+                        method={ FormMethod.CREATE_SECTION }
                         ignoredFields={ [
                             'uuid',
                             'created',
                             'updated',
                             'childOrganisations',
                             'availableCompetencies',
+                            'selectedCompetencies',
                             'manyOrganisationToOneOrganisation',
                             'products',
                             'projects',
@@ -109,9 +113,11 @@ export default class Organisations extends Component {
                         i18n = { i18n }
                     />
                 </aside>
-                <aside className={ `${style.modal_container} hidden` } id="modal_participant">
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
                     <Form
-                        formId={ 'participantSession' }
+                        formId={ 'addParticipantSection' }
+                        sectionId={ 'participantSession' }
+                        method={ FormMethod.CREATE_SECTION }
                         ignoredFields={ [
                             'uuid',
                             'created',
