@@ -7,6 +7,7 @@ import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
+import FormMethod from './components/Form/constants/FormMethod';
 
 class Index extends Component {
 
@@ -45,6 +46,7 @@ class Index extends Component {
 
     getFormFields() {
         const formId = this.props.formId;
+        const sectionId = this.props.sectionId;
 
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');
@@ -52,7 +54,7 @@ class Index extends Component {
         // execute request
         this.api.get(
             this.api.getBaseUrl(),
-            `${this.api.getEndpoints().sectionInfo}/${formId}`
+            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
         ).then(response => {
 
             // hide loader and pass the fields to the form
@@ -60,6 +62,8 @@ class Index extends Component {
             this.props.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
+
+            // todo: translate this message
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
         });
@@ -83,7 +87,15 @@ class Index extends Component {
     }
 
     submitForm(changedFields) {
-        const formId = this.props.formId;
+        const sectionId = this.props.sectionId;
+        const method = this.props.method;
+
+        // we only support post, put and delete calls for now
+        if (method !== FormMethod.CREATE_SECTION &&
+            method !== FormMethod.UPDATE_SECTION &&
+            method !== FormMethod.DELETE_SECTION) {
+            return null;
+        }
 
         return new Promise(resolve => {
 
@@ -97,9 +109,9 @@ class Index extends Component {
 
             // todo: submission can also be a PUT call, this should be configurable somewhere...
             // execute request
-            return this.api.post(
+            return this.api[method](
                 this.api.getBaseUrl(),
-                `${this.api.getEndpoints().abstractSection}/${formId}`,
+                `${this.api.getEndpoints().abstractSection}/${sectionId}`,
                 {
                     payload: {
                         type: 'form',
@@ -150,10 +162,11 @@ class Index extends Component {
 
     render() {
 
-        // pass on formid, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
+        // pass on formId, sectionId, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
         // were not in forms[] yet, and the submit- and change methods for the form. and also the close method.
         return (<Form
             formId={this.props.formId}
+            sectionId={this.props.sectionId}
             ignoredFields={this.props.ignoredFields}
             forms={this.props.forms}
             submitForm={this.submitForm}

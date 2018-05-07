@@ -30,6 +30,7 @@ class Index extends Component {
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
+        this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
         this.logger = Logger.instance;
     }
@@ -68,7 +69,7 @@ class Index extends Component {
     refreshDataWithMessage() {
 
         // hide modal
-        document.querySelector('#modal_organisation').classList.add('hidden');
+        document.querySelector('#modal_add_organisation').classList.add('hidden');
 
         // Show a message
         // todo: translate this message
@@ -132,7 +133,8 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,organisationType,childOrganisations,projects,projectName,product,productName'
+                        fields: 'id,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
+                        limit: 10000
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -181,7 +183,8 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName'
+                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName',
+                        limit: 10000
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -209,19 +212,19 @@ class Index extends Component {
     }
 
     openModalToAddOrganisation() {
-        document.querySelector('#modal_organisation').classList.remove('hidden');
+        document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
-        document.querySelector('#modal_organisation').classList.add('hidden');
+        document.querySelector('#modal_add_organisation').classList.add('hidden');
     }
 
     openModalToAddParticipant() {
-        document.querySelector('#modal_participant').classList.remove('hidden');
+        document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
 
     closeModalToAddParticipant() {
-        document.querySelector('#modal_participant').classList.add('hidden');
+        document.querySelector('#modal_add_participant').classList.add('hidden');
     }
 
     render() {
