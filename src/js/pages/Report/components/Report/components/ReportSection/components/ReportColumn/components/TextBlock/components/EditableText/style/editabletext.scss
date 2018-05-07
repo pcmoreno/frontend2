@@ -20,4 +20,13 @@
             }
         }
     }
+
+    /* todo: not sure why headers should have different fonts, but this was already in neon */
+    h4 {
+        font-family: $fontsmall;
+    }
+
+    h5 {
+        font-family: $fontheavy;
+    }
 }

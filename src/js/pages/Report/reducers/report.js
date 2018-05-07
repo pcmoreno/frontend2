@@ -56,6 +56,9 @@ export default function reportReducer(state = initialState, action) {
                     });
                 }
 
+                // set report id
+                newState.report.slug = report.reportSlug;
+
                 // set display name
                 if (account.infix) {
                     newState.report.participant.name = `${account.firstName} ${account.infix} ${account.lastName}`;
@@ -94,7 +97,9 @@ export default function reportReducer(state = initialState, action) {
                     const mappedFieldNames = [];
 
                     report.textFieldInReports.forEach(textField => {
-                        const mappedTextField = {};
+                        const mappedTextField = {
+                            slug: textField.textFieldInReportSlug
+                        };
 
                         // extract score/text (value)
                         if (textField.textFieldInReportValue) {
@@ -116,8 +121,10 @@ export default function reportReducer(state = initialState, action) {
                         // add default text field if they were not set
                         if (!~mappedFieldNames.indexOf(textField.textFieldName)) {
                             newState.report.texts[textField.textFieldName] = {
+                                slug: null,
                                 name: textField.textFieldName,
-                                value: null
+                                value: null,
+                                textFieldTemplateSlug: textField.textFieldSlug
                             };
                         }
                     });

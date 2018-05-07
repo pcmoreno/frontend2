@@ -8,7 +8,7 @@ import TextBlock from '../ReportSection/components/ReportColumn/components/TextB
 export default class Introduction extends Component {
 
     render() {
-        const { texts, i18n } = this.props;
+        const { texts, saveReportText, i18n } = this.props;
 
         if (!texts) {
             return null;
@@ -19,17 +19,25 @@ export default class Introduction extends Component {
                 <ReportColumn>
                     <TextBlock
                         field={texts.goal}
+                        editable={true}
+                        saveReportText={saveReportText}
                     />
                     <TextBlock
                         field={texts.validity}
+                        editable={true}
+                        saveReportText={saveReportText}
                     />
                 </ReportColumn>
                 <ReportColumn>
                     <TextBlock
                         field={texts.parts}
+                        editable={true}
+                        saveReportText={saveReportText}
                     />
                     <TextBlock
                         field={texts.structure}
+                        editable={true}
+                        saveReportText={saveReportText}
                     />
                 </ReportColumn>
             </ReportSection>

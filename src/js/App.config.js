@@ -29,7 +29,9 @@ const AppConfig = {
                     detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 },
                 report: {
-                    entities: '/section/participantSession/slug/{slug}'
+                    entities: '/section/participantSession/slug/{slug}',
+                    createTextField: '/section/textFieldInReport',
+                    updateTextField: '/section/textFieldInReport/slug/{slug}'
                 }
             },
             urlEncodeParams: false,
@@ -74,6 +76,12 @@ const AppConfig = {
                 type: 'organisation'
             }
         }
+    },
+    sources: {
+        froala: '/web/assets/vendor/froala-editor/js/froala_editor.min.js',
+        froalaParagraphPlugin: '/web/assets/vendor/froala-editor/js/paragraph_format.min.js',
+        froalaListPlugin: '/web/assets/vendor/froala-editor/js/lists.min.js',
+        jquery: '/web/assets/vendor/froala-editor/js/jquery.slim.min.js'
     }
 };
 

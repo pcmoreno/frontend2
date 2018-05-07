@@ -141,7 +141,8 @@ module.exports = {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
                 COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID || 'eu-central-1_eeBtQkabk'),
                 COGNITO_APP_CLIENT_ID: JSON.stringify(process.env.COGNITO_APP_CLIENT_ID || '7i9ckoogpksm27r7llfagsgfgv'),
-                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/api/v1')
+                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/api/v1'),
+                FROALA_KEY: JSON.stringify(process.env.FROALA_KEY || 'MA1B2E2G2lG4J4A14A7D3D6A5C2H4D3gpinpnmkmaC8ehe==')
             }
         }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),
@@ -170,7 +171,17 @@ module.exports = {
             deleteOriginalAssets: false
         }),
         new CopyWebpackPlugin([
-            { from: './src/assets', to: './assets' }
+            { from: './src/assets', to: './assets' },
+
+            // froala editor files
+            { from: './node_modules/froala-editor/js/froala_editor.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/js/plugins/paragraph_format.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/js/plugins/lists.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/jquery/dist/jquery.slim.min.js', to: './assets/vendor/froala-editor/js/' },
+            { from: './node_modules/froala-editor/css/froala_style.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/froala-editor/css/froala_editor.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/font-awesome/css/font-awesome.min.css', to: './assets/vendor/froala-editor/css/' },
+            { from: './node_modules/font-awesome/fonts', to: './assets/vendor/froala-editor/fonts/' }
         ])
     ],
     resolve: {
