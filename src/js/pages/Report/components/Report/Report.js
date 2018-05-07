@@ -37,7 +37,7 @@ export default class Report extends Component {
         if (!window.froalaLoaded) {
             Utils.loadExternalScript(AppConfig.sources.froala).then(() => {
                 window.froalaLoaded = true;
-                window.$.FroalaEditor.DEFAULTS.key = AppConfig.sources.froalaKey;
+                window.$.FroalaEditor.DEFAULTS.key = `${process.env.FROALA_KEY}`;
                 this.loadFroalaEditorPlugins();
             });
         } else {

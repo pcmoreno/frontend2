@@ -81,8 +81,7 @@ const AppConfig = {
         froala: '/web/assets/vendor/froala-editor/js/froala_editor.min.js',
         froalaParagraphPlugin: '/web/assets/vendor/froala-editor/js/paragraph_format.min.js',
         froalaListPlugin: '/web/assets/vendor/froala-editor/js/lists.min.js',
-        jquery: '/web/assets/vendor/froala-editor/js/jquery.slim.min.js',
-        froalaKey: 'MA1B2E2G2lG4J4A14A7D3D6A5C2H4D3gpinpnmkmaC8ehe=='
+        jquery: '/web/assets/vendor/froala-editor/js/jquery.slim.min.js'
     }
 };
 
