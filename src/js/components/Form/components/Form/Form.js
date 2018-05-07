@@ -267,7 +267,7 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, formId, sectionId, headerText, submitButtonText } = this.props;
+        const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = 'loading form...'; // todo: translate this message
         let formSubmitButton = null;

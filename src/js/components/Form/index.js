@@ -7,7 +7,7 @@ import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
-import FormMethod from "./components/Form/constants/FormMethod";
+import FormMethod from './components/Form/constants/FormMethod';
 
 class Index extends Component {
 
