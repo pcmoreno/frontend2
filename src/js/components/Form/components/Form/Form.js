@@ -140,7 +140,7 @@ export default class Form extends Component {
         // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
         // todo: frontend form input validation (read validation rules from options calls)
 
-        let changedFields = [];
+        const changedFields = [];
 
         this.props.forms.forEach(form => {
 
@@ -269,7 +269,7 @@ export default class Form extends Component {
     render() {
         const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
 
-        let formFields = `loading ${formId}`;
+        let formFields = 'loading form...'; // todo: translate this message
         let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
