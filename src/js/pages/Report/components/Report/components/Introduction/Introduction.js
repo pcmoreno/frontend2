@@ -1,9 +1,10 @@
 import { h, Component } from 'preact';
+
+/** @jsx h */
+
 import ReportSection from '../ReportSection/ReportSection';
 import ReportColumn from '../ReportSection/components/ReportColumn/ReportColumn';
 import TextBlock from '../ReportSection/components/ReportColumn/components/TextBlock/TextBlock';
-
-/** @jsx h */
 
 export default class Introduction extends Component {
 
@@ -14,27 +15,29 @@ export default class Introduction extends Component {
             return null;
         }
 
-        // todo: set translated titles
         texts.goal.title = i18n.about_this_report;
         texts.validity.title = i18n.validity;
         texts.parts.title = i18n.components;
         texts.structure.title = i18n.structure_of_the_report;
 
-        // todo: add default texts when the value is empty
+        // note that texts that have been altered using the Froala editor, and are thus received over the API, will have
+        // a <p> tag wrapped around it. since the default texts no longer have this tag (we removed CDATA and <p> tags
+        // in Lokalise) the <p> tag is added here programmatically, to ensure consistency in styling.
+
         if (!texts.goal.value) {
-            texts.goal.value = i18n.about_this_report_default_text;
+            texts.goal.value = `<p>${i18n.about_this_report_default_text}</p>`;
         }
 
         if (!texts.validity.value) {
-            texts.validity.value = i18n.validity_default_text;
+            texts.validity.value = `<p>${i18n.validity_default_text}</p>`;
         }
 
         if (!texts.parts.value) {
-            texts.parts.value = i18n.components_default_text;
+            texts.parts.value = `<p>${i18n.components_default_text}</p>`;
         }
 
         if (!texts.structure.value) {
-            texts.structure.value = i18n.structure_of_the_report_default_text;
+            texts.structure.value = `<p>${i18n.structure_of_the_report_default_text}</p>`;
         }
 
         return (

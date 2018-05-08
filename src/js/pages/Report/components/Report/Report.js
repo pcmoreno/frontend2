@@ -92,9 +92,10 @@ export default class Report extends Component {
             }
         ];
 
-        // note: some fields may depend on the report/product type.
-        // textFields_textsTemplates dictates which fields should be on a report type/product/template
-        // when there is no text available on the report, and the template does not require this field, they are ignored in the rendering process automatically
+        // note: some fields may depend on the report/product type. textFields_textsTemplates dictates which fields
+        // should be on a report type/product/template when there is no text available on the report, and the template
+        // does not require this field, they are ignored in the rendering process automatically
+
         return (
             <main className={ `${style.report} full_width_sidebar` } id="page_with_sidebar">
 
@@ -126,8 +127,7 @@ export default class Report extends Component {
                         i18n={i18n}
                         saveReportText={saveReportText}
                     />
-
-                    {/* Selection advice is only showed if this was written on this report or when this field was attached to this template/product */}
+                    {/* Selection advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
                     <SelectionAdvice
                         texts={{
@@ -146,7 +146,7 @@ export default class Report extends Component {
                         saveReportText={saveReportText}
                     />
 
-                    {/* Development advice is only showed if this was written on this report or when this field was attached to this template/product */}
+                    {/* Development advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
                     <DevelopmentAdvice
                         texts={{

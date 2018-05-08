@@ -7,24 +7,25 @@ import TextBlock from '../ReportSection/components/ReportColumn/components/TextB
 export default class Explanation extends Component {
 
     render() {
-        const { texts, saveReportText /* , i18n */ } = this.props;
+        const { texts, saveReportText, i18n } = this.props;
 
         if (!texts || !texts.strongPoints || !texts.pointsOfAttention) {
             return null;
         }
 
-        // todo: set translated title
-        // texts.strongPoints.title = i18n.trans_key;
-        texts.strongPoints.title = 'Strong points';
-        texts.pointsOfAttention.title = 'Points of attention';
+        texts.strongPoints.title = i18n.qualities_and_opportunities;
+        texts.pointsOfAttention.title = i18n.points_of_attention_and_risks;
 
-        // todo: add default texts when the value is empty
         if (!texts.strongPoints.value) {
-            texts.strongPoints.value = 'Todo: add default translated text here';
+
+            // note this value is empty by default
+            texts.strongPoints.value = '';
         }
 
         if (!texts.pointsOfAttention.value) {
-            texts.pointsOfAttention.value = 'Todo: add default translated text here';
+
+            // note this value is empty by default
+            texts.pointsOfAttention.value = '';
         }
 
         // todo: translate section title

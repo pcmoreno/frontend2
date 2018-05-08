@@ -12,6 +12,7 @@
 
     .page_with_sidebar_container {
         padding: 0 60px;
+        z-index: $z-index-application-top;
 
         /* smaller padding on smaller screens */
         @media screen and (max-width: $grid-breakpoints-lg) {

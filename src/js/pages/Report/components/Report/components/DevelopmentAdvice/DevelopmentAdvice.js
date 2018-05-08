@@ -13,16 +13,17 @@ export default class DevelopmentAdvice extends Component {
             return null;
         }
 
-        // set translated title
         texts.developmentAdvice.title = i18n.development_advice;
 
-        // todo: add default texts when the value is empty
         if (!texts.developmentAdvice.value) {
-            texts.developmentAdvice.value = 'Todo: add default translated text here';
+
+            // note this value is empty by default
+            texts.developmentAdvice.value = '';
         }
 
         return (
             <ReportSection title={i18n.development_advice}>
+
                 <TextBlock
                     field={texts.developmentAdvice}
                     hideTitle={true}

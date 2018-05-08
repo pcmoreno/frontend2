@@ -45,7 +45,7 @@ export default class Header extends Component {
                         <tbody>
                             <tr>
                                 <th>{ i18n.assessment_date }</th>
-                                <td>{ date }</td>
+                                <td className={ style.date }>{ date }</td>
                             </tr>
                             <tr>
                                 <th>{ i18n.consultant }</th>

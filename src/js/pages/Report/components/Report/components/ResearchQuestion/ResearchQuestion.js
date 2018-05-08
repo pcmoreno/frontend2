@@ -14,12 +14,14 @@ export default class ResearchQuestion extends Component {
             return null;
         }
 
-        // set translated title
         texts.researchQuestion.title = i18n.research_question;
 
-        // add default texts when the value is empty
+        // note that texts that have been altered using the Froala editor, and are thus received over the API, will have
+        // a <p> tag wrapped around it. since the default texts no longer have this tag (we removed CDATA and <p> tags
+        // in Lokalise) the <p> tag is added here programmatically, to ensure consistency in styling.
+
         if (!texts.researchQuestion.value) {
-            texts.researchQuestion.value = i18n.research_question_default_text;
+            texts.researchQuestion.value = `<p>${i18n.research_question_default_text}</p>`;
         }
 
         return (
