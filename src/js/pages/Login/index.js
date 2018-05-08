@@ -66,6 +66,11 @@ export default class Index extends Component {
                 // to avoid possible issues when routing in the same session to login page, enable the button
                 newState.buttons.submitDisabled = false;
 
+                // set redirect path to index by default when there was no previous redirect path set
+                if (!RedirectHelper.instance.getRedirectPath()) {
+                    RedirectHelper.instance.setRedirectPath('/');
+                }
+
                 render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={true}/>);
 
             }).catch((/* error */) => {
