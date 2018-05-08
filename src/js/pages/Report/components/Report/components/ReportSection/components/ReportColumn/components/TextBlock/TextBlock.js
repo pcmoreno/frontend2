@@ -9,15 +9,13 @@ export default class TextBlock extends Component {
     render() {
         const { field, hideTitle, editable, saveReportText } = this.props;
 
-        // todo: implement translated default text
-
         // validate props
         if (!field) {
             return null;
         }
 
         return (
-            <section className={style.textBlock}>
+            <section className={ style.textBlock }>
                 <h3>{ !hideTitle && field.title }</h3>
                 <EditableText
                     slug={ field.slug }
@@ -25,7 +23,7 @@ export default class TextBlock extends Component {
                     name={ field.name }
                     textEditable={ editable }
                     text={ field.value}
-                    saveReportText={saveReportText}
+                    saveReportText={ saveReportText }
                 />
             </section>
         );

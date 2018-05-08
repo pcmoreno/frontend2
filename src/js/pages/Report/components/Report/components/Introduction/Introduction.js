@@ -15,27 +15,26 @@ export default class Introduction extends Component {
         }
 
         // todo: set translated titles
-        // texts.goal.title = i18n.goal_title;
-        texts.goal.title = 'Goal';
-        texts.validity.title = 'Validity';
-        texts.parts.title = 'Parts';
-        texts.structure.title = 'Structure';
+        texts.goal.title = i18n.about_this_report;
+        texts.validity.title = i18n.validity;
+        texts.parts.title = i18n.components;
+        texts.structure.title = i18n.structure_of_the_report;
 
         // todo: add default texts when the value is empty
         if (!texts.goal.value) {
-            texts.goal.value = 'Todo: add default translated text here';
+            texts.goal.value = i18n.about_this_report_default_text;
         }
 
         if (!texts.validity.value) {
-            texts.validity.value = 'Todo: add default translated text here';
+            texts.validity.value = i18n.validity_default_text;
         }
 
         if (!texts.parts.value) {
-            texts.parts.value = 'Todo: add default translated text here';
+            texts.parts.value = i18n.components_default_text;
         }
 
         if (!texts.structure.value) {
-            texts.structure.value = 'Todo: add default translated text here';
+            texts.structure.value = i18n.structure_of_the_report_default_text;
         }
 
         return (
