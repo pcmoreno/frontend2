@@ -3,6 +3,7 @@
     position: fixed;
     top: $sidebar-header-top;
     right: 0;
+    z-index: $z-index-application-back;
 
     /* ensure width matches the grid layout specification (due to fixed position) */
     width: 25%;

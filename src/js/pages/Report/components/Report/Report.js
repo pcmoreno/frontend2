@@ -8,6 +8,10 @@ import Sidebar from './../../../../components/Sidebar';
 import Introduction from './components/Introduction/Introduction';
 import Utils from '../../../../utils/utils';
 import AppConfig from '../../../../App.config';
+import ResearchQuestion from './components/ResearchQuestion/ResearchQuestion';
+import SelectionAdvice from './components/SelectionAdvice/SelectionAdvice';
+import Explanation from './components/Explanation/Explanation';
+import DevelopmentAdvice from './components/DevelopmentAdvice/DevelopmentAdvice';
 
 export default class Report extends Component {
 
@@ -88,8 +92,10 @@ export default class Report extends Component {
             }
         ];
 
-        // note: report.text attributes may not be defined depending on the report type
-        // these fields while be ignored in the rendering process
+        // note: some fields may depend on the report/product type. textFields_textsTemplates dictates which fields
+        // should be on a report type/product/template when there is no text available on the report, and the template
+        // does not require this field, they are ignored in the rendering process automatically
+
         return (
             <main className={ `${style.report} full_width_sidebar` } id="page_with_sidebar">
 
@@ -104,7 +110,48 @@ export default class Report extends Component {
                     />
 
                     <Introduction
-                        texts={report.texts}
+                        texts={{
+                            goal: report.texts.goal,
+                            validity: report.texts.validity,
+                            parts: report.texts.parts,
+                            structure: report.texts.structure
+                        }}
+                        i18n={i18n}
+                        saveReportText={saveReportText}
+                    />
+
+                    <ResearchQuestion
+                        texts={{
+                            researchQuestion: report.texts.enquiry
+                        }}
+                        i18n={i18n}
+                        saveReportText={saveReportText}
+                    />
+                    {/* Selection advice is only shown if this was written on this report or when this field was attached to this template/product */}
+                    {/* in textFields_textTemplates */}
+                    <SelectionAdvice
+                        texts={{
+                            selectionAdvice: report.texts.selectionAdvice
+                        }}
+                        i18n={i18n}
+                        saveReportText={saveReportText}
+                    />
+
+                    <Explanation
+                        texts={{
+                            strongPoints: report.texts.strongPoints,
+                            pointsOfAttention: report.texts.pointsOfAttention
+                        }}
+                        i18n={i18n}
+                        saveReportText={saveReportText}
+                    />
+
+                    {/* Development advice is only shown if this was written on this report or when this field was attached to this template/product */}
+                    {/* in textFields_textTemplates */}
+                    <DevelopmentAdvice
+                        texts={{
+                            developmentAdvice: report.texts.developmentAdvice
+                        }}
                         i18n={i18n}
                         saveReportText={saveReportText}
                     />

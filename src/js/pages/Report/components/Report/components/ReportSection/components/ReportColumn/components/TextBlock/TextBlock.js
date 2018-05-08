@@ -7,25 +7,23 @@ import EditableText from './components/EditableText/EditableText';
 
 export default class TextBlock extends Component {
     render() {
-        const { field, editable, saveReportText } = this.props;
-
-        // todo: implement translated default text
+        const { field, hideTitle, editable, saveReportText } = this.props;
 
         // validate props
-        if (!field || !field.name) {
+        if (!field) {
             return null;
         }
 
         return (
-            <section className={style.textBlock}>
-                <h3>{ field.name }</h3>
+            <section className={ style.textBlock }>
+                <h3>{ !hideTitle && field.title }</h3>
                 <EditableText
                     slug={ field.slug }
                     textFieldTemplateSlug={ field.textFieldTemplateSlug }
                     name={ field.name }
                     textEditable={ editable }
-                    text={ field.value || 'todo: implement default (translated) text' }
-                    saveReportText={saveReportText}
+                    text={ field.value}
+                    saveReportText={ saveReportText }
                 />
             </section>
         );
