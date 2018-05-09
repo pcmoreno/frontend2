@@ -17,9 +17,22 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { localState, onChange, value, options } = this.props;
+        const { localState, onChange, value, options, hidden } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
+
+        if (hidden) {
+            return (
+                <input
+                    type='hidden'
+                    id={ options.handle }
+                    value={ value }
+                    name={ 'form[' + options.handle + ']'}
+                    onChange={ onChange }
+                    placeholder={ placeholder }
+                />
+            );
+        }
 
         return (
             <div>
@@ -30,7 +43,7 @@ export default class TextInput extends Component {
                     </li>
                     <li>
                         <input
-                            type="text"
+                            type='text'
                             id={ options.handle }
                             value={ value }
                             name={ 'form[' + options.handle + ']'}

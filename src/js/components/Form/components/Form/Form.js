@@ -34,7 +34,9 @@ export default class Form extends Component {
         };
     }
 
-    buildInputType(name, type, handle, label, value, formFieldOptions = null) {
+    buildInputType(name, type, handle, label, value, formFieldOptions = null, hidden = false) {
+
+        // todo: why receive separate name, type, handle etc. when they also exist in formFieldOptions? I dont get it
 
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
@@ -55,7 +57,9 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
-                    onChange={this.handleChange}/>);
+                    onChange={this.handleChange}
+                    hidden={hidden}
+                />);
             case TEXT_AREA:
                 return (<TextArea
                     name={name}
@@ -267,9 +271,10 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
+        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = 'loading form...'; // todo: translate this message
+        let hiddenFormFields = [];
         let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
@@ -298,6 +303,27 @@ export default class Form extends Component {
                         return buildField;
                     });
 
+                    if (hiddenFields) {
+                        hiddenFormFields = hiddenFields.map(hiddenFormFieldId => {
+
+                            // extract properties form formFields
+                            let hiddenFormField = form.formFields[0][hiddenFormFieldId['name']];
+                            let buildHiddenField;
+
+                            const name = hiddenFormField.name;
+                            const handle = hiddenFormField.handle;
+                            const label = hiddenFormField.form.create ? hiddenFormField.form.create.label : hiddenFormField.form.all.label;
+                            const hiddenFormFieldOptions = hiddenFormField;
+
+                            // note that hidden field is always type TEXT_INPUT and value is also overwritten
+                            buildHiddenField = this.buildInputType(
+                                name, TEXT_INPUT, handle, label, hiddenFormFieldId['value'], hiddenFormFieldOptions, true
+                            );
+
+                            return buildHiddenField;
+                        });
+                    }
+
                     // todo: header en submit button text
                     formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
                 }
@@ -314,6 +340,7 @@ export default class Form extends Component {
                 </header>
                 <main>
                     { formFields }
+                    { hiddenFormFields }
                 </main>
                 <footer>
                     <nav>

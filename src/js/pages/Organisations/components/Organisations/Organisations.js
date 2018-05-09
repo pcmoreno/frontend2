@@ -91,7 +91,6 @@ export default class Organisations extends Component {
                         sectionId={ 'organisation' }
                         method={ FormMethod.CREATE_SECTION }
                         ignoredFields={ [
-                            'uuid',
                             'created',
                             'updated',
                             'childOrganisations',
@@ -103,6 +102,7 @@ export default class Organisations extends Component {
                             'organisationType',
                             'organisationSlug'
                         ] }
+                        hiddenFields={[{ name: 'uuid', value: '' }]}
                         headerText={i18n.add_organisation}
                         submitButtonText={i18n.add}
                         forms={ forms }
