@@ -191,9 +191,11 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             // now add the new form taken from the action
+            // todo: remove uuid example of supplying the form with a default value (be it hidden or not)
             newForm = {
                 id: action.formId,
-                formFields: action.formFields
+                formFields: action.formFields,
+                uuid: 'something'
             };
 
             newState.forms.push(newForm);
