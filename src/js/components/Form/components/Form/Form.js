@@ -186,7 +186,7 @@ export default class Form extends Component {
 
                         // ensure choice fields always submit their first
                         // value (in case user didnt change anything)
-                        if (field[name].type === CHOICE) {
+                        if (field[name].type === fieldType.CHOICE) {
                             const fieldName = (Object.keys(field));
                             const fieldId = (Object.keys(field)[0]);
                             const choices = [];
