@@ -9,13 +9,18 @@ import style from './style/form.scss';
 import Relationship from './components/Relationship/Relationship';
 import Email from './components/Email/Email';
 import TextArea from './components/TextArea/TextArea';
+import * as fieldType from './constants/FieldTypes';
+import Logger from '../../../../utils/logger';
 
-export const DATE_TIME_FIELD = 'DateTimeField';
-export const TEXT_INPUT = 'TextInput';
-export const TEXT_AREA = 'TextArea';
-export const CHOICE = 'Choice';
-export const RELATIONSHIP = 'Relationship';
-export const EMAIL = 'Email';
+/** Preact Form Component v1.0
+ *
+ * it is now possible to set fields to be hidden. in such case do not add it to the ignoredFields.
+ * each entry can have its value set to either a static text or, for example, a state key
+ *
+ * example:
+ * hiddenFields={[{ name: 'uuid', value: pathNodes[pathNodes.length - 1].name }]}
+ *
+ **/
 
 export default class Form extends Component {
     constructor(props) {
@@ -32,13 +37,17 @@ export default class Form extends Component {
                 fields: {}
             }
         };
+
+        this.logger = Logger.instance;
     }
 
     buildInputType(name, type, handle, label, value, formFieldOptions = null) {
 
+        // todo: why receive separate name, type, handle etc. when they also exist in formFieldOptions? I dont get it
+
         // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
-            case DATE_TIME_FIELD:
+            case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
                     name={name}
                     localState={this.localState}
@@ -47,7 +56,7 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case TEXT_INPUT:
+            case fieldType.TEXT_INPUT:
                 return (<TextInput
                     name={name}
                     localState={this.localState}
@@ -55,8 +64,9 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
-                    onChange={this.handleChange}/>);
-            case TEXT_AREA:
+                    onChange={this.handleChange}
+                />);
+            case fieldType.TEXT_AREA:
                 return (<TextArea
                     name={name}
                     localState={this.localState}
@@ -65,7 +75,7 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
-            case CHOICE:
+            case fieldType.CHOICE:
                 return (<Choice
                     name={name}
                     localState={this.localState}
@@ -73,15 +83,15 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
-                    onChange={ this.handleChange }
+                    onChange={this.handleChange}
                 />);
-            case RELATIONSHIP:
+            case fieldType.RELATIONSHIP:
                 return (<Relationship
                     localState={ this.localState }
                     options={formFieldOptions}
-                    onChange={ this.handleChange }
+                    onChange={this.handleChange}
                 />);
-            case EMAIL:
+            case fieldType.EMAIL:
                 return (<Email
                     name={name}
                     localState={this.localState}
@@ -91,9 +101,22 @@ export default class Form extends Component {
                     value={value}
                     onChange={this.handleChange}
                 />);
+            case fieldType.HIDDEN:
+                return (<TextInput
+                    name={name}
+                    localState={this.localState}
+                    options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    value={value}
+                    onChange={this.handleChange}
+                    hidden={false}
+                />);
             default:
-
-                // console.log('input type unknown!');
+                this.logger.error({
+                    component: 'form',
+                    message: `input type could not be determined for ${type}`
+                });
                 return null;
         }
     }
@@ -163,7 +186,7 @@ export default class Form extends Component {
 
                         // ensure choice fields always submit their first
                         // value (in case user didnt change anything)
-                        if (field[name].type === CHOICE) {
+                        if (field[name].type === fieldType.CHOICE) {
                             const fieldName = (Object.keys(field));
                             const fieldId = (Object.keys(field)[0]);
                             const choices = [];
@@ -267,9 +290,10 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, formId, headerText, submitButtonText } = this.props;
+        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = 'loading form...'; // todo: translate this message
+        let hiddenFormFields = [];
         let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
@@ -284,14 +308,43 @@ export default class Form extends Component {
 
                             // only work with non-ignored fields
                             const name = Object.keys(formField);
-                            const type = formField[name].type;
+
+                            let hidden = false;
+                            let defaultValue = '';
+
+                            if (hiddenFields) {
+                                hiddenFields.forEach(hiddenField => {
+
+                                    if (hiddenField.name.toString() === name.toString()) {
+
+                                        // the current field should be hidden, set its property to identify this behaviour
+                                        hidden = true;
+                                        defaultValue = hiddenField.value;
+                                    }
+                                });
+                            }
+
+                            let type = formField[name].type;
+
+                            // if this field should be hidden, set its type to 'hidden'
+                            if (hidden) {
+                                type = fieldType.HIDDEN;
+                            }
+
                             const handle = formField[name].handle;
                             const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
-                            const value = formField[name].value ? formField[name].value : null;
+
+                            let value = formField[name].value ? formField[name].value : null;
+
+                            // if this field is hidden, set its value to supplied value
+                            if (hidden) {
+                                value = defaultValue;
+                            }
+
                             const formFieldOptions = formField[name];
 
                             buildField = this.buildInputType(
-                                name, type, handle, label, value, formFieldOptions
+                                name, type, handle, label, value, formFieldOptions, hidden
                             );
                         }
 
@@ -314,6 +367,7 @@ export default class Form extends Component {
                 </header>
                 <main>
                     { formFields }
+                    { hiddenFormFields }
                 </main>
                 <footer>
                     <nav>

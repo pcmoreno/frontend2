@@ -168,6 +168,7 @@ class Index extends Component {
             formId={this.props.formId}
             sectionId={this.props.sectionId}
             ignoredFields={this.props.ignoredFields}
+            hiddenFields={this.props.hiddenFields}
             forms={this.props.forms}
             submitForm={this.submitForm}
             headerText={this.props.headerText}
