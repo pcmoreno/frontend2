@@ -103,6 +103,7 @@ export default class Organisations extends Component {
                             'organisationType',
                             'organisationSlug'
                         ] }
+                        hiddenFields={[]}
                         headerText={i18n.add_organisation}
                         submitButtonText={i18n.add}
                         forms={ forms }

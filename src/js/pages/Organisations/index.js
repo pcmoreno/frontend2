@@ -211,6 +211,8 @@ class Index extends Component {
         }
     }
 
+    // todo: refactor below methods into one 'toggle' method with parameter 'id'
+
     openModalToAddOrganisation() {
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }

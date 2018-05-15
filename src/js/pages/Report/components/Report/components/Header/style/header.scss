@@ -52,6 +52,14 @@
             text-align: left;
             width: 45%;
             vertical-align: top;
+
+            &::first-letter {
+                text-transform: uppercase;
+            }
         }
     }
+}
+
+.date {
+    text-transform: capitalize;
 }

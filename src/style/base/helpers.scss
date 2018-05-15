@@ -109,6 +109,9 @@ table td.organisation {
         height: $sidebar-collapsed-dimensions;
         box-shadow: 10px 40px 30px -2px #000;
 
+        // its z-index now needs to be higher than the page
+        z-index: $z-index-application-top;
+
         /* on views where sidebar is hidden, rotate the toggle arrow */
         #sidebar_toggle {
             transform: rotate(180deg);
