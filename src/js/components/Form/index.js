@@ -38,8 +38,6 @@ class Index extends Component {
         });
 
         if (!formLoaded) {
-
-            // disabled retrieving form options, since it is broken right now
             this.getFormFields();
         }
     }
@@ -63,7 +61,7 @@ class Index extends Component {
 
         }).catch((/* error */) => {
 
-            // todo: translate this message
+            // todo: translate
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
         });
@@ -107,7 +105,6 @@ class Index extends Component {
             // show loader
             document.querySelector('#spinner').classList.remove('hidden');
 
-            // todo: submission can also be a PUT call, this should be configurable somewhere...
             // execute request
             return this.api[method](
                 this.api.getBaseUrl(),
@@ -163,7 +160,7 @@ class Index extends Component {
     render() {
 
         // pass on formId, sectionId, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
-        // were not in forms[] yet, and the submit- and change methods for the form. and also the close method.
+        // were not in forms[] yet, and the submit-, close- and change methods for the form.
         return (<Form
             formId={this.props.formId}
             sectionId={this.props.sectionId}

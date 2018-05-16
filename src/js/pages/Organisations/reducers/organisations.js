@@ -216,8 +216,10 @@ export default function organisationsReducer(state = initialState, action) {
                         // in the right field
                         if (Object.keys(field)[0] === action.formInputId) {
 
-                            // update the changed field
-                            field[Object.keys(field)[0]].value = action.formInputValue;
+                            // update the changed field if required
+                            if (field[Object.keys(field)[0]].value !== action.formInputValue) {
+                                field[Object.keys(field)[0]].value = action.formInputValue;
+                            }
                         }
 
                         return field;

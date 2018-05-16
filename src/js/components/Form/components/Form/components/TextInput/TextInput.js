@@ -24,11 +24,11 @@ export default class TextInput extends Component {
         const fieldId = options.handle;
 
         if (hidden) {
-            // todo: replace type: text with type: hidden
-
+            // dont forget this is just for display purposes! the actual value (that will be submitted) is stored in the formFields state.
+            // todo: yeah so that is why changing the id / name had no effect on the data going to the database before. you need to change the state with the right name/id and value.
             return (
                 <input
-                    type='text'
+                    type='hidden'
                     id={ 'project' }
                     name={ 'project' }
                     value={ value }
