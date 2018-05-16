@@ -200,9 +200,29 @@ export default class Form extends Component {
                             const value = choices[0];
 
                             changedFields.push({ fieldId, value });
-                            console.log('pushing these non-textInput values coz they were changed: ',fieldId,value);
+                            // console.log('pushing these non-textInput values coz they were changed: ',fieldId,value);
+                        }
 
-                            // TODO: BUG! CONSULTANT AND PROJECT (WHICH IS ALSO A HIDDEN FIELD) ARE NOT DETECTED TO BE CHANGED AND ARE THUS NOT SUBMITTED
+                        // TODO: BUG! CONSULTANT AND PROJECT (WHICH IS ALSO A HIDDEN FIELD) ARE NOT DETECTED TO BE CHANGED AND ARE THUS NOT SUBMITTED
+                        if (this.props.hiddenFields) {
+                            this.props.hiddenFields.forEach(hiddenField => {
+
+                                if (hiddenField.name === name && (field[name].type === fieldType.RELATIONSHIP)) {
+                                    const fieldName = (Object.keys(field));
+                                    const fieldId = (Object.keys(field)[0]);
+                                    const choices = [];
+
+                                    for (const key in field[fieldName].form.all.choices) {
+                                        if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                            choices.push(field[fieldName].form.all.choices[key]);
+                                            break;
+                                        }
+                                    }
+                                    const value = hiddenField.value;
+
+                                    changedFields.push({ fieldId, value });
+                                }
+                            });
                         }
                     }
                 });
@@ -295,7 +315,7 @@ export default class Form extends Component {
     updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig() {
         if (this.props.hiddenFields) {
             this.props.hiddenFields.forEach(hiddenField => {
-                console.log('changing a hidden field right before submitting the form',this.props.formId, hiddenField.name, hiddenField.value);
+                // console.log('changing a hidden field right before submitting the form',this.props.formId, hiddenField.name, hiddenField.value);
                 this.props.changeFormFieldValueForFormId(
                     this.props.formId,
                     hiddenField.name,
@@ -345,7 +365,8 @@ export default class Form extends Component {
                                         // is stored in formFields state and remains untouched
                                         hidden = true;
 
-                                        // todo: having said that, the below fields serve no purpose and can be omited
+                                        // todo: having said that, the below fields serve no purpose and can likely be omited
+                                        // todo: just like the HIDDEN fieldtype in fact
                                         // defaultValue = hiddenField.value;
                                         // type = fieldType.HIDDEN;
                                         // value = defaultValue;
