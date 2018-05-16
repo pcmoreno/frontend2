@@ -155,6 +155,14 @@ function getParticipants() {
 }
 
 /**
+ * Returns the register page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} register page
+ */
+function getRegister() {
+    return System.import('./pages/Register').then(module => module.default);
+}
+
+/**
  * Returns the error page
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} error page
  */
@@ -198,6 +206,13 @@ class App extends Component {
                     <Router>
                         <Redirect path="/" to="/inbox" />
                         <AsyncRoute path="/login" getComponent={ getLogin } />
+
+                        {/* Register routes: 1st is main route, others are legacy routes */}
+                        {/* todo: should we keep the legacy endpoints? depending on how we will redirect auth service */}
+                        <AsyncRoute path="/register/:participantSessionId" getComponent={ getRegister } />
+                        <AsyncRoute path="/terms_and_conditions/:projectId/:participantId" getComponent={ getRegister } />
+                        <AsyncRoute path="/register/:projectId/:participantId" getComponent={ getRegister } />
+
                         <AsyncRoute path="/error" default getComponent={ getError } />
                         <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
                         <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />

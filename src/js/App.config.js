@@ -32,6 +32,10 @@ const AppConfig = {
                     entities: '/section/participantSession/slug/{slug}',
                     createTextField: '/section/textFieldInReport',
                     updateTextField: '/section/textFieldInReport/slug/{slug}'
+                },
+                register: {
+                    participant: '/section/participantSession/slug/{slug}',
+                    participantStatus: '/participant/status/{slug}'
                 }
             },
             urlEncodeParams: false,
@@ -75,6 +79,17 @@ const AppConfig = {
                 name: 'LTP',
                 type: 'organisation'
             }
+        }
+    },
+    languages: {
+        supported: [
+            'nl_NL',
+            'en_GB'
+        ],
+        defaultLang: 'en_GB',
+        mapped: {
+            nl: 'nl_NL',
+            en: 'en_GB'
         }
     },
     sources: {
