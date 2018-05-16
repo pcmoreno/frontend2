@@ -58,6 +58,7 @@ export default class Listview extends Component {
 
         // prevent null values breaking the sorting function
         if (entity.value === null) {
+            console.log('this should not happen')
             entity.value = '';
         }
 
@@ -148,6 +149,7 @@ export default class Listview extends Component {
             } else {
                 this.localState.sortOrder = 'asc';
             }
+
             this.sortEntities(this.localEntities, sortBy, this.localState.sortOrder);
         }
 

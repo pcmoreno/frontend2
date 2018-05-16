@@ -14,7 +14,7 @@ import Logger from '../../../../utils/logger';
 
 /** Preact Form Component v1.0
  *
- * it is now possible to set fields to be hidden. in such case do not add it to the ignoredFields.
+ * it is now possible for fields to be hidden. in such case do not add it to the ignoredFields.
  * each entry can have its value set to either a static text or, for example, a state key
  *
  * example:
@@ -110,7 +110,7 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     onChange={this.handleChange}
-                    hidden={false}
+                    hidden={true}
                 />);
             default:
                 this.logger.error({
@@ -159,7 +159,7 @@ export default class Form extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour (multiple calls)
+        // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour
         // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
         // todo: frontend form input validation (read validation rules from options calls)
 
@@ -171,21 +171,36 @@ export default class Form extends Component {
 
                 // in the right form
                 form.formFields.forEach(field => {
-
-                    // map through fields
                     const name = Object.keys(field)[0];
 
-                    if (field[name].value && field[name].value.length > 0) {
+                    // todo: this would work, if hiddenFields was available in handleSubmit. which is not the case.
+                    // todo: instead of passing it on (ugly) find a way to detect whether a field is hidden (ie read
+                    // todo: out the 'type' attribute? then submit its value (that should already be set)
 
-                        // only submit the changed fields (for now, those with a value that is not empty)
+                    // if the current field is in hiddenFields, submit the value set in there
+                    if (hiddenFields) {
+                        hiddenFields.forEach(hiddenField => {
+
+                            if (hiddenField.name.toString() === name.toString()) {
+                                console.log('encountered hidden field, submitting its value as set in the hiddenFields array');
+
+                                const fieldId = name;
+                                const value = hiddenField.value;
+
+                                changedFields.push({ fieldId, value });
+                            }
+                        });
+                    }
+
+                    // only submit the fields with a value that is not empty
+                    if (field[name].value && field[name].value.length > 0) {
                         const fieldId = name;
                         const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
                     } else {
 
-                        // ensure choice fields always submit their first
-                        // value (in case user didnt change anything)
+                        // ensure choice fields always submit their initial value (in case there was no change by user)
                         if (field[name].type === fieldType.CHOICE) {
                             const fieldName = (Object.keys(field));
                             const fieldId = (Object.keys(field)[0]);
@@ -293,7 +308,9 @@ export default class Form extends Component {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = 'loading form...'; // todo: translate this message
-        let hiddenFormFields = [];
+        const hiddenFormFields = [];
+
+        // default the submit button to null until the form data is loaded and fields are identified
         let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
@@ -304,44 +321,32 @@ export default class Form extends Component {
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
+                        // only work with non-ignored fields
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
 
-                            // only work with non-ignored fields
                             const name = Object.keys(formField);
+                            const handle = formField[name].handle;
+                            const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
+                            const formFieldOptions = formField[name];
 
                             let hidden = false;
                             let defaultValue = '';
+                            let type = formField[name].type;
+                            let value = formField[name].value ? formField[name].value : '';
 
                             if (hiddenFields) {
                                 hiddenFields.forEach(hiddenField => {
 
                                     if (hiddenField.name.toString() === name.toString()) {
 
-                                        // the current field should be hidden, set its property to identify this behaviour
+                                        // the current field should be hidden, set its properties to reflect this behaviour
                                         hidden = true;
                                         defaultValue = hiddenField.value;
+                                        type = fieldType.HIDDEN;
+                                        value = defaultValue;
                                     }
                                 });
                             }
-
-                            let type = formField[name].type;
-
-                            // if this field should be hidden, set its type to 'hidden'
-                            if (hidden) {
-                                type = fieldType.HIDDEN;
-                            }
-
-                            const handle = formField[name].handle;
-                            const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
-
-                            let value = formField[name].value ? formField[name].value : null;
-
-                            // if this field is hidden, set its value to supplied value
-                            if (hidden) {
-                                value = defaultValue;
-                            }
-
-                            const formFieldOptions = formField[name];
 
                             buildField = this.buildInputType(
                                 name, type, handle, label, value, formFieldOptions, hidden
@@ -351,7 +356,7 @@ export default class Form extends Component {
                         return buildField;
                     });
 
-                    // todo: header en submit button text
+                    // todo: translate
                     formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
                 }
             });

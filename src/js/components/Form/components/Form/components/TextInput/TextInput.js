@@ -20,16 +20,18 @@ export default class TextInput extends Component {
         const { localState, onChange, value, options, hidden } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
+        const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
+        const fieldId = options.handle;
 
         if (hidden) {
+            // todo: replace type: text with type: hidden
+
             return (
                 <input
-                    type='hidden'
-                    id={ options.handle }
+                    type='text'
+                    id={ 'project' }
+                    name={ 'project' }
                     value={ value }
-                    name={ 'form[' + options.handle + ']'}
-                    onChange={ onChange }
-                    placeholder={ placeholder }
                 />
             );
         }
@@ -44,9 +46,9 @@ export default class TextInput extends Component {
                     <li>
                         <input
                             type='text'
-                            id={ options.handle }
+                            id={ fieldId }
+                            name={ fieldName }
                             value={ value }
-                            name={ 'form[' + options.handle + ']'}
                             onChange={ onChange }
                             placeholder={ placeholder }
                         />

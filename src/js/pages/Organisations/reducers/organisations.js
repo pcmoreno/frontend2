@@ -11,7 +11,8 @@ const initialState = {
         entity: {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
-            type: AppConfig.global.organisations.rootEntity.type
+            type: AppConfig.global.organisations.rootEntity.type,
+            participants: []
         }
     }]
 };
@@ -241,16 +242,30 @@ export default function organisationsReducer(state = initialState, action) {
             // clear all detailPanel data
             newState.detailPanelData = [];
 
-            // first build up the forms with data from state
+            // persist all existing detail panel data and mark it inactive
             state.detailPanelData.forEach(data => {
                 data.active = false;
                 newState.detailPanelData.push(data);
             });
 
-            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
+            // extract the participants from the action
+            const participants = [];
 
-            // now add the new data taken from the action (it currently only adds the entity, there is no content yet)
-            // the 'active' flag ensures the detail panel shows right details, especially in responsive views
+            if (action.data.participantSessions) {
+                action.data.participantSessions.forEach(participant => {
+
+                    if (participant.accountHasRole.account.firstName) {
+                        participants.push({
+                            id: { value: participant.accountHasRole.account.id },
+                            firstName: { value: participant.accountHasRole.account.firstName }
+                        });
+                    }
+                });
+            }
+
+            action.entity.participants = participants;
+
+            // the 'active' flag ensures the detail panel shows the right details, especially in responsive views
             newState.detailPanelData.push({
                 active: true,
                 entity: action.entity

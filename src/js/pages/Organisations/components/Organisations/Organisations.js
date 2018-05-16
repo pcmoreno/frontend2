@@ -127,11 +127,11 @@ export default class Organisations extends Component {
                             'accountHasRoleGenericRoleStatus',
                             'oneParticipantSessionToOneReport',
                             'oneParticipantSessionToOneAccountHasRole',
-                            'manyParticipantSessionToOneProject',
                             'startedOn',
                             'onlineId',
                             'participantSessionSlug'
                         ] }
+                        hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].id }]}
                         headerText={i18n.add_participant}
                         submitButtonText={i18n.add}
                         forms={ forms }

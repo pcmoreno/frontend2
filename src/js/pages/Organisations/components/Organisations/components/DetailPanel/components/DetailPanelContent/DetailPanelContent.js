@@ -10,7 +10,7 @@ export default class DetailPanelContent extends Component {
     }
 
     render() {
-        const { activeTab, i18n } = this.props;
+        const { activeTab, i18n, participants } = this.props;
 
         let output = <span>content for {activeTab} tab goes here</span>;
 
@@ -18,6 +18,7 @@ export default class DetailPanelContent extends Component {
             output = <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                participants={ participants }
                 i18n={ i18n }
             />;
         }

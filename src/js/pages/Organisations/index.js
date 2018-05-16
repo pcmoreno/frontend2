@@ -183,7 +183,7 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName',
+                        fields: 'id,organisationName,projectName,participantSessions,accountHasRole,account,firstName',
                         limit: 10000
                     },
                     identifiers: {
