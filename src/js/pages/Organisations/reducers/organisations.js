@@ -229,6 +229,8 @@ export default function organisationsReducer(state = initialState, action) {
                 newState.forms.push(form);
             });
 
+            console.table(newState)
+
             break;
 
         case actionType.STORE_SECTION_INFO:

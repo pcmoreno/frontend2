@@ -154,7 +154,10 @@ export default class Form extends Component {
         return formInputValue;
     }
 
+    // todo: refactor poor, misleading name. (there is also a submitForm)
     handleSubmit(event) {
+        this.updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig();
+
         event.preventDefault();
 
         // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour
@@ -171,51 +174,18 @@ export default class Form extends Component {
                 form.formFields.forEach(field => {
                     const name = Object.keys(field)[0];
 
-                    // not gonna work. handleSubmit has no knowledge of hiddenFields. no way to do this comparison here.
-                    // if the current field is in hiddenFields, submit the value set in there
-                    // if (hiddenFields) {
-                    //     hiddenFields.forEach(hiddenField => {
-                    //
-                    //         if (hiddenField.name.toString() === name.toString()) {
-                    //             console.log('encountered hidden field, submitting its value as set in the hiddenFields array');
-                    //
-                    //             const fieldId = name;
-                    //             const value = hiddenField.value;
-                    //
-                    //             changedFields.push({ fieldId, value });
-                    //         }
-                    //     });
-                    // }
-                    // if (name === 'manyParticipantSessionToOneProject') {
-                    //     console.log('detected hidden field',field[name].type);
-                    // }
-
-                    // todo: the field, when it comes in over the API, has no property depicting it is hidden.
-                    // todo: and that is what we are iterating over, here. so actually it should be added to the
-                    // todo: state. when filling up formFields, if a field should be hidden, as determined by the
-                    // todo: hiddenfields config, add a property with type = hidden and the value, so it can be
-                    // todo: extracted here and passed on in the submit.
-                    // todo: alternatively, issue a handleChange for each hidden field, so the state is mutated
-                    // todo: and the value will be submitted. uhm nope, there is no value in the form and hiddenFields
-                    // todo: is not available here, remember? the only way is via the state, when building up the form
-                    // todo: ensure you set its value. when the value is there, it will be picked up by the next block.
-                    // todo: wont work. to pass on hiddenfields to the reducer, over the action, you'd need to pass it on
-                    // todo: to the action. but, at the point where the action is called, there is no hiddenFields yet
-                    // todo: hang on. bright idea here. what if we just output the field as all other regular fields
-                    // todo: but we just dont output it in the component?
-                    // todo: that is what we are already doing. the thing is, you need to trigger the change event so
-                    // todo: the value in the state is updated. you could attempt to do this after building up the form.
-
                     // only submit the fields with a value that is not empty
                     if (field[name].value && field[name].value.length > 0) {
                         const fieldId = name;
                         const value = field[name].value;
 
                         changedFields.push({ fieldId, value });
+
                     } else {
 
                         // no change detected for this form field. however, it could be a dropdown or something similar
                         // with a default value (without user change), so ensure these are parsed and submitted, too.
+
                         if (field[name].type === fieldType.CHOICE) {
                             const fieldName = (Object.keys(field));
                             const fieldId = (Object.keys(field)[0]);
@@ -230,6 +200,9 @@ export default class Form extends Component {
                             const value = choices[0];
 
                             changedFields.push({ fieldId, value });
+                            console.log('pushing these non-textInput values coz they were changed: ',fieldId,value);
+
+                            // TODO: BUG! CONSULTANT AND PROJECT (WHICH IS ALSO A HIDDEN FIELD) ARE NOT DETECTED TO BE CHANGED AND ARE THUS NOT SUBMITTED
                         }
                     }
                 });
@@ -319,6 +292,19 @@ export default class Form extends Component {
         this.props.closeModal();
     }
 
+    updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig() {
+        if (this.props.hiddenFields) {
+            this.props.hiddenFields.forEach(hiddenField => {
+                console.log('changing a hidden field right before submitting the form',this.props.formId, hiddenField.name, hiddenField.value);
+                this.props.changeFormFieldValueForFormId(
+                    this.props.formId,
+                    hiddenField.name,
+                    hiddenField.value
+                );
+            });
+        }
+    }
+
     render() {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
@@ -358,18 +344,11 @@ export default class Form extends Component {
                                         // behaviour. note that only affects displaying. the actual state of this fields
                                         // is stored in formFields state and remains untouched
                                         hidden = true;
-                                        defaultValue = hiddenField.value;
-                                        type = fieldType.HIDDEN;
-                                        value = defaultValue;
 
-                                        // update the value of each formField in the state (which will be the values that
-                                        // are submitted) that is set to be hidden by the form Config
-                                        // todo: this results in an infinite loop
-                                        this.props.changeFormFieldValueForFormId(
-                                            formId,
-                                            formField[name].handle,
-                                            hiddenField.value
-                                        );
+                                        // todo: having said that, the below fields serve no purpose and can be omited
+                                        // defaultValue = hiddenField.value;
+                                        // type = fieldType.HIDDEN;
+                                        // value = defaultValue;
                                     }
                                 });
                             }
@@ -383,7 +362,12 @@ export default class Form extends Component {
                     });
 
                     // todo: translate
-                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
+                    formSubmitButton = <button
+                        className="action_button"
+                        type="button"
+                        value="Submit"
+                        onClick={ this.handleSubmit }
+                    >{ submitButtonText }</button>;
                 }
             });
         }
