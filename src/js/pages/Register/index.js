@@ -109,9 +109,11 @@ export default class Index extends Component {
                         }
                     }
                 }
-            ).then(response => {
+            ).then(() => {
 
-                // todo: add redirect to register page when call succeeds
+                // set state approved, so it will render the registration component
+                this.localState.termsApproved = true;
+                this.setState(this.localState);
             });
         }
     }
