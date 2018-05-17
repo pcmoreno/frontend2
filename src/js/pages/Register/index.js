@@ -44,11 +44,11 @@ export default class Index extends Component {
 
         // check terms approval status
         if (this.localState.participantSessionId && this.localState.termsApproved === null) {
-            this.checkTermsApprovalStatus(this.localState.participantSessionId);
+            this.fetchParticipantStatus(this.localState.participantSessionId);
         }
     }
 
-    checkTermsApprovalStatus(participantSessionId) {
+    fetchParticipantStatus(participantSessionId) {
 
         // request participant session data for terms approval status
         this.api.get(
@@ -79,12 +79,6 @@ export default class Index extends Component {
             }
 
             this.setState(this.localState);
-
-        }).catch(error => {
-
-            Logger.instance.error(`Could not retrieve status for participantSessionId: ${participantSessionId}, error given: ${error}`);
-
-            // todo: show an error message? Because in this situation, the page stays blank.
         });
     }
 
@@ -97,7 +91,28 @@ export default class Index extends Component {
             this.localState.approvalButtonDisabled = true;
             this.setState(this.localState);
 
-            // todo: implement API call that will store the participant session status
+            // API call that will store the participant session status (Accept the terms)
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().register.participantAcceptTerms,
+                {
+                    urlParams: {
+                        identifiers: {
+                            slug: this.localState.participantSessionId
+                        }
+                    },
+                    payload: {
+                        type: 'form',
+                        formKey: 'accept_terms_and_conditions_form',
+                        data: {
+                            accept: true
+                        }
+                    }
+                }
+            ).then(response => {
+
+                // todo: add redirect to register page when call succeeds
+            });
         }
     }
 

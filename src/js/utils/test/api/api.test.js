@@ -684,6 +684,40 @@ test('API buildPayload should should parse the post body in form data', () => {
     expect(Utils.serialise.calls.count()).toBe(1);
 });
 
+test('API buildPayload should should parse the post body in form data with custom form key', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Utils, 'serialise').and.callThrough();
+
+    // expected result
+    expect(api.buildPayload(
+        {
+            method: 'post',
+            headers: {}
+        },
+        {
+            data: {
+                x: 'y',
+                y: 'x',
+                z: 'z'
+            },
+            type: 'form',
+            formKey: 'customKey'
+        }
+    )).toEqual({
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: 'post',
+        body: "customKey[x]=y&customKey[y]=x&customKey[z]=z"
+    });
+
+    expect(Utils.serialise.calls.count()).toBe(1);
+});
+
 test('API buildPayload should return a string when given JSON payload is not an object or array', () => {
 
     // api instance and mocked config
