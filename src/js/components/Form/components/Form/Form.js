@@ -102,6 +102,8 @@ export default class Form extends Component {
                     onChange={this.handleChange}
                 />);
             case fieldType.HIDDEN:
+
+                // note that fieldType.HIDDEN is a copy of textInput with its input type set to "hidden"
                 return (<TextInput
                     name={name}
                     localState={this.localState}
@@ -170,62 +172,55 @@ export default class Form extends Component {
 
             if (form.id === this.props.formId) {
 
-                // in the right form
+                // ensure we are in the right form
                 form.formFields.forEach(field => {
                     const name = Object.keys(field)[0];
 
-                    // only submit the fields with a value that is not empty
-                    if (field[name].value && field[name].value.length > 0) {
-                        const fieldId = name;
-                        const value = field[name].value;
+                    // now ensure the field shouldnt be ignored
+                    if (this.props.ignoredFields.indexOf(name) === -1) {
 
-                        changedFields.push({ fieldId, value });
-
-                    } else {
-
-                        // no change detected for this form field. however, it could be a dropdown or something similar
-                        // with a default value (without user change), so ensure these are parsed and submitted, too.
-
-                        if (field[name].type === fieldType.CHOICE) {
-                            const fieldName = (Object.keys(field));
-                            const fieldId = (Object.keys(field)[0]);
-                            const choices = [];
-
-                            for (const key in field[fieldName].form.all.choices) {
-                                if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                                    choices.push(field[fieldName].form.all.choices[key]);
-                                    break;
-                                }
-                            }
-                            const value = choices[0];
+                        // and, only submit the fields with a value that is not empty
+                        if (field[name].value && field[name].value.length > 0) {
+                            const fieldId = name;
+                            const value = field[name].value;
 
                             changedFields.push({ fieldId, value });
-                            // console.log('pushing these non-textInput values coz they were changed: ',fieldId,value);
-                        }
 
-                        // TODO: BUG! CONSULTANT AND PROJECT (WHICH IS ALSO A HIDDEN FIELD) ARE NOT DETECTED TO BE CHANGED AND ARE THUS NOT SUBMITTED
-                        if (this.props.hiddenFields) {
-                            this.props.hiddenFields.forEach(hiddenField => {
+                        } else {
 
-                                if (hiddenField.name === name && (field[name].type === fieldType.RELATIONSHIP)) {
-                                    const fieldName = (Object.keys(field));
-                                    const fieldId = (Object.keys(field)[0]);
-                                    const choices = [];
+                            // no change detected for this form field. however, it could be a dropdown or something similar
+                            // with a default value (without user change), so ensure these are parsed and submitted, too
+                            // TODO: THIS DOES NOT WORK VERY WELL AND IS ALSO RATHER UGLY
+                            if (field[name].type === fieldType.CHOICE || field[name].type === fieldType.RELATIONSHIP && field[name].type !== fieldType.HIDDEN) {
+                                const fieldName = (Object.keys(field));
+                                const fieldId = (Object.keys(field)[0]);
+                                const choices = [];
 
-                                    for (const key in field[fieldName].form.all.choices) {
-                                        if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                                            choices.push(field[fieldName].form.all.choices[key]);
-                                            break;
-                                        }
+                                for (const key in field[fieldName].form.all.choices) {
+                                    if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                        choices.push(field[fieldName].form.all.choices[key]);
+                                        break;
                                     }
-                                    const value = hiddenField.value;
+                                }
+                                const value = choices[0];
 
+                                if (value !== 'undefined') {
                                     changedFields.push({ fieldId, value });
                                 }
-                            });
+                            }
                         }
                     }
                 });
+
+                // hiddenFields are not detected to be changed and need to be added manually when submitting the form
+                if (this.props.hiddenFields) {
+                    this.props.hiddenFields.forEach(hiddenField => {
+                        const hiddenFieldId = hiddenField.name;
+                        const hiddenFieldValue = hiddenField.value;
+
+                        changedFields.push({ hiddenFieldId, hiddenFieldValue });
+                    });
+                }
             }
         });
 
@@ -315,7 +310,6 @@ export default class Form extends Component {
     updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig() {
         if (this.props.hiddenFields) {
             this.props.hiddenFields.forEach(hiddenField => {
-                // console.log('changing a hidden field right before submitting the form',this.props.formId, hiddenField.name, hiddenField.value);
                 this.props.changeFormFieldValueForFormId(
                     this.props.formId,
                     hiddenField.name,
@@ -342,40 +336,31 @@ export default class Form extends Component {
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
-                        // only work with non-ignored fields
+                        // only work with non-ignored, non-hidden fields
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
-
                             const name = Object.keys(formField);
                             const handle = formField[name].handle;
                             const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
                             const formFieldOptions = formField[name];
 
-                            let hidden = false;
                             let defaultValue = '';
                             let type = formField[name].type;
                             let value = formField[name].value ? formField[name].value : '';
 
                             if (hiddenFields) {
                                 hiddenFields.forEach(hiddenField => {
-
                                     if (hiddenField.name.toString() === name.toString()) {
 
-                                        // the current field should be hidden, set its properties to reflect this
-                                        // behaviour. note that only affects displaying. the actual state of this fields
-                                        // is stored in formFields state and remains untouched
-                                        hidden = true;
-
-                                        // todo: having said that, the below fields serve no purpose and can likely be omited
-                                        // todo: just like the HIDDEN fieldtype in fact
-                                        // defaultValue = hiddenField.value;
-                                        // type = fieldType.HIDDEN;
-                                        // value = defaultValue;
+                                        // the current field should be hidden from view, set its properties to reflect this (only for display purposes, wont be submitted)
+                                        defaultValue = hiddenField.value;
+                                        type = fieldType.HIDDEN;
+                                        value = defaultValue;
                                     }
                                 });
                             }
 
                             buildField = this.buildInputType(
-                                name, type, handle, label, value, formFieldOptions, hidden
+                                name, type, handle, label, value, formFieldOptions
                             );
                         }
 
