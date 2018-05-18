@@ -10,7 +10,7 @@ export default class Register extends Component {
 
     render() {
 
-        const { onSubmit, handleChange, error, buttonDisabled } = this.props;
+        const { onSubmit, onChange, error, buttonDisabled } = this.props;
 
         // todo: translate text of input fields and labels
         return (
@@ -31,7 +31,7 @@ export default class Register extends Component {
                                         name="username"
                                         autocomplete="off"
                                         placeholder="E-mailadres"
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                         required
                                     />
                                 </div>
@@ -44,20 +44,20 @@ export default class Register extends Component {
                                         name="password"
                                         autocomplete="off"
                                         placeholder="Wachtwoord"
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                         required
                                     />
                                 </div>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="password_confirm">Confirm password</label>
+                                    <label htmlFor="passwordConfirm">Confirm password</label>
                                     <input
                                         tabIndex="3"
                                         type="password"
-                                        id="password_confirm"
-                                        name="password_confirm"
+                                        id="passwordConfirm"
+                                        name="passwordConfirm"
                                         autocomplete="off"
                                         placeholder="Confirm password"
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                         required
                                     />
                                 </div>

@@ -29,7 +29,12 @@ export default class Index extends Component {
 
             // register component properties
             registerError: '',
-            registerButtonDisabled: true
+            registerButtonDisabled: false, // error handling is done after button press
+            registerFields: {
+                email: '',
+                password: '',
+                passwordConfirm: ''
+            }
         };
 
         this.api = ApiFactory.get('neon');
@@ -93,7 +98,7 @@ export default class Index extends Component {
         });
     }
 
-    approveTerms(evt) {
+    onApproveTerms(evt) {
         evt.preventDefault();
 
         if (this.localState.approvalCheckboxChecked) {
@@ -129,6 +134,84 @@ export default class Index extends Component {
         }
     }
 
+    onChangeFieldRegistrationForm(evt) {
+        evt.preventDefault();
+
+        // store input field value, no need to set the state to re-render
+        this.localState.registerFields[evt.target.id] = evt.target.value;
+    }
+
+    onRegisterAccount(evt) {
+        evt.preventDefault();
+
+        // clear errors first
+        this.localState.registerError = '';
+        this.setState(this.localState);
+
+        const email = this.localState.registerFields.email;
+        const password = this.localState.registerFields.password;
+        const passwordConfirm = this.localState.registerFields.passwordConfirm;
+
+        // validate fields to be filled
+        if (!email || !password || !passwordConfirm) {
+            this.localState.registerError = 'All fields are required.'; // todo: translate
+            return this.setState(this.localState);
+        }
+
+        // todo: do we need to set any validation like password strength/length??
+        // set password error if passwords don't match
+        if (password !== passwordConfirm) {
+            this.localState.registerError = 'Passwords do not match'; // todo: translate
+            return this.setState(this.localState);
+        }
+
+        // at this point all validation is done, disable submit button and perform the api request
+        this.localState.registerButtonDisabled = true;
+        this.setState(this.localState);
+
+        // perform api call
+        this.api.post(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().register.createAccount,
+            {
+                urlParams: {
+                    identifiers: {
+                        slug: this.localState.participantSessionId
+                    }
+                },
+                payload: {
+                    type: 'form',
+                    formKey: 'register_account_for_participant_form',
+                    data: {
+                        username: email,
+                        password: {
+                            first: password,
+                            second: passwordConfirm
+                        }
+                    }
+                }
+            }
+        ).then(response => {
+
+            // todo: parse response and perform redirect
+            // todo: show eventually errors for input validation
+            // console.log('call success: ', response);
+
+        }).catch(error => {
+
+            // todo: parse error and show it
+            // console.log('error api call: ', error);
+
+
+            // the request failed so enable the register button again
+            this.localState.registerButtonDisabled = false;
+            this.setState(this.localState);
+        });
+
+        // return by default
+        return null;
+    }
+
     onChangeTermsApproval(evt) {
         evt.preventDefault();
 
@@ -156,8 +239,8 @@ export default class Index extends Component {
         if (!this.localState.termsApproved) {
             component = <Terms
                 i18n = { translator(this.localState.languageId, 'terms') }
-                approveTerms = { this.approveTerms.bind(this) }
-                handleChange = { this.onChangeTermsApproval.bind(this) }
+                onSubmit = { this.onApproveTerms.bind(this) }
+                onChange = { this.onChangeTermsApproval.bind(this) }
                 buttonDisabled = { this.localState.approvalButtonDisabled }
             />;
         } else {
@@ -165,6 +248,8 @@ export default class Index extends Component {
                 i18n = { translator(this.localState.languageId, 'report') }
                 error = { this.localState.registerError }
                 buttonDisabled = { this.localState.registerButtonDisabled }
+                onSubmit = { this.onRegisterAccount.bind(this) }
+                onChange = { this.onChangeFieldRegistrationForm.bind(this) }
             />;
         }
 

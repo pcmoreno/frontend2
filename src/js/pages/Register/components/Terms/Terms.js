@@ -7,7 +7,7 @@ import style from './style/terms.scss';
 export default class Terms extends Component {
 
     render() {
-        const { approveTerms, handleChange, buttonDisabled, i18n } = this.props;
+        const { onSubmit, onChange, buttonDisabled, i18n } = this.props;
 
         return (
             <section className={ style.terms }>
@@ -23,14 +23,14 @@ export default class Terms extends Component {
                             id={'termsAndConditionsApproveCheckbox'}
                             name={'termsAndConditionsApproveCheckbox'}
                             type={'checkbox'}
-                            onChange={handleChange}
+                            onChange={onChange}
                         />
                         {i18n.terms_and_conditions_accept_line_2}
                         <input
                             value={i18n.next}
                             type={'submit'}
                             className={`action_button ${style.action_button}`}
-                            onClick={approveTerms}
+                            onClick={onSubmit}
                             disabled={ buttonDisabled }
                         />
                     </div>
