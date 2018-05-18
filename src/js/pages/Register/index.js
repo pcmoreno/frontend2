@@ -9,7 +9,7 @@ import Utils from '../../utils/utils';
 
 /** @jsx h */
 
-const invitationAccepted = 'invitationAccepted';
+const termsApproved = 'termsAndConditionsApproved';
 const invited = 'invited';
 
 export default class Index extends Component {
@@ -17,11 +17,19 @@ export default class Index extends Component {
         super(props);
 
         this.localState = {
+
+            // initial properties (this root component)
             participantSessionId: null,
             termsApproved: null,
             languageId: '',
             approvalCheckboxChecked: false,
-            approvalButtonDisabled: true
+
+            // terms component properties
+            approvalButtonDisabled: true,
+
+            // register component properties
+            registerError: '',
+            registerButtonDisabled: true
         };
 
         this.api = ApiFactory.get('neon');
@@ -70,15 +78,18 @@ export default class Index extends Component {
             switch (response.status) {
                 case invited:
                     this.localState.termsApproved = false;
+                    this.setState(this.localState);
                     break;
-                case invitationAccepted:
+                case termsApproved:
                     this.localState.termsApproved = true;
+                    this.setState(this.localState);
                     break;
                 default:
+
+                    // when the user has any other status, you should be redirected to login
+                    render(<Redirect to={'/'} refresh={true}/>);
                     break;
             }
-
-            this.setState(this.localState);
         });
     }
 
@@ -152,6 +163,8 @@ export default class Index extends Component {
         } else {
             component = <Register
                 i18n = { translator(this.localState.languageId, 'report') }
+                error = { this.localState.registerError }
+                buttonDisabled = { this.localState.registerButtonDisabled }
             />;
         }
 
