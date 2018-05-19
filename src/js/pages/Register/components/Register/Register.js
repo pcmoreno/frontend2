@@ -23,11 +23,11 @@ export default class Register extends Component {
                             </header>
                             <main>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="email">Your e-mail address</label>
+                                    <label htmlFor="username">Your e-mail address</label>
                                     <input
                                         tabIndex="1"
                                         type="text"
-                                        id="email"
+                                        id="username"
                                         name="username"
                                         autocomplete="off"
                                         placeholder="E-mailadres"

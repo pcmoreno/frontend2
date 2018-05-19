@@ -31,10 +31,11 @@ export default class Index extends Component {
             registerError: '',
             registerButtonDisabled: false, // error handling is done after button press
             registerFields: {
-                email: '',
+                username: '',
                 password: '',
                 passwordConfirm: ''
-            }
+            },
+            isRegistered: false
         };
 
         this.api = ApiFactory.get('neon');
@@ -76,24 +77,30 @@ export default class Index extends Component {
             }
         ).then(response => {
 
-            // convert given language to frontend usable language (e.g. nl-NL to nl_NL)
-            this.localState.languageId = Utils.convertParticipantLanguage(response.language);
+            if (response.status && response.language) {
 
-            // check the terms accepted status
-            switch (response.status) {
-                case invited:
-                    this.localState.termsApproved = false;
-                    this.setState(this.localState);
-                    break;
-                case termsApproved:
-                    this.localState.termsApproved = true;
-                    this.setState(this.localState);
-                    break;
-                default:
+                // convert given language to frontend usable language (e.g. nl-NL to nl_NL)
+                this.localState.languageId = Utils.convertParticipantLanguage(response.language);
 
-                    // when the user has any other status, you should be redirected to login
-                    render(<Redirect to={'/'} refresh={true}/>);
-                    break;
+                // check the terms accepted status
+                switch (response.status) {
+                    case invited:
+                        this.localState.termsApproved = false;
+                        this.setState(this.localState);
+                        break;
+                    case termsApproved:
+                        this.localState.termsApproved = true;
+                        this.setState(this.localState);
+                        break;
+                    default:
+
+                        // when the user has any other status, you should be redirected to login
+                        render(<Redirect to={'/'} refresh={true}/>);
+                        break;
+                }
+            } else {
+
+                // todo: show an error when invitation link was not valid anymore?
             }
         });
     }
@@ -148,7 +155,7 @@ export default class Index extends Component {
         this.localState.registerError = '';
         this.setState(this.localState);
 
-        const email = this.localState.registerFields.email;
+        const email = this.localState.registerFields.username;
         const password = this.localState.registerFields.password;
         const passwordConfirm = this.localState.registerFields.passwordConfirm;
 
@@ -170,7 +177,7 @@ export default class Index extends Component {
         this.setState(this.localState);
 
         // perform api call
-        this.api.post(
+        return this.api.post(
             this.api.getBaseUrl(),
             this.api.getEndpoints().register.createAccount,
             {
@@ -193,23 +200,28 @@ export default class Index extends Component {
             }
         ).then(response => {
 
-            // todo: parse response and perform redirect
-            // todo: show eventually errors for input validation
-            // console.log('call success: ', response);
+            // check for input validation errors form the API
+            if (response.errors) {
 
-        }).catch(error => {
+                // for now always just display the first error
+                this.localState.registerError = response.errors[0] || 'Could not process your request.';
+                this.localState.registerButtonDisabled = false;
 
-            // todo: parse error and show it
-            // console.log('error api call: ', error);
+            } else {
 
+                // the call succeeded
+                this.localState.isRegistered = true;
+            }
+
+            this.setState(this.localState);
+
+        }).catch(() => {
 
             // the request failed so enable the register button again
+            this.localState.registerError = 'Could not process your request.';
             this.localState.registerButtonDisabled = false;
             this.setState(this.localState);
         });
-
-        // return by default
-        return null;
     }
 
     onChangeTermsApproval(evt) {
@@ -243,7 +255,7 @@ export default class Index extends Component {
                 onChange = { this.onChangeTermsApproval.bind(this) }
                 buttonDisabled = { this.localState.approvalButtonDisabled }
             />;
-        } else {
+        } else if (!this.localState.isRegistered) {
             component = <Register
                 i18n = { translator(this.localState.languageId, 'report') }
                 error = { this.localState.registerError }
@@ -251,6 +263,9 @@ export default class Index extends Component {
                 onSubmit = { this.onRegisterAccount.bind(this) }
                 onChange = { this.onChangeFieldRegistrationForm.bind(this) }
             />;
+        } else {
+
+            // todo: render register login component
         }
 
         // return the correct register component
