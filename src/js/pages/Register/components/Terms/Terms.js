@@ -11,21 +11,35 @@ export default class Terms extends Component {
 
         return (
             <section className={ style.terms }>
-                Terms component!
-                todo: implement the text component for terms and conditions
-                <div />
-                <div class={style.footer}>
-                    <div class={style.footerControls}>
-                        <div
-                            dangerouslySetInnerHTML={i18n.terms_and_conditions_accept_line_1}
-                        />
+
+                <main className={ style.main }>
+                    <h3>{ i18n.terms_and_conditions }</h3>
+
+                    <p>
+                        { i18n.terms_and_conditions_intro }
+                    </p>
+
+                    <section>
+                        <article dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_content }} />
+                    </section>
+
+                    <h4>{ i18n.disclaimer }</h4>
+                    <p dangerouslySetInnerHTML={{ __html: i18n.disclaimer_content }} />
+
+                </main>
+
+                <footer className={ style.footer }>
+                    <section>
+                        <div>
+                            <p dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_accept_line_1 }} />
+                        </div>
                         <input
                             id={'termsAndConditionsApproveCheckbox'}
                             name={'termsAndConditionsApproveCheckbox'}
                             type={'checkbox'}
                             onChange={handleChange}
                         />
-                        {i18n.terms_and_conditions_accept_line_2}
+                        <p>{ i18n.terms_and_conditions_accept_line_2 }</p>
                         <input
                             value={i18n.next}
                             type={'submit'}
@@ -33,8 +47,9 @@ export default class Terms extends Component {
                             onClick={approveTerms}
                             disabled={ buttonDisabled }
                         />
-                    </div>
-                </div>
+                    </section>
+                </footer>
+
             </section>
         );
     }

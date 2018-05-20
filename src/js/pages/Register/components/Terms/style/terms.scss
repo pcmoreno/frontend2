@@ -1,21 +1,88 @@
 .terms {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
 
+    .main {
+        overflow: auto;
+        padding: 2rem;
+        width: 100%;
+        box-sizing: border-box;
+
+        > * {
+            margin: 0 auto;
+            max-width: 100%;
+
+            @media screen and (min-width: $grid-breakpoints-md) {
+                max-width: 640px;
+            }
+
+            @media screen and (min-width: $grid-breakpoints-lg) {
+                max-width: 800px;
+            }
+
+            @media screen and (min-width: $grid-breakpoints-xl) {
+                max-width: 1024px;
+            }
+        }
+
+        > h3 {
+            color: $orange;
+            padding: 0 1rem;
+
+            /* todo: investigate why h1 .. h6 tags have no font-family set in base */
+            font-family: $fontheavy;
+
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
+
+        > h4 {
+            padding: 1rem 1rem 0;
+            font-weight: normal;
+
+            /* todo: investigate why h1 .. h6 tags have no font-family set in base */
+            font-family: $fontheavy;
+
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
+
+        > p {
+            padding: 0 1rem 1rem;
+        }
+
+        > section {
+            height: 300px;
+            overflow-y: scroll;
+            background: $white;
+            box-shadow: inset 0 0 5px 0 $beige-darken;
+            border-radius: $border-radius-regular;
+            padding: 2rem;
+
+            a {
+                color: $orange;
+            }
+        }
+    }
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    height: 20%;
     background: $white;
     width: 100%;
+
+    > section {
+        align-self: center;
+        justify-self: center;
+        margin: auto;
+        padding: 2rem;
+    }
 }
 
 .footerControls {
     width: 50%;
     margin: 0 auto;
     padding-top: 20px;
-}
-
-.action_button {
-    /* float: none; */
 }
