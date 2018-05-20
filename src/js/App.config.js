@@ -36,7 +36,8 @@ const AppConfig = {
                 register: {
                     participant: '/section/participantSession/slug/{slug}',
                     participantStatus: '/participant/status/{slug}',
-                    participantAcceptTerms: '/participant/invite/terms-and-conditions/{slug}'
+                    participantAcceptTerms: '/participant/invite/terms-and-conditions/{slug}',
+                    createAccount: '/participant/invite/create-account/{slug}'
                 }
             },
             urlEncodeParams: false,

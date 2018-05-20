@@ -1173,7 +1173,11 @@ test('API executeRequest should log a warning and return json when fetch returns
         api.executeRequest(
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
-            {}
+            {
+                headers: {
+                    'X-Custom-Header': 'header-value'
+                }
+            }
         ).then(response => {
 
             expect(global.fetch.calls.count()).toBe(1);
@@ -1182,7 +1186,9 @@ test('API executeRequest should log a warning and return json when fetch returns
                     'https://ltp.nl/organisations',
                     {
                         method: 'get',
-                        headers: {}
+                        headers: {
+                            'X-Custom-Header': 'header-value'
+                        }
                     }
                 ]
             ]);
@@ -1191,7 +1197,7 @@ test('API executeRequest should log a warning and return json when fetch returns
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 300 Multiple Choices with response: {"id":"123"}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"}}, returned code: 300 Multiple Choices with response: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1257,7 +1263,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with response: {"id":"123"}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with response: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1376,7 +1382,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with error: Error parsing JSON'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with error: Error parsing JSON'
                     }
                 ]
             ]);
@@ -1458,7 +1464,7 @@ test('API executeRequest should log an error and return Promise.reject when fetc
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations failed with error: There was an error!'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, failed with error: There was an error!'
                     }
                 ]
             ]);
@@ -1526,7 +1532,7 @@ test('API executeRequest should log an error when the network request failed or 
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with error: Error parsing JSON'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with error: Error parsing JSON'
                     }
                 ]
             ]);
@@ -1601,7 +1607,7 @@ test('API executeRequest should resolve with an error object when the api return
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations returned code: 400 Bad Request with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
                     }
                 ]
             ]);
@@ -1613,6 +1619,81 @@ test('API executeRequest should resolve with an error object when the api return
                     ]
                 }
             });
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
+test('API executeRequest should log an error and print all request information', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: false,
+                status: 400,
+                statusText: 'Bad Request',
+                url: 'https://ltp.nl/organisations',
+                json: () => {
+                    return new Promise((resolve, reject) => {
+                        return resolve({id: '123'})
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
+    spyOn(Logger.instance, 'error');
+    spyOn(api, 'buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api.executeRequest(
+            api.getBaseUrl() + api.getEndpoints().organisation,
+            'post',
+            {
+                headers: {
+                    'X-Custom-Header': 'header-value'
+                },
+                payload: {
+                    type: 'json',
+                    data: {
+                        x: 'y'
+                    }
+                }
+            }
+        ).then().catch(error => {
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/organisations',
+                    {
+                        body: '{"x":"y"}',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Custom-Header': 'header-value'
+                        },
+                        method: 'post'
+                    }
+                ]
+            ]);
+            expect(Logger.instance.error.calls.count()).toBe(1);
+            expect(Logger.instance.error.calls.allArgs()).toEqual([
+                [
+                    {
+                        component: 'API',
+                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}, returned code: 400 Bad Request with response: {"id":"123"}'
+                    }
+                ]
+            ]);
 
             // always resolve test to give the signal that we are done
             resolve();
