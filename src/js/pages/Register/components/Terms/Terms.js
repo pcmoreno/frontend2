@@ -14,18 +14,12 @@ export default class Terms extends Component {
 
                 <main className={ style.main }>
                     <h3>{ i18n.terms_and_conditions }</h3>
-
-                    <p>
-                        { i18n.terms_and_conditions_intro }
-                    </p>
-
-                    <section>
+                    <p dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_intro }} />
+                    <section className={ style.terms_text }>
                         <article dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_content }} />
                     </section>
-
                     <h4>{ i18n.disclaimer }</h4>
                     <p dangerouslySetInnerHTML={{ __html: i18n.disclaimer_content }} />
-
                 </main>
 
                 <footer className={ style.footer }>
