@@ -24,20 +24,18 @@ export default class Terms extends Component {
 
                 <footer className={ style.footer }>
                     <section>
-                        <div>
-                            <p dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_accept_line_1 }} />
-                        </div>
+                        <p dangerouslySetInnerHTML={{ __html: i18n.terms_and_conditions_accept_line_1 }} />
                         <input
-                            id={'termsAndConditionsApproveCheckbox'}
-                            name={'termsAndConditionsApproveCheckbox'}
-                            type={'checkbox'}
+                            id="termsAndConditionsApproveCheckbox"
+                            name="termsAndConditionsApproveCheckbox"
+                            type="checkbox"
                             onChange={onChange}
                         />
-                        <p>{ i18n.terms_and_conditions_accept_line_2 }</p>
+                        <label htmlFor="termsAndConditionsApproveCheckbox">{ i18n.terms_and_conditions_accept_line_2 }</label>
                         <input
                             value={i18n.next}
                             type={'submit'}
-                            className={`action_button ${style.action_button}`}
+                            className={ `action_button` }
                             onClick={onSubmit}
                             disabled={ buttonDisabled }
                         />
