@@ -9,8 +9,10 @@ import Utils from '../../utils/utils';
 
 /** @jsx h */
 
-const termsApproved = 'termsAndConditionsApproved';
+const termsAccepted = 'termsAndConditionsAccepted';
 const invited = 'invited';
+const loginEndpoint = '/login';
+const registrationSuccessful = '?registrationSuccess=true';
 
 export default class Index extends Component {
     constructor(props) {
@@ -20,7 +22,7 @@ export default class Index extends Component {
 
             // initial properties (this root component)
             participantSessionId: null,
-            termsApproved: null,
+            termsAccepted: null,
             languageId: '',
             approvalCheckboxChecked: false,
 
@@ -57,7 +59,7 @@ export default class Index extends Component {
         }
 
         // check terms approval status
-        if (this.localState.participantSessionId && this.localState.termsApproved === null) {
+        if (this.localState.participantSessionId && this.localState.termsAccepted === null) {
             this.fetchParticipantStatus(this.localState.participantSessionId);
         }
     }
@@ -85,17 +87,17 @@ export default class Index extends Component {
                 // check the terms accepted status
                 switch (response.status) {
                     case invited:
-                        this.localState.termsApproved = false;
+                        this.localState.termsAccepted = false;
                         this.setState(this.localState);
                         break;
-                    case termsApproved:
-                        this.localState.termsApproved = true;
+                    case termsAccepted:
+                        this.localState.termsAccepted = true;
                         this.setState(this.localState);
                         break;
                     default:
 
                         // when the user has any other status, you should be redirected to login
-                        render(<Redirect to={'/'} refresh={true}/>);
+                        render(<Redirect to={loginEndpoint} refresh={true}/>);
                         break;
                 }
             } else {
@@ -135,7 +137,7 @@ export default class Index extends Component {
             ).then(() => {
 
                 // set state approved, so it will render the registration component
-                this.localState.termsApproved = true;
+                this.localState.termsAccepted = true;
                 this.setState(this.localState);
             });
         }
@@ -242,13 +244,13 @@ export default class Index extends Component {
         // do not render when we don't have participant id or don't know the approval status
         if (!this.localState.participantSessionId ||
             !this.localState.languageId ||
-            this.localState.termsApproved === null) {
+            this.localState.termsAccepted === null) {
 
             return null;
         }
 
         // render terms component when they were not approved yet
-        if (!this.localState.termsApproved) {
+        if (!this.localState.termsAccepted) {
             component = <Terms
                 i18n = { translator(this.localState.languageId, 'terms') }
                 onSubmit = { this.onApproveTerms.bind(this) }
@@ -257,7 +259,7 @@ export default class Index extends Component {
             />;
         } else if (!this.localState.isRegistered) {
             component = <Register
-                i18n = { translator(this.localState.languageId, 'report') }
+                i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'register' translations
                 error = { this.localState.registerError }
                 buttonDisabled = { this.localState.registerButtonDisabled }
                 onSubmit = { this.onRegisterAccount.bind(this) }

@@ -10,14 +10,16 @@ import LoginForm from '../../../../components/LoginForm/components/LoginForm/Log
 export default class Login extends Component {
 
     render() {
-        const { onSubmit, handleChange, localState } = this.props;
+        const { onSubmit, handleChange, localState, successMessage } = this.props;
 
         return (
             <main className={ style.login }>
                 <LoginForm
                     onSubmit={ onSubmit }
                     handleChange={ handleChange }
-                    localState={ localState }
+                    error={ localState.errors.login }
+                    buttonDisabled={ localState.buttons.submitDisabled }
+                    successMessage={ localState.successMessage }
                 />
             </main>
         );

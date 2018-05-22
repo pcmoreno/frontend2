@@ -8,6 +8,13 @@
 
 .modal_header {
     border-bottom: 0;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.successMessage {
+    color: $green-bright-darken;
+    margin-top: 10px;
+    min-height: 1.5rem;
 }
 
 .forgot_password {

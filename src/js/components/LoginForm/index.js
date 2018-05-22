@@ -5,13 +5,15 @@ import LoginForm from './components/LoginForm/LoginForm';
 
 export default class Index extends Component {
     render() {
-        const { onSubmit, handleChange, localState } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage } = this.props;
 
         return (
             <LoginForm
                 onSubmit={ onSubmit }
                 handleChange={ handleChange }
-                localState={ localState }
+                error = { error }
+                buttonDisabled = { buttonDisabled }
+                successMessage = { successMessage }
             />
         );
     }

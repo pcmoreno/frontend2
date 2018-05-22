@@ -7,6 +7,8 @@ import Login from './components/Login/Login';
 import Redirect from '../../utils/components/Redirect';
 import RedirectHelper from '../../utils/redirectHelper';
 
+const successTimeout = 5000;
+
 export default class Index extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +24,8 @@ export default class Index extends Component {
             },
             errors: {
                 login: ''
-            }
+            },
+            successMessage: ''
         };
     }
 
@@ -32,6 +35,27 @@ export default class Index extends Component {
         if (api.getAuthenticator().isAuthenticated()) {
             render(<Redirect to={'/'}/>);
         }
+    }
+
+    componentDidMount() {
+
+        // user was just registered, show a message
+        if (this.props.matches && this.props.matches.registrationSuccess) {
+            this.localState.successMessage = 'Registration successful. You can now login.'; // todo: translate
+            this.setState(this.localState);
+        }
+
+        this.timeout = window.setTimeout(() => {
+
+            // hide message
+            this.localState.successMessage = '';
+            this.setState(this.localState);
+
+            // clear and delete everything
+            window.clearTimeout(this.timeout);
+            this.timeout = null;
+            delete this.timeout;
+        }, successTimeout);
     }
 
     handleChange(event) {

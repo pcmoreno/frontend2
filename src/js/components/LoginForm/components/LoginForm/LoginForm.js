@@ -9,7 +9,7 @@ import style from './style/loginform.scss';
 export default class LoginForm extends Component {
 
     render() {
-        const { onSubmit, handleChange, localState } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage} = this.props;
 
         // todo: translate text of input fields and labels
         return (
@@ -18,6 +18,7 @@ export default class LoginForm extends Component {
                     <form>
                         <header className={ style.modal_header }>
                             <h3>Log in</h3>
+                            <p className={style.successMessage}> {successMessage} </p>
                         </header>
                         <main>
                             <div>
@@ -50,12 +51,12 @@ export default class LoginForm extends Component {
                                 <a href="#notimplemented">Wachtwoord vergeten?</a>
                             </span>
                             <span className={ style.errors }>
-                                { localState.errors.login }
+                                { error }
                             </span>
                         </main>
                         <footer className={ style.modal_footer } >
                             <nav>
-                                <button className={ 'action_button' } disabled={ localState.buttons.submitDisabled } onClick={ onSubmit }>
+                                <button className={ 'action_button' } disabled={ buttonDisabled } onClick={ onSubmit }>
                                     Inloggen
                                 </button>
                             </nav>
