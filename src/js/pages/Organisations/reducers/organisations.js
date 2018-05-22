@@ -59,6 +59,7 @@ export default function organisationsReducer(state = initialState, action) {
                 id: action.entity.id,
                 name: action.entity.name,
                 type: action.entity.type,
+                uuid: action.entity.uuid,
                 section: action.entity.section
             });
 
@@ -124,6 +125,7 @@ export default function organisationsReducer(state = initialState, action) {
                         name: entity.organisationName,
                         id: entity.id,
                         type: entity.organisationType === 'jobFunction' ? 'jobFunction' : 'organisation',
+                        uuid: entity.uuid,
                         productName
                     });
                 });
@@ -137,6 +139,7 @@ export default function organisationsReducer(state = initialState, action) {
                         name: entity.projectName,
                         id: entity.id,
                         type: 'project',
+                        uuid: entity.uuid,
                         productName: entity.product ? entity.product.productName : null
                     });
                 });
@@ -151,7 +154,8 @@ export default function organisationsReducer(state = initialState, action) {
                         tempEntities.push({
                             name: entity.organisationName,
                             id: entity.id,
-                            type: 'organisation'
+                            type: 'organisation',
+                            uuid: entity.uuid
                         });
                     }
                 });
@@ -203,6 +207,8 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.UPDATE_FORM_FIELD:
 
+            // todo: this could be redundant if we switch to just submitting the actual form field data.. not sure yet
+
             // clear current items from newState
             newState.forms = [];
 
@@ -228,8 +234,6 @@ export default function organisationsReducer(state = initialState, action) {
 
                 newState.forms.push(form);
             });
-
-            console.table(newState)
 
             break;
 

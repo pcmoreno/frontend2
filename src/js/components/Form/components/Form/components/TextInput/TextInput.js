@@ -21,16 +21,16 @@ export default class TextInput extends Component {
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
         const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
-        const fieldId = options.handle;
+        const fieldId = typeof options.as !== 'undefined' ? options.as : options.handle;
 
         if (hidden) {
 
-            // dont forget this is just for display purposes! the actual value (that will be submitted) is stored in the formFields state.
+            // todo: this is a bit messy and no longer needed like this
             return (
                 <input
                     type={ 'hidden' }
-                    id={ 'project' }
-                    name={ 'project' }
+                    id={ `form[${fieldName}]` }
+                    name={ `form[${fieldName}]` }
                     value={ value }
                 />
             );

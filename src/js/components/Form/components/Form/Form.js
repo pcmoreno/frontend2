@@ -172,55 +172,91 @@ export default class Form extends Component {
 
             if (form.id === this.props.formId) {
 
-                // ensure we are in the right form
+                // ensure this is the right form
                 form.formFields.forEach(field => {
                     const name = Object.keys(field)[0];
 
-                    // now ensure the field shouldnt be ignored
+                    // ensure ignored fields are ignored
                     if (this.props.ignoredFields.indexOf(name) === -1) {
 
-                        // and, only submit the fields with a value that is not empty
-                        if (field[name].value && field[name].value.length > 0) {
-                            const fieldId = name;
-                            const value = field[name].value;
+                        // TODO: THIS IS THE OLD APPROACH THAT TAKES DATA FROM THE STATE
+                        // // only submit the fields with a value that is not empty in the formFields state
+                        // if (field[name].value && field[name].value.length > 0) {
+                        //     const fieldId = name;
+                        //     const value = field[name].value;
+                        //
+                        //     changedFields.push({ fieldId, value });
+                        // } else {
+                        //
+                        //     // no change detected for this form field. however, it could be a dropdown or something similar
+                        //     // with a default value (without user change), so ensure these are parsed and submitted, too (has some issues)
 
-                            changedFields.push({ fieldId, value });
+                        //     if (field[name].type === fieldType.CHOICE || field[name].type === fieldType.RELATIONSHIP && field[name].type !== fieldType.HIDDEN) {
+                        //         const fieldName = (Object.keys(field));
+                        //         const fieldId = (Object.keys(field)[0]);
+                        //         const choices = [];
+                        //
+                        //         for (const key in field[fieldName].form.all.choices) {
+                        //             if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                        //                 choices.push(field[fieldName].form.all.choices[key]);
+                        //                 break;
+                        //             }
+                        //         }
+                        //         const value = choices[0];
+                        //
+                        //         if (value !== 'undefined') {
+                        //             changedFields.push({ fieldId, value });
+                        //         }
+                        //     }
+                        // }
 
-                        } else {
 
-                            // no change detected for this form field. however, it could be a dropdown or something similar
-                            // with a default value (without user change), so ensure these are parsed and submitted, too
-                            // TODO: THIS DOES NOT WORK VERY WELL AND IS ALSO RATHER UGLY
-                            if (field[name].type === fieldType.CHOICE || field[name].type === fieldType.RELATIONSHIP && field[name].type !== fieldType.HIDDEN) {
-                                const fieldName = (Object.keys(field));
-                                const fieldId = (Object.keys(field)[0]);
-                                const choices = [];
+                        // TODO: THIS IS THE NEW APPROACH THAT TAKES DATA FROM THE FORM (EXCEPT THE HIDDEN FIELDS)
 
-                                for (const key in field[fieldName].form.all.choices) {
-                                    if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                                        choices.push(field[fieldName].form.all.choices[key]);
-                                        break;
+                        let fieldId;
+                        let value;
+
+                        // ensure the field is not a hidden field. if it is, its value should be extracted a bit different since the name wont match the id
+                        if (this.props.hiddenFields) {
+                            this.props.hiddenFields.forEach(hiddenField => {
+                                if (hiddenField.name === name) {
+
+                                    // todo: actually, this is probably valid for other fields, too.
+                                    if (field[name].to) {
+                                        fieldId = field[name].to;
+                                    } else {
+                                        fieldId = hiddenField.name;
                                     }
-                                }
-                                const value = choices[0];
 
-                                if (value !== 'undefined') {
-                                    changedFields.push({ fieldId, value });
+                                    value = hiddenField.value;
                                 }
+                            });
+                        }
+
+                        // if value wasnt extracted from a hidden Field, extract from the physical form
+                        if (!fieldId || !value) {
+                            if (document.querySelector(`#${name}`)) {
+                                fieldId = name;
+                                value = document.querySelector(`#${name}`).value;
                             }
+                        }
+
+                        if (fieldId && value) {
+                            changedFields.push({ fieldId, value });
                         }
                     }
                 });
 
-                // hiddenFields are not detected to be changed and need to be added manually when submitting the form
-                if (this.props.hiddenFields) {
-                    this.props.hiddenFields.forEach(hiddenField => {
-                        const hiddenFieldId = hiddenField.name;
-                        const hiddenFieldValue = hiddenField.value;
-
-                        changedFields.push({ hiddenFieldId, hiddenFieldValue });
-                    });
-                }
+                // TODO: THIS IS THE OLD APPROACH THAT TAKES DATA FROM THE STATE
+                // // hiddenFields are not detected to be changed and need to be added manually when submitting the form
+                // if (this.props.hiddenFields) {
+                //     this.props.hiddenFields.forEach(hiddenField => {
+                //         const hiddenFieldId = hiddenField.name;
+                //         const hiddenFieldValue = hiddenField.value;
+                //
+                //         changedFields.push({ hiddenFieldId, hiddenFieldValue });
+                //     });
+                // }
             }
         });
 

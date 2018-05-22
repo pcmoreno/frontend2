@@ -119,7 +119,7 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,organisationType'
+                        fields: 'id,uuid,organisationName,organisationType'
                     }
                 }
             };
@@ -133,7 +133,7 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
+                        fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
                         limit: 10000
                     },
                     identifiers: {

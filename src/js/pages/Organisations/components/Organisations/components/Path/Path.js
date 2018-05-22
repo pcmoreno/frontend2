@@ -17,9 +17,11 @@ export default class Path extends Component {
         let panelIndex = 1;
 
         pathNodes.forEach(pathNode => {
+
             nodes.push(<PathNode
                 name = { pathNode.name }
                 id = { pathNode.id }
+                uuid = { pathNode.uuid }
                 type = { pathNode.type }
                 section = { pathNode.section }
                 panelId = { panelIndex++ }

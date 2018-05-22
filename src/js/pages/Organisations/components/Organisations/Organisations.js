@@ -131,7 +131,7 @@ export default class Organisations extends Component {
                             'onlineId',
                             'participantSessionSlug'
                         ] }
-                        hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].id }]}
+                        hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.add_participant}
                         submitButtonText={i18n.add}
                         forms={ forms }
