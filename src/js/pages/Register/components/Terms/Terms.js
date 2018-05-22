@@ -35,7 +35,7 @@ export default class Terms extends Component {
                         <input
                             value={i18n.next}
                             type={'submit'}
-                            className={ `action_button` }
+                            className={'action_button'}
                             onClick={onSubmit}
                             disabled={ buttonDisabled }
                         />
