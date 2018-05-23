@@ -10,7 +10,7 @@ export default class Register extends Component {
 
     render() {
 
-        const { onSubmit, onChange, error, buttonDisabled } = this.props;
+        const { onSubmit, onChange, error, buttonDisabled, showLogin } = this.props;
 
         // todo: translate text of input fields and labels
         return (
@@ -77,9 +77,9 @@ export default class Register extends Component {
                     <section className={ style.sideLinks }>
                         <h3>Login</h3>
                         <p>Already a registered user?</p>
-                        <p className={ style.link}>
-                            <a href="#notimplemented">Login</a>
-                        </p>
+                        <div tabIndex="5" role='button' onClick={ showLogin } className={ style.link }>
+                            <span>Login</span>
+                        </div>
                         <p className={ style.link}>
                             <a href="#notimplemented">I forgot my password</a>
                         </p>

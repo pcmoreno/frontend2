@@ -17,8 +17,17 @@
     min-height: 1.5rem;
 }
 
-.forgot_password {
-    color: $blue;
+.link {
+    margin-top: 15px;
+
+    span, a {
+        color: $orange;
+        text-decoration: underline;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
 }
 
 .errors {

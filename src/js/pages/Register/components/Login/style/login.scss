@@ -1,5 +1,5 @@
 /* some overloads were needed because the login form doesnt look exactly like the modals */
-.register {
+.login {
     background: $blue;
     height: 100vh;
     padding-top: 350px;
@@ -7,7 +7,7 @@
     form {
         box-shadow: none;
         width: 100%;
-        border-radius: .25rem 0 0 .25rem;
+        border-radius: 0 .25rem .25rem 0;
         margin: 0;
         max-width: unset;
 
@@ -22,7 +22,7 @@
     }
 }
 
-.registerMargin {
+.loginMargin {
     width: 60%;
     margin: 0 auto;
     display: table;
@@ -34,33 +34,18 @@
     }
 }
 
-.newUser {
+.loginUser {
     display: table-cell;
     width: 60%;
+
+    section {
+        margin-top: 0;
+    }
 
     @media screen and (max-width: $grid-breakpoints-md) {
         width: 100%;
         display: block;
     }
-}
-
-.modalHeader {
-    border-bottom: 0;
-}
-
-.inputContainer {
-    margin-top: 15px;
-}
-
-.errors {
-    color: $signal-red;
-    margin-top: 10px;
-    display: block;
-    min-height: 1.2rem;
-}
-
-.modalFooter {
-    border-top: 0;
 }
 
 .sideLinks {
@@ -69,7 +54,7 @@
     height: 100%;
     background-color: $beige;
     vertical-align: top;
-    border-radius: 0 .25rem .25rem 0;
+    border-radius: .25rem 0 0 .25rem;
     padding: 1rem;
 
     h3 {

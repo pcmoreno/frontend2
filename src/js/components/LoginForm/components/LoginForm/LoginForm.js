@@ -47,7 +47,7 @@ export default class LoginForm extends Component {
                                     required
                                 />
                             </div>
-                            <span className={ style.forgot_password}>
+                            <span className={ style.link}>
                                 <a href="#notimplemented">Wachtwoord vergeten?</a>
                             </span>
                             <span className={ style.errors }>

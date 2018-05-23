@@ -6,6 +6,7 @@ import Redirect from '../../utils/components/Redirect';
 import Register from './components/Register/Register';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
+import Login from './components/Login/Login';
 
 /** @jsx h */
 
@@ -37,7 +38,16 @@ export default class Index extends Component {
                 password: '',
                 passwordConfirm: ''
             },
-            isRegistered: false
+            isRegistered: false,
+
+            // login component properties
+            loginFields: {
+                username: '',
+                password: ''
+            },
+            loginError: '',
+            loginButtonDisabled: false,
+            showLogin: false
         };
 
         this.api = ApiFactory.get('neon');
@@ -235,6 +245,27 @@ export default class Index extends Component {
         this.setState(this.localState);
     }
 
+    onLoginAccount(evt) {
+        evt.preventDefault();
+
+        // todo: implement login API call (disable login button) this.localState.loginButtonDisabled
+    }
+
+    onChangeFieldLoginForm(evt) {
+        evt.preventDefault();
+
+        // store input field value, no need to set the state to re-render
+        this.localState.loginFields[evt.target.id] = evt.target.value;
+    }
+
+    switchToLogin(evt) {
+        evt.preventDefault();
+
+        // switch show login
+        this.localState.showLogin = !this.localState.showLogin;
+        this.setState(this.localState);
+    }
+
     render() {
         let component = null;
 
@@ -257,17 +288,37 @@ export default class Index extends Component {
                 onChange = { this.onChangeTermsApproval.bind(this) }
                 buttonDisabled = { this.localState.approvalButtonDisabled }
             />;
-        } else if (!this.localState.isRegistered) {
-            component = <Register
-                i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'register' translations
-                error = { this.localState.registerError }
-                buttonDisabled = { this.localState.registerButtonDisabled }
-                onSubmit = { this.onRegisterAccount.bind(this) }
-                onChange = { this.onChangeFieldRegistrationForm.bind(this) }
-            />;
-        } else {
 
-            // todo: render register login component
+        } else if (this.localState.termsAccepted && !this.localState.isRegistered) {
+
+            // show participant login when this was requested
+            if (this.localState.showLogin) {
+
+                component = <Login
+                    i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'login' translations
+                    error = { this.localState.loginError }
+                    buttonDisabled = { this.localState.loginButtonDisabled }
+                    onSubmit = { this.onLoginAccount.bind(this) }
+                    onChange = { this.onChangeFieldLoginForm.bind(this) }
+                    showLogin = { this.switchToLogin.bind(this) }
+                />;
+
+            } else {
+
+                // show register by default
+                component = <Register
+                    i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'register' translations
+                    error = { this.localState.registerError }
+                    buttonDisabled = { this.localState.registerButtonDisabled }
+                    onSubmit = { this.onRegisterAccount.bind(this) }
+                    onChange = { this.onChangeFieldRegistrationForm.bind(this) }
+                    participantSessionId = { this.localState.participantSessionId }
+                    showLogin = { this.switchToLogin.bind(this) }
+                />;
+            }
+
+        } else if (this.localState.isRegistered) {
+            render(<Redirect to={loginEndpoint + registrationSuccessful} refresh={true}/>);
         }
 
         // return the correct register component
