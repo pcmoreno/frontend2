@@ -26,7 +26,7 @@ export default class LoginForm extends Component {
                                 <input
                                     tabIndex="1"
                                     type="text"
-                                    id="email"
+                                    id="username"
                                     name="username"
                                     autoComplete="off"
                                     placeholder="E-mailadres"

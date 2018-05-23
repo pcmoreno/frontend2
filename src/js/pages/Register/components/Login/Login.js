@@ -18,8 +18,7 @@ export default class Login extends Component {
             <main className={ style.login }>
                 <div className={ style.loginMargin }>
                     <section className={ style.sideLinks }>
-                        <h3>Login</h3>
-                        <p>I'm a new user</p>
+                        <h3>I'm a new user</h3>
                         <div tabIndex="0" role='button' onClick={ showLogin } className={ style.link }>
                             <span>Activate your account</span>
                         </div>

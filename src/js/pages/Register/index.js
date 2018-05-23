@@ -7,6 +7,7 @@ import Register from './components/Register/Register';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import Login from './components/Login/Login';
+import CognitoAuthenticator from '../../utils/authenticator/cognito';
 
 /** @jsx h */
 
@@ -14,6 +15,8 @@ const termsAccepted = 'termsAndConditionsAccepted';
 const invited = 'invited';
 const loginEndpoint = '/login';
 const registrationSuccessful = '?registrationSuccess=true';
+
+// todo: check translations of (error) messages
 
 export default class Index extends Component {
     constructor(props) {
@@ -248,7 +251,77 @@ export default class Index extends Component {
     onLoginAccount(evt) {
         evt.preventDefault();
 
-        // todo: implement login API call (disable login button) this.localState.loginButtonDisabled
+        // reset error message
+        this.localState.loginError = '';
+        this.setState(this.localState);
+
+        // get all required vars
+        const api = ApiFactory.get('neon');
+        const cognitoAuthenticator = new CognitoAuthenticator();
+        const username = this.localState.loginFields.username;
+        const password = this.localState.loginFields.password;
+
+        // check input values and login
+        if (username && password) {
+
+            // disable button
+            this.localState.loginButtonDisabled = true;
+
+            // get cognito token to performt the custom login afterwards
+            cognitoAuthenticator.authenticate({
+                username,
+                password
+            }).then(token => {
+
+                // execute the custom login api call
+                // return this promise so that exceptions are handled in parent/upper catch
+                return api.post(
+                    this.api.getBaseUrl(),
+                    this.api.getEndpoints().register.participantLogin,
+                    {
+                        urlParams: {
+                            identifiers: {
+                                slug: this.localState.participantSessionId
+                            }
+                        },
+                        headers: {
+                            Authorization: token
+                        },
+                        payload: {
+                            type: 'form',
+                            data: {
+                                username,
+                                password
+                            }
+                        }
+                    }
+                ).then(response => {
+
+                    // validate that there was user information returned
+                    // thrown errors are caught by the parent/upper catch
+                    if (!response.user) {
+                        throw Error('Could not fetch use information while authenticating');
+                    }
+
+                    // go to default (inbox page)
+                    render(<Redirect to={'/'} refresh={true}/>);
+                });
+
+            }).catch(() => {
+
+                // todo: translate message
+                this.localState.loginError = 'Inloggen mislukt. Probeer het opnieuw.';
+                this.localState.loginButtonDisabled = false;
+            });
+
+        } else {
+
+            // todo: translate message
+            this.localState.loginError = 'Voer a.u.b. de verplichte velden in.';
+        }
+
+        // always set the new state
+        this.setState(this.localState);
     }
 
     onChangeFieldLoginForm(evt) {

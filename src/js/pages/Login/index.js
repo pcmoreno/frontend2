@@ -13,7 +13,10 @@ export default class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.inputValues = {};
+        this.inputValues = {
+            username: '',
+            password: ''
+        };
 
         this.submitLogin = this.submitLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -73,13 +76,13 @@ export default class Index extends Component {
         // reset error on the login page
         newState.errors.login = '';
 
-        if (this.inputValues.email && this.inputValues.password) {
+        if (this.inputValues.username && this.inputValues.password) {
 
             // disable button
             newState.buttons.submitDisabled = true;
 
             const api = ApiFactory.get('neon');
-            const username = this.inputValues.email;
+            const username = this.inputValues.username;
             const password = this.inputValues.password;
 
             api.getAuthenticator().authenticate({
