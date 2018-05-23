@@ -27,7 +27,7 @@ export default class Form extends Component {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.collectFormData = this.collectFormData.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
         // UI state, with fields as key value pair field and message
@@ -35,6 +35,9 @@ export default class Form extends Component {
             errors: {
                 form: '',
                 fields: {}
+            },
+            form: {
+                disabled: false
             }
         };
 
@@ -45,7 +48,6 @@ export default class Form extends Component {
 
         // todo: why receive separate name, type, handle etc. when they also exist in formFieldOptions? I dont get it
 
-        // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
@@ -156,130 +158,155 @@ export default class Form extends Component {
         return formInputValue;
     }
 
-    // todo: refactor poor, misleading name. (there is also a submitForm)
-    handleSubmit(event) {
-        this.updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig();
+    collectFormData(event) {
 
+        // just to be on the safe side, disable any erroneous submitting of the form data
         event.preventDefault();
-
-        // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour
-        // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
-        // todo: frontend form input validation (read validation rules from options calls)
 
         const changedFields = [];
 
+        if (this.props.hiddenFields) {
+            this.props.hiddenFields.forEach(hiddenField => {
+
+                // adding hidden field values to state
+                this.props.changeFormFieldValueForFormId(
+                    this.props.formId,
+                    hiddenField.name,
+                    hiddenField.value
+                );
+            });
+        }
+
+        // extract values for each non-ignored field from state. in case no value exists, extract it in other ways:
+        // either by taking the initial value from a dropdown, or by reading the value straight from the actual form
         this.props.forms.forEach(form => {
-
             if (form.id === this.props.formId) {
-
-                // ensure this is the right form
                 form.formFields.forEach(field => {
+
+                    // the first key is the field id (or name)
                     const name = Object.keys(field)[0];
 
-                    // ensure ignored fields are ignored
                     if (this.props.ignoredFields.indexOf(name) === -1) {
-
-                        // TODO: THIS IS THE OLD APPROACH THAT TAKES DATA FROM THE STATE
-                        // // only submit the fields with a value that is not empty in the formFields state
-                        // if (field[name].value && field[name].value.length > 0) {
-                        //     const fieldId = name;
-                        //     const value = field[name].value;
-                        //
-                        //     changedFields.push({ fieldId, value });
-                        // } else {
-                        //
-                        //     // no change detected for this form field. however, it could be a dropdown or something similar
-                        //     // with a default value (without user change), so ensure these are parsed and submitted, too (has some issues)
-
-                        //     if (field[name].type === fieldType.CHOICE || field[name].type === fieldType.RELATIONSHIP && field[name].type !== fieldType.HIDDEN) {
-                        //         const fieldName = (Object.keys(field));
-                        //         const fieldId = (Object.keys(field)[0]);
-                        //         const choices = [];
-                        //
-                        //         for (const key in field[fieldName].form.all.choices) {
-                        //             if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                        //                 choices.push(field[fieldName].form.all.choices[key]);
-                        //                 break;
-                        //             }
-                        //         }
-                        //         const value = choices[0];
-                        //
-                        //         if (value !== 'undefined') {
-                        //             changedFields.push({ fieldId, value });
-                        //         }
-                        //     }
-                        // }
-
-
-                        // TODO: THIS IS THE NEW APPROACH THAT TAKES DATA FROM THE FORM (EXCEPT THE HIDDEN FIELDS)
-
                         let fieldId;
                         let value;
 
-                        // ensure the field is not a hidden field. if it is, its value should be extracted a bit different since the name wont match the id
-                        if (this.props.hiddenFields) {
-                            this.props.hiddenFields.forEach(hiddenField => {
-                                if (hiddenField.name === name) {
+                        if (!field[name].value || field[name].value.length === 0) {
+                            if (field[name].type === fieldType.CHOICE) {
 
-                                    // todo: actually, this is probably valid for other fields, too.
-                                    if (field[name].to) {
-                                        fieldId = field[name].to;
-                                    } else {
-                                        fieldId = hiddenField.name;
+                                // pushing initial value from dropdown to state so it can be submitted
+                                const fieldName = Object.keys(field);
+                                const choices = [];
+
+                                fieldId = (Object.keys(field)[0]);
+
+                                // extract initial value from state
+                                for (const key in field[fieldName].form.all.choices) {
+                                    if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                        choices.push(field[fieldName].form.all.choices[key]);
+                                        break;
                                     }
-
-                                    value = hiddenField.value;
                                 }
-                            });
-                        }
 
-                        // if value wasnt extracted from a hidden Field, extract from the physical form
-                        if (!fieldId || !value) {
-                            if (document.querySelector(`#${name}`)) {
-                                fieldId = name;
-                                value = document.querySelector(`#${name}`).value;
+                                // the first value is the initial value
+                                value = choices[0];
+                            } else if (field[name].type === fieldType.RELATIONSHIP) {
+
+                                // for relationship fields, it is much more difficult to retrieve the first entry from
+                                // the state since there is no choices collection on the object. the dropdown list is
+                                // build up dynamically by iterating over the given relationship collection. to solve
+                                // this, just take the currently selected entry from the actual form.
+                                // todo: other suggestions? should this also be done for CHOICE fields?
+
+                                if (document.querySelector(`#${name}`)) {
+                                    fieldId = name;
+                                    value = document.querySelector(`#${name}`).value;
+
+                                } else {
+                                    this.logger.error({
+                                        component: 'form',
+                                        message: `could not find input field in actual from with id ${name}`
+                                    });
+                                }
+                            } else {
+
+                                // extract value from actual form since no value could be extracted from the state
+                                if (document.querySelector(`#${name}`)) {
+                                    fieldId = name;
+                                    value = document.querySelector(`#${name}`).value;
+                                } else {
+                                    this.logger.error({
+                                        component: 'form',
+                                        message: `could not find input field in actual from with id ${name}`
+                                    });
+                                }
                             }
+                        } else {
+
+                            // extract value from state
+                            fieldId = name;
+                            value = field[name].value;
                         }
 
+                        // push field value to changedFields so it can be submitted
                         if (fieldId && value) {
+
+                            // in case the 'to' property is set, overwrite the default field name with it
+                            if (field[name].to) {
+                                fieldId = field[name].to;
+                            }
+
+                            // relationship fields need an override
+                            if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
+                                fieldId = field[name].as;
+                            }
+
                             changedFields.push({ fieldId, value });
+                        } else {
+
+                            // todo: read form field validation from state to check if field is required.
+                            // todo: if so, show error. if not, throw error. or do we let API handle this?
                         }
                     }
                 });
-
-                // TODO: THIS IS THE OLD APPROACH THAT TAKES DATA FROM THE STATE
-                // // hiddenFields are not detected to be changed and need to be added manually when submitting the form
-                // if (this.props.hiddenFields) {
-                //     this.props.hiddenFields.forEach(hiddenField => {
-                //         const hiddenFieldId = hiddenField.name;
-                //         const hiddenFieldValue = hiddenField.value;
-                //
-                //         changedFields.push({ hiddenFieldId, hiddenFieldValue });
-                //     });
-                // }
-
-                // todo: note. you may wonder what the fuss is all about. it looks easy just to take data from the state, right?
-                // todo: but. the data in the state is empty until it is changed by the user. this means, for fields that
-                // todo: have default values, the state values are empty. Ive looked for various places to add the
-                // todo: functionality that adds the default values to the state but at that point I started
-                // todo: questionning this whole approach. why add critical functionality just to populate state data,
-                // todo: while the data is already there in the physical form and can much easier be extracted from that?
             }
         });
 
+        // disable the submit button
+        this.setSubmitButtonState(true);
+
+        // submit the changed fields (if there is no frontend validation error (which still has to be included))
         this.props.submitForm(changedFields).then(response => {
             if (response && response.errors) {
 
                 // hide loader and handle error messages for fields
                 document.querySelector('#spinner').classList.add('hidden');
                 this.handleErrorMessages(response.errors);
+
+                // enable the submit button
+                this.setSubmitButtonState(false);
             } else {
 
                 // consider this a successful call
                 document.querySelector('#spinner').classList.add('hidden');
                 this.resetErrorMessages();
+
+                // enable the submit button
+                this.setSubmitButtonState(false);
             }
         });
+    }
+
+    /**
+     * Sets the 'disabled' state of the button to submit the form
+     *
+     * @param {state} state - determines whether button should be disabled
+     * @returns {undefined}
+     */
+    setSubmitButtonState(state) {
+        let newState = Object.assign({}, this.localState);
+
+        newState.form.disabled = state;
+        this.setState(newState);
     }
 
     /**
@@ -350,18 +377,6 @@ export default class Form extends Component {
         this.props.closeModal();
     }
 
-    updateHiddenFieldsInStateWithDefaultDataAsSetInFormConfig() {
-        if (this.props.hiddenFields) {
-            this.props.hiddenFields.forEach(hiddenField => {
-                this.props.changeFormFieldValueForFormId(
-                    this.props.formId,
-                    hiddenField.name,
-                    hiddenField.value
-                );
-            });
-        }
-    }
-
     render() {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
@@ -415,7 +430,8 @@ export default class Form extends Component {
                         className="action_button"
                         type="button"
                         value="Submit"
-                        onClick={ this.handleSubmit }
+                        onClick={ this.collectFormData }
+                        disabled={ this.localState.form.disabled }
                     >{ submitButtonText }</button>;
                 }
             });

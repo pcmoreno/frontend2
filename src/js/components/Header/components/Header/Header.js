@@ -12,7 +12,6 @@ class Header extends Component {
         super();
     }
 
-    /* note you can still access /example to see the example route and page component */
     render() {
         const navigationItems = [
             {

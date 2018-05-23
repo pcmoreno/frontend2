@@ -23,6 +23,7 @@ export default class Email extends Component {
                             value={ value }
                             name={ 'form[' + handle + ']'}
                             onChange={ onChange }
+                            autoComplete={ 'email' }
                         />
                     </li>
                 </ul>

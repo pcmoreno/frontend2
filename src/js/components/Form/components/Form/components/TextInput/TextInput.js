@@ -51,6 +51,7 @@ export default class TextInput extends Component {
                             value={ value }
                             onChange={ onChange }
                             placeholder={ placeholder }
+                            autoComplete={ 'off' }
                         />
                     </li>
                 </ul>
