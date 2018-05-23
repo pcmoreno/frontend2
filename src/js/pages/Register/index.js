@@ -266,8 +266,9 @@ export default class Index extends Component {
 
             // disable button
             this.localState.loginButtonDisabled = true;
+            this.setState(this.localState);
 
-            // get cognito token to performt the custom login afterwards
+            // get cognito token to perform the custom login afterwards
             cognitoAuthenticator.authenticate({
                 username,
                 password
@@ -275,7 +276,7 @@ export default class Index extends Component {
 
                 // execute the custom login api call
                 // return this promise so that exceptions are handled in parent/upper catch
-                return api.post(
+                api.post(
                     this.api.getBaseUrl(),
                     this.api.getEndpoints().register.participantLogin,
                     {
@@ -305,6 +306,13 @@ export default class Index extends Component {
 
                     // go to default (inbox page)
                     render(<Redirect to={'/'} refresh={true}/>);
+
+                }).catch(() => {
+
+                    // todo: translate message
+                    this.localState.loginError = 'Inloggen mislukt. Probeer het opnieuw.';
+                    this.localState.loginButtonDisabled = false;
+                    this.setState(this.localState);
                 });
 
             }).catch(() => {
@@ -312,16 +320,15 @@ export default class Index extends Component {
                 // todo: translate message
                 this.localState.loginError = 'Inloggen mislukt. Probeer het opnieuw.';
                 this.localState.loginButtonDisabled = false;
+                this.setState(this.localState);
             });
 
         } else {
 
             // todo: translate message
             this.localState.loginError = 'Voer a.u.b. de verplichte velden in.';
+            this.setState(this.localState);
         }
-
-        // always set the new state
-        this.setState(this.localState);
     }
 
     onChangeFieldLoginForm(evt) {

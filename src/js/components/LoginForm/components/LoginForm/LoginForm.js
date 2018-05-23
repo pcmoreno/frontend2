@@ -9,7 +9,7 @@ import style from './style/loginform.scss';
 export default class LoginForm extends Component {
 
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage} = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage } = this.props;
 
         // todo: translate text of input fields and labels
         return (
