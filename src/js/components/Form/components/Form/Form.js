@@ -257,6 +257,13 @@ export default class Form extends Component {
                 //         changedFields.push({ hiddenFieldId, hiddenFieldValue });
                 //     });
                 // }
+
+                // todo: note. you may wonder what the fuss is all about. it looks easy just to take data from the state, right?
+                // todo: but. the data in the state is empty until it is changed by the user. this means, for fields that
+                // todo: have default values, the state values are empty. Ive looked for various places to add the
+                // todo: functionality that adds the default values to the state but at that point I started
+                // todo: questionning this whole approach. why add critical functionality just to populate state data,
+                // todo: while the data is already there in the physical form and can much easier be extracted from that?
             }
         });
 

@@ -58,7 +58,6 @@ export default class Listview extends Component {
 
         // prevent null values breaking the sorting function
         if (entity.value === null) {
-            console.log('this should not happen')
             entity.value = '';
         }
 
