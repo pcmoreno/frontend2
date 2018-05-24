@@ -1,46 +1,7 @@
 /* some overloads were needed because the login form doesnt look exactly like the modals */
-.register {
-    background: $blue;
-    height: 100vh;
-    padding-top: 350px;
-
+.main {
     form {
-        box-shadow: none;
-        width: 100%;
-        border-radius: .25rem 0 0 .25rem;
-        margin: 0;
-        max-width: unset;
-
-        @media screen and (max-width: $grid-breakpoints-md) {
-            position: relative;
-            border-radius: 0;
-        }
-    }
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        padding-top: 0;
-    }
-}
-
-.registerMargin {
-    width: 60%;
-    margin: 0 auto;
-    display: table;
-    max-width: $grid-breakpoints-lg;
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        width: 100%;
-        display: block;
-    }
-}
-
-.newUser {
-    display: table-cell;
-    width: 60%;
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        width: 100%;
-        display: block;
+        border-radius: $border-radius-small 0 0 $border-radius-small;
     }
 }
 
@@ -63,37 +24,6 @@
     border-top: 0;
 }
 
-.sideLinks {
-    display: table-cell;
-    width: 40%;
-    height: 100%;
-    background-color: $beige;
-    vertical-align: top;
-    border-radius: 0 .25rem .25rem 0;
-    padding: 1rem;
-
-    h3 {
-        font-family: $fontheavy;
-        color: $orange;
-    }
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        width: 100%;
-        height: 100vh;
-        display: block;
-        border-radius: 0;
-    }
-}
-
-.link {
-    margin-top: 15px;
-
-    span, a {
-        color: $orange;
-        text-decoration: underline;
-    }
-
-    span:hover {
-        cursor: pointer;
-    }
+.linkSection {
+    border-radius: 0 $border-radius-small $border-radius-small 0;
 }

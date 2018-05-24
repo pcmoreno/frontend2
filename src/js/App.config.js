@@ -89,7 +89,7 @@ const AppConfig = {
             'nl_NL',
             'en_GB'
         ],
-        defaultLang: 'en_GB',
+        defaultLanguage: 'en_GB',
         mapped: {
             nl: 'nl_NL',
             en: 'en_GB'

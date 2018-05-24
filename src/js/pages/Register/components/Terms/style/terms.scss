@@ -75,6 +75,7 @@
         padding-bottom: .5rem;
         padding-left: 1.5rem;
 
+        /* todo: add to globals */
         &::before {
             content: '\002022';
             color: $orange;

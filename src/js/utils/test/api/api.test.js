@@ -613,7 +613,7 @@ test('API buildPayload should return requestParams when no payload is set', () =
     expect(Utils.serialise.calls.count()).toBe(0);
 });
 
-test('API buildPayload should should parse the post body in JSON', () => {
+test('API buildPayload should parse the post body in JSON', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -651,7 +651,7 @@ test('API buildPayload should should parse the post body in JSON', () => {
     expect(Utils.serialise.calls.count()).toBe(0);
 });
 
-test('API buildPayload should should parse the post body in form data', () => {
+test('API buildPayload should parse the post body in form data', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -684,7 +684,7 @@ test('API buildPayload should should parse the post body in form data', () => {
     expect(Utils.serialise.calls.count()).toBe(1);
 });
 
-test('API buildPayload should should parse the post body in form data with custom form key', () => {
+test('API buildPayload should parse the post body in form data with custom form key', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);

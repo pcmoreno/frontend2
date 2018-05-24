@@ -9,6 +9,9 @@ import RedirectHelper from '../../utils/redirectHelper';
 
 const successTimeout = 5000;
 
+// todo: when implementing translations, please look at either: storing the previously used language in localStorage/cookies
+// todo: or for now, as a faster solution, detect the browser language (use method in Utils class)
+
 export default class Index extends Component {
     constructor(props) {
         super(props);

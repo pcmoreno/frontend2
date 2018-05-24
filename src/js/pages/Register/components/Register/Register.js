@@ -4,6 +4,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import mainStyle from '../../style/register.scss';
 import style from './style/register.scss';
 
 export default class Register extends Component {
@@ -14,9 +15,9 @@ export default class Register extends Component {
 
         // todo: translate text of input fields and labels
         return (
-            <main className={ style.register }>
-                <div className={ style.registerMargin }>
-                    <section className={ style.newUser }>
+            <main className={ `${mainStyle.main} ${style.main}` }>
+                <div className={ mainStyle.wrapper }>
+                    <section className={ mainStyle.formSection }>
                         <form>
                             <header className={ style.modalHeader }>
                                 <h3>I'm a new user</h3>
@@ -74,13 +75,13 @@ export default class Register extends Component {
                             </footer>
                         </form>
                     </section>
-                    <section className={ style.sideLinks }>
+                    <section className={ `${mainStyle.linkSection} ${style.linkSection}` }>
                         <h3>Login</h3>
                         <p>Already a registered user?</p>
-                        <div tabIndex="5" role='button' onClick={ showLogin } className={ style.link }>
+                        <div tabIndex="5" role='button' onClick={ showLogin } className={ mainStyle.link }>
                             <span>Login</span>
                         </div>
-                        <p className={ style.link}>
+                        <p className={ mainStyle.link}>
                             <a href="#notimplemented">I forgot my password</a>
                         </p>
                     </section>

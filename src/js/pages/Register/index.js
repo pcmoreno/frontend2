@@ -120,8 +120,8 @@ export default class Index extends Component {
         });
     }
 
-    onApproveTerms(evt) {
-        evt.preventDefault();
+    onApproveTerms(event) {
+        event.preventDefault();
 
         if (this.localState.approvalCheckboxChecked) {
 
@@ -156,15 +156,15 @@ export default class Index extends Component {
         }
     }
 
-    onChangeFieldRegistrationForm(evt) {
-        evt.preventDefault();
+    onChangeFieldRegistrationForm(event) {
+        event.preventDefault();
 
         // store input field value, no need to set the state to re-render
-        this.localState.registerFields[evt.target.id] = evt.target.value;
+        this.localState.registerFields[event.target.id] = event.target.value;
     }
 
-    onRegisterAccount(evt) {
-        evt.preventDefault();
+    onRegisterAccount(event) {
+        event.preventDefault();
 
         // clear errors first
         this.localState.registerError = '';
@@ -239,17 +239,17 @@ export default class Index extends Component {
         });
     }
 
-    onChangeTermsApproval(evt) {
-        evt.preventDefault();
+    onChangeTermsApproval(event) {
+        event.preventDefault();
 
         // save checkbox state and enable or disable the next button
-        this.localState.approvalCheckboxChecked = evt.target.checked;
+        this.localState.approvalCheckboxChecked = event.target.checked;
         this.localState.approvalButtonDisabled = !this.localState.approvalCheckboxChecked;
         this.setState(this.localState);
     }
 
-    onLoginAccount(evt) {
-        evt.preventDefault();
+    onLoginAccount(event) {
+        event.preventDefault();
 
         // reset error message
         this.localState.loginError = '';
@@ -331,15 +331,15 @@ export default class Index extends Component {
         }
     }
 
-    onChangeFieldLoginForm(evt) {
-        evt.preventDefault();
+    onChangeFieldLoginForm(event) {
+        event.preventDefault();
 
         // store input field value, no need to set the state to re-render
-        this.localState.loginFields[evt.target.id] = evt.target.value;
+        this.localState.loginFields[event.target.id] = event.target.value;
     }
 
-    switchToLogin(evt) {
-        evt.preventDefault();
+    switchToLogin(event) {
+        event.preventDefault();
 
         // switch show login
         this.localState.showLogin = !this.localState.showLogin;
