@@ -207,8 +207,6 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.UPDATE_FORM_FIELD:
 
-            // todo: this could be redundant if we switch to just submitting the actual form field data.. not sure yet
-
             // clear current items from newState
             newState.forms = [];
 
@@ -229,6 +227,28 @@ export default function organisationsReducer(state = initialState, action) {
                         }
 
                         return field;
+                    });
+                }
+
+                newState.forms.push(form);
+            });
+
+            break;
+
+        case actionType.RESET_FORM_FIELDS:
+
+            // clear current items from newState
+            newState.forms = [];
+
+            // build up the forms with data from state
+            state.forms.forEach(form => {
+                if (form.id === action.formId) {
+
+                    // in the right form
+                    form.formFields.forEach(field => {
+
+                        // clear the field
+                        field[Object.keys(field)[0]].value = '';
                     });
                 }
 

@@ -25,7 +25,7 @@ export default class TextInput extends Component {
 
         if (hidden) {
 
-            // todo: this is a bit messy and no longer needed like this
+            // todo: are hidden fields still required? after all they are read from the formFields state now..
             return (
                 <input
                     type={ 'hidden' }
@@ -38,7 +38,6 @@ export default class TextInput extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ options.handle }>{ options.form.all.label + required }</label>
@@ -52,7 +51,9 @@ export default class TextInput extends Component {
                             onChange={ onChange }
                             placeholder={ placeholder }
                             autoComplete={ 'off' }
+                            className={ localState.errors.fields[options.handle] && 'error' }
                         />
+                        <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.handle] }</span>
                     </li>
                 </ul>
             </div>

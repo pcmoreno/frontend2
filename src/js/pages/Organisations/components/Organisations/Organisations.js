@@ -50,6 +50,7 @@ export default class Organisations extends Component {
             storeFormDataInFormsCollection,
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
+            resetChangedFieldsForFormId,
             refreshDataWithMessage,
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
@@ -138,6 +139,7 @@ export default class Organisations extends Component {
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddParticipant }
                         i18n = { i18n }

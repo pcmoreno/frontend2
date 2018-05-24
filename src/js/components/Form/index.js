@@ -171,6 +171,7 @@ class Index extends Component {
             headerText={this.props.headerText}
             submitButtonText={this.props.submitButtonText}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
+            resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
             closeModal={ this.props.closeModal }
         />);
     }

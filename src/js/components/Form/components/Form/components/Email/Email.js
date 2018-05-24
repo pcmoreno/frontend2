@@ -11,20 +11,21 @@ export default class Email extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ handle }>{ label }</label>
                     </li>
                     <li>
                         <input
-                            type="email"
+                            type={ 'email' }
                             id={ handle }
                             value={ value }
-                            name={ 'form[' + handle + ']'}
+                            name={ `form[${handle}]` }
                             onChange={ onChange }
                             autoComplete={ 'email' }
+                            className={ localState.errors.fields[handle] && 'error' }
                         />
+                        <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
                     </li>
                 </ul>
             </div>

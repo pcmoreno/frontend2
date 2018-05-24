@@ -26,6 +26,7 @@ class Index extends Component {
 
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+        this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
@@ -45,6 +46,10 @@ class Index extends Component {
 
         // react controlled component pattern takes over the built-in form state when input changes
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
+    }
+
+    resetChangedFieldsForFormId(formId) {
+        this.actions.resetChangedFieldsForFormId(formId);
     }
 
     componentWillMount() {
@@ -243,6 +248,7 @@ class Index extends Component {
                 refreshDataWithMessage={ this.refreshDataWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+                resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 openModalToAddParticipant = { this.openModalToAddParticipant }

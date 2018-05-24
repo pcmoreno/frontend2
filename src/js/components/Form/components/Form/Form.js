@@ -29,6 +29,7 @@ export default class Form extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.collectFormData = this.collectFormData.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.resetFormFields = this.resetFormFields.bind(this);
 
         // UI state, with fields as key value pair field and message
         this.localState = {
@@ -160,10 +161,14 @@ export default class Form extends Component {
 
     collectFormData(event) {
 
+        // clear the existing error messages
+        this.resetErrorMessages();
+
         // just to be on the safe side, disable any erroneous submitting of the form data
         event.preventDefault();
 
         const changedFields = [];
+        let ableToSubmit = true;
 
         if (this.props.hiddenFields) {
             this.props.hiddenFields.forEach(hiddenField => {
@@ -177,23 +182,27 @@ export default class Form extends Component {
             });
         }
 
-        // extract values for each non-ignored field from state. in case no value exists, extract it in other ways:
-        // either by taking the initial value from a dropdown, or by reading the value straight from the actual form
+        // extract values for each non-ignored field from state. in case no value exists, extract it in other ways
         this.props.forms.forEach(form => {
             if (form.id === this.props.formId) {
                 form.formFields.forEach(field => {
 
                     // the first key is the field id (or name)
                     const name = Object.keys(field)[0];
+                    let fieldId, value;
 
                     if (this.props.ignoredFields.indexOf(name) === -1) {
-                        let fieldId;
-                        let value;
-
                         if (!field[name].value || field[name].value.length === 0) {
+
+                            // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
+                            // form element. see if the element can be matched and its value extracted.
+
+                            // todo: refactor to switch?
+
                             if (field[name].type === fieldType.CHOICE) {
 
                                 // pushing initial value from dropdown to state so it can be submitted
+
                                 const fieldName = Object.keys(field);
                                 const choices = [];
 
@@ -209,40 +218,42 @@ export default class Form extends Component {
 
                                 // the first value is the initial value
                                 value = choices[0];
+
                             } else if (field[name].type === fieldType.RELATIONSHIP) {
 
                                 // for relationship fields, it is much more difficult to retrieve the first entry from
-                                // the state since there is no choices collection on the object. the dropdown list is
-                                // build up dynamically by iterating over the given relationship collection. to solve
+                                // the state since there is no choices collection on the object. the dropdown list was
+                                // built up dynamically by iterating over the given relationship collection. to solve
                                 // this, just take the currently selected entry from the actual form.
-                                // todo: other suggestions? should this also be done for CHOICE fields?
 
                                 if (document.querySelector(`#${name}`)) {
                                     fieldId = name;
                                     value = document.querySelector(`#${name}`).value;
-
                                 } else {
                                     this.logger.error({
                                         component: 'form',
-                                        message: `could not find input field in actual from with id ${name}`
+                                        message: `could not find relationship field in actual form with id ${name}`
                                     });
                                 }
+
                             } else {
 
-                                // extract value from actual form since no value could be extracted from the state
+                                // for all other form element types, simply attempt to get its value
+
                                 if (document.querySelector(`#${name}`)) {
                                     fieldId = name;
                                     value = document.querySelector(`#${name}`).value;
                                 } else {
                                     this.logger.error({
                                         component: 'form',
-                                        message: `could not find input field in actual from with id ${name}`
+                                        message: `could not find form field in actual form with id ${name}`
                                     });
                                 }
                             }
                         } else {
 
                             // extract value from state
+
                             fieldId = name;
                             value = field[name].value;
                         }
@@ -255,7 +266,7 @@ export default class Form extends Component {
                                 fieldId = field[name].to;
                             }
 
-                            // relationship fields need an override
+                            // relationship fields require an override in case 'as' is set
                             if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
                                 fieldId = field[name].as;
                             }
@@ -263,43 +274,54 @@ export default class Form extends Component {
                             changedFields.push({ fieldId, value });
                         } else {
 
-                            // todo: read form field validation from state to check if field is required.
-                            // todo: if so, show error. if not, throw error. or do we let API handle this?
+                            if (field[name].form.all.required) {
+                                ableToSubmit = false;
+
+                                // todo: translate
+                                this.handleErrorMessages(
+                                    { [name]: 'U dient een waarde voor dit veld in te vullen' }
+                                );
+                            }
                         }
                     }
                 });
             }
         });
 
-        // disable the submit button
-        this.setSubmitButtonState(true);
+        if (ableToSubmit) {
 
-        // submit the changed fields (if there is no frontend validation error (which still has to be included))
-        this.props.submitForm(changedFields).then(response => {
-            if (response && response.errors) {
+            // disable the submit button
+            this.setSubmitButtonState(true);
 
-                // hide loader and handle error messages for fields
-                document.querySelector('#spinner').classList.add('hidden');
-                this.handleErrorMessages(response.errors);
+            // submit the changed fields
+            this.props.submitForm(changedFields).then(response => {
+                if (response && response.errors) {
 
-                // enable the submit button
-                this.setSubmitButtonState(false);
-            } else {
+                    // hide loader and handle error messages for fields
+                    document.querySelector('#spinner').classList.add('hidden');
+                    this.handleErrorMessages(response.errors);
 
-                // consider this a successful call
-                document.querySelector('#spinner').classList.add('hidden');
-                this.resetErrorMessages();
+                    // re-enable the submit button
+                    this.setSubmitButtonState(false);
+                } else {
 
-                // enable the submit button
-                this.setSubmitButtonState(false);
-            }
-        });
+                    // consider this a successful call
+                    document.querySelector('#spinner').classList.add('hidden');
+
+                    this.resetFormFields();
+                    this.resetErrorMessages();
+
+                    // re-enable the submit button
+                    this.setSubmitButtonState(false);
+                }
+            });
+        }
     }
 
     /**
      * Sets the 'disabled' state of the button to submit the form
      *
-     * @param {state} state - determines whether button should be disabled
+     * @param {boolean} state - determines whether button should be disabled
      * @returns {undefined}
      */
     setSubmitButtonState(state) {
@@ -317,7 +339,7 @@ export default class Form extends Component {
      * @returns {undefined}
      */
     handleErrorMessages(errors) {
-        let newState = Object.assign({}, this.localState);
+        const newState = Object.assign({}, this.localState);
 
         for (let key in errors) {
             if (errors.hasOwnProperty(key)) {
@@ -347,7 +369,7 @@ export default class Form extends Component {
      * @returns {undefined}
      */
     resetErrorMessages() {
-        let newState = Object.assign({}, this.localState);
+        const newState = Object.assign({}, this.localState);
 
         // reset form error
         delete newState.errors.form;
@@ -363,12 +385,21 @@ export default class Form extends Component {
     }
 
     /**
+     * Resets the form fields for this form
+     *
+     * @returns {undefined}
+     */
+    resetFormFields() {
+        this.props.resetChangedFieldsForFormId(this.props.formId);
+    }
+
+    /**
      * Handle closes in all situations (clicking outside the modal, or on one of the two close buttons)
      * @returns {undefined}
      */
     handleClose() {
 
-        // todo: reset all input fields when the form is closed.
+        this.props.resetChangedFieldsForFormId(this.props.formId);
 
         // reset the form and field error messages
         this.resetErrorMessages();
@@ -439,7 +470,7 @@ export default class Form extends Component {
 
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
-            <form id={formId}>
+            <form id={formId} noValidate>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
                     <h3>{ headerText }</h3>
