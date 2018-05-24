@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
                                     type="text"
                                     id="username"
                                     name="username"
-                                    autoComplete="off"
+                                    autoComplete="on"
                                     placeholder="E-mailadres"
                                     onChange={ handleChange }
                                     required

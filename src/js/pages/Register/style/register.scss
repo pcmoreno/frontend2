@@ -1,7 +1,7 @@
 .main {
     background: $blue;
     height: 100vh;
-    padding-top: 350px;
+    padding-top: 350px; /* todo: use percentage, but this doesn't work properly with grid */
 
     form {
         box-shadow: none;

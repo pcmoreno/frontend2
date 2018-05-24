@@ -1,6 +1,6 @@
 .terms {
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr;  /* todo: height of footer doesn't work properly with grid */
     height: 100vh;
 
     .main {
