@@ -24,5 +24,6 @@ export default {
     "register_terms_and_conditions_accept_line_1": "On the LTP website, you can consult <a href=\"https:\/\/www.ltp.nl\/wp-content\/uploads\/2017\/12\/ltp-privacy-statement-2018.pdf\" target=\"_blank\"> the complete terms and conditions <\/a>.",
     "register_terms_and_conditions_accept_line_2": "I have read the terms and conditions and agree with them.",
     "register_terms_and_conditions_content": "",
-    "register_terms_and_conditions_intro": ""
+    "register_terms_and_conditions_intro": "",
+    "register_terms_button_next": "Next"
 };
