@@ -1,7 +1,7 @@
 export default {
     "api_general_error": "An error occurred while processing your request. Please try again.",
-    "form_all_fields_required": "Please fill in all required fields",
     "login_activate_your_account": "Activate your account",
+    "login_all_fields_required": "Please fill in all required fields",
     "login_button_label": "Login",
     "login_email_label": "Email address",
     "login_email_placeholder": "Email address",
