@@ -1,12 +1,9 @@
 export default {
     "api_general_error": "An error occurred while processing your request. Please try again.",
-    "form_all_fields_required": "Please fill in all required fields",
     "login_button_label": "Login",
     "login_forgot_my_password_label": "I forgot my password",
     "login_forgot_password": "Forgot your password?",
     "login_label": "Login",
-    "login_login_failed": "Login failed. Please try again.",
-    "login_registration_successful": "Registration successful. You can login now.",
     "register_activate_your_account": "Activate your account",
     "register_already_registered_label": "Already a registered user?",
     "register_confirm_password_label": "Confirm password",
