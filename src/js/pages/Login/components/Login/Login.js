@@ -5,12 +5,12 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import style from './style/login.scss';
-import LoginForm from '../../../../components/LoginForm/components/LoginForm/LoginForm';
+import LoginForm from '../../../../components/LoginForm/index';
 
 export default class Login extends Component {
 
     render() {
-        const { onSubmit, handleChange, localState } = this.props;
+        const { onSubmit, handleChange, localState, language } = this.props;
 
         return (
             <main className={ style.login }>
@@ -20,6 +20,7 @@ export default class Login extends Component {
                     error={ localState.errors.login }
                     buttonDisabled={ localState.buttons.submitDisabled }
                     successMessage={ localState.successMessage }
+                    language={ language }
                 />
             </main>
         );

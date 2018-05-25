@@ -1,7 +1,5 @@
 import { h, Component } from 'preact';
 
-// todo: translate this
-
 /** @jsx h */
 
 import style from './style/loginform.scss';
@@ -9,46 +7,45 @@ import style from './style/loginform.scss';
 export default class LoginForm extends Component {
 
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n } = this.props;
 
-        // todo: translate text of input fields and labels
         return (
             <div className={ style.modal }>
                 <section className={ style.loginMargin }>
                     <form>
                         <header className={ style.modal_header }>
-                            <h3>Log in</h3>
+                            <h3>{ i18n.login_login_label }</h3>
                             <p className={style.successMessage}> {successMessage} </p>
                         </header>
                         <main>
                             <div>
-                                <label htmlFor="email">E-mailadres</label>
+                                <label htmlFor="email">{ i18n.login_email_label }</label>
                                 <input
                                     tabIndex="1"
                                     type="text"
                                     id="username"
                                     name="username"
                                     autoComplete="on"
-                                    placeholder="E-mailadres"
+                                    placeholder={ i18n.login_email_placeholder }
                                     onChange={ handleChange }
                                     required
                                 />
                             </div>
                             <div>
-                                <label htmlFor="password">Wachtwoord</label>
+                                <label htmlFor="password">{ i18n.login_password_label }</label>
                                 <input
                                     tabIndex="2"
                                     type="password"
                                     id="password"
                                     name="password"
                                     autoComplete="off"
-                                    placeholder="Wachtwoord"
+                                    placeholder= { i18n.login_password_placeholder }
                                     onChange={ handleChange }
                                     required
                                 />
                             </div>
                             <span className={ style.link }>
-                                <a href="#notimplemented">Wachtwoord vergeten?</a>
+                                <a href="#notimplemented">{ i18n.login_forgot_password }</a>
                             </span>
                             <span className={ style.errors }>
                                 { error }
@@ -57,7 +54,7 @@ export default class LoginForm extends Component {
                         <footer className={ style.modal_footer } >
                             <nav>
                                 <button className={ 'action_button' } disabled={ buttonDisabled } onClick={ onSubmit }>
-                                    Inloggen
+                                    { i18n.login_login_button_label }
                                 </button>
                             </nav>
                         </footer>

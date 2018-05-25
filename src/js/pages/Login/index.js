@@ -6,11 +6,11 @@ import ApiFactory from '../../utils/api/factory';
 import Login from './components/Login/Login';
 import Redirect from '../../utils/components/Redirect';
 import RedirectHelper from '../../utils/redirectHelper';
+import translator from '../../utils/translator';
+import Utils from '../../utils/utils';
+import AppConfig from '../../App.config';
 
 const successTimeout = 5000;
-
-// todo: when implementing translations, please look at either: storing the previously used language in localStorage/cookies
-// todo: or for now, as a faster solution, detect the browser language (use method in Utils class)
 
 export default class Index extends Component {
     constructor(props) {
@@ -33,6 +33,17 @@ export default class Index extends Component {
             },
             successMessage: ''
         };
+
+        // get browser language to determine the translations
+        const languageConfig = AppConfig.languages;
+        const language = Utils.getBrowserLanguage(
+            languageConfig.supported,
+            languageConfig.defaultLanguage,
+            languageConfig.mapped
+        );
+
+        this.i18n = translator(language, 'login');
+        this.language = language;
     }
 
     componentWillMount() {
@@ -47,7 +58,7 @@ export default class Index extends Component {
 
         // user was just registered, show a message
         if (this.props.matches && this.props.matches.registrationSuccess) {
-            this.localState.successMessage = 'Registration successful. You can now login.'; // todo: translate
+            this.localState.successMessage = this.i18n.login_registration_successful;
             this.setState(this.localState);
         }
 
@@ -104,9 +115,7 @@ export default class Index extends Component {
                 render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={true}/>);
 
             }).catch((/* error */) => {
-
-                // todo: translate message
-                newState.errors.login = 'Inloggen mislukt. Probeer het opnieuw.';
+                newState.errors.login = this.i18n.login_login_failed;
                 newState.buttons.submitDisabled = false;
 
                 // set state (async)
@@ -114,9 +123,7 @@ export default class Index extends Component {
             });
 
         } else {
-
-            // todo: translate message
-            newState.errors.login = 'Voer a.u.b. de verplichte velden in.';
+            newState.errors.login = this.i18n.login_all_fields_required;
         }
 
         // always set the new state
@@ -129,6 +136,7 @@ export default class Index extends Component {
                 onSubmit={ this.submitLogin }
                 handleChange={ this.handleChange }
                 localState={ this.localState }
+                language = { this.language }
             />
         );
     }

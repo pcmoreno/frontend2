@@ -376,6 +376,7 @@ export default class Index extends Component {
 
                 component = <Login
                     i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'login' translations
+                    language = { this.localState.languageId }
                     error = { this.localState.loginError }
                     buttonDisabled = { this.localState.loginButtonDisabled }
                     onSubmit = { this.onLoginAccount.bind(this) }
