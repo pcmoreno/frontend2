@@ -7,6 +7,7 @@ form {
     max-width: $grid-breakpoints-md;
     width: 50%;
     z-index: $z-index-modal-top;
+    overflow: hidden;
 
     header {
         border-bottom: 1px solid $shadow;
@@ -34,7 +35,15 @@ form {
     }
 
     main {
+
+        /* global padding in form */
         padding: 1rem;
+
+        /* there is an aesthetically pleasing 10% offset at bottom of (responsive) form modal */
+        max-height: calc(100vh - 14.5rem);
+
+        /* todo: auto */
+        overflow: scroll;
 
         label {
             padding: .5rem 0;
@@ -48,14 +57,11 @@ form {
         input,
         select {
             border: 0;
-            min-height: 30px;
+            height: 2rem;
             margin: 5px 0;
             font-size: .75rem;
             box-sizing: border-box;
             padding: 5px 10px;
-        }
-
-        input {
             box-shadow: 0 1px 1px rgba(0, 0 , 0 , .075) inset;
             background-color: $beige;
             width: 100%;
@@ -99,9 +105,11 @@ form {
 
     form {
 
-        /* todo: please explain when a form is placed in a form? */
+        /* todo: please explain when a form is placed in a form?! can probably be removed, this */
         width: 200px;
         display: block;
         padding: 2rem;
+        background: red;
+        font-size: 200px;
     }
 }

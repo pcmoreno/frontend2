@@ -18,10 +18,10 @@ export default class TextArea extends Component {
                     </li>
                     <li>
                         <textarea
-                            type="text"
                             id={ handle }
+                            rows={ '3' }
                             value={ value }
-                            name={ 'form[' + handle + ']'}
+                            name={ `form[${handle}]` }
                             onChange={ onChange }
                         />
                     </li>
