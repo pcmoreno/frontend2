@@ -1,7 +1,7 @@
 export default {
     "api_general_error": "Er is een fout opgetreden. Probeer het opnieuw.",
-    "form_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "login_activate_your_account": "Activeer uw account",
+    "login_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "login_button_label": "Inloggen",
     "login_email_label": "E-mailadres",
     "login_email_placeholder": "E-mailadres",
