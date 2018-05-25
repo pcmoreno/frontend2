@@ -1,16 +1,19 @@
 export default {
     "api_general_error": "An error occurred while processing your request. Please try again.",
     "register_activate_your_account": "Activate your account",
+    "register_all_fields_required": "Please fill in all required fields",
     "register_already_registered_label": "Already a registered user?",
-    "register_and_conditions_content": "",
     "register_confirm_password_label": "Confirm password",
     "register_confirm_password_placeholder": "Confirm password",
     "register_create_account_button_label": "Create account",
+    "register_disclaimer_content": "",
+    "register_disclaimer_label": "Disclaimer",
     "register_email_label": "Your email address",
     "register_email_placeholder": "Email address",
     "register_forgot_my_password_label": "I forgot my password",
     "register_forgot_password": "Forgot your password?",
     "register_login_button_label": "Login",
+    "register_login_failed": "Login failed. Please try again.",
     "register_login_label": "Login",
     "register_new_password_label": "New password",
     "register_new_password_placeholder": "Password",
@@ -20,5 +23,6 @@ export default {
     "register_terms_and_conditions": "Terms and conditions",
     "register_terms_and_conditions_accept_line_1": "On the LTP website, you can consult <a href=\"https:\/\/www.ltp.nl\/wp-content\/uploads\/2017\/12\/ltp-privacy-statement-2018.pdf\" target=\"_blank\"> the complete terms and conditions <\/a>.",
     "register_terms_and_conditions_accept_line_2": "I have read the terms and conditions and agree with them.",
+    "register_terms_and_conditions_content": "",
     "register_terms_and_conditions_intro": ""
 };
