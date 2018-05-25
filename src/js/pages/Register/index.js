@@ -16,8 +16,6 @@ const invited = 'invited';
 const loginEndpoint = '/login';
 const registrationSuccessful = '?registrationSuccess=true';
 
-// todo: check translations of (error) messages
-
 export default class Index extends Component {
     constructor(props) {
         super(props);
@@ -54,6 +52,7 @@ export default class Index extends Component {
         };
 
         this.api = ApiFactory.get('neon');
+        this.i18n = {};
     }
 
     componentDidMount() {
@@ -96,6 +95,7 @@ export default class Index extends Component {
 
                 // convert given language to frontend usable language (e.g. nl-NL to nl_NL)
                 this.localState.languageId = Utils.convertParticipantLanguage(response.language);
+                this.i18n = translator(this.localState.languageId, 'register');
 
                 // check the terms accepted status
                 switch (response.status) {
@@ -176,14 +176,14 @@ export default class Index extends Component {
 
         // validate fields to be filled
         if (!email || !password || !passwordConfirm) {
-            this.localState.registerError = 'All fields are required.'; // todo: translate
+            this.localState.registerError = this.i18n.register_all_fields_required;
             return this.setState(this.localState);
         }
 
         // todo: do we need to set any validation like password strength/length??
         // set password error if passwords don't match
         if (password !== passwordConfirm) {
-            this.localState.registerError = 'Passwords do not match'; // todo: translate
+            this.localState.registerError = this.i18n.register_passwords_dont_match;
             return this.setState(this.localState);
         }
 
@@ -219,7 +219,7 @@ export default class Index extends Component {
             if (response.errors) {
 
                 // for now always just display the first error
-                this.localState.registerError = response.errors[0] || 'Could not process your request.';
+                this.localState.registerError = response.errors[0] || this.i18n.api_general_error;
                 this.localState.registerButtonDisabled = false;
 
             } else {
@@ -233,7 +233,7 @@ export default class Index extends Component {
         }).catch(() => {
 
             // the request failed so enable the register button again
-            this.localState.registerError = 'Could not process your request.';
+            this.localState.registerError = this.i18n.api_general_error;
             this.localState.registerButtonDisabled = false;
             this.setState(this.localState);
         });
@@ -308,25 +308,19 @@ export default class Index extends Component {
                     render(<Redirect to={'/'} refresh={true}/>);
 
                 }).catch(() => {
-
-                    // todo: translate message
-                    this.localState.loginError = 'Inloggen mislukt. Probeer het opnieuw.';
+                    this.localState.loginError = this.i18n.register_login_failed;
                     this.localState.loginButtonDisabled = false;
                     this.setState(this.localState);
                 });
 
             }).catch(() => {
-
-                // todo: translate message
-                this.localState.loginError = 'Inloggen mislukt. Probeer het opnieuw.';
+                this.localState.loginError = this.i18n.register_login_failed;
                 this.localState.loginButtonDisabled = false;
                 this.setState(this.localState);
             });
 
         } else {
-
-            // todo: translate message
-            this.localState.loginError = 'Voer a.u.b. de verplichte velden in.';
+            this.localState.loginError = this.i18n.register_all_fields_required;
             this.setState(this.localState);
         }
     }
@@ -363,7 +357,7 @@ export default class Index extends Component {
         // render terms component when they were not approved yet
         if (!this.localState.termsAccepted) {
             component = <Terms
-                i18n = { translator(this.localState.languageId, 'terms') }
+                i18n = { translator(this.localState.languageId, 'register') }
                 onSubmit = { this.onApproveTerms.bind(this) }
                 onChange = { this.onChangeTermsApproval.bind(this) }
                 buttonDisabled = { this.localState.approvalButtonDisabled }
@@ -375,7 +369,7 @@ export default class Index extends Component {
             if (this.localState.showLogin) {
 
                 component = <Login
-                    i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'login' translations
+                    i18n = { translator(this.localState.languageId, 'register') }
                     language = { this.localState.languageId }
                     error = { this.localState.loginError }
                     buttonDisabled = { this.localState.loginButtonDisabled }
@@ -388,7 +382,7 @@ export default class Index extends Component {
 
                 // show register by default
                 component = <Register
-                    i18n = { translator(this.localState.languageId, 'terms') } // todo: load and implement 'register' translations
+                    i18n = { translator(this.localState.languageId, 'register') }
                     error = { this.localState.registerError }
                     buttonDisabled = { this.localState.registerButtonDisabled }
                     onSubmit = { this.onRegisterAccount.bind(this) }

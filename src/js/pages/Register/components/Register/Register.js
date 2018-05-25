@@ -1,7 +1,5 @@
 import { h, Component } from 'preact';
 
-// todo: translate this
-
 /** @jsx h */
 
 import mainStyle from '../../style/register.scss';
@@ -10,54 +8,52 @@ import style from './style/register.scss';
 export default class Register extends Component {
 
     render() {
+        const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n } = this.props;
 
-        const { onSubmit, onChange, error, buttonDisabled, showLogin } = this.props;
-
-        // todo: translate text of input fields and labels
         return (
             <main className={ `${mainStyle.main} ${style.main}` }>
                 <div className={ mainStyle.wrapper }>
                     <section className={ mainStyle.formSection }>
                         <form>
                             <header className={ style.modalHeader }>
-                                <h3>I'm a new user</h3>
+                                <h3>{ i18n.register_new_user }</h3>
                             </header>
                             <main>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="username">Your e-mail address</label>
+                                    <label htmlFor="username">{ i18n.register_email_label }</label>
                                     <input
                                         tabIndex="1"
                                         type="text"
                                         id="username"
                                         name="username"
                                         autocomplete="off"
-                                        placeholder="E-mailadres"
+                                        placeholder={ i18n.register_email_placeholder }
                                         onChange={onChange}
                                         required
                                     />
                                 </div>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="password">New password</label>
+                                    <label htmlFor="password">{ i18n.register_new_password_label }</label>
                                     <input
                                         tabIndex="2"
                                         type="password"
                                         id="password"
                                         name="password"
                                         autocomplete="off"
-                                        placeholder="Wachtwoord"
+                                        placeholder={ i18n.register_new_password_placeholder }
                                         onChange={onChange}
                                         required
                                     />
                                 </div>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="passwordConfirm">Confirm password</label>
+                                    <label htmlFor="passwordConfirm">{ i18n.register_confirm_password_label }</label>
                                     <input
                                         tabIndex="3"
                                         type="password"
                                         id="passwordConfirm"
                                         name="passwordConfirm"
                                         autocomplete="off"
-                                        placeholder="Confirm password"
+                                        placeholder={ i18n.register_confirm_password_placeholder }
                                         onChange={onChange}
                                         required
                                     />
@@ -69,20 +65,20 @@ export default class Register extends Component {
                             <footer className={style.modalFooter}>
                                 <nav>
                                     <button tabIndex="4" className={ 'action_button' } disabled={ buttonDisabled } onClick={ onSubmit }>
-                                    Create account
+                                        { i18n.register_create_account_button_label }
                                     </button>
                                 </nav>
                             </footer>
                         </form>
                     </section>
                     <section className={ `${mainStyle.linkSection} ${style.linkSection}` }>
-                        <h3>Login</h3>
-                        <p>Already a registered user?</p>
+                        <h3>{ i18n.register_login_label }</h3>
+                        <p>{ i18n.register_already_registered_label }</p>
                         <div tabIndex="5" role='button' onClick={ showLogin } className={ mainStyle.link }>
-                            <span>Login</span>
+                            <span>{ i18n.register_login_label }</span>
                         </div>
                         <p className={ mainStyle.link}>
-                            <a href="#notimplemented">I forgot my password</a>
+                            <a href="#notimplemented">{ i18n.register_forgot_my_password_label }</a>
                         </p>
                     </section>
                 </div>
