@@ -1,12 +1,9 @@
 export default {
     "api_general_error": "Er is een fout opgetreden. Probeer het opnieuw.",
-    "form_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "login_button_label": "Inloggen",
     "login_forgot_my_password_label": "Ik ben mijn wachtwoord vergeten",
     "login_forgot_password": "Wachtwoord vergeten?",
     "login_label": "Inloggen",
-    "login_login_failed": "Inloggen mislukt. Probeer het opnieuw.",
-    "login_registration_successful": "Registratie geslaagd. U kunt nu inloggen.",
     "register_activate_your_account": "Activeer uw account",
     "register_already_registered_label": "Heeft u al een account?",
     "register_confirm_password_label": "Bevestig wachtwoord",
