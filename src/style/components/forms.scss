@@ -40,7 +40,7 @@ form {
         padding: 1rem;
 
         /* there is an aesthetically pleasing 10% offset at bottom of (responsive) form modal */
-        max-height: calc(100vh - 14.5rem);
+        max-height: calc(100vh - 12.75rem - 2rem);
 
         /* todo: auto */
         overflow: scroll;
@@ -70,6 +70,14 @@ form {
             &.error {
                 border: solid 2px $signal-red;
             }
+        }
+
+        textarea {
+            height: unset;
+        }
+
+        input[type=datetime-local] {
+            color: $beige-darken;
         }
     }
 
