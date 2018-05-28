@@ -14,18 +14,18 @@ export default class ResearchQuestion extends Component {
             return null;
         }
 
-        texts.researchQuestion.title = i18n.research_question;
+        texts.researchQuestion.title = i18n.report_research_question;
 
         // note that texts that have been altered using the Froala editor, and are thus received over the API, will have
         // a <p> tag wrapped around it. since the default texts no longer have this tag (we removed CDATA and <p> tags
         // in Lokalise) the <p> tag is added here programmatically, to ensure consistency in styling.
 
         if (!texts.researchQuestion.value) {
-            texts.researchQuestion.value = `<p>${i18n.research_question_default_text}</p>`;
+            texts.researchQuestion.value = `<p>${i18n.report_research_question_default_text}</p>`;
         }
 
         return (
-            <ReportSection title={i18n.research_question}>
+            <ReportSection title={i18n.report_research_question}>
                 <ReportColumn>
                     <TextBlock
                         field={texts.researchQuestion}

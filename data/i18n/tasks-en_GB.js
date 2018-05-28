@@ -1,18 +1,10 @@
 export default {
-    "appointment_date": "appointment date",
-    "consultant": "consultant",
-    "en_GB": "english",
-    "inbox": "inbox",
-    "log_out": "log out",
-    "nl_NL": "nederlands",
-    "organisation": "organisation",
-    "organisations": "organisations",
-    "participant": "participant",
-    "participants": "participants",
-    "report": "report",
-    "results": "results",
-    "showresults": "show results",
-    "tasks": "tasks",
-    "users": "users",
-    "write_report": "write report"
+    "tasks_participant": "participant",
+    "tasks_appointment_date": "appointment date",
+    "tasks_results": "results",
+    "tasks_show_results": "show results",
+    "tasks_write_report": "write report",
+    "tasks_consultant": "Consultant",
+    "tasks_organisation": "Organisation",
+    "tasks_report": "Report"
 };

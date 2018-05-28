@@ -17,7 +17,7 @@ export default class Participants extends Component {
                     switchTab('participants');
                 }}
             >
-                <span>{ i18n.participants }</span>
+                <span>{ i18n.organisations_participants }</span>
             </li>
         );
     }

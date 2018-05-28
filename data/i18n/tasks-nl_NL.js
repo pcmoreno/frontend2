@@ -1,18 +1,10 @@
 export default {
-    "appointment_date": "afspraakdatum",
-    "consultant": "adviseur",
-    "en_GB": "english",
-    "inbox": "inbox",
-    "log_out": "uitloggen",
-    "nl_NL": "nederlands",
-    "organisation": "organisatie",
-    "organisations": "organisaties",
-    "participant": "deelnemer",
-    "participants": "deelnemers",
-    "report": "rapport",
-    "results": "resultaten",
-    "showresults": "toon resultaten",
-    "tasks": "taken",
-    "users": "gebruikers",
-    "write_report": "schrijf rapport"
+    "tasks_participant": "deelnemer",
+    "tasks_appointment_date": "afspraakdatum",
+    "tasks_results": "resultaten",
+    "tasks_show_results": "toon resultaten",
+    "tasks_write_report": "schrijf rapport",
+    "tasks_consultant": "Adviseur",
+    "tasks_organisation": "Organisatie",
+    "tasks_report": "Rapport"
 };
