@@ -83,26 +83,78 @@ class API {
 
     /**
      * Logs a warning to the logger with the given message
-     * @param {string} message - warning message
+     * @param {string} type - type 'warning' or 'error'
+     * @param {string} [message] - log message
+     * @param {string} [url] - url
+     * @param {Object} [options] - request options
+     * @param {Object} [response] - response object
+     * @param {Object} [jsonResponse] - json object response or error string
      * @returns {undefined}
      */
-    logWarning(message) {
-        this.logger.warning({
-            component: 'API',
-            message
-        });
-    }
+    logApiMessage(type, message = '', url = '', options = {}, response = {}, jsonResponse = {}) {
+        const loggingExclusions = this.config.loggingExclusions;
 
-    /**
-     * Logs an error to the logger with the given message
-     * @param {string} message - error message
-     * @returns {undefined}
-     */
-    logError(message) {
-        this.logger.error({
-            component: 'API',
-            message
+        // check if this url contains excluded endpoints, stop if so
+        for (let i = 0; i < loggingExclusions.endpoints.length; i++) {
+            const endpoint = loggingExclusions.endpoints[i];
+
+            if (~url.indexOf(endpoint)) {
+                return;
+            }
+        }
+
+        // check if there are headers that should be excluded from the logging
+        loggingExclusions.headers.forEach(header => {
+            if (options.headers && options.headers[header]) {
+                options.headers[header] = null;
+                delete options.headers[header];
+            }
         });
+
+        // check if there are post body values that should be excluded from the logging
+        loggingExclusions.postBody.forEach(fieldKey => {
+            if (options.payload && options.payload.data && options.payload.data[fieldKey]) {
+                options.payload.data[fieldKey] = null;
+                delete options.payload.data[fieldKey];
+            }
+        });
+
+        // check if there are response body values that should be excluded from the logging
+        loggingExclusions.responseBody.forEach(fieldKey => {
+            if (jsonResponse[fieldKey]) {
+                jsonResponse[fieldKey] = null;
+                delete jsonResponse[fieldKey];
+            }
+        });
+
+        // stringify the response if necessary
+        if (typeof jsonResponse === 'object') {
+            jsonResponse = JSON.stringify(jsonResponse);
+        }
+
+        // call the logger
+        if (type === 'warning') {
+            this.logger.warning({
+                component: 'API',
+                message,
+                requestUrl: url,
+                requestOptions: JSON.stringify(options),
+                responseStatus: response.status || 0,
+                responseText: response.statusText || '',
+                responseBody: jsonResponse
+
+            });
+        } else if (type === 'error') {
+            this.logger.error({
+                component: 'API',
+                message,
+                requestUrl: url,
+                requestOptions: JSON.stringify(options),
+                responseStatus: response.status || 0,
+                responseText: response.statusText || '',
+                responseBody: jsonResponse
+            });
+        }
     }
 
     /**
@@ -150,7 +202,7 @@ class API {
             if (parsedUrl === null) {
 
                 // Log to logger and reject with a proper error message
-                self.logError(`buildURL failed. Please compare the given identifiers with the endpoint URL: ${url}`);
+                self.logApiMessage('error', 'Build url failed. Could not parse all identifiers', url, options);
                 return reject(new Error(self.config.requestFailedMessage));
             }
 
@@ -176,7 +228,7 @@ class API {
 
                     // check if this was an input validation error
                     if (response.status === 400 && json.errors) {
-                        self.logWarning(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logApiMessage('warning', 'API call succeeded but with 400 Bad request response', parsedUrl, options, response, json);
                         return resolve({ errors: json.errors });
                     }
 
@@ -197,10 +249,10 @@ class API {
 
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
-                        self.logWarning(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logApiMessage('warning', 'API call succeeded but with a warning flagged response code', parsedUrl, options, response, json);
 
                     } else if (API.isErrorCode(response.status) || !response.ok) {
-                        self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logApiMessage('error', 'API call succeeded but with an error flagged response code', parsedUrl, options, response, json);
                         return reject(new Error(self.config.requestFailedMessage));
                     }
 
@@ -215,19 +267,12 @@ class API {
                     }
 
                     // consider this as a failed request
-                    self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with error: ${error}`);
+                    self.logApiMessage('error', 'Parsing JSON response failed', parsedUrl, options, response, error);
                     return reject(new Error(self.config.requestFailedMessage));
                 });
 
-
-                // todo: on 401 response cache the call config and renew token
-                // this.authenticator.authenticate(tokens).then(newTokens => {
-                //
-                //     // todo: retry call with new tokens
-                // });
-
             }).catch(error => {
-                self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, failed with error: ${error}`);
+                self.logApiMessage('error', 'Unexpected API request error', parsedUrl, options, {}, error);
                 return reject(new Error(self.config.requestFailedMessage));
             });
         });
@@ -270,7 +315,7 @@ class API {
         } else {
 
             // Log to logger and reject with a proper error message
-            this.logError(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
+            this.logApiMessage('error', 'Could not parse post data', '', requestParams);
             throw new Error(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
         }
 

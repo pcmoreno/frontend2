@@ -1,3 +1,5 @@
+import Utils from './utils';
+
 const loggerInstance = Symbol('logger Instance');
 const singletonEnforcer = Symbol('singleton Enforcer');
 
@@ -13,6 +15,7 @@ class Logger {
         }
 
         this.env = process.env.NODE_ENV;
+        this.sessionId = Utils.uuid();
     }
 
     /**
@@ -41,11 +44,18 @@ class Logger {
      * Posts the log object to external logging service in production mode. In development mode the console will
      * be called using console.log, warn and error.
      *
-     * @param {Object} logObject - log properties
+     * @param {Object} logObject - log properties (will all be logged)
      * @param {string} logObject.message - Message
      * @param {string} logObject.component - Component name
-     * @param {string} [logObject.code] - Code from failed network request
-     * @param {string} [logObject.response] - response from failed network request
+     * @param {string} logObject.type - type (warning or error)
+     * @param {string} logObject.application - application name
+     * @param {string} logObject.userAgent - User agent
+     * @param {string} logObject.session - unique session id
+     * @param {string} [logObject.requestUrl] - Requested url (api)
+     * @param {string} [logObject.responseText] - Response text (api)
+     * @param {string} [logObject.requestOptions] - Request options as json string (api)
+     * @param {string} [logObject.responseBody] - Response body as json string (api)
+     * @param {number} [logObject.responseStatus] - Response status (api)
      * @param {string} type - log type [error, warning, notice]
      * @returns {undefined}
      */
@@ -53,8 +63,10 @@ class Logger {
         let ua = window.userAgent;
 
         // extend the logObject with user agent and log type by default
-        logObject.useragent = ua;
+        logObject.application = 'frontend';
+        logObject.userAgent = ua;
         logObject.type = type;
+        logObject.session = this.sessionId;
 
         // log to external logging service in production env, or use console in dev env
         if (this.env === 'production') {
@@ -65,16 +77,13 @@ class Logger {
 
             switch (logObject.type) {
                 case 'error':
-                    console.error('Error in component ' + logObject.component + ': ' + logObject.message + // eslint-disable-line no-console,prefer-template
-                        ', code: ' + logObject.code + ', response: ' + logObject.response);
+                    console.error('Error in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 case 'warning':
-                    console.warn('Warning in component ' + logObject.component + ': ' + logObject.message + // eslint-disable-line no-console,prefer-template
-                        ', code: ' + logObject.code + ', response: ' + logObject.response);
+                    console.warn('Warning in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 case 'notice':
-                    console.log('Notice in component ' + logObject.component + ': ' + logObject.message + // eslint-disable-line no-console,prefer-template
-                        ', code: ' + logObject.code + ', response: ' + logObject.response);
+                    console.log('Notice in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 default:
                     break;

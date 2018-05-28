@@ -10,15 +10,15 @@ test('check if error calls console.error', () => {
     let error1 = {
         component: 'API',
         message: 'API call failed',
-        code: '500',
-        response: '{"message":"Internal Server Error"}'
+        responseStatus: 500,
+        responseBody: '{"message":"Internal Server Error"}'
     };
 
     let error2 = {
         component: 'Organisations overview',
         message: 'An error occurred',
-        code: null,
-        response: null
+        responseStatus: null,
+        responseBody: null
     };
 
     // spy on methods, so we can track count and eventually mock responses
@@ -36,10 +36,30 @@ test('check if error calls console.error', () => {
     // but that does not work with multiple calls. Use the callArgs check instead.
     expect(global.console.error.calls.allArgs()).toEqual([
         [
-            'Error in component API: API call failed, code: 500, response: {"message":"Internal Server Error"}'
+            'Error in component API: ',
+            {
+                'application': 'frontend',
+                'responseStatus': 500,
+                'component': 'API',
+                'message': 'API call failed',
+                'responseBody': '{"message":"Internal Server Error"}',
+                'session': Logger.instance.sessionId,
+                'type': 'error',
+                'userAgent': undefined,
+            }
         ],
         [
-            'Error in component Organisations overview: An error occurred, code: null, response: null'
+            'Error in component Organisations overview: ',
+            {
+                'application': 'frontend',
+                'responseStatus': null,
+                'component': 'Organisations overview',
+                'message': 'An error occurred',
+                'responseBody': null,
+                'session': Logger.instance.sessionId,
+                'type': 'error',
+                'userAgent': undefined,
+            }
         ]
     ]);
 });
@@ -117,15 +137,15 @@ test('check if warning calls console.warn', () => {
     let warning1 = {
         component: 'API',
         message: 'Resource not found was unexpected',
-        code: '404',
-        response: '{"message":"Resource not found"}'
+        responseStatus: 404,
+        responseBody: '{"message":"Resource not found"}'
     };
 
     let warning2 = {
         component: 'Organisations overview',
         message: 'Somebody tried to click self-destruct',
-        code: null,
-        response: null
+        responseStatus: null,
+        responseBody: null
     };
 
     // spy on methods, so we can track count and eventually mock responses
@@ -143,10 +163,30 @@ test('check if warning calls console.warn', () => {
     // but that does not work with multiple calls. Use the callArgs check instead.
     expect(global.console.warn.calls.allArgs()).toEqual([
         [
-            'Warning in component API: Resource not found was unexpected, code: 404, response: {"message":"Resource not found"}'
+            'Warning in component API: ',
+            {
+                'application': 'frontend',
+                'responseStatus': 404,
+                'component': 'API',
+                'message': 'Resource not found was unexpected',
+                'responseBody': '{"message":"Resource not found"}',
+                'session': Logger.instance.sessionId,
+                'type': 'warning',
+                'userAgent': undefined,
+            }
         ],
         [
-            'Warning in component Organisations overview: Somebody tried to click self-destruct, code: null, response: null'
+            'Warning in component Organisations overview: ',
+            {
+                'application': 'frontend',
+                'responseStatus': null,
+                'component': 'Organisations overview',
+                'message': 'Somebody tried to click self-destruct',
+                'responseBody': null,
+                'session': Logger.instance.sessionId,
+                'type': 'warning',
+                'userAgent': undefined,
+            }
         ]
     ]);
 });
@@ -158,15 +198,15 @@ test('check if notice calls console.log', () => {
     let notice1 = {
         component: 'API',
         message: 'Something was called',
-        code: '200',
-        response: '{"message":"Resource was found"}'
+        responseStatus: 200,
+        responseBody: '{"message":"Resource was found"}'
     };
 
     let notice2 = {
         component: 'Organisations overview',
         message: 'User did something interesting',
-        code: null,
-        response: null
+        responseStatus: null,
+        responseBody: null
     };
 
     // spy on methods, so we can track count and eventually mock responses
@@ -184,10 +224,30 @@ test('check if notice calls console.log', () => {
     // but that does not work with multiple calls. Use the callArgs check instead.
     expect(global.console.log.calls.allArgs()).toEqual([
         [
-            'Notice in component API: Something was called, code: 200, response: {"message":"Resource was found"}'
+            'Notice in component API: ',
+            {
+                'application': 'frontend',
+                'responseStatus': 200,
+                'component': 'API',
+                'message': 'Something was called',
+                'responseBody': '{"message":"Resource was found"}',
+                'session': Logger.instance.sessionId,
+                'type': 'notice',
+                'userAgent': undefined,
+            }
         ],
         [
-            'Notice in component Organisations overview: User did something interesting, code: null, response: null'
+            'Notice in component Organisations overview: ',
+            {
+                'application': 'frontend',
+                'responseStatus': null,
+                'component': 'Organisations overview',
+                'message': 'User did something interesting',
+                'responseBody': null,
+                'session': Logger.instance.sessionId,
+                'type': 'notice',
+                'userAgent': undefined,
+            }
         ]
     ]);
 });
