@@ -123,6 +123,8 @@ export default class Index extends Component {
             });
 
         } else {
+
+            /* todo: I prefer including i18n here and passing it on to the loginForm component, is that possible? */
             newState.errors.login = this.i18n.login_all_fields_required;
         }
 

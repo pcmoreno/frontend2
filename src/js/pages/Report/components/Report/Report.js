@@ -81,12 +81,12 @@ export default class Report extends Component {
         // define sidebar tabs
         const tabs = [
             {
-                name: i18n.report,
+                name: i18n.report_report,
                 icon: ['far', 'file-alt'],
                 component: <div />
             },
             {
-                name: i18n.participant,
+                name: i18n.report_participant,
                 icon: 'user',
                 component: <div />
             }
