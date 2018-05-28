@@ -84,13 +84,14 @@ class API {
     /**
      * Logs a warning to the logger with the given message
      * @param {string} type - type 'warning' or 'error'
+     * @param {string} [message] - log message
      * @param {string} [url] - url
      * @param {Object} [options] - request options
      * @param {Object} [response] - response object
      * @param {Object} [jsonResponse] - json object response or error string
      * @returns {undefined}
      */
-    logApiMessage(type, url = '', options = {}, response = {}, jsonResponse = {}) {
+    logApiMessage(type, message = '', url = '', options = {}, response = {}, jsonResponse = {}) {
         const loggingExclusions = this.config.loggingExclusions;
 
         // check if this url contains excluded endpoints, stop if so
@@ -135,12 +136,23 @@ class API {
         if (type === 'warning') {
             this.logger.warning({
                 component: 'API',
-                message: `Call to ${url}, with options: ${JSON.stringify(options)}, returned: ${response.status} ${response.statusText}, with response: ${jsonResponse}`
+                message,
+                requestedUrl: url,
+                requestOptions: JSON.stringify(options),
+                responseStatus: response.status || 0,
+                responseText: response.statusText || '',
+                responseBody: jsonResponse
+
             });
         } else if (type === 'error') {
             this.logger.error({
                 component: 'API',
-                message: `Call to ${url}, with options: ${JSON.stringify(options)}, returned: ${response.status} ${response.statusText}, with response/error: ${jsonResponse}`
+                message,
+                requestedUrl: url,
+                requestOptions: JSON.stringify(options),
+                responseStatus: response.status || 0,
+                responseText: response.statusText || '',
+                responseBody: jsonResponse
             });
         }
     }
@@ -190,10 +202,7 @@ class API {
             if (parsedUrl === null) {
 
                 // Log to logger and reject with a proper error message
-                self.logger.error({
-                    component: 'API',
-                    message: `buildURL failed. Please compare the given identifiers: ${options.urlParams} with the endpoint URL: ${url}`
-                });
+                self.logApiMessage('error', 'Build url failed. Could not parse all identifiers', url, options);
                 return reject(new Error(self.config.requestFailedMessage));
             }
 
@@ -219,7 +228,7 @@ class API {
 
                     // check if this was an input validation error
                     if (response.status === 400 && json.errors) {
-                        self.logApiMessage('warning', parsedUrl, options, response, json);
+                        self.logApiMessage('warning', 'API call succeeded but with 400 Bad request response', parsedUrl, options, response, json);
                         return resolve({ errors: json.errors });
                     }
 
@@ -240,10 +249,10 @@ class API {
 
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
-                        self.logApiMessage('warning', parsedUrl, options, response, json);
+                        self.logApiMessage('warning', 'API call succeeded but with a warning flagged response code', parsedUrl, options, response, json);
 
                     } else if (API.isErrorCode(response.status) || !response.ok) {
-                        self.logApiMessage('error', parsedUrl, options, response, json);
+                        self.logApiMessage('error', 'API call succeeded but with an error flagged response code', parsedUrl, options, response, json);
                         return reject(new Error(self.config.requestFailedMessage));
                     }
 
@@ -258,12 +267,12 @@ class API {
                     }
 
                     // consider this as a failed request
-                    self.logApiMessage('error', parsedUrl, options, response, error);
+                    self.logApiMessage('error', 'Parsing JSON response failed', parsedUrl, options, response, error);
                     return reject(new Error(self.config.requestFailedMessage));
                 });
 
             }).catch(error => {
-                self.logApiMessage('error', parsedUrl, options, {}, error);
+                self.logApiMessage('error', 'Unexpected API request error', parsedUrl, options, {}, error);
                 return reject(new Error(self.config.requestFailedMessage));
             });
         });
@@ -306,10 +315,7 @@ class API {
         } else {
 
             // Log to logger and reject with a proper error message
-            this.logger.error({
-                component: 'API',
-                message: `Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`
-            });
+            this.logApiMessage('error', 'Could not parse post data', '', requestParams);
             throw new Error(`Could not parse post body (payload.data). payload.type was not given on request: ${JSON.stringify(requestParams)}`);
         }
 

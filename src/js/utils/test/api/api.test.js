@@ -551,9 +551,13 @@ test('API executeRequest should return Promise.reject when buildURL was unsucces
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        component: "API",
-                        message: "buildURL failed. Please compare the given identifiers: undefined with the endpoint " +
-                        "URL: https://ltp.nl/organisation/{id}"
+                        component: 'API',
+                        message: 'Build url failed. Could not parse all identifiers',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisation/{id}',
+                        responseBody: '{}',
+                        responseStatus: 0,
+                        responseText: ''
                     }
                 ]
             ]);
@@ -788,7 +792,7 @@ test('API buildPayload should log and throw an error when the post body is of an
 
     // watch method
     spyOn(Utils, 'serialise').and.callThrough();
-    spyOn(Logger.instance, 'error').and.callThrough();
+    spyOn(Logger.instance, 'error');
 
     try {
         // expected result
@@ -815,9 +819,12 @@ test('API buildPayload should log and throw an error when the post body is of an
         [
             {
                 component: 'API',
-                message: 'Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}',
-                type: 'error',
-                useragent: undefined
+                message: 'Could not parse post data',
+                requestOptions: '{"method":"post","headers":{}}',
+                requestedUrl: '',
+                responseBody: '{}',
+                responseStatus: 0,
+                responseText: ''
             }
         ]
     ]);
@@ -939,8 +946,13 @@ test('API executeRequest should return Promise.reject when payload parsing fails
             expect(Logger.instance.error.calls.allArgs()).toEqual([
                 [
                     {
-                        component: "API",
-                        message: "Could not parse post body (payload.data). payload.type was not given on request: {\"method\":\"post\",\"headers\":{}}"
+                        component: 'API',
+                        message: 'Could not parse post data',
+                        requestOptions: '{"method":"post","headers":{}}',
+                        requestedUrl: '',
+                        responseBody: '{}',
+                        responseStatus: 0,
+                        responseText: ''
                     }
                 ]
             ]);
@@ -1178,7 +1190,12 @@ test('API executeRequest should log a warning and return json when fetch returns
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"}}, returned: 300 Multiple Choices, with response: {"id":"123"}'
+                        message: 'API call succeeded but with a warning flagged response code',
+                        requestOptions: '{"headers":{"X-Custom-Header":"header-value"}}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: '{"id":"123"}',
+                        responseStatus: 300,
+                        responseText: 'Multiple Choices'
                     }
                 ]
             ]);
@@ -1244,7 +1261,12 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: {"id":"123"}'
+                        message: 'API call succeeded but with an error flagged response code',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: '{"id":"123"}',
+                        responseStatus: 400,
+                        responseText: 'Bad Request'
                     }
                 ]
             ]);
@@ -1363,7 +1385,12 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: Error parsing JSON'
+                        message: 'Parsing JSON response failed',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: 'Error parsing JSON',
+                        responseStatus: 400,
+                        responseText: 'Bad Request'
                     }
                 ]
             ]);
@@ -1445,7 +1472,12 @@ test('API executeRequest should log an error and return Promise.reject when fetc
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: undefined undefined, with response/error: There was an error!'
+                        message: 'Unexpected API request error',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: 'There was an error!',
+                        responseStatus: 0,
+                        responseText: ''
                     }
                 ]
             ]);
@@ -1513,7 +1545,12 @@ test('API executeRequest should log an error when the network request failed or 
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: Error parsing JSON'
+                        message: 'Parsing JSON response failed',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: 'Error parsing JSON',
+                        responseStatus: 400,
+                        responseText: 'Bad Request'
                     }
                 ]
             ]);
@@ -1588,7 +1625,12 @@ test('API executeRequest should resolve with an error object when the api return
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
+                        message: 'API call succeeded but with 400 Bad request response',
+                        requestOptions: '{}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: '{"code":400,"errors":{"organisationName":["Organisation name is required."]}}',
+                        responseStatus: 400,
+                        responseText: 'Bad Request'
                     }
                 ]
             ]);
@@ -1671,7 +1713,12 @@ test('API executeRequest should log an error and print all request information',
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}, returned: 400 Bad Request, with response/error: {"id":"123"}'
+                        message: 'API call succeeded but with an error flagged response code',
+                        requestOptions: '{"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}',
+                        requestedUrl: 'https://ltp.nl/organisations',
+                        responseBody: '{"id":"123"}',
+                        responseStatus: 400,
+                        responseText: 'Bad Request',
                     }
                 ]
             ]);
@@ -1693,6 +1740,7 @@ test('API logApiMessage should log a warning', () => {
     // call api warning
     api.logApiMessage(
         'warning',
+        'Warning message',
         'https://google.com/',
         {
             x: 'y'
@@ -1710,7 +1758,12 @@ test('API logApiMessage should log a warning', () => {
         [
             {
                 component: 'API',
-                message: 'Call to https://google.com/, with options: {"x":"y"}, returned: 400 Bad request, with response: Response string or object'
+                message: 'Warning message',
+                requestOptions: '{"x":"y"}',
+                requestedUrl: 'https://google.com/',
+                responseBody: 'Response string or object',
+                responseStatus: 400,
+                responseText: 'Bad request',
             }
         ]
     ]);
@@ -1727,6 +1780,7 @@ test('API logApiMessage should log an error', () => {
     // call api warning
     api.logApiMessage(
         'error',
+        'Error message',
         'https://google.com/',
         {
             x: 'y'
@@ -1744,7 +1798,12 @@ test('API logApiMessage should log an error', () => {
         [
             {
                 component: 'API',
-                message: 'Call to https://google.com/, with options: {"x":"y"}, returned: 400 Bad request, with response/error: Response string or object'
+                message: 'Error message',
+                requestOptions: '{"x":"y"}',
+                requestedUrl: 'https://google.com/',
+                responseBody: 'Response string or object',
+                responseStatus: 400,
+                responseText: 'Bad request',
             }
         ]
     ]);
@@ -1761,6 +1820,7 @@ test('API logApiMessage should not log an exclude endpoint', () => {
     // call api warning
     api.logApiMessage(
         'error',
+        'Error message',
         'https://google.com/excluded/endpoint',
         {
             x: 'y'
@@ -1787,6 +1847,7 @@ test('API logApiMessage should exclude headers', () => {
     // call api warning
     api.logApiMessage(
         'error',
+        'Error message',
         'https://google.com/endpoint',
         {
             x: 'y',
@@ -1807,7 +1868,12 @@ test('API logApiMessage should exclude headers', () => {
         [
             {
                 component: 'API',
-                message: 'Call to https://google.com/endpoint, with options: {"x":"y","headers":{}}, returned: 400 Bad request, with response/error: {}'
+                message: 'Error message',
+                requestOptions: '{"x":"y","headers":{}}',
+                requestedUrl: 'https://google.com/endpoint',
+                responseBody: '{}',
+                responseStatus: 400,
+                responseText: 'Bad request',
             }
         ]
     ]);
@@ -1824,6 +1890,7 @@ test('API logApiMessage should exclude post body fields', () => {
     // call api warning
     api.logApiMessage(
         'error',
+        'Error message',
         'https://google.com/endpoint',
         {
             x: 'y',
@@ -1846,7 +1913,12 @@ test('API logApiMessage should exclude post body fields', () => {
         [
             {
                 component: 'API',
-                message: 'Call to https://google.com/endpoint, with options: {"x":"y","payload":{"data":{}}}, returned: 400 Bad request, with response/error: {}'
+                message: 'Error message',
+                requestOptions: '{"x":"y","payload":{"data":{}}}',
+                requestedUrl: 'https://google.com/endpoint',
+                responseBody: '{}',
+                responseStatus: 400,
+                responseText: 'Bad request',
             }
         ]
     ]);
@@ -1863,6 +1935,7 @@ test('API logApiMessage should exclude response body fields', () => {
     // call api warning
     api.logApiMessage(
         'error',
+        'Error message',
         'https://google.com/endpoint',
         {
             x: 'y'
@@ -1883,8 +1956,13 @@ test('API logApiMessage should exclude response body fields', () => {
         [
             {
                 component: 'API',
-                message: 'Call to https://google.com/endpoint, with options: {"x":"y"}, returned: 400 Bad request, with response/error: {"field":"value"}'
-            }
+                message: 'Error message',
+                requestOptions: '{"x":"y"}',
+                requestedUrl: 'https://google.com/endpoint',
+                responseBody: '{"field":"value"}',
+                responseStatus: 400,
+                responseText: 'Bad request',
+             }
         ]
     ]);
 });
