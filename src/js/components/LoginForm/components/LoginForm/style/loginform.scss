@@ -1,0 +1,42 @@
+.loginMargin {
+    margin-top: 100px;
+}
+
+.modal {
+    overflow: hidden;
+}
+
+.modal_header {
+    border-bottom: 0;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.successMessage {
+    color: $green-bright-darken;
+    margin-top: 10px;
+    min-height: 1.5rem;
+}
+
+.link {
+    margin-top: 15px;
+
+    span, a {
+        color: $orange;
+        text-decoration: underline;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
+}
+
+.errors {
+    color: $signal-red;
+    margin-top: 10px;
+    display: block;
+    min-height: 1.2rem;
+}
+
+.modal_footer {
+    border-top: 0;
+}

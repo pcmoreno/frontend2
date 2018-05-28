@@ -44,10 +44,15 @@ class NeonAuthenticator extends AbstractAuthenticator {
 
                     // authenticate was ok, resolve with json response (user)
                     response.json().then(userResponse => {
+                        if (userResponse.user) {
 
-                        // save and return the user
-                        this.user = new NeonUser(userResponse.user);
-                        resolve(this.user);
+                            // save and return the user
+                            this.user = new NeonUser(userResponse.user);
+                            resolve(this.user);
+
+                        } else {
+                            reject(new Error('Could not fetch user information while authenticating'));
+                        }
                     });
                 } else if (response.status === 401) {
 

@@ -7,30 +7,3 @@
         box-shadow: none;
     }
 }
-
-.loginMargin {
-    margin-top: 100px;
-}
-
-.modal {
-    overflow: hidden;
-}
-
-.modal_header {
-    border-bottom: 0;
-}
-
-.forgot_password {
-    color: $blue;
-}
-
-.errors {
-    color: $signal-red;
-    margin-top: 10px;
-    display: block;
-    min-height: 1.2rem;
-}
-
-.modal_footer {
-    border-top: 0;
-}

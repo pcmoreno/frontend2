@@ -418,6 +418,62 @@ const Utils = {
                 }
             });
         }
+    },
+
+    /**
+     * Reads the browser language and converts it to a usable language format (e.g. en_GB)
+     * For error purposes, it will verify that it is in the list of the given supported languages
+     * @param {array} supportedLanguages - supported languages (e.g. ['en_GB'])
+     * @param {string} defaultLanguage - default language
+     * @param {Object} [mappedLanguages] - mapped languages like {en: 'en_GB'}
+     * @returns {string|boolean} language or false
+     */
+    getBrowserLanguage(supportedLanguages, defaultLanguage, mappedLanguages) {
+        let browserLanguage = '';
+
+        try {
+
+            // try the default language
+            browserLanguage = navigator.language;
+
+            // in case a language is not set, take the first available one
+            if (!browserLanguage && navigator.languages.length) {
+                browserLanguage = navigator.languages[0];
+            }
+
+        } catch (e) {
+
+            // continue, we have a default language fallback
+        }
+
+        // map the language to a usable language format, in case it wasn't
+        if (mappedLanguages) {
+            for (const key in mappedLanguages) {
+                if (mappedLanguages.hasOwnProperty(key)) {
+
+                    // we've given another format for this language (if its a match)
+                    if (browserLanguage.toLowerCase() === key.toLowerCase()) {
+                        browserLanguage = mappedLanguages[key];
+                    }
+                }
+            }
+        }
+
+        // set to default if detected language was not in the list of valid languages
+        if (!browserLanguage || !~supportedLanguages.indexOf(browserLanguage)) {
+            browserLanguage = defaultLanguage;
+        }
+
+        return browserLanguage;
+    },
+
+    /**
+     * Converts the participant language to a frontend usable language (e.g. nl-NL to nl_NL)
+     * @param {string} participantLanguage - participant language
+     * @returns {string} converted language
+     */
+    convertParticipantLanguage(participantLanguage) {
+        return participantLanguage.trim().replace('-', '_');
     }
 };
 

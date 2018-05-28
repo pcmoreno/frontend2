@@ -176,7 +176,7 @@ class API {
 
                     // check if this was an input validation error
                     if (response.status === 400 && json.errors) {
-                        self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logWarning(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return resolve({ errors: json.errors });
                     }
 
@@ -197,10 +197,10 @@ class API {
 
                     // log and/or reject based on our http status code checks
                     if (API.isWarningCode(response.status)) {
-                        self.logWarning(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logWarning(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
 
                     } else if (API.isErrorCode(response.status) || !response.ok) {
-                        self.logError(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
+                        self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with response: ${JSON.stringify(json)}`);
                         return reject(new Error(self.config.requestFailedMessage));
                     }
 
@@ -215,7 +215,7 @@ class API {
                     }
 
                     // consider this as a failed request
-                    self.logError(`Call to ${parsedUrl} returned code: ${response.status} ${response.statusText} with error: ${error}`);
+                    self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, returned code: ${response.status} ${response.statusText} with error: ${error}`);
                     return reject(new Error(self.config.requestFailedMessage));
                 });
 
@@ -227,7 +227,7 @@ class API {
                 // });
 
             }).catch(error => {
-                self.logError(`Call to ${parsedUrl} failed with error: ${error}`);
+                self.logError(`Call to ${parsedUrl}, with options: ${JSON.stringify(options)}, failed with error: ${error}`);
                 return reject(new Error(self.config.requestFailedMessage));
             });
         });
@@ -238,7 +238,8 @@ class API {
      * @param {Object} requestParams - request parameters
      * @param {Object} payload - post body object
      * @param {Object} payload.data - object or array with un-serialised content
-     * @param {Object} payload.type - type of the payload [json, form]
+     * @param {string} payload.type - type of the payload [json, form]
+     * @param {string} [payload.formKey] - optional form key
      * @returns {Object} Request params with post body appended
      */
     buildPayload(requestParams, payload = {}) {
@@ -260,7 +261,7 @@ class API {
             // parse as form data (query string: formData[key]=value&formData[key1]=value1
             requestParams.body = Utils.serialise(
                 payload.data,
-                'form',
+                payload.formKey || 'form',
                 this.config.urlEncodeParams,
                 false // false by default because keys are always required here
             );
