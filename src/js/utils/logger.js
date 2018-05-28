@@ -51,7 +51,7 @@ class Logger {
      * @param {string} logObject.application - application name
      * @param {string} logObject.userAgent - User agent
      * @param {string} logObject.session - unique session id
-     * @param {string} [logObject.requestedUrl] - Requested url (api)
+     * @param {string} [logObject.requestUrl] - Requested url (api)
      * @param {string} [logObject.responseText] - Response text (api)
      * @param {string} [logObject.requestOptions] - Request options as json string (api)
      * @param {string} [logObject.responseBody] - Response body as json string (api)

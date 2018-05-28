@@ -137,7 +137,7 @@ class API {
             this.logger.warning({
                 component: 'API',
                 message,
-                requestedUrl: url,
+                requestUrl: url,
                 requestOptions: JSON.stringify(options),
                 responseStatus: response.status || 0,
                 responseText: response.statusText || '',
@@ -148,7 +148,7 @@ class API {
             this.logger.error({
                 component: 'API',
                 message,
-                requestedUrl: url,
+                requestUrl: url,
                 requestOptions: JSON.stringify(options),
                 responseStatus: response.status || 0,
                 responseText: response.statusText || '',
