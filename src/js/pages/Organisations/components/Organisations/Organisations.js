@@ -105,8 +105,8 @@ export default class Organisations extends Component {
                             'organisationSlug'
                         ] }
                         hiddenFields={[]}
-                        headerText={i18n.add_organisation}
-                        submitButtonText={i18n.add}
+                        headerText={i18n.organisations_add_organisation}
+                        submitButtonText={i18n.organisations_add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
@@ -133,8 +133,8 @@ export default class Organisations extends Component {
                             'participantSessionSlug'
                         ] }
                         hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
-                        headerText={i18n.add_participant}
-                        submitButtonText={i18n.add}
+                        headerText={i18n.organisations_add_participant}
+                        submitButtonText={i18n.organisations_add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }

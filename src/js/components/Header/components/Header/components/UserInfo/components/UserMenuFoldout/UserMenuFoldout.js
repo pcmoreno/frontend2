@@ -27,12 +27,12 @@ export default class UserMenuFoldout extends Component {
                                 switchLanguage(switchableLanguageId);
                                 toggleUserMenu();
                             } }>
-                            <span>{ i18n[switchableLanguageId] }</span>
+                            <span>{ i18n[`header_${switchableLanguageId}`] }</span>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <span>Feature toggles</span>
+                            <span>{i18n.header_feature_toggles}</span>
                         </div>
                     </li>
                     <li>
@@ -43,7 +43,7 @@ export default class UserMenuFoldout extends Component {
                             <span>
                                 <FontAwesomeIcon icon="sign-out-alt" />
                             </span>
-                            <span>{ i18n.log_out }</span>
+                            <span>{ i18n.header_log_out }</span>
                         </div>
                     </li>
                 </ul>

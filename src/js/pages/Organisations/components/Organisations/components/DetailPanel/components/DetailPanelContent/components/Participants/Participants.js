@@ -16,10 +16,11 @@ export default class Participants extends Component {
                 <div className="toolbar">
                     <button
                         onClick={ this.props.openModalToAddParticipant }
+                        className="button-action">
                         className="action_button left"
                         type="button"
                     >
-                        { i18n.add_participant }
+                        { i18n.organisations_add_participant }
                     </button>
                 </div>
                 <div className="scrollable-select-list">

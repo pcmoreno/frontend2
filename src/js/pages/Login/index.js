@@ -6,12 +6,20 @@ import ApiFactory from '../../utils/api/factory';
 import Login from './components/Login/Login';
 import Redirect from '../../utils/components/Redirect';
 import RedirectHelper from '../../utils/redirectHelper';
+import translator from '../../utils/translator';
+import Utils from '../../utils/utils';
+import AppConfig from '../../App.config';
+
+const successTimeout = 5000;
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.inputValues = {};
+        this.inputValues = {
+            username: '',
+            password: ''
+        };
 
         this.submitLogin = this.submitLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -22,8 +30,20 @@ export default class Index extends Component {
             },
             errors: {
                 login: ''
-            }
+            },
+            successMessage: ''
         };
+
+        // get browser language to determine the translations
+        const languageConfig = AppConfig.languages;
+        const language = Utils.getBrowserLanguage(
+            languageConfig.supported,
+            languageConfig.defaultLanguage,
+            languageConfig.mapped
+        );
+
+        this.i18n = translator(language, 'login');
+        this.language = language;
     }
 
     componentWillMount() {
@@ -32,6 +52,27 @@ export default class Index extends Component {
         if (api.getAuthenticator().isAuthenticated()) {
             render(<Redirect to={'/'}/>);
         }
+    }
+
+    componentDidMount() {
+
+        // user was just registered, show a message
+        if (this.props.matches && this.props.matches.registrationSuccess) {
+            this.localState.successMessage = this.i18n.login_registration_successful;
+            this.setState(this.localState);
+        }
+
+        this.timeout = window.setTimeout(() => {
+
+            // hide message
+            this.localState.successMessage = '';
+            this.setState(this.localState);
+
+            // clear and delete everything
+            window.clearTimeout(this.timeout);
+            this.timeout = null;
+            delete this.timeout;
+        }, successTimeout);
     }
 
     handleChange(event) {
@@ -49,13 +90,13 @@ export default class Index extends Component {
         // reset error on the login page
         newState.errors.login = '';
 
-        if (this.inputValues.email && this.inputValues.password) {
+        if (this.inputValues.username && this.inputValues.password) {
 
             // disable button
             newState.buttons.submitDisabled = true;
 
             const api = ApiFactory.get('neon');
-            const username = this.inputValues.email;
+            const username = this.inputValues.username;
             const password = this.inputValues.password;
 
             api.getAuthenticator().authenticate({
@@ -66,12 +107,15 @@ export default class Index extends Component {
                 // to avoid possible issues when routing in the same session to login page, enable the button
                 newState.buttons.submitDisabled = false;
 
+                // set redirect path to index by default when there was no previous redirect path set
+                if (!RedirectHelper.instance.getRedirectPath()) {
+                    RedirectHelper.instance.setRedirectPath('/');
+                }
+
                 render(<Redirect to={RedirectHelper.instance.getRedirectPath()} refresh={true}/>);
 
             }).catch((/* error */) => {
-
-                // todo: translate message
-                newState.errors.login = 'Inloggen mislukt. Probeer het opnieuw.';
+                newState.errors.login = this.i18n.login_login_failed;
                 newState.buttons.submitDisabled = false;
 
                 // set state (async)
@@ -80,8 +124,8 @@ export default class Index extends Component {
 
         } else {
 
-            // todo: translate message
-            newState.errors.login = 'Voer a.u.b. de verplichte velden in.';
+            /* todo: I prefer including i18n here and passing it on to the loginForm component, is that possible? */
+            newState.errors.login = this.i18n.login_all_fields_required;
         }
 
         // always set the new state
@@ -94,6 +138,7 @@ export default class Index extends Component {
                 onSubmit={ this.submitLogin }
                 handleChange={ this.handleChange }
                 localState={ this.localState }
+                language = { this.language }
             />
         );
     }

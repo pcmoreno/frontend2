@@ -17,7 +17,7 @@ export default class Header extends Component {
 
         months.forEach(month => {
             if (participant.appointmentDate.indexOf(month) >= 0) {
-                date = date.replace(month, i18n[month]);
+                date = date.replace(month, i18n[`report_${month}`]);
             }
         });
 
@@ -29,12 +29,12 @@ export default class Header extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>{ i18n.organisation }</th>
+                                <th>{ i18n.report_organisation }</th>
                                 <td>{ organisation.name }</td>
                             </tr>
                             {
                                 organisation.jobFunction && <tr>
-                                    <th>{ i18n.jobfunction }</th>
+                                    <th>{ i18n.report_jobfunction }</th>
                                     <td>{ organisation.jobFunction }</td>
                                 </tr>
                             }
@@ -44,11 +44,11 @@ export default class Header extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>{ i18n.assessment_date }</th>
+                                <th>{ i18n.report_assessment_date }</th>
                                 <td className={ style.date }>{ date }</td>
                             </tr>
                             <tr>
-                                <th>{ i18n.consultant }</th>
+                                <th>{ i18n.report_consultant }</th>
                                 <td>{ consultant.name }</td>
                             </tr>
                         </tbody>

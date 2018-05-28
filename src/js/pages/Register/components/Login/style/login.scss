@@ -1,0 +1,11 @@
+/* some overloads were needed because the login form doesnt look exactly like the modals */
+.main {
+    form {
+        border-radius: 0 $border-radius-small $border-radius-small 0;
+    }
+}
+
+.linkSection {
+    border-radius: $border-radius-small 0 0 $border-radius-small;
+    padding: 1rem;
+}

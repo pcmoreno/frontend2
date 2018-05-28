@@ -33,8 +33,8 @@ class Header extends Component {
 
         const { user, logoutAction, languageId, switchLanguage, i18n } = this.props;
 
-        return (<header className={ style.header }>
-            <Navigation items={ navigationItems } i18n={i18n} />
+        return (<header className={style.header}>
+            <Navigation items={navigationItems} i18n={i18n} />
             <UserInfo
                 user={user}
                 logoutAction={logoutAction}

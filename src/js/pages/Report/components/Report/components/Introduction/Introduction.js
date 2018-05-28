@@ -15,33 +15,33 @@ export default class Introduction extends Component {
             return null;
         }
 
-        texts.goal.title = i18n.about_this_report;
-        texts.validity.title = i18n.validity;
-        texts.parts.title = i18n.components;
-        texts.structure.title = i18n.structure_of_the_report;
+        texts.goal.title = i18n.report_about_this_report;
+        texts.validity.title = i18n.report_validity;
+        texts.parts.title = i18n.report_components;
+        texts.structure.title = i18n.report_structure_of_the_report;
 
         // note that texts that have been altered using the Froala editor, and are thus received over the API, will have
         // a <p> tag wrapped around it. since the default texts no longer have this tag (we removed CDATA and <p> tags
         // in Lokalise) the <p> tag is added here programmatically, to ensure consistency in styling.
 
         if (!texts.goal.value) {
-            texts.goal.value = `<p>${i18n.about_this_report_default_text}</p>`;
+            texts.goal.value = `<p>${i18n.report_about_this_report_default_text}</p>`;
         }
 
         if (!texts.validity.value) {
-            texts.validity.value = `<p>${i18n.validity_default_text}</p>`;
+            texts.validity.value = `<p>${i18n.report_validity_default_text}</p>`;
         }
 
         if (!texts.parts.value) {
-            texts.parts.value = `<p>${i18n.components_default_text}</p>`;
+            texts.parts.value = `<p>${i18n.report_components_default_text}</p>`;
         }
 
         if (!texts.structure.value) {
-            texts.structure.value = `<p>${i18n.structure_of_the_report_default_text}</p>`;
+            texts.structure.value = `<p>${i18n.report_structure_of_the_report_default_text}</p>`;
         }
 
         return (
-            <ReportSection title={i18n.introduction}>
+            <ReportSection title={i18n.report_introduction}>
                 <ReportColumn>
                     <TextBlock
                         field={texts.goal}

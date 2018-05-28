@@ -1,0 +1,29 @@
+/* some overloads were needed because the login form doesnt look exactly like the modals */
+.main {
+    form {
+        border-radius: $border-radius-small 0 0 $border-radius-small;
+    }
+}
+
+.modalHeader {
+    border-bottom: 0;
+}
+
+.inputContainer {
+    margin-top: 15px;
+}
+
+.errors {
+    color: $signal-red;
+    margin-top: 10px;
+    display: block;
+    min-height: 1.2rem;
+}
+
+.modalFooter {
+    border-top: 0;
+}
+
+.linkSection {
+    border-radius: 0 $border-radius-small $border-radius-small 0;
+}
