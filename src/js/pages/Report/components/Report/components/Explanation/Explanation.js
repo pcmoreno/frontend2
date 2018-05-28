@@ -13,8 +13,8 @@ export default class Explanation extends Component {
             return null;
         }
 
-        texts.strongPoints.title = i18n.qualities_and_opportunities;
-        texts.pointsOfAttention.title = i18n.points_of_attention_and_risks;
+        texts.strongPoints.title = i18n.report_qualities_and_opportunities;
+        texts.pointsOfAttention.title = i18n.report_points_of_attention_and_risks;
 
         if (!texts.strongPoints.value) {
 

@@ -13,7 +13,7 @@ export default class DevelopmentAdvice extends Component {
             return null;
         }
 
-        texts.developmentAdvice.title = i18n.development_advice;
+        texts.developmentAdvice.title = i18n.report_development_advice;
 
         if (!texts.developmentAdvice.value) {
 
@@ -22,7 +22,7 @@ export default class DevelopmentAdvice extends Component {
         }
 
         return (
-            <ReportSection title={i18n.development_advice}>
+            <ReportSection title={i18n.report_development_advice}>
 
                 <TextBlock
                     field={texts.developmentAdvice}
