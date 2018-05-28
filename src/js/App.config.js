@@ -48,7 +48,23 @@ const AppConfig = {
             // allow to use cross-domain cookies for authentication
             // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
             credentials: 'include',
-            logoutRedirect: '/login'
+            logoutRedirect: '/login',
+            loggingExclusions: {
+
+                // endpoints of api errors should not be logged at all
+                endpoints: [],
+
+                // header fields from the api call that failed that should be excluded from logging
+                headers: [],
+
+                // fields from the post body of an api error that should be excluded from logging
+                postBody: [
+                    'password'
+                ],
+
+                // fields from the response body of an api error that should be excluded from logging
+                responseBody: []
+            }
         }
     },
     authenticator: {
