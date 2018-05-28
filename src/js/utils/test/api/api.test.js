@@ -16,7 +16,29 @@ jest.mock('../../../App.config', () => {
                 },
                 urlEncodeParams: false,
                 skipPrefixIndexParams: true,
-                requestFailedMessage: 'An error occurred while processing your request.'
+                requestFailedMessage: 'An error occurred while processing your request.',
+                loggingExclusions: {
+
+                    // endpoints of api errors should not be logged at all
+                    endpoints: [
+                        '/excluded/endpoint'
+                    ],
+
+                    // header fields from the api call that failed that should be excluded from logging
+                    headers: [
+                        'Authorization'
+                    ],
+
+                    // fields from the post body of an api error that should be excluded from logging
+                    postBody: [
+                        'password'
+                    ],
+
+                    // fields from the response body of an api error that should be excluded from logging
+                    responseBody: [
+                        'password'
+                    ]
+                }
             },
             fake: {
                 baseUrl: 'http://fake.com',
@@ -110,52 +132,6 @@ test('API should return the right authenticator with the one used for initialisa
     expect(api.getAuthenticator()).toEqual({
         prop: 'z'
     });
-});
-
-test('API logWarning should call logger warning method with correct message', () => {
-
-    // api instance and mocked config
-    let api = new API('neon', null);
-
-    // watch method
-    spyOn(Logger.instance, 'warning');
-
-    // call api warning
-    api.logWarning('This is a warning message');
-
-    // expected result
-    expect(Logger.instance.warning.calls.count()).toBe(1);
-    expect(Logger.instance.warning.calls.allArgs()).toEqual([
-        [
-            {
-                component: 'API',
-                message: 'This is a warning message'
-            }
-        ]
-    ]);
-});
-
-test('API logError should call logger error method with correct message', () => {
-
-    // api instance and mocked config
-    let api = new API('neon', null);
-
-    // watch method
-    spyOn(Logger.instance, 'error');
-
-    // call api warning
-    api.logError('This is an error message');
-
-    // expected result
-    expect(Logger.instance.error.calls.count()).toBe(1);
-    expect(Logger.instance.error.calls.allArgs()).toEqual([
-        [
-            {
-                component: 'API',
-                message: 'This is an error message'
-            }
-        ]
-    ]);
 });
 
 test('API get should call to execute request with the correct parameters', () => {
@@ -576,7 +552,7 @@ test('API executeRequest should return Promise.reject when buildURL was unsucces
                 [
                     {
                         component: "API",
-                        message: "buildURL failed. Please compare the given identifiers with the endpoint " +
+                        message: "buildURL failed. Please compare the given identifiers: undefined with the endpoint " +
                         "URL: https://ltp.nl/organisation/{id}"
                     }
                 ]
@@ -812,7 +788,7 @@ test('API buildPayload should log and throw an error when the post body is of an
 
     // watch method
     spyOn(Utils, 'serialise').and.callThrough();
-    spyOn(api, 'logError');
+    spyOn(Logger.instance, 'error').and.callThrough();
 
     try {
         // expected result
@@ -834,10 +810,15 @@ test('API buildPayload should log and throw an error when the post body is of an
 
     // expected result
     expect(Utils.serialise.calls.count()).toBe(0);
-    expect(api.logError.calls.count()).toBe(1);
-    expect(api.logError.calls.allArgs()).toEqual([
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
         [
-            'Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}'
+            {
+                component: 'API',
+                message: 'Could not parse post body (payload.data). payload.type was not given on request: {"method":"post","headers":{}}',
+                type: 'error',
+                useragent: undefined
+            }
         ]
     ]);
 });
@@ -1197,7 +1178,7 @@ test('API executeRequest should log a warning and return json when fetch returns
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"}}, returned code: 300 Multiple Choices with response: {"id":"123"}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"}}, returned: 300 Multiple Choices, with response: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1263,7 +1244,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with response: {"id":"123"}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1382,7 +1363,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with error: Error parsing JSON'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: Error parsing JSON'
                     }
                 ]
             ]);
@@ -1464,7 +1445,7 @@ test('API executeRequest should log an error and return Promise.reject when fetc
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, failed with error: There was an error!'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: undefined undefined, with response/error: There was an error!'
                     }
                 ]
             ]);
@@ -1532,7 +1513,7 @@ test('API executeRequest should log an error when the network request failed or 
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with error: Error parsing JSON'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response/error: Error parsing JSON'
                     }
                 ]
             ]);
@@ -1607,7 +1588,7 @@ test('API executeRequest should resolve with an error object when the api return
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned code: 400 Bad Request with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {}, returned: 400 Bad Request, with response: {"code":400,"errors":{"organisationName":["Organisation name is required."]}}'
                     }
                 ]
             ]);
@@ -1690,7 +1671,7 @@ test('API executeRequest should log an error and print all request information',
                 [
                     {
                         component: 'API',
-                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}, returned code: 400 Bad Request with response: {"id":"123"}'
+                        message: 'Call to https://ltp.nl/organisations, with options: {"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}, returned: 400 Bad Request, with response/error: {"id":"123"}'
                     }
                 ]
             ]);
@@ -1699,4 +1680,211 @@ test('API executeRequest should log an error and print all request information',
             resolve();
         });
     });
+});
+
+test('API logApiMessage should log a warning', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'warning');
+
+    // call api warning
+    api.logApiMessage(
+        'warning',
+        'https://google.com/',
+        {
+            x: 'y'
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        'Response string or object'
+    );
+
+    // expected result
+    expect(Logger.instance.warning.calls.count()).toBe(1);
+    expect(Logger.instance.warning.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'Call to https://google.com/, with options: {"x":"y"}, returned: 400 Bad request, with response: Response string or object'
+            }
+        ]
+    ]);
+});
+
+test('API logApiMessage should log an error', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logApiMessage(
+        'error',
+        'https://google.com/',
+        {
+            x: 'y'
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        'Response string or object'
+    );
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'Call to https://google.com/, with options: {"x":"y"}, returned: 400 Bad request, with response/error: Response string or object'
+            }
+        ]
+    ]);
+});
+
+test('API logApiMessage should not log an exclude endpoint', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logApiMessage(
+        'error',
+        'https://google.com/excluded/endpoint',
+        {
+            x: 'y'
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        'Response string or object'
+    );
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(0);
+});
+
+test('API logApiMessage should exclude headers', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logApiMessage(
+        'error',
+        'https://google.com/endpoint',
+        {
+            x: 'y',
+            headers: {
+                Authorization: 'AuthorizationHeader'
+            }
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        {}
+    );
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'Call to https://google.com/endpoint, with options: {"x":"y","headers":{}}, returned: 400 Bad request, with response/error: {}'
+            }
+        ]
+    ]);
+});
+
+test('API logApiMessage should exclude post body fields', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logApiMessage(
+        'error',
+        'https://google.com/endpoint',
+        {
+            x: 'y',
+            payload: {
+                data: {
+                    password: 'PostedPassword'
+                }
+            }
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        {}
+    );
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'Call to https://google.com/endpoint, with options: {"x":"y","payload":{"data":{}}}, returned: 400 Bad request, with response/error: {}'
+            }
+        ]
+    ]);
+});
+
+test('API logApiMessage should exclude response body fields', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // watch method
+    spyOn(Logger.instance, 'error');
+
+    // call api warning
+    api.logApiMessage(
+        'error',
+        'https://google.com/endpoint',
+        {
+            x: 'y'
+        },
+        {
+            status: 400,
+            statusText: 'Bad request'
+        },
+        {
+            field: 'value',
+            password: 'PostedPassword'
+        }
+    );
+
+    // expected result
+    expect(Logger.instance.error.calls.count()).toBe(1);
+    expect(Logger.instance.error.calls.allArgs()).toEqual([
+        [
+            {
+                component: 'API',
+                message: 'Call to https://google.com/endpoint, with options: {"x":"y"}, returned: 400 Bad request, with response/error: {"field":"value"}'
+            }
+        ]
+    ]);
 });
