@@ -56,6 +56,8 @@ class Index extends Component {
             `${this.api.getEndpoints().sectionInfo}/${sectionId}`
         ).then(response => {
 
+            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
+
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
             this.props.storeFormDataInFormsCollection(formId, response.fields);
@@ -163,8 +165,8 @@ class Index extends Component {
             submitButtonText={this.props.submitButtonText}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
             resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
-            closeModal={ this.props.closeModal }
-            i18n = { this.i18n }
+            closeModal={this.props.closeModal}
+            i18n={this.i18n}
         />);
     }
 }

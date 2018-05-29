@@ -34,7 +34,7 @@ export default class OneToOne extends Component {
     }
 
     render() {
-        const { options, onChange, currentForm } = this.props;
+        const { options, onChange, currentForm, formId } = this.props;
 
         return (
             <div>
@@ -47,7 +47,7 @@ export default class OneToOne extends Component {
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
+                            id={ `${formId}_${options.handle}` }
                             name={ `form[${options.handle}]` }
                             onBlur={ onChange }
                         >

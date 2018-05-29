@@ -217,8 +217,8 @@ export default function organisationsReducer(state = initialState, action) {
                     // in the right form
                     form.formFields.map(field => {
 
-                        // in the right field
-                        if (Object.keys(field)[0] === action.formInputId) {
+                        // in the right field (note that the formId is added here as a prefix in order to compare)
+                        if (`${action.formId}_${Object.keys(field)[0]}` === action.formInputId) {
 
                             // update the changed field if required
                             if (field[Object.keys(field)[0]].value !== action.formInputValue) {

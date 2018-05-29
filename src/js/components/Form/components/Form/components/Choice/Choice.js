@@ -36,7 +36,7 @@ export default class Choice extends Component {
     }
 
     render() {
-        const { options, currentForm, handle, label, onChange } = this.props;
+        const { options, currentForm, handle, label, onChange, formId } = this.props;
 
         return (
             <div>
@@ -47,7 +47,7 @@ export default class Choice extends Component {
                     </li>
                     <li>
                         <select
-                            id={ handle }
+                            id={ `${formId}_${handle}` }
                             name={ `form[${handle}]` }
                             onBlur={ onChange }
                         >

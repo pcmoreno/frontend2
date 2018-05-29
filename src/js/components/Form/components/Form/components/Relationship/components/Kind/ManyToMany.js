@@ -34,7 +34,7 @@ export default class ManyToMany extends Component {
     }
 
     render() {
-        const { currentForm, options, onChange } = this.props;
+        const { currentForm, options, onChange, formId } = this.props;
 
         return (
             <div>
@@ -47,7 +47,7 @@ export default class ManyToMany extends Component {
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
+                            id={ `${formId}_${options.handle}` }
                             name={ options.handle }
                             required="required"
                             data-array="true"

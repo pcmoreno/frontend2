@@ -7,7 +7,7 @@ import style from '../style/field.scss';
 export default class Email extends Component {
 
     render() {
-        const { currentForm, handle, label, onChange, value } = this.props;
+        const { currentForm, handle, label, onChange, value, formId } = this.props;
 
         return (
             <div>
@@ -18,7 +18,7 @@ export default class Email extends Component {
                     <li>
                         <input
                             type={ 'email' }
-                            id={ handle }
+                            id={ `${formId}_${handle}` }
                             value={ value }
                             name={ `form[${handle}]` }
                             onChange={ onChange }

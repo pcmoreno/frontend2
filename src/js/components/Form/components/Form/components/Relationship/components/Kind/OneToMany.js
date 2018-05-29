@@ -35,7 +35,7 @@ export default class OneToMany extends Component {
 
 
     render() {
-        const { options, onChange, currentForm } = this.props;
+        const { options, onChange, currentForm, formId } = this.props;
 
         return (
             <div>
@@ -48,7 +48,7 @@ export default class OneToMany extends Component {
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
+                            id={ `${formId}_${options.handle}` }
                             name={ `form[${options.handle}]` }
                             required="required"
                             data-array="true"

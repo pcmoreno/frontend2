@@ -7,7 +7,7 @@ import style from '../style/field.scss';
 export default class DateTimeField extends Component {
 
     render() {
-        const { currentForm, handle, label, onChange, value } = this.props;
+        const { currentForm, handle, label, onChange, value, formId } = this.props;
 
         return (
             <div>
@@ -19,7 +19,7 @@ export default class DateTimeField extends Component {
                     <li>
                         <input
                             type={ 'datetime-local' }
-                            id={ handle }
+                            id={ `${formId}_${handle}` }
                             value={ value }
                             name={ `form[${handle}]` }
                             onChange={ onChange }

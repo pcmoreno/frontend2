@@ -59,12 +59,14 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}/>);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
                     currentForm={this.localState}
                     options={formFieldOptions}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.TEXT_AREA:
@@ -73,6 +75,7 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
@@ -81,6 +84,7 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.RELATIONSHIP:
@@ -88,6 +92,7 @@ export default class Form extends Component {
                     currentForm={ this.localState }
                     options={formFieldOptions}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.EMAIL:
@@ -96,6 +101,7 @@ export default class Form extends Component {
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.UUID:
@@ -146,6 +152,8 @@ export default class Form extends Component {
     }
 
     collectFormData(event) {
+
+        const formId = this.props.formId;
 
         // clear the existing error messages
         this.resetErrorMessages();
@@ -211,9 +219,9 @@ export default class Form extends Component {
 
                                     // since choices in a relationship field are populated dynamically at build time,
                                     // the value is extracted straight from the actual form here.
-                                    if (document.querySelector(`#${name}`)) {
+                                    if (document.querySelector(`#${formId}_${name}`)) {
                                         fieldId = name;
-                                        value = document.querySelector(`#${name}`).value;
+                                        value = document.querySelector(`#${formId}_${name}`).value;
                                     } else {
                                         this.logger.error({
                                             component: 'form',
@@ -227,9 +235,9 @@ export default class Form extends Component {
                                 default: {
 
                                     // for all other form element types, simply attempt to get its value
-                                    if (document.querySelector(`#${name}`)) {
+                                    if (document.querySelector(`#${formId}_${name}`)) {
                                         fieldId = name;
-                                        value = document.querySelector(`#${name}`).value;
+                                        value = document.querySelector(`#${formId}_${name}`).value;
                                     } else {
                                         this.logger.error({
                                             component: 'form',

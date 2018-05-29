@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 export default class Option extends Component {
 
     render() {
-        let { optionValue, value, selected } = this.props;
+        const { optionValue, value, selected } = this.props;
 
         return (<option value={ optionValue } selected={ selected }>{ value }</option>);
     }

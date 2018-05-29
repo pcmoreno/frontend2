@@ -34,7 +34,7 @@ export default class ManyToOne extends Component {
     }
 
     render() {
-        const { options, currentForm, onChange } = this.props;
+        const { options, currentForm, onChange, formId } = this.props;
 
         const to = typeof options.as !== 'undefined' ? options.as : options.to;
 
@@ -49,7 +49,7 @@ export default class ManyToOne extends Component {
                     </li>
                     <li>
                         <select
-                            id={ to }
+                            id={ `${formId}_${to}` }
                             name={ `form[${to}]` }
                             onBlur={ onChange }
                         >

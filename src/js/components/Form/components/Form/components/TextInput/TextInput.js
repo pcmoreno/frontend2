@@ -17,7 +17,7 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { currentForm, onChange, value, options } = this.props;
+        const { currentForm, onChange, value, options, formId } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
         const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
@@ -32,7 +32,7 @@ export default class TextInput extends Component {
                     <li>
                         <input
                             type={ 'text' }
-                            id={ fieldId }
+                            id={ `${formId}_${fieldId}` }
                             name={ fieldName }
                             value={ value }
                             onChange={ onChange }
