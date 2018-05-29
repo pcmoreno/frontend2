@@ -141,7 +141,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
                 COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID || 'eu-central-1_eeBtQkabk'),
                 COGNITO_APP_CLIENT_ID: JSON.stringify(process.env.COGNITO_APP_CLIENT_ID || '7i9ckoogpksm27r7llfagsgfgv'),
-                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/api/v1'),
+                NEON_API_BASE_URL: JSON.stringify(process.env.NEON_API_BASE_URL || 'http://dev.ltponline.com:8000/app_dev.php/api'),
                 FROALA_KEY: JSON.stringify(process.env.FROALA_KEY || 'MA1B2E2G2lG4J4A14A7D3D6A5C2H4D3gpinpnmkmaC8ehe==')
             }
         }),

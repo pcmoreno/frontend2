@@ -10,35 +10,35 @@ const AppConfig = {
         neon: {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
             endpoints: {
-                authorise: '/user/authorize',
-                logout: '/user/logout',
-                abstractSection: '/section',
-                sectionInfo: '/section/info', // This call gives information on how to build the form
+                authorise: '/v1/user/authorize',
+                logout: '/v1/user/logout',
+                abstractSection: '/v1/section',
+                sectionInfo: '/v1/section/info', // This call gives information on how to build the form
                 participants: {
-                    entities: '/section/participantSession'
+                    entities: '/v1/section/participantSession'
                 },
                 tasks: {
-                    entities: '/section/participantSession'
+                    entities: '/v1/section/participantSession'
                 },
                 users: {
-                    entities: '/section/fieldvalue/accountHasRole/role?value=1,2,3,4,5,6,7'
+                    entities: '/v1/section/fieldvalue/accountHasRole/role?value=1,2,3,4,5,6,7'
                 },
                 organisations: {
-                    rootEntities: '/section/fieldvalue/organisation/organisationType?value=organisation',
-                    childEntities: '/section/{type}/id/{identifier}',
-                    detailPanelData: '/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
+                    rootEntities: '/v1/section/fieldvalue/organisation/organisationType?value=organisation',
+                    childEntities: '/v1/section/{type}/id/{identifier}',
+                    detailPanelData: '/v1/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
                 },
                 report: {
-                    entities: '/section/participantSession/slug/{slug}',
-                    createTextField: '/section/textFieldInReport',
-                    updateTextField: '/section/textFieldInReport/slug/{slug}'
+                    entities: '/v1/section/participantSession/slug/{slug}',
+                    createTextField: '/v1/section/textFieldInReport',
+                    updateTextField: '/v1/section/textFieldInReport/slug/{slug}'
                 },
                 register: {
-                    participant: '/section/participantSession/slug/{slug}',
-                    participantStatus: '/participant/status/{slug}',
-                    participantAcceptTerms: '/participant/invite/terms-and-conditions/{slug}',
-                    createAccount: '/participant/invite/create-account/{slug}',
-                    participantLogin: '/participant/invite/login/{slug}'
+                    participant: '/v1/section/participantSession/slug/{slug}',
+                    participantStatus: '/v1/participant/status/{slug}',
+                    participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
+                    createAccount: '/v1/participant/invite/create-account/{slug}',
+                    participantLogin: '/v1/participant/invite/login/{slug}'
                 }
             },
             urlEncodeParams: false,
