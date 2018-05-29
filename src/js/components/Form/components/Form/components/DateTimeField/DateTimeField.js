@@ -7,21 +7,21 @@ import style from '../style/field.scss';
 export default class DateTimeField extends Component {
 
     render() {
-        const { localState, handle, label, onChange, value } = this.props;
+        const { currentForm, handle, label, onChange, value } = this.props;
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
+                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ handle }>{ label }</label>
                     </li>
                     <li>
                         <input
-                            type="datetime-local"
+                            type={ 'datetime-local' }
                             id={ handle }
                             value={ value }
-                            name={ 'form[' + handle + ']'}
+                            name={ `form[${handle}]` }
                             onChange={ onChange }
                         />
                     </li>

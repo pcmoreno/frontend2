@@ -222,6 +222,9 @@ export default function organisationsReducer(state = initialState, action) {
 
                             // update the changed field if required
                             if (field[Object.keys(field)[0]].value !== action.formInputValue) {
+
+                                // for fields that dont natively have a 'value' property, a property .value is added
+                                // and the selected choice is stored in it.
                                 field[Object.keys(field)[0]].value = action.formInputValue;
                             }
                         }
@@ -247,7 +250,7 @@ export default function organisationsReducer(state = initialState, action) {
                     // in the right form
                     form.formFields.forEach(field => {
 
-                        // clear the field
+                        // reset value (note that all field types have a .value property that is leading)
                         field[Object.keys(field)[0]].value = '';
                     });
                 }

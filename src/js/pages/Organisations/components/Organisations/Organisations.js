@@ -110,6 +110,7 @@ export default class Organisations extends Component {
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }

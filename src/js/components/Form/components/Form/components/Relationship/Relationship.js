@@ -9,17 +9,17 @@ import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {
     render() {
-        const { options, onChange, localState } = this.props;
+        const { options, onChange, value, currentForm } = this.props;
 
         switch (options.kind) {
             case relationship.MANY_TO_MANY:
-                return (<ManyToMany options={options} onChange={onChange} localState={localState} />);
+                return (<ManyToMany options={options} onChange={onChange} currentForm={currentForm} value={ value } />);
             case relationship.ONE_TO_MANY:
-                return (<OneToMany options={options} onChange={onChange} localState={localState} />);
+                return (<OneToMany options={options} onChange={onChange} currentForm={currentForm} value={ value } />);
             case relationship.MANY_TO_ONE:
-                return (<ManyToOne options={options} onChange={onChange} localState={localState} />);
+                return (<ManyToOne options={options} onChange={onChange} currentForm={currentForm} value={ value } />);
             case relationship.ONE_TO_ONE:
-                return (<OneToOne options={options} onChange={onChange} localState={localState} />);
+                return (<OneToOne options={options} onChange={onChange} currentForm={currentForm} value={ value } />);
             default:
                 return null;
         }

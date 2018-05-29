@@ -7,7 +7,7 @@ import style from '../style/field.scss';
 export default class Email extends Component {
 
     render() {
-        const { localState, handle, label, onChange, value } = this.props;
+        const { currentForm, handle, label, onChange, value } = this.props;
 
         return (
             <div>
@@ -23,9 +23,9 @@ export default class Email extends Component {
                             name={ `form[${handle}]` }
                             onChange={ onChange }
                             autoComplete={ 'email' }
-                            className={ localState.errors.fields[handle] && 'error' }
+                            className={ currentForm.errors.fields[handle] && 'error' }
                         />
-                        <span className={ `${style.errorMessage}` }>{ localState.errors.fields[handle] }</span>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                     </li>
                 </ul>
             </div>

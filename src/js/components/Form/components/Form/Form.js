@@ -55,57 +55,55 @@ export default class Form extends Component {
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
-                    localState={this.localState}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
-                    localState={this.localState}
+                    currentForm={this.localState}
                     options={formFieldOptions}
                     value={value}
                     onChange={this.handleChange}
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
-                    localState={this.localState}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
-                    localState={this.localState}
+                    currentForm={this.localState}
                     options={formFieldOptions}
                     handle={handle}
                     label={label}
+                    value={value}
                     onChange={this.handleChange}
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
-                    localState={ this.localState }
+                    currentForm={ this.localState }
                     options={formFieldOptions}
+                    value={value}
                     onChange={this.handleChange}
                 />);
             case fieldType.EMAIL:
                 return (<Email
-                    localState={this.localState}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
                     onChange={this.handleChange}
                 />);
-            case fieldType.HIDDEN:
-
-                // note that fieldType.HIDDEN is a copy of textInput with its input type set to "hidden"
-                return (<TextInput
-                    localState={this.localState}
-                    options={formFieldOptions}
-                    value={value}
-                    onChange={this.handleChange}
-                    hidden={true}
-                />);
+            case fieldType.UUID:
+                return null; // not implemented yet
+            case fieldType.SLUG:
+                return null; // not implemented yet
+            case fieldType.INTEGER:
+                return null; // not implemented yet
             default:
                 this.logger.error({
                     component: 'form',
@@ -134,8 +132,7 @@ export default class Form extends Component {
     getFieldValue(target) {
         let formInputValue;
 
-        // If we have a selectedOptions property and data-array is set with a value of "true"
-        // We want to send the data as an array
+        // if selectedOptions ad data-array are set, send the data as an array
         if (target.getAttribute('data-array') !== null &&
             target.getAttribute('data-array') === 'true' &&
             typeof target.selectedOptions !== 'undefined'
@@ -185,7 +182,6 @@ export default class Form extends Component {
 
                             // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
                             // form element. see if the element can be matched and its value extracted.
-
                             switch (field[name].type) {
 
                                 case fieldType.CHOICE: {
@@ -212,10 +208,8 @@ export default class Form extends Component {
 
                                 case fieldType.RELATIONSHIP: {
 
-                                    // for relationship fields, it is much more difficult to retrieve the first entry from
-                                    // the state since there is no choices collection on the object. the dropdown list was
-                                    // built up dynamically by iterating over the given relationship collection. to solve
-                                    // this, just take the currently selected entry from the actual form.
+                                    // since choices in a relationship field are populated dynamically at build time,
+                                    // the value is extracted straight from the actual form here.
 
                                     if (document.querySelector(`#${name}`)) {
                                         fieldId = name;
@@ -244,63 +238,9 @@ export default class Form extends Component {
                                     }
                                 }
                             }
-
-                            // if (field[name].type === fieldType.CHOICE) {
-                            //
-                            //     // pushing initial value from dropdown to state so it can be submitted
-                            //
-                            //     const fieldName = Object.keys(field);
-                            //     const choices = [];
-                            //
-                            //     fieldId = (Object.keys(field)[0]);
-                            //
-                            //     // extract initial value from state
-                            //     for (const key in field[fieldName].form.all.choices) {
-                            //         if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                            //             choices.push(field[fieldName].form.all.choices[key]);
-                            //             break;
-                            //         }
-                            //     }
-                            //
-                            //     // the first value is the initial value
-                            //     value = choices[0];
-                            //
-                            // } else if (field[name].type === fieldType.RELATIONSHIP) {
-                            //
-                            //     // for relationship fields, it is much more difficult to retrieve the first entry from
-                            //     // the state since there is no choices collection on the object. the dropdown list was
-                            //     // built up dynamically by iterating over the given relationship collection. to solve
-                            //     // this, just take the currently selected entry from the actual form.
-                            //
-                            //     if (document.querySelector(`#${name}`)) {
-                            //         fieldId = name;
-                            //         value = document.querySelector(`#${name}`).value;
-                            //     } else {
-                            //         this.logger.error({
-                            //             component: 'form',
-                            //             message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
-                            //         });
-                            //     }
-                            //
-                            // } else {
-                            //
-                            //     // for all other form element types, simply attempt to get its value
-                            //
-                            //     if (document.querySelector(`#${name}`)) {
-                            //         fieldId = name;
-                            //         value = document.querySelector(`#${name}`).value;
-                            //     } else {
-                            //         this.logger.error({
-                            //             component: 'form',
-                            //             message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
-                            //         });
-                            //     }
-                            // }
-
                         } else {
 
                             // extract value from state
-
                             fieldId = name;
                             value = field[name].value;
                         }
@@ -420,7 +360,7 @@ export default class Form extends Component {
         // reset form error
         delete newState.errors.form;
 
-        for (let key in newState.errors.fields) {
+        for (const key in newState.errors.fields) {
             if (newState.errors.fields.hasOwnProperty(key)) {
                 delete newState.errors.fields[key];
             }
@@ -455,7 +395,7 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText, i18n } = this.props;
+        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = this.props.i18n.form_loading_form;
         const hiddenFormFields = [];
@@ -471,23 +411,22 @@ export default class Form extends Component {
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
-                        // only work with non-ignored, non-hidden fields
+                        // only work with non-ignored fields
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
                             const name = Object.keys(formField);
                             const formFieldOptions = formField[name];
                             let type = formField[name].type;
 
+                            // only work with non-hidden fields
                             if (hiddenFields) {
                                 hiddenFields.forEach(hiddenField => {
                                     if (hiddenField.name.toString() === name.toString()) {
-
-                                        // the current field shouldnt be included in the form
                                         type = fieldType.HIDDEN;
                                     }
                                 });
                             }
 
-                            if (type !== 'hidden') {
+                            if (type !== fieldType.HIDDEN) {
                                 buildField = this.buildInputType(formFieldOptions);
                             }
                         }
@@ -496,9 +435,9 @@ export default class Form extends Component {
                     });
 
                     formSubmitButton = <button
-                        className="action_button"
-                        type="button"
-                        value={this.props.i18n.form_submit}
+                        className={ 'action_button' }
+                        type={ 'button' }
+                        value={ this.props.i18n.form_submit }
                         onClick={ this.collectFormData }
                         disabled={ this.localState.form.disabled }
                     >{ submitButtonText }</button>;
@@ -520,12 +459,18 @@ export default class Form extends Component {
                 </main>
                 <footer>
                     <nav>
-                        <button className={ 'action_button action_button__secondary' } type="button" value="Close" onClick={ this.handleClose }>Close</button>
+                        <button
+                            className={ 'action_button action_button__secondary' }
+                            type={ 'button' }
+                            value={ 'Close' }
+                            onClick={ this.handleClose }
+                        >
+                            { this.props.i18n.form_close }
+                        </button>
                         { formSubmitButton }
                     </nav>
                 </footer>
             </form>
         </section>);
     }
-
 }

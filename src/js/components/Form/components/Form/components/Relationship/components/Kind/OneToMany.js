@@ -6,16 +6,41 @@ import style from '../../../style/field.scss';
 export default class OneToMany extends Component {
 
     createOptions(options) {
-        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
+        const formFieldOptions = [];
+        let selectedSet = false;
+
+        options.forEach(option => {
+            let selected = false;
+
+            if (this.props.value && this.props.value.length > 0) {
+                selected = this.props.value === option.slug;
+            } else {
+                if (!selectedSet) {
+                    selectedSet = true;
+
+                    // ensure first option is selected when no selection could be extracted from state
+                    selected = true;
+                }
+            }
+
+            formFieldOptions.push(<Option
+                optionValue={ option.slug }
+                value={option.name}
+                selected={ selected }
+            />);
+        });
+
+        return formFieldOptions;
     }
 
+
     render() {
-        const { options, onChange, localState } = this.props;
+        const { options, onChange, currentForm } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>
-                    { localState.errors.fields[options.handle] }
+                    { currentForm.errors.fields[options.handle] }
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
@@ -24,7 +49,7 @@ export default class OneToMany extends Component {
                     <li>
                         <select
                             id={ options.handle }
-                            name={ 'form[' + options.handle + ']' }
+                            name={ `form[${options.handle}]` }
                             required="required"
                             data-array="true"
                             multiple="multiple"

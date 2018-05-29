@@ -17,7 +17,7 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { localState, onChange, value, options } = this.props;
+        const { currentForm, onChange, value, options } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
         const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
@@ -37,10 +37,10 @@ export default class TextInput extends Component {
                             value={ value }
                             onChange={ onChange }
                             placeholder={ placeholder }
-                            autoComplete={ 'off' }
-                            className={ localState.errors.fields[options.handle] && 'error' }
+                            autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
+                            className={ currentForm.errors.fields[options.handle] && 'error' }
                         />
-                        <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.handle] }</span>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[options.handle] }</span>
                     </li>
                 </ul>
             </div>

@@ -29,10 +29,9 @@ class Index extends Component {
     }
 
     componentDidMount() {
-
-        // retrieve formFields if not already loaded
         let formLoaded;
 
+        // 'preload' forms if not already loaded
         this.props.forms.forEach(form => {
             if (form.id === this.props.formId) {
                 formLoaded = true;
@@ -155,9 +154,6 @@ class Index extends Component {
     }
 
     render() {
-
-        // pass on formId, sectionId, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
-        // were not in forms[] yet, and the submit-, close- and change methods for the form.
         return (<Form
             formId={this.props.formId}
             sectionId={this.props.sectionId}
