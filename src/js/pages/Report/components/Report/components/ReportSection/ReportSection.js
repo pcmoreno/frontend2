@@ -18,11 +18,9 @@ export default class ReportSection extends Component {
             childrenClass = '';
         }
 
-        // todo: title should be translated
-
         return (
             <section className={style.reportSection}>
-                <h2>{ title || '' }</h2>
+                { title && <h2>{ title }</h2>}
                 <div className={childrenClass}>
                     { children }
                 </div>

@@ -28,9 +28,8 @@ export default class Explanation extends Component {
             texts.pointsOfAttention.value = '';
         }
 
-        // todo: translate section title
         return (
-            <ReportSection title={'Explanation'} fullWidth={true}>
+            <ReportSection title={''} fullWidth={true}>
                 <TextBlock
                     field={texts.strongPoints}
                     editable={true}
