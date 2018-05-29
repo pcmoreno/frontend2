@@ -47,10 +47,6 @@ class Logger {
      * @param {Object} logObject - log properties (will all be logged)
      * @param {string} logObject.message - Message
      * @param {string} logObject.component - Component name
-     * @param {string} logObject.type - type (warning or error)
-     * @param {string} logObject.application - application name
-     * @param {string} logObject.userAgent - User agent
-     * @param {string} logObject.session - unique session id
      * @param {string} [logObject.requestUrl] - Requested url (api)
      * @param {string} [logObject.responseText] - Response text (api)
      * @param {string} [logObject.requestOptions] - Request options as json string (api)
@@ -67,6 +63,8 @@ class Logger {
         logObject.userAgent = ua;
         logObject.type = type;
         logObject.session = this.sessionId;
+        logObject.environment = this.env;
+        logObject.applicationUrl = window && window.location && window.location.href;
 
         // log to external logging service in production env, or use console in dev env
         if (this.env === 'production') {
@@ -74,7 +72,6 @@ class Logger {
             // TODO: Implement logz.io post call here
 
         } else {
-
             switch (logObject.type) {
                 case 'error':
                     console.error('Error in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
@@ -88,7 +85,6 @@ class Logger {
                 default:
                     break;
             }
-
         }
     }
 
