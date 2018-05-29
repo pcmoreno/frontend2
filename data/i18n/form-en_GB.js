@@ -4,5 +4,6 @@ export default {
     "form_input_type_could_not_be_determined": "Input type could not be determined for type: ",
     "form_could_not_find_form_field": "Could not find form field with id: ",
     "form_submit": "Submit",
-    "form_loading_form": "Loading form"
+    "form_loading_form": "Loading form",
+    "form_close": "Close"
 };
