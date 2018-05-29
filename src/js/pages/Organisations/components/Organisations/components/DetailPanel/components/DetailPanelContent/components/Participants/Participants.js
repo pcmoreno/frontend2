@@ -16,7 +16,6 @@ export default class Participants extends Component {
                 <div className="toolbar">
                     <button
                         onClick={ this.props.openModalToAddParticipant }
-                        className="button-action">
                         className="action_button left"
                         type="button"
                     >

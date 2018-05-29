@@ -17,24 +17,11 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { localState, onChange, value, options, hidden } = this.props;
+        const { localState, onChange, value, options } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
         const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
         const fieldId = typeof options.as !== 'undefined' ? options.as : options.handle;
-
-        if (hidden) {
-
-            // todo: are hidden fields still required? after all they are read from the formFields state now..
-            return (
-                <input
-                    type={ 'hidden' }
-                    id={ `form[${fieldName}]` }
-                    name={ `form[${fieldName}]` }
-                    value={ value }
-                />
-            );
-        }
 
         return (
             <div>

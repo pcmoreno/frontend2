@@ -8,6 +8,7 @@ import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
+import translator from '../../utils/translator';
 
 class Index extends Component {
 
@@ -24,6 +25,7 @@ class Index extends Component {
         this.submitForm = this.submitForm.bind(this);
 
         this.api = ApiFactory.get('neon');
+        this.i18n = translator(this.props.languageId, 'form');
     }
 
     componentDidMount() {
@@ -61,9 +63,8 @@ class Index extends Component {
 
         }).catch((/* error */) => {
 
-            // todo: translate
             // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
+            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
         });
     }
 
@@ -123,10 +124,9 @@ class Index extends Component {
                     // set default for if there were input validation errors but they are not specified
                     if (response.errors.length === 0) {
 
-                        // todo: translate message
                         return resolve({
                             errors: {
-                                form: 'Could not process your request.'
+                                form: this.i18n.form_could_not_process_your_request
                             }
                         });
                     }
@@ -139,18 +139,15 @@ class Index extends Component {
                 document.querySelector('#spinner').classList.add('hidden');
 
                 // todo: reset form / state values
-                // todo: translate message
                 this.props.afterSubmit();
 
                 // resolve with nothing by default (success)
                 return resolve();
 
             }).catch((/* error */) => {
-
-                // todo: translate message
                 resolve({
                     errors: {
-                        form: 'Could not process your request.'
+                        form: this.i18n.form_could_not_process_your_request
                     }
                 });
             });
@@ -173,6 +170,7 @@ class Index extends Component {
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
             resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
             closeModal={ this.props.closeModal }
+            i18n = { this.i18n }
         />);
     }
 }

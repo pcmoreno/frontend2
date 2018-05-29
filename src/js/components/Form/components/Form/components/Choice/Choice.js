@@ -24,7 +24,7 @@ export default class Choice extends Component {
                     <li>
                         <select
                             id={ handle }
-                            name={ 'form[' + handle + ']' }
+                            name={ `form[${handle}]` }
                             onBlur={ onChange }
                         >
                             { this.createOptions(options) }

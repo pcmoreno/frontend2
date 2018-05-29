@@ -254,6 +254,7 @@ class Index extends Component {
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 i18n = { translator(this.props.languageId, 'organisations') }
+                languageId = { this.props.languageId }
             />
         );
     }

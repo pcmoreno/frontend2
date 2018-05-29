@@ -112,7 +112,7 @@ export default class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddOrganisation }
-                        i18n = { i18n }
+                        languageId={ this.props.languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
@@ -142,7 +142,7 @@ export default class Organisations extends Component {
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddParticipant }
-                        i18n = { i18n }
+                        languageId={ this.props.languageId }
                     />
                 </aside>
             </main>
