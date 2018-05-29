@@ -251,6 +251,9 @@ export default function organisationsReducer(state = initialState, action) {
                     form.formFields.forEach(field => {
 
                         // reset value (note that all field types have a .value property that is leading)
+                        // todo: note it currently also clears the hidden field value, which is not what we want
+                        // todo: to solve, either get the hiddenfields in here so we can compare and leave it out,
+                        // todo: or solve the refres after reset / submit issue in the form component (afterSubmit())
                         field[Object.keys(field)[0]].value = '';
                     });
                 }

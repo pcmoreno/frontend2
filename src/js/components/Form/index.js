@@ -136,8 +136,6 @@ class Index extends Component {
 
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
-
-                // todo: reset form / state values
                 this.props.afterSubmit();
 
                 // resolve with nothing by default (success)

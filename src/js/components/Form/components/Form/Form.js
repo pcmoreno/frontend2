@@ -157,6 +157,7 @@ export default class Form extends Component {
         let ableToSubmit = true;
 
         if (this.props.hiddenFields) {
+
             this.props.hiddenFields.forEach(hiddenField => {
 
                 // adding hidden field values to state
@@ -210,7 +211,6 @@ export default class Form extends Component {
 
                                     // since choices in a relationship field are populated dynamically at build time,
                                     // the value is extracted straight from the actual form here.
-
                                     if (document.querySelector(`#${name}`)) {
                                         fieldId = name;
                                         value = document.querySelector(`#${name}`).value;
@@ -294,8 +294,7 @@ export default class Form extends Component {
                     // consider this a successful call
                     document.querySelector('#spinner').classList.add('hidden');
 
-                    this.resetFormFields();
-                    this.resetErrorMessages();
+                    this.handleClose();
 
                     // re-enable the submit button
                     this.setSubmitButtonState(false);
@@ -385,9 +384,8 @@ export default class Form extends Component {
      */
     handleClose() {
 
-        this.props.resetChangedFieldsForFormId(this.props.formId);
-
         // reset the form and field error messages
+        this.resetFormFields();
         this.resetErrorMessages();
 
         // executes the provided close method
