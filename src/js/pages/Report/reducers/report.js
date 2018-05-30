@@ -46,7 +46,7 @@ export default function reportReducer(state = initialState, action) {
                 const account = action.report.accountHasRole.account;
                 const product = action.report.project.product;
                 const organisation = action.report.project.organisation;
-                const consultant = action.report.consultant.account;
+                const consultant = action.report.consultant && action.report.consultant.account;
                 const report = action.report.report;
 
                 if (!report) {
@@ -84,51 +84,56 @@ export default function reportReducer(state = initialState, action) {
                 newState.report.participant.appointmentDate = Utils.formatDate(action.report.participantSessionAppointmentDate, 'dd mmmm yyyy');
 
                 // set consultant (display) name
-                if (consultant.displayName) {
-                    newState.report.consultant.name = consultant.displayName;
-                } else if (consultant.infix) {
-                    newState.report.consultant.name = `${consultant.firstName} ${consultant.infix} ${consultant.lastName}`;
+                if (consultant) {
+                    if (consultant.displayName) {
+                        newState.report.consultant.name = consultant.displayName;
+                    } else if (consultant.infix) {
+                        newState.report.consultant.name = `${consultant.firstName} ${consultant.infix} ${consultant.lastName}`;
+                    } else {
+                        newState.report.consultant.name = `${consultant.firstName} ${consultant.lastName}`;
+                    }
                 } else {
-                    newState.report.consultant.name = `${consultant.firstName} ${consultant.lastName}`;
+                    newState.report.consultant.name = '-';
                 }
 
                 // set report texts
-                if (report.textFieldInReports && report.textFieldInReports.length) {
-                    const mappedFieldNames = [];
+                const mappedFieldNames = [];
 
-                    report.textFieldInReports.forEach(textField => {
-                        const mappedTextField = {
-                            slug: textField.textFieldInReportSlug
+                report.textFieldsInReports = report.textFieldsInReports || [];
+
+                report.textFieldInReports.forEach(textField => {
+                    const mappedTextField = {
+                        slug: textField.textFieldInReportSlug
+                    };
+
+                    // extract score/text (value)
+                    if (textField.textFieldInReportValue) {
+                        mappedTextField.value = textField.textFieldInReportValue;
+                    }
+
+                    // extract field name
+                    if (textField.textField) {
+                        mappedTextField.name = textField.textField.textFieldName;
+                        mappedFieldNames.push(mappedTextField.name);
+                    }
+
+                    newState.report.texts[mappedTextField.name] = mappedTextField;
+                });
+
+                // get default text fields in case some where not available on the report
+                product.textsTemplate.textFields.forEach(textField => {
+
+                    // add default text field if they were not set
+                    if (!~mappedFieldNames.indexOf(textField.textFieldName)) {
+                        newState.report.texts[textField.textFieldName] = {
+                            slug: null,
+                            name: textField.textFieldName,
+                            value: null,
+                            textFieldTemplateSlug: textField.textFieldSlug
                         };
+                    }
+                });
 
-                        // extract score/text (value)
-                        if (textField.textFieldInReportValue) {
-                            mappedTextField.value = textField.textFieldInReportValue;
-                        }
-
-                        // extract field name
-                        if (textField.textField) {
-                            mappedTextField.name = textField.textField.textFieldName;
-                            mappedFieldNames.push(mappedTextField.name);
-                        }
-
-                        newState.report.texts[mappedTextField.name] = mappedTextField;
-                    });
-
-                    // get default text fields in case some where not available on the report
-                    product.textsTemplate.textFields.forEach(textField => {
-
-                        // add default text field if they were not set
-                        if (!~mappedFieldNames.indexOf(textField.textFieldName)) {
-                            newState.report.texts[textField.textFieldName] = {
-                                slug: null,
-                                name: textField.textFieldName,
-                                value: null,
-                                textFieldTemplateSlug: textField.textFieldSlug
-                            };
-                        }
-                    });
-                }
 
                 // use a flag in the state to let the component know that the report is loaded
                 newState.report.isLoaded = true;
