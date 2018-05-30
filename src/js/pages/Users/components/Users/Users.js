@@ -37,6 +37,7 @@ export default class Users extends Component {
                 <aside className={ `${style.modal_container} hidden` } id="modal_user">
                     <Form
                         formId={ 'account' }
+                        sectionId={ 'account' }
                         ignoredFields={ [
                             'uuid'
                         ] }
