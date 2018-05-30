@@ -23,7 +23,8 @@ export default class Index extends Component {
         this.localState = {
 
             // initial properties (this root component)
-            participantSessionId: null,
+            accountHasRoleId: this.props.matches.accountHasRoleId,
+            participantSessionId: this.props.matches.participantSessionId, // this is to support legacy links
             termsAccepted: null,
             languageId: '',
             approvalCheckboxChecked: false,
@@ -64,19 +65,68 @@ export default class Index extends Component {
                 // logout successful, refresh this page
                 render(<Redirect to={window.location.pathname} refresh={true}/>);
             }, error => {
-                Logger.instance.error(`Could not logout on register page: ${error}`);
+                Logger.instance.error({
+                    component: 'register',
+                    message: `Could not logout on register page: ${error}`
+                });
             });
 
             return;
         }
 
-        // check terms approval status
-        if (this.localState.participantSessionId && this.localState.termsAccepted === null) {
-            this.fetchParticipantStatus(this.localState.participantSessionId);
+        // accountHasRoleId or participantSessionId is required to fetch the terms status
+        if (this.localState.accountHasRoleId || this.localState.participantSessionId &&
+            this.localState.termsAccepted === null) {
+
+            // with legacy links we don't have accountHasRoleId, so we need to fetch it
+            if (!this.localState.accountHasRoleId) {
+
+                // fetch the accountHasRoleId and the status afterwards
+                this.fetchAccountHasRoleId(this.localState.participantSessionId).then(response => {
+                    if (response && response.accountHasRoleSlug) {
+
+                        // save slug and fetch account status
+                        this.localState.accountHasRoleId = response.accountHasRoleSlug;
+                        this.fetchParticipantStatus(response.accountHasRoleSlug);
+
+                    } else {
+                        Logger.instance.error({
+                            component: 'register',
+                            message: `AccountHasRole slug could not be found for participantSession: ${this.localState.participantSessionId}`
+                        });
+                    }
+                });
+            } else {
+
+                // fetch status based on accountHasRoleId
+                this.fetchParticipantStatus(this.localState.accountHasRoleId);
+            }
         }
     }
 
-    fetchParticipantStatus(participantSessionId) {
+    /**
+     * Fetches the accountHasRoleId for the given particpant.
+     * This is used for legacy links (see app.js)
+     * @param {string} participantSessionId - participant id
+     * @returns {Promise} promise api call
+     */
+    fetchAccountHasRoleId(participantSessionId) {
+
+        // request the accountHasRoleId for the given participant
+        return this.api.get(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().register.participantAccountHasRole,
+            {
+                urlParams: {
+                    identifiers: {
+                        slug: participantSessionId
+                    }
+                }
+            }
+        );
+    }
+
+    fetchParticipantStatus(accountHasRoleId) {
 
         // request participant session data for terms approval status
         this.api.get(
@@ -85,7 +135,7 @@ export default class Index extends Component {
             {
                 urlParams: {
                     identifiers: {
-                        slug: participantSessionId
+                        slug: accountHasRoleId
                     }
                 }
             }
@@ -136,7 +186,7 @@ export default class Index extends Component {
                 {
                     urlParams: {
                         identifiers: {
-                            slug: this.localState.participantSessionId
+                            slug: this.localState.accountHasRoleId
                         }
                     },
                     payload: {
@@ -198,7 +248,7 @@ export default class Index extends Component {
             {
                 urlParams: {
                     identifiers: {
-                        slug: this.localState.participantSessionId
+                        slug: this.localState.accountHasRoleId
                     }
                 },
                 payload: {
@@ -282,7 +332,7 @@ export default class Index extends Component {
                     {
                         urlParams: {
                             identifiers: {
-                                slug: this.localState.participantSessionId
+                                slug: this.localState.accountHasRoleId
                             }
                         },
                         headers: {
@@ -343,11 +393,8 @@ export default class Index extends Component {
     render() {
         let component = null;
 
-        // retrieve report data by URL parameters
-        this.localState.participantSessionId = this.props.matches.participantSessionId;
-
         // do not render when we don't have participant id or don't know the approval status
-        if (!this.localState.participantSessionId ||
+        if (!this.localState.accountHasRoleId ||
             !this.localState.languageId ||
             this.localState.termsAccepted === null) {
 
@@ -387,7 +434,6 @@ export default class Index extends Component {
                     buttonDisabled = { this.localState.registerButtonDisabled }
                     onSubmit = { this.onRegisterAccount.bind(this) }
                     onChange = { this.onChangeFieldRegistrationForm.bind(this) }
-                    participantSessionId = { this.localState.participantSessionId }
                     showLogin = { this.switchToLogin.bind(this) }
                 />;
             }
