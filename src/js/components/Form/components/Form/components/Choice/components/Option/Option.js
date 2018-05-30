@@ -9,8 +9,8 @@ export default class Option extends Component {
     }
 
     render() {
-        let { optionValue, value } = this.props;
+        const { optionValue, value, selected } = this.props;
 
-        return (<option value={ optionValue }>{ value }</option>);
+        return (<option value={ optionValue } selected={ selected }>{ value }</option>);
     }
 }

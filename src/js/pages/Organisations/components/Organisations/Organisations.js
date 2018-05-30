@@ -50,6 +50,7 @@ export default class Organisations extends Component {
             storeFormDataInFormsCollection,
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
+            resetChangedFieldsForFormId,
             refreshDataWithMessage,
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
@@ -109,9 +110,10 @@ export default class Organisations extends Component {
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddOrganisation }
-                        i18n = { i18n }
+                        languageId={ this.props.languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
@@ -127,20 +129,21 @@ export default class Organisations extends Component {
                             'accountHasRoleGenericRoleStatus',
                             'oneParticipantSessionToOneReport',
                             'oneParticipantSessionToOneAccountHasRole',
-                            'manyParticipantSessionToOneProject',
                             'startedOn',
                             'onlineId',
                             'participantSessionSlug'
                         ] }
+                        hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddParticipant }
-                        i18n = { i18n }
+                        languageId={ this.props.languageId }
                     />
                 </aside>
             </main>

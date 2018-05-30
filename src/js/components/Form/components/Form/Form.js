@@ -14,7 +14,7 @@ import Logger from '../../../../utils/logger';
 
 /** Preact Form Component v1.0
  *
- * it is now possible to set fields to be hidden. in such case do not add it to the ignoredFields.
+ * it is now possible for fields to be hidden. in such case do not add it to the ignoredFields.
  * each entry can have its value set to either a static text or, for example, a state key
  *
  * example:
@@ -27,95 +27,93 @@ export default class Form extends Component {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.collectFormData = this.collectFormData.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.resetFormFields = this.resetFormFields.bind(this);
 
         // UI state, with fields as key value pair field and message
         this.localState = {
             errors: {
                 form: '',
                 fields: {}
+            },
+            form: {
+                disabled: false
             }
         };
 
         this.logger = Logger.instance;
     }
 
-    buildInputType(name, type, handle, label, value, formFieldOptions = null) {
+    buildInputType(formFieldOptions) {
 
-        // todo: why receive separate name, type, handle etc. when they also exist in formFieldOptions? I dont get it
+        const type = formFieldOptions.type;
+        const handle = formFieldOptions.handle;
+        const label = formFieldOptions.form.all.label;
+        const value = formFieldOptions.value ? formFieldOptions.value : '';
 
-        // todo: implement all of https://github.com/dionsnoeijen/sexy-field-field-types-base/tree/master/src/FieldType
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
-                    name={name}
-                    localState={this.localState}
-                    options={formFieldOptions}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}/>);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
-                    name={name}
-                    localState={this.localState}
+                    currentForm={this.localState}
                     options={formFieldOptions}
-                    handle={handle}
-                    label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
-                    name={name}
-                    localState={this.localState}
-                    options={formFieldOptions}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
-                    name={name}
-                    localState={this.localState}
+                    currentForm={this.localState}
                     options={formFieldOptions}
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
-                    localState={ this.localState }
+                    currentForm={ this.localState }
                     options={formFieldOptions}
+                    value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
             case fieldType.EMAIL:
                 return (<Email
-                    name={name}
-                    localState={this.localState}
-                    options={formFieldOptions}
+                    currentForm={this.localState}
                     handle={handle}
                     label={label}
                     value={value}
+                    formId={this.props.formId}
                     onChange={this.handleChange}
                 />);
-            case fieldType.HIDDEN:
-                return (<TextInput
-                    name={name}
-                    localState={this.localState}
-                    options={formFieldOptions}
-                    handle={handle}
-                    label={label}
-                    value={value}
-                    onChange={this.handleChange}
-                    hidden={false}
-                />);
+            case fieldType.UUID:
+                return null; // not implemented yet
+            case fieldType.SLUG:
+                return null; // not implemented yet
+            case fieldType.INTEGER:
+                return null; // not implemented yet
             default:
                 this.logger.error({
                     component: 'form',
-                    message: `input type could not be determined for ${type}`
+                    message: `${this.props.i18n.form_input_type_could_not_be_determined} ${type}`
                 });
                 return null;
         }
@@ -126,8 +124,7 @@ export default class Form extends Component {
 
         const target = event.currentTarget;
 
-        // controlled component pattern: form state is kept in
-        // state and persisted across page components
+        // controlled component pattern: form state is kept in state and persisted across page components
         const formId = this.props.formId;
         const formInputId = event.currentTarget.id;
 
@@ -141,9 +138,7 @@ export default class Form extends Component {
     getFieldValue(target) {
         let formInputValue;
 
-        // If we have a selectedOptions property
-        // And data-array is set with a value of "true"
-        // We want to send the data as an array
+        // if selectedOptions ad data-array are set, send the data as an array
         if (target.getAttribute('data-array') !== null &&
             target.getAttribute('data-array') === 'true' &&
             typeof target.selectedOptions !== 'undefined'
@@ -156,69 +151,175 @@ export default class Form extends Component {
         return formInputValue;
     }
 
-    handleSubmit(event) {
+    collectFormData(event) {
+
+        const formId = this.props.formId;
+
+        // clear the existing error messages
+        this.resetErrorMessages();
+
+        // just to be on the safe side, disable any erroneous submitting of the form data
         event.preventDefault();
 
-        // todo: disable submit and close buttons button to avoid bashing (multiple api calls and weird behaviour (multiple calls)
-        // todo: when to enable again? When its closed (after cancel or save, or after a failed call)
-        // todo: frontend form input validation (read validation rules from options calls)
-
         const changedFields = [];
+        let ableToSubmit = true;
 
+        if (this.props.hiddenFields) {
+
+            this.props.hiddenFields.forEach(hiddenField => {
+
+                // adding hidden field values to state
+                this.props.changeFormFieldValueForFormId(
+                    this.props.formId,
+                    hiddenField.name,
+                    hiddenField.value
+                );
+            });
+        }
+
+        // extract values for each non-ignored field from state. in case no value exists, extract it in other ways
         this.props.forms.forEach(form => {
-
             if (form.id === this.props.formId) {
-
-                // in the right form
                 form.formFields.forEach(field => {
 
-                    // map through fields
+                    // the first key is the field id (or name)
                     const name = Object.keys(field)[0];
+                    let fieldId, value;
 
-                    if (field[name].value && field[name].value.length > 0) {
+                    if (this.props.ignoredFields.indexOf(name) === -1) {
+                        if (!field[name].value || field[name].value.length === 0) {
 
-                        // only submit the changed fields (for now, those with a value that is not empty)
-                        const fieldId = name;
-                        const value = field[name].value;
+                            // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
+                            // form element. see if the element can be matched and its value extracted.
+                            switch (field[name].type) {
 
-                        changedFields.push({ fieldId, value });
-                    } else {
+                                case fieldType.CHOICE: {
 
-                        // ensure choice fields always submit their first
-                        // value (in case user didnt change anything)
-                        if (field[name].type === fieldType.CHOICE) {
-                            const fieldName = (Object.keys(field));
-                            const fieldId = (Object.keys(field)[0]);
-                            const choices = [];
+                                    // pushing initial value from dropdown to state so it can be submitted
+                                    const fieldName = Object.keys(field);
+                                    const choices = [];
 
-                            for (const key in field[fieldName].form.all.choices) {
-                                if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                                    choices.push(field[fieldName].form.all.choices[key]);
+                                    fieldId = (Object.keys(field)[0]);
+
+                                    // extract initial value from state
+                                    for (const key in field[fieldName].form.all.choices) {
+                                        if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                            choices.push(field[fieldName].form.all.choices[key]);
+                                            break;
+                                        }
+                                    }
+
+                                    // the first value is the initial value
+                                    value = choices[0];
+
                                     break;
                                 }
+
+                                case fieldType.RELATIONSHIP: {
+
+                                    // since choices in a relationship field are populated dynamically at build time,
+                                    // the value is extracted straight from the actual form here.
+                                    if (document.querySelector(`#${formId}_${name}`)) {
+                                        fieldId = name;
+                                        value = document.querySelector(`#${formId}_${name}`).value;
+                                    } else {
+                                        this.logger.error({
+                                            component: 'form',
+                                            message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
+                                        });
+                                    }
+
+                                    break;
+                                }
+
+                                default: {
+
+                                    // for all other form element types, simply attempt to get its value
+                                    if (document.querySelector(`#${formId}_${name}`)) {
+                                        fieldId = name;
+                                        value = document.querySelector(`#${formId}_${name}`).value;
+                                    } else {
+                                        this.logger.error({
+                                            component: 'form',
+                                            message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
+                                        });
+                                    }
+                                }
                             }
-                            const value = choices[0];
+                        } else {
+
+                            // extract value from state
+                            fieldId = name;
+                            value = field[name].value;
+                        }
+
+                        // push field value to changedFields so it can be submitted
+                        if (fieldId && value) {
+
+                            // in case the 'to' property is set, overwrite the default field name with it
+                            if (field[name].to) {
+                                fieldId = field[name].to;
+                            }
+
+                            // relationship fields require an override in case 'as' is set
+                            if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
+                                fieldId = field[name].as;
+                            }
 
                             changedFields.push({ fieldId, value });
+                        } else {
+
+                            if (field[name].form.all.required) {
+                                ableToSubmit = false;
+
+                                this.handleErrorMessages(
+                                    { [name]: `${this.props.i18n.form_value_can_not_be_empty}` }
+                                );
+                            }
                         }
                     }
                 });
             }
         });
 
-        this.props.submitForm(changedFields).then(response => {
-            if (response && response.errors) {
+        if (ableToSubmit) {
 
-                // hide loader and handle error messages for fields
-                document.querySelector('#spinner').classList.add('hidden');
-                this.handleErrorMessages(response.errors);
-            } else {
+            // disable the submit button
+            this.setSubmitButtonState(true);
 
-                // consider this a successful call
-                document.querySelector('#spinner').classList.add('hidden');
-                this.resetErrorMessages();
-            }
-        });
+            // submit the changed fields
+            this.props.submitForm(changedFields).then(response => {
+                if (response && response.errors) {
+
+                    // hide loader and handle error messages for fields
+                    document.querySelector('#spinner').classList.add('hidden');
+                    this.handleErrorMessages(response.errors);
+
+                    // re-enable the submit button
+                    this.setSubmitButtonState(false);
+                } else {
+
+                    // consider this a successful call
+                    document.querySelector('#spinner').classList.add('hidden');
+
+                    this.handleClose();
+
+                    // re-enable the submit button
+                    this.setSubmitButtonState(false);
+                }
+            });
+        }
+    }
+
+    /**
+     * Sets the 'disabled' state of the button to submit the form
+     *
+     * @param {boolean} requestedButtonState - determines whether button should be disabled
+     * @returns {undefined}
+     */
+    setSubmitButtonState(requestedButtonState) {
+        this.localState.form.disabled = requestedButtonState;
+        this.setState(this.localState);
     }
 
     /**
@@ -229,7 +330,7 @@ export default class Form extends Component {
      * @returns {undefined}
      */
     handleErrorMessages(errors) {
-        let newState = Object.assign({}, this.localState);
+        const newState = Object.assign({}, this.localState);
 
         for (let key in errors) {
             if (errors.hasOwnProperty(key)) {
@@ -259,12 +360,12 @@ export default class Form extends Component {
      * @returns {undefined}
      */
     resetErrorMessages() {
-        let newState = Object.assign({}, this.localState);
+        const newState = Object.assign({}, this.localState);
 
         // reset form error
         delete newState.errors.form;
 
-        for (let key in newState.errors.fields) {
+        for (const key in newState.errors.fields) {
             if (newState.errors.fields.hasOwnProperty(key)) {
                 delete newState.errors.fields[key];
             }
@@ -275,14 +376,22 @@ export default class Form extends Component {
     }
 
     /**
+     * Resets the form fields for this form
+     *
+     * @returns {undefined}
+     */
+    resetFormFields() {
+        this.props.resetChangedFieldsForFormId(this.props.formId);
+    }
+
+    /**
      * Handle closes in all situations (clicking outside the modal, or on one of the two close buttons)
      * @returns {undefined}
      */
     handleClose() {
 
-        // todo: reset all input fields when the form is closed.
-
         // reset the form and field error messages
+        this.resetFormFields();
         this.resetErrorMessages();
 
         // executes the provided close method
@@ -292,8 +401,10 @@ export default class Form extends Component {
     render() {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
-        let formFields = 'loading form...'; // todo: translate this message
-        let hiddenFormFields = [];
+        let formFields = this.props.i18n.form_loading_form;
+        const hiddenFormFields = [];
+
+        // default the submit button to null until the form data is loaded and fields are identified
         let formSubmitButton = null;
 
         // since all forms are passed on, find the one that matches the given formId
@@ -304,62 +415,43 @@ export default class Form extends Component {
                     formFields = form.formFields.map(formField => {
                         let buildField;
 
+                        // only work with non-ignored fields
                         if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
-
-                            // only work with non-ignored fields
                             const name = Object.keys(formField);
+                            const formFieldOptions = formField[name];
+                            let type = formField[name].type;
 
-                            let hidden = false;
-                            let defaultValue = '';
-
+                            // only work with non-hidden fields
                             if (hiddenFields) {
                                 hiddenFields.forEach(hiddenField => {
-
                                     if (hiddenField.name.toString() === name.toString()) {
-
-                                        // the current field should be hidden, set its property to identify this behaviour
-                                        hidden = true;
-                                        defaultValue = hiddenField.value;
+                                        type = fieldType.HIDDEN;
                                     }
                                 });
                             }
 
-                            let type = formField[name].type;
-
-                            // if this field should be hidden, set its type to 'hidden'
-                            if (hidden) {
-                                type = fieldType.HIDDEN;
+                            if (type !== fieldType.HIDDEN) {
+                                buildField = this.buildInputType(formFieldOptions);
                             }
-
-                            const handle = formField[name].handle;
-                            const label = formField[name].form.create ? formField[name].form.create.label : formField[name].form.all.label;
-
-                            let value = formField[name].value ? formField[name].value : null;
-
-                            // if this field is hidden, set its value to supplied value
-                            if (hidden) {
-                                value = defaultValue;
-                            }
-
-                            const formFieldOptions = formField[name];
-
-                            buildField = this.buildInputType(
-                                name, type, handle, label, value, formFieldOptions, hidden
-                            );
                         }
 
                         return buildField;
                     });
 
-                    // todo: header en submit button text
-                    formSubmitButton = <button className="action_button" type="button" value="Submit" onClick={ this.handleSubmit } >{ submitButtonText }</button>;
+                    formSubmitButton = <button
+                        className={ 'action_button' }
+                        type={ 'button' }
+                        value={ this.props.i18n.form_submit }
+                        onClick={ this.collectFormData }
+                        disabled={ this.localState.form.disabled }
+                    >{ submitButtonText }</button>;
                 }
             });
         }
 
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
-            <form id={formId}>
+            <form id={formId} noValidate>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
                     <h3>{ headerText }</h3>
@@ -371,12 +463,18 @@ export default class Form extends Component {
                 </main>
                 <footer>
                     <nav>
-                        <button className={ 'action_button action_button__secondary' } type="button" value="Close" onClick={ this.handleClose }>Close</button>
+                        <button
+                            className={ 'action_button action_button__secondary' }
+                            type={ 'button' }
+                            value={ 'Close' }
+                            onClick={ this.handleClose }
+                        >
+                            { this.props.i18n.form_close }
+                        </button>
                         { formSubmitButton }
                     </nav>
                 </footer>
             </form>
         </section>);
     }
-
 }

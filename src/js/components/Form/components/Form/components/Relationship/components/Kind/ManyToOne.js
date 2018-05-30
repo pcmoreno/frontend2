@@ -1,23 +1,19 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
-import Option from '../../components/Option/Option';
+/** @jsx h */
+
 import style from '../../../style/field.scss';
+import AbstractRelationship from './AbstractRelationship';
 
-export default class ManyToOne extends Component {
-
-    createOptions(options) {
-        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
-    }
-
+export default class ManyToOne extends AbstractRelationship {
     render() {
-        const { options, localState, onChange } = this.props;
-
+        const { options, currentForm, onChange, formId } = this.props;
         const to = typeof options.as !== 'undefined' ? options.as : options.to;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>
-                    { localState.errors.fields[options.handle] }
+                    { currentForm.errors.fields[options.handle] }
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
@@ -25,8 +21,8 @@ export default class ManyToOne extends Component {
                     </li>
                     <li>
                         <select
-                            id={ to }
-                            name={ 'form[' + to + ']' }
+                            id={ `${formId}_${to}` }
+                            name={ `form[${to}]` }
                             onBlur={ onChange }
                         >
                             { this.createOptions(options[options.to]) }

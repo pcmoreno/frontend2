@@ -88,6 +88,21 @@ export function changeFormFieldValueForFormId(formId, formInputId, formInputValu
 }
 
 /**
+ * Change form field action
+ * @param {string} formId - formId
+ * @returns {undefined}
+ */
+export function resetChangedFieldsForFormId(formId) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.RESET_FORM_FIELDS,
+        formId
+    };
+}
+
+/**
  * Fetch entities action
  * @param {Object} entity - entity
  * @param {array} data - data

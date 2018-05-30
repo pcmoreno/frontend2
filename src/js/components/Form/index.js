@@ -8,6 +8,7 @@ import * as alertActions from './../../components/Alert/actions/alert';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
+import translator from '../../utils/translator';
 
 class Index extends Component {
 
@@ -24,13 +25,13 @@ class Index extends Component {
         this.submitForm = this.submitForm.bind(this);
 
         this.api = ApiFactory.get('neon');
+        this.i18n = translator(this.props.languageId, 'form');
     }
 
     componentDidMount() {
-
-        // retrieve formFields if not already loaded
         let formLoaded;
 
+        // 'preload' forms if not already loaded
         this.props.forms.forEach(form => {
             if (form.id === this.props.formId) {
                 formLoaded = true;
@@ -38,8 +39,6 @@ class Index extends Component {
         });
 
         if (!formLoaded) {
-
-            // disabled retrieving form options, since it is broken right now
             this.getFormFields();
         }
     }
@@ -57,15 +56,16 @@ class Index extends Component {
             `${this.api.getEndpoints().sectionInfo}/${sectionId}`
         ).then(response => {
 
+            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
+
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
             this.props.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
 
-            // todo: translate this message
             // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: 'An error occurred while processing your request.' });
+            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
         });
     }
 
@@ -107,7 +107,6 @@ class Index extends Component {
             // show loader
             document.querySelector('#spinner').classList.remove('hidden');
 
-            // todo: submission can also be a PUT call, this should be configurable somewhere...
             // execute request
             return this.api[method](
                 this.api.getBaseUrl(),
@@ -126,10 +125,9 @@ class Index extends Component {
                     // set default for if there were input validation errors but they are not specified
                     if (response.errors.length === 0) {
 
-                        // todo: translate message
                         return resolve({
                             errors: {
-                                form: 'Could not process your request.'
+                                form: this.i18n.form_could_not_process_your_request
                             }
                         });
                     }
@@ -140,20 +138,15 @@ class Index extends Component {
 
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
-
-                // todo: reset form / state values
-                // todo: translate message
                 this.props.afterSubmit();
 
                 // resolve with nothing by default (success)
                 return resolve();
 
             }).catch((/* error */) => {
-
-                // todo: translate message
                 resolve({
                     errors: {
-                        form: 'Could not process your request.'
+                        form: this.i18n.form_could_not_process_your_request
                     }
                 });
             });
@@ -161,9 +154,6 @@ class Index extends Component {
     }
 
     render() {
-
-        // pass on formId, sectionId, ignoredfields, the whole forms collection, the method to retrieve the formfields if they
-        // were not in forms[] yet, and the submit- and change methods for the form. and also the close method.
         return (<Form
             formId={this.props.formId}
             sectionId={this.props.sectionId}
@@ -174,7 +164,9 @@ class Index extends Component {
             headerText={this.props.headerText}
             submitButtonText={this.props.submitButtonText}
             changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
-            closeModal={ this.props.closeModal }
+            resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
+            closeModal={this.props.closeModal}
+            i18n={this.i18n}
         />);
     }
 }

@@ -11,7 +11,8 @@ const initialState = {
         entity: {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
-            type: AppConfig.global.organisations.rootEntity.type
+            type: AppConfig.global.organisations.rootEntity.type,
+            participants: []
         }
     }]
 };
@@ -58,6 +59,7 @@ export default function organisationsReducer(state = initialState, action) {
                 id: action.entity.id,
                 name: action.entity.name,
                 type: action.entity.type,
+                uuid: action.entity.uuid,
                 section: action.entity.section
             });
 
@@ -123,6 +125,7 @@ export default function organisationsReducer(state = initialState, action) {
                         name: entity.organisationName,
                         id: entity.id,
                         type: entity.organisationType === 'jobFunction' ? 'jobFunction' : 'organisation',
+                        uuid: entity.uuid,
                         productName
                     });
                 });
@@ -136,6 +139,7 @@ export default function organisationsReducer(state = initialState, action) {
                         name: entity.projectName,
                         id: entity.id,
                         type: 'project',
+                        uuid: entity.uuid,
                         productName: entity.product ? entity.product.productName : null
                     });
                 });
@@ -150,7 +154,8 @@ export default function organisationsReducer(state = initialState, action) {
                         tempEntities.push({
                             name: entity.organisationName,
                             id: entity.id,
-                            type: 'organisation'
+                            type: 'organisation',
+                            uuid: entity.uuid
                         });
                     }
                 });
@@ -212,14 +217,44 @@ export default function organisationsReducer(state = initialState, action) {
                     // in the right form
                     form.formFields.map(field => {
 
-                        // in the right field
-                        if (Object.keys(field)[0] === action.formInputId) {
+                        // in the right field (note that the formId is added here as a prefix in order to compare)
+                        if (`${action.formId}_${Object.keys(field)[0]}` === action.formInputId) {
 
-                            // update the changed field
-                            field[Object.keys(field)[0]].value = action.formInputValue;
+                            // update the changed field if required
+                            if (field[Object.keys(field)[0]].value !== action.formInputValue) {
+
+                                // for fields that dont natively have a 'value' property, a property .value is added
+                                // and the selected choice is stored in it.
+                                field[Object.keys(field)[0]].value = action.formInputValue;
+                            }
                         }
 
                         return field;
+                    });
+                }
+
+                newState.forms.push(form);
+            });
+
+            break;
+
+        case actionType.RESET_FORM_FIELDS:
+
+            // clear current items from newState
+            newState.forms = [];
+
+            // build up the forms with data from state
+            state.forms.forEach(form => {
+                if (form.id === action.formId) {
+
+                    // in the right form
+                    form.formFields.forEach(field => {
+
+                        // reset value (note that all field types have a .value property that is leading)
+                        // todo: note it currently also clears the hidden field value, which is not what we want
+                        // todo: to solve, either get the hiddenfields in here so we can compare and leave it out,
+                        // todo: or solve the refres after reset / submit issue in the form component (afterSubmit())
+                        field[Object.keys(field)[0]].value = '';
                     });
                 }
 
@@ -241,16 +276,30 @@ export default function organisationsReducer(state = initialState, action) {
             // clear all detailPanel data
             newState.detailPanelData = [];
 
-            // first build up the forms with data from state
+            // persist all existing detail panel data and mark it inactive
             state.detailPanelData.forEach(data => {
                 data.active = false;
                 newState.detailPanelData.push(data);
             });
 
-            // todo: currently it always re-adds the received entry. ensure it skips pushing data for the requested id
+            // extract the participants from the action
+            const participants = [];
 
-            // now add the new data taken from the action (it currently only adds the entity, there is no content yet)
-            // the 'active' flag ensures the detail panel shows right details, especially in responsive views
+            if (action.data.participantSessions) {
+                action.data.participantSessions.forEach(participant => {
+
+                    if (participant.accountHasRole.account.firstName) {
+                        participants.push({
+                            id: { value: participant.accountHasRole.account.id },
+                            firstName: { value: participant.accountHasRole.account.firstName }
+                        });
+                    }
+                });
+            }
+
+            action.entity.participants = participants;
+
+            // the 'active' flag ensures the detail panel shows the right details, especially in responsive views
             newState.detailPanelData.push({
                 active: true,
                 entity: action.entity

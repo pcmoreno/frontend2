@@ -5,24 +5,21 @@ import ManyToOne from './components/Kind/ManyToOne';
 import OneToMany from './components/Kind/OneToMany';
 import OneToOne from './components/Kind/OneToOne';
 
-export const MANY_TO_MANY = 'many-to-many';
-export const ONE_TO_MANY = 'one-to-many';
-export const MANY_TO_ONE = 'many-to-one';
-export const ONE_TO_ONE = 'one-to-one';
+import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {
     render() {
-        const { options, onChange, localState } = this.props;
+        const { options, onChange, value, currentForm, formId } = this.props;
 
         switch (options.kind) {
-            case MANY_TO_MANY:
-                return (<ManyToMany options={options} onChange={onChange} localState={localState} />);
-            case ONE_TO_MANY:
-                return (<OneToMany options={options} onChange={onChange} localState={localState} />);
-            case MANY_TO_ONE:
-                return (<ManyToOne options={options} onChange={onChange} localState={localState} />);
-            case ONE_TO_ONE:
-                return (<OneToOne options={options} onChange={onChange} localState={localState} />);
+            case relationship.MANY_TO_MANY:
+                return (<ManyToMany options={options} onChange={onChange} currentForm={currentForm} value={ value } formId={ formId } />);
+            case relationship.ONE_TO_MANY:
+                return (<OneToMany options={options} onChange={onChange} currentForm={currentForm} value={ value } formId={ formId } />);
+            case relationship.MANY_TO_ONE:
+                return (<ManyToOne options={options} onChange={onChange} currentForm={currentForm} value={ value } formId={ formId } />);
+            case relationship.ONE_TO_ONE:
+                return (<OneToOne options={options} onChange={onChange} currentForm={currentForm} value={ value } formId={ formId } />);
             default:
                 return null;
         }
