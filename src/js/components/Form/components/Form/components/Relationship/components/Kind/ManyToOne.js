@@ -1,41 +1,13 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
-import Option from '../../components/Option/Option';
+/** @jsx h */
+
 import style from '../../../style/field.scss';
+import AbstractRelationship from './AbstractRelationship';
 
-export default class ManyToOne extends Component {
-
-    createOptions(options) {
-        const formFieldOptions = [];
-        let selectedSet = false;
-
-        options.forEach(option => {
-            let selected = false;
-
-            if (this.props.value && this.props.value.length > 0) {
-                selected = this.props.value === option.slug;
-            } else {
-                if (!selectedSet) {
-                    selectedSet = true;
-
-                    // ensure first option is selected when no selection could be extracted from state
-                    selected = true;
-                }
-            }
-
-            formFieldOptions.push(<Option
-                optionValue={ option.slug }
-                value={option.name}
-                selected={ selected }
-            />);
-        });
-
-        return formFieldOptions;
-    }
-
+export default class ManyToOne extends AbstractRelationship {
     render() {
         const { options, currentForm, onChange, formId } = this.props;
-
         const to = typeof options.as !== 'undefined' ? options.as : options.to;
 
         return (

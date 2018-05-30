@@ -314,14 +314,12 @@ export default class Form extends Component {
     /**
      * Sets the 'disabled' state of the button to submit the form
      *
-     * @param {boolean} state - determines whether button should be disabled
+     * @param {boolean} requestedButtonState - determines whether button should be disabled
      * @returns {undefined}
      */
-    setSubmitButtonState(state) {
-        let newState = Object.assign({}, this.localState);
-
-        newState.form.disabled = state;
-        this.setState(newState);
+    setSubmitButtonState(requestedButtonState) {
+        this.localState.form.disabled = requestedButtonState;
+        this.setState(this.localState);
     }
 
     /**

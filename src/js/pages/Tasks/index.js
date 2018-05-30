@@ -49,7 +49,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'uuid,participantSessionAppointmentDate,accountHasRole,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
-                        limit: 1000
+                        limit: 100
                     }
                 }
             }
@@ -61,7 +61,6 @@ class Index extends Component {
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
-
 
     render() {
         return (
