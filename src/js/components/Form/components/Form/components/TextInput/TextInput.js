@@ -17,39 +17,30 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { localState, onChange, value, options, hidden } = this.props;
+        const { currentForm, onChange, value, options, formId } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
         const placeholder = this.getPlaceholder(options);
-
-        if (hidden) {
-            return (
-                <input
-                    type='hidden'
-                    id={ options.handle }
-                    value={ value }
-                    name={ 'form[' + options.handle + ']'}
-                    onChange={ onChange }
-                    placeholder={ placeholder }
-                />
-            );
-        }
+        const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
+        const fieldId = typeof options.as !== 'undefined' ? options.as : options.handle;
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ localState.errors.fields[options.handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ options.handle }>{ options.form.all.label + required }</label>
                     </li>
                     <li>
                         <input
-                            type='text'
-                            id={ options.handle }
+                            type={ 'text' }
+                            id={ `${formId}_${fieldId}` }
+                            name={ fieldName }
                             value={ value }
-                            name={ 'form[' + options.handle + ']'}
                             onChange={ onChange }
                             placeholder={ placeholder }
+                            autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
+                            className={ currentForm.errors.fields[options.handle] && 'error' }
                         />
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[options.handle] }</span>
                     </li>
                 </ul>
             </div>

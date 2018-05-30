@@ -26,6 +26,7 @@ class Index extends Component {
 
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+        this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
@@ -45,6 +46,10 @@ class Index extends Component {
 
         // react controlled component pattern takes over the built-in form state when input changes
         this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
+    }
+
+    resetChangedFieldsForFormId(formId) {
+        this.actions.resetChangedFieldsForFormId(formId);
     }
 
     componentWillMount() {
@@ -119,7 +124,7 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,organisationType'
+                        fields: 'id,uuid,organisationName,organisationType'
                     }
                 }
             };
@@ -133,7 +138,7 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
+                        fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
                         limit: 10000
                     },
                     identifiers: {
@@ -183,7 +188,7 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,childOrganisations,projects,projectName,product,productName',
+                        fields: 'id,organisationName,projectName,participantSessions,accountHasRole,account,firstName',
                         limit: 10000
                     },
                     identifiers: {
@@ -243,11 +248,13 @@ class Index extends Component {
                 refreshDataWithMessage={ this.refreshDataWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+                resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 i18n = { translator(this.props.languageId, 'organisations') }
+                languageId = { this.props.languageId }
             />
         );
     }

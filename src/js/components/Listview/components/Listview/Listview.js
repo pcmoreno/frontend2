@@ -148,6 +148,7 @@ export default class Listview extends Component {
             } else {
                 this.localState.sortOrder = 'asc';
             }
+
             this.sortEntities(this.localEntities, sortBy, this.localState.sortOrder);
         }
 

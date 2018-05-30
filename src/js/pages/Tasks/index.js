@@ -62,7 +62,6 @@ class Index extends Component {
         });
     }
 
-
     render() {
         return (
             <Tasks

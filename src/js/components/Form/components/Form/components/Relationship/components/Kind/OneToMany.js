@@ -1,21 +1,18 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
-import Option from '../../components/Option/Option';
+/** @jsx h */
+
 import style from '../../../style/field.scss';
+import AbstractRelationship from './AbstractRelationship';
 
-export default class OneToMany extends Component {
-
-    createOptions(options) {
-        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
-    }
-
+export default class OneToMany extends AbstractRelationship {
     render() {
-        const { options, onChange, localState } = this.props;
+        const { options, onChange, currentForm, formId } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>
-                    { localState.errors.fields[options.handle] }
+                    { currentForm.errors.fields[options.handle] }
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
@@ -23,8 +20,8 @@ export default class OneToMany extends Component {
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
-                            name={ 'form[' + options.handle + ']' }
+                            id={ `${formId}_${options.handle}` }
+                            name={ `form[${options.handle}]` }
                             required="required"
                             data-array="true"
                             multiple="multiple"

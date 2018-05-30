@@ -1,21 +1,18 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
-import Option from '../../components/Option/Option';
+/** @jsx h */
+
 import style from '../../../style/field.scss';
+import AbstractRelationship from './AbstractRelationship';
 
-export default class ManyToMany extends Component {
-
-    createOptions(options) {
-        return options.map(option => (<Option value={option.name} optionValue={option.slug} />));
-    }
-
+export default class ManyToMany extends AbstractRelationship {
     render() {
-        const { localState, options, onChange } = this.props;
+        const { currentForm, options, onChange, formId } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>
-                    { localState.errors.fields[options.handle] }
+                    { currentForm.errors.fields[options.handle] }
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
@@ -23,7 +20,7 @@ export default class ManyToMany extends Component {
                     </li>
                     <li>
                         <select
-                            id={ options.handle }
+                            id={ `${formId}_${options.handle}` }
                             name={ options.handle }
                             required="required"
                             data-array="true"
