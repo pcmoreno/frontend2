@@ -227,6 +227,12 @@ class App extends Component {
     }
 }
 
+// todo: before doing anything, redirect auth.ltponline.com to ltponline.com
+// todo: this can be removed once legacy invitation links should not be supported anymore
+if (~window.location.href.indexOf('//auth.')) {
+    window.location.href = window.location.href.replace('//auth.', '//');
+}
+
 // before rendering the app, always first fetch the current user (if available)
 api.getAuthenticator().refreshAndGetUser().then(user => {
     render(<App user={user} />,
