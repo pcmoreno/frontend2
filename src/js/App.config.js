@@ -34,11 +34,11 @@ const AppConfig = {
                     updateTextField: '/v1/section/textFieldInReport/slug/{slug}'
                 },
                 register: {
-                    participant: '/v1/section/participantSession/slug/{slug}',
-                    participantStatus: '/v1/participant/status/{slug}',
+                    participantStatus: '/v1/user/status/{slug}',
+                    participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}',
                     participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
-                    createAccount: '/v1/participant/invite/create-account/{slug}',
-                    participantLogin: '/v1/participant/invite/login/{slug}'
+                    createAccount: '/v1/user/invite/create-account/{slug}',
+                    participantLogin: '/v1/user/invite/login/{slug}'
                 }
             },
             urlEncodeParams: false,
