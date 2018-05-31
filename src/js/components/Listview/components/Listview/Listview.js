@@ -180,8 +180,6 @@ export default class Listview extends Component {
             }
         }
 
-
-
         // use the first entry in the collection to get the keys as labels and find their translation if available
         const labels = [];
 
