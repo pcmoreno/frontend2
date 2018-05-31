@@ -35,7 +35,7 @@ export default function tasksReducer(state = initialState, action) {
                 let sortValueForConsultantName = '';
 
                 // extract participant infix
-                if (account.hasOwnProperty('infix') && account.infix !== 'undefined') {
+                if (account && account.hasOwnProperty('infix') && account.infix !== 'undefined') {
                     participantInfix = ` ${account.infix} `;
                 }
 

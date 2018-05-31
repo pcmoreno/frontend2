@@ -2,6 +2,8 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import style from './style/detailpanelcontent.scss';
+
 import Participants from './components/Participants/Participants';
 
 export default class DetailPanelContent extends Component {
@@ -24,7 +26,7 @@ export default class DetailPanelContent extends Component {
         }
 
         return (
-            <p>{ output }</p>
+            <p className={ style.p_wrapper }>{ output }</p>
         );
     }
 }

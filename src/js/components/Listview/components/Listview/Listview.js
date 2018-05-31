@@ -168,7 +168,19 @@ export default class Listview extends Component {
 
             // entities were given, but not yet sorted. Perform default sorting
             this.setDefaultSorting(entities);
+        } else {
+            if (this.localEntities !== entities) {
+
+                // when new properties come in, ensure setState is used to update the listView component
+                // todo: I have no idea why this was only needed for the listview inside the detail panel.. anyone??
+                this.setState(this.localEntities = entities);
+
+                // sort in stored order
+                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+            }
         }
+
+
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
         const labels = [];

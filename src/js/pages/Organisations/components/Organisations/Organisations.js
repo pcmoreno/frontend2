@@ -141,7 +141,9 @@ export default class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { refreshDataWithMessage }
+                        afterSubmit = { () => {
+                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
+                        } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
                     />

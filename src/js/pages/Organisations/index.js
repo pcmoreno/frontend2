@@ -71,7 +71,10 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage() {
+    refreshDataWithMessage(entity) {
+
+        // reload the last opened panel (todo: this will break whenever you add organisation for a panel that is not the last)
+        this.fetchEntities(entity, this.props.pathNodes.length - 1);
 
         // hide modal
         document.querySelector('#modal_add_organisation').classList.add('hidden');
@@ -83,7 +86,7 @@ class Index extends Component {
 
         // refresh the items
         // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+        // this.fetchEntities({ id: 0, name: 'what to put here' }, null);
     }
 
     getSectionForEntityType(entity) {
@@ -112,6 +115,10 @@ class Index extends Component {
     }
 
     fetchEntities(entity, panelId) {
+
+        // console.table(entity);
+        // console.log(panelId);
+
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');

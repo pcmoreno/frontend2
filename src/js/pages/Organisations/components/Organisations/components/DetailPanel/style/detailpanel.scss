@@ -8,6 +8,7 @@ $detailpanel-margin: 10px;
     margin: $detailpanel-margin;
     box-sizing: content-box;
     border-radius: $border-radius-regular;
+    overflow: hidden;
 
     /* ie11 */
     float: left;
@@ -168,3 +169,8 @@ $detailpanel-margin: 10px;
    }
 }
 /* stylelint-enable */
+
+
+.main {
+    //overflow: scroll;
+}
