@@ -170,7 +170,7 @@ $detailpanel-margin: 10px;
 }
 /* stylelint-enable */
 
-
-.main {
-    //overflow: scroll;
+.detailpanelcontent_p {
+    height: 100%;
+    overflow: auto;
 }

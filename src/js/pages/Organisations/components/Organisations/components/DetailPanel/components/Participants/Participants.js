@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import Listview from '../../../../../../../../../../components/Listview';
+import Listview from '../../../../../../../../components/Listview/index';
 import style from './style/participants.scss';
 
 /** @jsx h */

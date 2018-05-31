@@ -3,7 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
-import DetailPanelContent from './components/DetailPanelContent/DetailPanelContent';
+import Participants from './components/Participants/Participants';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
@@ -40,8 +40,20 @@ export default class DetailPanel extends Component {
 
     render() {
         const { data, i18n } = this.props;
-        const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
         const entity = data.entity;
+
+        // todo: wrap all possible panels in a switch and use imports (again)
+        // todo: turn in a component similar to participants so it also has scrolling etc.
+        let output = <p id="detailpanel_main_">name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+
+        if (this.localState.activeTab === 'participants') {
+            output = <p className={ style.detailpanelcontent_p }> <Participants
+                openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                participants={ entity.participants }
+                i18n={ i18n }
+            /></p>;
+        }
 
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
@@ -62,14 +74,7 @@ export default class DetailPanel extends Component {
                     i18n={i18n}
                 />
                 <main className={ style.main }>
-                    {/*<p id="detailpanel_main_">{ outputTab }</p>*/}
-                    <DetailPanelContent
-                        openModalToAddParticipant={ this.props.openModalToAddParticipant }
-                        closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
-                        activeTab={ this.localState.activeTab }
-                        participants={ entity.participants }
-                        i18n={i18n}
-                    />
+                    { output }
                 </main>
             </aside>
         );
