@@ -1,7 +1,6 @@
-.wrapper {
-    display: flex;
-}
-
-.scrollable_select_list {
-    flex: 1;
+.toolbar {
+    button {
+        float: left;
+        margin: 1rem;
+    }
 }

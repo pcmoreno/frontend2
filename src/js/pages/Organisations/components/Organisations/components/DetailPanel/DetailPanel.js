@@ -62,8 +62,7 @@ export default class DetailPanel extends Component {
                     i18n={i18n}
                 />
                 <main className={ style.main }>
-                    <p>{ outputTab }</p>
-                    {/*<span className={ style.detailpanel_divider }>some divider</span>*/}
+                    {/*<p id="detailpanel_main_">{ outputTab }</p>*/}
                     <DetailPanelContent
                         openModalToAddParticipant={ this.props.openModalToAddParticipant }
                         closeModalToAddParticipant={ this.props.closeModalToAddParticipant }

@@ -2,9 +2,8 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import style from './style/detailpanelcontent.scss';
-
 import Participants from './components/Participants/Participants';
+import style from './style/detailpanelcontent.scss';
 
 export default class DetailPanelContent extends Component {
     constructor(props) {
@@ -26,7 +25,7 @@ export default class DetailPanelContent extends Component {
         }
 
         return (
-            <p className={ style.p_wrapper }>{ output }</p>
+            <p className={ style.detailpanelcontent_p }>{ output }</p>
         );
     }
 }
