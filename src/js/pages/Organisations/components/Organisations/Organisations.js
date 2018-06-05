@@ -55,7 +55,6 @@ export default class Organisations extends Component {
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
             closeModalToAddJobFunction,
-            closeModalToAddProject,
             i18n
         } = this.props;
 
