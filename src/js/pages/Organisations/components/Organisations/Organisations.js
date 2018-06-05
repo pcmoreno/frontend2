@@ -158,15 +158,23 @@ export default class Organisations extends Component {
                             'childOrganisations',
                             'availableCompetencies',
                             'selectedCompetencies',
-                            'manyOrganisationToOneOrganisation',
                             'products',
                             'projects',
                             'organisationSlug'
                         ] }
-                        hiddenFields={[{ name: 'organisationType', value: 'jobFunction' }]}
+                        hiddenFields={[
+                            { name: 'organisationType', value: 'jobFunction' },
+                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[pathNodes.length - 1].uuid }
+                        ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
+                        translationKeysOverride={{
+                            organisationName: {
+                                label: 'form_job_function_name',
+                                placeholder: 'form_job_function_name_placeholder'
+                            }
+                        }}
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }

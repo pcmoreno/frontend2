@@ -167,6 +167,7 @@ class Index extends Component {
             resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
             closeModal={this.props.closeModal}
             i18n={this.i18n}
+            translationKeysOverride={this.props.translationKeysOverride}
         />);
     }
 }

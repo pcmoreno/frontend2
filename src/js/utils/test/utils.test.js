@@ -195,6 +195,15 @@ test('Utils replaceString should replace a given set of values with new values',
     )).toEqual('https://google.com/123/division/456');
 });
 
+test('Utils camelCaseToSnakeCase should convert strings correctly', () => {
+    expect(Utils.camelCaseToSnakeCase('aaaa')).toEqual('aaaa');
+    expect(Utils.camelCaseToSnakeCase('Aaaa')).toEqual('aaaa');
+    expect(Utils.camelCaseToSnakeCase('AAaa')).toEqual('a_aaa');
+    expect(Utils.camelCaseToSnakeCase('aAaA')).toEqual('a_aa_a');
+    expect(Utils.camelCaseToSnakeCase('toLocaleDateString')).toEqual('to_locale_date_string');
+    expect(Utils.camelCaseToSnakeCase('ABCDE')).toEqual('a_b_c_d_e');
+});
+
 // todo: add unit test for method excludeProps
 // todo: add unit test for method isArray
 // todo: add unit test for method createRootElement
