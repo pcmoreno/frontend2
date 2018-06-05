@@ -3,6 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
+import ListviewEntityItemWidget from './components/ListviewEntityItemWidget/ListviewEntityItemWidget';
 import style from './style/listviewentityitem.scss';
 
 export default class ListviewEntityItem extends Component {
@@ -58,7 +59,7 @@ export default class ListviewEntityItem extends Component {
             value = convertedValues;
         } else if (this.props.link) {
 
-            // value is not an array. see if it is a link
+            // value is a link
             const buttonLabel = this.translate(value);
             const buttonLink = this.props.link;
             const buttonClass = 'action_button';
@@ -68,6 +69,16 @@ export default class ListviewEntityItem extends Component {
                 buttonLink = { buttonLink }
                 buttonClass = { buttonClass }
             />;
+
+        } else if (this.props.widget) {
+
+            // value is  a widget
+            value = <ListviewEntityItemWidget
+                widgetType = { this.props.widget.type }
+                widgetLabel = { this.props.widget.value }
+                widgetAction = { this.props.widget.action }
+            />;
+
         } else if (value !== null && value !== 'undefined') {
 
             // value is not a link so, get its translation

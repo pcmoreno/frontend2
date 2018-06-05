@@ -215,12 +215,16 @@ class Index extends Component {
             ).then(response => {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
-                // store detail panel data in the state
-                this.actions.fetchDetailPanelData(entity, response);
+                // store detail panel data in the state (and send the amend method with it)
+                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
         }
+    }
+
+    amendParticipant(id) {
+        console.log('amending participant id '+id);
     }
 
     // todo: refactor below methods into one 'toggle' method with parameter 'id'

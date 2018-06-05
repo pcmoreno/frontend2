@@ -106,16 +106,18 @@ export function resetChangedFieldsForFormId(formId) {
  * Fetch entities action
  * @param {Object} entity - entity
  * @param {array} data - data
+ * @param {Function} amendParticipant - amendParticipant
  * @returns {{type, data: *}} data to populate detail panel
  */
-export function fetchDetailPanelData(entity, data) {
+export function fetchDetailPanelData(entity, data, amendParticipant) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
     return {
         type: actionType.FETCH_DETAIL_PANEL_DATA,
         entity,
-        data
+        data,
+        amendParticipant
     };
 }
 

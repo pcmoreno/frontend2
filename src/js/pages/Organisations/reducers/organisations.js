@@ -315,6 +315,13 @@ export default function organisationsReducer(state = initialState, action) {
                             },
                             status: {
                                 value: participantStatus
+                            },
+                            someLabel: {
+                                type: 'pencil',
+                                value: '',
+                                action: () => {
+                                    action.amendParticipant(account.id);
+                                }
                             }
                         });
                     } else {

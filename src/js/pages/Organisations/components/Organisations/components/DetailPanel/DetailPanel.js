@@ -24,7 +24,6 @@ export default class DetailPanel extends Component {
     }
 
     toggleFullWidthDetailPanel() {
-
         if (document.querySelector('#panels').classList.contains('hidden')) {
             document.querySelector('#panels').classList.remove('hidden');
             document.querySelector('#panels_container').classList.remove('single_fragment');
@@ -46,7 +45,7 @@ export default class DetailPanel extends Component {
         let output = <p id="detailpanel_main_">name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
 
         // todo: wrap all possible panels in a switch and use imports for each
-        if (this.localState.activeTab === 'participants') {
+        if (this.localState.activeTab.toString() === 'participants') {
             output = <p className={ style.detailpanelcontent_p }> <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
