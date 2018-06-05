@@ -153,3 +153,9 @@ table td.organisation {
 .full_width_sidebar #page_with_sidebar_container button {
     margin-right: 0;
 }
+
+/* the amend icon (pencil) in the list view inside the detail panel needs to reside in smaller column than the rest */
+.amend_participant_label {
+    width: 2rem;
+    text-align: center;
+}

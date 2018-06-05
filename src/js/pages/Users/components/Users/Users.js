@@ -31,6 +31,7 @@ export default class Users extends Component {
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'desc' }
                         i18n={i18n}
+                        translationKey={ 'users_' }
                     />
                 </section>
                 <Sidebar tabs={ tabs } />

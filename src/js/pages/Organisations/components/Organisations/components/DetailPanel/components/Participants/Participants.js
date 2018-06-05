@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
-import Listview from '../../../../../../../../../../components/Listview';
+import Listview from '../../../../../../../../components/Listview/index';
+import style from './style/participants.scss';
 
 /** @jsx h */
 
@@ -13,7 +14,7 @@ export default class Participants extends Component {
 
         return (
             <div>
-                <div className="toolbar">
+                <div className={ style.toolbar }>
                     <button
                         onClick={ this.props.openModalToAddParticipant }
                         className="action_button left"
@@ -22,12 +23,13 @@ export default class Participants extends Component {
                         { i18n.organisations_add_participant }
                     </button>
                 </div>
-                <div className="scrollable-select-list">
+                <div>
                     <Listview
                         entities={ participants }
                         i18n={ i18n }
-                        defaultSortingKey={ 'firstName' }
+                        defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
+                        translationKey={ 'organisations_' }
                     />
                 </div>
             </div>

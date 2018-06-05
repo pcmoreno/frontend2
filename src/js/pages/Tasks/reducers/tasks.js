@@ -1,13 +1,9 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
-import translator from '../../../utils/translator';
 
 const initialState = {
     tasks: []
 };
-
-// todo: Move to view component, don't hardcode language code
-const i18n = translator('nl_NL', 'tasks');
 
 /**
  * Returns the new state
@@ -35,7 +31,7 @@ export default function tasksReducer(state = initialState, action) {
                 let sortValueForConsultantName = '';
 
                 // extract participant infix
-                if (account.hasOwnProperty('infix') && account.infix !== 'undefined') {
+                if (account && account.hasOwnProperty('infix') && account.infix !== 'undefined') {
                     participantInfix = ` ${account.infix} `;
                 }
 
@@ -92,11 +88,11 @@ export default function tasksReducer(state = initialState, action) {
                             value: organisationName
                         },
                         results: {
-                            value: i18n.tasks_show_results,
+                            value: 'show_results',
                             link: '#notimplemented'
                         },
                         report: {
-                            value: i18n.tasks_write_report,
+                            value: 'write_report',
                             link: `/report/${sessionId}`
                         }
                     }

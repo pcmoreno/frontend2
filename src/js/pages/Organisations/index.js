@@ -71,7 +71,10 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage() {
+    refreshDataWithMessage(entity) {
+
+        // reload the last opened panel (todo: this will break whenever you add organisation for a panel that is not the last)
+        this.fetchEntities(entity, this.props.pathNodes.length - 1);
 
         // hide modal
         document.querySelector('#modal_add_organisation').classList.add('hidden');
@@ -83,7 +86,7 @@ class Index extends Component {
 
         // refresh the items
         // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+        // this.fetchEntities({ id: 0, name: 'what to put here' }, null);
     }
 
     getSectionForEntityType(entity) {
@@ -112,6 +115,10 @@ class Index extends Component {
     }
 
     fetchEntities(entity, panelId) {
+
+        // console.table(entity);
+        // console.log(panelId);
+
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
@@ -188,7 +195,7 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,projectName,participantSessions,accountHasRole,account,firstName',
+                        fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
                         limit: 10000
                     },
                     identifiers: {
@@ -208,12 +215,17 @@ class Index extends Component {
             ).then(response => {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
-                // store detail panel data in the state
-                this.actions.fetchDetailPanelData(entity, response);
+                // store detail panel data in the state (and send the amend method with it)
+                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
         }
+    }
+
+    amendParticipant() {
+
+        // todo: add real logic here, see NEON-3560
     }
 
     // todo: refactor below methods into one 'toggle' method with parameter 'id'

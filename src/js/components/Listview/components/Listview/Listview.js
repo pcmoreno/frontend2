@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 
-/** Preact Listview Component v2.0
+/** Preact Listview Component v2.1
  *
  *  requires its data (this.props.entities) to be a collection (array) of objects written in this format:
  *
@@ -20,10 +20,21 @@ import style from './style/listview.scss';
  *
  * allows providing an array of values instead of single value (arrays are sorted alphabetically by default)
  * for each value / array key an attempt to find a matching translation is made (values are trimmed and lowercased)
- * if translationKey was not provided, retrieving a default translation will be attempted, too ('listview|<value>')
+ * if translationKey was not provided, retrieving a default translation will be attempted, too ('listview|<value>') todo: will this stay in?
  * by providing a sortingKey, values can be displayed independent from their sorting behaviour (useful for dates)
  * values can be strings, arrays of strings, or arrays of objects. (but they need to be in the 'value' key, see example)
  * a <a href class="button-action"> is output when you provide a 'link' to go with the value, which becomes its label
+ * you can add a custom widget (for example, an icon) with the following syntax:
+ *
+ *  a_column_label_that_can_be_left_empty_in_your_i18n_if_required: {
+ *      type: 'pencil',
+ *      value: '',
+ *      action: () => { action.amendParticipant(account.id); }
+ * }
+ *
+ * the 'type' can be extended with your own custom type if required
+ * the 'value' can be leveraged to provide texts for buttons or labels
+ * the 'action' is the method that is called on clicking the widget. note this needs to be passed on to action / reducer
  **/
 
 export default class Listview extends Component {
@@ -168,6 +179,16 @@ export default class Listview extends Component {
 
             // entities were given, but not yet sorted. Perform default sorting
             this.setDefaultSorting(entities);
+        } else {
+            if (this.localEntities !== entities) {
+
+                // when new properties come in, ensure setState is used to update the listView component
+                // todo: I have no idea why this was only needed for the listview inside the detail panel.. anyone??
+                this.setState(this.localEntities = entities);
+
+                // sort in stored order
+                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+            }
         }
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
@@ -176,28 +197,31 @@ export default class Listview extends Component {
         Object.keys(this.localEntities[0]).forEach(key => {
             let label = key;
 
-            // if (translationKey) {
-            //     // if translationKey was provided, see if it can be retrieved. otherwise resort to key
-            //     const translatedLabel = i18n.translations[translationKey + '|' + key];
-            //     label = translatedLabel ? translatedLabel : key;
-            //     todo: do this when Lokalise is integrated
-            // }
+            if (translationKey) {
 
-            if (label === key) {
+                // todo: linting doesnt allow snake_case identifiers and Sanders' util needs to be integrated here
+                if (key === 'amendParticipantLabel') {
+                    key = 'amend_participant_label';
+                }
 
-                // translationKey was not provided, see if a generic translation can be found
-                // const genericLabel = i18n.translations['listview|' + key];
-                // todo: do this when Lokalise is integrated
+                // if translationKey was provided, see if it can be retrieved. otherwise resort to key
+                const translatedLabel = i18n[`${translationKey}${key}`];
 
-                const genericLabel = key;
-
-                label = genericLabel ? genericLabel : key;
+                label = translatedLabel ? translatedLabel : key;
             }
+
+            // todo: generic listview translations are currently disabled and I wonder whether we should bring it back
+            // if (label === key) {
+            //     translationKey was not provided, see if a generic translation can be found
+            //     const genericLabel = i18n.translations['listview|' + key];
+            //     const genericLabel = key;
+            //     label = genericLabel ? genericLabel : key;
+            // }
 
             labels.push([label, key]);
         });
 
-        let output = this.localEntities.map((entity, index) =>
+        const output = this.localEntities.map((entity, index) =>
             <ListviewEntity
                 key={ index }
                 entity={ entity }
