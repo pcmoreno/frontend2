@@ -42,10 +42,10 @@ export default class DetailPanel extends Component {
         const { data, i18n } = this.props;
         const entity = data.entity;
 
-        // todo: wrap all possible panels in a switch and use imports (again)
         // todo: turn in a component similar to participants so it also has scrolling etc.
         let output = <p id="detailpanel_main_">name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
 
+        // todo: wrap all possible panels in a switch and use imports for each
         if (this.localState.activeTab === 'participants') {
             output = <p className={ style.detailpanelcontent_p }> <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }

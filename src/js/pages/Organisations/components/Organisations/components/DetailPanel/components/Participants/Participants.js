@@ -27,7 +27,7 @@ export default class Participants extends Component {
                     <Listview
                         entities={ participants }
                         i18n={ i18n }
-                        defaultSortingKey={ 'firstName' }
+                        defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
                     />
                 </div>
