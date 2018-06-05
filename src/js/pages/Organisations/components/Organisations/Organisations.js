@@ -42,7 +42,7 @@ export default class Organisations extends Component {
         const {
             panels,
             fetchEntities,
-            openModalToAddOrganisation,
+            panelHeaderAddMethods,
             pathNodes,
             alertComponent,
             fetchDetailPanelData,
@@ -54,6 +54,8 @@ export default class Organisations extends Component {
             refreshDataWithMessage,
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
+            closeModalToAddJobFunction,
+            closeModalToAddProject,
             i18n
         } = this.props;
 
@@ -61,9 +63,9 @@ export default class Organisations extends Component {
         const panelContainer = <Panels
             panels={ panels }
             pathNodes={ pathNodes }
+            panelHeaderAddMethods={panelHeaderAddMethods}
             fetchEntities={ fetchEntities }
             fetchDetailPanelData={ fetchDetailPanelData }
-            openModalToAddOrganisation={ openModalToAddOrganisation }
             i18n={i18n}
         />;
 
@@ -101,10 +103,9 @@ export default class Organisations extends Component {
                             'manyOrganisationToOneOrganisation',
                             'products',
                             'projects',
-                            'organisationType',
                             'organisationSlug'
                         ] }
-                        hiddenFields={[]}
+                        hiddenFields={[{ name: 'organisationType', value: 'organisation' }]}
                         headerText={i18n.organisations_add_organisation}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
@@ -143,6 +144,35 @@ export default class Organisations extends Component {
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddParticipant }
+                        languageId={ this.props.languageId }
+                    />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_job_function">
+                    <Form
+                        formId={ 'addJobFunction' }
+                        sectionId={ 'organisation' }
+                        method={ FormMethod.CREATE_SECTION }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'childOrganisations',
+                            'availableCompetencies',
+                            'selectedCompetencies',
+                            'manyOrganisationToOneOrganisation',
+                            'products',
+                            'projects',
+                            'organisationSlug'
+                        ] }
+                        hiddenFields={[{ name: 'organisationType', value: 'jobFunction' }]}
+                        headerText={i18n.organisations_add_job_function}
+                        submitButtonText={i18n.organisations_add}
+                        forms={ forms }
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
+                        afterSubmit = { refreshDataWithMessage }
+                        closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }
                     />
                 </aside>

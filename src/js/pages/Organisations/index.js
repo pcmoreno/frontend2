@@ -29,11 +29,21 @@ class Index extends Component {
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+        this.openModalToAddJobFunction = this.openModalToAddJobFunction.bind(this);
+        this.closeModalToAddJobFunction = this.closeModalToAddJobFunction.bind(this);
+        this.openModalToAddProject = this.openModalToAddProject.bind(this);
+        this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
         this.logger = Logger.instance;
+
+        this.panelHeaderAddMethods = {
+            organisation: this.openModalToAddOrganisation,
+            jobFunction: this.openModalToAddJobFunction,
+            project: this.openModalToAddProject
+        };
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -234,12 +244,29 @@ class Index extends Component {
         document.querySelector('#modal_add_participant').classList.add('hidden');
     }
 
+    openModalToAddJobFunction() {
+        document.querySelector('#modal_add_job_function').classList.remove('hidden');
+    }
+
+    closeModalToAddJobFunction() {
+        document.querySelector('#modal_add_job_function').classList.add('hidden');
+    }
+
+    openModalToAddProject() {
+        document.querySelector('#modal_add_project').classList.remove('hidden');
+    }
+
+    closeModalToAddProject() {
+        document.querySelector('#modal_add_project').classList.add('hidden');
+    }
+
     render() {
         const { panels, forms, detailPanelData, pathNodes } = this.props;
 
         return (
             <Organisations
                 panels = { panels }
+                panelHeaderAddMethods={ this.panelHeaderAddMethods }
                 forms={ forms }
                 detailPanelData = { detailPanelData }
                 pathNodes = { pathNodes }
@@ -249,8 +276,9 @@ class Index extends Component {
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
-                openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
+                closeModalToAddProject={ this.closeModalToAddProject }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 i18n = { translator(this.props.languageId, 'organisations') }
