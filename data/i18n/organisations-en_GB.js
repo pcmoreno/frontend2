@@ -192,5 +192,6 @@ export default {
     "organisations_add_job_function_error": "An error occurred while adding the job function, please try again later",
     "organisations_add_custom_competency_error": "An error occurred while adding the competencies, please try again later",
     "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later",
-    "organisations_amend_participant_label": " "
+    "organisations_amend_participant_label": " ",
+    "organisations_amend_participant": "Edit participant"
 };

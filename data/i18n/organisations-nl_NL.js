@@ -192,5 +192,6 @@ export default {
     "organisations_add_job_function_error": "Er is een fout opgetreden bij het aanmaken van het functieprofiel van een deelnemer, probeer het later nogmaals",
     "organisations_add_custom_competency_error": "Er is een fout opgetreden bij het toevoegen van competenties, probeer het later nogmaals",
     "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals",
-    "organisations_amend_participant_label": " "
+    "organisations_amend_participant_label": " ",
+    "organisations_amend_participant": "Deelnemer bewerken"
 };
