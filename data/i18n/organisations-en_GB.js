@@ -17,7 +17,7 @@ export default {
     "organisations_job_function": "Job function",
     "organisations_add_project": "add project",
     "organisations_add_project_placeholder_name": "Enter a name for the project",
-    "organisations_add_job_function": "add job function",
+    "organisations_add_job_function": "Add job function",
     "organisations_add_job_function_placeholder_name": "Enter a name for the job function",
     "organisations_added": "added",
     "organisations_invited": "invited",
