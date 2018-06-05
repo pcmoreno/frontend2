@@ -44,7 +44,7 @@ export default function tasksReducer(state = initialState, action) {
                 const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
                 // extract consultant name
-                if (task.hasOwnProperty('consultant')) {
+                if (task.consultant && task.consultant.account) {
 
                     // extract consultant infix
                     if (task.consultant.account.hasOwnProperty('infix') && task.consultant.account.infix !== 'undefined') {

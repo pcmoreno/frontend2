@@ -13,8 +13,8 @@ export default {
     "organisations_add_organisation_placeholder_name": "Enter a name for the organisation",
     "organisations_close": "close",
     "organisations_invite": "invite",
-    "organisations_project": "project",
-    "organisations_job_function": "job function",
+    "organisations_project": "Project",
+    "organisations_job_function": "Job function",
     "organisations_add_project": "add project",
     "organisations_add_project_placeholder_name": "Enter a name for the project",
     "organisations_add_job_function": "add job function",
@@ -57,7 +57,7 @@ export default {
     "organisations_add_manager_placeholder_infix": "Enter an infix for the manager",
     "organisations_add_manager_placeholder_surname": "Enter a surname for the manager",
     "organisations_add_manager_placeholder_email": "Enter an email address for the manager",
-    "organisations_projects": "project(s)",
+    "organisations_projects": "Project(s)",
     "organisations_competencies": "competencies",
     "organisations_competenties_ltp": "LTP competencies",
     "organisations_competencies_custom": "custom competencies",
@@ -191,5 +191,6 @@ export default {
     "organisations_add_organisation_error": "An error occurred while adding the organisation, please try again later",
     "organisations_add_job_function_error": "An error occurred while adding the job function, please try again later",
     "organisations_add_custom_competency_error": "An error occurred while adding the competencies, please try again later",
-    "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later"
+    "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later",
+    "organisations_amend_participant_label": " "
 };

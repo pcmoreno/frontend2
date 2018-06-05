@@ -211,7 +211,7 @@ class App extends Component {
 
                         {/* Register routes: 1st is main route, others are legacy routes */}
                         {/* Keep the legacy endpoints so only dns redirection (cname) will do the job */}
-                        <AsyncRoute path="/register/:participantSessionId" getComponent={ getRegister } />
+                        <AsyncRoute path="/register/:accountHasRoleId" getComponent={ getRegister } />
                         <AsyncRoute path="/terms_and_conditions/:projectId/:participantSessionId" getComponent={ getRegister } />
                         <AsyncRoute path="/register/:projectId/:participantSessionId" getComponent={ getRegister } />
 
@@ -227,6 +227,12 @@ class App extends Component {
             </Provider>
         );
     }
+}
+
+// todo: before doing anything, redirect auth.ltponline.com to ltponline.com
+// todo: this can be removed once legacy invitation links should not be supported anymore
+if (~window.location.href.indexOf('//auth.')) {
+    window.location.href = window.location.href.replace('//auth.', '//');
 }
 
 // before rendering the app, always first fetch the current user (if available)

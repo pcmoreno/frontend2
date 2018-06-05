@@ -1,7 +1,7 @@
 export default {
     "organisations_participants": "Deelnemers",
     "organisations_consultant": "adviseur",
-    "organisations_organisation": "organisatie",
+    "organisations_organisation": "Organisatie",
     "organisations_add": "Voeg toe",
     "organisations_name": "naam",
     "organisations_status": "status",
@@ -13,8 +13,8 @@ export default {
     "organisations_add_organisation_placeholder_name": "Vul een naam in voor de organisatie",
     "organisations_close": "sluit",
     "organisations_invite": "",
-    "organisations_project": "project",
-    "organisations_job_function": "job functie",
+    "organisations_project": "Project",
+    "organisations_job_function": "Job functie",
     "organisations_add_project": "",
     "organisations_add_project_placeholder_name": "",
     "organisations_add_job_function": "voeg functie toe",
@@ -57,7 +57,7 @@ export default {
     "organisations_add_manager_placeholder_infix": "Vul een tussenvoegsel in voor de manager",
     "organisations_add_manager_placeholder_surname": "Vul een achternaam in voor de manager",
     "organisations_add_manager_placeholder_email": "Vul een e-mailadres in voor de manager",
-    "organisations_projects": "project(en)",
+    "organisations_projects": "Project(en)",
     "organisations_competencies": "competenties",
     "organisations_competenties_ltp": "LTP competenties",
     "organisations_competencies_custom": "klantspecifieke competenties",
@@ -191,5 +191,6 @@ export default {
     "organisations_add_organisation_error": "Er is een fout opgetreden bij het aanmaken van een organisatie, probeer het later nogmaals",
     "organisations_add_job_function_error": "Er is een fout opgetreden bij het aanmaken van het functieprofiel van een deelnemer, probeer het later nogmaals",
     "organisations_add_custom_competency_error": "Er is een fout opgetreden bij het toevoegen van competenties, probeer het later nogmaals",
-    "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals"
+    "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals",
+    "organisations_amend_participant_label": " "
 };
