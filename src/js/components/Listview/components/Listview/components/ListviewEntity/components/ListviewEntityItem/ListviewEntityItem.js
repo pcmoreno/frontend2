@@ -14,6 +14,8 @@ export default class ListviewEntityItem extends Component {
         if (translationKey) {
 
             // convert to lowercase and replace space with dash
+            // todo: add Sander' util here to convert camelCase to snake_case
+
             const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
 
             if (i18n[`${translationKey}${translatableElement}`]) {
@@ -27,6 +29,7 @@ export default class ListviewEntityItem extends Component {
     render() {
         const { entityId } = this.props;
         let { value } = this.props;
+        let title;
 
         if (Array.isArray(value)) {
 
@@ -65,6 +68,8 @@ export default class ListviewEntityItem extends Component {
                 buttonClass = { buttonClass }
             />;
 
+            title = buttonLabel;
+
         } else if (this.props.widget) {
 
             // value is  a widget
@@ -74,14 +79,17 @@ export default class ListviewEntityItem extends Component {
                 widgetAction = { this.props.widget.action }
             />;
 
+            title = this.props.widget.value;
+
         } else if (value !== null && value !== 'undefined') {
 
             // value is not a link or widget, so get its translation
             value = this.translate(value);
+            title = value;
         }
 
         return (
-            <td title={ value } className={ `${style.td} ${entityId}` }>
+            <td title={ title } className={ `${style.td} ${entityId}` }>
                 { value }
             </td>
         );

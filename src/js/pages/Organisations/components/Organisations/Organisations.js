@@ -2,6 +2,9 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'preact-redux';
+import * as alertActions from './../../../../components/Alert/actions/alert';
 import Logger from '../../../../utils/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
@@ -11,16 +14,23 @@ import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 
-export default class Organisations extends Component {
+class Organisations extends Component {
     constructor(props) {
         super(props);
+
+        const { dispatch } = this.props;
+
+        this.actions = bindActionCreators(
+            Object.assign({}, alertActions),
+            dispatch
+        );
 
         this.logger = Logger.instance;
         this.getDetailPanelData = this.getDetailPanelData.bind(this);
     }
 
+    // todo: can this be moved to index.js?
     getDetailPanelData() {
-
         let newDetailPanelData;
 
         // return the active detail panel data instance
@@ -143,6 +153,7 @@ export default class Organisations extends Component {
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
                             refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
+                            this.actions.addAlert({ type: 'success', text: i18n.organisations_add_participant_success });
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
@@ -152,3 +163,5 @@ export default class Organisations extends Component {
         );
     }
 }
+
+export default connect()(Organisations);

@@ -1,13 +1,9 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
-import translator from '../../../utils/translator';
 
 const initialState = {
     tasks: []
 };
-
-// todo: Move to view component, don't hardcode language code
-const i18n = translator('nl_NL', 'tasks');
 
 /**
  * Returns the new state

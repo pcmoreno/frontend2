@@ -146,7 +146,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
-                        limit: 1000
+                        limit: 10000
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -196,7 +196,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
-                        limit: 1000
+                        limit: 10000
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -223,8 +223,9 @@ class Index extends Component {
         }
     }
 
-    amendParticipant(id) {
-        console.log('amending participant id '+id);
+    amendParticipant() {
+
+        // todo: add real logic here, see NEON-3560
     }
 
     // todo: refactor below methods into one 'toggle' method with parameter 'id'

@@ -70,7 +70,7 @@ export default class DetailPanel extends Component {
                     entity={ entity }
                     activeTab={ this.localState.activeTab }
                     switchTab={ this.switchTab }
-                    i18n={i18n}
+                    i18n={ i18n }
                 />
                 <main className={ style.main }>
                     { output }

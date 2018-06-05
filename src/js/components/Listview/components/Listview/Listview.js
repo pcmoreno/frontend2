@@ -199,6 +199,11 @@ export default class Listview extends Component {
 
             if (translationKey) {
 
+                // todo: linting doesnt allow snake_case identifiers and Sanders' util needs to be integrated here
+                if (key === 'amendParticipantLabel') {
+                    key = 'amend_participant_label';
+                }
+
                 // if translationKey was provided, see if it can be retrieved. otherwise resort to key
                 const translatedLabel = i18n[`${translationKey}${key}`];
 

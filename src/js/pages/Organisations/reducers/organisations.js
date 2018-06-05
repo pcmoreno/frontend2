@@ -315,7 +315,7 @@ export default function organisationsReducer(state = initialState, action) {
                             status: {
                                 value: participantStatus
                             },
-                            amend_participant_label: {
+                            amendParticipantLabel: {
                                 type: 'pencil',
                                 value: '',
                                 action: () => {
