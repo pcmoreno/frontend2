@@ -92,11 +92,11 @@ export default function tasksReducer(state = initialState, action) {
                             value: organisationName
                         },
                         results: {
-                            value: i18n.tasks_show_results,
+                            value: 'show_results',
                             link: '#notimplemented'
                         },
                         report: {
-                            value: i18n.tasks_write_report,
+                            value: 'write_report',
                             link: `/report/${sessionId}`
                         }
                     }

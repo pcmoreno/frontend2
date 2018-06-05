@@ -146,7 +146,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
-                        limit: 10000
+                        limit: 1000
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -196,7 +196,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
-                        limit: 10000
+                        limit: 1000
                     },
                     identifiers: {
                         identifier: entity.id,

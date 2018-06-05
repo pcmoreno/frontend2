@@ -1,30 +1,25 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
 import ListviewEntityItemWidget from './components/ListviewEntityItemWidget/ListviewEntityItemWidget';
 import style from './style/listviewentityitem.scss';
+
+/** @jsx h */
 
 export default class ListviewEntityItem extends Component {
     translate(element) {
 
         // returns either the translation for element, or the original element
-        // const { translationKey, i18n } = this.props;
-        //
-        // if (translationKey) {
-        //
-        //     // convert to lowercase and replace space with dash
-        //     const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
-        //
-        //     if (i18n.translations[translationKey + '|' + translatableElement]) {
-        //         return i18n.translations[translationKey + '|' + translatableElement];
-        //     } else {
-        //         return element;
-        //     }
-        // }
+        const { translationKey, i18n } = this.props;
 
-        // todo: do this when Lokalise is integrated
+        if (translationKey) {
+
+            // convert to lowercase and replace space with dash
+            const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
+
+            if (i18n[`${translationKey}${translatableElement}`]) {
+                return i18n[`${translationKey}${translatableElement}`];
+            }
+        }
 
         return element;
     }
@@ -81,7 +76,7 @@ export default class ListviewEntityItem extends Component {
 
         } else if (value !== null && value !== 'undefined') {
 
-            // value is not a link so, get its translation
+            // value is not a link or widget, so get its translation
             value = this.translate(value);
         }
 

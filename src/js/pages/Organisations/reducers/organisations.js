@@ -308,7 +308,6 @@ export default function organisationsReducer(state = initialState, action) {
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
                         participants.push({
-                            id: { value: account.id },
                             name: {
                                 value: participantName,
                                 sortingKey: sortValueForParticipantName
@@ -316,7 +315,7 @@ export default function organisationsReducer(state = initialState, action) {
                             status: {
                                 value: participantStatus
                             },
-                            someLabel: {
+                            amend_participant_label: {
                                 type: 'pencil',
                                 value: '',
                                 action: () => {
