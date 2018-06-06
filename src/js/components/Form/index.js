@@ -138,7 +138,7 @@ class Index extends Component {
 
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
-                this.props.afterSubmit();
+                this.props.afterSubmit(response);
 
                 // resolve with nothing by default (success)
                 return resolve();

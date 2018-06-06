@@ -14,7 +14,10 @@ const initialState = {
             type: AppConfig.global.organisations.rootEntity.type,
             participants: []
         }
-    }]
+    }],
+
+    // this value is set to determine which panel is active and opened a form
+    formOpenByPanelId: null
 };
 
 /**
@@ -314,6 +317,12 @@ export default function organisationsReducer(state = initialState, action) {
             newState.panels = [];
             newState.pathNodes = [];
             newState.detailPanelData = [];
+
+            break;
+
+        case actionType.SET_FORM_OPEN_BY_PANEL_ID:
+
+            newState.formOpenByPanelId = action.panelId;
 
             break;
 

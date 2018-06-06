@@ -41,6 +41,11 @@ export default class Organisations extends Component {
     render() {
         const {
             panels,
+
+            // panel id represents the non-zero based index the active panel, used to determine the right parent
+            // when trying to add entities. Which is current panel - 1 (previous selected item)
+            formOpenByPanelId,
+
             fetchEntities,
             panelHeaderAddMethods,
             pathNodes,
@@ -62,7 +67,7 @@ export default class Organisations extends Component {
         const panelContainer = <Panels
             panels={ panels }
             pathNodes={ pathNodes }
-            panelHeaderAddMethods={panelHeaderAddMethods}
+            panelHeaderAddMethods={ panelHeaderAddMethods }
             fetchEntities={ fetchEntities }
             fetchDetailPanelData={ fetchDetailPanelData }
             i18n={i18n}
@@ -111,7 +116,9 @@ export default class Organisations extends Component {
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { refreshDataWithMessage }
+                        afterSubmit = { response => {
+                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response, 'organisation');
+                        } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }
                     />
@@ -162,9 +169,11 @@ export default class Organisations extends Component {
                             'projects',
                             'organisationSlug'
                         ] }
+
+                        // when panelId was not set, fallback to pathnode 0
                         hiddenFields={[
                             { name: 'organisationType', value: 'jobFunction' },
-                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[pathNodes.length - 1].uuid }
+                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[(formOpenByPanelId || 1) - 1].uuid }
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
@@ -178,7 +187,9 @@ export default class Organisations extends Component {
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { refreshDataWithMessage }
+                        afterSubmit = { response => {
+                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response, 'jobFunction');
+                        } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }
                     />

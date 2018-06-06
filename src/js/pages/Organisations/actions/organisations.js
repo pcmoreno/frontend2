@@ -128,3 +128,15 @@ export function resetOrganisations() {
         type: actionType.RESET_ORGANISATIONS
     };
 }
+
+/**
+ * Sets the active panel id for the forms
+ * @param {number} panelId - panel id
+ * @returns {undefined}
+ */
+export function setFormOpenByPanelId(panelId) {
+    return {
+        type: actionType.SET_FORM_OPEN_BY_PANEL_ID,
+        panelId
+    };
+}
