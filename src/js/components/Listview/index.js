@@ -30,14 +30,15 @@ class Index extends Component {
     }
 
     render() {
-
-        const { entities, defaultSortingKey, defaultSortingOrder, alerts } = this.props;
+        const { entities, defaultSortingKey, defaultSortingOrder, translationKey, alerts, i18n } = this.props;
 
         return (<Listview
             entities = { entities }
             defaultSortingKey = { defaultSortingKey }
             defaultSortingOrder = { defaultSortingOrder }
+            translationKey = { translationKey }
             alerts = { alerts }
+            i18n = { i18n }
         />);
     }
 }

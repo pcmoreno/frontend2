@@ -8,6 +8,7 @@ $detailpanel-margin: 10px;
     margin: $detailpanel-margin;
     box-sizing: content-box;
     border-radius: $border-radius-regular;
+    overflow: hidden;
 
     /* ie11 */
     float: left;
@@ -117,7 +118,7 @@ $detailpanel-margin: 10px;
 }
 
 .button_hide_detailpanel {
-    /*  only show the hide detailpanel button on responsive views */
+    /* only show the hide detailpanel button on responsive views */
     display: none;
     position: absolute;
     top: 10px;
@@ -168,3 +169,8 @@ $detailpanel-margin: 10px;
    }
 }
 /* stylelint-enable */
+
+.detailpanelcontent_p {
+    height: 100%;
+    overflow: auto;
+}

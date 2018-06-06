@@ -1,0 +1,13 @@
+.pencil {
+    border: none;
+    background: none;
+    color: $blue;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    button svg {
+        margin: .5rem;
+    }
+}

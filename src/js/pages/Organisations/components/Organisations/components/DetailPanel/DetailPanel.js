@@ -3,7 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
-import DetailPanelContent from './components/DetailPanelContent/DetailPanelContent';
+import Participants from './components/Participants/Participants';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
@@ -24,7 +24,6 @@ export default class DetailPanel extends Component {
     }
 
     toggleFullWidthDetailPanel() {
-
         if (document.querySelector('#panels').classList.contains('hidden')) {
             document.querySelector('#panels').classList.remove('hidden');
             document.querySelector('#panels_container').classList.remove('single_fragment');
@@ -40,8 +39,20 @@ export default class DetailPanel extends Component {
 
     render() {
         const { data, i18n } = this.props;
-        const outputTab = <p>name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
         const entity = data.entity;
+
+        // todo: turn in a component similar to participants so it also has scrolling etc.
+        let output = <p id="detailpanel_main_">name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+
+        // todo: wrap all possible panels in a switch and use imports for each
+        if (this.localState.activeTab.toString() === 'participants') {
+            output = <p className={ style.detailpanelcontent_p }> <Participants
+                openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                participants={ entity.participants }
+                i18n={ i18n }
+            /></p>;
+        }
 
         return (
             <aside className={`${style.detailpanel} hidden`} id="detailpanel">
@@ -59,18 +70,10 @@ export default class DetailPanel extends Component {
                     entity={ entity }
                     activeTab={ this.localState.activeTab }
                     switchTab={ this.switchTab }
-                    i18n={i18n}
+                    i18n={ i18n }
                 />
-                <main>
-                    <p>{ outputTab }</p>
-                    <span className={ style.detailpanel_divider }>some divider</span>
-                    <DetailPanelContent
-                        openModalToAddParticipant={ this.props.openModalToAddParticipant }
-                        closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
-                        activeTab={ this.localState.activeTab }
-                        participants={ entity.participants }
-                        i18n={i18n}
-                    />
+                <main className={ style.main }>
+                    { output }
                 </main>
             </aside>
         );

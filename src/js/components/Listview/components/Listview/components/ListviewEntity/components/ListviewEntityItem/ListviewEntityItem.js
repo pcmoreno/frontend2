@@ -1,29 +1,27 @@
 import { h, Component } from 'preact';
+import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
+import ListviewEntityItemWidget from './components/ListviewEntityItemWidget/ListviewEntityItemWidget';
+import style from './style/listviewentityitem.scss';
 
 /** @jsx h */
-
-import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
-import style from './style/listviewentityitem.scss';
 
 export default class ListviewEntityItem extends Component {
     translate(element) {
 
         // returns either the translation for element, or the original element
-        // const { translationKey, i18n } = this.props;
-        //
-        // if (translationKey) {
-        //
-        //     // convert to lowercase and replace space with dash
-        //     const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
-        //
-        //     if (i18n.translations[translationKey + '|' + translatableElement]) {
-        //         return i18n.translations[translationKey + '|' + translatableElement];
-        //     } else {
-        //         return element;
-        //     }
-        // }
+        const { translationKey, i18n } = this.props;
 
-        // todo: do this when Lokalise is integrated
+        if (translationKey) {
+
+            // convert to lowercase and replace space with dash
+            // todo: add Sander' util here to convert camelCase to snake_case
+
+            const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
+
+            if (i18n[`${translationKey}${translatableElement}`]) {
+                return i18n[`${translationKey}${translatableElement}`];
+            }
+        }
 
         return element;
     }
@@ -31,6 +29,7 @@ export default class ListviewEntityItem extends Component {
     render() {
         const { entityId } = this.props;
         let { value } = this.props;
+        let title;
 
         if (Array.isArray(value)) {
 
@@ -58,7 +57,7 @@ export default class ListviewEntityItem extends Component {
             value = convertedValues;
         } else if (this.props.link) {
 
-            // value is not an array. see if it is a link
+            // value is a link
             const buttonLabel = this.translate(value);
             const buttonLink = this.props.link;
             const buttonClass = 'action_button';
@@ -68,14 +67,29 @@ export default class ListviewEntityItem extends Component {
                 buttonLink = { buttonLink }
                 buttonClass = { buttonClass }
             />;
+
+            title = buttonLabel;
+
+        } else if (this.props.widget) {
+
+            // value is  a widget
+            value = <ListviewEntityItemWidget
+                widgetType = { this.props.widget.type }
+                widgetLabel = { this.props.widget.value }
+                widgetAction = { this.props.widget.action }
+            />;
+
+            title = this.props.widget.value;
+
         } else if (value !== null && value !== 'undefined') {
 
-            // value is not a link so, get its translation
+            // value is not a link or widget, so get its translation
             value = this.translate(value);
+            title = value;
         }
 
         return (
-            <td title={ value } className={ `${style.td} ${entityId}` }>
+            <td title={ title } className={ `${style.td} ${entityId}` }>
                 { value }
             </td>
         );

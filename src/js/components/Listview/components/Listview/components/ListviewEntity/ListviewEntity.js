@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import ListviewEntityItem from './components/ListviewEntityItem/ListviewEntityItem';
 import style from './style/listviewentity.scss';
+
+/** @jsx h */
 
 export default class ListviewEntity extends Component {
     render() {
@@ -14,10 +13,24 @@ export default class ListviewEntity extends Component {
             const value = entity[entityKey].value;
 
             // in case a link was supplied together with a value, hand it over to the child component
+            // todo: at some point investigate if 'link' can be turned into a widget, too
             let link;
 
             if (entity[entityKey].link) {
                 link = entity[entityKey].link;
+            }
+
+            // in case a widget was supplied together with a value, hand it over to the child component
+            let widget;
+
+            if (entity[entityKey].type) {
+
+                // type was specified, assume its a widget and construct an object that can be handed over
+                widget = {
+                    type: entity[entityKey].type,
+                    value: entity[entityKey].value,
+                    action: entity[entityKey].action
+                };
             }
 
             entityItems.push(
@@ -26,6 +39,7 @@ export default class ListviewEntity extends Component {
                     entityId={ entityKey }
                     value={ value }
                     link={ link }
+                    widget={ widget }
                     i18n={ i18n }
                     translationKey={ translationKey }
                 />

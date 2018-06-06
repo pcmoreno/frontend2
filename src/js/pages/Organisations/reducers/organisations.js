@@ -291,10 +291,45 @@ export default function organisationsReducer(state = initialState, action) {
             if (action.data.participantSessions) {
                 action.data.participantSessions.forEach(participant => {
 
-                    if (participant.accountHasRole.account.firstName) {
+                    if (participant.hasOwnProperty('accountHasRole') && participant.accountHasRole.hasOwnProperty('account')) {
+
+                        let participantInfix = ' ';
+                        const account = participant.accountHasRole.account;
+
+                        if (account.hasOwnProperty('infix') && account.infix !== 'undefined') {
+                            participantInfix = ` ${account.infix} `;
+                        }
+
+                        let participantStatus = '';
+
+                        if (participant.accountHasRole.hasOwnProperty('genericRoleStatus')) {
+                            participantStatus = participant.accountHasRole.genericRoleStatus;
+                        }
+
+                        // construct consultant name
+                        const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
+                        const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
+
                         participants.push({
-                            id: { value: participant.accountHasRole.account.id },
-                            firstName: { value: participant.accountHasRole.account.firstName }
+                            name: {
+                                value: participantName,
+                                sortingKey: sortValueForParticipantName
+                            },
+                            status: {
+                                value: participantStatus
+                            },
+                            amendParticipantLabel: {
+                                type: 'pencil',
+                                value: '',
+                                action: () => {
+                                    action.amendParticipant(account.id);
+                                }
+                            }
+                        });
+                    } else {
+                        logger.error({
+                            component: 'FETCH_DETAIL_PANEL_DATA',
+                            message: 'participant has no account key'
                         });
                     }
                 });
