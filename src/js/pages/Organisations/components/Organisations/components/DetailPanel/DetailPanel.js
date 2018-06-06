@@ -11,7 +11,7 @@ export default class DetailPanel extends Component {
     constructor(props) {
         super(props);
 
-        // keep track of opened tab (defaults to 'information')
+        // keep track of opened tab (defaults to 'information') todo: add to constants
         this.localState = {
             activeTab: 'information'
         };
@@ -49,6 +49,8 @@ export default class DetailPanel extends Component {
             output = <p className={ style.detailpanelcontent_p }> <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                openModalToAmendParticipant={ this.props.openModalToAmendParticipant }
+                closeModalToAmendParticipant={ this.props.closeModalToAmendParticipant }
                 participants={ entity.participants }
                 i18n={ i18n }
             /></p>;
@@ -62,8 +64,20 @@ export default class DetailPanel extends Component {
                             <FontAwesomeIcon icon="spinner"/>
                         </span>
                     </div>
-                    <span tabIndex="0" className={ style.button_hide_detailpanel } onClick={ this.closeDetailPanel } role="button">x</span>
-                    <span tabIndex="0" className={ style.button_fullwidth_detailpanel } onClick={ this.toggleFullWidthDetailPanel } role="button">&#11013;</span>
+                    <span
+                        tabIndex="0"
+                        className={ style.button_hide_detailpanel }
+                        onClick={ this.closeDetailPanel }
+                        role="button">
+                        x
+                    </span>
+                    <span
+                        tabIndex="0"
+                        className={ style.button_fullwidth_detailpanel }
+                        onClick={ this.toggleFullWidthDetailPanel }
+                        role="button">
+                        &#11013;
+                    </span>
                     <h2>{ entity.name }</h2>
                 </header>
                 <DetailPanelNavigation

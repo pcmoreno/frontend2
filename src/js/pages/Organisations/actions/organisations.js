@@ -109,7 +109,7 @@ export function resetChangedFieldsForFormId(formId) {
  * @param {Function} amendParticipant - amendParticipant
  * @returns {{type, data: *}} data to populate detail panel
  */
-export function fetchDetailPanelData(entity, data, amendParticipant) {
+export function fetchDetailPanelData(entity, data, openModalToAmendParticipant) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
@@ -117,7 +117,7 @@ export function fetchDetailPanelData(entity, data, amendParticipant) {
         type: actionType.FETCH_DETAIL_PANEL_DATA,
         entity,
         data,
-        amendParticipant
+        openModalToAmendParticipant
     };
 }
 
@@ -128,5 +128,22 @@ export function fetchDetailPanelData(entity, data, amendParticipant) {
 export function resetOrganisations() {
     return {
         type: actionType.RESET_ORGANISATIONS
+    };
+}
+
+/**
+ * Amend form data in collection action
+ * @param {string} formId - formId
+ * @param {Object} data - data
+ * @returns {{type, formId: *, formFields: *}} form data with type
+ */
+export function amendFormDataInFormsCollection(formId, data) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.AMEND_FORM_DATA,
+        formId,
+        data
     };
 }

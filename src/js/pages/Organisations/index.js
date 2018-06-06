@@ -28,18 +28,26 @@ class Index extends Component {
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
+        this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
         this.logger = Logger.instance;
+
+        // todo: remove
+        this.api = ApiFactory.get('neon');
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
 
         // dispatch action to update forms[] state with new form data (will overwrite for this id)
         this.actions.storeFormDataInFormsCollection(formId, formFields);
+    }
+
+    amendFormDataInFormsCollection(formId, data) {
+        this.actions.amendFormDataInFormsCollection(formId, data);
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
@@ -59,15 +67,13 @@ class Index extends Component {
     componentWillUnmount() {
 
         // reset organisations in state
-        // because we currently want to refresh all data when the component is re-opened
-        // in the future we may use the old state to reduce the loading time
         this.actions.resetOrganisations();
     }
 
     componentDidMount() {
         updateNavigationArrow();
 
-        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
+        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig.
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
@@ -91,7 +97,7 @@ class Index extends Component {
 
     getSectionForEntityType(entity) {
 
-        // determines the endpoint for which children or detail panel data should be fetched from
+        // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
             case 'organisation':
                 return 'organisation';
@@ -103,11 +109,13 @@ class Index extends Component {
                 return 'project';
 
             case 'jobFunction':
+
+                // job functions are modeled as organisations, since their behaviour is indifferent
                 return 'organisation';
 
             default:
                 this.logger.error({
-                    component: 'index',
+                    component: 'organisations',
                     message: `no entity.type available on entity ${entity.name}`
                 });
                 return false;
@@ -115,10 +123,6 @@ class Index extends Component {
     }
 
     fetchEntities(entity, panelId) {
-
-        // console.table(entity);
-        // console.log(panelId);
-
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
@@ -176,7 +180,7 @@ class Index extends Component {
             // now that the new entities are available in the state, update the path to reflect the change
             this.actions.updatePath(entity, panelId);
 
-            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+            // last, update the detail panel (cant do this earlier: no way to predict if entities will fetch successfully)
             this.fetchDetailPanelData(entity);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
@@ -216,20 +220,14 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
         }
     }
 
-    amendParticipant() {
-
-        // todo: add real logic here, see NEON-3560
-    }
-
-    // todo: refactor below methods into one 'toggle' method with parameter 'id'
-
+    // todo: refactor below methods into a combined function
     openModalToAddOrganisation() {
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
@@ -246,27 +244,48 @@ class Index extends Component {
         document.querySelector('#modal_add_participant').classList.add('hidden');
     }
 
+    openModalToAmendParticipant(participantId) {
+        document.querySelector('#modal_amend_participant').classList.remove('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        this.api.get(
+            this.api.getBaseUrl(),
+            `${this.api.getEndpoints().participants.entities}/id/${participantId}?fields=accountHasRole,account,gender,id,educationLevel,firstName,infix,lastName,email`
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+            this.amendFormDataInFormsCollection('amendParticipantSection', response);
+        }).catch((/* error */) => {
+            this.actions.addAlert({ type: 'error', text: 'er ging iets mis bij het ophalen van deelnemergegevens' });
+        });
+    }
+
+    closeModalToAmendParticipant() {
+        document.querySelector('#modal_amend_participant').classList.add('hidden');
+    }
+
     render() {
         const { panels, forms, detailPanelData, pathNodes } = this.props;
 
         return (
             <Organisations
-                panels = { panels }
+                panels={ panels }
                 forms={ forms }
-                detailPanelData = { detailPanelData }
-                pathNodes = { pathNodes }
-                fetchEntities = { this.fetchEntities }
-                fetchDetailPanelData = { this.fetchDetailPanelData }
+                detailPanelData={ detailPanelData }
+                pathNodes={ pathNodes }
+                fetchEntities={ this.fetchEntities }
+                fetchDetailPanelData={ this.fetchDetailPanelData }
                 refreshDataWithMessage={ this.refreshDataWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-                openModalToAddParticipant = { this.openModalToAddParticipant }
-                closeModalToAddParticipant = { this.closeModalToAddParticipant }
-                i18n = { translator(this.props.languageId, 'organisations') }
-                languageId = { this.props.languageId }
+                openModalToAddParticipant={ this.openModalToAddParticipant }
+                closeModalToAddParticipant={ this.closeModalToAddParticipant }
+                openModalToAmendParticipant={ this.openModalToAmendParticipant }
+                closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
+                i18n={ translator(this.props.languageId, 'organisations') }
+                languageId={ this.props.languageId }
             />
         );
     }

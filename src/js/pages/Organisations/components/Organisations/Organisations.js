@@ -44,7 +44,7 @@ class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // no panel data loaded yet. while it loads, show empty detail panel with root entity data
+        // no panel data loaded yet. while it loads, show empty detail panel with root entity data (is that always relevant?)
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 
@@ -63,8 +63,12 @@ class Organisations extends Component {
             resetChangedFieldsForFormId,
             refreshDataWithMessage,
             closeModalToAddOrganisation,
+            openModalToAddParticipant,
             closeModalToAddParticipant,
-            i18n
+            openModalToAmendParticipant,
+            closeModalToAmendParticipant,
+            i18n,
+            languageId
         } = this.props;
 
         // define properties for the Panels component
@@ -91,8 +95,10 @@ class Organisations extends Component {
                     { panelContainer }
                     <DetailPanel
                         data = { dataForCurrentEntity }
-                        openModalToAddParticipant = { this.props.openModalToAddParticipant }
-                        closeModalToAddParticipant = { this.props.closeModalToAddParticipant }
+                        openModalToAddParticipant = { openModalToAddParticipant }
+                        closeModalToAddParticipant = { closeModalToAddParticipant }
+                        openModalToAmendParticipant = { openModalToAmendParticipant }
+                        closeModalToAmendParticipant = { closeModalToAmendParticipant }
                         i18n = { i18n }
                     />
                 </section>
@@ -123,7 +129,7 @@ class Organisations extends Component {
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { refreshDataWithMessage }
                         closeModal={ closeModalToAddOrganisation }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
@@ -156,7 +162,40 @@ class Organisations extends Component {
                             this.actions.addAlert({ type: 'success', text: i18n.organisations_add_participant_success });
                         } }
                         closeModal={ closeModalToAddParticipant }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
+                    />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_amend_participant">
+                    <Form
+                        formId={ 'amendParticipantSection' }
+                        sectionId={ 'participantSession' }
+                        method={ FormMethod.UPDATE_SECTION }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'calculatedScores',
+                            'accountHasRoleGenericRoleStatus',
+                            'oneParticipantSessionToOneReport',
+                            'oneParticipantSessionToOneAccountHasRole',
+                            'manyParticipantSessionToOneProject',
+                            'startedOn',
+                            'onlineId',
+                            'participantSessionSlug'
+                        ] }
+                        headerText={i18n.organisations_amend_participant}
+                        submitButtonText={i18n.organisations_save}
+                        forms={ forms }
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
+                        afterSubmit = { () => {
+                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
+                            this.actions.addAlert({ type: 'success', text: i18n.organisations_amend_participant_success });
+                        } }
+                        closeModal={ closeModalToAmendParticipant }
+                        languageId={ languageId }
                     />
                 </aside>
             </main>

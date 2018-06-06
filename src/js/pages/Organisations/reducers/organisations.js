@@ -205,6 +205,70 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
 
+        case actionType.AMEND_FORM_DATA:
+
+            // todo: rename to amend_participant_data
+
+            // clear all forms
+            newState.forms = [];
+
+            // create a new empty form that will contain all fields from the config, amended with data
+            let formWithAmendedData;
+
+            // first build up the forms with data from state
+            state.forms.forEach(form => {
+                if (form.id && form.id === action.formId) {
+
+                    // make a copy of current form and clear its form fields
+                    formWithAmendedData = Object.assign({}, form);
+                    formWithAmendedData.formFields = [];
+
+                    // since the data returned from the API does not match the way the form is stored and/or submitted.
+                    // I see no other way than to map each separate field here and insert it in the state... :(
+                    // todo: is it possible to have a 1:1 match between the data received from the API
+                    // todo: (participantSession) and the form configuration? that would make this complex code redundant
+
+                    // let educationLevel = action.data.educationLevel || '';
+                    // let email = action.data.accountHasRole.email || '';
+
+                    // todo: extend with all other participant fields (yes, that kills the generic aspect of this functionality, I know)
+                    const oldFields = {
+                        educationLevel: {
+                            value: action.data.educationLevel || ''
+                        },
+                        email: {
+                            value: action.data.accountHasRole.email || ''
+                        },
+                        comments: {
+                            value: action.data.comments || ''
+                        }
+                    };
+
+                    // iterate over each field in the form that was stored in the state
+                    form.formFields.forEach(field => {
+                        const handle = field[Object.keys(field)[0]].handle;
+
+                        // todo: apparently a match cannot be made for most of the fields, eg: accountHasRoleEmail vs email
+                        if (handle && oldFields[handle]) {
+                            field[Object.keys(field)[0]].value = oldFields[handle].value;
+                        }
+
+                        // push the field back to the new form
+                        formWithAmendedData.formFields.push(field);
+                    });
+
+                    // push the new form (todo: enable when this works)
+                    // newState.forms.push(formWithAmendedData);
+
+                    // for now just push and dont do anything yet
+                    newState.forms.push(form);
+                } else {
+                    newState.forms.push(form);
+                }
+            });
+
+            break;
+
         case actionType.UPDATE_FORM_FIELD:
 
             // clear current items from newState
@@ -319,7 +383,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 type: 'pencil',
                                 value: '',
                                 action: () => {
-                                    action.amendParticipant(account.id);
+                                    action.openModalToAmendParticipant(account.id);
                                 }
                             }
                         });
