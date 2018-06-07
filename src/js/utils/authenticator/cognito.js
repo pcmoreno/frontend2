@@ -40,12 +40,18 @@ class CognitoAuthenticator extends AbstractAuthenticator {
         // refresh session for cognito user, this is required to extract the refresh token
         return new Promise((resolve, reject) => {
 
+            // check cognito user to proceed, this is not an unexpected error
+            if (!this.cognitoUser || !this.cognitoUser.getSession) {
+                return reject(new Error('No logged in user found'));
+            }
+
             this.cognitoUser.getSession((sessionError, session) => {
 
                 if (sessionError) {
 
                     // token is expired or unexpected error occurred
                     reject(sessionError);
+
                 } else {
 
                     // fetch the refresh token from the cognito user
@@ -58,11 +64,13 @@ class CognitoAuthenticator extends AbstractAuthenticator {
 
                             // token is expired or unexpected error occurred
                             reject(refreshError);
-                        }
 
-                        // if there was no error, resolve by default
-                        // the new tokens are stored automatically
-                        resolve(result.getAccessToken().getJwtToken());
+                        } else {
+
+                            // if there was no error, resolve by default
+                            // the new tokens are stored automatically
+                            resolve(result.getAccessToken().getJwtToken());
+                        }
                     });
                 }
             });
