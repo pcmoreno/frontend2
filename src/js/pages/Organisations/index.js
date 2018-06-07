@@ -83,8 +83,6 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    // todo: lock adding stuff (show no modals anymore), do this in form component
-
     refreshDataWithMessage(message, newEntity, type) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
         const panelId = this.props.formOpenByPanelId;
@@ -127,6 +125,27 @@ class Index extends Component {
                         break;
                     }
                 }
+            }
+
+            try {
+                const listItem = document.querySelector(`#panel-${panelId}-${returnedNewEntity.id}`);
+                const list = listItem.parentElement;
+
+                // check if the top offset of the element, minus the offset of the list (window based), is greater than the list height
+                // or when the list item offset is smaller than the scroll top, meaning we need to scroll up.
+                // scroll Top on the list is the same calculation, as it both wants the list item at the same position
+                if (((listItem.offsetTop - list.offsetTop) > list.clientHeight) ||
+                    listItem.offsetTop < list.scrollTop) {
+
+                    // align the list item as the first shown item
+                    list.scrollTop = (listItem.offsetTop - list.offsetTop);
+                }
+
+            } catch (e) {
+                this.logger.error({
+                    component: 'organisations',
+                    message: `DOM Query failed for scrolling after adding an entity. Exception: ${e}`
+                });
             }
 
             // todo: this is the initial code to fetch the new item, but panels are cached...
