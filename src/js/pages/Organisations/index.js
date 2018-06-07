@@ -45,7 +45,6 @@ class Index extends Component {
             project: this.openModalToAddProject
         };
 
-        this.modalSelectedPanelId = null;
         this.i18n = translator(this.props.languageId, 'organisations');
     }
 
@@ -88,7 +87,7 @@ class Index extends Component {
 
     refreshDataWithMessage(message, newEntity, type) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
-        const panelId = this.modalSelectedPanelId;
+        const panelId = this.props.formOpenByPanelId;
 
         if (!newId) {
             this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
@@ -320,7 +319,6 @@ class Index extends Component {
     openModalToAddOrganisation(panelId) {
 
         // store panel id so we know what panel was active when opening the form
-        this.modalSelectedPanelId = panelId;
         this.actions.setFormOpenByPanelId(panelId);
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
@@ -328,7 +326,6 @@ class Index extends Component {
     closeModalToAddOrganisation() {
 
         // after closing the form, reset the selected panel
-        this.modalSelectedPanelId = null;
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_organisation').classList.add('hidden');
     }
@@ -344,7 +341,6 @@ class Index extends Component {
     openModalToAddJobFunction(panelId) {
 
         // store panel id so we know what panel was active when opening the form
-        this.modalSelectedPanelId = panelId;
         this.actions.setFormOpenByPanelId(panelId);
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
@@ -352,7 +348,6 @@ class Index extends Component {
     closeModalToAddJobFunction() {
 
         // after closing the form, reset the selected panel
-        this.modalSelectedPanelId = null;
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_job_function').classList.add('hidden');
     }
@@ -360,7 +355,6 @@ class Index extends Component {
     openModalToAddProject(panelId) {
 
         // store panel id so we know what panel was active when opening the form
-        this.modalSelectedPanelId = panelId;
         this.actions.setFormOpenByPanelId(panelId);
         document.querySelector('#modal_add_project').classList.remove('hidden');
     }
@@ -368,7 +362,6 @@ class Index extends Component {
     closeModalToAddProject() {
 
         // after closing the form, reset the selected panel
-        this.modalSelectedPanelId = null;
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_project').classList.add('hidden');
     }

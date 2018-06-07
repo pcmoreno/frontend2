@@ -256,23 +256,6 @@ export default class Form extends Component {
                                     break;
                                 }
 
-                                case fieldType.RELATIONSHIP: {
-
-                                    // since choices in a relationship field are populated dynamically at build time,
-                                    // the value is extracted straight from the actual form here.
-                                    if (document.querySelector(`#${formId}_${name}`)) {
-                                        fieldId = name;
-                                        value = document.querySelector(`#${formId}_${name}`).value;
-                                    } else {
-                                        this.logger.error({
-                                            component: 'form',
-                                            message: `${this.i18n.form_could_not_find_form_field} ${name}`
-                                        });
-                                    }
-
-                                    break;
-                                }
-
                                 default: {
 
                                     // for all other form element types, simply attempt to get its value
@@ -280,6 +263,9 @@ export default class Form extends Component {
                                         fieldId = name;
                                         value = document.querySelector(`#${formId}_${name}`).value;
                                     } else {
+
+                                        // necessary fields were not fount, do not submit and log an error
+                                        ableToSubmit = false;
                                         this.logger.error({
                                             component: 'form',
                                             message: `${this.i18n.form_could_not_find_form_field} ${name}`
@@ -348,6 +334,12 @@ export default class Form extends Component {
                     // re-enable the submit button
                     this.setSubmitButtonState(false);
                 }
+            });
+        } else {
+
+            // show an error (unexpected) as form field values could not be fetched
+            this.handleErrorMessages({
+                form: this.i18n.form_could_not_process_your_request
             });
         }
     }
