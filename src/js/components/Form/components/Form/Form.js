@@ -312,7 +312,7 @@ export default class Form extends Component {
         if (ableToSubmit) {
 
             // disable the submit button
-            this.setSubmitButtonState(true);
+            this.setSubmissionState(true);
 
             // submit the changed fields
             this.props.submitForm(changedFields).then(response => {
@@ -323,16 +323,16 @@ export default class Form extends Component {
                     this.handleErrorMessages(response.errors);
 
                     // re-enable the submit button
-                    this.setSubmitButtonState(false);
+                    this.setSubmissionState(false);
                 } else {
 
                     // consider this a successful call
                     document.querySelector('#spinner').classList.add('hidden');
 
-                    this.handleClose();
-
                     // re-enable the submit button
-                    this.setSubmitButtonState(false);
+                    this.setSubmissionState(false);
+
+                    this.handleClose();
                 }
             });
         } else {
@@ -347,11 +347,11 @@ export default class Form extends Component {
     /**
      * Sets the 'disabled' state of the button to submit the form
      *
-     * @param {boolean} requestedButtonState - determines whether button should be disabled
+     * @param {boolean} submissionState - determines whether button should be disabled
      * @returns {undefined}
      */
-    setSubmitButtonState(requestedButtonState) {
-        this.localState.form.disabled = requestedButtonState;
+    setSubmissionState(submissionState) {
+        this.localState.form.disabled = submissionState;
         this.setState(this.localState);
     }
 
@@ -423,12 +423,16 @@ export default class Form extends Component {
      */
     handleClose() {
 
-        // reset the form and field error messages
-        this.resetFormFields();
-        this.resetErrorMessages();
+        // only close when the form was not disabled (not in submission state)
+        if (!this.localState.form.disabled) {
 
-        // executes the provided close method
-        this.props.closeModal();
+            // reset the form and field error messages
+            this.resetFormFields();
+            this.resetErrorMessages();
+
+            // executes the provided close method
+            this.props.closeModal();
+        }
     }
 
     render() {
