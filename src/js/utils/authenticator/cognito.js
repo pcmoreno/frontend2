@@ -45,7 +45,7 @@ class CognitoAuthenticator extends AbstractAuthenticator {
                 return reject(new Error('No logged in user found'));
             }
 
-            this.cognitoUser.getSession((sessionError, session) => {
+            return this.cognitoUser.getSession((sessionError, session) => {
 
                 if (sessionError) {
 
