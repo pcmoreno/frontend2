@@ -7,7 +7,7 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class ManyToMany extends AbstractRelationship {
     render() {
-        const { currentForm, options, onChange, formId } = this.props;
+        const { currentForm, options, onChange, formId, label } = this.props;
 
         return (
             <div>
@@ -16,7 +16,7 @@ export default class ManyToMany extends AbstractRelationship {
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.handle }>{ options.form.all.label }</label>
+                        <label htmlFor={ options.handle }>{ label }</label>
                     </li>
                     <li>
                         <select

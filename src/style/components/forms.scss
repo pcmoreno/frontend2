@@ -41,8 +41,7 @@ form {
         /* there is an aesthetically pleasing 10% offset at bottom of (responsive) form modal */
         max-height: calc(100vh - 12.75rem - 2rem);
 
-        /* todo: auto */
-        overflow: scroll;
+        overflow: auto;
 
         label {
             padding: .5rem 0;

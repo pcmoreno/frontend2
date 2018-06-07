@@ -7,7 +7,7 @@ import style from '../style/field.scss';
 export default class TextArea extends Component {
 
     render() {
-        const { currentForm, handle, label, onChange, value, formId } = this.props;
+        const { currentForm, handle, label, onChange, value, formId, placeholder } = this.props;
 
         return (
             <div>
@@ -20,6 +20,7 @@ export default class TextArea extends Component {
                         <textarea
                             id={ `${formId}_${handle}` }
                             rows={ '3' }
+                            placeholder={ placeholder }
                             value={ value }
                             name={ `form[${handle}]` }
                             onChange={ onChange }

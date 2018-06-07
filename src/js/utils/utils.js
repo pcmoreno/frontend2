@@ -496,6 +496,29 @@ const Utils = {
             uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16); // eslint-disable-line no-nested-ternary
         }
         return uuid;
+    },
+
+    /**
+     * Converts the given string from camelcase to snake case
+     * @param {string} str - camel case string
+     * @returns {string} snake case string
+     */
+    camelCaseToSnakeCase(str) {
+        const upperChars = str.match(/([A-Z])/g);
+
+        if (!upperChars) {
+            return str;
+        }
+
+        for (let i = 0, n = upperChars.length; i < n; i++) {
+            str = str.replace(new RegExp(upperChars[i]), `_${upperChars[i].toLowerCase()}`);
+        }
+
+        if (str.slice(0, 1) === '_') {
+            str = str.slice(1);
+        }
+
+        return str;
     }
 };
 

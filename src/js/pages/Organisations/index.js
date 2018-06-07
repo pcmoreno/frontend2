@@ -29,11 +29,23 @@ class Index extends Component {
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+        this.openModalToAddJobFunction = this.openModalToAddJobFunction.bind(this);
+        this.closeModalToAddJobFunction = this.closeModalToAddJobFunction.bind(this);
+        this.openModalToAddProject = this.openModalToAddProject.bind(this);
+        this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
         this.logger = Logger.instance;
+
+        this.panelHeaderAddMethods = {
+            organisation: this.openModalToAddOrganisation,
+            jobFunction: this.openModalToAddJobFunction,
+            project: this.openModalToAddProject
+        };
+
+        this.i18n = translator(this.props.languageId, 'organisations');
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -71,22 +83,78 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage(entity) {
+    // todo: lock adding stuff (show no modals anymore), do this in form component
 
-        // reload the last opened panel (todo: this will break whenever you add organisation for a panel that is not the last)
-        this.fetchEntities(entity, this.props.pathNodes.length - 1);
+    refreshDataWithMessage(message, newEntity, type) {
+        const newId = newEntity && newEntity.entry && newEntity.entry.id;
+        const panelId = this.props.formOpenByPanelId;
 
-        // hide modal
-        document.querySelector('#modal_add_organisation').classList.add('hidden');
+        if (!newId) {
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+            this.logger.error({
+                component: 'organisations',
+                message: `Entity should have been added, but no entity was returned from the API: ${newEntity}`
+            });
+            return;
+        }
 
-        // Show a message
-        // todo: translate this message
-        // todo: this message should also be adapted to support delete messages. Something like a form action?
-        this.actions.addAlert({ type: 'success', text: 'The organisation was successfully saved.' });
+        // the selected entity is the path (node) of the current active panel (id)
+        const selectedItem = this.props.pathNodes[panelId - 1];
 
-        // refresh the items
-        // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        // this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+        // we use - 2 because panelId is a non zero-based, but we want to remove the last panel
+        // and because path nodes always has a root organisation at index 0
+        this.props.pathNodes = this.props.pathNodes.slice(panelId - 2, this.props.pathNodes.length - 1);
+
+        // Show a message, is translated in form definition on Organisations.js
+        this.actions.addAlert({ type: 'success', text: message });
+
+        // this will reload the selected entity properties and load it in the last panel (index)
+        // panel id is a non zero-based index, but we want the previous panel to be updated first, so we subtract 1
+        this.fetchEntities(selectedItem, panelId - 1, false).then(() => {
+            let returnedNewEntity = null;
+
+            const panels = this.props.panels;
+
+            // loop through all panels to find the id
+            // (which is already parsed by the reducer and can be used for path nodes)
+            for (let i = 0; i < panels.length; i++) {
+                for (let j = 0; j < panels[i].entities.length; j++) {
+                    let item = panels[i].entities[j];
+
+                    // match id and type
+                    if (item.id === newId && item.type === type) {
+                        returnedNewEntity = item;
+                        break;
+                    }
+                }
+            }
+
+            // todo: this is the initial code to fetch the new item, but panels are cached...
+            // subtract 2 because panelId is not zero-based index while this.props.panels is zero-based
+            // const currentPanel = this.props.panels[panelId - 1];
+
+            // loop through results to find the newly added item to acquire full data
+            // for (let i = 0; i < currentPanel.entities.length; i++) {
+            //     if (newId === currentPanel.entities[i].id) {
+            //         returnedNewEntity = currentPanel.entities[i];
+            //         break;
+            //     }
+            // }
+
+            // if the entity was retrieved from the updated panel, go fetch its children
+            if (returnedNewEntity) {
+                this.fetchEntities(returnedNewEntity, panelId, true);
+            }
+
+        }).catch(error => {
+
+            // show an alert message that we could not refresh the list properly
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_refresh_list_error });
+            this.logger.error({
+                component: 'organisations',
+                message: `Could not refresh the organisations overview after adding an item: ${error}`
+            });
+        });
     }
 
     getSectionForEntityType(entity) {
@@ -107,18 +175,24 @@ class Index extends Component {
 
             default:
                 this.logger.error({
-                    component: 'index',
+                    component: 'organisations',
                     message: `no entity.type available on entity ${entity.name}`
                 });
                 return false;
         }
     }
 
-    fetchEntities(entity, panelId) {
-
-        // console.table(entity);
-        // console.log(panelId);
-
+    /**
+     * Fetches entities to fill the panels/lists
+     *
+     * @param {Object} entity - current selected entity
+     * @param {number} entity.id - current selected entity id
+     * @param {string} entity.type - current selected entity type
+     * @param {number} panelId - index of the current panel
+     * @param {boolean} fetchDetailPanel - whether this call is supposed to also load the detail panel
+     * @returns {Promise<any>} promise
+     */
+    fetchEntities(entity, panelId, fetchDetailPanel = true) {
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
@@ -158,28 +232,40 @@ class Index extends Component {
             endPoint = apiConfig.endpoints.organisations.childEntities;
         }
 
-        // request entities
-        api.get(
-            api.getBaseUrl(),
-            endPoint,
-            params
-        ).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
+        return new Promise((resolve, reject) => {
 
-            if (entity.type !== 'project') {
+            // request entities
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner').classList.add('hidden');
 
-                // store panel entities in state UNLESS they are children of a project (they do not exist!)
-                // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
-                this.actions.fetchEntities(entity.id, entity.type, response);
-            }
+                if (entity.type !== 'project') {
 
-            // now that the new entities are available in the state, update the path to reflect the change
-            this.actions.updatePath(entity, panelId);
+                    // store panel entities in state UNLESS they are children of a project (they do not exist!)
+                    // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
+                    this.actions.fetchEntities(entity.id, entity.type, response);
+                }
 
-            // last, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
-            this.fetchDetailPanelData(entity);
-        }).catch(error => {
-            this.actions.addAlert({ type: 'error', text: error });
+                // now that the new entities are available in the state, update the path to reflect the change
+                this.actions.updatePath(entity, panelId);
+
+                // fetch detail panel if desired
+                if (fetchDetailPanel) {
+
+                    // then, update the detail panel (cant do this earlier since no way to tell if entities will fetch ok)
+                    this.fetchDetailPanelData(entity);
+                }
+
+                // finally, resolve with the response
+                resolve(response);
+
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+                reject(new Error(`Could not fetch sections for id: ${entity.id}, ${entity.type}`));
+            });
         });
     }
 
@@ -230,11 +316,17 @@ class Index extends Component {
 
     // todo: refactor below methods into one 'toggle' method with parameter 'id'
 
-    openModalToAddOrganisation() {
+    openModalToAddOrganisation(panelId) {
+
+        // store panel id so we know what panel was active when opening the form
+        this.actions.setFormOpenByPanelId(panelId);
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
+
+        // after closing the form, reset the selected panel
+        this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_organisation').classList.add('hidden');
     }
 
@@ -246,12 +338,42 @@ class Index extends Component {
         document.querySelector('#modal_add_participant').classList.add('hidden');
     }
 
+    openModalToAddJobFunction(panelId) {
+
+        // store panel id so we know what panel was active when opening the form
+        this.actions.setFormOpenByPanelId(panelId);
+        document.querySelector('#modal_add_job_function').classList.remove('hidden');
+    }
+
+    closeModalToAddJobFunction() {
+
+        // after closing the form, reset the selected panel
+        this.actions.setFormOpenByPanelId(null);
+        document.querySelector('#modal_add_job_function').classList.add('hidden');
+    }
+
+    openModalToAddProject(panelId) {
+
+        // store panel id so we know what panel was active when opening the form
+        this.actions.setFormOpenByPanelId(panelId);
+        document.querySelector('#modal_add_project').classList.remove('hidden');
+    }
+
+    closeModalToAddProject() {
+
+        // after closing the form, reset the selected panel
+        this.actions.setFormOpenByPanelId(null);
+        document.querySelector('#modal_add_project').classList.add('hidden');
+    }
+
     render() {
-        const { panels, forms, detailPanelData, pathNodes } = this.props;
+        const { panels, forms, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
             <Organisations
                 panels = { panels }
+                formOpenByPanelId = { formOpenByPanelId }
+                panelHeaderAddMethods={ this.panelHeaderAddMethods }
                 forms={ forms }
                 detailPanelData = { detailPanelData }
                 pathNodes = { pathNodes }
@@ -261,11 +383,12 @@ class Index extends Component {
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
-                openModalToAddOrganisation={ this.openModalToAddOrganisation }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
+                closeModalToAddProject={ this.closeModalToAddProject }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
-                i18n = { translator(this.props.languageId, 'organisations') }
+                i18n = { this.i18n }
                 languageId = { this.props.languageId }
             />
         );
@@ -274,6 +397,7 @@ class Index extends Component {
 
 const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
+    formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
     forms: state.organisationsReducer.forms,
     pathNodes: state.organisationsReducer.pathNodes,
