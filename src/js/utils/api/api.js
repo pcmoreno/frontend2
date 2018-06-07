@@ -239,8 +239,8 @@ class API {
                                 cachedRequest.options.retry = true;
 
                                 // call the original api request again, and connect the resolve/error methods
-                                return self.executeRequest(cachedRequest.url, cachedRequest.method, cachedRequest.options).then(() => {
-                                    resolve(json);
+                                return self.executeRequest(cachedRequest.url, cachedRequest.method, cachedRequest.options).then(newJsonResponse => {
+                                    resolve(newJsonResponse);
                                 }).catch(error => {
                                     reject(error);
                                 });
