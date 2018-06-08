@@ -12,6 +12,7 @@ import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
+import Utils from '../../utils/utils';
 
 class Index extends Component {
     constructor(props) {
@@ -131,14 +132,27 @@ class Index extends Component {
                 const listItem = document.querySelector(`#panel-${panelId}-${returnedNewEntity.id}`);
                 const list = listItem.parentElement;
 
-                // check if the top offset of the element, minus the offset of the list (window based), is greater than the list height
-                // or when the list item offset is smaller than the scroll top, meaning we need to scroll up.
-                // scroll Top on the list is the same calculation, as it both wants the list item at the same position
-                if (((listItem.offsetTop - list.offsetTop) > list.clientHeight) ||
+                // check if the list item offset is exceeding the height of the list
+                // or the list item offset is below the scroll top, both meaning we should scroll
+                //
+                // offsetTop is always measured based on the window size. Also after scrolling, this value always stays the same
+                // scrollTop is the scrolling value on the list (ul) element
+                // clientHeight is the rendered (visible) height of the list
+                if (((listItem.offsetTop + listItem.clientHeight - list.offsetTop) > list.clientHeight) ||
                     listItem.offsetTop < list.scrollTop) {
 
-                    // align the list item as the first shown item
-                    list.scrollTop = (listItem.offsetTop - list.offsetTop);
+                    // compare if the 'end' of the list item is smaller than the list height (item is in the first page view)
+                    if ((listItem.offsetTop + listItem.clientHeight - list.offsetTop) < list.clientHeight) {
+
+                        // this is a native function, but we also have a fallback for this (no anim)
+                        Utils.scrollEaseInOut(list, 0, 200);
+
+                    } else {
+
+                        // this is a native function, but we also have a fallback for this (no anim)
+                        // align the list item as the first shown item, calculation works for both up and down
+                        Utils.scrollEaseInOut(list, (listItem.offsetTop - list.offsetTop), 200);
+                    }
                 }
 
             } catch (e) {
