@@ -238,7 +238,8 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,uuid,organisationName,organisationType'
+                        fields: 'id,uuid,organisationName,organisationType',
+                        limit: 10000
                     }
                 }
             };
