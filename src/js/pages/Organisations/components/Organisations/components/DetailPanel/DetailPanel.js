@@ -38,7 +38,7 @@ export default class DetailPanel extends Component {
     }
 
     render() {
-        const { data, i18n, selectParticipant } = this.props;
+        const { data, i18n } = this.props;
         const entity = data.entity;
 
         // todo: turn in a component similar to participants so it also has scrolling etc.

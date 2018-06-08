@@ -18,8 +18,8 @@ export default class Panels extends Component {
             panels,
             pathNodes,
             fetchEntities,
-            openModalToAddOrganisation,
             fetchDetailPanelData,
+            panelHeaderAddMethods,
             i18n
         } = this.props;
 
@@ -59,12 +59,12 @@ export default class Panels extends Component {
             if (currentPanel) {
                 panelCollection.push(<Panel
                     panelId = { panelIndex++ }
+                    panelHeaderAddMethods = { panelHeaderAddMethods }
                     entities = { currentPanel.entities }
                     parentId = { currentPanel.parentId }
                     parentType = { currentPanel.parentType }
                     fetchEntities = { fetchEntities }
                     fetchDetailPanelData = { fetchDetailPanelData }
-                    openModalToAddOrganisation = { openModalToAddOrganisation }
                     isPanelActive = { isPanelActive }
                     pathNodes = { pathNodes }
                     i18n={i18n}

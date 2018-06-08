@@ -205,6 +205,10 @@ export default class Listview extends Component {
                     key = 'amend_participant_label';
                 }
 
+                if (key === 'selectParticipantLabel') {
+                    key = 'select_participant_label';
+                }
+
                 // if translationKey was provided, see if it can be retrieved. otherwise resort to key
                 const translatedLabel = i18n[`${translationKey}${key}`];
 

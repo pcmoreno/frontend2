@@ -15,11 +15,12 @@ export default class Panel extends Component {
         const {
             pathNodes,
             panelId,
+            parentType,
             fetchEntities,
             fetchDetailPanelData,
-            openModalToAddOrganisation,
             isPanelActive,
             entities,
+            panelHeaderAddMethods,
             i18n
         } = this.props;
         const itemOutput = [];
@@ -49,9 +50,11 @@ export default class Panel extends Component {
         }
 
         return (
-            <section className={ `${style.panel}${isPanelActive ? ' active' : ''}` } >
+            <section id={ `panel-${panelId}` } className={ `${style.panel}${isPanelActive ? ' active' : ''}` } >
                 <PanelHeader
-                    openModalToAddOrganisation={openModalToAddOrganisation}
+                    panelId={panelId}
+                    parentType={parentType}
+                    addMethods={panelHeaderAddMethods}
                     i18n={i18n}
                 />
                 <section className={ style.itemlist }>

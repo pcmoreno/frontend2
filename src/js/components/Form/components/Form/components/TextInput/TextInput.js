@@ -10,16 +10,9 @@ export default class TextInput extends Component {
         return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
     }
 
-    getPlaceholder(options) {
-        return typeof ((((options || {}).form || {}).all || {}).attr || {}).placeholder === 'undefined'
-            ? ''
-            : options.form.all.attr.placeholder;
-    }
-
     render() {
-        const { currentForm, onChange, value, options, formId } = this.props;
+        const { currentForm, onChange, value, options, formId, label, placeholder } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
-        const placeholder = this.getPlaceholder(options);
         const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
         const fieldId = typeof options.as !== 'undefined' ? options.as : options.handle;
 
@@ -27,7 +20,7 @@ export default class TextInput extends Component {
             <div>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.handle }>{ options.form.all.label + required }</label>
+                        <label htmlFor={ options.handle }>{ label + required }</label>
                     </li>
                     <li>
                         <input

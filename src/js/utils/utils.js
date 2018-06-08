@@ -496,6 +496,88 @@ const Utils = {
             uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16); // eslint-disable-line no-nested-ternary
         }
         return uuid;
+    },
+
+    /**
+     * Converts the given string from camelcase to snake case
+     * @param {string} str - camel case string
+     * @returns {string} snake case string
+     */
+    camelCaseToSnakeCase(str) {
+        const upperChars = str.match(/([A-Z])/g);
+
+        if (!upperChars) {
+            return str;
+        }
+
+        for (let i = 0, n = upperChars.length; i < n; i++) {
+            str = str.replace(new RegExp(upperChars[i]), `_${upperChars[i].toLowerCase()}`);
+        }
+
+        if (str.slice(0, 1) === '_') {
+            str = str.slice(1);
+        }
+
+        return str;
+    },
+
+    /**
+     * Scroll (vertically) on a list. Uses native scroll if possible, otherwise use JS scroll
+     *
+     * @param {Element} element - html element
+     * @param {number} to - point to scroll to in pixels
+     * @param {number} duration - duration of anim in ms (ignored with native scrolling)
+     * @returns {undefined}
+     */
+    scrollEaseInOut(element, to, duration) {
+        let currentTime = 0;
+        const start = element.scrollTop,
+            change = to - start,
+            increment = 20;
+
+        // check if native scroll is supported, if so, execute and return
+        if (element.scroll) {
+            element.scroll({
+                top: to,
+                left: 0,
+                behavior: 'smooth'
+            });
+            return;
+        }
+
+        const animateScroll = () => {
+            currentTime += increment;
+            element.scrollTop = this.scrollEaseInOutQuad(currentTime, start, change, duration);
+
+            if (currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+
+        animateScroll();
+    },
+
+    /**
+     * Calculate scrolling values for ease-in-out animations
+     * sources https://pawelgrzybek.com/page-scroll-in-vanilla-javascript/
+     * https://gist.github.com/andjosh/6764939
+     *
+     * @param {number} time - time time elapsed, used to increment pixels to scroll to
+     * @param {number} start - start point in pixels
+     * @param {number} change - total change in pixels compared to start
+     * @param {number} duration - duration in ms
+     * @returns {number} next point of pixels to scroll to
+     */
+    scrollEaseInOutQuad(time, start, change, duration) {
+        time /= duration / 2;
+
+        if (time < 1) {
+            return change / 2 * time * time + start;
+        }
+
+        time--;
+
+        return -change / 2 * (time * (time - 2) - 1) + start;
     }
 };
 
