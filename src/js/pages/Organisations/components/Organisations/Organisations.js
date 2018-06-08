@@ -127,7 +127,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response, 'organisation');
+                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }
@@ -201,7 +201,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response, 'jobFunction');
+                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }

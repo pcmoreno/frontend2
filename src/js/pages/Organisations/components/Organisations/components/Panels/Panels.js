@@ -28,23 +28,6 @@ export default class Panels extends Component {
 
         // for each of the nodes in path, find the matching panel in panels and add it to the collection for output
         pathNodes.forEach(pathNode => {
-            let isPanelActive = false;
-
-            // if the last pathNode is a project..
-            if (pathNodes[pathNodes.length - 1].type === 'project') {
-
-                // ..and the currently processed pathNode is the one before that, mark it active
-                if (panelIndex === (pathNodes.length - 1)) {
-                    isPanelActive = true;
-                }
-            } else {
-
-                // if not, just see if its the last node, if so, mark it active
-                if (panelIndex === pathNodes.length) {
-                    isPanelActive = true;
-                }
-            }
-
             let currentPanel;
 
             panels.forEach(panel => {
@@ -65,7 +48,6 @@ export default class Panels extends Component {
                     parentType = { currentPanel.parentType }
                     fetchEntities = { fetchEntities }
                     fetchDetailPanelData = { fetchDetailPanelData }
-                    isPanelActive = { isPanelActive }
                     pathNodes = { pathNodes }
                     i18n={i18n}
                 />);

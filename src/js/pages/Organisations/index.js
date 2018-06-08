@@ -84,7 +84,7 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage(message, newEntity, type) {
+    refreshDataWithMessage(message, newEntity) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
         const panelId = this.props.formOpenByPanelId;
 
