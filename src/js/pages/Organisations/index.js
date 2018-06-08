@@ -98,22 +98,18 @@ class Index extends Component {
         }
 
         // the selected entity is the path (node) of the current active panel (id)
-        const selectedItem = this.props.pathNodes[panelId - 1];
-
-        // we use - 2 because panelId is a non zero-based, but we want to remove the last panel
-        // and because path nodes always has a root organisation at index 0
-        this.props.pathNodes = this.props.pathNodes.slice(panelId - 2, this.props.pathNodes.length - 1);
+        const selectedItem = this.props.pathNodes[panelId];
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
 
         // this will reload the selected entity properties and load it in the last panel (index)
         // panel id is a non zero-based index, but we want the previous panel to be updated first, so we subtract 1
-        this.fetchEntities(selectedItem, panelId - 1, false).then(() => {
+        this.fetchEntities(selectedItem, panelId, false).then(() => {
             let returnedNewEntity = null;
 
             // get panel of which an item was added
-            const currentPanel = this.props.panels[panelId - 1];
+            const currentPanel = this.props.panels[panelId];
 
             // loop through results to find the newly added item to acquire full data
             for (let i = 0; i < currentPanel.entities.length; i++) {

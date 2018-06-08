@@ -15,7 +15,7 @@ class PathNode extends Component {
         return (<span className={ style.node }>
             <a href={ id } onClick={ event => {
                 event.preventDefault();
-                fetchEntities({ id, uuid, name, type, section }, panelId - 1);
+                fetchEntities({ id, uuid, name, type, section }, panelId);
             }}>{ name }</a>
         </span>);
     }

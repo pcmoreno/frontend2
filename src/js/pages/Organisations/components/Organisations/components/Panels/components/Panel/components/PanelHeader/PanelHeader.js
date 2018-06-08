@@ -29,7 +29,7 @@ export default class PanelHeader extends Component {
             currentAddConfig: {},
             addConfigs: [
                 {
-                    panelIndex: 1, // counting starts at 1
+                    panelIndex: 0, // first organisation panel
                     parentType: null,
                     addable: [
                         {
