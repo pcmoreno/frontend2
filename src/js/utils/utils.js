@@ -540,7 +540,7 @@ const Utils = {
             element.scroll({
                 top: to,
                 left: 0,
-                behaviour: 'smooth'
+                behavior: 'smooth'
             });
             return;
         }
