@@ -18,7 +18,6 @@ export default class Panel extends Component {
             parentType,
             fetchEntities,
             fetchDetailPanelData,
-            isPanelActive,
             entities,
             panelHeaderAddMethods,
             i18n
@@ -50,7 +49,7 @@ export default class Panel extends Component {
         }
 
         return (
-            <section id={ `panel-${panelId}` } className={ `${style.panel}${isPanelActive ? ' active' : ''}` } >
+            <section id={ `panel-${panelId}` } className={ style.panel } >
                 <PanelHeader
                     panelId={panelId}
                     parentType={parentType}

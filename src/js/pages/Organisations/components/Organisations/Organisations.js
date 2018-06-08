@@ -127,7 +127,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response, 'organisation');
+                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }
@@ -186,7 +186,7 @@ class Organisations extends Component {
                         // when panelId was not set, fallback to pathnode 0
                         hiddenFields={[
                             { name: 'organisationType', value: 'jobFunction' },
-                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[(formOpenByPanelId || 1) - 1].uuid }
+                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
@@ -201,7 +201,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response, 'jobFunction');
+                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }

@@ -84,7 +84,7 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage(message, newEntity, type) {
+    refreshDataWithMessage(message, newEntity) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
         const panelId = this.props.formOpenByPanelId;
 
@@ -98,33 +98,24 @@ class Index extends Component {
         }
 
         // the selected entity is the path (node) of the current active panel (id)
-        const selectedItem = this.props.pathNodes[panelId - 1];
-
-        // we use - 2 because panelId is a non zero-based, but we want to remove the last panel
-        // and because path nodes always has a root organisation at index 0
-        this.props.pathNodes = this.props.pathNodes.slice(panelId - 2, this.props.pathNodes.length - 1);
+        const selectedItem = this.props.pathNodes[panelId];
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
 
         // this will reload the selected entity properties and load it in the last panel (index)
         // panel id is a non zero-based index, but we want the previous panel to be updated first, so we subtract 1
-        this.fetchEntities(selectedItem, panelId - 1, false).then(() => {
+        this.fetchEntities(selectedItem, panelId, false).then(() => {
             let returnedNewEntity = null;
 
-            const panels = this.props.panels;
+            // get panel of which an item was added
+            const currentPanel = this.props.panels[panelId];
 
-            // loop through all panels to find the id
-            // (which is already parsed by the reducer and can be used for path nodes)
-            for (let i = 0; i < panels.length; i++) {
-                for (let j = 0; j < panels[i].entities.length; j++) {
-                    let item = panels[i].entities[j];
-
-                    // match id and type
-                    if (item.id === newId && item.type === type) {
-                        returnedNewEntity = item;
-                        break;
-                    }
+            // loop through results to find the newly added item to acquire full data
+            for (let i = 0; i < currentPanel.entities.length; i++) {
+                if (newId === currentPanel.entities[i].id) {
+                    returnedNewEntity = currentPanel.entities[i];
+                    break;
                 }
             }
 
@@ -161,18 +152,6 @@ class Index extends Component {
                     message: `DOM Query failed for scrolling after adding an entity. Exception: ${e}`
                 });
             }
-
-            // todo: this is the initial code to fetch the new item, but panels are cached...
-            // subtract 2 because panelId is not zero-based index while this.props.panels is zero-based
-            // const currentPanel = this.props.panels[panelId - 1];
-
-            // loop through results to find the newly added item to acquire full data
-            // for (let i = 0; i < currentPanel.entities.length; i++) {
-            //     if (newId === currentPanel.entities[i].id) {
-            //         returnedNewEntity = currentPanel.entities[i];
-            //         break;
-            //     }
-            // }
 
             // if the entity was retrieved from the updated panel, go fetch its children
             if (returnedNewEntity) {
@@ -276,15 +255,15 @@ class Index extends Component {
             ).then(response => {
                 document.querySelector('#spinner').classList.add('hidden');
 
+                // update path nodes first as they are leading for the panels
+                this.actions.updatePath(entity, panelId);
+
                 if (entity.type !== 'project') {
 
                     // store panel entities in state UNLESS they are children of a project (they do not exist!)
                     // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
                     this.actions.fetchEntities(entity.id, entity.type, response);
                 }
-
-                // now that the new entities are available in the state, update the path to reflect the change
-                this.actions.updatePath(entity, panelId);
 
                 // fetch detail panel if desired
                 if (fetchDetailPanel) {
