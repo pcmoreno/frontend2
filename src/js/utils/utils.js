@@ -519,6 +519,65 @@ const Utils = {
         }
 
         return str;
+    },
+
+    /**
+     * Scroll (vertically) on a list. Uses native scroll if possible, otherwise use JS scroll
+     *
+     * @param {Element} element - html element
+     * @param {number} to - point to scroll to in pixels
+     * @param {number} duration - duration of anim in ms (ignored with native scrolling)
+     * @returns {undefined}
+     */
+    scrollEaseInOut(element, to, duration) {
+        let currentTime = 0;
+        const start = element.scrollTop,
+            change = to - start,
+            increment = 20;
+
+        // check if native scroll is supported, if so, execute and return
+        if (element.scroll) {
+            element.scroll({
+                top: to,
+                left: 0,
+                behavior: 'smooth'
+            });
+            return;
+        }
+
+        const animateScroll = () => {
+            currentTime += increment;
+            element.scrollTop = this.scrollEaseInOutQuad(currentTime, start, change, duration);
+
+            if (currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+
+        animateScroll();
+    },
+
+    /**
+     * Calculate scrolling values for ease-in-out animations
+     * sources https://pawelgrzybek.com/page-scroll-in-vanilla-javascript/
+     * https://gist.github.com/andjosh/6764939
+     *
+     * @param {number} time - time time elapsed, used to increment pixels to scroll to
+     * @param {number} start - start point in pixels
+     * @param {number} change - total change in pixels compared to start
+     * @param {number} duration - duration in ms
+     * @returns {number} next point of pixels to scroll to
+     */
+    scrollEaseInOutQuad(time, start, change, duration) {
+        time /= duration / 2;
+
+        if (time < 1) {
+            return change / 2 * time * time + start;
+        }
+
+        time--;
+
+        return -change / 2 * (time * (time - 2) - 1) + start;
     }
 };
 
