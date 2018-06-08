@@ -60,6 +60,7 @@ export default function organisationsReducer(state = initialState, action) {
             // push the new entry
             newState.pathNodes.push({
                 id: action.entity.id,
+                panelId: action.panelId,
                 name: action.entity.name,
                 type: action.entity.type,
                 uuid: action.entity.uuid,
@@ -96,9 +97,20 @@ export default function organisationsReducer(state = initialState, action) {
 
             // rebuild panels from state
             state.panels.forEach(panel => {
+                let isActive = false;
 
-                // check it doesnt accidently add a panel entry with the id from the payload (ensures it overwrites)
-                if (panel.parentId !== action.parentId) {
+                for (let i = 0; i < newState.pathNodes.length; i++) {
+
+                    // check whether this panel is active (based on path nodes)
+                    if (panel.parentId === newState.pathNodes[i].id &&
+                        panel.parentType === newState.pathNodes[i].type) {
+                        isActive = true;
+                        break;
+                    }
+                }
+
+                // check it doesn't accidentally add a panel entry with the id from the payload (ensures it overwrites)
+                if (panel.parentId !== action.parentId && isActive) {
 
                     // take all properties from existing panel, except the active state
                     // note that parentType is needed to distinguish between organisations and projects with similar id's
