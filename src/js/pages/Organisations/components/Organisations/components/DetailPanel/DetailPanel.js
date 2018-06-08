@@ -38,7 +38,7 @@ export default class DetailPanel extends Component {
     }
 
     render() {
-        const { data, i18n } = this.props;
+        const { data, i18n, selectParticipant } = this.props;
         const entity = data.entity;
 
         // todo: turn in a component similar to participants so it also has scrolling etc.
@@ -48,6 +48,8 @@ export default class DetailPanel extends Component {
         if (this.localState.activeTab.toString() === 'participants') {
             output = <p className={ style.detailpanelcontent_p }> <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
+                closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
                 participants={ entity.participants }
                 i18n={ i18n }
@@ -72,7 +74,7 @@ export default class DetailPanel extends Component {
                     switchTab={ this.switchTab }
                     i18n={ i18n }
                 />
-                <main className={ style.main }>
+                <main className={ style.modal_invite_participant }>
                     { output }
                 </main>
             </aside>

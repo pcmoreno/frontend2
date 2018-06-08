@@ -75,7 +75,9 @@ export default class Listview extends Component {
         // returns either provided value, provided sortingKey or stringified array of entities
         let returnValue = entity.value;
 
-        if (returnValue.length > 0) {
+        if (returnValue && returnValue.length > 0) {
+
+            // note that widgets dont always have a value
 
             // if object was provided, extract take object.value
             if (returnValue.hasOwnProperty('value')) {
@@ -183,7 +185,6 @@ export default class Listview extends Component {
             if (this.localEntities !== entities) {
 
                 // when new properties come in, ensure setState is used to update the listView component
-                // todo: I have no idea why this was only needed for the listview inside the detail panel.. anyone??
                 this.setState(this.localEntities = entities);
 
                 // sort in stored order
@@ -210,14 +211,6 @@ export default class Listview extends Component {
                 label = translatedLabel ? translatedLabel : key;
             }
 
-            // todo: generic listview translations are currently disabled and I wonder whether we should bring it back
-            // if (label === key) {
-            //     translationKey was not provided, see if a generic translation can be found
-            //     const genericLabel = i18n.translations['listview|' + key];
-            //     const genericLabel = key;
-            //     label = genericLabel ? genericLabel : key;
-            // }
-
             labels.push([label, key]);
         });
 
@@ -227,22 +220,28 @@ export default class Listview extends Component {
                 entity={ entity }
                 i18n={ i18n }
                 translationKey={ translationKey }
+                selectedEntities = { this.props.selectedEntities }
             />);
+
+        const tableHead = [];
+
+        // todo: figure out how to prevent entities being sortable when they dont have a value set (as for widgets)
+        labels.forEach(label => {
+            tableHead.push(<th
+                key={label[1]}
+                className={label[1]}
+                onClick={this.listByEntityName.bind(this, label[1])}
+            >
+                {label[0]}
+            </th>);
+        }
+        );
 
         return (
             <table className={ style.listview } id="listview">
                 <thead>
                     <tr>
-                        {
-                            labels.map(label =>
-                                <th
-                                    key={ label[1] }
-                                    className={ label[1] }
-                                    onClick={ this.listByEntityName.bind(this, label[1]) }
-                                >
-                                    { label[0] }
-                                </th>)
-                        }
+                        { tableHead }
                     </tr>
                 </thead>
                 <tbody>

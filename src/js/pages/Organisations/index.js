@@ -32,8 +32,33 @@ class Index extends Component {
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
+        this.toggleParticipant = this.toggleParticipant.bind(this);
+        this.inviteParticipants = this.inviteParticipants.bind(this);
 
         this.logger = Logger.instance;
+
+        this.localState = {
+            selectedParticipants: []
+        };
+    }
+
+    toggleParticipant(participantId) {
+
+        if (this.localState.selectedParticipants.indexOf(participantId) > -1) {
+
+            // deselect
+            this.localState.selectedParticipants.splice(this.localState.selectedParticipants.indexOf(participantId), 1);
+        } else {
+
+            // select
+            this.localState.selectedParticipants.push(participantId);
+        }
+    }
+
+    inviteParticipants() {
+        this.localState.selectedParticipants.forEach(participantId => {
+            console.log('inviting '+participantId);
+        });
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -146,7 +171,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
-                        limit: 10000
+                        limit: 100
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -196,7 +221,7 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
-                        limit: 10000
+                        limit: 100
                     },
                     identifiers: {
                         identifier: entity.id,
@@ -216,7 +241,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant, this.toggleParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -246,6 +271,16 @@ class Index extends Component {
         document.querySelector('#modal_add_participant').classList.add('hidden');
     }
 
+    openModalToInviteParticipant() {
+        document.querySelector('#modal_invite_participant').classList.remove('hidden');
+    }
+
+    closeModalToInviteParticipant() {
+        document.querySelector('#modal_invite_participant').classList.add('hidden');
+    }
+
+
+
     render() {
         const { panels, forms, detailPanelData, pathNodes } = this.props;
 
@@ -265,6 +300,10 @@ class Index extends Component {
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                openModalToInviteParticipant = { this.openModalToInviteParticipant }
+                closeModalToInviteParticipant = { this.closeModalToInviteParticipant }
+                inviteParticipants = { this.inviteParticipants }
+                selectedParticipants={ this.localState.selectedParticipants }
                 i18n = { translator(this.props.languageId, 'organisations') }
                 languageId = { this.props.languageId }
             />

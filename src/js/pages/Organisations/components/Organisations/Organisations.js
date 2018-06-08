@@ -26,6 +26,7 @@ class Organisations extends Component {
         );
 
         this.logger = Logger.instance;
+
         this.getDetailPanelData = this.getDetailPanelData.bind(this);
     }
 
@@ -47,6 +48,7 @@ class Organisations extends Component {
         // no panel data loaded yet. while it loads, show empty detail panel with root entity data
         return { entity: AppConfig.global.organisations.rootEntity };
     }
+
 
     render() {
         const {
@@ -93,6 +95,7 @@ class Organisations extends Component {
                         data = { dataForCurrentEntity }
                         openModalToAddParticipant = { this.props.openModalToAddParticipant }
                         closeModalToAddParticipant = { this.props.closeModalToAddParticipant }
+                        openModalToInviteParticipant = { this.props.openModalToInviteParticipant }
                         i18n = { i18n }
                     />
                 </section>
@@ -158,6 +161,35 @@ class Organisations extends Component {
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
                     />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_invite_participant">
+                    <section role="dialog">
+                        <section tabIndex="0" className={ style.background } onClick={ this.props.closeModalToInviteParticipant } role="button" />
+                        <form>
+                            <header>
+                                <h3>invite participant</h3>
+                            </header>
+                            <main>weet je dat zeker JONGEH</main>
+                            <footer>
+                                <button
+                                    className={ 'action_button action_button__secondary' }
+                                    type={ 'button' }
+                                    value={ i18n.organisations_close }
+                                    onClick={ this.props.closeModalToInviteParticipant }
+                                >
+                                    { i18n.organisations_close }
+                                </button>
+                                <button
+                                    className={ 'action_button' }
+                                    type={ 'button' }
+                                    value={ i18n.organisations_invite }
+                                    onClick={ () => this.props.inviteParticipants(this.props.selectedParticipants) }
+                                >
+                                    { i18n.organisations_invite }
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
                 </aside>
             </main>
         );

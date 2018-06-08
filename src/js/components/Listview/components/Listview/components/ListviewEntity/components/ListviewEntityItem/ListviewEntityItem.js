@@ -1,11 +1,19 @@
 import { h, Component } from 'preact';
-import ListviewEntityItemButton from './components/ListviewEntityItemButton/ListviewEntityItemButton';
-import ListviewEntityItemWidget from './components/ListviewEntityItemWidget/ListviewEntityItemWidget';
+import Logger from '../../../../../../../../utils/logger';
+import Pencil from './components/widgets/Pencil/Pencil';
+import Button from './components/widgets/Button/Button';
+import Checkbox from './components/widgets/Checkbox/Checkbox';
 import style from './style/listviewentityitem.scss';
 
 /** @jsx h */
 
 export default class ListviewEntityItem extends Component {
+    constructor(props) {
+        super(props);
+
+        this.logger = Logger.instance;
+    }
+
     translate(element) {
 
         // returns either the translation for element, or the original element
@@ -49,42 +57,43 @@ export default class ListviewEntityItem extends Component {
                 convertedValues += this.translate(key);
 
                 // if not the last entry, add a comma
-                if (index < value.length - 1) {
+                if (value && index < value.length - 1) {
                     convertedValues += ', ';
                 }
             });
 
             value = convertedValues;
-        } else if (this.props.link) {
-
-            // value is a link
-            const buttonLabel = this.translate(value);
-            const buttonLink = this.props.link;
-            const buttonClass = 'action_button';
-
-            value = <ListviewEntityItemButton
-                buttonLabel = { buttonLabel }
-                buttonLink = { buttonLink }
-                buttonClass = { buttonClass }
-            />;
-
-            title = buttonLabel;
-
         } else if (this.props.widget) {
 
-            // value is  a widget
-            value = <ListviewEntityItemWidget
-                widgetType = { this.props.widget.type }
-                widgetLabel = { this.props.widget.value }
-                widgetAction = { this.props.widget.action }
-            />;
+            // a widget was provided. determine its type and output the relevant component with its required props
+            switch (this.props.widget.type) {
+                case 'pencil': value = <Pencil widgetAction={ this.props.widget.action } />;
+                    break;
+
+                case 'checkbox': value = <Checkbox widgetAction={ this.props.widget.action } />;
+                    break;
+
+                case 'button': value = <Button
+                    label={ this.props.widget.label }
+                    link={ this.props.widget.link }
+                    i18n={ this.props.i18n }
+                    translationKey={ this.props.translationKey }
+                />;
+                    break;
+
+                default:
+                    value = '';
+            }
 
             title = this.props.widget.value;
-
         } else if (value !== null && value !== 'undefined') {
 
-            // value is not a link or widget, so get its translation
-            value = this.translate(value);
+            // value is not a link or widget or select_gadget
+            title = value;
+        } else {
+
+            // default to empty string, so sorting still works
+            value = '';
             title = value;
         }
 

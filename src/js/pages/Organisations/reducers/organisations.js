@@ -308,6 +308,13 @@ export default function organisationsReducer(state = initialState, action) {
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
                         participants.push({
+                            selectParticipantLabel: {
+                                type: 'checkbox',
+                                id: account.id,
+                                action: () => {
+                                    action.toggleParticipant(account.id, event)
+                                }
+                            },
                             name: {
                                 value: participantName,
                                 sortingKey: sortValueForParticipantName
@@ -317,9 +324,8 @@ export default function organisationsReducer(state = initialState, action) {
                             },
                             amendParticipantLabel: {
                                 type: 'pencil',
-                                value: '',
                                 action: () => {
-                                    action.amendParticipant(account.id);
+                                    action.amendParticipant(account.id)
                                 }
                             }
                         });
