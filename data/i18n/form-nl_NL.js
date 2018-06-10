@@ -9,7 +9,8 @@ export default {
     "form_organisation_name": "Organisatienaam",
     "form_organisation_name_placeholder": "Vul hier de naam van de organisatie in",
     "form_project_name": "Projectnaam",
-    "form_project_placeholder": "Vul hier de projectnaam in",
+    "form_project_name_placeholder": "Vul hier de projectnaam in",
+    "form_project_product": "Product",
     "form_submit": "Verstuur",
     "form_value_can_not_be_empty": "Deze waarde kan niet leeg zijn"
 };
