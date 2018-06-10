@@ -50,6 +50,7 @@ class Organisations extends Component {
     }
 
     render() {
+
         // panel id represents the non-zero based index the active panel, used to determine the right parent
         // when trying to add entities. Which is current panel - 1 (previous selected item)
 

@@ -9,8 +9,8 @@ export default class Checkbox extends Component {
 
         return (
             <span className={ style.checkbox }>
-                    <input id="checkbox" type="checkbox" onClick={ event => widgetAction(event) } />
-                </span>
+                <input id="checkbox" type="checkbox" onClick={ event => widgetAction(event) } />
+            </span>
         );
     }
 }

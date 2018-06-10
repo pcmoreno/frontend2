@@ -257,8 +257,7 @@ export default class Listview extends Component {
             >
                 {label[0]}
             </th>);
-        }
-        );
+        });
 
         return (
             <table className={ style.listview } id="listview">

@@ -56,7 +56,7 @@ class Index extends Component {
     }
 
     toggleParticipant(participantId) {
-        let tempArray = [];
+        const tempArray = [];
 
         this.localState.selectedParticipants.forEach(participant => {
             tempArray.push(participant);
@@ -65,7 +65,7 @@ class Index extends Component {
         if (tempArray.indexOf(participantId) > -1) {
 
             // deselect
-           tempArray.splice(tempArray.indexOf(participantId), 1);
+            tempArray.splice(tempArray.indexOf(participantId), 1);
         } else {
 
             // select
@@ -77,9 +77,10 @@ class Index extends Component {
     }
 
     inviteParticipants() {
-        this.localState.selectedParticipants.forEach(participantId => {
-            console.log('inviting '+participantId);
-        });
+
+        // this.localState.selectedParticipants.forEach(participantId => {
+        //     console.log('inviting '+participantId);
+        // });
     }
 
     storeFormDataInFormsCollection(formId, formFields) {
@@ -441,36 +442,35 @@ class Index extends Component {
         document.querySelector('#modal_invite_participant').classList.add('hidden');
     }
 
-
-
     render() {
+
         const { panels, forms, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
             <Organisations
-                panels = { panels }
-                formOpenByPanelId = { formOpenByPanelId }
-                panelHeaderAddMethods={ this.panelHeaderAddMethods }
-                forms={ forms }
-                detailPanelData = { detailPanelData }
-                pathNodes = { pathNodes }
-                fetchEntities = { this.fetchEntities }
-                fetchDetailPanelData = { this.fetchDetailPanelData }
-                refreshDataWithMessage={ this.refreshDataWithMessage }
-                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
-                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
-                resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
-                closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
-                closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
-                closeModalToAddProject={ this.closeModalToAddProject }
-                openModalToAddParticipant = { this.openModalToAddParticipant }
-                closeModalToAddParticipant = { this.closeModalToAddParticipant }
-                openModalToInviteParticipant = { this.openModalToInviteParticipant }
-                closeModalToInviteParticipant = { this.closeModalToInviteParticipant }
-                inviteParticipants = { this.inviteParticipants }
-                selectedParticipants={ this.localState.selectedParticipants }
-                i18n = { translator(this.props.languageId, 'organisations') }
-                languageId = { this.props.languageId }
+                panels={panels}
+                formOpenByPanelId={formOpenByPanelId}
+                panelHeaderAddMethods={this.panelHeaderAddMethods}
+                forms={forms}
+                detailPanelData={detailPanelData}
+                pathNodes={pathNodes}
+                fetchEntities={this.fetchEntities}
+                fetchDetailPanelData={this.fetchDetailPanelData}
+                refreshDataWithMessage={this.refreshDataWithMessage}
+                storeFormDataInFormsCollection={this.storeFormDataInFormsCollection}
+                changeFormFieldValueForFormId={this.changeFormFieldValueForFormId}
+                resetChangedFieldsForFormId={this.resetChangedFieldsForFormId}
+                closeModalToAddOrganisation={this.closeModalToAddOrganisation}
+                closeModalToAddJobFunction={this.closeModalToAddJobFunction}
+                closeModalToAddProject={this.closeModalToAddProject}
+                openModalToAddParticipant={this.openModalToAddParticipant}
+                closeModalToAddParticipant={this.closeModalToAddParticipant}
+                openModalToInviteParticipant={this.openModalToInviteParticipant}
+                closeModalToInviteParticipant={this.closeModalToInviteParticipant}
+                inviteParticipants={this.inviteParticipants}
+                selectedParticipants={this.localState.selectedParticipants}
+                i18n={translator(this.props.languageId, 'organisations')}
+                languageId={this.props.languageId}
             />
         );
     }

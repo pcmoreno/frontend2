@@ -315,7 +315,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 type: 'checkbox',
                                 id: account.id,
                                 action: () => {
-                                    action.toggleParticipant(account.id, event)
+                                    action.toggleParticipant(account.id, event);
                                 }
                             },
                             name: {
@@ -328,7 +328,7 @@ export default function organisationsReducer(state = initialState, action) {
                             amendParticipantLabel: {
                                 type: 'pencil',
                                 action: () => {
-                                    action.amendParticipant(account.id)
+                                    action.amendParticipant(account.id);
                                 }
                             }
                         });
