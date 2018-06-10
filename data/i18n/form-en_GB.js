@@ -9,7 +9,8 @@ export default {
     "form_organisation_name": "Organisation name",
     "form_organisation_name_placeholder": "Enter the organisation name here",
     "form_project_name": "Project name",
-    "form_project_placeholder": "Enter a name for the project",
+    "form_project_name_placeholder": "Enter a name for the project",
+    "form_project_product": "Product",
     "form_submit": "Submit",
     "form_value_can_not_be_empty": "This value can not be empty"
 };
