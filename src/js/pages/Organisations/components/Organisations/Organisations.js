@@ -100,6 +100,7 @@ class Organisations extends Component {
                         openModalToAddParticipant = { this.props.openModalToAddParticipant }
                         closeModalToAddParticipant = { this.props.closeModalToAddParticipant }
                         openModalToInviteParticipant = { this.props.openModalToInviteParticipant }
+                        selectedParticipants = { this.props.selectedParticipants }
                         i18n = { i18n }
                     />
                 </section>

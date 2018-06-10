@@ -56,16 +56,24 @@ class Index extends Component {
     }
 
     toggleParticipant(participantId) {
+        let tempArray = [];
 
-        if (this.localState.selectedParticipants.indexOf(participantId) > -1) {
+        this.localState.selectedParticipants.forEach(participant => {
+            tempArray.push(participant);
+        });
+
+        if (tempArray.indexOf(participantId) > -1) {
 
             // deselect
-            this.localState.selectedParticipants.splice(this.localState.selectedParticipants.indexOf(participantId), 1);
+           tempArray.splice(tempArray.indexOf(participantId), 1);
         } else {
 
             // select
-            this.localState.selectedParticipants.push(participantId);
+            // this.localState.selectedParticipants.push(participantId);
+            tempArray.push(participantId);
         }
+
+        this.setState(this.localState.selectedParticipants = tempArray);
     }
 
     inviteParticipants() {

@@ -196,5 +196,5 @@ export default {
     "organisations_amend_participant": "Deelnemer bewerken",
     "organisations_refresh_list_error": "Er is een fout opgetreden bij het verversen van de lijsten, probeer het later nogmaals",
     "organisations_unexpected_error": "",
-    "organisations_select_participant_label": ""
+    "organisations_select_participant_label": " "
 };

@@ -35,6 +35,7 @@ export default class Participants extends Component {
                 <div>
                     <Listview
                         entities={ participants }
+                        selectedEntities = { this.props.selectedParticipants }
                         i18n={ i18n }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }

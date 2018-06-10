@@ -34,6 +34,7 @@ class Index extends Component {
 
         return (<Listview
             entities = { entities }
+            selectedEntities = { this.props.selectedEntities }
             defaultSortingKey = { defaultSortingKey }
             defaultSortingOrder = { defaultSortingOrder }
             translationKey = { translationKey }

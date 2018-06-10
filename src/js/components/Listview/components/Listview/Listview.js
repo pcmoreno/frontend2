@@ -35,6 +35,10 @@ import style from './style/listview.scss';
  * the 'type' can be extended with your own custom type if required
  * the 'value' can be leveraged to provide texts for buttons or labels
  * the 'action' is the method that is called on clicking the widget. note this needs to be passed on to action / reducer
+ *
+ * in order to facilitate selecting entities in a listview (by row), you can pass it a selectedEntities array containing
+ * entity id's that should receive the class 'active'.
+ *
  **/
 
 export default class Listview extends Component {
@@ -218,14 +222,29 @@ export default class Listview extends Component {
             labels.push([label, key]);
         });
 
-        const output = this.localEntities.map((entity, index) =>
-            <ListviewEntity
+        const output = [];
+
+        this.localEntities.forEach((entity, index) => {
+            let activeFlag = false;
+
+            Object.keys(entity).forEach(entityKey => {
+                if (entity[entityKey].type === 'checkbox') {
+                    const entityId = entity[entityKey].id;
+
+                    if (this.props.selectedEntities && this.props.selectedEntities.indexOf(entityId) > -1) {
+                        activeFlag = true;
+                    }
+                }
+            });
+
+            output.push(<ListviewEntity
                 key={ index }
                 entity={ entity }
                 i18n={ i18n }
                 translationKey={ translationKey }
-                selectedEntities = { this.props.selectedEntities }
+                active={ activeFlag }
             />);
+        });
 
         const tableHead = [];
 

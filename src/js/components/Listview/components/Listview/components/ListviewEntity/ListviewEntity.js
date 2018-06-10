@@ -7,7 +7,7 @@ import style from './style/listviewentity.scss';
 export default class ListviewEntity extends Component {
 
     render() {
-        const { entity, i18n, translationKey } = this.props;
+        const { entity, i18n, translationKey, active } = this.props;
         const entityItems = [];
         let widget;
 
@@ -41,7 +41,7 @@ export default class ListviewEntity extends Component {
         });
 
         return (
-            <tr className={ `${style.tableRow}` }>
+            <tr className={ `${style.tableRow} ${active && 'active'}` }>
                 { entityItems }
             </tr>
         );

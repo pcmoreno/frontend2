@@ -51,6 +51,7 @@ export default class DetailPanel extends Component {
                 openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                selectedParticipants={ this.props.selectedParticipants }
                 participants={ entity.participants }
                 i18n={ i18n }
             /></p>;
