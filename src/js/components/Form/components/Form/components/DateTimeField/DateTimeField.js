@@ -14,14 +14,14 @@ export default class DateTimeField extends Component {
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ handle }>{ label }</label>
+                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
                     </li>
                     <li>
                         <input
                             type={ 'datetime-local' }
                             id={ `${formId}_${handle}` }
                             value={ value }
-                            name={ `form[${handle}]` }
+                            name={ handle }
                             onChange={ onChange }
                         />
                     </li>
