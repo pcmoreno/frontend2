@@ -36,7 +36,8 @@ class Index extends Component {
         this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
-        this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
+        this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
+        this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
@@ -69,7 +70,6 @@ class Index extends Component {
         } else {
 
             // select
-            // this.localState.selectedParticipants.push(participantId);
             tempArray.push(participantId);
         }
 
@@ -118,7 +118,33 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage(message, newEntity, type) {
+    /**
+     * Reloads the detail panel and shows success message
+     * @param {string} message - message to show
+     * @returns {undefined}
+     */
+    refreshDetailPanelWithMessage(message) {
+
+        // Show a message, is translated in form definition on Organisations.js
+        this.actions.addAlert({ type: 'success', text: message });
+
+        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
+        // which is present in pathNodes but not in panels
+        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+        const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+        // refresh detail panel of last selected item
+        this.fetchDetailPanelData(lastSelectedItem);
+    }
+
+    /**
+     * This method is used for refreshing a panel and selecting the newly added entity
+     *
+     * @param {string} message - message to show
+     * @param {Object} newEntity - newly added entity
+     * @returns {undefined}
+     */
+    refreshPanelDataWithMessage(message, newEntity) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
         const panelId = this.props.formOpenByPanelId;
 
@@ -132,38 +158,29 @@ class Index extends Component {
         }
 
         // the selected entity is the path (node) of the current active panel (id)
-        const selectedItem = this.props.pathNodes[panelId - 1];
-
-        // we use - 2 because panelId is a non zero-based, but we want to remove the last panel
-        // and because path nodes always has a root organisation at index 0
-        this.props.pathNodes = this.props.pathNodes.slice(panelId - 2, this.props.pathNodes.length - 1);
+        const selectedItem = this.props.pathNodes[panelId];
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
 
         // this will reload the selected entity properties and load it in the last panel (index)
         // panel id is a non zero-based index, but we want the previous panel to be updated first, so we subtract 1
-        this.fetchEntities(selectedItem, panelId - 1, false).then(() => {
-            let returnedNewEntity = null;
+        this.fetchEntities(selectedItem, panelId, false).then(() => {
+            let entityToRefresh = null;
 
-            const panels = this.props.panels;
+            // get panel of which an item was added
+            const currentPanel = this.props.panels[panelId];
 
-            // loop through all panels to find the id
-            // (which is already parsed by the reducer and can be used for path nodes)
-            for (let i = 0; i < panels.length; i++) {
-                for (let j = 0; j < panels[i].entities.length; j++) {
-                    let item = panels[i].entities[j];
-
-                    // match id and type
-                    if (item.id === newId && item.type === type) {
-                        returnedNewEntity = item;
-                        break;
-                    }
+            // loop through results to find the newly added item to acquire full data
+            for (let i = 0; i < currentPanel.entities.length; i++) {
+                if (newId === currentPanel.entities[i].id) {
+                    entityToRefresh = currentPanel.entities[i];
+                    break;
                 }
             }
 
             try {
-                const listItem = document.querySelector(`#panel-${panelId}-${returnedNewEntity.id}`);
+                const listItem = document.querySelector(`#panel-${panelId}-${entityToRefresh.id}`);
                 const list = listItem.parentElement;
 
                 // check if the list item offset is exceeding the height of the list
@@ -196,21 +213,9 @@ class Index extends Component {
                 });
             }
 
-            // todo: this is the initial code to fetch the new item, but panels are cached...
-            // subtract 2 because panelId is not zero-based index while this.props.panels is zero-based
-            // const currentPanel = this.props.panels[panelId - 1];
-
-            // loop through results to find the newly added item to acquire full data
-            // for (let i = 0; i < currentPanel.entities.length; i++) {
-            //     if (newId === currentPanel.entities[i].id) {
-            //         returnedNewEntity = currentPanel.entities[i];
-            //         break;
-            //     }
-            // }
-
             // if the entity was retrieved from the updated panel, go fetch its children
-            if (returnedNewEntity) {
-                this.fetchEntities(returnedNewEntity, panelId, true);
+            if (entityToRefresh) {
+                this.fetchEntities(entityToRefresh, panelId, true);
             }
 
         }).catch(error => {
@@ -310,15 +315,15 @@ class Index extends Component {
             ).then(response => {
                 document.querySelector('#spinner').classList.add('hidden');
 
+                // update path nodes first as they are leading for the panels
+                this.actions.updatePath(entity, panelId);
+
                 if (entity.type !== 'project') {
 
                     // store panel entities in state UNLESS they are children of a project (they do not exist!)
                     // by wrapping an if.. here instead of around the API call, subsequent actions will still take place
                     this.actions.fetchEntities(entity.id, entity.type, response);
                 }
-
-                // now that the new entities are available in the state, update the path to reflect the change
-                this.actions.updatePath(entity, panelId);
 
                 // fetch detail panel if desired
                 if (fetchDetailPanel) {
@@ -370,7 +375,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant, this.toggleParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -448,29 +453,31 @@ class Index extends Component {
 
         return (
             <Organisations
-                panels={panels}
-                formOpenByPanelId={formOpenByPanelId}
-                panelHeaderAddMethods={this.panelHeaderAddMethods}
-                forms={forms}
-                detailPanelData={detailPanelData}
-                pathNodes={pathNodes}
-                fetchEntities={this.fetchEntities}
-                fetchDetailPanelData={this.fetchDetailPanelData}
-                refreshDataWithMessage={this.refreshDataWithMessage}
-                storeFormDataInFormsCollection={this.storeFormDataInFormsCollection}
-                changeFormFieldValueForFormId={this.changeFormFieldValueForFormId}
-                resetChangedFieldsForFormId={this.resetChangedFieldsForFormId}
-                closeModalToAddOrganisation={this.closeModalToAddOrganisation}
-                closeModalToAddJobFunction={this.closeModalToAddJobFunction}
-                closeModalToAddProject={this.closeModalToAddProject}
-                openModalToAddParticipant={this.openModalToAddParticipant}
-                closeModalToAddParticipant={this.closeModalToAddParticipant}
+                panels = { panels }
+                formOpenByPanelId = { formOpenByPanelId }
+                panelHeaderAddMethods={ this.panelHeaderAddMethods }
+                forms={ forms }
+                detailPanelData = { detailPanelData }
+                pathNodes = { pathNodes }
+                fetchEntities = { this.fetchEntities }
+                fetchDetailPanelData = { this.fetchDetailPanelData }
+                refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
+                refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
+                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
+                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+                resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
+                closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
+                closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
+                closeModalToAddProject={ this.closeModalToAddProject }
+                openModalToAddParticipant = { this.openModalToAddParticipant }
+                closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 openModalToInviteParticipant={this.openModalToInviteParticipant}
                 closeModalToInviteParticipant={this.closeModalToInviteParticipant}
                 inviteParticipants={this.inviteParticipants}
                 selectedParticipants={this.localState.selectedParticipants}
                 i18n={translator(this.props.languageId, 'organisations')}
-                languageId={this.props.languageId}
+                languageId = { this.props.languageId }
+                toggleParticipant = { this.toggleParticipant }
             />
         );
     }

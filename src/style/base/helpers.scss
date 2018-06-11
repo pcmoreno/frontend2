@@ -48,7 +48,7 @@
 
 /* active panels in organisation view when below responsive breakpoint */
 @media screen and (max-width: $grid-breakpoints-lg) {
-    #panels > section.active {
+    #panels > section:last-of-type {
         display: block;
     }
 }

@@ -193,8 +193,13 @@ export default class Listview extends Component {
         } else {
             if (this.localEntities !== entities) {
 
-                // when new properties come in, ensure setState is used to update the listView component
-                this.setState(this.localEntities = entities);
+                // if entities are changed and not set, do not render
+                if (!entities || !entities.length) {
+                    return null;
+                }
+
+                // we got a new set of properties, so store them
+                this.localEntities = entities;
 
                 // sort in stored order
                 this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);

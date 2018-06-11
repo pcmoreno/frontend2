@@ -67,7 +67,8 @@ class Organisations extends Component {
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
-            refreshDataWithMessage,
+            refreshPanelDataWithMessage,
+            refreshDetailPanelWithMessage,
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
             closeModalToAddJobFunction,
@@ -130,7 +131,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response, 'organisation');
+                            refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }
@@ -162,8 +163,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
-                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
-                            this.actions.addAlert({ type: 'success', text: i18n.organisations_add_participant_success });
+                            refreshDetailPanelWithMessage(i18n.organisations_add_participant_success);
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
@@ -189,7 +189,7 @@ class Organisations extends Component {
                         // when panelId was not set, fallback to pathnode 0
                         hiddenFields={[
                             { name: 'organisationType', value: 'jobFunction' },
-                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[(formOpenByPanelId || 1) - 1].uuid }
+                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
@@ -204,7 +204,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response, 'jobFunction');
+                            refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }
