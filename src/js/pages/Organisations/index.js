@@ -375,7 +375,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant, this.toggleParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -477,7 +477,6 @@ class Index extends Component {
                 selectedParticipants={this.localState.selectedParticipants}
                 i18n={translator(this.props.languageId, 'organisations')}
                 languageId = { this.props.languageId }
-                toggleParticipant = { this.toggleParticipant }
             />
         );
     }
