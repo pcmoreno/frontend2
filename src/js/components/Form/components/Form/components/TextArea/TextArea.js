@@ -14,7 +14,7 @@ export default class TextArea extends Component {
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ handle }>{ label }</label>
+                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
                     </li>
                     <li>
                         <textarea

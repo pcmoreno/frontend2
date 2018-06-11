@@ -7,21 +7,21 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class OneToMany extends AbstractRelationship {
     render() {
-        const { options, onChange, currentForm, formId, label } = this.props;
+        const { options, handle, onChange, currentForm, formId, label } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>
-                    { currentForm.errors.fields[options.handle] }
+                    { currentForm.errors.fields[handle] }
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.handle }>{ label }</label>
+                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
                     </li>
                     <li>
                         <select
-                            id={ `${formId}_${options.handle}` }
-                            name={ `form[${options.handle}]` }
+                            id={ `${formId}_${handle}` }
+                            name={ handle }
                             required="required"
                             data-array="true"
                             multiple="multiple"

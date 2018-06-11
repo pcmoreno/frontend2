@@ -101,6 +101,7 @@ export default class Form extends Component {
                 return (<TextInput
                     currentForm={this.localState}
                     options={formFieldOptions}
+                    handle={handle}
                     label={label}
                     placeholder={placeholder}
                     value={value}
@@ -129,6 +130,7 @@ export default class Form extends Component {
             case fieldType.RELATIONSHIP:
                 return (<Relationship
                     currentForm={ this.localState }
+                    handle={handle}
                     options={formFieldOptions}
                     label={label}
                     value={value}

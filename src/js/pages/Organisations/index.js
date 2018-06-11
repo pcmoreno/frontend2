@@ -293,7 +293,8 @@ class Index extends Component {
                 urlParams: {
                     parameters: {
                         fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
-                        limit: 10000
+                        limit: 10000,
+                        depth: 5 // depth control: otherwise we will get redundant product projects: projects[0].product.projects
                     },
                     identifiers: {
                         identifier: entity.id,
