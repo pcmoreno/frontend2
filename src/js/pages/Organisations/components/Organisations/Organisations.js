@@ -66,7 +66,8 @@ class Organisations extends Component {
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
-            refreshDataWithMessage,
+            refreshPanelDataWithMessage,
+            refreshDetailPanelWithMessage,
             closeModalToAddOrganisation,
             closeModalToAddParticipant,
             closeModalToAddJobFunction,
@@ -127,7 +128,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_organisation_success, response);
+                            refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ this.props.languageId }
@@ -159,8 +160,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
-                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
-                            this.actions.addAlert({ type: 'success', text: i18n.organisations_add_participant_success });
+                            refreshDetailPanelWithMessage(i18n.organisations_add_participant_success);
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
@@ -201,7 +201,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshDataWithMessage(i18n.organisations_add_job_function_success, response);
+                            refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ this.props.languageId }

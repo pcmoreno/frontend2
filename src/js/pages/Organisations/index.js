@@ -36,7 +36,8 @@ class Index extends Component {
         this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
-        this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
+        this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
+        this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
 
         this.logger = Logger.instance;
 
@@ -84,7 +85,33 @@ class Index extends Component {
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
-    refreshDataWithMessage(message, newEntity) {
+    /**
+     * Reloads the detail panel and shows success message
+     * @param {string} message - message to show
+     * @returns {undefined}
+     */
+    refreshDetailPanelWithMessage(message) {
+
+        // Show a message, is translated in form definition on Organisations.js
+        this.actions.addAlert({ type: 'success', text: message });
+
+        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
+        // which is present in pathNodes but not in panels
+        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+        const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+        // refresh detail panel of last selected item
+        this.fetchDetailPanelData(lastSelectedItem);
+    }
+
+    /**
+     * This method is used for refreshing a panel and selecting the newly added entity
+     *
+     * @param {string} message - message to show
+     * @param {Object} newEntity - newly added entity
+     * @returns {undefined}
+     */
+    refreshPanelDataWithMessage(message, newEntity) {
         const newId = newEntity && newEntity.entry && newEntity.entry.id;
         const panelId = this.props.formOpenByPanelId;
 
@@ -106,7 +133,7 @@ class Index extends Component {
         // this will reload the selected entity properties and load it in the last panel (index)
         // panel id is a non zero-based index, but we want the previous panel to be updated first, so we subtract 1
         this.fetchEntities(selectedItem, panelId, false).then(() => {
-            let returnedNewEntity = null;
+            let entityToRefresh = null;
 
             // get panel of which an item was added
             const currentPanel = this.props.panels[panelId];
@@ -114,13 +141,13 @@ class Index extends Component {
             // loop through results to find the newly added item to acquire full data
             for (let i = 0; i < currentPanel.entities.length; i++) {
                 if (newId === currentPanel.entities[i].id) {
-                    returnedNewEntity = currentPanel.entities[i];
+                    entityToRefresh = currentPanel.entities[i];
                     break;
                 }
             }
 
             try {
-                const listItem = document.querySelector(`#panel-${panelId}-${returnedNewEntity.id}`);
+                const listItem = document.querySelector(`#panel-${panelId}-${entityToRefresh.id}`);
                 const list = listItem.parentElement;
 
                 // check if the list item offset is exceeding the height of the list
@@ -154,8 +181,8 @@ class Index extends Component {
             }
 
             // if the entity was retrieved from the updated panel, go fetch its children
-            if (returnedNewEntity) {
-                this.fetchEntities(returnedNewEntity, panelId, true);
+            if (entityToRefresh) {
+                this.fetchEntities(entityToRefresh, panelId, true);
             }
 
         }).catch(error => {
@@ -392,7 +419,8 @@ class Index extends Component {
                 pathNodes = { pathNodes }
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
-                refreshDataWithMessage={ this.refreshDataWithMessage }
+                refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
+                refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
                 storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
