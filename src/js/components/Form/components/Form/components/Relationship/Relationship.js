@@ -42,7 +42,7 @@ export default class Relationship extends Component {
                     value={ value }
                     formId={ formId }
                 />);
-            case relationship.OsNE_TO_ONE:
+            case relationship.ONE_TO_ONE:
                 return (<OneToOne
                     options={options}
                     handle={handle}
