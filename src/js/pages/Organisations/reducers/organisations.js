@@ -14,7 +14,10 @@ const initialState = {
             type: AppConfig.global.organisations.rootEntity.type,
             participants: []
         }
-    }]
+    }],
+
+    // this value is set to determine which panel is active and opened a form
+    formOpenByPanelId: null
 };
 
 /**
@@ -36,12 +39,13 @@ export default function organisationsReducer(state = initialState, action) {
             newState.pathNodes = [];
 
             // construct the temporary path that is used to populate the new pathNodes state
-            let tempPath;
+            let tempPath = [];
 
             if (action.panelId >= 0) {
 
-                // user clicked at a certain panel so ensure the pathNodes are sliced up until that point
-                tempPath = state.pathNodes.slice(0, action.panelId);
+                // user action at a certain panel so ensure the pathNodes are sliced up until that point
+                // + 1 because we have to take the LTP root organisation (which is not a panel) into account
+                tempPath = state.pathNodes.slice(0, action.panelId + 1);
             } else {
                 logger.error({
                     component: 'UPDATE_PATH',
@@ -49,19 +53,31 @@ export default function organisationsReducer(state = initialState, action) {
                 });
             }
 
+            let shouldAddPath = true;
+
             // build up the new pathNodes state
             tempPath.forEach(node => {
                 newState.pathNodes.push(node);
+
+                // be sure to mark if the new path was already present (on a refresh)
+                if (node.id === action.entity.id && node.type === action.entity.type) {
+                    shouldAddPath = false;
+                }
             });
 
-            // push the new entry
-            newState.pathNodes.push({
-                id: action.entity.id,
-                name: action.entity.name,
-                type: action.entity.type,
-                uuid: action.entity.uuid,
-                section: action.entity.section
-            });
+            // it could be possible upon refresh that the path/panel was already present, then don't add
+            if (shouldAddPath) {
+
+                // push the new entry
+                newState.pathNodes.push({
+                    id: action.entity.id,
+                    panelId: action.panelId,
+                    name: action.entity.name,
+                    type: action.entity.type,
+                    uuid: action.entity.uuid,
+                    section: action.entity.section
+                });
+            }
 
             break;
         }
@@ -93,9 +109,20 @@ export default function organisationsReducer(state = initialState, action) {
 
             // rebuild panels from state
             state.panels.forEach(panel => {
+                let isActive = false;
 
-                // check it doesnt accidently add a panel entry with the id from the payload (ensures it overwrites)
-                if (panel.parentId !== action.parentId) {
+                for (let i = 0; i < newState.pathNodes.length; i++) {
+
+                    // check whether this panel is active (based on path nodes)
+                    if (panel.parentId === newState.pathNodes[i].id &&
+                        panel.parentType === newState.pathNodes[i].type) {
+                        isActive = true;
+                        break;
+                    }
+                }
+
+                // check it doesn't accidentally add a panel entry with the id from the payload (ensures it overwrites)
+                if (panel.parentId !== action.parentId && isActive) {
 
                     // take all properties from existing panel, except the active state
                     // note that parentType is needed to distinguish between organisations and projects with similar id's
@@ -205,7 +232,7 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
 
-        case actionType.AMEND_FORM_DATA:
+        case actionType.AMEND_FORM_DATA: {
 
             // todo: rename to amend_participant_data
 
@@ -268,6 +295,8 @@ export default function organisationsReducer(state = initialState, action) {
             });
 
             break;
+
+        }
 
         case actionType.UPDATE_FORM_FIELD:
 
@@ -413,6 +442,12 @@ export default function organisationsReducer(state = initialState, action) {
             newState.panels = [];
             newState.pathNodes = [];
             newState.detailPanelData = [];
+
+            break;
+
+        case actionType.SET_FORM_OPEN_BY_PANEL_ID:
+
+            newState.formOpenByPanelId = action.panelId;
 
             break;
 

@@ -51,8 +51,9 @@ class Organisations extends Component {
     render() {
         const {
             panels,
+            formOpenByPanelId,
             fetchEntities,
-            openModalToAddOrganisation,
+            panelHeaderAddMethods,
             pathNodes,
             alertComponent,
             fetchDetailPanelData,
@@ -61,23 +62,26 @@ class Organisations extends Component {
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
-            refreshDataWithMessage,
+            refreshPanelDataWithMessage,
+            refreshDetailPanelWithMessage,
             closeModalToAddOrganisation,
             openModalToAddParticipant,
             closeModalToAddParticipant,
             openModalToAmendParticipant,
             closeModalToAmendParticipant,
-            i18n,
-            languageId
+            languageId,
+            closeModalToAddJobFunction,
+            closeModalToAddProject,
+            i18n
         } = this.props;
 
         // define properties for the Panels component
         const panelContainer = <Panels
             panels={ panels }
             pathNodes={ pathNodes }
+            panelHeaderAddMethods={ panelHeaderAddMethods }
             fetchEntities={ fetchEntities }
             fetchDetailPanelData={ fetchDetailPanelData }
-            openModalToAddOrganisation={ openModalToAddOrganisation }
             i18n={i18n}
         />;
 
@@ -117,17 +121,18 @@ class Organisations extends Component {
                             'manyOrganisationToOneOrganisation',
                             'products',
                             'projects',
-                            'organisationType',
                             'organisationSlug'
                         ] }
-                        hiddenFields={[]}
+                        hiddenFields={[{ name: 'organisationType', value: 'organisation' }]}
                         headerText={i18n.organisations_add_organisation}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
                         storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { refreshDataWithMessage }
+                        afterSubmit = { response => {
+                            refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
+                        } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ languageId }
                     />
@@ -158,10 +163,85 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
-                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
-                            this.actions.addAlert({ type: 'success', text: i18n.organisations_add_participant_success });
+                            refreshDetailPanelWithMessage(i18n.organisations_add_participant_success);
                         } }
                         closeModal={ closeModalToAddParticipant }
+                        languageId={ this.props.languageId }
+                    />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_job_function">
+                    <Form
+                        formId={ 'addJobFunction' }
+                        sectionId={ 'organisation' }
+                        method={ FormMethod.CREATE_SECTION }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'childOrganisations',
+                            'availableCompetencies',
+                            'selectedCompetencies',
+                            'products',
+                            'projects',
+                            'organisationSlug'
+                        ] }
+
+                        // when panelId was not set, fallback to pathnode 0
+                        hiddenFields={[
+                            { name: 'organisationType', value: 'jobFunction' },
+                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                        ]}
+                        headerText={i18n.organisations_add_job_function}
+                        submitButtonText={i18n.organisations_add}
+                        forms={ forms }
+                        translationKeysOverride={{
+                            organisationName: {
+                                label: 'form_job_function_name',
+                                placeholder: 'form_job_function_name_placeholder'
+                            }
+                        }}
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
+                        afterSubmit = { response => {
+                            refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
+                        } }
+                        closeModal={ closeModalToAddJobFunction }
+                        languageId={ this.props.languageId }
+                    />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_project">
+                    <Form
+                        formId={ 'addProject' }
+                        sectionId={ 'project' }
+                        method={ FormMethod.CREATE_SECTION }
+                        ignoredFields={ [
+                            'uuid',
+                            'projectSlug',
+                            'created',
+                            'updated',
+                            'participantSessions',
+                            'competencies'
+                        ] }
+                        hiddenFields={[
+                            { name: 'manyProjectToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                        ]}
+                        headerText={i18n.organisations_add_project}
+                        submitButtonText={i18n.organisations_add}
+                        forms={ forms }
+                        translationKeysOverride={{
+                            manyProjectToOneProduct: {
+                                label: 'form_project_product'
+                            }
+                        }}
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
+                        afterSubmit = { response => {
+                            refreshPanelDataWithMessage(i18n.organisations_add_project_success, response);
+                        } }
+                        closeModal={ closeModalToAddProject }
                         languageId={ languageId }
                     />
                 </aside>
@@ -190,9 +270,10 @@ class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { () => {
-                            refreshDataWithMessage(pathNodes[pathNodes.length - 1]);
-                            this.actions.addAlert({ type: 'success', text: i18n.organisations_amend_participant_success });
+                        afterSubmit = { response => {
+                            refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
+
+                            // todo: still needed? this.actions.addAlert({ type: 'success', text: i18n.organisations_amend_participant_success });
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }

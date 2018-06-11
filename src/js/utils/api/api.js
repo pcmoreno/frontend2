@@ -237,7 +237,13 @@ class API {
                         if (!options.retry) {
                             return self.authenticator.refreshAndGetUser().then(() => {
                                 cachedRequest.options.retry = true;
-                                return self.executeRequest(cachedRequest.url, cachedRequest.method, cachedRequest.options);
+
+                                // call the original api request again, and connect the resolve/error methods
+                                return self.executeRequest(cachedRequest.url, cachedRequest.method, cachedRequest.options).then(newJsonResponse => {
+                                    resolve(newJsonResponse);
+                                }).catch(error => {
+                                    reject(error);
+                                });
                             });
                         }
 

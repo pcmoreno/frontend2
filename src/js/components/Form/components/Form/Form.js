@@ -11,14 +11,19 @@ import Email from './components/Email/Email';
 import TextArea from './components/TextArea/TextArea';
 import * as fieldType from './constants/FieldTypes';
 import Logger from '../../../../utils/logger';
+import Utils from '../../../../utils/utils';
 
 /** Preact Form Component v1.0
  *
  * it is now possible for fields to be hidden. in such case do not add it to the ignoredFields.
  * each entry can have its value set to either a static text or, for example, a state key
  *
- * example:
+ * @example
  * hiddenFields={[{ name: 'uuid', value: pathNodes[pathNodes.length - 1].name }]}
+ *
+ * It's also possible to override translation keys
+ * @example
+ * translationKeysOverride={{fieldHandle: {label: 'new_key', placeholder: 'new_key'} }}
  *
  **/
 
@@ -42,15 +47,46 @@ export default class Form extends Component {
             }
         };
 
+        this.translationKeysOverride = this.props.translationKeysOverride || [];
+        this.i18n = this.props.i18n;
         this.logger = Logger.instance;
     }
 
-    buildInputType(formFieldOptions) {
+    convertPlaceholderTranslationKey(handle) {
+        return `form_${Utils.camelCaseToSnakeCase(handle)}_placeholder`;
+    }
 
+    convertLabelTranslationKey(handle) {
+        return `form_${Utils.camelCaseToSnakeCase(handle)}`;
+    }
+
+    buildInputType(formFieldOptions) {
         const type = formFieldOptions.type;
         const handle = formFieldOptions.handle;
-        const label = formFieldOptions.form.all.label;
         const value = formFieldOptions.value ? formFieldOptions.value : '';
+        let label = formFieldOptions.form.all.label || '';
+        let placeholder = '';
+
+        // Check if the translation key for a field is overwritten or there is a generic translation available
+        // if not, the label will remain the returned label from the api
+        if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].label) {
+            label = this.i18n[this.translationKeysOverride[handle].label];
+
+        } else if (this.i18n[this.convertLabelTranslationKey(handle)]) {
+            label = this.i18n[this.convertLabelTranslationKey(handle)];
+        }
+
+        // Check if the translation key for a field is overwritten or there is a generic translation available
+        // if not, the placeholder will be set to the one returned from the api
+        if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].placeholder) {
+            placeholder = this.i18n[this.translationKeysOverride[handle].placeholder];
+
+        } else if (this.i18n[this.convertPlaceholderTranslationKey(handle)]) {
+            placeholder = this.i18n[this.convertPlaceholderTranslationKey(handle)];
+
+        } else if (formFieldOptions.form.all.attr && formFieldOptions.form.all.attr.placeholder) {
+            placeholder = formFieldOptions.form.all.attr.placeholder;
+        }
 
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
@@ -65,6 +101,9 @@ export default class Form extends Component {
                 return (<TextInput
                     currentForm={this.localState}
                     options={formFieldOptions}
+                    handle={handle}
+                    label={label}
+                    placeholder={placeholder}
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
@@ -74,6 +113,7 @@ export default class Form extends Component {
                     currentForm={this.localState}
                     handle={handle}
                     label={label}
+                    placeholder={placeholder}
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}/>);
@@ -90,7 +130,9 @@ export default class Form extends Component {
             case fieldType.RELATIONSHIP:
                 return (<Relationship
                     currentForm={ this.localState }
+                    handle={handle}
                     options={formFieldOptions}
+                    label={label}
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
@@ -100,6 +142,7 @@ export default class Form extends Component {
                     currentForm={this.localState}
                     handle={handle}
                     label={label}
+                    placeholder={placeholder}
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
@@ -113,7 +156,7 @@ export default class Form extends Component {
             default:
                 this.logger.error({
                     component: 'form',
-                    message: `${this.props.i18n.form_input_type_could_not_be_determined} ${type}`
+                    message: `${this.i18n.form_input_type_could_not_be_determined} ${type}`
                 });
                 return null;
         }
@@ -215,23 +258,6 @@ export default class Form extends Component {
                                     break;
                                 }
 
-                                case fieldType.RELATIONSHIP: {
-
-                                    // since choices in a relationship field are populated dynamically at build time,
-                                    // the value is extracted straight from the actual form here.
-                                    if (document.querySelector(`#${formId}_${name}`)) {
-                                        fieldId = name;
-                                        value = document.querySelector(`#${formId}_${name}`).value;
-                                    } else {
-                                        this.logger.error({
-                                            component: 'form',
-                                            message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
-                                        });
-                                    }
-
-                                    break;
-                                }
-
                                 default: {
 
                                     // for all other form element types, simply attempt to get its value
@@ -239,9 +265,12 @@ export default class Form extends Component {
                                         fieldId = name;
                                         value = document.querySelector(`#${formId}_${name}`).value;
                                     } else {
+
+                                        // necessary fields were not fount, do not submit and log an error
+                                        ableToSubmit = false;
                                         this.logger.error({
                                             component: 'form',
-                                            message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
+                                            message: `${this.i18n.form_could_not_find_form_field} ${name}`
                                         });
                                     }
                                 }
@@ -273,7 +302,7 @@ export default class Form extends Component {
                                 ableToSubmit = false;
 
                                 this.handleErrorMessages(
-                                    { [name]: `${this.props.i18n.form_value_can_not_be_empty}` }
+                                    { [name]: `${this.i18n.form_value_can_not_be_empty}` }
                                 );
                             }
                         }
@@ -285,7 +314,7 @@ export default class Form extends Component {
         if (ableToSubmit) {
 
             // disable the submit button
-            this.setSubmitButtonState(true);
+            this.setSubmissionState(true);
 
             // submit the changed fields
             this.props.submitForm(changedFields).then(response => {
@@ -296,17 +325,23 @@ export default class Form extends Component {
                     this.handleErrorMessages(response.errors);
 
                     // re-enable the submit button
-                    this.setSubmitButtonState(false);
+                    this.setSubmissionState(false);
                 } else {
 
                     // consider this a successful call
                     document.querySelector('#spinner').classList.add('hidden');
 
-                    this.handleClose();
-
                     // re-enable the submit button
-                    this.setSubmitButtonState(false);
+                    this.setSubmissionState(false);
+
+                    this.handleClose();
                 }
+            });
+        } else {
+
+            // show an error (unexpected) as form field values could not be fetched
+            this.handleErrorMessages({
+                form: this.i18n.form_could_not_process_your_request
             });
         }
     }
@@ -314,11 +349,11 @@ export default class Form extends Component {
     /**
      * Sets the 'disabled' state of the button to submit the form
      *
-     * @param {boolean} requestedButtonState - determines whether button should be disabled
+     * @param {boolean} submissionState - determines whether button should be disabled
      * @returns {undefined}
      */
-    setSubmitButtonState(requestedButtonState) {
-        this.localState.form.disabled = requestedButtonState;
+    setSubmissionState(submissionState) {
+        this.localState.form.disabled = submissionState;
         this.setState(this.localState);
     }
 
@@ -390,18 +425,22 @@ export default class Form extends Component {
      */
     handleClose() {
 
-        // reset the form and field error messages
-        this.resetFormFields();
-        this.resetErrorMessages();
+        // only close when the form was not disabled (not in submission state)
+        if (!this.localState.form.disabled) {
 
-        // executes the provided close method
-        this.props.closeModal();
+            // reset the form and field error messages
+            this.resetFormFields();
+            this.resetErrorMessages();
+
+            // executes the provided close method
+            this.props.closeModal();
+        }
     }
 
     render() {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
-        let formFields = this.props.i18n.form_loading_form;
+        let formFields = this.i18n.form_loading_form;
         const hiddenFormFields = [];
 
         // default the submit button to null until the form data is loaded and fields are identified
@@ -469,7 +508,7 @@ export default class Form extends Component {
                             value={ 'Close' }
                             onClick={ this.handleClose }
                         >
-                            { this.props.i18n.form_close }
+                            { this.i18n.form_close }
                         </button>
                         { formSubmitButton }
                     </nav>

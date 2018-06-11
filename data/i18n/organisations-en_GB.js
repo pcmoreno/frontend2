@@ -12,13 +12,11 @@ export default {
     "organisations_add_organisation": "add organisation",
     "organisations_add_organisation_placeholder_name": "Enter a name for the organisation",
     "organisations_close": "close",
-    "organisations_invite": "invite",
+    "organisations_invite": "Invite",
     "organisations_project": "Project",
     "organisations_job_function": "Job function",
-    "organisations_add_project": "add project",
-    "organisations_add_project_placeholder_name": "Enter a name for the project",
+    "organisations_add_project": "Add project",
     "organisations_add_job_function": "Add job function",
-    "organisations_add_job_function_placeholder_name": "Enter a name for the job function",
     "organisations_added": "added",
     "organisations_invited": "invited",
     "organisations_added_invited": "added + invited",
@@ -193,5 +191,8 @@ export default {
     "organisations_add_custom_competency_error": "An error occurred while adding the competencies, please try again later",
     "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later",
     "organisations_amend_participant_label": " ",
-    "organisations_amend_participant": "Edit participant"
+    "organisations_amend_participant": "Edit participant",
+    "organisations_refresh_list_error": "An error occurred while trying to refresh the lists, please try again later",
+    "organisations_unexpected_error": "",
+    "organisations_select_participant_label": " "
 };

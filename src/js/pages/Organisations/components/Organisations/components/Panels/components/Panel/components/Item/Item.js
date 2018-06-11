@@ -41,7 +41,7 @@ export default class Item extends Component {
 
         return (
             <li
-                id = { entity.id }
+                id = { `panel-${panelId}-${entity.id}` }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
                 onClick = { () => {
 

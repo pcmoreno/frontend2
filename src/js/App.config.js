@@ -81,11 +81,11 @@ const AppConfig = {
 
             // example component. Can be removed once a real component/action is added.
             component: {
-                editAction: [UserRoles.APPLICATION_MANAGER],
-                route: [UserRoles.APPLICATION_MANAGER]
+                editAction: [UserRoles.ROLE_APPLICATION_MANAGERS],
+                route: [UserRoles.ROLE_APPLICATION_MANAGERS]
             },
             report: {
-                route: [UserRoles.APPLICATION_MANAGER]
+                route: [UserRoles.ROLE_APPLICATION_MANAGERS]
             },
             loginRedirect: '/login'
         }

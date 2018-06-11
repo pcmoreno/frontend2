@@ -1,6 +1,11 @@
-.add_button {
+.header {
     height: 30px;
     border-bottom: solid 1px $shadow;
+}
+
+.addContainer {
+    float: right;
+    height: 100%;
 
     > button {
         color: $blue;
@@ -10,9 +15,59 @@
         background: $white;
         font-size: .8rem;
         margin-right: 3px;
-
-        &:hover {
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
+}
+
+.actionList {
+    border: 3px solid $blue;
+    background: $beige;
+    position: absolute;
+    z-index: 1;
+    margin-top: 30px;
+    margin-left: -30px;
+
+    ::before {
+        content: '';
+        position: absolute;
+        top: -13px;
+        right: 53px;
+        border-width: 0 12px 12px;
+        border-style: solid;
+        border-color: $blue transparent;
+        display: block;
+        width: 0;
+    }
+
+    ::after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-color: $beige transparent;
+        display: block;
+        width: 0;
+        top: -9px;
+        right: 56px;
+        border-width: 0 9px 9px;
+    }
+}
+
+.actionItem {
+    color: $brown;
+    display: block;
+    padding: 10px;
+    font-size: .9rem;
+    transition: background .2s, color .2s;
+
+    &:hover {
+        cursor: pointer;
+        color: $white;
+        background-color: $blue;
+    }
+}
+
+.icon {
+    display: inline-block;
+    width: 1rem;
+    margin-right: 10px;
 }

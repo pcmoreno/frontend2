@@ -12,13 +12,11 @@ export default {
     "organisations_add_organisation": "Voeg organisatie toe",
     "organisations_add_organisation_placeholder_name": "Vul een naam in voor de organisatie",
     "organisations_close": "sluit",
-    "organisations_invite": "",
+    "organisations_invite": "Uitnodigen",
     "organisations_project": "Project",
     "organisations_job_function": "Functie",
-    "organisations_add_project": "",
-    "organisations_add_project_placeholder_name": "",
+    "organisations_add_project": "Voeg project toe",
     "organisations_add_job_function": "Voeg functie toe",
-    "organisations_add_job_function_placeholder_name": "",
     "organisations_added": "toegevoegd",
     "organisations_invited": "uitgenodigd",
     "organisations_added_invited": "toegevoegd + uitgenodigd",
@@ -193,5 +191,8 @@ export default {
     "organisations_add_custom_competency_error": "Er is een fout opgetreden bij het toevoegen van competenties, probeer het later nogmaals",
     "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals",
     "organisations_amend_participant_label": " ",
-    "organisations_amend_participant": "Deelnemer bewerken"
+    "organisations_amend_participant": "Deelnemer bewerken",
+    "organisations_refresh_list_error": "Er is een fout opgetreden bij het verversen van de lijsten, probeer het later nogmaals",
+    "organisations_unexpected_error": "",
+    "organisations_select_participant_label": " "
 };

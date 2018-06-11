@@ -14,7 +14,7 @@ export default class Path extends Component {
         const { pathNodes, fetchEntities } = this.props;
 
         const nodes = [];
-        let panelIndex = 1;
+        let panelIndex = 0;
 
         pathNodes.forEach(pathNode => {
 

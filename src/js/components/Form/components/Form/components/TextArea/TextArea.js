@@ -7,19 +7,20 @@ import style from '../style/field.scss';
 export default class TextArea extends Component {
 
     render() {
-        const { currentForm, handle, label, onChange, value, formId } = this.props;
+        const { currentForm, handle, label, onChange, value, formId, placeholder } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ handle }>{ label }</label>
+                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
                     </li>
                     <li>
                         <textarea
                             id={ `${formId}_${handle}` }
                             rows={ '3' }
+                            placeholder={ placeholder }
                             value={ value }
                             name={ `form[${handle}]` }
                             onChange={ onChange }

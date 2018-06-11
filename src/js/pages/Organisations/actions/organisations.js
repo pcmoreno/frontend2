@@ -106,7 +106,7 @@ export function resetChangedFieldsForFormId(formId) {
  * Fetch entities action
  * @param {Object} entity - entity
  * @param {array} data - data
- * @param {Function} amendParticipant - amendParticipant
+ * @param {Function} openModalToAmendParticipant - openModalToAmendParticipant
  * @returns {{type, data: *}} data to populate detail panel
  */
 export function fetchDetailPanelData(entity, data, openModalToAmendParticipant) {
@@ -128,6 +128,18 @@ export function fetchDetailPanelData(entity, data, openModalToAmendParticipant) 
 export function resetOrganisations() {
     return {
         type: actionType.RESET_ORGANISATIONS
+    };
+}
+
+/**
+ * Sets the active panel id for the forms
+ * @param {number} panelId - panel id
+ * @returns {undefined}
+ */
+export function setFormOpenByPanelId(panelId) {
+    return {
+        type: actionType.SET_FORM_OPEN_BY_PANEL_ID,
+        panelId
     };
 }
 

@@ -1,5 +1,5 @@
 const UserRoles = {
-    APPLICATION_MANAGER: 'Application Manager'
+    ROLE_APPLICATION_MANAGERS: 'ROLE_APPLICATION_MANAGERS'
 };
 
 export default UserRoles;

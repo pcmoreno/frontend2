@@ -138,7 +138,7 @@ class Index extends Component {
 
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
-                this.props.afterSubmit();
+                this.props.afterSubmit(response);
 
                 // resolve with nothing by default (success)
                 return resolve();
@@ -167,6 +167,7 @@ class Index extends Component {
             resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
             closeModal={this.props.closeModal}
             i18n={this.i18n}
+            translationKeysOverride={this.props.translationKeysOverride}
         />);
     }
 }

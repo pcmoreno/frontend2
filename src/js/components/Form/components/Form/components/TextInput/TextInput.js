@@ -10,37 +10,28 @@ export default class TextInput extends Component {
         return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
     }
 
-    getPlaceholder(options) {
-        return typeof ((((options || {}).form || {}).all || {}).attr || {}).placeholder === 'undefined'
-            ? ''
-            : options.form.all.attr.placeholder;
-    }
-
     render() {
-        const { currentForm, onChange, value, options, formId } = this.props;
+        const { currentForm, handle, onChange, value, options, formId, label, placeholder } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
-        const placeholder = this.getPlaceholder(options);
-        const fieldName = typeof options.as !== 'undefined' ? options.as : options.to;
-        const fieldId = typeof options.as !== 'undefined' ? options.as : options.handle;
 
         return (
             <div>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ options.handle }>{ options.form.all.label + required }</label>
+                        <label htmlFor={ `${formId}_${handle}` }>{ label + required }</label>
                     </li>
                     <li>
                         <input
                             type={ 'text' }
-                            id={ `${formId}_${fieldId}` }
-                            name={ fieldName }
+                            id={ `${formId}_${handle}` }
+                            name={ handle }
                             value={ value }
                             onChange={ onChange }
                             placeholder={ placeholder }
                             autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
-                            className={ currentForm.errors.fields[options.handle] && 'error' }
+                            className={ currentForm.errors.fields[handle] && 'error' }
                         />
-                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[options.handle] }</span>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
                     </li>
                 </ul>
             </div>
