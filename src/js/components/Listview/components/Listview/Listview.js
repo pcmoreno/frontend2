@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 
-/** Preact Listview Component v2.1
+/** Preact Listview Component v2.2
  *
  *  requires its data (this.props.entities) to be a collection (array) of objects written in this format:
  *
@@ -18,15 +18,17 @@ import style from './style/listview.scss';
  *     }
  *  }
  *
+ * Features:
  * allows providing an array of values instead of single value (arrays are sorted alphabetically by default)
  * for each value / array key an attempt to find a matching translation is made (values are trimmed and lowercased)
- * if translationKey was not provided, retrieving a default translation will be attempted, too ('listview|<value>') todo: will this stay in?
  * by providing a sortingKey, values can be displayed independent from their sorting behaviour (useful for dates)
  * values can be strings, arrays of strings, or arrays of objects. (but they need to be in the 'value' key, see example)
- * a <a href class="button-action"> is output when you provide a 'link' to go with the value, which becomes its label
- * you can add a custom widget (for example, an icon) with the following syntax:
  *
- *  a_column_label_that_can_be_left_empty_in_your_i18n_if_required: {
+ *
+ * Widgets:
+ * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
+ *
+ *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
  *      type: 'pencil',
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
@@ -36,8 +38,11 @@ import style from './style/listview.scss';
  * the 'value' can be leveraged to provide texts for buttons or labels
  * the 'action' is the method that is called on clicking the widget. note this needs to be passed on to action / reducer
  *
- * in order to facilitate selecting entities in a listview (by row), you can pass it a selectedEntities array containing
- * entity id's that should receive the class 'active'.
+ *
+ * Selecting entities:
+ * In order to allow selecting individual entities in the listview, you can pass on an array of id's called
+ * selectedEntities containing entity id's that should receive the class 'active'. The match is made on entity.id.
+ * Note the actual selecting / deselecting should be done by a checkbox widget and a method in the calling component.
  *
  **/
 
@@ -200,6 +205,7 @@ export default class Listview extends Component {
         const labels = [];
 
         Object.keys(this.localEntities[0]).forEach(key => {
+
             let label = key;
 
             if (translationKey) {
@@ -248,7 +254,8 @@ export default class Listview extends Component {
 
         const tableHead = [];
 
-        // todo: figure out how to prevent entities being sortable when they dont have a value set (as for widgets)
+        // todo: prevent entities being sorted when they are a widgets
+        // todo: when this th label facilitates a checkbox, add one to select all entries
         labels.forEach(label => {
             tableHead.push(<th
                 key={label[1]}

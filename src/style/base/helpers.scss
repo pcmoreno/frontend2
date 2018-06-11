@@ -160,6 +160,26 @@ table td.organisation {
     text-align: center;
 }
 
+/* the checkbox column in the list view inside the detail panel needs to reside in smaller column than the rest */
+#listview thead tr th.select_participant_label,
+#listview thead tr th.amend_participant_label {
+    width: .5rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.selectParticipantLabel,
+.amendParticipantLabel {
+    padding: 0;
+    text-align: center;
+}
+
+/* the default active colour for entities in the listview component */
 #listview tr.active {
     background: $blue;
+
+    /*  pencil on a blue background */
+    .amendParticipantLabel button {
+        color: $white;
+    }
 }

@@ -88,7 +88,7 @@ export default class ListviewEntityItem extends Component {
             title = this.props.widget.value;
         } else if (value !== null && value !== 'undefined') {
 
-            // value is not a link or widget or select_gadget
+            // value is not a widget
             title = value;
         } else {
 
