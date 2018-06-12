@@ -139,7 +139,7 @@ class Organisations extends Component {
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
                     <Form
-                        formId={ 'addParticipantSection' }
+                        formId={ 'addParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.CREATE_SECTION }
                         ignoredFields={ [
@@ -247,7 +247,7 @@ class Organisations extends Component {
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_amend_participant">
                     <Form
-                        formId={ 'amendParticipantSection' }
+                        formId={ 'amendParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.UPDATE_SECTION }
                         ignoredFields={ [
@@ -272,8 +272,6 @@ class Organisations extends Component {
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
                             refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
-
-                            // todo: still needed? this.actions.addAlert({ type: 'success', text: i18n.organisations_amend_participant_success });
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }

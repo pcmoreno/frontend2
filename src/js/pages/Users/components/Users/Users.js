@@ -4,18 +4,20 @@ import { h, Component } from 'preact';
 
 import Listview from '../../../../components/Listview';
 import Sidebar from './../../../../components/Sidebar';
-import Form from './../../../../components/Form';
+
+// import Form from './../../../../components/Form';
 import style from './style/users.scss';
 
 export default class Users extends Component {
     render() {
         const {
             users,
-            forms,
-            refreshDataWithMessage,
-            closeModalToAddUser,
-            changeFormFieldValueForFormId,
-            storeFormDataInFormsCollection,
+
+            // forms,
+            // refreshDataWithMessage,
+            // closeModalToAddUser,
+            // changeFormFieldValueForFormId,
+            // storeFormDataInFormsCollection,
             openModalToAddUser,
             i18n
         } = this.props;
@@ -35,21 +37,6 @@ export default class Users extends Component {
                     />
                 </section>
                 <Sidebar tabs={ tabs } />
-                <aside className={ `${style.modal_container} hidden` } id="modal_user">
-                    <Form
-                        formId={ 'account' }
-                        sectionId={ 'account' }
-                        ignoredFields={ [
-                            'uuid'
-                        ] }
-                        forms = { forms }
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        afterSubmit = { refreshDataWithMessage }
-                        closeModal={ closeModalToAddUser }
-                        i18n={i18n}
-                    />
-                </aside>
             </main>
         );
     }

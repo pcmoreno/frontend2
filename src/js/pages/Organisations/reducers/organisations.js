@@ -219,7 +219,9 @@ export default function organisationsReducer(state = initialState, action) {
 
             // first build up the forms with data from state
             state.forms.forEach(form => {
-                newState.forms.push(form);
+                if (action.formId !== form.id) {
+                    newState.forms.push(form);
+                }
             });
 
             // now add the new form taken from the action

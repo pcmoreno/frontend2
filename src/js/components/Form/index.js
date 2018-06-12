@@ -28,21 +28,6 @@ class Index extends Component {
         this.api = ApiFactory.get('neon');
         this.i18n = translator(this.props.languageId, 'form');
     }
-    //
-    // componentDidMount() {
-    //     let formLoaded;
-    //
-    //     // 'preload' forms if not already loaded
-    //     this.props.forms.forEach(form => {
-    //         if (form.id === this.props.formId) {
-    //             formLoaded = true;
-    //         }
-    //     });
-    //
-    //     if (!formLoaded) {
-    //         this.getFormFields();
-    //     }
-    // }
 
     getFormFields() {
         const formId = this.props.formId;

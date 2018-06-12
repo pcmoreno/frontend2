@@ -28,21 +28,28 @@ class Index extends Component {
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
+
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
-        this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+
         this.openModalToAddJobFunction = this.openModalToAddJobFunction.bind(this);
         this.closeModalToAddJobFunction = this.closeModalToAddJobFunction.bind(this);
+
         this.openModalToAddProject = this.openModalToAddProject.bind(this);
         this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
+
+        this.openModalToAddParticipant = this.openModalToAddParticipant.bind(this);
+        this.closeModalToAddParticipant = this.closeModalToAddParticipant.bind(this);
+
+        this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
+        this.closeModalToAmendParticipant = this.closeModalToAmendParticipant.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
         this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
 
         this.logger = Logger.instance;
-
-        // todo: remove
         this.api = ApiFactory.get('neon');
 
         this.panelHeaderAddMethods = {
@@ -52,12 +59,6 @@ class Index extends Component {
         };
 
         this.i18n = translator(this.props.languageId, 'organisations');
-    }
-
-    storeFormDataInFormsCollection(formId, formFields) {
-
-        // dispatch action to update forms[] state with new form data (will overwrite for this id)
-        this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
@@ -371,7 +372,7 @@ class Index extends Component {
 
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
-            this.storeFormDataInFormsCollection(formId, response.fields);
+            this.actions.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
 
@@ -381,10 +382,14 @@ class Index extends Component {
     }
 
     // todo: refactor below methods into a combined function
-    openModalToAddOrganisation() {
-        document.querySelector('#modal_add_organisation').classList.remove('hidden');
+    openModalToAddOrganisation(panelId) {
 
+        // store panel id so we know what panel was active when opening the form
+        this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
         this.getFormFields('addOrganisation', 'organisation');
+        document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
     closeModalToAddOrganisation() {
@@ -395,6 +400,9 @@ class Index extends Component {
     }
 
     openModalToAddParticipant() {
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addParticipant', 'participantSession');
         document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
 
@@ -406,6 +414,9 @@ class Index extends Component {
 
         // store panel id so we know what panel was active when opening the form
         this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addJobFunction', 'organisation');
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
 
@@ -420,6 +431,9 @@ class Index extends Component {
 
         // store panel id so we know what panel was active when opening the form
         this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addProject', 'project');
         document.querySelector('#modal_add_project').classList.remove('hidden');
     }
 
@@ -430,9 +444,10 @@ class Index extends Component {
         document.querySelector('#modal_add_project').classList.add('hidden');
     }
 
-    openModalToAmendParticipant(participantId) {
+    openModalToAmendParticipant(/* participantId */) {
 
-        console.log('going to amend '+participantId);
+        // fetch entity form data and show modal/form
+        this.getFormFields('amendParticipant', 'participantSession');
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
 
