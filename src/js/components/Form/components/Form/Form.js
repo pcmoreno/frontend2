@@ -452,6 +452,7 @@ export default class Form extends Component {
 
         // since all forms are passed on, find the one that matches the given formId
         if (forms && forms.length > 0) {
+
             forms.forEach(form => {
                 if (form.id === formId) {
 

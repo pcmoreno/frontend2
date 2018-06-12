@@ -26,7 +26,7 @@ const AppConfig = {
                 organisations: {
                     rootEntities: '/v1/section/fieldvalue/organisation/organisationType?value=organisation',
                     childEntities: '/v1/section/{type}/id/{identifier}',
-                    detailPanelData: '/v1/section/{type}/id/{identifier}' // todo: insert proper custom endpoint here
+                    detailPanelData: '/v1/section/{type}/id/{identifier}'
                 },
                 report: {
                     entities: '/v1/section/participantSession/slug/{slug}',

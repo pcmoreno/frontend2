@@ -219,7 +219,9 @@ export default function organisationsReducer(state = initialState, action) {
 
             // first build up the forms with data from state
             state.forms.forEach(form => {
-                newState.forms.push(form);
+                if (action.formId !== form.id) {
+                    newState.forms.push(form);
+                }
             });
 
             // now add the new form taken from the action
@@ -346,14 +348,14 @@ export default function organisationsReducer(state = initialState, action) {
                                 type: 'pencil',
                                 value: '',
                                 action: () => {
-                                    action.amendParticipant(account.id);
+                                    action.openModalToAmendParticipant(account.id);
                                 }
                             }
                         });
                     } else {
                         logger.error({
                             component: 'FETCH_DETAIL_PANEL_DATA',
-                            message: 'participant has no account key'
+                            message: 'participant has no account'
                         });
                     }
                 });

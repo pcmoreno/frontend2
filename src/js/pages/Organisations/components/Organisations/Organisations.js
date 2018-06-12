@@ -44,18 +44,14 @@ class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // no panel data loaded yet. while it loads, show empty detail panel with root entity data
+        // no panel data loaded yet. while it loads, show empty detail panel with root entity data (is that always relevant?)
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     render() {
         const {
             panels,
-
-            // panel id represents the non-zero based index the active panel, used to determine the right parent
-            // when trying to add entities. Which is current panel - 1 (previous selected item)
             formOpenByPanelId,
-
             fetchEntities,
             panelHeaderAddMethods,
             pathNodes,
@@ -69,7 +65,11 @@ class Organisations extends Component {
             refreshPanelDataWithMessage,
             refreshDetailPanelWithMessage,
             closeModalToAddOrganisation,
+            openModalToAddParticipant,
             closeModalToAddParticipant,
+            openModalToAmendParticipant,
+            closeModalToAmendParticipant,
+            languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
             i18n
@@ -99,8 +99,10 @@ class Organisations extends Component {
                     { panelContainer }
                     <DetailPanel
                         data = { dataForCurrentEntity }
-                        openModalToAddParticipant = { this.props.openModalToAddParticipant }
-                        closeModalToAddParticipant = { this.props.closeModalToAddParticipant }
+                        openModalToAddParticipant = { openModalToAddParticipant }
+                        closeModalToAddParticipant = { closeModalToAddParticipant }
+                        openModalToAmendParticipant = { openModalToAmendParticipant }
+                        closeModalToAmendParticipant = { closeModalToAmendParticipant }
                         i18n = { i18n }
                     />
                 </section>
@@ -132,12 +134,12 @@ class Organisations extends Component {
                             refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
                     <Form
-                        formId={ 'addParticipantSection' }
+                        formId={ 'addParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.CREATE_SECTION }
                         ignoredFields={ [
@@ -240,7 +242,39 @@ class Organisations extends Component {
                             refreshPanelDataWithMessage(i18n.organisations_add_project_success, response);
                         } }
                         closeModal={ closeModalToAddProject }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
+                    />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_amend_participant">
+                    <Form
+                        formId={ 'amendParticipant' }
+                        sectionId={ 'participantSession' }
+                        method={ FormMethod.UPDATE_SECTION }
+                        ignoredFields={ [
+                            'uuid',
+                            'created',
+                            'updated',
+                            'calculatedScores',
+                            'accountHasRoleGenericRoleStatus',
+                            'oneParticipantSessionToOneReport',
+                            'oneParticipantSessionToOneAccountHasRole',
+                            'manyParticipantSessionToOneProject',
+                            'startedOn',
+                            'onlineId',
+                            'participantSessionSlug'
+                        ] }
+                        headerText={i18n.organisations_amend_participant}
+                        submitButtonText={i18n.organisations_save}
+                        forms={ forms }
+                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
+                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
+                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
+                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
+                        afterSubmit = { response => {
+                            refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
+                        } }
+                        closeModal={ closeModalToAmendParticipant }
+                        languageId={ languageId }
                     />
                 </aside>
             </main>

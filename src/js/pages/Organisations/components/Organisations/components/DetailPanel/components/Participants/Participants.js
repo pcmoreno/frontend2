@@ -10,15 +10,15 @@ export default class Participants extends Component {
     }
 
     render() {
-        const { i18n, participants } = this.props;
+        const { i18n, participants, openModalToAddParticipant } = this.props;
 
         return (
             <div>
                 <div className={ style.toolbar }>
                     <button
-                        onClick={ this.props.openModalToAddParticipant }
-                        className="action_button left"
-                        type="button"
+                        onClick={ openModalToAddParticipant }
+                        className={ 'action_button left' }
+                        type={ 'button' }
                     >
                         { i18n.organisations_add_participant }
                     </button>

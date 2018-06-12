@@ -28,18 +28,29 @@ class Index extends Component {
         this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
+
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+
         this.openModalToAddJobFunction = this.openModalToAddJobFunction.bind(this);
         this.closeModalToAddJobFunction = this.closeModalToAddJobFunction.bind(this);
+
         this.openModalToAddProject = this.openModalToAddProject.bind(this);
         this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
+
+        this.openModalToAddParticipant = this.openModalToAddParticipant.bind(this);
+        this.closeModalToAddParticipant = this.closeModalToAddParticipant.bind(this);
+
+        this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
+        this.closeModalToAmendParticipant = this.closeModalToAmendParticipant.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
         this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
 
         this.logger = Logger.instance;
+        this.api = ApiFactory.get('neon');
 
         this.panelHeaderAddMethods = {
             organisation: this.openModalToAddOrganisation,
@@ -48,12 +59,6 @@ class Index extends Component {
         };
 
         this.i18n = translator(this.props.languageId, 'organisations');
-    }
-
-    storeFormDataInFormsCollection(formId, formFields) {
-
-        // dispatch action to update forms[] state with new form data (will overwrite for this id)
-        this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
@@ -73,15 +78,13 @@ class Index extends Component {
     componentWillUnmount() {
 
         // reset organisations in state
-        // because we currently want to refresh all data when the component is re-opened
-        // in the future we may use the old state to reduce the loading time
         this.actions.resetOrganisations();
     }
 
     componentDidMount() {
         updateNavigationArrow();
 
-        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
+        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig.
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
@@ -91,6 +94,8 @@ class Index extends Component {
      * @returns {undefined}
      */
     refreshDetailPanelWithMessage(message) {
+
+        // todo: would like to rename this to refreshDetailPanelDataWithMessage to keep it in line
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
@@ -198,7 +203,7 @@ class Index extends Component {
 
     getSectionForEntityType(entity) {
 
-        // determines the endpoint for which children or detail panel data should be fetched from
+        // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
             case 'organisation':
                 return 'organisation';
@@ -210,6 +215,8 @@ class Index extends Component {
                 return 'project';
 
             case 'jobFunction':
+
+                // job functions are modeled as organisations, since their behaviour is indifferent
                 return 'organisation';
 
             default:
@@ -343,24 +350,45 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
         }
     }
 
-    amendParticipant() {
+    getFormFields(formId, sectionId) {
 
-        // todo: add real logic here, see NEON-3560
+        // show loader
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        // execute request
+        this.api.get(
+            this.api.getBaseUrl(),
+            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
+        ).then(response => {
+
+            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
+
+            // hide loader and pass the fields to the form
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.storeFormDataInFormsCollection(formId, response.fields);
+
+        }).catch((/* error */) => {
+
+            // This is an unexpected API error and the form cannot be loaded
+            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
+        });
     }
 
-    // todo: refactor below methods into one 'toggle' method with parameter 'id'
-
+    // todo: refactor below methods into a combined function
     openModalToAddOrganisation(panelId) {
 
         // store panel id so we know what panel was active when opening the form
         this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addOrganisation', 'organisation');
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
@@ -372,6 +400,9 @@ class Index extends Component {
     }
 
     openModalToAddParticipant() {
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addParticipant', 'participantSession');
         document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
 
@@ -383,6 +414,9 @@ class Index extends Component {
 
         // store panel id so we know what panel was active when opening the form
         this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addJobFunction', 'organisation');
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
 
@@ -397,6 +431,9 @@ class Index extends Component {
 
         // store panel id so we know what panel was active when opening the form
         this.actions.setFormOpenByPanelId(panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addProject', 'project');
         document.querySelector('#modal_add_project').classList.remove('hidden');
     }
 
@@ -405,6 +442,17 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_project').classList.add('hidden');
+    }
+
+    openModalToAmendParticipant(/* participantId */) {
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('amendParticipant', 'participantSession');
+        document.querySelector('#modal_amend_participant').classList.remove('hidden');
+    }
+
+    closeModalToAmendParticipant() {
+        document.querySelector('#modal_amend_participant').classList.add('hidden');
     }
 
     render() {
@@ -430,8 +478,10 @@ class Index extends Component {
                 closeModalToAddProject={ this.closeModalToAddProject }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
-                i18n = { this.i18n }
-                languageId = { this.props.languageId }
+                openModalToAmendParticipant={ this.openModalToAmendParticipant }
+                closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
+                i18n={ translator(this.props.languageId, 'organisations') }
+                languageId={ this.props.languageId }
             />
         );
     }
