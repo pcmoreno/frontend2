@@ -94,6 +94,8 @@ class Index extends Component {
      */
     refreshDetailPanelWithMessage(message) {
 
+        // todo: would like to rename this to refreshDetailPanelDataWithMessage to keep it in line
+
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
 
@@ -354,9 +356,35 @@ class Index extends Component {
         }
     }
 
+    getFormFields(formId, sectionId) {
+
+        // show loader
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        // execute request
+        this.api.get(
+            this.api.getBaseUrl(),
+            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
+        ).then(response => {
+
+            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
+
+            // hide loader and pass the fields to the form
+            document.querySelector('#spinner').classList.add('hidden');
+            this.storeFormDataInFormsCollection(formId, response.fields);
+
+        }).catch((/* error */) => {
+
+            // This is an unexpected API error and the form cannot be loaded
+            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
+        });
+    }
+
     // todo: refactor below methods into a combined function
     openModalToAddOrganisation() {
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
+
+        this.getFormFields('addOrganisation', 'organisation');
     }
 
     closeModalToAddOrganisation() {
