@@ -15,8 +15,7 @@ const AppConfig = {
                 abstractSection: '/v1/section',
                 sectionInfo: '/v1/section/info', // This call gives information on how to build the form
                 participants: {
-                    entities: '/v1/section/participantSession',
-                    amendParticipant: '/v1/section/participantSession'
+                    entities: '/v1/section/participantSession'
                 },
                 tasks: {
                     entities: '/v1/section/participantSession'

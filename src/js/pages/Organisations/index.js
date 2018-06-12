@@ -404,9 +404,7 @@ class Index extends Component {
 
     openModalToAmendParticipant(participantId) {
 
-        // todo: finish this
-        // console.log('going to amend '+participantId);
-
+        console.log('going to amend '+participantId);
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
 
