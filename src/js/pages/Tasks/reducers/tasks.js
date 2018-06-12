@@ -31,7 +31,7 @@ export default function tasksReducer(state = initialState, action) {
                 let sortValueForConsultantName = '';
 
                 // extract participant infix
-                if (account && account.hasOwnProperty('infix') && account.infix) {
+                if (account && account.infix) {
                     participantInfix = ` ${account.infix} `;
                 }
 
@@ -43,7 +43,7 @@ export default function tasksReducer(state = initialState, action) {
                 if (task.consultant && task.consultant.account) {
 
                     // extract consultant infix
-                    if (task.consultant.account.hasOwnProperty('infix') && task.consultant.account.infix !== 'undefined') {
+                    if (task.consultant.account.infix) {
                         consultantInfix = ` ${task.consultant.account.infix || ''} `;
                     }
 
@@ -56,11 +56,11 @@ export default function tasksReducer(state = initialState, action) {
                 let appointmentDate = '';
                 let sortValueForAppointmentDate = '';
 
-                if (task.hasOwnProperty('participantSessionAppointmentDate')) {
+                if (task.participantSessionAppointmentDate) {
 
                     // construct appointment date
-                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm') || '';
-                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm') || '';
+                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate.date, 'dd-MM-yyyy HH:mm') || '';
+                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate.date, 'yyyy-MM-dd HH:mm') || '';
                 }
 
                 // extract organisation name

@@ -225,7 +225,7 @@ const Utils = {
      */
     formatDate(date, format) {
 
-        // dont proceed without a given format
+        // don't proceed without a given format
         if (!date || !format) {
             return null;
         }
@@ -235,62 +235,74 @@ const Utils = {
             date = new Date(date);
         }
 
-        // extract date values from the given date
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        const day = date.getDate();
+        try {
 
-        // parse month
-        if (~format.indexOf('MM')) {
-            format = format.replace('MM', this.padLeft(month.toString(), 2, '0'));
-        }
+            // extract date values from the given date
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const day = date.getDate();
 
-        if (~format.indexOf('mmmm')) {
-            const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-
-            format = format.replace('mmmm', months[month]);
-        }
-
-        // parse year
-        if (~format.indexOf('yyyy')) {
-            format = format.replace('yyyy', year.toString());
-        } else if (~format.indexOf('yy')) {
-            format = format.replace('yy', year.toString().slice(2, 2));
-        }
-
-        // parse day
-        if (~format.indexOf('dd')) {
-            format = format.replace('dd', this.padLeft(day.toString(), 2, '0'));
-        }
-
-        // extract time values
-        let hours = date.getHours();
-        const minutes = date.getMinutes();
-        const seconds = date.getSeconds();
-
-        // format hours
-        if (~format.indexOf('HH')) {
-            format = format.replace('HH', this.padLeft(hours.toString(), 2, '0'));
-        } else if (~format.indexOf('hh')) {
-
-            // subtract 12 when its past 12, or set to 12 when its 0 (pm time)
-            if (hours > 12) {
-                hours -= 12;
-            } else if (hours === 0) {
-                hours = 12;
+            // parse month
+            if (~format.indexOf('MM')) {
+                format = format.replace('MM', this.padLeft(month.toString(), 2, '0'));
             }
 
-            format = format.replace('hh', this.padLeft(hours.toString(), 2, '0'));
-        }
+            if (~format.indexOf('mmmm')) {
+                const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
-        // format minutes
-        if (~format.indexOf('mm')) {
-            format = format.replace('mm', this.padLeft(minutes.toString(), 2, '0'));
-        }
+                format = format.replace('mmmm', months[month]);
+            }
 
-        // format seconds
-        if (~format.indexOf('ss')) {
-            format = format.replace('ss', this.padLeft(seconds.toString(), 2, '0'));
+            // parse year
+            if (~format.indexOf('yyyy')) {
+                format = format.replace('yyyy', year.toString());
+            } else if (~format.indexOf('yy')) {
+                format = format.replace('yy', year.toString().slice(2, 2));
+            }
+
+            // parse day
+            if (~format.indexOf('dd')) {
+                format = format.replace('dd', this.padLeft(day.toString(), 2, '0'));
+            }
+
+            // extract time values
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+
+            // format hours
+            if (~format.indexOf('HH')) {
+                format = format.replace('HH', this.padLeft(hours.toString(), 2, '0'));
+            } else if (~format.indexOf('hh')) {
+
+                // subtract 12 when its past 12, or set to 12 when its 0 (pm time)
+                if (hours > 12) {
+                    hours -= 12;
+                } else if (hours === 0) {
+                    hours = 12;
+                }
+
+                format = format.replace('hh', this.padLeft(hours.toString(), 2, '0'));
+            }
+
+            // format minutes
+            if (~format.indexOf('mm')) {
+                format = format.replace('mm', this.padLeft(minutes.toString(), 2, '0'));
+            }
+
+            // format seconds
+            if (~format.indexOf('ss')) {
+                format = format.replace('ss', this.padLeft(seconds.toString(), 2, '0'));
+            }
+
+        } catch (e) {
+            Logger.instance.error({
+                component: 'Utils',
+                message: `Parsing date object failed: ${JSON.stringify(date)} ${format} with exception: ${e}`
+            });
+
+            // return an empty string if parsing failed
+            format = '';
         }
 
         return format;
