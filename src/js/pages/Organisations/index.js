@@ -25,7 +25,6 @@ class Index extends Component {
             dispatch
         );
 
-        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
 
@@ -470,7 +469,6 @@ class Index extends Component {
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
                 refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
-                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
