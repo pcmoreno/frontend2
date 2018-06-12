@@ -7,7 +7,7 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class ManyToMany extends AbstractRelationship {
     render() {
-        const { currentForm, handle, options, onChange, formId, label } = this.props;
+        const { currentForm, handle, options, onChange, formId, label, i18n } = this.props;
 
         return (
             <div>
@@ -27,7 +27,7 @@ export default class ManyToMany extends AbstractRelationship {
                             multiple="multiple"
                             onBlur={ onChange }
                         >
-                            { this.createOptions(options[options.to]) }
+                            { this.createOptions(options[options.to], i18n) }
                         </select>
                     </li>
                 </ul>

@@ -9,7 +9,7 @@ import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {
     render() {
-        const { options, handle, label, onChange, value, currentForm, formId } = this.props;
+        const { options, handle, label, onChange, value, currentForm, formId, i18n } = this.props;
 
         switch (options.kind) {
             case relationship.MANY_TO_MANY:
@@ -21,6 +21,7 @@ export default class Relationship extends Component {
                     currentForm={currentForm}
                     value={ value }
                     formId={ formId }
+                    i18n={ i18n }
                 />);
             case relationship.ONE_TO_MANY:
                 return (<OneToMany
@@ -31,6 +32,7 @@ export default class Relationship extends Component {
                     currentForm={currentForm}
                     value={ value }
                     formId={ formId }
+                    i18n={ i18n }
                 />);
             case relationship.MANY_TO_ONE:
                 return (<ManyToOne
@@ -41,6 +43,7 @@ export default class Relationship extends Component {
                     currentForm={currentForm}
                     value={ value }
                     formId={ formId }
+                    i18n={ i18n }
                 />);
             case relationship.ONE_TO_ONE:
                 return (<OneToOne
@@ -51,6 +54,7 @@ export default class Relationship extends Component {
                     currentForm={currentForm}
                     value={ value }
                     formId={ formId }
+                    i18n={ i18n }
                 />);
             default:
                 return null;

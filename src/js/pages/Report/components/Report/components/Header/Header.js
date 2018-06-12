@@ -9,8 +9,6 @@ export default class Header extends Component {
     render() {
         const { participant, product, organisation, consultant, i18n } = this.props;
 
-        // todo: product.name should be translated but needs NEON-3788 first
-
         const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
         let date = participant.appointmentDate;
@@ -20,6 +18,11 @@ export default class Header extends Component {
                 date = date.replace(month, i18n[`report_${month}`]);
             }
         });
+
+        // translate product name
+        if (i18n[`report_${product.translationKey}`]) {
+            product.name = i18n[`report_${product.translationKey}`];
+        }
 
         return (
             <section className={ style.header }>
