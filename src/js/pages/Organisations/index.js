@@ -60,10 +60,6 @@ class Index extends Component {
         this.actions.storeFormDataInFormsCollection(formId, formFields);
     }
 
-    amendFormDataInFormsCollection(formId, data) {
-        this.actions.amendFormDataInFormsCollection(formId, data);
-    }
-
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
 
         // react controlled component pattern takes over the built-in form state when input changes
@@ -407,18 +403,11 @@ class Index extends Component {
     }
 
     openModalToAmendParticipant(participantId) {
-        document.querySelector('#modal_amend_participant').classList.remove('hidden');
-        document.querySelector('#spinner').classList.remove('hidden');
 
-        this.api.get(
-            this.api.getBaseUrl(),
-            `${this.api.getEndpoints().participants.entities}/id/${participantId}?fields=accountHasRole,account,gender,id,educationLevel,firstName,infix,lastName,email`
-        ).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
-            this.amendFormDataInFormsCollection('amendParticipantSection', response);
-        }).catch((/* error */) => {
-            this.actions.addAlert({ type: 'error', text: 'er ging iets mis bij het ophalen van deelnemergegevens' });
-        });
+        // todo: finish this
+        // console.log('going to amend '+participantId);
+
+        document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
 
     closeModalToAmendParticipant() {

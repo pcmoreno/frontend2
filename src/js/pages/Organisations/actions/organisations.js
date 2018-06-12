@@ -142,20 +142,3 @@ export function setFormOpenByPanelId(panelId) {
         panelId
     };
 }
-
-/**
- * Amend form data in collection action
- * @param {string} formId - formId
- * @param {Object} data - data
- * @returns {{type, formId: *, formFields: *}} form data with type
- */
-export function amendFormDataInFormsCollection(formId, data) {
-
-    // return action type and the value(s) to be sent to reducer for state mutation
-
-    return {
-        type: actionType.AMEND_FORM_DATA,
-        formId,
-        data
-    };
-}
