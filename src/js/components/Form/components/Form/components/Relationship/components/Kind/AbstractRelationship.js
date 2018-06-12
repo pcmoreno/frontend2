@@ -6,7 +6,7 @@ import Option from '../../components/Option/Option';
 
 export default class AbstractRelationship extends Component {
 
-    createOptions(options) {
+    createOptions(options, i18n) {
         const formFieldOptions = [];
         let selectedSet = false;
 
@@ -26,8 +26,10 @@ export default class AbstractRelationship extends Component {
 
             formFieldOptions.push(<Option
                 optionValue={ option.slug }
-                value={option.name}
+                value={ option.name }
+                translationKey={ option.translationKey }
                 selected={ selected }
+                i18n={ i18n }
             />);
         });
 

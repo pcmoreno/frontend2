@@ -226,7 +226,7 @@ const Utils = {
     formatDate(date, format) {
 
         // dont proceed without a given format
-        if (!format) {
+        if (!date || !format) {
             return null;
         }
 

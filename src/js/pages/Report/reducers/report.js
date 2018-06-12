@@ -68,6 +68,7 @@ export default function reportReducer(state = initialState, action) {
 
                 // set product name
                 newState.report.product.name = product.productName;
+                newState.report.product.translationKey = product.translationKey;
 
                 // set organisation name and/or job function
                 if (organisation.organisationType.toLowerCase() === 'organisation') {

@@ -88,6 +88,8 @@ export default class Form extends Component {
             placeholder = formFieldOptions.form.all.attr.placeholder;
         }
 
+        // todo: Add exclusion fields so that names are not translated (see i18n property in fields)
+
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
@@ -126,6 +128,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    i18n={this.i18n}
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
@@ -136,6 +139,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    i18n={this.i18n}
                 />);
             case fieldType.EMAIL:
                 return (<Email
