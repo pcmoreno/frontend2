@@ -396,6 +396,8 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_organisation').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToAddParticipant() {
@@ -407,6 +409,8 @@ class Index extends Component {
 
     closeModalToAddParticipant() {
         document.querySelector('#modal_add_participant').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToAddJobFunction(panelId) {
@@ -424,6 +428,8 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_job_function').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToAddProject(panelId) {
@@ -441,6 +447,8 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_project').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToAmendParticipant(/* participantId */) {
@@ -452,6 +460,8 @@ class Index extends Component {
 
     closeModalToAmendParticipant() {
         document.querySelector('#modal_amend_participant').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     render() {

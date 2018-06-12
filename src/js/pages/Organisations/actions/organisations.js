@@ -132,6 +132,16 @@ export function resetOrganisations() {
 }
 
 /**
+ * Reset forms
+ * @returns {{}} reset forms
+ */
+export function resetForms() {
+    return {
+        type: actionType.RESET_FORMS
+    };
+}
+
+/**
  * Sets the active panel id for the forms
  * @param {number} panelId - panel id
  * @returns {undefined}
