@@ -22,18 +22,11 @@ class Index extends Component {
             dispatch
         );
 
-        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddUser = this.openModalToAddUser.bind(this);
         this.closeModalToAddUser = this.closeModalToAddUser.bind(this);
     }
 
-
-    storeFormDataInFormsCollection(formId, formFields) {
-
-        // dispatch action to update forms[] state with new form data (will overwrite for this id)
-        this.actions.storeFormDataInFormsCollection(formId, formFields);
-    }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
 

@@ -58,7 +58,6 @@ class Organisations extends Component {
             alertComponent,
             fetchDetailPanelData,
             forms,
-            storeFormDataInFormsCollection,
             storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
@@ -127,7 +126,6 @@ class Organisations extends Component {
                         headerText={i18n.organisations_add_organisation}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
@@ -158,7 +156,6 @@ class Organisations extends Component {
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
@@ -200,7 +197,6 @@ class Organisations extends Component {
                                 placeholder: 'form_job_function_name_placeholder'
                             }
                         }}
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
@@ -234,7 +230,6 @@ class Organisations extends Component {
                                 label: 'form_project_product'
                             }
                         }}
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
@@ -266,7 +261,6 @@ class Organisations extends Component {
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
                         forms={ forms }
-                        storeFormDataInFormsCollection={ storeFormDataInFormsCollection }
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
