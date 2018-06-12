@@ -7,7 +7,7 @@ import style from '../style/field.scss';
 
 export default class Choice extends Component {
 
-    createOptions(options) {
+    createOptions(options, i18n) {
         const formFieldOptions = [];
         let selectedSet = false;
 
@@ -29,6 +29,7 @@ export default class Choice extends Component {
                 optionValue={ options.form.all.choices[option] }
                 value={ option }
                 selected={ selected }
+                i18n={ i18n }
             />);
         });
 
@@ -36,7 +37,7 @@ export default class Choice extends Component {
     }
 
     render() {
-        const { options, currentForm, handle, label, onChange, formId } = this.props;
+        const { options, currentForm, handle, label, onChange, formId, i18n } = this.props;
 
         return (
             <div>
@@ -51,7 +52,7 @@ export default class Choice extends Component {
                             name={ handle }
                             onBlur={ onChange }
                         >
-                            { this.createOptions(options) }
+                            { this.createOptions(options, i18n) }
                         </select>
                     </li>
                 </ul>
