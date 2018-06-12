@@ -381,6 +381,13 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
 
+        case actionType.RESET_FORMS:
+
+            // reset state so all form data is refreshed
+            newState.forms = [];
+
+            break;
+
         case actionType.SET_FORM_OPEN_BY_PANEL_ID:
 
             newState.formOpenByPanelId = action.panelId;
