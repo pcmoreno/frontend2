@@ -411,7 +411,12 @@ class Index extends Component {
 
         // fetch entity form data and show modal/form
         this.getFormFields('addOrganisation', {
-            section: 'organisation'
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
         });
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
@@ -429,7 +434,12 @@ class Index extends Component {
 
         // fetch entity form data and show modal/form
         this.getFormFields('addParticipant', {
-            section: 'participantSession'
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,participantSessionAppointmentDate,comments,consultant'
+                }
+            }
         });
         document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
@@ -453,7 +463,12 @@ class Index extends Component {
 
         // fetch entity form data and show modal/form
         this.getFormFields('addJobFunction', {
-            section: 'organisation'
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
         });
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
@@ -487,7 +502,8 @@ class Index extends Component {
             section: 'project',
             urlParams: {
                 parameters: {
-                    options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`
+                    options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
+                    fields: 'projectName,manyProjectToOneProduct'
                 }
             }
         });
@@ -507,7 +523,14 @@ class Index extends Component {
 
         // fetch entity form data and show modal/form
         this.getFormFields('amendParticipant', {
-            section: 'participantSession'
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+
+                    // todo: robbin, adjust the fields that you need to receive
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,comments,consultant'
+                }
+            }
         });
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
