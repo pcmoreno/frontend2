@@ -356,15 +356,31 @@ class Index extends Component {
         }
     }
 
-    getFormFields(formId, sectionId) {
+    /**
+     * Fetch form fields
+     * @param {string} formId - form id
+     * @param {Object} options - call options
+     * @param {string} options.section - section name
+     * @param {string|number} [options.id] - section id
+     * @param {Object} [options.urlParams] - url params for api module
+     * @returns {undefined}
+     */
+    getFormFields(formId, options) {
+        const urlParams = options.urlParams || {};
 
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');
 
+        // parse endpoint url with section name and optional id
+        const endpoint = `${this.api.getEndpoints().sectionInfo}/${options.section}${options.id ? `/${options.id}` : ''}`;
+
         // execute request
         this.api.get(
             this.api.getBaseUrl(),
-            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
+            endpoint,
+            {
+                urlParams
+            }
         ).then(response => {
 
             // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
@@ -381,13 +397,27 @@ class Index extends Component {
     }
 
     // todo: refactor below methods into a combined function
-    openModalToAddOrganisation(panelId) {
+
+    /**
+     * Opens modal to add organisation
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddOrganisation(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
 
         // fetch entity form data and show modal/form
-        this.getFormFields('addOrganisation', 'organisation');
+        this.getFormFields('addOrganisation', {
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
+        });
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
@@ -403,7 +433,14 @@ class Index extends Component {
     openModalToAddParticipant() {
 
         // fetch entity form data and show modal/form
-        this.getFormFields('addParticipant', 'participantSession');
+        this.getFormFields('addParticipant', {
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,participantSessionAppointmentDate,comments,consultant'
+                }
+            }
+        });
         document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
 
@@ -413,13 +450,26 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    openModalToAddJobFunction(panelId) {
+    /**
+     * Opens modal to add job function
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddJobFunction(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
 
         // fetch entity form data and show modal/form
-        this.getFormFields('addJobFunction', 'organisation');
+        this.getFormFields('addJobFunction', {
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
+        });
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
 
@@ -432,13 +482,31 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    openModalToAddProject(panelId) {
+    /**
+     * Opens modal to add project
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddProject(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
+
+        // get organisation id (todo: use slug)
+        const organisationId = this.props.pathNodes[options.panelId].id;
 
         // fetch entity form data and show modal/form
-        this.getFormFields('addProject', 'project');
+        // give options to make sure that we only get products for projects that are available for this organisation
+        this.getFormFields('addProject', {
+            section: 'project',
+            urlParams: {
+                parameters: {
+                    options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
+                    fields: 'projectName,manyProjectToOneProduct'
+                }
+            }
+        });
         document.querySelector('#modal_add_project').classList.remove('hidden');
     }
 
@@ -454,7 +522,16 @@ class Index extends Component {
     openModalToAmendParticipant(/* participantId */) {
 
         // fetch entity form data and show modal/form
-        this.getFormFields('amendParticipant', 'participantSession');
+        this.getFormFields('amendParticipant', {
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+
+                    // todo: robbin, adjust the fields that you need to receive
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,comments,consultant'
+                }
+            }
+        });
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
 

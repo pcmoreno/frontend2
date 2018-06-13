@@ -23,36 +23,9 @@ class Index extends Component {
         );
 
         this.submitForm = this.submitForm.bind(this);
-        this.getFormFields = this.getFormFields.bind(this);
 
         this.api = ApiFactory.get('neon');
         this.i18n = translator(this.props.languageId, 'form');
-    }
-
-    getFormFields() {
-        const formId = this.props.formId;
-        const sectionId = this.props.sectionId;
-
-        // show loader
-        document.querySelector('#spinner').classList.remove('hidden');
-
-        // execute request
-        this.api.get(
-            this.api.getBaseUrl(),
-            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
-        ).then(response => {
-
-            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
-
-            // hide loader and pass the fields to the form
-            document.querySelector('#spinner').classList.add('hidden');
-            this.props.storeFormDataInFormsCollection(formId, response.fields);
-
-        }).catch((/* error */) => {
-
-            // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
-        });
     }
 
     /**
