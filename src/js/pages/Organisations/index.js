@@ -526,7 +526,7 @@ class Index extends Component {
 
                 /* all fields except appointmentdate (todo: will work when dion is done. right now non-requested fields are still returned, though empty) */
                 this.getFormFields('amendParticipant', {
-                    section: `participantSession/id/${participantId}`,
+                    section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
                             fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email'
@@ -539,7 +539,7 @@ class Index extends Component {
 
                 /* all fields */
                 this.getFormFields('amendParticipant', {
-                    section: `participantSession/id/${participantId}`,
+                    section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
                             fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
