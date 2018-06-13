@@ -348,7 +348,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 type: 'pencil',
                                 value: '',
                                 action: () => {
-                                    action.openModalToAmendParticipant(account.id);
+                                    action.openModalToAmendParticipant(participant.id, participantStatus);
                                 }
                             }
                         });

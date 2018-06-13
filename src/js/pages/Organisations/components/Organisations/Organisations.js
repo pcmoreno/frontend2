@@ -90,6 +90,8 @@ class Organisations extends Component {
             return null;
         }
 
+        /* todo: remove hiddenFields property and instead use the ?fields= prop insite the openModal... methods to determine which fields should be retrieved by the API call */
+
         return (
             <main className={ style.organisations }>
                 { alertComponent }
@@ -246,7 +248,7 @@ class Organisations extends Component {
                         sectionId={ 'participantSession' }
                         method={ FormMethod.UPDATE_SECTION }
                         ignoredFields={ [
-                            'uuid',
+                            'accountGender',
                             'created',
                             'updated',
                             'calculatedScores',

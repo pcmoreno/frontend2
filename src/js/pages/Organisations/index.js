@@ -380,6 +380,30 @@ class Index extends Component {
         });
     }
 
+    openModalToAmendParticipant(participantId, participantStatus) {
+
+        // available status: 'added', 'invited', 'redirectedToOnline', 'invitationAccepted', 'termsAndConditionsAccepted', 'hnaFinished', 'personafitFinished', 'permissionDeniedToShare','permissionGivenToShare'
+
+        // note migrated participants have no 'displayname' set while it is a required property when amending.
+
+        switch (participantStatus) {
+            case 'hnaFinished':
+
+                /* all fields except appointmentdate (todo: will work when dion is done. right now non-requested fields are still returned, though empty) */
+                this.getFormFields('amendParticipant', `participantSession/${participantId}?fields=accountHasRole,uuid,gender,accountHasRoleLanguage,accountDisplayName,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email`, `/id/${participantId}`);
+                break;
+
+            default:
+
+                /* all fields */
+                this.getFormFields('amendParticipant', `participantSession/${participantId}?fields=accountHasRole,uuid,gender,accountHasRoleLanguage,participantSessionAppointmentDate,accountDisplayName,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email`, `/id/${participantId}`);
+                break;
+        }
+
+        document.querySelector('#modal_amend_participant').classList.remove('hidden');
+    }
+
+
     // todo: refactor below methods into a combined function
     openModalToAddOrganisation(panelId) {
 
@@ -451,12 +475,6 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    openModalToAmendParticipant(/* participantId */) {
-
-        // fetch entity form data and show modal/form
-        this.getFormFields('amendParticipant', 'participantSession');
-        document.querySelector('#modal_amend_participant').classList.remove('hidden');
-    }
 
     closeModalToAmendParticipant() {
         document.querySelector('#modal_amend_participant').classList.add('hidden');
