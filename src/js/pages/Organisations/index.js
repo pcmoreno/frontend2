@@ -383,8 +383,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                //this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant);
-                this.actions.fetchDetailPanelData(entity, response, this.amendParticipant, this.toggleParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant, this.toggleParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -609,12 +608,12 @@ class Index extends Component {
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 openModalToAmendParticipant={ this.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
-                openModalToInviteParticipant={this.openModalToInviteParticipant}
-                closeModalToInviteParticipant={this.closeModalToInviteParticipant}
-                inviteParticipants={this.inviteParticipants}
-                selectedParticipants={this.localState.selectedParticipants}
-                i18n={translator(this.props.languageId, 'organisations')}
-                languageId = { this.props.languageId }
+                openModalToInviteParticipant={ this.openModalToInviteParticipant }
+                closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
+                inviteParticipants={ this.inviteParticipants }
+                selectedParticipants={ this.localState.selectedParticipants }
+                i18n={ translator(this.props.languageId, 'organisations') }
+                languageId={ this.props.languageId }
             />
         );
     }
