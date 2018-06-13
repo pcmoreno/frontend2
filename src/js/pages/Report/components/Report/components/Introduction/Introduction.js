@@ -24,19 +24,23 @@ export default class Introduction extends Component {
         // a <p> tag wrapped around it. since the default texts no longer have this tag (we removed CDATA and <p> tags
         // in Lokalise) the <p> tag is added here programmatically, to ensure consistency in styling.
 
-        if (!texts.goal.value) {
+        // set default text if there was no text on the report ( no slug )
+        if (!texts.goal.slug) {
             texts.goal.value = `<p>${i18n.report_about_this_report_default_text}</p>`;
         }
 
-        if (!texts.validity.value) {
+        // set default text if there was no text on the report ( no slug )
+        if (!texts.validity.slug) {
             texts.validity.value = `<p>${i18n.report_validity_default_text}</p>`;
         }
 
-        if (!texts.parts.value) {
+        // set default text if there was no text on the report ( no slug )
+        if (!texts.parts.slug) {
             texts.parts.value = `<p>${i18n.report_components_default_text}</p>`;
         }
 
-        if (!texts.structure.value) {
+        // set default text if there was no text on the report ( no slug )
+        if (!texts.structure.slug) {
             texts.structure.value = `<p>${i18n.report_structure_of_the_report_default_text}</p>`;
         }
 
