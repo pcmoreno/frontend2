@@ -258,7 +258,8 @@ class Organisations extends Component {
                             'manyParticipantSessionToOneProject',
                             'startedOn',
                             'onlineId',
-                            'participantSessionSlug'
+                            'participantSessionSlug',
+                            'accountDisplayName'
                         ] }
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}

@@ -79,7 +79,6 @@ class Index extends Component {
             // show loader
             document.querySelector('#spinner').classList.remove('hidden');
 
-            // if a hiddenField was found containing a UUID, use the updateAbstractField endpoint and add the sectionPostfix
             let endpoint = `${this.api.getEndpoints().abstractSection}/${sectionId}`;
 
             if (slug) {
