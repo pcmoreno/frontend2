@@ -28,47 +28,6 @@ class Index extends Component {
         this.i18n = translator(this.props.languageId, 'form');
     }
 
-    componentDidMount() {
-        let formLoaded;
-
-        // 'preload' forms if not already loaded
-        this.props.forms.forEach(form => {
-            if (form.id === this.props.formId) {
-                formLoaded = true;
-            }
-        });
-
-        if (!formLoaded) {
-            this.getFormFields();
-        }
-    }
-
-    getFormFields() {
-        const formId = this.props.formId;
-        const sectionId = this.props.sectionId;
-
-        // show loader
-        document.querySelector('#spinner').classList.remove('hidden');
-
-        // execute request
-        this.api.get(
-            this.api.getBaseUrl(),
-            `${this.api.getEndpoints().sectionInfo}/${sectionId}`
-        ).then(response => {
-
-            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
-
-            // hide loader and pass the fields to the form
-            document.querySelector('#spinner').classList.add('hidden');
-            this.props.storeFormDataInFormsCollection(formId, response.fields);
-
-        }).catch((/* error */) => {
-
-            // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
-        });
-    }
-
     /**
      * Maps form fields to a payload-ready object
      * [{fieldId: id, value: val}] becomes {id:val}

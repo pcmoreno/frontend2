@@ -25,23 +25,34 @@ class Index extends Component {
             dispatch
         );
 
-        this.storeFormDataInFormsCollection = this.storeFormDataInFormsCollection.bind(this);
         this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
+
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
+
         this.openModalToAddJobFunction = this.openModalToAddJobFunction.bind(this);
         this.closeModalToAddJobFunction = this.closeModalToAddJobFunction.bind(this);
+
         this.openModalToAddProject = this.openModalToAddProject.bind(this);
         this.closeModalToAddProject = this.closeModalToAddProject.bind(this);
+
+        this.openModalToAddParticipant = this.openModalToAddParticipant.bind(this);
+        this.closeModalToAddParticipant = this.closeModalToAddParticipant.bind(this);
+
+        this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
+        this.closeModalToAmendParticipant = this.closeModalToAmendParticipant.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
         this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
+
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
         this.logger = Logger.instance;
+        this.api = ApiFactory.get('neon');
 
         this.panelHeaderAddMethods = {
             organisation: this.openModalToAddOrganisation,
@@ -83,12 +94,6 @@ class Index extends Component {
         // });
     }
 
-    storeFormDataInFormsCollection(formId, formFields) {
-
-        // dispatch action to update forms[] state with new form data (will overwrite for this id)
-        this.actions.storeFormDataInFormsCollection(formId, formFields);
-    }
-
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
 
         // react controlled component pattern takes over the built-in form state when input changes
@@ -106,15 +111,13 @@ class Index extends Component {
     componentWillUnmount() {
 
         // reset organisations in state
-        // because we currently want to refresh all data when the component is re-opened
-        // in the future we may use the old state to reduce the loading time
         this.actions.resetOrganisations();
     }
 
     componentDidMount() {
         updateNavigationArrow();
 
-        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig
+        // fetch entities for static id '0', which is reserved for root entities. name of panel is defined in AppConfig.
         this.fetchEntities(AppConfig.global.organisations.rootEntity, 0);
     }
 
@@ -124,6 +127,8 @@ class Index extends Component {
      * @returns {undefined}
      */
     refreshDetailPanelWithMessage(message) {
+
+        // todo: would like to rename this to refreshDetailPanelDataWithMessage to keep it in line
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
@@ -231,7 +236,7 @@ class Index extends Component {
 
     getSectionForEntityType(entity) {
 
-        // determines the endpoint for which children or detail panel data should be fetched from
+        // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
             case 'organisation':
                 return 'organisation';
@@ -243,6 +248,8 @@ class Index extends Component {
                 return 'project';
 
             case 'jobFunction':
+
+                // job functions are modeled as organisations, since their behaviour is indifferent
                 return 'organisation';
 
             default:
@@ -376,6 +383,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
+                //this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant);
                 this.actions.fetchDetailPanelData(entity, response, this.amendParticipant, this.toggleParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
@@ -383,17 +391,68 @@ class Index extends Component {
         }
     }
 
-    amendParticipant() {
+    /**
+     * Fetch form fields
+     * @param {string} formId - form id
+     * @param {Object} options - call options
+     * @param {string} options.section - section name
+     * @param {string|number} [options.id] - section id
+     * @param {Object} [options.urlParams] - url params for api module
+     * @returns {undefined}
+     */
+    getFormFields(formId, options) {
+        const urlParams = options.urlParams || {};
 
-        // todo: add real logic here, see NEON-3560
+        // show loader
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        // parse endpoint url with section name and optional id
+        const endpoint = `${this.api.getEndpoints().sectionInfo}/${options.section}${options.id ? `/${options.id}` : ''}`;
+
+        // execute request
+        this.api.get(
+            this.api.getBaseUrl(),
+            endpoint,
+            {
+                urlParams
+            }
+        ).then(response => {
+
+            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
+
+            // hide loader and pass the fields to the form
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.storeFormDataInFormsCollection(formId, response.fields);
+
+        }).catch((/* error */) => {
+
+            // This is an unexpected API error and the form cannot be loaded
+            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
+        });
     }
 
-    // todo: refactor below methods into one 'toggle' method with parameter 'id'
+    // todo: refactor below methods into a combined function
 
-    openModalToAddOrganisation(panelId) {
+    /**
+     * Opens modal to add organisation
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddOrganisation(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addOrganisation', {
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
+        });
         document.querySelector('#modal_add_organisation').classList.remove('hidden');
     }
 
@@ -402,20 +461,50 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_organisation').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToAddParticipant() {
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addParticipant', {
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,participantSessionAppointmentDate,comments,consultant'
+                }
+            }
+        });
         document.querySelector('#modal_add_participant').classList.remove('hidden');
     }
 
     closeModalToAddParticipant() {
         document.querySelector('#modal_add_participant').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
-    openModalToAddJobFunction(panelId) {
+    /**
+     * Opens modal to add job function
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddJobFunction(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('addJobFunction', {
+            section: 'organisation',
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName'
+                }
+            }
+        });
         document.querySelector('#modal_add_job_function').classList.remove('hidden');
     }
 
@@ -424,12 +513,35 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_job_function').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
-    openModalToAddProject(panelId) {
+    /**
+     * Opens modal to add project
+     * @param {Object} options - options
+     * @param {string|number} options.panelId - panel id that opens the modal
+     * @returns {undefined}
+     */
+    openModalToAddProject(options) {
 
         // store panel id so we know what panel was active when opening the form
-        this.actions.setFormOpenByPanelId(panelId);
+        this.actions.setFormOpenByPanelId(options.panelId);
+
+        // get organisation id (todo: use slug)
+        const organisationId = this.props.pathNodes[options.panelId].id;
+
+        // fetch entity form data and show modal/form
+        // give options to make sure that we only get products for projects that are available for this organisation
+        this.getFormFields('addProject', {
+            section: 'project',
+            urlParams: {
+                parameters: {
+                    options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
+                    fields: 'projectName,manyProjectToOneProduct'
+                }
+            }
+        });
         document.querySelector('#modal_add_project').classList.remove('hidden');
     }
 
@@ -438,6 +550,30 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_project').classList.add('hidden');
+
+        this.actions.resetForms();
+    }
+
+    openModalToAmendParticipant(/* participantId */) {
+
+        // fetch entity form data and show modal/form
+        this.getFormFields('amendParticipant', {
+            section: 'participantSession',
+            urlParams: {
+                parameters: {
+
+                    // todo: robbin, adjust the fields that you need to receive
+                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,comments,consultant'
+                }
+            }
+        });
+        document.querySelector('#modal_amend_participant').classList.remove('hidden');
+    }
+
+    closeModalToAmendParticipant() {
+        document.querySelector('#modal_amend_participant').classList.add('hidden');
+
+        this.actions.resetForms();
     }
 
     openModalToInviteParticipant() {
@@ -464,7 +600,6 @@ class Index extends Component {
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
                 refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
-                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
@@ -472,6 +607,8 @@ class Index extends Component {
                 closeModalToAddProject={ this.closeModalToAddProject }
                 openModalToAddParticipant = { this.openModalToAddParticipant }
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                openModalToAmendParticipant={ this.openModalToAmendParticipant }
+                closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
                 openModalToInviteParticipant={this.openModalToInviteParticipant}
                 closeModalToInviteParticipant={this.closeModalToInviteParticipant}
                 inviteParticipants={this.inviteParticipants}

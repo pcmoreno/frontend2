@@ -94,7 +94,7 @@ export default class PanelHeader extends Component {
         if (addConfig.length === 1) {
 
             // there is only one input type, so we can call the show method directly
-            addMethods[addConfig[0].type](this.props.panelId);
+            addMethods[addConfig[0].type]({ panelId: this.props.panelId });
 
         } else if (addConfig.length > 1) {
 
@@ -131,7 +131,7 @@ export default class PanelHeader extends Component {
                 addDropdown.push(
                     <li>
                         <div tabIndex='0' role='button' onClick={ () => {
-                            addMethods[addOption.type](panelId);
+                            addMethods[addOption.type]({ panelId });
                         }} className={ style.actionItem }>
                             <div className={ style.icon }>
                                 <FontAwesomeIcon icon={ addOption.icon } />

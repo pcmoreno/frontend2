@@ -106,11 +106,10 @@ export function resetChangedFieldsForFormId(formId) {
  * Fetch entities action
  * @param {Object} entity - entity
  * @param {array} data - data
- * @param {Function} amendParticipant - amendParticipant
- * @param {Function} toggleParticipant - toggleParticipant
+ * @param {Function} openModalToAmendParticipant - openModalToAmendParticipant
  * @returns {{type, data: *}} data to populate detail panel
  */
-export function fetchDetailPanelData(entity, data, amendParticipant, toggleParticipant) {
+export function fetchDetailPanelData(entity, data, openModalToAmendParticipant) {
 
     // return action type and the value(s) to be sent to reducer for state mutation
 
@@ -118,8 +117,7 @@ export function fetchDetailPanelData(entity, data, amendParticipant, toggleParti
         type: actionType.FETCH_DETAIL_PANEL_DATA,
         entity,
         data,
-        amendParticipant,
-        toggleParticipant
+        openModalToAmendParticipant
     };
 }
 
@@ -130,6 +128,16 @@ export function fetchDetailPanelData(entity, data, amendParticipant, toggleParti
 export function resetOrganisations() {
     return {
         type: actionType.RESET_ORGANISATIONS
+    };
+}
+
+/**
+ * Reset forms
+ * @returns {{}} reset forms
+ */
+export function resetForms() {
+    return {
+        type: actionType.RESET_FORMS
     };
 }
 
