@@ -28,7 +28,8 @@ export default function reportReducer(state = initialState, action) {
                     appointmentDate: ''
                 },
                 product: {
-                    name: ''
+                    name: '',
+                    translationKey: ''
                 },
                 organisation: {
                     name: '',
@@ -89,12 +90,10 @@ export default function reportReducer(state = initialState, action) {
                     if (consultant.displayName) {
                         newState.report.consultant.name = consultant.displayName;
                     } else if (consultant.infix) {
-                        newState.report.consultant.name = `${consultant.firstName} ${consultant.infix} ${consultant.lastName}`;
+                        newState.report.consultant.name = `${consultant.firstName || ''} ${consultant.infix || ''} ${consultant.lastName || ''}`;
                     } else {
-                        newState.report.consultant.name = `${consultant.firstName} ${consultant.lastName}`;
+                        newState.report.consultant.name = `${consultant.firstName || ''} ${consultant.lastName || ''}`;
                     }
-                } else {
-                    newState.report.consultant.name = '-';
                 }
 
                 // set report texts

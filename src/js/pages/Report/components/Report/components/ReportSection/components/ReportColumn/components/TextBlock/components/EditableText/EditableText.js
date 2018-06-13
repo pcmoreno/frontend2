@@ -8,16 +8,16 @@ import FroalaEditor from 'react-froala-wysiwyg';
 
 export default class EditableText extends Component {
 
-    constructor() {
+    constructor(props) {
         super();
 
         this.localState = {
             newTextField: true,
             waitingForCreation: false,
-            slug: '',
+            slug: props.slug,
             editorEnabled: false,
             textEditable: false,
-            text: ''
+            text: props.text || ''
         };
 
         this.froalaConfig = {
@@ -148,11 +148,6 @@ export default class EditableText extends Component {
 
     render() {
 
-        // save text in local state first time
-        if (!this.localState.text) {
-            this.localState.text = this.props.text;
-        }
-
         // render editor or render the text only
         if (this.localState.editorEnabled) {
             return (<FroalaEditor
@@ -166,7 +161,7 @@ export default class EditableText extends Component {
 
         // by default render the regular text
         return (<div
-            className={ style.editableText }
+            className={ `${style.editableText} ${!this.localState.text.replace(/ |<p>|<\/p>|<br>/g, '') ? style.empty : ''}` }
             id={ `report-${this.props.name}` }
             onClick={this.switchEditor.bind(this)}
             role='textbox'
