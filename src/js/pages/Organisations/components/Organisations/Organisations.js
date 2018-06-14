@@ -268,7 +268,7 @@ class Organisations extends Component {
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
-                            refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
+                            // refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }

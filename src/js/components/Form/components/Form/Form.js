@@ -152,11 +152,11 @@ export default class Form extends Component {
                     onChange={this.handleChange}
                 />);
             case fieldType.UUID:
-                return null; // not implemented yet
+                return null; // not implemented (yet?)
             case fieldType.SLUG:
-                return null; // not implemented yet
+                return null; // not implemented (yet?)
             case fieldType.INTEGER:
-                return null; // not implemented yet
+                return null; // not implemented (yet?)
             default:
                 this.logger.error({
                     component: 'form',
@@ -211,11 +211,9 @@ export default class Form extends Component {
         const changedFields = [];
         let ableToSubmit = true;
 
+        // any hidden fields (with static values) need to be passed to the state or they wont submit
         if (this.props.hiddenFields) {
-
             this.props.hiddenFields.forEach(hiddenField => {
-
-                // adding hidden field values to state
                 this.props.changeFormFieldValueForFormId(
                     this.props.formId,
                     hiddenField.name,
@@ -234,6 +232,19 @@ export default class Form extends Component {
                     let fieldId, value;
 
                     if (this.props.ignoredFields.indexOf(name) === -1) {
+
+                        // the value from an unchanged relationship field is still an object! extract its value
+                        if (field[name].type === fieldType.RELATIONSHIP && typeof (field[name].value) === 'object') {
+                            this.props.changeFormFieldValueForFormId(
+                                this.props.formId,
+                                field[name],
+                                field[name].value.uuid
+                            );
+
+                            // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
+                            field[name].value = field[name].value.uuid;
+                        }
+
                         if (!field[name].value || field[name].value.length === 0) {
 
                             // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
@@ -270,7 +281,7 @@ export default class Form extends Component {
                                         value = document.querySelector(`#${formId}_${name}`).value;
                                     } else {
 
-                                        // necessary fields were not fount, do not submit and log an error
+                                        // necessary fields were not found, do not submit and log an error
                                         ableToSubmit = false;
                                         this.logger.error({
                                             component: 'form',
