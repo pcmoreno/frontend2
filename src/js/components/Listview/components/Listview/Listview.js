@@ -4,6 +4,8 @@ import { h, Component } from 'preact';
 
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
+import Utils from '../../../../utils/utils';
+import ListWidgetTypes from '../../constants/WidgetTypes';
 
 /** Preact Listview Component v2.2
  *
@@ -29,7 +31,7 @@ import style from './style/listview.scss';
  * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
  *
  *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
- *      type: 'pencil',
+ *      type: ListWidgetTypes.PENCIL,
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
  * }
@@ -59,10 +61,7 @@ export default class Listview extends Component {
         this.localEntities = [];
     }
 
-    setDefaultSorting(entities) {
-
-        // get given entities
-        this.localEntities = entities;
+    setDefaultSorting() {
 
         // set given sorting properties
         if (this.props.defaultSortingKey) {
@@ -178,59 +177,47 @@ export default class Listview extends Component {
         this.setState(this.localState);
     }
 
+    setAndSortEntities(entities) {
+        const storedAmount = this.localEntities.length;
+
+        // set the new set of entities
+        if (!storedAmount || this.localEntities !== entities) {
+            this.localEntities = entities;
+        }
+
+        // if we initially didn't have entities, perform the default sorting
+        if (!storedAmount) {
+            this.setDefaultSorting();
+        } else {
+            this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+        }
+    }
+
     render() {
         const { entities, i18n, translationKey } = this.props;
 
-        if (this.localEntities.length === 0) {
-
-            // when localEntities were not set (first render) perform default given sorting
-            if (!entities || entities.length === 0) {
-                return null; // no entities were given, do not render
-            }
-
-            // entities were given, but not yet sorted. Perform default sorting
-            this.setDefaultSorting(entities);
-        } else {
-            if (this.localEntities !== entities) {
-
-                // if entities are changed and not set, do not render
-                if (!entities || !entities.length) {
-                    return null;
-                }
-
-                // we got a new set of properties, so store them
-                this.localEntities = entities;
-
-                // sort in stored order
-                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
-            }
+        // don't render when both given and stored entities are empty
+        if (!!entities && !entities.length && !this.localEntities.length) {
+            return null;
         }
 
+        // set and order the entities
+        this.setAndSortEntities(entities);
+
         // use the first entry in the collection to get the keys as labels and find their translation if available
-        const labels = [];
+        const columns = [];
 
         Object.keys(this.localEntities[0]).forEach(key => {
+            if (this.localEntities[0].hasOwnProperty(key)) {
+                const entity = this.localEntities[0][key];
+                const translatedLabel = i18n[`${translationKey || ''}${Utils.camelCaseToSnakeCase(key)}`];
 
-            let label = key;
-
-            if (translationKey) {
-
-                // todo: linting doesnt allow snake_case identifiers and Sanders' util needs to be integrated here
-                if (key === 'amendParticipantLabel') {
-                    key = 'amend_participant_label';
-                }
-
-                if (key === 'selectParticipantLabel') {
-                    key = 'select_participant_label';
-                }
-
-                // if translationKey was provided, see if it can be retrieved. otherwise resort to key
-                const translatedLabel = i18n[`${translationKey}${key}`];
-
-                label = translatedLabel ? translatedLabel : key;
+                columns.push({
+                    label: translatedLabel || '',
+                    key: Utils.camelCaseToSnakeCase(key),
+                    type: entity.type
+                });
             }
-
-            labels.push([label, key]);
         });
 
         const output = [];
@@ -238,12 +225,14 @@ export default class Listview extends Component {
         this.localEntities.forEach((entity, index) => {
             let activeFlag = false;
 
-            Object.keys(entity).forEach(entityKey => {
-                if (entity[entityKey].type === 'checkbox') {
-                    const entityId = entity[entityKey].id;
+            Object.keys(entity).forEach(key => {
+                if (entity.hasOwnProperty(key)) {
+                    if (entity[key].type === ListWidgetTypes.CHECKBOX) {
+                        const entityId = entity[key].id;
 
-                    if (this.props.selectedEntities && this.props.selectedEntities.indexOf(entityId) > -1) {
-                        activeFlag = true;
+                        if (this.props.selectedEntities && ~this.props.selectedEntities.indexOf(entityId)) {
+                            activeFlag = true;
+                        }
                     }
                 }
             });
@@ -259,16 +248,48 @@ export default class Listview extends Component {
 
         const tableHead = [];
 
-        // todo: prevent entities being sorted when they are a widgets
-        // todo: when this th label facilitates a checkbox, add one to select all entries
-        labels.forEach(label => {
-            tableHead.push(<th
-                key={label[1]}
-                className={label[1]}
-                onClick={this.listByEntityName.bind(this, label[1])}
-            >
-                {label[0]}
-            </th>);
+        // build table headers based on their widget types
+        columns.forEach(column => {
+
+            // build column headers per type
+            switch (column.type) {
+                case ListWidgetTypes.CHECKBOX:
+
+                    // todo: add checkbox and select all method
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                    >
+                        {column.label}
+                    </th>);
+
+                    break;
+
+                case ListWidgetTypes.PENCIL:
+                case ListWidgetTypes.BUTTON:
+
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                    >
+                        {column.label}
+                    </th>);
+
+                    break;
+
+                case ListWidgetTypes.LABEL:
+                default:
+
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                        onClick={this.listByEntityName.bind(this, column.key)}
+                    >
+                        {column.label}
+                    </th>);
+
+                    break;
+            }
         });
 
         return (
