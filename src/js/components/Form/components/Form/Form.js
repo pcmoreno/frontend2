@@ -508,7 +508,7 @@ export default class Form extends Component {
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
             <form id={formId} noValidate>
                 <header>
-                    <button type="button" value="Close" onClick={ this.handleClose }><span aria-hidden="true">×</span></button>
+                    <button type="button" value="Close" onClick={ this.handleClose } disabled={ this.localState.form.disabled }><span aria-hidden="true">×</span></button>
                     <h3>{ headerText }</h3>
                     <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
@@ -523,6 +523,7 @@ export default class Form extends Component {
                             type={ 'button' }
                             value={ 'Close' }
                             onClick={ this.handleClose }
+                            disabled={ this.localState.form.disabled }
                         >
                             { this.i18n.form_close }
                         </button>

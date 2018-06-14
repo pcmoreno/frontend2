@@ -152,7 +152,8 @@ class Organisations extends Component {
                             'oneParticipantSessionToOneAccountHasRole',
                             'startedOn',
                             'onlineId',
-                            'participantSessionSlug'
+                            'participantSessionSlug',
+                            'accountDisplayName'
                         ] }
                         hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
@@ -267,8 +268,8 @@ class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { response => {
-                            // refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
+                        afterSubmit = { () => {
+                            refreshDetailPanelWithMessage(i18n.organisations_amend_participant_success);
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }
