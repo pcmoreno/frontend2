@@ -22,5 +22,7 @@ export default {
     "users_first_name": "Voornaam",
     "users_infix": "Tussenvoegsel",
     "users_name": "Naam",
-    "users_surname": "Achternaam"
+    "users_surname": "Achternaam",
+    "users_saved": "De gebruiker is succesvol toegevoegd",
+    "users_save": "Opslaan"
 };
