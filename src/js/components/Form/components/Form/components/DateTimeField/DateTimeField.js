@@ -3,11 +3,14 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import style from '../style/field.scss';
+import Utils from '../../../../../../utils/utils';
 
 export default class DateTimeField extends Component {
 
     render() {
         const { currentForm, handle, label, onChange, value, formId } = this.props;
+
+        // todo: need a datetime field (preact extension) that can handle 24 hour clock and timezones
 
         return (
             <div>
@@ -20,7 +23,7 @@ export default class DateTimeField extends Component {
                         <input
                             type={ 'datetime-local' }
                             id={ `${formId}_${handle}` }
-                            value={ value }
+                            value={ Utils.formatDate(value, 'yyyy-MM-ddThh:mm:ss') || '' }
                             name={ handle }
                             onChange={ onChange }
                         />
