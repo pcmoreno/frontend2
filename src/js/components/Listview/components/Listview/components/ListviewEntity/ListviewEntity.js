@@ -9,10 +9,10 @@ export default class ListviewEntity extends Component {
     render() {
         const { entity, i18n, translationKey, active } = this.props;
         const entityItems = [];
-        let widget;
 
         Object.keys(entity).forEach(entityKey => {
             const value = entity[entityKey].value;
+            let widget = null;
 
             // in case a type was specified, construct a widget object with all possible properties (todo: spread?)
             if (entity[entityKey].type) {
@@ -24,8 +24,6 @@ export default class ListviewEntity extends Component {
                     link: entity[entityKey].link || '',
                     id: entity[entityKey].id || ''
                 };
-            } else {
-                widget = '';
             }
 
             entityItems.push(

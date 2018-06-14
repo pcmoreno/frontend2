@@ -1,6 +1,7 @@
 import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
 import AppConfig from './../../../App.config';
+import ListWidgetTypes from '../../../components/Listview/constants/WidgetTypes';
 
 const initialState = {
     panels: [],
@@ -338,7 +339,7 @@ export default function organisationsReducer(state = initialState, action) {
 
                         participants.push({
                             selectParticipantLabel: {
-                                type: 'checkbox',
+                                type: ListWidgetTypes.CHECKBOX,
                                 id: account.id,
                                 action: () => {
                                     action.toggleParticipant(account.id, event);
@@ -352,7 +353,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 value: participantStatus
                             },
                             amendParticipantLabel: {
-                                type: 'pencil',
+                                type: ListWidgetTypes.PENCIL,
                                 action: () => {
                                     action.openModalToAmendParticipant(account.id);
                                 }

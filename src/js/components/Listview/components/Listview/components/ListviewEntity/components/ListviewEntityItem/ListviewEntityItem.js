@@ -4,6 +4,7 @@ import Pencil from './components/widgets/Pencil/Pencil';
 import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
 import style from './style/listviewentityitem.scss';
+import ListWidgetTypes from '../../../../../../constants/WidgetTypes';
 
 /** @jsx h */
 
@@ -67,13 +68,15 @@ export default class ListviewEntityItem extends Component {
 
             // a widget was provided. determine its type and output the relevant component with its required props
             switch (this.props.widget.type) {
-                case 'pencil': value = <Pencil widgetAction={ this.props.widget.action } />;
+                case ListWidgetTypes.PENCIL:
+                    value = <Pencil widgetAction={ this.props.widget.action } />;
                     break;
 
-                case 'checkbox': value = <Checkbox widgetAction={ this.props.widget.action } />;
+                case ListWidgetTypes.CHECKBOX:
+                    value = <Checkbox widgetAction={ this.props.widget.action } />;
                     break;
 
-                case 'button': value = <Button
+                case ListWidgetTypes.BUTTON: value = <Button
                     label={ this.props.widget.label }
                     link={ this.props.widget.link }
                     i18n={ this.props.i18n }

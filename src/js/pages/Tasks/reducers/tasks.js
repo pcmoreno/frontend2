@@ -1,5 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
+import ListWidgetTypes from '../../../components/Listview/constants/WidgetTypes';
 
 const initialState = {
     tasks: []
@@ -88,12 +89,12 @@ export default function tasksReducer(state = initialState, action) {
                             value: organisationName
                         },
                         results: {
-                            type: 'button',
+                            type: ListWidgetTypes.BUTTON,
                             label: 'show_results',
                             link: '#notimplemented'
                         },
                         report: {
-                            type: 'button',
+                            type: ListWidgetTypes.BUTTON,
                             label: 'write_report',
                             link: `/report/${sessionId}`
                         }
