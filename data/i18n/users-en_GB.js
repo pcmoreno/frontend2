@@ -22,5 +22,7 @@ export default {
     "users_first_name": "First name",
     "users_infix": "Infix",
     "users_name": "Name",
-    "users_surname": "Surname"
+    "users_surname": "Surname",
+    "users_saved": "The user was successfully saved.",
+    "users_save": "Save"
 };
