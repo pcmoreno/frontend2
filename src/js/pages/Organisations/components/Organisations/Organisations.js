@@ -34,11 +34,9 @@ class Organisations extends Component {
         let newDetailPanelData;
 
         // return the active detail panel data instance
-        this.props.detailPanelData.forEach(dataForEntity => {
-            if (dataForEntity.active) {
-                newDetailPanelData = dataForEntity;
-            }
-        });
+        if (this.props.detailPanelData) {
+            newDetailPanelData = this.props.detailPanelData;
+        }
 
         if (newDetailPanelData) {
             return newDetailPanelData;
@@ -75,6 +73,10 @@ class Organisations extends Component {
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
+            selectedParticipants,
+            inviteParticipants,
+            toggleSelectAllParticipants,
+            openModalToInviteParticipant,
             i18n
         } = this.props;
 
@@ -106,6 +108,9 @@ class Organisations extends Component {
                         closeModalToAddParticipant = { closeModalToAddParticipant }
                         openModalToAmendParticipant = { openModalToAmendParticipant }
                         closeModalToAmendParticipant = { closeModalToAmendParticipant }
+                        openModalToInviteParticipant = { openModalToInviteParticipant }
+                        selectedParticipants={ selectedParticipants }
+                        toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         i18n = { i18n }
                     />
                 </section>
@@ -296,7 +301,7 @@ class Organisations extends Component {
                                     className={ 'action_button' }
                                     type={ 'button' }
                                     value={ i18n.organisations_invite }
-                                    onClick={ () => this.props.inviteParticipants(this.props.selectedParticipants) }
+                                    onClick={ () => inviteParticipants(selectedParticipants) }
                                 >
                                     { i18n.organisations_invite }
                                 </button>

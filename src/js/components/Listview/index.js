@@ -30,11 +30,12 @@ class Index extends Component {
     }
 
     render() {
-        const { entities, defaultSortingKey, defaultSortingOrder, translationKey, alerts, i18n } = this.props;
+        const { entities, defaultSortingKey, defaultSortingOrder, translationKey, alerts, i18n, selectedEntities, toggleSelectAll } = this.props;
 
         return (<Listview
             entities = { entities }
-            selectedEntities = { this.props.selectedEntities }
+            selectedEntities = { selectedEntities }
+            toggleSelectAll = { toggleSelectAll }
             defaultSortingKey = { defaultSortingKey }
             defaultSortingOrder = { defaultSortingOrder }
             translationKey = { translationKey }

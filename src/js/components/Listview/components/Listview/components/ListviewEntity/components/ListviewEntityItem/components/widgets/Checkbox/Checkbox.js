@@ -5,11 +5,11 @@ import style from './style/checkbox.scss';
 
 export default class Checkbox extends Component {
     render() {
-        const { widgetAction } = this.props;
+        const { widgetAction, checked } = this.props;
 
         return (
             <span className={ style.checkbox }>
-                <input id="checkbox" type="checkbox" onClick={ event => widgetAction(event) } />
+                <input id="checkbox" type="checkbox" checked={ checked } onClick={ widgetAction } />
             </span>
         );
     }

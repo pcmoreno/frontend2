@@ -8,14 +8,14 @@ const initialState = {
     forms: [],
     sectionInfo: {},
     pathNodes: [],
-    detailPanelData: [{
+    detailPanelData: {
         entity: {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
             type: AppConfig.global.organisations.rootEntity.type,
             participants: []
         }
-    }],
+    },
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -304,13 +304,7 @@ export default function organisationsReducer(state = initialState, action) {
         case actionType.FETCH_DETAIL_PANEL_DATA: {
 
             // clear all detailPanel data
-            newState.detailPanelData = [];
-
-            // persist all existing detail panel data and mark it inactive
-            state.detailPanelData.forEach(data => {
-                data.active = false;
-                newState.detailPanelData.push(data);
-            });
+            newState.detailPanelData = {};
 
             // extract the participants from the action
             const participants = [];
@@ -340,9 +334,9 @@ export default function organisationsReducer(state = initialState, action) {
                         participants.push({
                             selectParticipantLabel: {
                                 type: ListWidgetTypes.CHECKBOX,
-                                id: account.id,
-                                action: () => {
-                                    action.toggleParticipant(account.id, event);
+                                id: account.uuid,
+                                action: event => {
+                                    action.toggleParticipant(account.uuid, event);
                                 }
                             },
                             name: {
@@ -370,11 +364,10 @@ export default function organisationsReducer(state = initialState, action) {
 
             action.entity.participants = participants;
 
-            // the 'active' flag ensures the detail panel shows the right details, especially in responsive views
-            newState.detailPanelData.push({
-                active: true,
+            // store detail panel data
+            newState.detailPanelData = {
                 entity: action.entity
-            });
+            };
 
             break;
         }

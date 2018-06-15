@@ -34,6 +34,7 @@ export default class ListviewEntity extends Component {
                     widget={ widget }
                     i18n={ i18n }
                     translationKey={ translationKey }
+                    active={ active }
                 />
             );
         });

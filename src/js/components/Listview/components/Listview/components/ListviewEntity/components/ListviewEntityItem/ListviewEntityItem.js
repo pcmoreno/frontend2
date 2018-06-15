@@ -5,6 +5,7 @@ import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
 import style from './style/listviewentityitem.scss';
 import ListWidgetTypes from '../../../../../../constants/WidgetTypes';
+import Utils from '../../../../../../../../utils/utils';
 
 /** @jsx h */
 
@@ -22,10 +23,8 @@ export default class ListviewEntityItem extends Component {
 
         if (translationKey) {
 
-            // convert to lowercase and replace space with dash
-            // todo: add Sander' util here to convert camelCase to snake_case
-
-            const translatableElement = element.replace(/\s+/g, '-').toLowerCase();
+            // convert to snake case
+            const translatableElement = Utils.camelCaseToSnakeCase(element);
 
             if (i18n[`${translationKey}${translatableElement}`]) {
                 return i18n[`${translationKey}${translatableElement}`];
@@ -36,7 +35,7 @@ export default class ListviewEntityItem extends Component {
     }
 
     render() {
-        const { entityId } = this.props;
+        const { entityId, active } = this.props;
         let { value } = this.props;
         let title;
 
@@ -73,7 +72,7 @@ export default class ListviewEntityItem extends Component {
                     break;
 
                 case ListWidgetTypes.CHECKBOX:
-                    value = <Checkbox widgetAction={ this.props.widget.action } />;
+                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } />;
                     break;
 
                 case ListWidgetTypes.BUTTON: value = <Button

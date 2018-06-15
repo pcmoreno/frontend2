@@ -4,7 +4,7 @@ import style from './style/pencil.scss';
 
 /** @jsx h */
 
-export default class Checkbox extends Component {
+export default class Pencil extends Component {
     render() {
         const { widgetAction } = this.props;
 

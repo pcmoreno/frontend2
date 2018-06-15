@@ -51,6 +51,8 @@ class Index extends Component {
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
+        this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
+
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
 
@@ -65,6 +67,35 @@ class Index extends Component {
         this.localState = {
             selectedParticipants: []
         };
+    }
+
+    toggleSelectAllParticipants(event) {
+        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participants;
+        const checked = event.target && event.target.checked;
+        let selected = [];
+
+        // state array needs to be cloned
+        this.localState.selectedParticipants.forEach(participant => {
+            selected.push(participant);
+        });
+
+        // based on selected state, (de)select the participant
+        participants.forEach(participant => {
+
+            const participantId = participant.selectParticipantLabel.id;
+
+            if (checked) {
+                if (!~selected.indexOf(participantId)) {
+                    selected.push(participantId);
+                }
+            } else {
+                selected = [];
+            }
+        });
+
+        // save and update state
+        this.localState.selectedParticipants = selected;
+        this.setState(this.localState);
     }
 
     toggleParticipant(participantId) {
@@ -84,10 +115,11 @@ class Index extends Component {
             tempArray.push(participantId);
         }
 
-        this.setState(this.localState.selectedParticipants = tempArray);
+        this.localState.selectedParticipants = tempArray;
+        this.setState(this.localState);
     }
 
-    inviteParticipants() {
+    inviteParticipants(selectedParticipants) {
 
         // this.localState.selectedParticipants.forEach(participantId => {
         //     console.log('inviting '+participantId);
@@ -362,7 +394,7 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
+                        fields: 'id,uuid,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
                         limit: 10000
                     },
                     identifiers: {
@@ -612,6 +644,7 @@ class Index extends Component {
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
+                toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, 'organisations') }
                 languageId={ this.props.languageId }
             />

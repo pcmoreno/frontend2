@@ -6,6 +6,7 @@ import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 import Utils from '../../../../utils/utils';
 import ListWidgetTypes from '../../constants/WidgetTypes';
+import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 
 /** Preact Listview Component v2.2
  *
@@ -32,6 +33,7 @@ import ListWidgetTypes from '../../constants/WidgetTypes';
  *
  *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
  *      type: ListWidgetTypes.PENCIL,
+ *      id: 12,
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
  * }
@@ -194,7 +196,7 @@ export default class Listview extends Component {
     }
 
     render() {
-        const { entities, i18n, translationKey } = this.props;
+        const { entities, i18n, translationKey, selectedEntities, toggleSelectAll } = this.props;
 
         // don't render when both given and stored entities are empty
         if (!!entities && !entities.length && !this.localEntities.length) {
@@ -221,6 +223,7 @@ export default class Listview extends Component {
         });
 
         const output = [];
+        let selectedCount = 0;
 
         this.localEntities.forEach((entity, index) => {
             let activeFlag = false;
@@ -230,8 +233,9 @@ export default class Listview extends Component {
                     if (entity[key].type === ListWidgetTypes.CHECKBOX) {
                         const entityId = entity[key].id;
 
-                        if (this.props.selectedEntities && ~this.props.selectedEntities.indexOf(entityId)) {
+                        if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
                             activeFlag = true;
+                            selectedCount++;
                         }
                     }
                 }
@@ -255,12 +259,20 @@ export default class Listview extends Component {
             switch (column.type) {
                 case ListWidgetTypes.CHECKBOX:
 
-                    // todo: add checkbox and select all method
+                    // render header for checkboxes
+                    // add checkbox for select all if the select all method was given
                     tableHead.push(<th
                         key={column.key}
                         className={column.key}
                     >
                         {column.label}
+
+                        { toggleSelectAll &&
+                            <Checkbox
+                                widgetAction={toggleSelectAll}
+                                checked={ selectedCount === this.localEntities.length }
+                            />
+                        }
                     </th>);
 
                     break;
