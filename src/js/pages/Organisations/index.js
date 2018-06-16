@@ -119,7 +119,7 @@ class Index extends Component {
         this.setState(this.localState);
     }
 
-    inviteParticipants(selectedParticipants) {
+    inviteParticipants(/* selectedParticipants */) {
 
         // this.localState.selectedParticipants.forEach(participantId => {
         //     console.log('inviting '+participantId);

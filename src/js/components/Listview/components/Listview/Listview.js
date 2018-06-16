@@ -198,13 +198,13 @@ export default class Listview extends Component {
     render() {
         const { entities, i18n, translationKey, selectedEntities, toggleSelectAll } = this.props;
 
-        // don't render when both given and stored entities are empty
-        if (!!entities && !entities.length && !this.localEntities.length) {
+        // set and order the given entities
+        this.setAndSortEntities(entities);
+
+        // don't render if we don't have any list items
+        if (!this.localEntities.length) {
             return null;
         }
-
-        // set and order the entities
-        this.setAndSortEntities(entities);
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
         const columns = [];
