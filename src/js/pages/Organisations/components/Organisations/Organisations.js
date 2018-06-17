@@ -287,9 +287,13 @@ class Organisations extends Component {
                         <section tabIndex="0" className={ style.background } onClick={ this.props.closeModalToInviteParticipant } role="button" />
                         <form>
                             <header>
-                                <h3>invite participant</h3>
+                                <h3>{ selectedParticipants.length > 1
+                                    ? i18n.organisations_invite_participants_title : i18n.organisations_invite_participant_title
+                                }</h3>
                             </header>
-                            <main>weet je dat zeker JONGEH</main>
+                            <main>{ selectedParticipants.length > 1
+                                ? i18n.organisations_invite_participants_confirmation : i18n.organisations_invite_participant_confirmation
+                            }</main>
                             <footer>
                                 <button
                                     className={ 'action_button action_button__secondary' }
