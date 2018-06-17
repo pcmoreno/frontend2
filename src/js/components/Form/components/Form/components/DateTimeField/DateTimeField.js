@@ -27,6 +27,11 @@ export default class DateTimeField extends Component {
     render() {
         const { currentForm, handle, label, onChange, value, formId } = this.props;
 
+         console.log(value);
+
+        // todo: value is not coming in? is it stored?
+        console.log(     Utils.formatDate(value, 'yyyy-MM-dd hh:mm')   );
+
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
@@ -42,7 +47,7 @@ export default class DateTimeField extends Component {
                             onChange={ onChange }
                             name={ handle }
                             id={ `${formId}_${handle}` }
-                            value={ Utils.formatDate(value, 'yyyy-MM-ddThh:mm:ss') || '' }
+                            value={ Utils.formatDate(value, 'yyyy-MM-dd hh:mm') || '' }
                         />
                     </li>
                 </ul>
