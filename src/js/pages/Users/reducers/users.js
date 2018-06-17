@@ -46,16 +46,11 @@ export default function usersReducer(state = initialState, action) {
                     userRoles.push(user.role.roleName);
                 }
 
-                newState.users.push([
-                    {
-                        key: 'name',
-                        value: userName
-                    },
-                    {
-                        key: 'roles',
-                        value: userRoles
-                    }
-                ]);
+                newState.users.push({
+                    id: user.uuid,
+                    userName,
+                    roles: userRoles
+                });
             });
 
             break;
