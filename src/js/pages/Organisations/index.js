@@ -13,6 +13,7 @@ import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
+import ListWidgetTypes from '../../components/Listview/constants/WidgetTypes';
 
 class Index extends Component {
     constructor(props) {
@@ -70,7 +71,7 @@ class Index extends Component {
     }
 
     toggleSelectAllParticipants(event) {
-        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participants;
+        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participantListView;
         const checked = event.target && event.target.checked;
         let selected = [];
 
@@ -80,9 +81,15 @@ class Index extends Component {
         });
 
         // based on selected state, (de)select the participant
-        participants.forEach(participant => {
+        participants.forEach(row => {
+            let participantId = null;
 
-            const participantId = participant.selectParticipantLabel.id;
+            for (let i = 0; i < row.length; i++) {
+                if (row[i].type === ListWidgetTypes.CHECKBOX) {
+                    participantId = row[i].id;
+                    break;
+                }
+            }
 
             if (checked) {
                 if (!~selected.indexOf(participantId)) {

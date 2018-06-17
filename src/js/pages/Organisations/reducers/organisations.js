@@ -307,7 +307,7 @@ export default function organisationsReducer(state = initialState, action) {
             newState.detailPanelData = {};
 
             // extract the participants from the action
-            const participants = [];
+            const participantListView = [];
 
             if (action.data.participantSessions) {
                 action.data.participantSessions.forEach(participant => {
@@ -331,28 +331,34 @@ export default function organisationsReducer(state = initialState, action) {
                         const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
-                        participants.push({
-                            selectParticipantLabel: {
+                        // build the list view config for participants
+                        participantListView.push([
+                            {
                                 type: ListWidgetTypes.CHECKBOX,
+                                key: 'selectParticipantLabel',
                                 id: participant.uuid,
                                 action: event => {
                                     action.toggleParticipant(participant.uuid, event);
                                 }
                             },
-                            name: {
+                            {
                                 value: participantName,
-                                sortingKey: sortValueForParticipantName
+                                sortingKey: sortValueForParticipantName,
+                                key: 'name'
                             },
-                            status: {
+                            {
+                                key: 'status',
                                 value: participantStatus
                             },
-                            amendParticipantLabel: {
+                            {
+                                key: 'amendParticipantLabel',
                                 type: ListWidgetTypes.PENCIL,
                                 action: () => {
                                     action.openModalToAmendParticipant(account.id);
                                 }
                             }
-                        });
+                        ]);
+
                     } else {
                         logger.error({
                             component: 'FETCH_DETAIL_PANEL_DATA',
@@ -362,7 +368,7 @@ export default function organisationsReducer(state = initialState, action) {
                 });
             }
 
-            action.entity.participants = participants;
+            action.entity.participantListView = participantListView;
 
             // store detail panel data
             newState.detailPanelData = {

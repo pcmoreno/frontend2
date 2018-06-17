@@ -12,7 +12,7 @@ export default class Participants extends Component {
     render() {
         const {
             i18n,
-            participants,
+            participantListView,
             openModalToAddParticipant,
             selectedParticipants,
             toggleSelectAllParticipants,
@@ -40,7 +40,7 @@ export default class Participants extends Component {
                 </div>
                 <div>
                     <Listview
-                        entities={ participants }
+                        entities={ participantListView }
                         selectedEntities={ selectedParticipants }
                         toggleSelectAll={ toggleSelectAllParticipants }
                         i18n={ i18n }
