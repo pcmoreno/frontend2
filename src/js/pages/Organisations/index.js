@@ -46,7 +46,7 @@ class Index extends Component {
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
-        this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
+        this.refreshDetailPanelDataWithMessage = this.refreshDetailPanelDataWithMessage.bind(this);
 
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
@@ -156,11 +156,16 @@ class Index extends Component {
     /**
      * Reloads the detail panel and shows success message
      * @param {string} message - message to show
+     * @param {Object} [options] - options
+     * @param {Object} [options.addedParticipant] - added participant
      * @returns {undefined}
      */
-    refreshDetailPanelWithMessage(message) {
+    refreshDetailPanelDataWithMessage(message, options = {}) {
+        let newParticipantUuid = null;
 
-        // todo: would like to rename this to refreshDetailPanelDataWithMessage to keep it in line
+        if (options.addedParticipant && options.addedParticipant.entry && options.addedParticipant.entry.uuid) {
+            newParticipantUuid = options.addedParticipant.entry.uuid;
+        }
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
@@ -169,6 +174,12 @@ class Index extends Component {
         // which is present in pathNodes but not in panels
         const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
         const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+        // check if there was a participant added that we need to select
+        if (newParticipantUuid) {
+            this.localState.selectedParticipants.push(newParticipantUuid);
+            this.setState(this.localState);
+        }
 
         // refresh detail panel of last selected item
         this.fetchDetailPanelData(lastSelectedItem);
@@ -630,7 +641,7 @@ class Index extends Component {
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
-                refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
+                refreshDetailPanelDataWithMessage={ this.refreshDetailPanelDataWithMessage }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }

@@ -64,7 +64,7 @@ class Organisations extends Component {
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
             refreshPanelDataWithMessage,
-            refreshDetailPanelWithMessage,
+            refreshDetailPanelDataWithMessage,
             closeModalToAddOrganisation,
             openModalToAddParticipant,
             closeModalToAddParticipant,
@@ -168,8 +168,10 @@ class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { () => {
-                            refreshDetailPanelWithMessage(i18n.organisations_add_participant_success);
+                        afterSubmit = { response => {
+                            refreshDetailPanelDataWithMessage(i18n.organisations_add_participant_success, {
+                                addedParticipant: response
+                            });
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }

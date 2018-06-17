@@ -334,9 +334,9 @@ export default function organisationsReducer(state = initialState, action) {
                         participants.push({
                             selectParticipantLabel: {
                                 type: ListWidgetTypes.CHECKBOX,
-                                id: account.uuid,
+                                id: participant.uuid,
                                 action: event => {
-                                    action.toggleParticipant(account.uuid, event);
+                                    action.toggleParticipant(participant.uuid, event);
                                 }
                             },
                             name: {
