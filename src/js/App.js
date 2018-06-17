@@ -34,6 +34,7 @@ import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
 import faClipboardList from '@fortawesome/fontawesome-free-solid/faClipboardList';
 import faFileAlt from '@fortawesome/fontawesome-free-regular/faFileAlt';
 import faPencilAlt from '@fortawesome/fontawesome-free-solid/faPencilAlt';
+import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
@@ -50,7 +51,8 @@ fontawesome.library.add(
     faEnvelope,
     faClipboardList,
     faFileAlt,
-    faPencilAlt
+    faPencilAlt,
+    faPlus
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly

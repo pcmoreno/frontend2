@@ -1,6 +1,24 @@
 .toolbar {
+    padding: .5rem;
+
     button {
         float: left;
-        margin: 1rem;
+        margin-bottom: .5rem;
+    }
+
+    button svg {
+        margin-left: 10px;
+    }
+}
+
+.listView {
+    table thead th {
+        background-color: $beige-darken;
+        color: $black;
+        padding: 7px 12px;
+    }
+
+    table thead tr th:first-child, table thead tr th:last-child  {
+        border-radius: unset;
     }
 }

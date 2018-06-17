@@ -165,7 +165,7 @@ table td.organisation {
 #listview thead tr th.amend_participant_label {
     width: .5rem;
     text-align: center;
-    padding: 1rem;
+    padding: .5rem 1rem
 }
 
 .selectParticipantLabel,
@@ -174,12 +174,22 @@ table td.organisation {
     text-align: center;
 }
 
+/* alignment of checkbox seems a bit off, correction */
+#listview thead tr th.select_participant_label #checkbox {
+    margin-left: -1px;
+}
+
 /* the default active colour for entities in the listview component */
 #listview tr.active {
     background: $blue;
 
     /*  pencil on a blue background */
     .amendParticipantLabel button {
+        color: $white;
+    }
+
+    /* text color white on active list view rows */
+    td {
         color: $white;
     }
 }
