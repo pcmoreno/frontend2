@@ -20,7 +20,7 @@ export default {
     "organisations_add_organisation_error": "Er is een fout opgetreden bij het aanmaken van een organisatie, probeer het later nogmaals",
     "organisations_add_organisation_placeholder_name": "Vul een naam in voor de organisatie",
     "organisations_add_organisation_success": "De organisatie is succesvol toegevoegd",
-    "organisations_add_participant": "Deelnemer toevoegen",
+    "organisations_add_participant": "Toevoegen",
     "organisations_add_participant_error": "Er is een fout opgetreden bij het aanmaken van een deelnemer, probeer het later nogmaals",
     "organisations_add_participant_placeholder_comments": "Vul een opmerking in",
     "organisations_add_participant_placeholder_consultant": "Geen consultant gekozen",

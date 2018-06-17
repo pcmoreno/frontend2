@@ -20,7 +20,7 @@ export default {
     "organisations_add_organisation_error": "An error occurred while adding the organisation, please try again later",
     "organisations_add_organisation_placeholder_name": "Enter a name for the organisation",
     "organisations_add_organisation_success": "The organisation was successfully added",
-    "organisations_add_participant": "Add participant",
+    "organisations_add_participant": "Add",
     "organisations_add_participant_error": "An error occurred while adding the participant, please try again later",
     "organisations_add_participant_placeholder_comments": "Please enter a comment",
     "organisations_add_participant_placeholder_consultant": "No consultant selected",
