@@ -1,5 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
+import ParticipantStatus from '../../../constants/ParticipantStatus';
 
 const initialState = {
     participants: []
@@ -26,12 +27,13 @@ export default function participantsReducer(state = initialState, action) {
 
                 // extract participant status and see if it meets the requirements
                 const acceptedStatus = [
-                    'added',
-                    'invited',
-                    'started',
-                    'waitingForPermission',
-                    'invitationAccepted',
-                    'finished'
+                    ParticipantStatus.ADDED,
+                    ParticipantStatus.INVITED,
+                    ParticipantStatus.STARTED,
+                    ParticipantStatus.HNA_FINISHED,
+                    ParticipantStatus.PERSONA_FIT_FINISHED,
+                    ParticipantStatus.INVITATION_ACCEPTED,
+                    ParticipantStatus.WAITING_FOR_PERMISSION
                 ];
                 const participantStatus = participant.accountHasRole.genericRoleStatus;
 

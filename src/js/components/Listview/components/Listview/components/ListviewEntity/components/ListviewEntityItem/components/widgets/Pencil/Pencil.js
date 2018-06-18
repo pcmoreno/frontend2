@@ -6,10 +6,10 @@ import style from './style/pencil.scss';
 
 export default class Pencil extends Component {
     render() {
-        const { widgetAction } = this.props;
+        const { widgetAction, disabled } = this.props;
 
         return (
-            <button className={ style.pencil } onClick={ widgetAction }>
+            <button className={ `${style.pencil}${disabled ? ' disabled' : ''}` } onClick={ widgetAction } disabled={ disabled }>
                 <FontAwesomeIcon icon={ 'pencil-alt' } />
             </button>
         );

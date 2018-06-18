@@ -26,7 +26,8 @@ const AppConfig = {
                 organisations: {
                     rootEntities: '/v1/section/fieldvalue/organisation/organisationType?value=organisation',
                     childEntities: '/v1/section/{type}/id/{identifier}',
-                    detailPanelData: '/v1/section/{type}/id/{identifier}'
+                    detailPanelData: '/v1/section/{type}/id/{identifier}',
+                    inviteParticipants: '/v1/participant/invite'
                 },
                 report: {
                     entities: '/v1/section/participantSession/slug/{slug}',

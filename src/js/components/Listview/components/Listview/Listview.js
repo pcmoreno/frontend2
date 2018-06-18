@@ -223,7 +223,10 @@ export default class Listview extends Component {
         });
 
         const output = [];
+
+        // keep track of selected and disabled (unselected) checkboxes, as check all does not include disabled ones
         let selectedCount = 0;
+        let disabledCount = 0;
 
         this.localEntities.forEach((entity, index) => {
             let activeFlag = false;
@@ -232,10 +235,13 @@ export default class Listview extends Component {
                 if (entity.hasOwnProperty(key)) {
                     if (entity[key].type === ListWidgetTypes.CHECKBOX) {
                         const entityId = entity[key].id;
+                        const disabled = entity[key].disabled;
 
                         if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
                             activeFlag = true;
                             selectedCount++;
+                        } else if (disabled) {
+                            disabledCount++;
                         }
                     }
                 }
@@ -270,7 +276,7 @@ export default class Listview extends Component {
                         { toggleSelectAll &&
                             <Checkbox
                                 widgetAction={toggleSelectAll}
-                                checked={ selectedCount === this.localEntities.length }
+                                checked={ selectedCount === (this.localEntities.length - disabledCount) }
                             />
                         }
                     </th>);

@@ -2,6 +2,7 @@ import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
 import AppConfig from './../../../App.config';
 import ListWidgetTypes from '../../../components/Listview/constants/WidgetTypes';
+import ParticipantStatus from '../../../constants/ParticipantStatus';
 
 const initialState = {
     panels: [],
@@ -331,9 +332,17 @@ export default function organisationsReducer(state = initialState, action) {
                         const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
+                        // only invitation possible when:
+                        const statusToInvite = [
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                        ];
+
                         participants.push({
                             selectParticipantLabel: {
                                 type: ListWidgetTypes.CHECKBOX,
+                                disabled: statusToInvite.indexOf(participantStatus) < 0,
                                 id: participant.uuid,
                                 action: event => {
                                     action.toggleParticipant(participant.uuid, event);

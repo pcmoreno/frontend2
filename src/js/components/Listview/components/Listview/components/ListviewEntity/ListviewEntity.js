@@ -18,6 +18,7 @@ export default class ListviewEntity extends Component {
             if (entity[entityKey].type) {
                 widget = {
                     type: entity[entityKey].type,
+                    disabled: entity[entityKey].disabled,
                     value: entity[entityKey].value || '',
                     label: entity[entityKey].label || '',
                     action: entity[entityKey].action || '',

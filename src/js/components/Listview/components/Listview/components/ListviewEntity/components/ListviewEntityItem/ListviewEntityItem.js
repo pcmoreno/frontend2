@@ -68,17 +68,18 @@ export default class ListviewEntityItem extends Component {
             // a widget was provided. determine its type and output the relevant component with its required props
             switch (this.props.widget.type) {
                 case ListWidgetTypes.PENCIL:
-                    value = <Pencil widgetAction={ this.props.widget.action } />;
+                    value = <Pencil widgetAction={ this.props.widget.action } disabled={ this.props.widget.disabled }/>;
                     break;
 
                 case ListWidgetTypes.CHECKBOX:
-                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } />;
+                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } disabled={ this.props.widget.disabled } />;
                     break;
 
                 case ListWidgetTypes.BUTTON: value = <Button
                     label={ this.props.widget.label }
                     link={ this.props.widget.link }
                     i18n={ this.props.i18n }
+                    className={ this.props.widget.disabled ? 'disabled' : '' }
                     translationKey={ this.props.translationKey }
                 />;
                     break;
