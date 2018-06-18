@@ -1,6 +1,6 @@
 const ParticipantStatus = {
 
-    // invitable statusses
+    // invite-able statuses
     ADDED: 'added',
     INVITED: 'invited',
     TERMS_AND_CONDITIONS_ACCEPTED: 'termsAndConditionsAccepted',

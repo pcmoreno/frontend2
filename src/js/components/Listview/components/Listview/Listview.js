@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 import Utils from '../../../../utils/utils';
-import ListWidgetTypes from '../../constants/WidgetTypes';
+import ListItemTypes from '../../constants/ListItemTypes';
 import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 
 /** Preact Listview Component v2.2
@@ -32,7 +32,7 @@ import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/
  * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
  *
  *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
- *      type: ListWidgetTypes.PENCIL,
+ *      type: ListItemTypes.PENCIL,
  *      id: 12,
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
@@ -233,7 +233,7 @@ export default class Listview extends Component {
 
             Object.keys(entity).forEach(key => {
                 if (entity.hasOwnProperty(key)) {
-                    if (entity[key].type === ListWidgetTypes.CHECKBOX) {
+                    if (entity[key].type === ListItemTypes.CHECKBOX) {
                         const entityId = entity[key].id;
                         const disabled = entity[key].disabled;
 
@@ -263,7 +263,7 @@ export default class Listview extends Component {
 
             // build column headers per type
             switch (column.type) {
-                case ListWidgetTypes.CHECKBOX:
+                case ListItemTypes.CHECKBOX:
 
                     // render header for checkboxes
                     // add checkbox for select all if the select all method was given
@@ -283,8 +283,8 @@ export default class Listview extends Component {
 
                     break;
 
-                case ListWidgetTypes.PENCIL:
-                case ListWidgetTypes.BUTTON:
+                case ListItemTypes.PENCIL:
+                case ListItemTypes.BUTTON:
 
                     tableHead.push(<th
                         key={column.key}
@@ -295,7 +295,7 @@ export default class Listview extends Component {
 
                     break;
 
-                case ListWidgetTypes.LABEL:
+                case ListItemTypes.LABEL:
                 default:
 
                     tableHead.push(<th

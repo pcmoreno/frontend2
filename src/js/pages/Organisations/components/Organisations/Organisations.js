@@ -47,10 +47,6 @@ class Organisations extends Component {
     }
 
     render() {
-
-        // panel id represents the non-zero based index the active panel, used to determine the right parent
-        // when trying to add entities. Which is current panel - 1 (previous selected item)
-
         const {
             panels,
             formOpenByPanelId,
@@ -77,6 +73,7 @@ class Organisations extends Component {
             inviteParticipants,
             toggleSelectAllParticipants,
             openModalToInviteParticipant,
+            closeModalToInviteParticipant,
             i18n
         } = this.props;
 
@@ -214,7 +211,7 @@ class Organisations extends Component {
                             refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_project">
@@ -299,7 +296,7 @@ class Organisations extends Component {
                                     className={ 'action_button action_button__secondary' }
                                     type={ 'button' }
                                     value={ i18n.organisations_close }
-                                    onClick={ this.props.closeModalToInviteParticipant }
+                                    onClick={ closeModalToInviteParticipant }
                                 >
                                     { i18n.organisations_close }
                                 </button>
