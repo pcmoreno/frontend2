@@ -131,6 +131,7 @@ export default {
     "organisations_invite_participant_success": "De deelnemer is succesvol uitgenodigd",
     "organisations_invite_participant_title": "Deelnemer uitnodigen",
     "organisations_invite_participants_confirmation": "Weet u zeker dat u een uitnodiging wilt sturen?",
+    "organisations_invite_participants_success": "De deelnemers zijn succesvol uitgenodigd",
     "organisations_invite_participants_title": "Deelnemers uitnodigen",
     "organisations_invited": "Uitgenodigd",
     "organisations_job_function": "Functie",

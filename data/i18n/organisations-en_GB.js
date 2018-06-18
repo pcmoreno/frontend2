@@ -131,6 +131,7 @@ export default {
     "organisations_invite_participant_success": "The participant was successfully invited",
     "organisations_invite_participant_title": "Invite participant",
     "organisations_invite_participants_confirmation": "Are you sure you want to send an invitation?",
+    "organisations_invite_participants_success": "The participants were successfully invited",
     "organisations_invite_participants_title": "Invite participants",
     "organisations_invited": "Invited",
     "organisations_job_function": "Job function",
