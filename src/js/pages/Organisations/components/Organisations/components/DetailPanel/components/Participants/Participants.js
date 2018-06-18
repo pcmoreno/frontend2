@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview/index';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/participants.scss';
 
 /** @jsx h */
@@ -10,7 +11,14 @@ export default class Participants extends Component {
     }
 
     render() {
-        const { i18n, participants, openModalToAddParticipant } = this.props;
+        const {
+            i18n,
+            participants,
+            openModalToAddParticipant,
+            selectedParticipants,
+            toggleSelectAllParticipants,
+            openModalToInviteParticipant
+        } = this.props;
 
         return (
             <div>
@@ -21,11 +29,23 @@ export default class Participants extends Component {
                         type={ 'button' }
                     >
                         { i18n.organisations_add_participant }
+                        <FontAwesomeIcon icon={ 'plus' }/>
+                    </button>
+                    <button
+                        onClick={ openModalToInviteParticipant }
+                        className={`action_button left ${selectedParticipants.length === 0 ? 'disabled' : ''}`}
+                        type="button"
+                        disabled={ selectedParticipants.length === 0 }
+                    >
+                        { i18n.organisations_invite }
+                        <FontAwesomeIcon icon={ 'envelope' }/>
                     </button>
                 </div>
-                <div>
+                <div className={ style.listView }>
                     <Listview
                         entities={ participants }
+                        selectedEntities={ selectedParticipants }
+                        toggleSelectAll={ toggleSelectAllParticipants }
                         i18n={ i18n }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }

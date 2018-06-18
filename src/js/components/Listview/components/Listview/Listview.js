@@ -4,8 +4,11 @@ import { h, Component } from 'preact';
 
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
+import Utils from '../../../../utils/utils';
+import ListItemTypes from '../../constants/ListItemTypes';
+import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 
-/** Preact Listview Component v2.1
+/** Preact Listview Component v2.2
  *
  *  requires its data (this.props.entities) to be a collection (array) of objects written in this format:
  *
@@ -18,16 +21,19 @@ import style from './style/listview.scss';
  *     }
  *  }
  *
+ * Features:
  * allows providing an array of values instead of single value (arrays are sorted alphabetically by default)
  * for each value / array key an attempt to find a matching translation is made (values are trimmed and lowercased)
- * if translationKey was not provided, retrieving a default translation will be attempted, too ('listview|<value>') todo: will this stay in?
  * by providing a sortingKey, values can be displayed independent from their sorting behaviour (useful for dates)
  * values can be strings, arrays of strings, or arrays of objects. (but they need to be in the 'value' key, see example)
- * a <a href class="button-action"> is output when you provide a 'link' to go with the value, which becomes its label
- * you can add a custom widget (for example, an icon) with the following syntax:
  *
- *  a_column_label_that_can_be_left_empty_in_your_i18n_if_required: {
- *      type: 'pencil',
+ *
+ * Widgets:
+ * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
+ *
+ *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
+ *      type: ListItemTypes.PENCIL,
+ *      id: 12,
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
  * }
@@ -35,6 +41,13 @@ import style from './style/listview.scss';
  * the 'type' can be extended with your own custom type if required
  * the 'value' can be leveraged to provide texts for buttons or labels
  * the 'action' is the method that is called on clicking the widget. note this needs to be passed on to action / reducer
+ *
+ *
+ * Selecting entities:
+ * In order to allow selecting individual entities in the listview, you can pass on an array of id's called
+ * selectedEntities containing entity id's that should receive the class 'active'. The match is made on entity.id.
+ * Note the actual selecting / deselecting should be done by a checkbox widget and a method in the calling component.
+ *
  **/
 
 export default class Listview extends Component {
@@ -50,10 +63,7 @@ export default class Listview extends Component {
         this.localEntities = [];
     }
 
-    setDefaultSorting(entities) {
-
-        // get given entities
-        this.localEntities = entities;
+    setDefaultSorting() {
 
         // set given sorting properties
         if (this.props.defaultSortingKey) {
@@ -75,7 +85,9 @@ export default class Listview extends Component {
         // returns either provided value, provided sortingKey or stringified array of entities
         let returnValue = entity.value;
 
-        if (returnValue.length > 0) {
+        if (returnValue && returnValue.length > 0) {
+
+            // note that widgets dont always have a value
 
             // if object was provided, extract take object.value
             if (returnValue.hasOwnProperty('value')) {
@@ -167,86 +179,142 @@ export default class Listview extends Component {
         this.setState(this.localState);
     }
 
-    render() {
-        const { entities, i18n, translationKey } = this.props;
+    setAndSortEntities(entities) {
+        const storedAmount = this.localEntities.length;
 
-        if (this.localEntities.length === 0) {
+        // set the new set of entities
+        if (!storedAmount || this.localEntities !== entities) {
+            this.localEntities = entities;
+        }
 
-            // when localEntities were not set (first render) perform default given sorting
-            if (!entities || entities.length === 0) {
-                return null; // no entities were given, do not render
-            }
-
-            // entities were given, but not yet sorted. Perform default sorting
-            this.setDefaultSorting(entities);
+        // if we initially didn't have entities, perform the default sorting
+        if (!storedAmount) {
+            this.setDefaultSorting();
         } else {
-            if (this.localEntities !== entities) {
+            this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+        }
+    }
 
-                // if entities are changed and not set, do not render
-                if (!entities || !entities.length) {
-                    return null;
-                }
+    render() {
+        const { entities, i18n, translationKey, selectedEntities, toggleSelectAll } = this.props;
 
-                // we got a new set of properties, so store them
-                this.localEntities = entities;
+        // set and order the given entities
+        this.setAndSortEntities(entities);
 
-                // sort in stored order
-                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
-            }
+        // don't render if we don't have any list items
+        if (!this.localEntities.length) {
+            return null;
         }
 
         // use the first entry in the collection to get the keys as labels and find their translation if available
-        const labels = [];
+        const columns = [];
 
         Object.keys(this.localEntities[0]).forEach(key => {
-            let label = key;
+            if (this.localEntities[0].hasOwnProperty(key)) {
+                const entity = this.localEntities[0][key];
+                const translatedLabel = i18n[`${translationKey || ''}${Utils.camelCaseToSnakeCase(key)}`];
 
-            if (translationKey) {
-
-                // todo: linting doesnt allow snake_case identifiers and Sanders' util needs to be integrated here
-                if (key === 'amendParticipantLabel') {
-                    key = 'amend_participant_label';
-                }
-
-                // if translationKey was provided, see if it can be retrieved. otherwise resort to key
-                const translatedLabel = i18n[`${translationKey}${key}`];
-
-                label = translatedLabel ? translatedLabel : key;
+                columns.push({
+                    label: translatedLabel || '',
+                    key: Utils.camelCaseToSnakeCase(key),
+                    type: entity.type
+                });
             }
-
-            // todo: generic listview translations are currently disabled and I wonder whether we should bring it back
-            // if (label === key) {
-            //     translationKey was not provided, see if a generic translation can be found
-            //     const genericLabel = i18n.translations['listview|' + key];
-            //     const genericLabel = key;
-            //     label = genericLabel ? genericLabel : key;
-            // }
-
-            labels.push([label, key]);
         });
 
-        const output = this.localEntities.map((entity, index) =>
-            <ListviewEntity
+        const output = [];
+
+        // keep track of selected and disabled (unselected) checkboxes, as check all does not include disabled ones
+        let selectedCount = 0;
+        let disabledCount = 0;
+
+        this.localEntities.forEach((entity, index) => {
+            let activeFlag = false;
+
+            Object.keys(entity).forEach(key => {
+                if (entity.hasOwnProperty(key)) {
+                    if (entity[key].type === ListItemTypes.CHECKBOX) {
+                        const entityId = entity[key].id;
+                        const disabled = entity[key].disabled;
+
+                        if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
+                            activeFlag = true;
+                            selectedCount++;
+                        } else if (disabled) {
+                            disabledCount++;
+                        }
+                    }
+                }
+            });
+
+            output.push(<ListviewEntity
                 key={ index }
                 entity={ entity }
                 i18n={ i18n }
                 translationKey={ translationKey }
+                active={ activeFlag }
             />);
+        });
+
+        const tableHead = [];
+
+        // build table headers based on their widget types
+        columns.forEach(column => {
+
+            // build column headers per type
+            switch (column.type) {
+                case ListItemTypes.CHECKBOX:
+
+                    // render header for checkboxes
+                    // add checkbox for select all if the select all method was given
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                    >
+                        {column.label}
+
+                        { toggleSelectAll &&
+                            <Checkbox
+                                widgetAction={toggleSelectAll}
+                                checked={ selectedCount === (this.localEntities.length - disabledCount) }
+                            />
+                        }
+                    </th>);
+
+                    break;
+
+                case ListItemTypes.PENCIL:
+                case ListItemTypes.BUTTON:
+
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                    >
+                        {column.label}
+                    </th>);
+
+                    break;
+
+                case ListItemTypes.LABEL:
+                default:
+
+                    tableHead.push(<th
+                        key={column.key}
+                        className={column.key}
+                        onClick={this.listByEntityName.bind(this, column.key)}
+                    >
+                        {column.label}
+                    </th>);
+
+                    break;
+            }
+        });
 
         return (
             <table className={ style.listview } id="listview">
                 <thead>
                     <tr>
-                        {
-                            labels.map(label =>
-                                <th
-                                    key={ label[1] }
-                                    className={ label[1] }
-                                    onClick={ this.listByEntityName.bind(this, label[1]) }
-                                >
-                                    { label[0] }
-                                </th>)
-                        }
+                        { tableHead }
                     </tr>
                 </thead>
                 <tbody>

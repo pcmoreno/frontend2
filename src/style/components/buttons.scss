@@ -30,4 +30,8 @@
             background-color: $beige-darken;
         }
     }
+
+    &:disabled {
+        opacity: .65;
+    }
 }

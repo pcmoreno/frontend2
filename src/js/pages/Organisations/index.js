@@ -43,10 +43,18 @@ class Index extends Component {
         this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
         this.closeModalToAmendParticipant = this.closeModalToAmendParticipant.bind(this);
 
+        this.openModalToInviteParticipant = this.openModalToInviteParticipant.bind(this);
+        this.closeModalToInviteParticipant = this.closeModalToInviteParticipant.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
-        this.refreshDetailPanelWithMessage = this.refreshDetailPanelWithMessage.bind(this);
+        this.refreshDetailPanelDataWithMessage = this.refreshDetailPanelDataWithMessage.bind(this);
+
+        this.toggleParticipant = this.toggleParticipant.bind(this);
+        this.inviteParticipants = this.inviteParticipants.bind(this);
+
+        this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -58,6 +66,111 @@ class Index extends Component {
         };
 
         this.i18n = translator(this.props.languageId, 'organisations');
+
+        // flag if we have a full screen modal locked (can't close)
+        this.modalLocked = false;
+
+        this.localState = {
+            selectedParticipants: []
+        };
+
+        // keep track of current entity shown in detail panel
+        this.detailPanelEntity = null;
+    }
+
+    toggleSelectAllParticipants(event) {
+        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participants;
+        const checked = event.target && event.target.checked;
+        let selected = [];
+
+        // state array needs to be cloned
+        this.localState.selectedParticipants.forEach(participant => {
+            selected.push(participant);
+        });
+
+        // based on selected state, (de)select the participant
+        participants.forEach(participant => {
+            const participantId = participant.selectParticipantLabel.id;
+            const disabled = participant.selectParticipantLabel.disabled;
+
+            if (checked) {
+                if (!disabled && !~selected.indexOf(participantId)) {
+                    selected.push(participantId);
+                }
+            } else {
+                selected = [];
+            }
+        });
+
+        // save and update state
+        this.localState.selectedParticipants = selected;
+        this.setState(this.localState);
+    }
+
+    toggleParticipant(participantId) {
+        const tempArray = [];
+
+        this.localState.selectedParticipants.forEach(participant => {
+            tempArray.push(participant);
+        });
+
+        if (tempArray.indexOf(participantId) > -1) {
+
+            // deselect
+            tempArray.splice(tempArray.indexOf(participantId), 1);
+        } else {
+
+            // select
+            tempArray.push(participantId);
+        }
+
+        this.localState.selectedParticipants = tempArray;
+        this.setState(this.localState);
+    }
+
+    inviteParticipants(selectedParticipants) {
+
+        // only proceed if not in locked state
+        if (!this.modalLocked) {
+
+            // set locked state to avoid new calls and closing the modal
+            this.modalLocked = true;
+
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().organisations.inviteParticipants,
+                {
+                    payload: {
+                        data: {
+                            participants: selectedParticipants
+                        },
+                        type: 'form',
+                        formKey: 'invite_participant_form'
+                    }
+                }
+            ).then(() => {
+
+                // show message and reload detail panel
+                this.refreshDetailPanelDataWithMessage(this.i18n.organisations_invite_participant_success);
+
+                // unlock the modal again
+                this.modalLocked = false;
+
+                // close modal
+                this.closeModalToInviteParticipant();
+
+            }).catch(() => {
+
+                // Show a message, is translated in form definition on Organisations.js
+                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_invite_participant_error });
+
+                // unlock the modal again
+                this.modalLocked = false;
+
+                // close modal
+                this.closeModalToInviteParticipant();
+            });
+        }
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
@@ -90,11 +203,16 @@ class Index extends Component {
     /**
      * Reloads the detail panel and shows success message
      * @param {string} message - message to show
+     * @param {Object} [options] - options
+     * @param {Object} [options.addedParticipant] - added participant
      * @returns {undefined}
      */
-    refreshDetailPanelWithMessage(message) {
+    refreshDetailPanelDataWithMessage(message, options = {}) {
+        let newParticipantUuid = null;
 
-        // todo: would like to rename this to refreshDetailPanelDataWithMessage to keep it in line
+        if (options.addedParticipant && options.addedParticipant.entry && options.addedParticipant.entry.uuid) {
+            newParticipantUuid = options.addedParticipant.entry.uuid;
+        }
 
         // Show a message, is translated in form definition on Organisations.js
         this.actions.addAlert({ type: 'success', text: message });
@@ -103,6 +221,12 @@ class Index extends Component {
         // which is present in pathNodes but not in panels
         const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
         const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+        // check if there was a participant added that we need to select
+        if (newParticipantUuid) {
+            this.localState.selectedParticipants.push(newParticipantUuid);
+            this.setState(this.localState);
+        }
 
         // refresh detail panel of last selected item
         this.fetchDetailPanelData(lastSelectedItem);
@@ -318,6 +442,14 @@ class Index extends Component {
 
     fetchDetailPanelData(entity) {
 
+        // check if we are reloading or loading a new entity, to reset selected participants
+        if (this.detailPanelEntity && this.detailPanelEntity.id !== entity.id && this.detailPanelEntity.type !== entity.type) {
+            this.localState.selectedParticipants = [];
+            this.setState(this.localState);
+        }
+
+        this.detailPanelEntity = entity;
+
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
         if (entity.id > 0) {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
@@ -328,7 +460,7 @@ class Index extends Component {
             const params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
+                        fields: 'id,uuid,organisationName,projectName,participantSessions,genericRoleStatus,accountHasRole,account,firstName,infix,lastName',
                         limit: 10000
                     },
                     identifiers: {
@@ -349,7 +481,7 @@ class Index extends Component {
                 document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
                 // store detail panel data in the state (and send the amend method with it)
-                this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant);
+                this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant, this.toggleParticipant);
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
@@ -541,7 +673,18 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
+    openModalToInviteParticipant() {
+        document.querySelector('#modal_invite_participant').classList.remove('hidden');
+    }
+
+    closeModalToInviteParticipant() {
+        if (!this.modalLocked) {
+            document.querySelector('#modal_invite_participant').classList.add('hidden');
+        }
+    }
+
     render() {
+
         const { panels, forms, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
@@ -555,7 +698,7 @@ class Index extends Component {
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
-                refreshDetailPanelWithMessage={ this.refreshDetailPanelWithMessage }
+                refreshDetailPanelDataWithMessage={ this.refreshDetailPanelDataWithMessage }
                 changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
@@ -565,6 +708,11 @@ class Index extends Component {
                 closeModalToAddParticipant = { this.closeModalToAddParticipant }
                 openModalToAmendParticipant={ this.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
+                openModalToInviteParticipant={ this.openModalToInviteParticipant }
+                closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
+                inviteParticipants={ this.inviteParticipants }
+                selectedParticipants={ this.localState.selectedParticipants }
+                toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, 'organisations') }
                 languageId={ this.props.languageId }
             />

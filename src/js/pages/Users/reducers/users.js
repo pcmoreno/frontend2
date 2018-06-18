@@ -31,12 +31,12 @@ export default function usersReducer(state = initialState, action) {
                     let userInfix = ' ';
 
                     // extract user infix
-                    if (user.account.hasOwnProperty('infix') && user.account.infix !== 'undefined') {
+                    if (user.account.infix) {
                         userInfix = ` ${user.account.infix} `;
                     }
 
                     // construct user name
-                    userName = `${user.account.firstName}${userInfix}${user.account.lastName}`;
+                    userName = `${user.account.firstName || ''}${userInfix}${user.account.lastName || ''}`;
                 }
 
                 // push all roles to temp array to output later

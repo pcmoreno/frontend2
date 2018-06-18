@@ -74,6 +74,11 @@ class Index extends Component {
                     payload: {
                         type: 'form',
                         data: this.mapFormField(changedFields)
+                    },
+                    urlParams: {
+                        parameters: {
+                            fields: 'id,uuid'
+                        }
                     }
                 }
             ).then(response => {
