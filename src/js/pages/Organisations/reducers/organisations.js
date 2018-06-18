@@ -1,7 +1,8 @@
 import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
 import AppConfig from './../../../App.config';
-import ListWidgetTypes from '../../../components/Listview/constants/WidgetTypes';
+import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
+import ParticipantStatus from '../../../constants/ParticipantStatus';
 
 const initialState = {
     panels: [],
@@ -331,10 +332,18 @@ export default function organisationsReducer(state = initialState, action) {
                         const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
+                        // only invitation possible when:
+                        const statusToInvite = [
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                        ];
+
                         // build the list view config for participants
                         participantListView.push([
                             {
-                                type: ListWidgetTypes.CHECKBOX,
+                                type: ListItemTypes.CHECKBOX,
+                                disabled: statusToInvite.indexOf(participantStatus) < 0,
                                 key: 'selectParticipantLabel',
                                 id: participant.uuid,
                                 action: event => {
@@ -352,7 +361,7 @@ export default function organisationsReducer(state = initialState, action) {
                             },
                             {
                                 key: 'amendParticipantLabel',
-                                type: ListWidgetTypes.PENCIL,
+                                type: ListItemTypes.PENCIL,
                                 action: () => {
                                     action.openModalToAmendParticipant(account.id);
                                 }

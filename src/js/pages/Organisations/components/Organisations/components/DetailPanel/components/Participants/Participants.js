@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview/index';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/participants.scss';
 
 /** @jsx h */
@@ -28,6 +29,7 @@ export default class Participants extends Component {
                         type={ 'button' }
                     >
                         { i18n.organisations_add_participant }
+                        <FontAwesomeIcon icon={ 'plus' }/>
                     </button>
                     <button
                         onClick={ openModalToInviteParticipant }
@@ -36,9 +38,10 @@ export default class Participants extends Component {
                         disabled={ selectedParticipants.length === 0 }
                     >
                         { i18n.organisations_invite }
+                        <FontAwesomeIcon icon={ 'envelope' }/>
                     </button>
                 </div>
-                <div>
+                <div className={ style.listView }>
                     <Listview
                         entities={ participantListView }
                         selectedEntities={ selectedParticipants }

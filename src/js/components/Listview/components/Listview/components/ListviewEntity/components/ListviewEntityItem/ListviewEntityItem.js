@@ -4,7 +4,7 @@ import Pencil from './components/widgets/Pencil/Pencil';
 import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
 import style from './style/listviewentityitem.scss';
-import ListWidgetTypes from '../../../../../../constants/WidgetTypes';
+import ListItemTypes from '../../../../../../constants/ListItemTypes';
 import Utils from '../../../../../../../../utils/utils';
 
 /** @jsx h */
@@ -67,18 +67,19 @@ export default class ListviewEntityItem extends Component {
 
             // a widget was provided. determine its type and output the relevant component with its required props
             switch (this.props.widget.type) {
-                case ListWidgetTypes.PENCIL:
-                    value = <Pencil widgetAction={ this.props.widget.action } />;
+                case ListItemTypes.PENCIL:
+                    value = <Pencil widgetAction={ this.props.widget.action } disabled={ this.props.widget.disabled }/>;
                     break;
 
-                case ListWidgetTypes.CHECKBOX:
-                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } />;
+                case ListItemTypes.CHECKBOX:
+                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } disabled={ this.props.widget.disabled } />;
                     break;
 
-                case ListWidgetTypes.BUTTON: value = <Button
+                case ListItemTypes.BUTTON: value = <Button
                     label={ this.props.widget.label }
                     link={ this.props.widget.link }
                     i18n={ this.props.i18n }
+                    disabled={ this.props.widget.disabled }
                     translationKey={ this.props.translationKey }
                 />;
                     break;

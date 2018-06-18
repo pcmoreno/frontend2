@@ -1,8 +1,8 @@
-const ListWidgetTypes = {
+const ListItemTypes = {
     BUTTON: 'button',
     PENCIL: 'pencil',
     CHECKBOX: 'checkbox',
     LABEL: 'label'
 };
 
-export default ListWidgetTypes;
+export default ListItemTypes;

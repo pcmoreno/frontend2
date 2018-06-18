@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 
 export default class Button extends Component {
     render() {
-        const { link } = this.props;
+        const { link, disabled } = this.props;
         let label = this.props.label;
 
         if (this.props.i18n && this.props.translationKey) {
@@ -16,7 +16,7 @@ export default class Button extends Component {
         }
 
         return (
-            <a href={ link } className={ 'action_button' }>{ label }</a>
+            <a href={ link } className={ `action_button${disabled ? ' disabled' : ''}` } disabled={ disabled }>{ label }</a>
         );
     }
 }

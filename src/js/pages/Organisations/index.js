@@ -13,7 +13,7 @@ import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
-import ListWidgetTypes from '../../components/Listview/constants/WidgetTypes';
+import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 
 class Index extends Component {
     constructor(props) {
@@ -44,6 +44,9 @@ class Index extends Component {
         this.openModalToAmendParticipant = this.openModalToAmendParticipant.bind(this);
         this.closeModalToAmendParticipant = this.closeModalToAmendParticipant.bind(this);
 
+        this.openModalToInviteParticipant = this.openModalToInviteParticipant.bind(this);
+        this.closeModalToInviteParticipant = this.closeModalToInviteParticipant.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
@@ -65,9 +68,15 @@ class Index extends Component {
 
         this.i18n = translator(this.props.languageId, 'organisations');
 
+        // flag if we have a full screen modal locked (can't close)
+        this.modalLocked = false;
+
         this.localState = {
             selectedParticipants: []
         };
+
+        // keep track of current entity shown in detail panel
+        this.detailPanelEntity = null;
     }
 
     toggleSelectAllParticipants(event) {
@@ -83,16 +92,18 @@ class Index extends Component {
         // based on selected state, (de)select the participant
         participants.forEach(row => {
             let participantId = null;
+            let disabled = null;
 
             for (let i = 0; i < row.length; i++) {
-                if (row[i].type === ListWidgetTypes.CHECKBOX) {
+                if (row[i].type === ListItemTypes.CHECKBOX) {
                     participantId = row[i].id;
+                    disabled = row[i].disabled;
                     break;
                 }
             }
 
             if (checked) {
-                if (!~selected.indexOf(participantId)) {
+                if (!disabled && !~selected.indexOf(participantId)) {
                     selected.push(participantId);
                 }
             } else {
@@ -126,11 +137,49 @@ class Index extends Component {
         this.setState(this.localState);
     }
 
-    inviteParticipants(/* selectedParticipants */) {
+    inviteParticipants(selectedParticipants) {
 
-        // this.localState.selectedParticipants.forEach(participantId => {
-        //     console.log('inviting '+participantId);
-        // });
+        // only proceed if not in locked state
+        if (!this.modalLocked) {
+
+            // set locked state to avoid new calls and closing the modal
+            this.modalLocked = true;
+
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().organisations.inviteParticipants,
+                {
+                    payload: {
+                        data: {
+                            participants: selectedParticipants
+                        },
+                        type: 'form',
+                        formKey: 'invite_participant_form'
+                    }
+                }
+            ).then(() => {
+
+                // show message and reload detail panel
+                this.refreshDetailPanelDataWithMessage(this.i18n.organisations_invite_participant_success);
+
+                // unlock the modal again
+                this.modalLocked = false;
+
+                // close modal
+                this.closeModalToInviteParticipant();
+
+            }).catch(() => {
+
+                // Show a message, is translated in form definition on Organisations.js
+                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_invite_participant_error });
+
+                // unlock the modal again
+                this.modalLocked = false;
+
+                // close modal
+                this.closeModalToInviteParticipant();
+            });
+        }
     }
 
     changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
@@ -402,6 +451,14 @@ class Index extends Component {
 
     fetchDetailPanelData(entity) {
 
+        // check if we are reloading or loading a new entity, to reset selected participants
+        if (this.detailPanelEntity && this.detailPanelEntity.id !== entity.id && this.detailPanelEntity.type !== entity.type) {
+            this.localState.selectedParticipants = [];
+            this.setState(this.localState);
+        }
+
+        this.detailPanelEntity = entity;
+
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
         if (entity.id > 0) {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
@@ -630,7 +687,9 @@ class Index extends Component {
     }
 
     closeModalToInviteParticipant() {
-        document.querySelector('#modal_invite_participant').classList.add('hidden');
+        if (!this.modalLocked) {
+            document.querySelector('#modal_invite_participant').classList.add('hidden');
+        }
     }
 
     render() {

@@ -5,7 +5,7 @@ import { h, Component } from 'preact';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 import Utils from '../../../../utils/utils';
-import ListWidgetTypes from '../../constants/WidgetTypes';
+import ListItemTypes from '../../constants/ListItemTypes';
 import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 
 /** Preact Listview Component v2.2
@@ -32,7 +32,7 @@ import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/
  * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
  *
  *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
- *      type: ListWidgetTypes.PENCIL,
+ *      type: ListItemTypes.PENCIL,
  *      id: 12,
  *      value: '',
  *      action: () => { action.amendParticipant(account.id); }
@@ -238,18 +238,24 @@ export default class Listview extends Component {
         });
 
         const output = [];
+
+        // keep track of selected and disabled (unselected) checkboxes, as check all does not include disabled ones
         let selectedCount = 0;
+        let disabledCount = 0;
 
         this.localEntities.forEach((row, index) => {
             let activeFlag = false;
 
             row.forEach(field => {
-                if (field.type === ListWidgetTypes.CHECKBOX) {
+                if (field.type === ListItemTypes.CHECKBOX) {
                     const entityId = field.id;
+                    const disabled = field.disabled;
 
                     if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
                         activeFlag = true;
                         selectedCount++;
+                    } else if (disabled) {
+                        disabledCount++;
                     }
                 }
             });
@@ -270,7 +276,7 @@ export default class Listview extends Component {
 
             // build column headers per type
             switch (column.type) {
-                case ListWidgetTypes.CHECKBOX:
+                case ListItemTypes.CHECKBOX:
 
                     // render header for checkboxes
                     // add checkbox for select all if the select all method was given
@@ -283,15 +289,15 @@ export default class Listview extends Component {
                         { toggleSelectAll &&
                             <Checkbox
                                 widgetAction={toggleSelectAll}
-                                checked={ selectedCount === this.localEntities.length }
+                                checked={ selectedCount === (this.localEntities.length - disabledCount) }
                             />
                         }
                     </th>);
 
                     break;
 
-                case ListWidgetTypes.PENCIL:
-                case ListWidgetTypes.BUTTON:
+                case ListItemTypes.PENCIL:
+                case ListItemTypes.BUTTON:
 
                     tableHead.push(<th
                         key={column.key}
@@ -302,7 +308,7 @@ export default class Listview extends Component {
 
                     break;
 
-                case ListWidgetTypes.LABEL:
+                case ListItemTypes.LABEL:
                 default:
 
                     tableHead.push(<th
