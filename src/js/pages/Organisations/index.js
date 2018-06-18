@@ -158,9 +158,14 @@ class Index extends Component {
                     }
                 }
             ).then(() => {
+                let successMessage = this.i18n.organisations_invite_participant_success;
+
+                if (selectedParticipants.length > 1) {
+                    successMessage = this.i18n.organisations_invite_participants_success;
+                }
 
                 // show message and reload detail panel
-                this.refreshDetailPanelDataWithMessage(this.i18n.organisations_invite_participant_success);
+                this.refreshDetailPanelDataWithMessage(successMessage);
 
                 // unlock the modal again
                 this.modalLocked = false;
