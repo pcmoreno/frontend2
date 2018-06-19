@@ -1,20 +1,22 @@
 import * as actionType from './../constants/ActionTypes';
 import Logger from '../../../utils/logger';
 import AppConfig from './../../../App.config';
+import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
+import ParticipantStatus from '../../../constants/ParticipantStatus';
 
 const initialState = {
     panels: [],
     forms: [],
     sectionInfo: {},
     pathNodes: [],
-    detailPanelData: [{
+    detailPanelData: {
         entity: {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
             type: AppConfig.global.organisations.rootEntity.type,
             participants: []
         }
-    }],
+    },
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -303,13 +305,7 @@ export default function organisationsReducer(state = initialState, action) {
         case actionType.FETCH_DETAIL_PANEL_DATA: {
 
             // clear all detailPanel data
-            newState.detailPanelData = [];
-
-            // persist all existing detail panel data and mark it inactive
-            state.detailPanelData.forEach(data => {
-                data.active = false;
-                newState.detailPanelData.push(data);
-            });
+            newState.detailPanelData = {};
 
             // extract the participants from the action
             const participants = [];
@@ -336,7 +332,22 @@ export default function organisationsReducer(state = initialState, action) {
                         const participantName = `${account.firstName}${participantInfix}${account.lastName}`;
                         const sortValueForParticipantName = `${account.lastName}${participantInfix}${account.firstName}`;
 
+                        // only invitation possible when:
+                        const statusToInvite = [
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                        ];
+
                         participants.push({
+                            selectParticipantLabel: {
+                                type: ListItemTypes.CHECKBOX,
+                                disabled: statusToInvite.indexOf(participantStatus) < 0,
+                                id: participant.uuid,
+                                action: event => {
+                                    action.toggleParticipant(participant.uuid, event);
+                                }
+                            },
                             name: {
                                 value: participantName,
                                 sortingKey: sortValueForParticipantName
@@ -345,8 +356,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 value: participantStatus
                             },
                             amendParticipantLabel: {
-                                type: 'pencil',
-                                value: '',
+                                type: ListItemTypes.PENCIL,
                                 action: () => {
                                     action.openModalToAmendParticipant(participant.id, participantStatus);
                                 }
@@ -363,11 +373,10 @@ export default function organisationsReducer(state = initialState, action) {
 
             action.entity.participants = participants;
 
-            // the 'active' flag ensures the detail panel shows the right details, especially in responsive views
-            newState.detailPanelData.push({
-                active: true,
+            // store detail panel data
+            newState.detailPanelData = {
                 entity: action.entity
-            });
+            };
 
             break;
         }

@@ -1,10 +1,11 @@
 export default {
-    "tasks_participant": "deelnemer",
-    "tasks_assessmentdate": "afspraakdatum",
-    "tasks_results": "resultaten",
-    "tasks_show_results": "toon resultaten",
-    "tasks_write_report": "schrijf rapport",
+    "tasks_assessmentdate": "Afspraakdatum",
     "tasks_consultant": "Adviseur",
+    "tasks_name": "Naam",
     "tasks_organisation": "Organisatie",
-    "tasks_report": "Rapport"
+    "tasks_participant": "Deelnemer",
+    "tasks_report": "Rapport",
+    "tasks_results": "Resultaten",
+    "tasks_show_results": "Toon resultaten",
+    "tasks_write_report": "Schrijf rapport"
 };

@@ -5,31 +5,25 @@ import style from './style/listviewentity.scss';
 /** @jsx h */
 
 export default class ListviewEntity extends Component {
+
     render() {
-        const { entity, i18n, translationKey } = this.props;
+        const { entity, i18n, translationKey, active } = this.props;
         const entityItems = [];
 
         Object.keys(entity).forEach(entityKey => {
             const value = entity[entityKey].value;
+            let widget = null;
 
-            // in case a link was supplied together with a value, hand it over to the child component
-            // todo: at some point investigate if 'link' can be turned into a widget, too
-            let link;
-
-            if (entity[entityKey].link) {
-                link = entity[entityKey].link;
-            }
-
-            // in case a widget was supplied together with a value, hand it over to the child component
-            let widget;
-
+            // in case a type was specified, construct a widget object with all possible properties (todo: spread?)
             if (entity[entityKey].type) {
-
-                // type was specified, assume its a widget and construct an object that can be handed over
                 widget = {
                     type: entity[entityKey].type,
-                    value: entity[entityKey].value,
-                    action: entity[entityKey].action
+                    disabled: entity[entityKey].disabled,
+                    value: entity[entityKey].value || '',
+                    label: entity[entityKey].label || '',
+                    action: entity[entityKey].action || '',
+                    link: entity[entityKey].link || '',
+                    id: entity[entityKey].id || ''
                 };
             }
 
@@ -38,16 +32,16 @@ export default class ListviewEntity extends Component {
                     key={ entityKey }
                     entityId={ entityKey }
                     value={ value }
-                    link={ link }
                     widget={ widget }
                     i18n={ i18n }
                     translationKey={ translationKey }
+                    active={ active }
                 />
             );
         });
 
         return (
-            <tr className={ style.tableRow }>
+            <tr className={ `${style.tableRow} ${active && 'active'}` }>
                 { entityItems }
             </tr>
         );

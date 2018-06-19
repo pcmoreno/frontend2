@@ -98,6 +98,9 @@ class Index extends Component {
                         identifiers: {
                             section: sectionId,
                             slug
+                        },
+                        parameters: {
+                            fields: 'id,uuid'
                         }
                     }
                 }

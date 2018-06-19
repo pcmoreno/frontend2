@@ -34,11 +34,9 @@ class Organisations extends Component {
         let newDetailPanelData;
 
         // return the active detail panel data instance
-        this.props.detailPanelData.forEach(dataForEntity => {
-            if (dataForEntity.active) {
-                newDetailPanelData = dataForEntity;
-            }
-        });
+        if (this.props.detailPanelData) {
+            newDetailPanelData = this.props.detailPanelData;
+        }
 
         if (newDetailPanelData) {
             return newDetailPanelData;
@@ -62,7 +60,7 @@ class Organisations extends Component {
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
             refreshPanelDataWithMessage,
-            refreshDetailPanelWithMessage,
+            refreshDetailPanelDataWithMessage,
             closeModalToAddOrganisation,
             openModalToAddParticipant,
             closeModalToAddParticipant,
@@ -71,6 +69,11 @@ class Organisations extends Component {
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
+            selectedParticipants,
+            inviteParticipants,
+            toggleSelectAllParticipants,
+            openModalToInviteParticipant,
+            closeModalToInviteParticipant,
             i18n
         } = this.props;
 
@@ -104,6 +107,9 @@ class Organisations extends Component {
                         closeModalToAddParticipant = { closeModalToAddParticipant }
                         openModalToAmendParticipant = { openModalToAmendParticipant }
                         closeModalToAmendParticipant = { closeModalToAmendParticipant }
+                        openModalToInviteParticipant = { openModalToInviteParticipant }
+                        selectedParticipants={ selectedParticipants }
+                        toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         i18n = { i18n }
                     />
                 </section>
@@ -162,8 +168,10 @@ class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { () => {
-                            refreshDetailPanelWithMessage(i18n.organisations_add_participant_success);
+                        afterSubmit = { response => {
+                            refreshDetailPanelDataWithMessage(i18n.organisations_add_participant_success, {
+                                addedParticipant: response
+                            });
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
@@ -206,7 +214,7 @@ class Organisations extends Component {
                             refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_project">
@@ -274,6 +282,39 @@ class Organisations extends Component {
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }
                     />
+                </aside>
+                <aside className={ `${style.modal_container} hidden` } id="modal_invite_participant">
+                    <section role="dialog">
+                        <section tabIndex="0" className={ style.background } onClick={ this.props.closeModalToInviteParticipant } role="button" />
+                        <form>
+                            <header>
+                                <h3>{ selectedParticipants.length > 1
+                                    ? i18n.organisations_invite_participants_title : i18n.organisations_invite_participant_title
+                                }</h3>
+                            </header>
+                            <main>{ selectedParticipants.length > 1
+                                ? i18n.organisations_invite_participants_confirmation : i18n.organisations_invite_participant_confirmation
+                            }</main>
+                            <footer>
+                                <button
+                                    className={ 'action_button action_button__secondary' }
+                                    type={ 'button' }
+                                    value={ i18n.organisations_close }
+                                    onClick={ closeModalToInviteParticipant }
+                                >
+                                    { i18n.organisations_close }
+                                </button>
+                                <button
+                                    className={ 'action_button' }
+                                    type={ 'button' }
+                                    value={ i18n.organisations_invite }
+                                    onClick={ () => inviteParticipants(selectedParticipants) }
+                                >
+                                    { i18n.organisations_invite }
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
                 </aside>
             </main>
         );

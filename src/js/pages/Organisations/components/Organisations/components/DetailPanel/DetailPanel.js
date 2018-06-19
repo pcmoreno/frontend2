@@ -48,7 +48,12 @@ export default class DetailPanel extends Component {
         if (this.localState.activeTab.toString() === 'participants') {
             output = <p className={ style.detailpanelcontent_p }> <Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
+                closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
                 closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                selectedParticipants={ this.props.selectedParticipants }
+                toggleSelectAllParticipants={ this.props.toggleSelectAllParticipants }
+                toggleParticipant = { this.props.toggleParticipant }
                 openModalToAmendParticipant={ this.props.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.props.closeModalToAmendParticipant }
                 participants={ entity.participants }
@@ -86,7 +91,7 @@ export default class DetailPanel extends Component {
                     switchTab={ this.switchTab }
                     i18n={ i18n }
                 />
-                <main className={ style.main }>
+                <main className={ style.modal_invite_participant }>
                     { output }
                 </main>
             </aside>
