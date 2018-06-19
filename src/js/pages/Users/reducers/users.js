@@ -46,16 +46,17 @@ export default function usersReducer(state = initialState, action) {
                     userRoles.push(user.role.roleName);
                 }
 
-                newState.users.push(
+                // build user list view
+                newState.users.push([
                     {
-                        name: {
-                            value: userName
-                        },
-                        roles: {
-                            value: userRoles
-                        }
+                        key: 'name',
+                        value: userName
+                    },
+                    {
+                        key: 'roles',
+                        value: userRoles
                     }
-                );
+                ]);
             });
 
             break;

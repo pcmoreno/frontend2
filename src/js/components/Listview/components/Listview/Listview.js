@@ -115,8 +115,25 @@ export default class Listview extends Component {
 
         // bubble sort the entities on given sortBy key in the order set by sortOrder
         entities.sort((a, b) => {
-            const nameA = this.sortingKey(a[sortBy]).toLowerCase();
-            const nameB = this.sortingKey(b[sortBy]).toLowerCase();
+            let aSortColumn = null,
+                bSortColumn = null;
+
+            for (let i = 0; i < a.length; i++) {
+                if (sortBy === a[i].key) {
+                    aSortColumn = a[i];
+                    break;
+                }
+            }
+
+            for (let i = 0; i < b.length; i++) {
+                if (sortBy === b[i].key) {
+                    bSortColumn = b[i];
+                    break;
+                }
+            }
+
+            const nameA = this.sortingKey(aSortColumn).toLowerCase();
+            const nameB = this.sortingKey(bSortColumn).toLowerCase();
 
             if (sortOrder === 'asc') {
                 if (nameA < nameB) {
@@ -209,17 +226,15 @@ export default class Listview extends Component {
         // use the first entry in the collection to get the keys as labels and find their translation if available
         const columns = [];
 
-        Object.keys(this.localEntities[0]).forEach(key => {
-            if (this.localEntities[0].hasOwnProperty(key)) {
-                const entity = this.localEntities[0][key];
-                const translatedLabel = i18n[`${translationKey || ''}${Utils.camelCaseToSnakeCase(key)}`];
+        this.localEntities[0].forEach(column => {
+            const translatedLabel = i18n[`${translationKey || ''}${Utils.camelCaseToSnakeCase(column.key)}`];
 
-                columns.push({
-                    label: translatedLabel || '',
-                    key: Utils.camelCaseToSnakeCase(key),
-                    type: entity.type
-                });
-            }
+            columns.push({
+                label: translatedLabel || '',
+                key: Utils.camelCaseToSnakeCase(column.key),
+                type: column.type
+            });
+
         });
 
         const output = [];
@@ -228,28 +243,26 @@ export default class Listview extends Component {
         let selectedCount = 0;
         let disabledCount = 0;
 
-        this.localEntities.forEach((entity, index) => {
+        this.localEntities.forEach((row, index) => {
             let activeFlag = false;
 
-            Object.keys(entity).forEach(key => {
-                if (entity.hasOwnProperty(key)) {
-                    if (entity[key].type === ListItemTypes.CHECKBOX) {
-                        const entityId = entity[key].id;
-                        const disabled = entity[key].disabled;
+            row.forEach(field => {
+                if (field.type === ListItemTypes.CHECKBOX) {
+                    const entityId = field.id;
+                    const disabled = field.disabled;
 
-                        if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
-                            activeFlag = true;
-                            selectedCount++;
-                        } else if (disabled) {
-                            disabledCount++;
-                        }
+                    if (selectedEntities && ~selectedEntities.indexOf(entityId)) {
+                        activeFlag = true;
+                        selectedCount++;
+                    } else if (disabled) {
+                        disabledCount++;
                     }
                 }
             });
 
             output.push(<ListviewEntity
                 key={ index }
-                entity={ entity }
+                entity={ row }
                 i18n={ i18n }
                 translationKey={ translationKey }
                 active={ activeFlag }
