@@ -46,7 +46,6 @@ class Index extends Component {
     }
 
     submitForm(changedFields) {
-
         let slug;
 
         changedFields.forEach((field, index) => {

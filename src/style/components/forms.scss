@@ -33,14 +33,6 @@ form {
         }
     }
 
-    button {
-        opacity: 1;
-
-        &:disabled {
-            opacity: .2;
-        }
-    }
-
     main {
 
         /* global padding in form */
