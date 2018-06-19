@@ -6,15 +6,17 @@ import Option from '../../components/Option/Option';
 
 export default class AbstractRelationship extends Component {
 
-    createOptions(options, i18n) {
+    createOptions(options, i18n, value) {
         const formFieldOptions = [];
         let selectedSet = false;
 
         options.forEach(option => {
             let selected = false;
 
-            if (this.props.value && this.props.value.length > 0) {
-                selected = this.props.value === option.slug;
+            if (value) {
+
+                // see if the value (the stored option) matches the currently processed option
+                selected = (value === option.slug);
             } else {
                 if (!selectedSet) {
                     selectedSet = true;

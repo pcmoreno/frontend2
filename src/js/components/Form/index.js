@@ -46,6 +46,18 @@ class Index extends Component {
     }
 
     submitForm(changedFields) {
+        let slug;
+
+        changedFields.forEach((field, index) => {
+            if (field.fieldId === 'uuid') {
+                slug = field.value;
+
+                // since the uuid will now be part of the endpoint call, it can be removed from changedFields
+                // (no worries, it will be there for each subsequent submit if the first submit didnt work)
+                changedFields.splice(index, 1);
+            }
+        });
+
         const sectionId = this.props.sectionId;
         const method = this.props.method;
 
@@ -66,16 +78,26 @@ class Index extends Component {
             // show loader
             document.querySelector('#spinner').classList.remove('hidden');
 
+            let endpoint = `${this.api.getEndpoints().abstractSection}/${sectionId}`;
+
+            if (slug) {
+                endpoint = this.api.getEndpoints().updateAbstractSection;
+            }
+
             // execute request
             return this.api[method](
                 this.api.getBaseUrl(),
-                `${this.api.getEndpoints().abstractSection}/${sectionId}`,
+                endpoint,
                 {
                     payload: {
                         type: 'form',
                         data: this.mapFormField(changedFields)
                     },
                     urlParams: {
+                        identifiers: {
+                            section: sectionId,
+                            slug
+                        },
                         parameters: {
                             fields: 'id,uuid'
                         }

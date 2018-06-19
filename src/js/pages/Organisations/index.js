@@ -665,19 +665,36 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    openModalToAmendParticipant(/* participantId */) {
+    openModalToAmendParticipant(participantId, participantStatus) {
 
-        // fetch entity form data and show modal/form
-        this.getFormFields('amendParticipant', {
-            section: 'participantSession',
-            urlParams: {
-                parameters: {
+        switch (participantStatus) {
+            case 'hnaFinished':
 
-                    // todo: robbin, adjust the fields that you need to receive
-                    fields: 'accountFirstName,accountInfix,accountLastName,accountGender,accountHasRoleEmail,accountHasRoleLanguage,educationLevel,comments,consultant'
-                }
-            }
-        });
+                /* all fields except appointmentdate (todo: will work when dion is done. right now non-requested fields are still returned, though empty) */
+                this.getFormFields('amendParticipant', {
+                    section: `participantSession/${participantId}`,
+                    urlParams: {
+                        parameters: {
+                            fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                        }
+                    }
+                });
+                break;
+
+            default:
+
+                /* all fields */
+                this.getFormFields('amendParticipant', {
+                    section: `participantSession/${participantId}`,
+                    urlParams: {
+                        parameters: {
+                            fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                        }
+                    }
+                });
+                break;
+        }
+
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
 

@@ -93,6 +93,8 @@ class Organisations extends Component {
             return null;
         }
 
+        /* todo: remove hiddenFields property and instead use the ?fields= prop insite the openModal... methods to determine which fields should be retrieved by the API call */
+
         return (
             <main className={ style.organisations }>
                 { alertComponent }
@@ -156,7 +158,8 @@ class Organisations extends Component {
                             'oneParticipantSessionToOneAccountHasRole',
                             'startedOn',
                             'onlineId',
-                            'participantSessionSlug'
+                            'participantSessionSlug',
+                            'accountDisplayName'
                         ] }
                         hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
@@ -254,7 +257,7 @@ class Organisations extends Component {
                         sectionId={ 'participantSession' }
                         method={ FormMethod.UPDATE_SECTION }
                         ignoredFields={ [
-                            'uuid',
+                            'accountGender',
                             'created',
                             'updated',
                             'calculatedScores',
@@ -264,7 +267,8 @@ class Organisations extends Component {
                             'manyParticipantSessionToOneProject',
                             'startedOn',
                             'onlineId',
-                            'participantSessionSlug'
+                            'participantSessionSlug',
+                            'accountDisplayName'
                         ] }
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
@@ -272,8 +276,8 @@ class Organisations extends Component {
                         storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
-                        afterSubmit = { response => {
-                            refreshPanelDataWithMessage(i18n.organisations_amend_participant_success, response);
+                        afterSubmit = { () => {
+                            refreshDetailPanelDataWithMessage(i18n.organisations_amend_participant_success);
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }

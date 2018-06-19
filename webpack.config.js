@@ -181,7 +181,8 @@ module.exports = {
             { from: './node_modules/froala-editor/css/froala_style.min.css', to: './assets/vendor/froala-editor/css/' },
             { from: './node_modules/froala-editor/css/froala_editor.min.css', to: './assets/vendor/froala-editor/css/' },
             { from: './node_modules/font-awesome/css/font-awesome.min.css', to: './assets/vendor/froala-editor/css/' },
-            { from: './node_modules/font-awesome/fonts', to: './assets/vendor/froala-editor/fonts/' }
+            { from: './node_modules/font-awesome/fonts', to: './assets/vendor/froala-editor/fonts/' },
+            { from: './node_modules/flatpickr/dist/flatpickr.min.css', to: './assets/vendor/flatpickr/css/' }
         ])
     ],
     resolve: {

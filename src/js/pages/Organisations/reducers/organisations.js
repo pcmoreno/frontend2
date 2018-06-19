@@ -363,7 +363,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 key: 'amendParticipantLabel',
                                 type: ListItemTypes.PENCIL,
                                 action: () => {
-                                    action.openModalToAmendParticipant(account.id);
+                                    action.openModalToAmendParticipant(participant.id, participantStatus);
                                 }
                             }
                         ]);

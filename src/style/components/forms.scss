@@ -20,7 +20,7 @@ form {
         button {
             float: right;
             font-size: 1.5rem;
-            color: $white;
+            color: $brown;
             font-weight: bold;
             border: none;
             padding: 0;
@@ -103,15 +103,5 @@ form {
         height: 100%;
         position: absolute;
         top: 0;
-    }
-
-    form {
-
-        /* todo: please explain when a form is placed in a form?! can probably be removed, this */
-        width: 200px;
-        display: block;
-        padding: 2rem;
-        background: red;
-        font-size: 200px;
     }
 }
