@@ -56,7 +56,7 @@ export default class DetailPanel extends Component {
                 toggleParticipant = { this.props.toggleParticipant }
                 openModalToAmendParticipant={ this.props.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.props.closeModalToAmendParticipant }
-                participants={ entity.participants }
+                participantListView={ entity.participantListView }
                 i18n={ i18n }
             /></p>;
         }

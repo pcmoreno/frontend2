@@ -13,6 +13,7 @@ import AppConfig from './../../App.config';
 import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
+import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 
 class Index extends Component {
     constructor(props) {
@@ -79,7 +80,7 @@ class Index extends Component {
     }
 
     toggleSelectAllParticipants(event) {
-        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participants;
+        const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participantListView;
         const checked = event.target && event.target.checked;
         let selected = [];
 
@@ -89,9 +90,17 @@ class Index extends Component {
         });
 
         // based on selected state, (de)select the participant
-        participants.forEach(participant => {
-            const participantId = participant.selectParticipantLabel.id;
-            const disabled = participant.selectParticipantLabel.disabled;
+        participants.forEach(row => {
+            let participantId = null;
+            let disabled = null;
+
+            for (let i = 0; i < row.length; i++) {
+                if (row[i].type === ListItemTypes.CHECKBOX) {
+                    participantId = row[i].id;
+                    disabled = row[i].disabled;
+                    break;
+                }
+            }
 
             if (checked) {
                 if (!disabled && !~selected.indexOf(participantId)) {
@@ -149,9 +158,14 @@ class Index extends Component {
                     }
                 }
             ).then(() => {
+                let successMessage = this.i18n.organisations_invite_participant_success;
+
+                if (selectedParticipants.length > 1) {
+                    successMessage = this.i18n.organisations_invite_participants_success;
+                }
 
                 // show message and reload detail panel
-                this.refreshDetailPanelDataWithMessage(this.i18n.organisations_invite_participant_success);
+                this.refreshDetailPanelDataWithMessage(successMessage);
 
                 // unlock the modal again
                 this.modalLocked = false;
