@@ -17,7 +17,7 @@ export default class DateTimeField extends Component {
             id,
             {
                 enableTime: true,
-                time_24hr: true,
+                time_24hr: true, // eslint-disable-line camelcase
                 defaultHour: 9,
                 defaultMinute: 0
             }
@@ -25,7 +25,15 @@ export default class DateTimeField extends Component {
     }
 
     render() {
-        const { currentForm, handle, label, onChange, value, formId } = this.props;
+        const {
+            currentForm,
+            handle,
+            label,
+            onChange,
+
+            // value,
+            formId
+        } = this.props;
 
         const value2 = '1998-12-31 14:15'; // todo: remove override when API is ready
 
