@@ -27,10 +27,10 @@ export default class DateTimeField extends Component {
     render() {
         const { currentForm, handle, label, onChange, value, formId } = this.props;
 
-         console.log(value);
+        const value2 = '1998-12-31 14:15'; // todo: remove override when API is ready
 
-        // todo: value is not coming in? is it stored?
-        console.log(     Utils.formatDate(value, 'yyyy-MM-dd hh:mm')   );
+        // assume the data received from API is aways 'Amsterdam time'. convert to local notation.
+        const appointmentDate = Utils.formatDate(value2, 'dd-MM-yyyy HH:mm');
 
         return (
             <div>
@@ -47,7 +47,7 @@ export default class DateTimeField extends Component {
                             onChange={ onChange }
                             name={ handle }
                             id={ `${formId}_${handle}` }
-                            value={ Utils.formatDate(value, 'yyyy-MM-dd hh:mm') || '' }
+                            value={ appointmentDate || null }
                         />
                     </li>
                 </ul>

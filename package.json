@@ -29,6 +29,7 @@
         "eslint-plugin-react": "^7.4.0",
         "extract-text-webpack-plugin": "^3.0.1",
         "file-loader": "^1.1.5",
+        "flatpickr": "^4.5.0",
         "if-env": "^1.0.0",
         "jest": "21.2.0",
         "jest-css-modules": "^1.1.0",
@@ -92,7 +93,4 @@
         "build:acc": "yarn run lint && yarn run jest && NODE_ENV=production FROALA_KEY=${FROALA_KEY} NEON_API_BASE_URL=${NEON_API_ACC_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_ACC_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_ACC_APP_CLIENT_ID} webpack -p",
         "build:prod": "yarn run lint && yarn run jest && NODE_ENV=production FROALA_KEY=${FROALA_KEY} NEON_API_BASE_URL=${NEON_API_PROD_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_PROD_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_PROD_APP_CLIENT_ID} webpack -p"
     },
-    "dependencies": {
-        "flatpickr": "^4.5.0"
-    }
 }

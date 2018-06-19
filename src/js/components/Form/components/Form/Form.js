@@ -245,12 +245,6 @@ export default class Form extends Component {
                             field[name].value = field[name].value.uuid;
                         }
 
-                        // normalise datetime displayed / stored / submitted values with the API
-                        // todo: why do this here? why not in changefield action?
-                        if (field[name].type === fieldType.DATE_TIME_FIELD) {
-                            field[name].value = Utils.formatDate(field[name].value, 'yyyy-MM-ddThh:mm');
-                        }
-
                         if (!field[name].value || field[name].value.length === 0) {
 
                             // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
