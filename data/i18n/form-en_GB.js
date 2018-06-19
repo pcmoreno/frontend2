@@ -17,5 +17,18 @@ export default {
     "form_option_product_development": "Development",
     "form_option_product_selection_development": "Selection development",
     "form_option_nederlands": "Dutch",
-    "form_option_engels": "English"
+    "form_option_engels": "English",
+    "form_account_first_name": "First name",
+    "form_account_infix": "Infix",
+    "form_account_last_name": "Last name",
+    "form_account_gender": "Gender",
+    "form_account_has_role_email": "Email",
+    "form_account_has_role_language": "Language",
+    "form_education_level": "Education level",
+    "form_participant_session_appointment_date": "Appointment date",
+    "form_comments": "Comments",
+    "form_consultant": "Consultant",
+    "form_option_male": "Male",
+    "form_option_female": "Female",
+    "form_option_other": "Other"
 };
