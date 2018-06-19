@@ -143,7 +143,6 @@ class Index extends Component {
         return (<Form
             formId={this.props.formId}
             sectionId={this.props.sectionId}
-            ignoredFields={this.props.ignoredFields}
             hiddenFields={this.props.hiddenFields}
             forms={this.props.forms}
             submitForm={this.submitForm}

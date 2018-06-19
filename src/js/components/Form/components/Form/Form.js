@@ -15,7 +15,6 @@ import Utils from '../../../../utils/utils';
 
 /** Preact Form Component v1.0
  *
- * it is now possible for fields to be hidden. in such case do not add it to the ignoredFields.
  * each entry can have its value set to either a static text or, for example, a state key
  *
  * @example
@@ -231,97 +230,95 @@ export default class Form extends Component {
                     const name = Object.keys(field)[0];
                     let fieldId, value;
 
-                    if (this.props.ignoredFields.indexOf(name) === -1) {
+                    // the value from an unchanged relationship field is still an object! extract its value
+                    if (field[name].type === fieldType.RELATIONSHIP && typeof (field[name].value) === 'object') {
+                        this.props.changeFormFieldValueForFormId(
+                            this.props.formId,
+                            field[name],
+                            field[name].value.uuid
+                        );
 
-                        // the value from an unchanged relationship field is still an object! extract its value
-                        if (field[name].type === fieldType.RELATIONSHIP && typeof (field[name].value) === 'object') {
-                            this.props.changeFormFieldValueForFormId(
-                                this.props.formId,
-                                field[name],
-                                field[name].value.uuid
+                        // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
+                        field[name].value = field[name].value.uuid;
+                    }
+
+                    if (!field[name].value || field[name].value.length === 0) {
+
+                        // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
+                        // form element. see if the element can be matched and its value extracted.
+                        switch (field[name].type) {
+
+                            case fieldType.CHOICE: {
+
+                                // pushing initial value from dropdown to state so it can be submitted
+                                const fieldName = Object.keys(field);
+                                const choices = [];
+
+                                fieldId = (Object.keys(field)[0]);
+
+                                // extract initial value from state
+                                for (const key in field[fieldName].form.all.choices) {
+                                    if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
+                                        choices.push(field[fieldName].form.all.choices[key]);
+                                        break;
+                                    }
+                                }
+
+                                // the first value is the initial value
+                                value = choices[0];
+
+                                break;
+                            }
+
+                            default: {
+
+                                // for all other form element types, simply attempt to get its value
+                                if (document.querySelector(`#${formId}_${name}`)) {
+                                    fieldId = name;
+                                    value = document.querySelector(`#${formId}_${name}`).value;
+                                } else {
+
+                                    // necessary fields were not found, do not submit and log an error
+                                    ableToSubmit = false;
+                                    this.logger.error({
+                                        component: 'form',
+                                        message: `${this.i18n.form_could_not_find_form_field} ${name}`
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+
+                        // extract value from state
+                        fieldId = name;
+                        value = field[name].value;
+                    }
+
+                    // push field value to changedFields so it can be submitted
+                    if (fieldId && value) {
+
+                        // in case the 'to' property is set, overwrite the default field name with it
+                        if (field[name].to) {
+                            fieldId = field[name].to;
+                        }
+
+                        // relationship fields require an override in case 'as' is set
+                        if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
+                            fieldId = field[name].as;
+                        }
+
+                        changedFields.push({ fieldId, value });
+                    } else {
+
+                        if (field[name].form.all.required) {
+                            ableToSubmit = false;
+
+                            this.handleErrorMessages(
+                                { [name]: `${this.i18n.form_value_can_not_be_empty}` }
                             );
-
-                            // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
-                            field[name].value = field[name].value.uuid;
-                        }
-
-                        if (!field[name].value || field[name].value.length === 0) {
-
-                            // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
-                            // form element. see if the element can be matched and its value extracted.
-                            switch (field[name].type) {
-
-                                case fieldType.CHOICE: {
-
-                                    // pushing initial value from dropdown to state so it can be submitted
-                                    const fieldName = Object.keys(field);
-                                    const choices = [];
-
-                                    fieldId = (Object.keys(field)[0]);
-
-                                    // extract initial value from state
-                                    for (const key in field[fieldName].form.all.choices) {
-                                        if (field[fieldName].form.all.choices.hasOwnProperty(key)) {
-                                            choices.push(field[fieldName].form.all.choices[key]);
-                                            break;
-                                        }
-                                    }
-
-                                    // the first value is the initial value
-                                    value = choices[0];
-
-                                    break;
-                                }
-
-                                default: {
-
-                                    // for all other form element types, simply attempt to get its value
-                                    if (document.querySelector(`#${formId}_${name}`)) {
-                                        fieldId = name;
-                                        value = document.querySelector(`#${formId}_${name}`).value;
-                                    } else {
-
-                                        // necessary fields were not found, do not submit and log an error
-                                        ableToSubmit = false;
-                                        this.logger.error({
-                                            component: 'form',
-                                            message: `${this.i18n.form_could_not_find_form_field} ${name}`
-                                        });
-                                    }
-                                }
-                            }
-                        } else {
-
-                            // extract value from state
-                            fieldId = name;
-                            value = field[name].value;
-                        }
-
-                        // push field value to changedFields so it can be submitted
-                        if (fieldId && value) {
-
-                            // in case the 'to' property is set, overwrite the default field name with it
-                            if (field[name].to) {
-                                fieldId = field[name].to;
-                            }
-
-                            // relationship fields require an override in case 'as' is set
-                            if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
-                                fieldId = field[name].as;
-                            }
-
-                            changedFields.push({ fieldId, value });
-                        } else {
-
-                            if (field[name].form.all.required) {
-                                ableToSubmit = false;
-
-                                this.handleErrorMessages(
-                                    { [name]: `${this.i18n.form_value_can_not_be_empty}` }
-                                );
-                            }
                         }
                     }
+
                 });
             }
         });
@@ -453,7 +450,7 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
+        const { forms, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
         let formFields = this.i18n.form_loading_form;
         const hiddenFormFields = [];
@@ -469,25 +466,21 @@ export default class Form extends Component {
 
                     formFields = form.formFields.map(formField => {
                         let buildField;
+                        const name = Object.keys(formField);
+                        const formFieldOptions = formField[name];
+                        let type = formField[name].type;
 
-                        // only work with non-ignored fields
-                        if (ignoredFields.indexOf(Object.keys(formField)[0]) === -1) {
-                            const name = Object.keys(formField);
-                            const formFieldOptions = formField[name];
-                            let type = formField[name].type;
+                        // only work with non-hidden fields
+                        if (hiddenFields) {
+                            hiddenFields.forEach(hiddenField => {
+                                if (hiddenField.name.toString() === name.toString()) {
+                                    type = fieldType.HIDDEN;
+                                }
+                            });
+                        }
 
-                            // only work with non-hidden fields
-                            if (hiddenFields) {
-                                hiddenFields.forEach(hiddenField => {
-                                    if (hiddenField.name.toString() === name.toString()) {
-                                        type = fieldType.HIDDEN;
-                                    }
-                                });
-                            }
-
-                            if (type !== fieldType.HIDDEN) {
-                                buildField = this.buildInputType(formFieldOptions);
-                            }
+                        if (type !== fieldType.HIDDEN) {
+                            buildField = this.buildInputType(formFieldOptions);
                         }
 
                         return buildField;

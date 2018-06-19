@@ -289,7 +289,7 @@ export default class Listview extends Component {
                         { toggleSelectAll &&
                             <Checkbox
                                 widgetAction={toggleSelectAll}
-                                checked={ selectedCount === (this.localEntities.length - disabledCount) }
+                                checked={ selectedCount > 0 && selectedCount === (this.localEntities.length - disabledCount) }
                             />
                         }
                     </th>);
