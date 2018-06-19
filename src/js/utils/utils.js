@@ -221,10 +221,9 @@ const Utils = {
      * Supported types: yyyy, yy, MM, dd, HH, hh, mm, ss
      * @param {Date|string} date - date to format
      * @param {string} format - format string
-     * @param {boolean|null} utc - use utc time
      * @returns {string|null} formatted date string
      */
-    formatDate(date, format, utc = false) {
+    formatDate(date, format) {
 
         // don't proceed without a given format
         if (!date || !format) {
@@ -239,9 +238,9 @@ const Utils = {
         try {
 
             // extract date values from the given date
-            const month = utc ? date.getUTCMonth() + 1 : date.getMonth() + 1;
-            const year = utc ? date.getUTCFullYear() : date.getFullYear();
-            const day = utc ? date.getUTCDate() : date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const day = date.getDate();
 
             // parse month
             if (~format.indexOf('MM')) {
@@ -267,9 +266,9 @@ const Utils = {
             }
 
             // extract time values
-            let hours = utc ? date.getUTCHours() : date.getHours();
-            const minutes = utc ? date.getUTCMinutes() : date.getMinutes();
-            const seconds = utc ? date.getUTCSeconds() : date.getSeconds();
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
 
             // format hours
             if (~format.indexOf('HH')) {
