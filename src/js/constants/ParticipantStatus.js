@@ -6,7 +6,7 @@ const ParticipantStatus = {
     REDIRECTED_TO_ONLINE: 'redirectedToOnline',
     STARTED: 'started',
     HNA_FINISHED: 'hnaFinished',
-    PERSONA_FIT_FINISHED: 'personafitFinished'
+    PERSONA_FIT_FINISHED: 'personaFitFinished'
 };
 
 export default ParticipantStatus;

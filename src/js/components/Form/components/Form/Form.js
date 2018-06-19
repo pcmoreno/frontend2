@@ -71,7 +71,6 @@ export default class Form extends Component {
         // if not, the label will remain the returned label from the api
         if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].label) {
             label = this.i18n[this.translationKeysOverride[handle].label];
-
         } else if (this.i18n[this.convertLabelTranslationKey(handle)]) {
             label = this.i18n[this.convertLabelTranslationKey(handle)];
         }
