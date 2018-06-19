@@ -22,10 +22,9 @@ export default class Relationship extends Component {
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
-                    value={ value }
+                    value={ value.uuid || value }
                     formId={ formId }
                     i18n={ i18n }
-                    selectedValue={ value.uuid || value }
                 />);
             case relationship.ONE_TO_MANY:
                 return (<OneToMany
@@ -34,10 +33,9 @@ export default class Relationship extends Component {
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
-                    value={ value }
+                    value={ value.uuid || value }
                     formId={ formId }
                     i18n={ i18n }
-                    selectedValue={ value.uuid || value }
                 />);
             case relationship.MANY_TO_ONE:
                 return (<ManyToOne
@@ -46,10 +44,9 @@ export default class Relationship extends Component {
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
-                    value={ value }
+                    value={ value.uuid || value }
                     formId={ formId }
                     i18n={ i18n }
-                    selectedValue={ value.uuid || value }
                 />);
             case relationship.ONE_TO_ONE:
                 return (<OneToOne
@@ -58,10 +55,9 @@ export default class Relationship extends Component {
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
-                    value={ value }
+                    value={ value.uuid || value }
                     formId={ formId }
                     i18n={ i18n }
-                    selectedValue={ value.uuid || value }
                 />);
             default:
                 return null;
