@@ -210,7 +210,11 @@ export default class Form extends Component {
         const changedFields = [];
         let ableToSubmit = true;
 
+        // keep track processed form fields
+        const processedFields = [];
+
         // any hidden fields (with static values) need to be passed to the state or they wont submit
+        // this is only stored when the form config from the api returned the field
         if (this.props.hiddenFields) {
             this.props.hiddenFields.forEach(hiddenField => {
                 this.props.changeFormFieldValueForFormId(
@@ -308,6 +312,10 @@ export default class Form extends Component {
                         }
 
                         changedFields.push({ fieldId, value });
+
+                        // add the field id to processed fields
+                        processedFields.push(fieldId);
+
                     } else {
 
                         if (field[name].form.all.required) {
@@ -318,10 +326,22 @@ export default class Form extends Component {
                             );
                         }
                     }
-
                 });
             }
         });
+
+        // todo: improve the handling of hidden fields that were initially not in the form configuration
+        // check if hidden fields should still be added that were not in the form config
+        if (this.props.hiddenFields) {
+            this.props.hiddenFields.forEach(hiddenField => {
+                if (!~processedFields.indexOf(hiddenField.name)) {
+                    changedFields.push({
+                        fieldId: hiddenField.name,
+                        value: hiddenField.value
+                    });
+                }
+            });
+        }
 
         if (ableToSubmit) {
 

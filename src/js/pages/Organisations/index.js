@@ -613,7 +613,7 @@ class Index extends Component {
             section: 'organisation',
             urlParams: {
                 parameters: {
-                    fields: 'organisationName,organisationType,manyOrganisationToOneOrganisation'
+                    fields: 'organisationName'
                 }
             }
         });
@@ -650,7 +650,7 @@ class Index extends Component {
             urlParams: {
                 parameters: {
                     options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
-                    fields: 'projectName,manyProjectToOneProduct,manyProjectToOneOrganisation'
+                    fields: 'projectName,product'
                 }
             }
         });

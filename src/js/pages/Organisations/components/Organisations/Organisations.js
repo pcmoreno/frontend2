@@ -136,7 +136,7 @@ class Organisations extends Component {
                         formId={ 'addParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[{ name: 'manyParticipantSessionToOneProject', value: pathNodes[pathNodes.length - 1].uuid }]}
+                        hiddenFields={[{ name: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
@@ -159,7 +159,7 @@ class Organisations extends Component {
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[
                             { name: 'organisationType', value: 'jobFunction' },
-                            { name: 'manyOrganisationToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                            { name: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
@@ -185,7 +185,7 @@ class Organisations extends Component {
                         sectionId={ 'project' }
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[
-                            { name: 'manyProjectToOneOrganisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                            { name: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_project}
                         submitButtonText={i18n.organisations_add}
