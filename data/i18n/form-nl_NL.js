@@ -17,5 +17,18 @@ export default {
     "form_option_product_development": "Ontwikkel",
     "form_option_product_selection_development": "Selecterend ontwikkel",
     "form_option_nederlands": "Nederlands",
-    "form_option_engels": "Engels"
+    "form_option_engels": "Engels",
+    "form_account_first_name": "Voornaam",
+    "form_account_infix": "Tussenvoegsel",
+    "form_account_last_name": "Achternaam",
+    "form_account_gender": "Geslacht",
+    "form_account_has_role_email": "E-mail",
+    "form_account_has_role_language": "Taal",
+    "form_education_level": "Opleidingsniveau",
+    "form_participant_session_appointment_date": "Afspraakdatum",
+    "form_comments": "Opmerkingen",
+    "form_consultant": "Consultant",
+    "form_option_male": "Man",
+    "form_option_female": "Vrouw",
+    "form_option_other": "Anders"
 };
