@@ -71,35 +71,40 @@ export default function tasksReducer(state = initialState, action) {
                     organisationName = project.organisation.organisationName;
                 }
 
-                newState.tasks.push(
+                // build list view
+                newState.tasks.push([
                     {
-                        name: {
-                            value: participantName,
-                            sortingKey: sortValueForParticipantName
-                        },
-                        consultant: {
-                            value: consultantName,
-                            sortingKey: sortValueForConsultantName
-                        },
-                        assessmentdate: {
-                            value: appointmentDate,
-                            sortingKey: sortValueForAppointmentDate
-                        },
-                        organisation: {
-                            value: organisationName
-                        },
-                        results: {
-                            type: ListItemTypes.BUTTON,
-                            label: 'show_results',
-                            link: '#notimplemented'
-                        },
-                        report: {
-                            type: ListItemTypes.BUTTON,
-                            label: 'write_report',
-                            link: `/report/${sessionId}`
-                        }
+                        key: 'name',
+                        value: participantName,
+                        sortingKey: sortValueForParticipantName
+                    },
+                    {
+                        key: 'consultant',
+                        value: consultantName,
+                        sortingKey: sortValueForConsultantName
+                    },
+                    {
+                        key: 'assessmentdate',
+                        value: appointmentDate,
+                        sortingKey: sortValueForAppointmentDate
+                    },
+                    {
+                        key: 'organisation',
+                        value: organisationName
+                    },
+                    {
+                        key: 'results',
+                        type: ListItemTypes.BUTTON,
+                        label: 'show_results',
+                        link: '#notimplemented'
+                    },
+                    {
+                        key: 'report',
+                        type: ListItemTypes.BUTTON,
+                        label: 'write_report',
+                        link: `/report/${sessionId}`
                     }
-                );
+                ]);
             });
 
             break;
