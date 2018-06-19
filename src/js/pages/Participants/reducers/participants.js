@@ -85,28 +85,32 @@ export default function participantsReducer(state = initialState, action) {
                     if (appointmentDate === '' ||
                         (appointmentDate !== '' && new Date(sortValueForAppointmentDate) && new Date(sortValueForAppointmentDate) > today)) {
 
-                        newState.participants.push(
+                        // build list view
+                        newState.participants.push([
                             {
-                                name: {
-                                    value: participantName,
-                                    sortingKey: sortValueForParticipantName
-                                },
-                                assessmentdate: {
-                                    value: appointmentDate,
-                                    sortingKey: sortValueForAppointmentDate
-                                },
-                                organisation: {
-                                    value: project.organisation.organisationName
-                                },
-                                consultant: {
-                                    value: consultantName,
-                                    sortingKey: sortValueForConsultantName
-                                },
-                                status: {
-                                    value: participantStatus
-                                }
+                                key: 'name',
+                                value: participantName,
+                                sortingKey: sortValueForParticipantName
+                            },
+                            {
+                                key: 'assessmentdate',
+                                value: appointmentDate,
+                                sortingKey: sortValueForAppointmentDate
+                            },
+                            {
+                                key: 'organisation',
+                                value: project.organisation.organisationName
+                            },
+                            {
+                                key: 'consultant',
+                                value: consultantName,
+                                sortingKey: sortValueForConsultantName
+                            },
+                            {
+                                key: 'status',
+                                value: participantStatus
                             }
-                        );
+                        ]);
                     }
                 }
             });
