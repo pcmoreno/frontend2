@@ -24,7 +24,7 @@ export default {
     "organisations_invitation_accepted": "Uitnodiging geaccepteerd",
     "organisations_started": "Gestart",
     "organisations_finished": "Afgerond",
-    "organisations_add_participant": "Toevoegen",
+    "organisations_add_participant": "Deelnemer toevoegen",
     "organisations_gender": "Geslacht",
     "organisations_education_level": "Opleidingsniveau",
     "organisations_language": "Taal",
