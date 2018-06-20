@@ -37,19 +37,19 @@ export default class Choice extends Component {
     }
 
     render() {
-        const { options, currentForm, handle, label, onChange, formId, i18n } = this.props;
+        const { options, currentForm, fieldId, label, onChange, formId, i18n } = this.props;
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
+                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
                     </li>
                     <li>
                         <select
-                            id={ `${formId}_${handle}` }
-                            name={ handle }
+                            id={ `${formId}_${fieldId}` }
+                            name={ fieldId }
                             onBlur={ onChange }
                         >
                             { this.createOptions(options, i18n) }

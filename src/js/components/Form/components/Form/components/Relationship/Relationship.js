@@ -9,7 +9,7 @@ import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {
     render() {
-        const { options, handle, label, onChange, value, currentForm, formId, i18n } = this.props;
+        const { options, fieldId, label, onChange, value, currentForm, formId, i18n } = this.props;
 
         // note that since component re-renders on submit (because state changes), the extraction of .value from the
         // consultant object has already taken place, thus if it .uuid cant be extracted, it will default to value
@@ -18,7 +18,7 @@ export default class Relationship extends Component {
             case relationship.MANY_TO_MANY:
                 return (<ManyToMany
                     options={options}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
@@ -29,7 +29,7 @@ export default class Relationship extends Component {
             case relationship.ONE_TO_MANY:
                 return (<OneToMany
                     options={options}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
@@ -40,7 +40,7 @@ export default class Relationship extends Component {
             case relationship.MANY_TO_ONE:
                 return (<ManyToOne
                     options={options}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}
@@ -51,7 +51,7 @@ export default class Relationship extends Component {
             case relationship.ONE_TO_ONE:
                 return (<OneToOne
                     options={options}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     onChange={onChange}
                     currentForm={currentForm}

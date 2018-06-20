@@ -14,6 +14,7 @@ import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
+import ParticipantStatus from '../../constants/ParticipantStatus';
 
 class Index extends Component {
     constructor(props) {
@@ -560,7 +561,7 @@ class Index extends Component {
             section: 'organisation',
             urlParams: {
                 parameters: {
-                    fields: 'organisationName'
+                    fields: 'organisationName,organisationType'
                 }
             }
         });
@@ -649,7 +650,7 @@ class Index extends Component {
             urlParams: {
                 parameters: {
                     options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
-                    fields: 'projectName,manyProjectToOneProduct'
+                    fields: 'projectName,product'
                 }
             }
         });
@@ -668,14 +669,15 @@ class Index extends Component {
     openModalToAmendParticipant(participantId, participantStatus) {
 
         switch (participantStatus) {
-            case 'hnaFinished':
+            case ParticipantStatus.PERSONA_FIT_FINISHED:
+            case ParticipantStatus.HNA_FINISHED:
 
-                /* all fields except appointmentdate (todo: will work when dion is done. right now non-requested fields are still returned, though empty) */
+                // all fields except appointment date
                 this.getFormFields('amendParticipant', {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,email'
                         }
                     }
                 });
@@ -683,12 +685,12 @@ class Index extends Component {
 
             default:
 
-                /* all fields */
+                // all fields
                 this.getFormFields('amendParticipant', {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,uuid,gender,accountHasRoleLanguage,comments,consultant,account,id,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
                         }
                     }
                 });
