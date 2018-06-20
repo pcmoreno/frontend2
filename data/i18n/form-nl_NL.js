@@ -30,5 +30,15 @@ export default {
     "form_consultant": "Consultant",
     "form_option_male": "Man",
     "form_option_female": "Vrouw",
-    "form_option_other": "Anders"
+    "form_option_other": "Anders",
+    "form_account_first_name_placeholder": "Vul een voornaam in voor de deelnemer",
+    "form_account_infix_placeholder": "Vul een tussenvoegsel in voor de deelnemer",
+    "form_account_last_name_placeholder": "Vul een achternaam in voor de deelnemer",
+    "form_account_gender_placeholder": "Kies een geslacht",
+    "form_account_has_role_email_placeholder": "Vul een e-mailadres in voor de deelnemer",
+    "form_account_has_role_language_placeholder": "Kies een taal voor de deelnemer",
+    "form_education_level_placeholder": "Kies een opleidingsniveau",
+    "form_participant_session_appointment_date_placeholder": "dd-mm-jjjj uu:mm",
+    "form_comments_placeholder": "Voer uw opmerkingen in",
+    "form_consultant_placeholder": "Geen consultant gekozen"
 };
