@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import DateTimeField from './components/DateTimeField/DateTimeField';
 import TextInput from './components/TextInput/TextInput';
 import Choice from './components/Choice/Choice';
@@ -12,6 +9,8 @@ import TextArea from './components/TextArea/TextArea';
 import * as fieldType from './constants/FieldTypes';
 import Logger from '../../../../utils/logger';
 import Utils from '../../../../utils/utils';
+
+/** @jsx h */
 
 /** Preact Form Component v1.0
  *
@@ -367,7 +366,7 @@ export default class Form extends Component {
             // disable the submit button
             this.setSubmissionState(true);
 
-            // submit the changed fields
+            // submit the changed fields todo: extract to separate function
             this.props.submitForm(changedFields).then(response => {
                 if (response && response.errors) {
 
@@ -418,7 +417,7 @@ export default class Form extends Component {
     handleErrorMessages(errors) {
         const newState = Object.assign({}, this.localState);
 
-        for (let key in errors) {
+        for (const key in errors) {
             if (errors.hasOwnProperty(key)) {
 
                 // check for form error
