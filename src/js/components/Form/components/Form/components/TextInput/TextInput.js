@@ -11,27 +11,27 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { currentForm, handle, onChange, value, options, formId, label, placeholder } = this.props;
+        const { currentForm, fieldId, onChange, value, options, formId, label, placeholder } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
 
         return (
             <div>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${handle}` }>{ label + required }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
                     </li>
                     <li>
                         <input
                             type={ 'text' }
-                            id={ `${formId}_${handle}` }
-                            name={ handle }
+                            id={ `${formId}_${fieldId}` }
+                            name={ fieldId }
                             value={ value }
                             onChange={ onChange }
                             placeholder={ placeholder }
                             autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
-                            className={ currentForm.errors.fields[handle] && 'error' }
+                            className={ currentForm.errors.fields[fieldId] && 'error' }
                         />
-                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
                 </ul>
             </div>

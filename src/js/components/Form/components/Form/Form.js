@@ -61,27 +61,27 @@ export default class Form extends Component {
 
     buildInputType(formFieldOptions) {
         const type = formFieldOptions.type;
-        const handle = formFieldOptions.handle;
+        const fieldId = formFieldOptions.fieldId;
         const value = formFieldOptions.value ? formFieldOptions.value : '';
         let label = formFieldOptions.form.all.label || '';
         let placeholder = '';
 
         // Check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the label will remain the returned label from the api
-        if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].label) {
-            label = this.i18n[this.translationKeysOverride[handle].label];
+        if (this.translationKeysOverride[fieldId] && this.translationKeysOverride[fieldId].label) {
+            label = this.i18n[this.translationKeysOverride[fieldId].label];
 
-        } else if (this.i18n[this.convertLabelTranslationKey(handle)]) {
-            label = this.i18n[this.convertLabelTranslationKey(handle)];
+        } else if (this.i18n[this.convertLabelTranslationKey(fieldId)]) {
+            label = this.i18n[this.convertLabelTranslationKey(fieldId)];
         }
 
         // Check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the placeholder will be set to the one returned from the api
-        if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].placeholder) {
-            placeholder = this.i18n[this.translationKeysOverride[handle].placeholder];
+        if (this.translationKeysOverride[fieldId] && this.translationKeysOverride[fieldId].placeholder) {
+            placeholder = this.i18n[this.translationKeysOverride[fieldId].placeholder];
 
-        } else if (this.i18n[this.convertPlaceholderTranslationKey(handle)]) {
-            placeholder = this.i18n[this.convertPlaceholderTranslationKey(handle)];
+        } else if (this.i18n[this.convertPlaceholderTranslationKey(fieldId)]) {
+            placeholder = this.i18n[this.convertPlaceholderTranslationKey(fieldId)];
 
         } else if (formFieldOptions.form.all.attr && formFieldOptions.form.all.attr.placeholder) {
             placeholder = formFieldOptions.form.all.attr.placeholder;
@@ -93,7 +93,7 @@ export default class Form extends Component {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
                     currentForm={this.localState}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     value={value}
                     formId={this.props.formId}
@@ -102,7 +102,7 @@ export default class Form extends Component {
                 return (<TextInput
                     currentForm={this.localState}
                     options={formFieldOptions}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     placeholder={placeholder}
                     value={value}
@@ -112,7 +112,7 @@ export default class Form extends Component {
             case fieldType.TEXT_AREA:
                 return (<TextArea
                     currentForm={this.localState}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     placeholder={placeholder}
                     value={value}
@@ -122,7 +122,7 @@ export default class Form extends Component {
                 return (<Choice
                     currentForm={this.localState}
                     options={formFieldOptions}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     value={value}
                     formId={this.props.formId}
@@ -132,7 +132,7 @@ export default class Form extends Component {
             case fieldType.RELATIONSHIP:
                 return (<Relationship
                     currentForm={ this.localState }
-                    handle={handle}
+                    fieldId={fieldId}
                     options={formFieldOptions}
                     label={label}
                     value={value}
@@ -143,7 +143,7 @@ export default class Form extends Component {
             case fieldType.EMAIL:
                 return (<Email
                     currentForm={this.localState}
-                    handle={handle}
+                    fieldId={fieldId}
                     label={label}
                     placeholder={placeholder}
                     value={value}
@@ -231,34 +231,32 @@ export default class Form extends Component {
                 form.formFields.forEach(field => {
 
                     // the first key is the field id (or name)
-                    const name = Object.keys(field)[0];
-                    let fieldId, value;
+                    const fieldId = Object.keys(field)[0];
+                    let value;
 
                     // the value from an unchanged relationship field is still an object! extract its value
-                    if (field[name].type === fieldType.RELATIONSHIP && typeof (field[name].value) === 'object') {
+                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object') {
                         this.props.changeFormFieldValueForFormId(
                             this.props.formId,
-                            field[name],
-                            field[name].value.uuid
+                            field[fieldId],
+                            field[fieldId].value.uuid
                         );
 
                         // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
-                        field[name].value = field[name].value.uuid;
+                        field[fieldId].value = field[fieldId].value.uuid;
                     }
 
-                    if (!field[name].value || field[name].value.length === 0) {
+                    if (!field[fieldId].value || field[fieldId].value.length === 0) {
 
                         // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
                         // form element. see if the element can be matched and its value extracted.
-                        switch (field[name].type) {
+                        switch (field[fieldId].type) {
 
                             case fieldType.CHOICE: {
 
                                 // pushing initial value from dropdown to state so it can be submitted
                                 const fieldName = Object.keys(field);
                                 const choices = [];
-
-                                fieldId = (Object.keys(field)[0]);
 
                                 // extract initial value from state
                                 for (const key in field[fieldName].form.all.choices) {
@@ -277,16 +275,15 @@ export default class Form extends Component {
                             default: {
 
                                 // for all other form element types, simply attempt to get its value
-                                if (document.querySelector(`#${formId}_${name}`)) {
-                                    fieldId = name;
-                                    value = document.querySelector(`#${formId}_${name}`).value;
+                                if (document.querySelector(`#${formId}_${fieldId}`)) {
+                                    value = document.querySelector(`#${formId}_${fieldId}`).value;
                                 } else {
 
                                     // necessary fields were not found, do not submit and log an error
                                     ableToSubmit = false;
                                     this.logger.error({
                                         component: 'form',
-                                        message: `${this.i18n.form_could_not_find_form_field} ${name}`
+                                        message: `${this.i18n.form_could_not_find_form_field} ${fieldId}`
                                     });
                                 }
                             }
@@ -294,23 +291,13 @@ export default class Form extends Component {
                     } else {
 
                         // extract value from state
-                        fieldId = name;
-                        value = field[name].value;
+                        value = field[fieldId].value;
                     }
 
                     // push field value to changedFields so it can be submitted
                     if (fieldId && value) {
 
-                        // in case the 'to' property is set, overwrite the default field name with it
-                        if (field[name].to) {
-                            fieldId = field[name].to;
-                        }
-
-                        // relationship fields require an override in case 'as' is set
-                        if (field[name].as && field[name].type === fieldType.RELATIONSHIP) {
-                            fieldId = field[name].as;
-                        }
-
+                        // store changed field
                         changedFields.push({ fieldId, value });
 
                         // add the field id to processed fields
@@ -318,11 +305,11 @@ export default class Form extends Component {
 
                     } else {
 
-                        if (field[name].form.all.required) {
+                        if (field[fieldId].form.all.required) {
                             ableToSubmit = false;
 
                             this.handleErrorMessages(
-                                { [name]: `${this.i18n.form_value_can_not_be_empty}` }
+                                { [fieldId]: `${this.i18n.form_value_can_not_be_empty}` }
                             );
                         }
                     }
@@ -334,9 +321,9 @@ export default class Form extends Component {
         // check if hidden fields should still be added that were not in the form config
         if (this.props.hiddenFields) {
             this.props.hiddenFields.forEach(hiddenField => {
-                if (!~processedFields.indexOf(hiddenField.name)) {
+                if (!~processedFields.indexOf(hiddenField.fieldId)) {
                     changedFields.push({
-                        fieldId: hiddenField.name,
+                        fieldId: hiddenField.fieldId,
                         value: hiddenField.value
                     });
                 }
@@ -486,18 +473,21 @@ export default class Form extends Component {
 
                     formFields = form.formFields.map(formField => {
                         let buildField;
-                        const name = Object.keys(formField);
-                        const formFieldOptions = formField[name];
-                        let type = formField[name].type;
+                        const fieldId = Object.keys(formField)[0];
+                        const formFieldOptions = formField[fieldId];
+                        let type = formField[fieldId].type;
 
                         // only work with non-hidden fields
                         if (hiddenFields) {
                             hiddenFields.forEach(hiddenField => {
-                                if (hiddenField.name.toString() === name.toString()) {
+                                if (hiddenField.fieldId.toString() === fieldId) {
                                     type = fieldType.HIDDEN;
                                 }
                             });
                         }
+
+                        // add the extracted fieldId to the fieldOptions
+                        formFieldOptions.fieldId = fieldId;
 
                         if (type !== fieldType.HIDDEN) {
                             buildField = this.buildInputType(formFieldOptions);

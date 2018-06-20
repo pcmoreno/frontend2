@@ -118,7 +118,7 @@ class Organisations extends Component {
                         formId={ 'addOrganisation' }
                         sectionId={ 'organisation' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[{ name: 'organisationType', value: 'organisation' }]}
+                        hiddenFields={[{ fieldId: 'organisationType', value: 'organisation' }]}
                         headerText={i18n.organisations_add_organisation}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
@@ -136,7 +136,7 @@ class Organisations extends Component {
                         formId={ 'addParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[{ name: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
+                        hiddenFields={[{ fieldId: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
@@ -158,8 +158,8 @@ class Organisations extends Component {
                         sectionId={ 'organisation' }
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[
-                            { name: 'organisationType', value: 'jobFunction' },
-                            { name: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                            { fieldId: 'organisationType', value: 'jobFunction' },
+                            { fieldId: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
@@ -185,7 +185,7 @@ class Organisations extends Component {
                         sectionId={ 'project' }
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[
-                            { name: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
+                            { fieldId: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
                         headerText={i18n.organisations_add_project}
                         submitButtonText={i18n.organisations_add}
