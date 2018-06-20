@@ -489,9 +489,9 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
+        const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText, i18n } = this.props;
 
-        let formFields = this.props.i18n.form_loading_form;
+        let formFields = i18n.form_loading_form;
         const hiddenFormFields = [];
 
         // default the submit button to null until the form data is loaded and fields are identified
@@ -532,7 +532,7 @@ export default class Form extends Component {
                     formSubmitButton = <button
                         className={ 'action_button' }
                         type={ 'button' }
-                        value={ this.props.i18n.form_submit }
+                        value={ i18n.form_submit }
                         onClick={ this.collectFormData }
                         disabled={ this.localState.form.disabled }
                     >{ submitButtonText }</button>;
@@ -561,7 +561,7 @@ export default class Form extends Component {
                             onClick={ this.handleClose }
                             disabled={ this.localState.form.disabled }
                         >
-                            { this.props.i18n.form_close }
+                            { i18n.form_close }
                         </button>
                         { formSubmitButton }
                     </nav>
