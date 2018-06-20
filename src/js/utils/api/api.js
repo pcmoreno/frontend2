@@ -248,7 +248,7 @@ class API {
 
                                 // Token refresh failed, might be due to expiry, log message and redirect
                                 self.logApiMessage('warning', 'token refresh failed during an api call', parsedUrl, options, error, {});
-                                window.location.href = this.authenticator.getLoginRedirect();
+                                window.location.href = self.authenticator.getLoginRedirect();
                             });
                         }
 
