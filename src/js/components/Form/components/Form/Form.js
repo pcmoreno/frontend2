@@ -85,7 +85,7 @@ export default class Form extends Component {
         let label = formFieldOptions.form.all.label || '';
         let placeholder = '';
 
-        // Check if the translation key for a field is overwritten or there is a generic translation available
+        // check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the label will remain the returned label from the api
         if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].label) {
             label = i18n[this.translationKeysOverride[handle].label];
@@ -93,9 +93,7 @@ export default class Form extends Component {
             label = i18n[this.convertLabelTranslationKey(handle)];
         }
 
-        console.log('looking for '+this.convertPlaceholderTranslationKey(handle))
-
-        // Check if the translation key for a field is overwritten or there is a generic translation available
+        // check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the placeholder will be set to the one returned from the api
         if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].placeholder) {
             placeholder = i18n[this.translationKeysOverride[handle].placeholder];

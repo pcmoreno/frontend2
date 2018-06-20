@@ -27,6 +27,12 @@ class Index extends Component {
         this.i18n = translator(this.props.languageId, 'form');
     }
 
+    componentDidUpdate() {
+
+        // this is just to ensure a change of language results in a new i18n object being passed on
+        this.i18n = translator(this.props.languageId, 'form');
+    }
+
     /**
      * Maps form fields to a payload-ready object
      * [{fieldId: id, value: val}] becomes {id:val}
