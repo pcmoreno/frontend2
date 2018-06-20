@@ -93,6 +93,11 @@ export default class ListviewEntityItem extends Component {
 
             // value is not a widget
             title = value;
+
+            // attempt to translate
+            if (value) {
+                value = this.translate(value);
+            }
         } else {
 
             // default to empty string, so sorting still works

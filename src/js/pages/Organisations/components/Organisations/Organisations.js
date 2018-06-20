@@ -93,8 +93,6 @@ class Organisations extends Component {
             return null;
         }
 
-        /* todo: remove hiddenFields property and instead use the ?fields= prop insite the openModal... methods to determine which fields should be retrieved by the API call */
-
         return (
             <main className={ style.organisations }>
                 { alertComponent }
@@ -141,6 +139,7 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ languageId }
+                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
@@ -175,6 +174,7 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
+                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_job_function">
@@ -215,6 +215,7 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ languageId }
+                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_project">
@@ -249,6 +250,7 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddProject }
                         languageId={ languageId }
+                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_amend_participant">
@@ -281,6 +283,7 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }
+                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_invite_participant">
