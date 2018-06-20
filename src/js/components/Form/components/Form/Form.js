@@ -48,40 +48,59 @@ export default class Form extends Component {
         };
 
         this.translationKeysOverride = this.props.translationKeysOverride || [];
-        this.i18n = this.props.i18n;
         this.logger = Logger.instance;
     }
 
+    /**
+     * Converts a form placeholder to snakeCase (in order to fetch its translation)
+     *
+     * @param {string} handle - form field placeholder
+     * @returns {string} handle - the snakeCased placeholder
+     */
     convertPlaceholderTranslationKey(handle) {
         return `form_${Utils.camelCaseToSnakeCase(handle)}_placeholder`;
     }
 
+    /**
+     * Converts a form label to snakeCase (in order to fetch its translation)
+     *
+     * @param {string} handle - form field handle
+     * @returns {string} handle - the snakeCased handle
+     */
     convertLabelTranslationKey(handle) {
         return `form_${Utils.camelCaseToSnakeCase(handle)}`;
     }
 
+    /**
+     * Creates a form field as described by the given formFieldOptions
+     *
+     * @param {Object} formFieldOptions - description of the form field as returned by API
+     * @returns {Object} component - the component for the form field
+     */
     buildInputType(formFieldOptions) {
         const type = formFieldOptions.type;
         const handle = formFieldOptions.handle;
         const value = formFieldOptions.value ? formFieldOptions.value : '';
+        const i18n = this.props.i18n;
+
         let label = formFieldOptions.form.all.label || '';
         let placeholder = '';
 
         // Check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the label will remain the returned label from the api
         if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].label) {
-            label = this.i18n[this.translationKeysOverride[handle].label];
-        } else if (this.i18n[this.convertLabelTranslationKey(handle)]) {
-            label = this.i18n[this.convertLabelTranslationKey(handle)];
+            label = i18n[this.translationKeysOverride[handle].label];
+        } else if (i18n[this.convertLabelTranslationKey(handle)]) {
+            label = i18n[this.convertLabelTranslationKey(handle)];
         }
 
         // Check if the translation key for a field is overwritten or there is a generic translation available
         // if not, the placeholder will be set to the one returned from the api
         if (this.translationKeysOverride[handle] && this.translationKeysOverride[handle].placeholder) {
-            placeholder = this.i18n[this.translationKeysOverride[handle].placeholder];
+            placeholder = i18n[this.translationKeysOverride[handle].placeholder];
 
-        } else if (this.i18n[this.convertPlaceholderTranslationKey(handle)]) {
-            placeholder = this.i18n[this.convertPlaceholderTranslationKey(handle)];
+        } else if (i18n[this.convertPlaceholderTranslationKey(handle)]) {
+            placeholder = i18n[this.convertPlaceholderTranslationKey(handle)];
 
         } else if (formFieldOptions.form.all.attr && formFieldOptions.form.all.attr.placeholder) {
             placeholder = formFieldOptions.form.all.attr.placeholder;
@@ -127,7 +146,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
-                    i18n={this.i18n}
+                    i18n={i18n}
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
@@ -138,7 +157,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
-                    i18n={this.i18n}
+                    i18n={i18n}
                 />);
             case fieldType.EMAIL:
                 return (<Email
@@ -159,12 +178,18 @@ export default class Form extends Component {
             default:
                 this.logger.error({
                     component: 'form',
-                    message: `${this.i18n.form_input_type_could_not_be_determined} ${type}`
+                    message: `${i18n.form_input_type_could_not_be_determined} ${type}`
                 });
                 return null;
         }
     }
 
+    /**
+     * Handles a change in a form input field and updates the state accordingly (controlled components pattern)
+     *
+     * @param {Object} event - the change event
+     * @returns {undefined}
+     */
     handleChange(event) {
         event.preventDefault();
 
@@ -181,10 +206,16 @@ export default class Form extends Component {
         );
     }
 
+    /**
+     * Returns the currently stored value for given target
+     *
+     * @param {Object} target - the target for which the value should be returned
+     * @returns {string} formInputValue - value
+     */
     getFieldValue(target) {
         let formInputValue;
 
-        // if selectedOptions ad data-array are set, send the data as an array
+        // if selectedOptions and data-array are set, send the data as an array
         if (target.getAttribute('data-array') !== null &&
             target.getAttribute('data-array') === 'true' &&
             typeof target.selectedOptions !== 'undefined'
@@ -197,6 +228,12 @@ export default class Form extends Component {
         return formInputValue;
     }
 
+    /**
+     * Prepares the data that is to be submitted by submitForm
+     *
+     * @param {Object} event - the submit event
+     * @returns {undefined}
+     */
     collectFormData(event) {
 
         const formId = this.props.formId;
@@ -284,7 +321,7 @@ export default class Form extends Component {
                                         ableToSubmit = false;
                                         this.logger.error({
                                             component: 'form',
-                                            message: `${this.i18n.form_could_not_find_form_field} ${name}`
+                                            message: `${this.props.i18n.form_could_not_find_form_field} ${name}`
                                         });
                                     }
                                 }
@@ -316,7 +353,7 @@ export default class Form extends Component {
                                 ableToSubmit = false;
 
                                 this.handleErrorMessages(
-                                    { [name]: `${this.i18n.form_value_can_not_be_empty}` }
+                                    { [name]: `${this.props.i18n.form_value_can_not_be_empty}` }
                                 );
                             }
                         }
@@ -355,7 +392,7 @@ export default class Form extends Component {
 
             // show an error (unexpected) as form field values could not be fetched
             this.handleErrorMessages({
-                form: this.i18n.form_could_not_process_your_request
+                form: this.props.i18n.form_could_not_process_your_request
             });
         }
     }
@@ -454,7 +491,7 @@ export default class Form extends Component {
     render() {
         const { forms, ignoredFields, hiddenFields, formId, headerText, submitButtonText } = this.props;
 
-        let formFields = this.i18n.form_loading_form;
+        let formFields = this.props.i18n.form_loading_form;
         const hiddenFormFields = [];
 
         // default the submit button to null until the form data is loaded and fields are identified
@@ -524,7 +561,7 @@ export default class Form extends Component {
                             onClick={ this.handleClose }
                             disabled={ this.localState.form.disabled }
                         >
-                            { this.i18n.form_close }
+                            { this.props.i18n.form_close }
                         </button>
                         { formSubmitButton }
                     </nav>

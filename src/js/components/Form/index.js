@@ -11,7 +11,6 @@ import FormMethod from './components/Form/constants/FormMethod';
 import translator from '../../utils/translator';
 
 class Index extends Component {
-
     constructor(props) {
         super(props);
 
@@ -25,14 +24,6 @@ class Index extends Component {
         this.submitForm = this.submitForm.bind(this);
 
         this.api = ApiFactory.get('neon');
-        this.i18n = translator(this.props.languageId, 'form');
-
-        console.log('form received this language id: '+this.props.languageId)
-    }
-
-    componentDidUpdate() {
-        console.log('Form did update');
-
         this.i18n = translator(this.props.languageId, 'form');
     }
 
