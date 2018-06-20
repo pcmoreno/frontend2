@@ -40,5 +40,9 @@ export default {
     "form_education_level_placeholder": "Kies een opleidingsniveau",
     "form_participant_session_appointment_date_placeholder": "dd-mm-jjjj uu:mm",
     "form_comments_placeholder": "Voer uw opmerkingen in",
-    "form_consultant_placeholder": "Geen consultant gekozen"
+    "form_consultant_placeholder": "Geen consultant gekozen",
+    "form_option_low": "MBO",
+    "form_option_middle": "HBO",
+    "form_option_high": "Academisch",
+    "form_option_kies_een_opleidingsnivo": "Kies een opleidingsniveau"
 };
