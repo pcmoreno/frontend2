@@ -678,7 +678,7 @@ class Index extends Component {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate'
                         }
                     }
                 });
@@ -691,7 +691,7 @@ class Index extends Component {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,participantSessionAppointmentDate'
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
                         }
                     }
                 });
@@ -707,7 +707,7 @@ class Index extends Component {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,firstName,infix,lastName,participantSessionAppointmentDate'
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
                         }
                     }
                 });
