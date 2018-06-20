@@ -79,12 +79,6 @@ class Index extends Component {
         this.detailPanelEntity = null;
     }
 
-    componentDidUpdate() {
-
-        // to ensure a new i18n object is constructed when the languageId changed
-        this.i18n = translator(this.props.languageId, 'form');
-    }
-
     toggleSelectAllParticipants(event) {
         const participants = this.props.detailPanelData.entity && this.props.detailPanelData.entity.participantListView;
         const checked = event.target && event.target.checked;
