@@ -8,47 +8,41 @@ import Utils from '../../../../utils/utils';
 import ListItemTypes from '../../constants/ListItemTypes';
 import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 
-/** Preact Listview Component v2.2
+/** List view Component
  *
- *  requires its data (this.props.entities) to be a collection (array) of objects written in this format:
- *
- *  {
- *     id: {
- *         value: participant.uuid
- *     },
- *     name: {
- *         value: `${participant.firstName} ${participant.infix} ${participant.lastName}`
+ * requires its data (this.props.entities) to be a collection (array) of arrays with object written in this format:
+ * All properties are optional, except the key property. The example below is created in a reducer and passed to the listview
+ * @example
+ * entities = [
+ *     {
+ *         type: ListItemTypes.CHECKBOX, // type of field, default a label, optional
+ *         disabled: false, // controls will be disabled, disabled css class is added, optional
+ *         key: 'columnLabel', // column label that is used to translate (to snake case), required
+ *         id: 'entityId', // id of the entity, only required matching selected entities, optional
+ *         value: 'value', // shown or used value depending on type, optional
+ *         action: event => { // action that will fire when type is a button, optional
+ *             action.toggleParticipant(participant.uuid, event);
+ *         },
+ *         sortingKey: 'sortingValue' // a custom value used to sort, for example only a last name, optional
  *     }
- *  }
+ * ]
  *
- * Features:
- * allows providing an array of values instead of single value (arrays are sorted alphabetically by default)
- * for each value / array key an attempt to find a matching translation is made (values are trimmed and lowercased)
- * by providing a sortingKey, values can be displayed independent from their sorting behaviour (useful for dates)
- * values can be strings, arrays of strings, or arrays of objects. (but they need to be in the 'value' key, see example)
+ * A description and example of the usage of the list view including all properties (including the entities above)
+ * Selected entities that match ID's from the given entities will get an 'active' class.
+ * When the entity has the property disabled set to true, the item will get a 'disabled' class.
+ * @example
+ * <Listview
+ *     entities={ entities }
+ *     selectedEntities={ ['12', '13] } // selected entities that will match with entity.id, optional
+ *     toggleSelectAll={ selectAllMethod } // callback method for when the select all checkbox is checked, optional
+ *     defaultSortingKey={ 'columnLabel' } // default entity key to sort, required
+ *     defaultSortingOrder= { 'asc' } // sorting order, asc or desc, optional
  *
- *
- * Widgets:
- * you can add a custom widget (button, icon, checkbox etc) with the following syntax:
- *
- *  a_table_head_label_that_can_be_left_empty_in_your_i18n_if_required: {
- *      type: ListItemTypes.PENCIL,
- *      id: 12,
- *      value: '',
- *      action: () => { action.amendParticipant(account.id); }
- * }
- *
- * the 'type' can be extended with your own custom type if required
- * the 'value' can be leveraged to provide texts for buttons or labels
- * the 'action' is the method that is called on clicking the widget. note this needs to be passed on to action / reducer
- *
- *
- * Selecting entities:
- * In order to allow selecting individual entities in the listview, you can pass on an array of id's called
- * selectedEntities containing entity id's that should receive the class 'active'. The match is made on entity.id.
- * Note the actual selecting / deselecting should be done by a checkbox widget and a method in the calling component.
- *
- **/
+ *     // translation key prefix to translate snake case entity keys/column names and option values from select fields
+ *     translationKey={ 'prefix_' } // optional, but highly recommended
+ *     i18n={ i18n } // translation object for the current component, required
+ * </Listview>
+ */
 
 export default class Listview extends Component {
     constructor(props) {
@@ -289,7 +283,7 @@ export default class Listview extends Component {
                         { toggleSelectAll &&
                             <Checkbox
                                 widgetAction={toggleSelectAll}
-                                checked={ selectedCount === (this.localEntities.length - disabledCount) }
+                                checked={ selectedCount > 0 && selectedCount === (this.localEntities.length - disabledCount) }
                             />
                         }
                     </th>);

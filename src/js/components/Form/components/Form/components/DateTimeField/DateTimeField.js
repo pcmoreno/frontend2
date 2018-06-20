@@ -10,7 +10,7 @@ export default class DateTimeField extends Component {
 
     componentDidMount() {
 
-        const id = `#${this.props.formId}_${this.props.handle}`;
+        const id = `#${this.props.formId}_${this.props.fieldId}`;
 
         // init flatpickr
         flatpickr(
@@ -27,7 +27,7 @@ export default class DateTimeField extends Component {
     render() {
         const {
             currentForm,
-            handle,
+            fieldId,
             label,
             onChange,
 
@@ -42,10 +42,10 @@ export default class DateTimeField extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
+                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
                     </li>
                     <li>
                         <input
@@ -53,8 +53,8 @@ export default class DateTimeField extends Component {
                             placeholder="Select Date.."
                             readOnly="readonly"
                             onChange={ onChange }
-                            name={ handle }
-                            id={ `${formId}_${handle}` }
+                            name={ fieldId }
+                            id={ `${formId}_${fieldId}` }
                             value={ appointmentDate || null }
                         />
                     </li>

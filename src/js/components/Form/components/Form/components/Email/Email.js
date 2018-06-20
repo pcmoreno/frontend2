@@ -7,26 +7,26 @@ import style from '../style/field.scss';
 export default class Email extends Component {
 
     render() {
-        const { currentForm, handle, label, onChange, value, formId, placeholder } = this.props;
+        const { currentForm, fieldId, label, onChange, value, formId, placeholder } = this.props;
 
         return (
             <div>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${handle}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
                     </li>
                     <li>
                         <input
                             type={ 'email' }
-                            id={ `${formId}_${handle}` }
+                            id={ `${formId}_${fieldId}` }
                             placeholder={ placeholder }
                             value={ value }
-                            name={ handle }
+                            name={ fieldId }
                             onChange={ onChange }
                             autoComplete={ 'email' }
-                            className={ currentForm.errors.fields[handle] && 'error' }
+                            className={ currentForm.errors.fields[fieldId] && 'error' }
                         />
-                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[handle] }</span>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
                 </ul>
             </div>
