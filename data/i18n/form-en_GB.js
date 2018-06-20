@@ -40,5 +40,9 @@ export default {
     "form_education_level_placeholder": "Choose an education level",
     "form_participant_session_appointment_date_placeholder": "dd-mm-yyyy hh:mm",
     "form_comments_placeholder": "Please enter a comment",
-    "form_consultant_placeholder": "No consultant selected"
+    "form_consultant_placeholder": "No consultant selected",
+    "form_option_low": "Middle manual vocational program",
+    "form_option_middle": "Higher vocational program (Bachelor's degree)",
+    "form_option_high": "Master's degree",
+    "form_option_kies_een_opleidingsnivo": "Choose an education level"
 };
