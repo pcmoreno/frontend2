@@ -30,5 +30,15 @@ export default {
     "form_consultant": "Consultant",
     "form_option_male": "Male",
     "form_option_female": "Female",
-    "form_option_other": "Other"
+    "form_option_other": "Other",
+    "form_account_first_name_placeholder": "Enter a name for the participant",
+    "form_account_infix_placeholder": "Enter an infix for the participant",
+    "form_account_last_name_placeholder": "Enter a surname for the participant",
+    "form_account_gender_placeholder": "Choose a gender",
+    "form_account_has_role_email_placeholder": "Enter an email address for the participant",
+    "form_account_has_role_language_placeholder": "Choose a language for the participant",
+    "form_education_level_placeholder": "Choose an education level",
+    "form_participant_session_appointment_date_placeholder": "dd-mm-yyyy hh:mm",
+    "form_comments_placeholder": "Please enter a comment",
+    "form_consultant_placeholder": "No consultant selected"
 };
