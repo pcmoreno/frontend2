@@ -282,9 +282,6 @@ export default function organisationsReducer(state = initialState, action) {
                     form.formFields.forEach(field => {
 
                         // reset value (note that all field types have a .value property that is leading)
-                        // todo: note it currently also clears the hidden field value, which is not what we want
-                        // todo: to solve, either get the hiddenfields in here so we can compare and leave it out,
-                        // todo: or solve the refres after reset / submit issue in the form component (afterSubmit())
                         field[Object.keys(field)[0]].value = '';
                     });
                 }
@@ -339,6 +336,19 @@ export default function organisationsReducer(state = initialState, action) {
                             ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
                         ];
 
+                        // only amend possible when:
+                        const statusToAmend = [
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED,
+                            ParticipantStatus.INVITATION_ACCEPTED,
+                            ParticipantStatus.REDIRECTED_TO_ONLINE,
+                            ParticipantStatus.STARTED,
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                        ];
+
                         // build the list view config for participants
                         participantListView.push([
                             {
@@ -362,6 +372,7 @@ export default function organisationsReducer(state = initialState, action) {
                             {
                                 key: 'amendParticipantLabel',
                                 type: ListItemTypes.PENCIL,
+                                disabled: statusToAmend.indexOf(participantStatus) < 0,
                                 action: () => {
                                     action.openModalToAmendParticipant(participant.id, participantStatus);
                                 }
