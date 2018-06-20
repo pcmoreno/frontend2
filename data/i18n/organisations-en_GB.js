@@ -24,7 +24,7 @@ export default {
     "organisations_invitation_accepted": "Invitation accepted",
     "organisations_started": "Started",
     "organisations_finished": "Finished",
-    "organisations_add_participant": "Add",
+    "organisations_add_participant": "Add participant",
     "organisations_gender": "Gender",
     "organisations_education_level": "Level of education",
     "organisations_language": "Language",
