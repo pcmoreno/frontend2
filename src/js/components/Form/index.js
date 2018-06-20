@@ -11,7 +11,6 @@ import FormMethod from './components/Form/constants/FormMethod';
 import translator from '../../utils/translator';
 
 class Index extends Component {
-
     constructor(props) {
         super(props);
 
@@ -140,6 +139,10 @@ class Index extends Component {
     }
 
     render() {
+
+        // to ensure the i18n is updated when the languageId changes
+        this.i18n = translator(this.props.languageId, 'form');
+
         return (<Form
             formId={this.props.formId}
             sectionId={this.props.sectionId}

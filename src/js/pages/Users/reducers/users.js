@@ -43,7 +43,7 @@ export default function usersReducer(state = initialState, action) {
                 const userRoles = [];
 
                 if (user.role) {
-                    userRoles.push(user.role.roleName);
+                    userRoles.push(user.role.roleName.toLowerCase());
                 }
 
                 // build user list view
