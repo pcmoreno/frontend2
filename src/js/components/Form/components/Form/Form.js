@@ -12,18 +12,36 @@ import Utils from '../../../../utils/utils';
 
 /** @jsx h */
 
-/** Preact Form Component v1.0
+/** Form Component
  *
- * each entry can have its value set to either a static text or, for example, a state key
- *
+ * Full example of the usage of the form component below
  * @example
- * hiddenFields={[{ name: 'uuid', value: pathNodes[pathNodes.length - 1].name }]}
+ * <Form
+ *     formId={ 'addEntity' } // unique id for the form, required
+ *     sectionId={ 'sexy-field-section' } // sexy field section name, required
+ *     method={ FormMethod.CREATE_SECTION } // form/api call method, required
+ *     hiddenFields={[ // hidden fields that will only be added in the api call, optional
+ *         { fieldId: 'extraField', value: 'value' }
+ *     ]}
+ *     headerText={i18n.organisations_add_project} // header text for the form modal, optional but highly recommended
+ *     submitButtonText={i18n.organisations_add} // submit button text, optional but highly recommended
+ *     forms={ forms } // all form configurations loaded in the components reducer (from section info call), required
+ *     translationKeysOverride={{ // override default translation keys for fields, optional
+ *         fieldKey: {
+ *             label: 'form_field_key_label'
+ *             placeholder: 'form_field_key_placeholder'
+ *         }
+ *     }}
+ *     changeFormFieldValueForFormId={ method } // reducer action method that will store changed values for form fields, required
+ *     resetChangedFieldsForFormId={ method } // reducer action method that will reset all values stored for a form, required
+ *     afterSubmit = { response => { // callback method when submit was successful with the api response, required
+ *         method(response);
+ *     }}
+ *     closeModal={ method } // method callback when close button was pressed, required
+ *     languageId={ languageId } // language id used for display language, required
+ * />
  *
- * It's also possible to override translation keys
- * @example
- * translationKeysOverride={{fieldHandle: {label: 'new_key', placeholder: 'new_key'} }}
- *
- **/
+ */
 
 export default class Form extends Component {
     constructor(props) {

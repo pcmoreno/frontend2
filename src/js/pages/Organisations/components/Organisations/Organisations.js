@@ -56,7 +56,6 @@ class Organisations extends Component {
             alertComponent,
             fetchDetailPanelData,
             forms,
-            storeSectionInfoInSectionsCollection,
             changeFormFieldValueForFormId,
             resetChangedFieldsForFormId,
             refreshPanelDataWithMessage,
@@ -127,7 +126,6 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddOrganisation }
                         languageId={ languageId }
-                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_participant">
@@ -139,7 +137,6 @@ class Organisations extends Component {
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
-                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
@@ -149,7 +146,6 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddParticipant }
                         languageId={ this.props.languageId }
-                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_job_function">
@@ -177,7 +173,6 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddJobFunction }
                         languageId={ languageId }
-                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_project">
@@ -192,11 +187,10 @@ class Organisations extends Component {
                         submitButtonText={i18n.organisations_add}
                         forms={ forms }
                         translationKeysOverride={{
-                            manyProjectToOneProduct: {
+                            product: {
                                 label: 'form_project_product'
                             }
                         }}
-                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
@@ -204,7 +198,6 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAddProject }
                         languageId={ languageId }
-                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_amend_participant">
@@ -215,7 +208,6 @@ class Organisations extends Component {
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
                         forms={ forms }
-                        storeSectionInfoInSectionsCollection={ storeSectionInfoInSectionsCollection }
                         changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
                         resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
@@ -223,7 +215,6 @@ class Organisations extends Component {
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }
-                        i18n={ i18n }
                     />
                 </aside>
                 <aside className={ `${style.modal_container} hidden` } id="modal_invite_participant">
