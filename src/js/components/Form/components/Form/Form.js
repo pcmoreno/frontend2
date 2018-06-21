@@ -25,15 +25,12 @@ import Utils from '../../../../utils/utils';
  *     ]}
  *     headerText={i18n.organisations_add_project} // header text for the form modal, optional but highly recommended
  *     submitButtonText={i18n.organisations_add} // submit button text, optional but highly recommended
- *     forms={ forms } // all form configurations loaded in the components reducer (from section info call), required
  *     translationKeysOverride={{ // override default translation keys for fields, optional
  *         fieldKey: {
  *             label: 'form_field_key_label'
  *             placeholder: 'form_field_key_placeholder'
  *         }
  *     }}
- *     changeFormFieldValueForFormId={ method } // reducer action method that will store changed values for form fields, required
- *     resetChangedFieldsForFormId={ method } // reducer action method that will reset all values stored for a form, required
  *     afterSubmit = { response => { // callback method when submit was successful with the api response, required
  *         method(response);
  *     }}

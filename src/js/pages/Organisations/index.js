@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as organisationsActions from './actions/organisations';
 import * as alertActions from './../../components/Alert/actions/alert';
+import * as formActions from './../../components/Form/actions/form';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Organisations from './components/Organisations/Organisations';
@@ -23,12 +24,9 @@ class Index extends Component {
         const { dispatch } = this.props;
 
         this.actions = bindActionCreators(
-            Object.assign({}, alertActions, organisationsActions),
+            Object.assign({}, alertActions, organisationsActions, formActions),
             dispatch
         );
-
-        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
-        this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
 
         this.openModalToAddOrganisation = this.openModalToAddOrganisation.bind(this);
         this.closeModalToAddOrganisation = this.closeModalToAddOrganisation.bind(this);
@@ -186,16 +184,6 @@ class Index extends Component {
                 this.closeModalToInviteParticipant();
             });
         }
-    }
-
-    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
-
-        // react controlled component pattern takes over the built-in form state when input changes
-        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
-    }
-
-    resetChangedFieldsForFormId(formId) {
-        this.actions.resetChangedFieldsForFormId(formId);
     }
 
     componentWillMount() {
@@ -649,7 +637,7 @@ class Index extends Component {
             section: 'project',
             urlParams: {
                 parameters: {
-                    options: `manyProjectToOneProduct|join:organisations|value:${organisationId}`,
+                    options: `product|join:organisations|value:${organisationId}`,
                     fields: 'projectName,product'
                 }
             }
@@ -718,22 +706,19 @@ class Index extends Component {
 
     render() {
 
-        const { panels, forms, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
+        const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
             <Organisations
                 panels = { panels }
                 formOpenByPanelId = { formOpenByPanelId }
                 panelHeaderAddMethods={ this.panelHeaderAddMethods }
-                forms={ forms }
                 detailPanelData = { detailPanelData }
                 pathNodes = { pathNodes }
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
                 refreshDetailPanelDataWithMessage={ this.refreshDetailPanelDataWithMessage }
-                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
-                resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
                 closeModalToAddProject={ this.closeModalToAddProject }
@@ -757,7 +742,6 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
-    forms: state.organisationsReducer.forms,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

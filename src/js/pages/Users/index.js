@@ -22,16 +22,8 @@ class Index extends Component {
             dispatch
         );
 
-        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
         this.openModalToAddUser = this.openModalToAddUser.bind(this);
         this.closeModalToAddUser = this.closeModalToAddUser.bind(this);
-    }
-
-
-    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
-
-        // react controlled component pattern takes over the built-in form state when input changes
-        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
     }
 
     refreshDataWithMessage() {
@@ -100,10 +92,7 @@ class Index extends Component {
         return (
             <Users
                 users = { this.props.users }
-                forms={ this.props.forms }
                 refreshDataWithMessage={ this.refreshDataWithMessage }
-                storeFormDataInFormsCollection={ this.storeFormDataInFormsCollection }
-                changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
                 openModalToAddUser={ this.openModalToAddUser }
                 closeModalToAddUser={ this.closeModalToAddUser }
                 i18n = { translator(this.props.languageId, 'users') }
@@ -114,7 +103,6 @@ class Index extends Component {
 
 const mapStateToProps = state => ({
     users: state.usersReducer.users,
-    forms: state.usersReducer.forms,
     languageId: state.headerReducer.languageId
 });
 

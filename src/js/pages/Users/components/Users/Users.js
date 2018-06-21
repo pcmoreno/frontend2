@@ -13,11 +13,8 @@ export default class Users extends Component {
         const {
             users,
 
-            // forms,
             // refreshDataWithMessage,
-            // closeModalToAddUser,
-            // changeFormFieldValueForFormId,
-            // storeFormDataInFormsCollection,
+            // closeModalToAddUser
             openModalToAddUser,
             i18n
         } = this.props;

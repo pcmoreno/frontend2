@@ -55,9 +55,6 @@ class Organisations extends Component {
             pathNodes,
             alertComponent,
             fetchDetailPanelData,
-            forms,
-            changeFormFieldValueForFormId,
-            resetChangedFieldsForFormId,
             refreshPanelDataWithMessage,
             refreshDetailPanelDataWithMessage,
             closeModalToAddOrganisation,
@@ -118,9 +115,6 @@ class Organisations extends Component {
                         hiddenFields={[{ fieldId: 'organisationType', value: 'organisation' }]}
                         headerText={i18n.organisations_add_organisation}
                         submitButtonText={i18n.organisations_add}
-                        forms={ forms }
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
@@ -136,9 +130,6 @@ class Organisations extends Component {
                         hiddenFields={[{ fieldId: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
-                        forms={ forms }
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
                             refreshDetailPanelDataWithMessage(i18n.organisations_add_participant_success, {
                                 addedParticipant: response
@@ -159,15 +150,12 @@ class Organisations extends Component {
                         ]}
                         headerText={i18n.organisations_add_job_function}
                         submitButtonText={i18n.organisations_add}
-                        forms={ forms }
                         translationKeysOverride={{
                             organisationName: {
                                 label: 'form_job_function_name',
                                 placeholder: 'form_job_function_name_placeholder'
                             }
                         }}
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
@@ -185,14 +173,11 @@ class Organisations extends Component {
                         ]}
                         headerText={i18n.organisations_add_project}
                         submitButtonText={i18n.organisations_add}
-                        forms={ forms }
                         translationKeysOverride={{
                             product: {
                                 label: 'form_project_product'
                             }
                         }}
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_project_success, response);
                         } }
@@ -207,9 +192,6 @@ class Organisations extends Component {
                         method={ FormMethod.UPDATE_SECTION }
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
-                        forms={ forms }
-                        changeFormFieldValueForFormId={ changeFormFieldValueForFormId }
-                        resetChangedFieldsForFormId={ resetChangedFieldsForFormId }
                         afterSubmit = { () => {
                             refreshDetailPanelDataWithMessage(i18n.organisations_amend_participant_success);
                         } }
