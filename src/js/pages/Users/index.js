@@ -74,7 +74,8 @@ class Index extends Component {
             {
                 urlParams: {
                     parameters: {
-                        fields: 'uuid,account,firstName,infix,lastName,role,roleName'
+                        fields: 'uuid,account,firstName,infix,lastName,role,roleName',
+                        limit: 10000
                     }
                 }
             }

@@ -43,7 +43,7 @@ const AppConfig = {
                     participantLogin: '/v1/user/invite/login/{slug}'
                 }
             },
-            urlEncodeParams: false,
+            urlEncodeParams: true,
             skipPrefixIndexParams: true,
             requestFailedMessage: 'An error occurred while processing your request.',
 
