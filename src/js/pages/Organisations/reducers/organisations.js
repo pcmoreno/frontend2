@@ -249,6 +249,19 @@ export default function organisationsReducer(state = initialState, action) {
                             ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
                         ];
 
+                        // only amend possible when:
+                        const statusToAmend = [
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED,
+                            ParticipantStatus.INVITATION_ACCEPTED,
+                            ParticipantStatus.REDIRECTED_TO_ONLINE,
+                            ParticipantStatus.STARTED,
+                            ParticipantStatus.ADDED,
+                            ParticipantStatus.INVITED,
+                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                        ];
+
                         // build the list view config for participants
                         participantListView.push([
                             {
@@ -272,6 +285,7 @@ export default function organisationsReducer(state = initialState, action) {
                             {
                                 key: 'amendParticipantLabel',
                                 type: ListItemTypes.PENCIL,
+                                disabled: statusToAmend.indexOf(participantStatus) < 0,
                                 action: () => {
                                     action.openModalToAmendParticipant(participant.id, participantStatus);
                                 }

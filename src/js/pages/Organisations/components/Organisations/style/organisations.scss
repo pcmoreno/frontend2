@@ -6,12 +6,11 @@
     }
 }
 
-/* todo: missing ie11 styles here? */
 .panels_container {
     @supports (display: grid) {
         overflow: hidden;
         display: grid;
-        grid-template-columns: 3fr 1fr;
+        grid-template-columns: 2.75fr 1.25fr;
 
         @media screen and (max-width: $grid-breakpoints-lg) {
             grid-template-columns: 1fr;

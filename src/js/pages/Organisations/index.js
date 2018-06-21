@@ -657,31 +657,51 @@ class Index extends Component {
     openModalToAmendParticipant(participantId, participantStatus) {
 
         switch (participantStatus) {
-            case ParticipantStatus.PERSONA_FIT_FINISHED:
-            case ParticipantStatus.HNA_FINISHED:
-
-                // all fields except appointment date
-                this.getFormFields('amendParticipant', {
-                    section: `participantSession/${participantId}`,
-                    urlParams: {
-                        parameters: {
-                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,email'
-                        }
-                    }
-                });
-                break;
-
-            default:
+            case ParticipantStatus.ADDED:
+            case ParticipantStatus.INVITED:
+            case ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED:
 
                 // all fields
                 this.getFormFields('amendParticipant', {
                     section: `participantSession/${participantId}`,
                     urlParams: {
                         parameters: {
-                            fields: 'accountHasRole,gender,accountHasRoleLanguage,comments,consultant,account,educationLevel,firstName,infix,lastName,email,participantSessionAppointmentDate'
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate'
                         }
                     }
                 });
+                break;
+
+            case ParticipantStatus.INVITATION_ACCEPTED:
+
+                // all previous fields except email
+                this.getFormFields('amendParticipant', {
+                    section: `participantSession/${participantId}`,
+                    urlParams: {
+                        parameters: {
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
+                        }
+                    }
+                });
+                break;
+
+            case ParticipantStatus.REDIRECTED_TO_ONLINE:
+            case ParticipantStatus.STARTED:
+            case ParticipantStatus.HNA_FINISHED:
+            case ParticipantStatus.PERSONA_FIT_FINISHED:
+
+                // all previous fields education level
+                this.getFormFields('amendParticipant', {
+                    section: `participantSession/${participantId}`,
+                    urlParams: {
+                        parameters: {
+                            fields: 'accountGender,accountHasRoleLanguage,comments,consultant,account,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
+                        }
+                    }
+                });
+                break;
+
+            default:
                 break;
         }
 
