@@ -5,8 +5,9 @@ import { h, Component } from 'preact';
 import Listview from '../../../../components/Listview';
 import Sidebar from './../../../../components/Sidebar';
 
-// import Form from './../../../../components/Form';
+import Form from './../../../../components/Form';
 import style from './style/users.scss';
+import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 
 export default class Users extends Component {
     render() {
@@ -14,8 +15,9 @@ export default class Users extends Component {
             users,
 
             // refreshDataWithMessage,
-            // closeModalToAddUser
+            closeModalToAddUser,
             openModalToAddUser,
+            languageId,
             i18n
         } = this.props;
 
@@ -34,6 +36,22 @@ export default class Users extends Component {
                     />
                 </section>
                 <Sidebar tabs={ tabs } />
+                <aside className={ `${style.modal_container} hidden` } id="modal_add_account">
+                    <Form
+                        formId={ 'addAccount' }
+                        sectionId={ 'account' }
+                        method={ FormMethod.CREATE_SECTION }
+                        hiddenFields={[]}
+                        headerText={i18n.users_add_user}
+                        submitButtonText={i18n.users_add}
+
+                        afterSubmit = { () => {
+
+                        } }
+                        closeModal={ closeModalToAddUser }
+                        languageId={ languageId }
+                    />
+                </aside>
             </main>
         );
     }
