@@ -11,7 +11,7 @@ export default class TextInput extends Component {
     }
 
     render() {
-        const { currentForm, fieldId, onChange, value, options, formId, label, placeholder } = this.props;
+        const { currentForm, fieldId, onChange, value, options, formId, label, placeholder, onKeyDown } = this.props;
         const required = this.isRequired(options) ? ' (*)' : '';
 
         return (
@@ -30,6 +30,7 @@ export default class TextInput extends Component {
                             placeholder={ placeholder }
                             autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            onKeyDown={ onKeyDown }
                         />
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>

@@ -85,6 +85,20 @@ export default class Form extends Component {
     }
 
     /**
+     * This methods prevents text fields to let the browser submit the form
+     * @param {Event} event - keydown event
+     * @returns {undefined}
+     */
+    defaultKeyDownTextFields(event) {
+
+        // avoid from submitting the form by the browser when event bubbles up
+        if (event.keyCode === 13) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+
+    /**
      * Creates a form field as described by the given formFieldOptions
      *
      * @param {Object} formFieldOptions - description of the form field as returned by API
@@ -140,6 +154,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
@@ -181,6 +196,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
                 />);
             case fieldType.UUID:
                 return null; // not implemented (yet?)
