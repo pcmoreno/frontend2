@@ -5,14 +5,8 @@ import { h, Component } from 'preact';
 import style from '../style/field.scss';
 
 export default class TextInput extends Component {
-
-    isRequired(options) {
-        return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
-    }
-
     render() {
-        const { currentForm, fieldId, onChange, value, options, formId, label, placeholder, onKeyDown } = this.props;
-        const required = this.isRequired(options) ? ' (*)' : '';
+        const { currentForm, fieldId, onChange, value, formId, label, placeholder, onKeyDown, required } = this.props;
 
         return (
             <div>

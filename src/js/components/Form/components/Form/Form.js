@@ -99,6 +99,15 @@ export default class Form extends Component {
     }
 
     /**
+     * Checks the field options if the field is required
+     * @param {Object} options - field options object
+     * @returns {boolean} required or not
+     */
+    isFieldRequired(options) {
+        return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
+    }
+
+    /**
      * Creates a form field as described by the given formFieldOptions
      *
      * @param {Object} formFieldOptions - description of the form field as returned by API
@@ -133,11 +142,15 @@ export default class Form extends Component {
             placeholder = formFieldOptions.form.all.attr.placeholder;
         }
 
+        // check if the field is required
+        const required = this.isFieldRequired(formFieldOptions) ? ' (*)' : '';
+
         // todo: Add exclusion fields so that names are not translated (see i18n property in fields)
 
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -146,8 +159,8 @@ export default class Form extends Component {
                     onChange={this.handleChange}/>);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
+                    required={required}
                     currentForm={this.localState}
-                    options={formFieldOptions}
                     fieldId={fieldId}
                     label={label}
                     placeholder={placeholder}
@@ -158,6 +171,7 @@ export default class Form extends Component {
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -167,6 +181,7 @@ export default class Form extends Component {
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
+                    required={required}
                     currentForm={this.localState}
                     options={formFieldOptions}
                     fieldId={fieldId}
@@ -178,6 +193,7 @@ export default class Form extends Component {
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
+                    required={required}
                     currentForm={ this.localState }
                     fieldId={fieldId}
                     options={formFieldOptions}
@@ -189,6 +205,7 @@ export default class Form extends Component {
                 />);
             case fieldType.EMAIL:
                 return (<Email
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}

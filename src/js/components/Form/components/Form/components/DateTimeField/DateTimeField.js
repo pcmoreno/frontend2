@@ -30,6 +30,7 @@ export default class DateTimeField extends Component {
             fieldId,
             label,
             onChange,
+            required,
 
             // value,
             formId
@@ -45,7 +46,7 @@ export default class DateTimeField extends Component {
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
                     </li>
                     <li>
                         <input
