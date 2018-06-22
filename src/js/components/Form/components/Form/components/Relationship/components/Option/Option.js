@@ -15,9 +15,16 @@ export default class Option extends Component {
                 translatedValue = i18n[`form_option_${translationKey}`];
             }
         } else {
+            let translatedName = '';
+            let optionName = value.trim().replace(/ /g, '_');
 
-            // convert name to trimmed, snake case string to compare for translations later
-            const translatedName = Utils.camelCaseToSnakeCase(value.trim().replace(/ /g, '_'));
+            if (optionName === optionName.toUpperCase()) {
+                translatedName = optionName.toLowerCase();
+            } else {
+
+                // convert name to trimmed, snake case string to compare for translations later
+                translatedName = Utils.camelCaseToSnakeCase(optionName);
+            }
 
             if (i18n[`form_option_${translatedName}`]) {
                 translatedValue = i18n[`form_option_${translatedName}`];
