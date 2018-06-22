@@ -1,17 +1,26 @@
 import { h, Component } from 'preact';
+import Message from './components/Message/Message';
+import style from './style/inbox.scss';
 
 /** @jsx h */
 
-import style from './style/inbox.scss';
-
 export default class Inbox extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        const messages = [
+            { name: 'some name'},
+            { name: 'another name'}
+        ];
+
+        const messagesOutput = [];
+
+        messages.forEach(message => {
+            messagesOutput.push(<Message name={ message.name } />);
+        });
+
         return (
-            <main className={ style.inbox } />
+            <main className={ style.inbox }>
+                { messagesOutput }
+            </main>
         );
     }
 }
