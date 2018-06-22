@@ -52,7 +52,7 @@ class Index extends Component {
             section: 'account',
             urlParams: {
                 parameters: {
-                    fields: 'firstName,infix,lastName,email,accountHasRoleRole'
+                    fields: 'firstName,infix,lastName,displayName,email,accountHasRoleRole'
                 }
             }
         });

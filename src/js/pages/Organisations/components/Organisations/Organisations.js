@@ -130,6 +130,23 @@ class Organisations extends Component {
                         hiddenFields={[{ fieldId: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
                         headerText={i18n.organisations_add_participant}
                         submitButtonText={i18n.organisations_add}
+                        translationKeysOverride={{
+                            accountFirstName: {
+                                placeholder: 'form_participant_first_name_placeholder'
+                            },
+                            accountInfix: {
+                                placeholder: 'form_participant_infix_placeholder'
+                            },
+                            accountLastName: {
+                                placeholder: 'form_participant_last_name_placeholder'
+                            },
+                            accountHasRoleLanguage: {
+                                placeholder: 'form_participant_language_placeholder'
+                            },
+                            accountHasRoleEmail: {
+                                placeholder: 'form_participant_email_placeholder'
+                            }
+                        }}
                         afterSubmit = { response => {
                             refreshDetailPanelDataWithMessage(i18n.organisations_add_participant_success, {
                                 addedParticipant: response
@@ -192,6 +209,23 @@ class Organisations extends Component {
                         method={ FormMethod.UPDATE_SECTION }
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
+                        translationKeysOverride={{
+                            accountFirstName: {
+                                placeholder: 'form_participant_first_name_placeholder'
+                            },
+                            accountInfix: {
+                                placeholder: 'form_participant_infix_placeholder'
+                            },
+                            accountLastName: {
+                                placeholder: 'form_participant_last_name_placeholder'
+                            },
+                            accountHasRoleLanguage: {
+                                placeholder: 'form_participant_language_placeholder'
+                            },
+                            accountHasRoleEmail: {
+                                placeholder: 'form_participant_email_placeholder'
+                            }
+                        }}
                         afterSubmit = { () => {
                             refreshDetailPanelDataWithMessage(i18n.organisations_amend_participant_success);
                         } }
