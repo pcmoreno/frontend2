@@ -5,14 +5,8 @@ import { h, Component } from 'preact';
 import style from '../style/field.scss';
 
 export default class TextInput extends Component {
-
-    isRequired(options) {
-        return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
-    }
-
     render() {
-        const { currentForm, fieldId, onChange, value, options, formId, label, placeholder } = this.props;
-        const required = this.isRequired(options) ? ' (*)' : '';
+        const { currentForm, fieldId, onChange, value, formId, label, placeholder, onKeyDown, required } = this.props;
 
         return (
             <div>
@@ -30,6 +24,7 @@ export default class TextInput extends Component {
                             placeholder={ placeholder }
                             autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            onKeyDown={ onKeyDown }
                         />
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>

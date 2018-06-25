@@ -6,7 +6,6 @@ import ParticipantStatus from '../../../constants/ParticipantStatus';
 
 const initialState = {
     panels: [],
-    forms: [],
     sectionInfo: {},
     pathNodes: [],
     detailPanelData: {
@@ -29,8 +28,7 @@ const initialState = {
  * @returns {Object} state
  */
 export default function organisationsReducer(state = initialState, action) {
-    let newState = Object.assign({}, state),
-        newForm;
+    let newState = Object.assign({}, state);
 
     const logger = Logger.instance;
 
@@ -214,91 +212,6 @@ export default function organisationsReducer(state = initialState, action) {
             break;
         }
 
-        case actionType.STORE_FORM_DATA:
-
-            // clear all forms
-            newState.forms = [];
-
-            // first build up the forms with data from state
-            state.forms.forEach(form => {
-                if (action.formId !== form.id) {
-                    newState.forms.push(form);
-                }
-            });
-
-            // now add the new form taken from the action
-            newForm = {
-                id: action.formId,
-                formFields: action.formFields
-            };
-
-            newState.forms.push(newForm);
-
-            break;
-
-        case actionType.UPDATE_FORM_FIELD:
-
-            // clear current items from newState
-            newState.forms = [];
-
-            // build up the forms with data from state
-            state.forms.forEach(form => {
-                if (form.id === action.formId) {
-
-                    // in the right form
-                    form.formFields.map(field => {
-
-                        // in the right field (note that the formId is added here as a prefix in order to compare)
-                        if (`${action.formId}_${Object.keys(field)[0]}` === action.formInputId) {
-
-                            // update the changed field if required
-                            if (field[Object.keys(field)[0]].value !== action.formInputValue) {
-
-                                // for fields that dont natively have a 'value' property, a property .value is added
-                                // and the selected choice is stored in it.
-                                field[Object.keys(field)[0]].value = action.formInputValue;
-                            }
-                        }
-
-                        return field;
-                    });
-                }
-
-                newState.forms.push(form);
-            });
-
-            break;
-
-        case actionType.RESET_FORM_FIELDS:
-
-            // clear current items from newState
-            newState.forms = [];
-
-            // build up the forms with data from state
-            state.forms.forEach(form => {
-                if (form.id === action.formId) {
-
-                    // in the right form
-                    form.formFields.forEach(field => {
-
-                        // reset value (note that all field types have a .value property that is leading)
-                        field[Object.keys(field)[0]].value = '';
-                    });
-                }
-
-                newState.forms.push(form);
-            });
-
-            break;
-
-        case actionType.STORE_SECTION_INFO:
-
-            if (typeof newState.sectionInfo[action.formInputId] !== 'undefined') {
-                newState.sectionInfo[action.formInputId] = action.sectionInfo;
-            }
-
-            break;
-
         case actionType.FETCH_DETAIL_PANEL_DATA: {
 
             // clear all detailPanel data
@@ -404,13 +317,6 @@ export default function organisationsReducer(state = initialState, action) {
             newState.panels = [];
             newState.pathNodes = [];
             newState.detailPanelData = [];
-
-            break;
-
-        case actionType.RESET_FORMS:
-
-            // reset state so all form data is refreshed
-            newState.forms = [];
 
             break;
 

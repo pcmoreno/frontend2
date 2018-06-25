@@ -30,6 +30,8 @@ export default class DateTimeField extends Component {
             fieldId,
             label,
             onChange,
+            required,
+            onKeyDown,
             value,
             formId
         } = this.props;
@@ -42,7 +44,7 @@ export default class DateTimeField extends Component {
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
                     </li>
                     <li>
                         <input
@@ -50,6 +52,7 @@ export default class DateTimeField extends Component {
                             placeholder="Select Date.."
                             readOnly="readonly"
                             onChange={ onChange }
+                            onKeyDown={ onKeyDown }
                             name={ fieldId }
                             id={ `${formId}_${fieldId}` }
                             value={ appointmentDate || null }

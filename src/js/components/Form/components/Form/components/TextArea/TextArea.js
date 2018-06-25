@@ -5,16 +5,15 @@ import { h, Component } from 'preact';
 import style from '../style/field.scss';
 
 export default class TextArea extends Component {
-
     render() {
-        const { currentForm, fieldId, label, onChange, value, formId, placeholder } = this.props;
+        const { currentForm, fieldId, label, onChange, value, formId, placeholder, required } = this.props;
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
                     </li>
                     <li>
                         <textarea
