@@ -667,7 +667,7 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    // todo: just hand over an object with all these props
+    // todo: note that when the id is replaced for slug (uuid) as described in NEON-3971 this method only needs 2 params
     openModalToAmendParticipant(participantId, participantStatus, participantSlug) {
 
         // save and update state (its passed on to Organisations component to facilitate the PUT call)
