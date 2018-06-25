@@ -1,4 +1,4 @@
-export const DATE_TIME_FIELD = 'DateTimeField';
+export const DATE_TIME_FIELD = 'DateTimeTimezone';
 export const TEXT_INPUT = 'TextInput';
 export const TEXT_AREA = 'TextArea';
 export const CHOICE = 'Choice';

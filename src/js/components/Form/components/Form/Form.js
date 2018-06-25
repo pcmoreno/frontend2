@@ -301,6 +301,8 @@ export default class Form extends Component {
 
                     if (!field[fieldId].value || field[fieldId].value.length === 0) {
 
+                        console.log('no value in state for '+field[fieldId])
+
                         // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
                         // form element. see if the element can be matched and its value extracted.
                         switch (field[fieldId].type) {
@@ -349,6 +351,12 @@ export default class Form extends Component {
 
                     // push field value to changedFields so it can be submitted
                     if (fieldId && value) {
+
+                        if (field[fieldId].type === fieldType.DATE_TIME_FIELD) {
+                            console.log('override date to test'+field[fieldId].value);
+
+                            value = '2019-12-31 09:00';
+                        }
 
                         // store changed field
                         changedFields.push({ fieldId, value });

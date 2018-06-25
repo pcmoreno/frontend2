@@ -38,7 +38,7 @@ export default class DateTimeField extends Component {
         const value2 = '1998-12-31 14:15'; // todo: remove override when API is ready
 
         // assume the data received from API is aways 'Amsterdam time'. convert to local notation.
-        const appointmentDate = Utils.formatDate(value2, 'dd-MM-yyyy HH:mm');
+        const appointmentDate = Utils.formatDate(value2, 'yyyy-MM-dd HH:mm');
 
         return (
             <div>
