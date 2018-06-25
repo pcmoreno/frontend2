@@ -31,15 +31,12 @@ export default class DateTimeField extends Component {
             label,
             onChange,
             required,
-
-            // value,
+            value,
             formId
         } = this.props;
 
-        const value2 = '1998-12-31 14:15'; // todo: remove override when API is ready
-
         // assume the data received from API is aways 'Amsterdam time'. convert to local notation.
-        const appointmentDate = Utils.formatDate(value2, 'dd-MM-yyyy HH:mm');
+        const appointmentDate = Utils.formatDate(value, 'yyyy-MM-dd HH:mm');
 
         return (
             <div>

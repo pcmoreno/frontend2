@@ -71,7 +71,8 @@ class Index extends Component {
         this.modalLocked = false;
 
         this.localState = {
-            selectedParticipants: []
+            selectedParticipants: [],
+            selectedParticipantSlug: null
         };
 
         // keep track of current entity shown in detail panel
@@ -654,7 +655,12 @@ class Index extends Component {
         this.actions.resetForms();
     }
 
-    openModalToAmendParticipant(participantId, participantStatus) {
+    // todo: note that when the id is replaced for slug (uuid) as described in NEON-3971 this method only needs 2 params
+    openModalToAmendParticipant(participantId, participantStatus, participantSlug) {
+
+        // save and update state (its passed on to Organisations component to facilitate the PUT call)
+        this.localState.selectedParticipantSlug = participantSlug;
+        this.setState(this.localState);
 
         switch (participantStatus) {
             case ParticipantStatus.ADDED:
@@ -750,6 +756,7 @@ class Index extends Component {
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
+                selectedParticipantSlug={ this.localState.selectedParticipantSlug }
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, 'organisations') }
                 languageId={ this.props.languageId }

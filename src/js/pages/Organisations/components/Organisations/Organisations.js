@@ -207,6 +207,9 @@ class Organisations extends Component {
                         formId={ 'amendParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.UPDATE_SECTION }
+                        hiddenFields={[
+                            { fieldId: 'uuid', value: this.props.selectedParticipantSlug }
+                        ]}
                         headerText={i18n.organisations_amend_participant}
                         submitButtonText={i18n.organisations_save}
                         translationKeysOverride={{
