@@ -156,7 +156,9 @@ export default class Form extends Component {
                     label={label}
                     value={value}
                     formId={this.props.formId}
-                    onChange={this.handleChange}/>);
+                    onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
+                />);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
                     required={required}
