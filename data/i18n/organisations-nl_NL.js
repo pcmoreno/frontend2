@@ -62,6 +62,7 @@ export default {
     "organisations_competency_name": "Competentienaam",
     "organisations_competenties_ltp": "Ltp competenties",
     "organisations_consultant": "Adviseur",
+    "organisations_could_not_process_your_request": "Kan uw verzoek niet verwerken",
     "organisations_decisiveness_competencies": "Daadkracht",
     "organisations_decisiveness_competencies_definition": "In staat zijn snel en krachtig te handelen, ook als de alternatieven onduidelijk zijn.",
     "organisations_delegation": "Delegeren",
