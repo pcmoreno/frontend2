@@ -23,6 +23,7 @@ export default {
     "form_education_level": "Education level",
     "form_email": "Email",
     "form_first_name": "First name",
+    "form_gender": "Gender",
     "form_infix": "Infix",
     "form_input_type_could_not_be_determined": "Input type could not be determined for type:",
     "form_job_function_name": "Job function name",

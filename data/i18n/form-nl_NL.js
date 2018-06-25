@@ -23,6 +23,7 @@ export default {
     "form_education_level": "Opleidingsniveau",
     "form_email": "E-mail",
     "form_first_name": "Voornaam",
+    "form_gender": "Geslacht",
     "form_infix": "Tussenvoegsel",
     "form_input_type_could_not_be_determined": "Er kan geen invoertype worden bepaald voor type:",
     "form_job_function_name": "Functienaam",
