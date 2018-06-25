@@ -216,8 +216,6 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.STORE_FORM_DATA:
 
-            console.table(action.formFields)
-
             // clear all forms
             newState.forms = [];
 
