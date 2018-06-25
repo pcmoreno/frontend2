@@ -527,7 +527,7 @@ class Index extends Component {
         }).catch((/* error */) => {
 
             // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_could_not_process_your_request });
         });
     }
 

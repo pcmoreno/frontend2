@@ -26,23 +26,18 @@ class Index extends Component {
         this.openModalToAddUser = this.openModalToAddUser.bind(this);
         this.closeModalToAddUser = this.closeModalToAddUser.bind(this);
 
+        this.getUsers = this.getUsers.bind(this);
+        this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
+
         this.api = ApiFactory.get('neon');
         this.i18n = translator(this.props.languageId, 'users');
     }
 
-    refreshDataWithMessage() {
+    refreshDataWithMessage(message) {
 
-        // hide modal
-        document.querySelector('#modal_user').classList.add('hidden');
-
-        // Show a message
-        // todo: translate this message
-        // todo: this message should also be adapted to support delete messages. Something like a form action?
-        this.actions.addAlert({ type: 'success', text: 'The user was successfully saved.' });
-
-        // refresh the items
-        // todo: is this actually needed? shouldnt React re-render because the state changes? test!
-        this.fetchEntities({ id: 0, name: 'what to put here' }, null);
+        // Show a message and refresh the list
+        this.actions.addAlert({ type: 'success', text: message });
+        this.getUsers();
     }
 
     openModalToAddUser() {
@@ -52,7 +47,7 @@ class Index extends Component {
             section: 'account',
             urlParams: {
                 parameters: {
-                    fields: 'firstName,infix,lastName,displayName,email,accountHasRoleRole'
+                    fields: 'firstName,infix,lastName,displayName,gender,email,role'
                 }
             }
         });
@@ -113,7 +108,7 @@ class Index extends Component {
         }).catch((/* error */) => {
 
             // This is an unexpected API error and the form cannot be loaded
-            this.actions.addAlert({ type: 'error', text: this.i18n.form_could_not_process_your_request });
+            this.actions.addAlert({ type: 'error', text: this.i18n.users_could_not_process_your_request });
         });
     }
 

@@ -13,8 +13,7 @@ export default class Users extends Component {
     render() {
         const {
             users,
-
-            // refreshDataWithMessage,
+            refreshDataWithMessage,
             closeModalToAddUser,
             openModalToAddUser,
             languageId,
@@ -65,8 +64,8 @@ export default class Users extends Component {
                             }
                         }}
                         afterSubmit = { () => {
-
-                        } }
+                            refreshDataWithMessage(i18n.users_add_user_success);
+                        }}
                         closeModal={ closeModalToAddUser }
                         languageId={ languageId }
                     />
