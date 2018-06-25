@@ -374,7 +374,7 @@ export default function organisationsReducer(state = initialState, action) {
                                 type: ListItemTypes.PENCIL,
                                 disabled: statusToAmend.indexOf(participantStatus) < 0,
                                 action: () => {
-                                    action.openModalToAmendParticipant(participant.id, participantStatus);
+                                    action.openModalToAmendParticipant(participant.id, participantStatus, participant.uuid);
                                 }
                             }
                         ]);
