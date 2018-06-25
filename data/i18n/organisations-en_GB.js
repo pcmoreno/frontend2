@@ -62,6 +62,7 @@ export default {
     "organisations_competency_name": "Competency name",
     "organisations_competenties_ltp": "Ltp competencies",
     "organisations_consultant": "Consultant",
+    "organisations_could_not_process_your_request": "Could not process your request",
     "organisations_decisiveness_competencies": "Decisiveness",
     "organisations_decisiveness_competencies_definition": "Be able to act quickly and decisively, even if the alternatives are unclear.",
     "organisations_delegation": "Delegation",
