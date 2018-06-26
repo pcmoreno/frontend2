@@ -67,6 +67,16 @@ export function resetOrganisations() {
 }
 
 /**
+ * Reset detail panel
+ * @returns {{}} reset detail panel
+ */
+export function resetDetailPanel() {
+    return {
+        type: actionType.RESET_DETAIL_PANEL
+    };
+}
+
+/**
  * Sets the active panel id for the forms
  * @param {number} panelId - panel id
  * @returns {undefined}

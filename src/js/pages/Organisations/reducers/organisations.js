@@ -326,6 +326,12 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
 
+        case actionType.RESET_DETAIL_PANEL:
+
+            newState.detailPanelData = Object.assign({}, initialState.detailPanelData);
+
+            break;
+
         default:
             return state;
     }

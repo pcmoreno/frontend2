@@ -489,6 +489,10 @@ class Index extends Component {
             }).catch(error => {
                 this.actions.addAlert({ type: 'error', text: error });
             });
+        } else {
+
+            // reset back to LTP root organisation
+            this.actions.resetDetailPanel();
         }
     }
 

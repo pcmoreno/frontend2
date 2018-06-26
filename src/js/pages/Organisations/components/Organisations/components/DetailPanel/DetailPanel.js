@@ -40,9 +40,8 @@ export default class DetailPanel extends Component {
     render() {
         const { data, i18n } = this.props;
         const entity = data.entity;
-
-        // todo: turn in a component similar to participants so it also has scrolling etc.
-        let output = <p id="detailpanel_main_">name: {data.entity.name} (id: {data.entity.id})<br />type: {data.entity.type}</p>;
+        let output = null,
+            icon = null;
 
         // todo: wrap all possible panels in a switch and use imports for each
         if (this.localState.activeTab.toString() === 'participants') {
@@ -59,6 +58,21 @@ export default class DetailPanel extends Component {
                 participantListView={ entity.participantListView }
                 i18n={ i18n }
             /></p>;
+        }
+
+        // get correct header icon, LTP organisation does not render the icon
+        switch (entity.type) {
+            case 'jobFunction':
+                icon = <FontAwesomeIcon icon='suitcase' />;
+                break;
+            case 'organisation':
+                icon = <FontAwesomeIcon icon='building' />;
+                break;
+            case 'project':
+                icon = <FontAwesomeIcon icon='clipboard-list' />;
+                break;
+            default:
+                break;
         }
 
         return (
@@ -83,6 +97,9 @@ export default class DetailPanel extends Component {
                         role="button">
                         &#11013;
                     </span>
+                    { entity.name !== 'LTP' &&
+                        <div className={ style.header_icon }>{ icon }</div>
+                    }
                     <h2>{ entity.name }</h2>
                 </header>
                 <DetailPanelNavigation
