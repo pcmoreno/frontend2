@@ -1,13 +1,13 @@
 import { h, Component, render } from 'preact';
-import ApiFactory from '../../utils/api/factory';
-import Terms from './components/Terms/Terms';
-import Logger from '../../utils/logger';
-import Redirect from '../../utils/components/Redirect';
-import Register from './components/Register/Register';
-import translator from '../../utils/translator';
-import Utils from '../../utils/utils';
-import Login from './components/Login/Login';
-import CognitoAuthenticator from '../../utils/authenticator/cognito';
+import ApiFactory from '../../../utils/api/factory';
+import Terms from './../components/Terms/Terms';
+import Logger from '../../../utils/logger';
+import Redirect from '../../../utils/components/Redirect';
+import Register from './../components/Register/Register';
+import translator from '../../../utils/translator';
+import Utils from '../../../utils/utils';
+import Login from './../components/Login/Login';
+import CognitoAuthenticator from '../../../utils/authenticator/cognito';
 
 /** @jsx h */
 
@@ -16,7 +16,7 @@ const invited = 'invited';
 const loginEndpoint = '/login';
 const registrationSuccessful = '?registrationSuccess=true';
 
-export default class Index extends Component {
+export default class Participant extends Component {
     constructor(props) {
         super(props);
 
