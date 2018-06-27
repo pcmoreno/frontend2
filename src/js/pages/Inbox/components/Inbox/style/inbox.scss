@@ -10,10 +10,14 @@
 }
 
 .message {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     padding-bottom: 2rem;
     border-bottom: solid 1px $beige-darken;
     display: inline-block;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        margin-bottom: 2rem;
+    }
 }
 
 .participantsSummary {
