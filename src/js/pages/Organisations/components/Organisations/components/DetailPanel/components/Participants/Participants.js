@@ -28,7 +28,7 @@ export default class Participants extends Component {
                         className={ 'action_button left' }
                         type={ 'button' }
                     >
-                        { i18n.organisations_add_participant }
+                        { i18n.organisations_add_participant_button }
                         <FontAwesomeIcon icon={ 'plus' }/>
                     </button>
                     <button
