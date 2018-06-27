@@ -55,7 +55,7 @@ class Index extends Component {
                 slug = field.value;
 
                 // since the uuid will now be part of the endpoint call, it can be removed from changedFields
-                // (no worries, it will be there for each subsequent submit if the first submit didnt work)
+                // note that if the (first) submit didnt work it will automatically return to changeFields
                 changedFields.splice(index, 1);
             }
         });
@@ -63,7 +63,7 @@ class Index extends Component {
         const sectionId = this.props.sectionId;
         const method = this.props.method;
 
-        // we only support post, put and delete calls for now
+        // only post, put and delete calls for now
         if (method !== FormMethod.CREATE_SECTION &&
             method !== FormMethod.UPDATE_SECTION &&
             method !== FormMethod.DELETE_SECTION) {
