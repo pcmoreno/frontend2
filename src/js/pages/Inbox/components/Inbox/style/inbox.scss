@@ -17,8 +17,12 @@
 }
 
 .participantsSummary {
-    width: 50%;
-    float: left;
+    width: 100%;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: left;
+    }
 
     h3 {
         color: $orange;
@@ -26,13 +30,41 @@
 }
 
 .participantsData {
-    width: 50%;
-    float: left;
+    width: 100%;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: left;
+    }
+
+    h4 {
+        padding: 1rem 0;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            padding: 0 1rem 1rem;
+        }
+    }
+
 }
 
 .participantsAction {
-    text-align: right;
-    float: right;
+    text-align: left;
+    float: left;
     display: inline-block;
-    width: 50%;
+    width: 100%;
+
+    > a {
+        float: left;
+    }
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: right;
+        text-align: right;
+
+        > a {
+            float: right;
+        }
+    }
 }
+
