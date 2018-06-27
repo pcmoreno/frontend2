@@ -54,8 +54,6 @@ export default class DateTimeField extends Component {
             formId
         } = this.props;
 
-        let value = Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm');
-
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
@@ -72,7 +70,7 @@ export default class DateTimeField extends Component {
                             onKeyDown={ onKeyDown }
                             name={ fieldId }
                             id={ `${formId}_${fieldId}` }
-                            value={ value || null }
+                            value={ this.localState.date }
                         />
                     </li>
                 </ul>
