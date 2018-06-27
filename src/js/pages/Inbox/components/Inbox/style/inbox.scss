@@ -1,3 +1,38 @@
 .inbox {
     padding: 1rem;
 }
+
+.messages {
+    > li {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.message {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: solid 1px $beige-darken;
+    display: inline-block;
+}
+
+.participantsSummary {
+    width: 50%;
+    float: left;
+
+    h3 {
+        color: $orange;
+    }
+}
+
+.participantsData {
+    width: 50%;
+    float: left;
+}
+
+.participantsAction {
+    text-align: right;
+    float: right;
+    display: inline-block;
+    width: 50%;
+}
