@@ -37,72 +37,6 @@ export function fetchEntities(parentId, parentType, entities) {
 }
 
 /**
- * Store form data in collection action
- * @param {string} formId - formId
- * @param {array} formFields - form fields
- * @returns {{type, formId: *, formFields: *}} form data with type
- */
-export function storeFormDataInFormsCollection(formId, formFields) {
-
-    // return action type and the value(s) to be sent to reducer for state mutation
-
-    return {
-        type: actionType.STORE_FORM_DATA,
-        formId,
-        formFields
-    };
-}
-
-/**
- * Store section info in collection action
- * @param {int} sectionId Id of section
- * @param {Object} sectionInfo All relevant section info
- * @returns {Object} Action
- */
-export function storeSectionInfoInSectionsCollection(sectionId, sectionInfo) {
-
-    return {
-        type: actionType.STORE_SECTION_INFO,
-        sectionId,
-        sectionInfo
-    };
-}
-
-/**
- * Change form field action
- * @param {string} formId - formId
- * @param {string} formInputId - form input id
- * @param {array} formInputValue - form input value
- * @returns {{type, formId: *, formInputId: *, formInputValue: *}} form data with type
- */
-export function changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
-
-    // return action type and the value(s) to be sent to reducer for state mutation
-
-    return {
-        type: actionType.UPDATE_FORM_FIELD,
-        formId,
-        formInputId,
-        formInputValue
-    };
-}
-
-/**
- * Change form field action
- * @param {string} formId - formId
- * @returns {undefined}
- */
-export function resetChangedFieldsForFormId(formId) {
-
-    // return action type and the value(s) to be sent to reducer for state mutation
-
-    return {
-        type: actionType.RESET_FORM_FIELDS,
-        formId
-    };
-}
-
-/**
  * Fetch entities action
  * @param {Object} entity - entity
  * @param {array} data - data
@@ -133,12 +67,12 @@ export function resetOrganisations() {
 }
 
 /**
- * Reset forms
- * @returns {{}} reset forms
+ * Reset detail panel
+ * @returns {{}} reset detail panel
  */
-export function resetForms() {
+export function resetDetailPanel() {
     return {
-        type: actionType.RESET_FORMS
+        type: actionType.RESET_DETAIL_PANEL
     };
 }
 

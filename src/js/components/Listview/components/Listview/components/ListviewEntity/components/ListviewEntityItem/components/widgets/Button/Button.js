@@ -16,7 +16,13 @@ export default class Button extends Component {
         }
 
         return (
-            <a href={ link } className={ `action_button${disabled ? ' disabled' : ''}` } disabled={ disabled }>{ label }</a>
+            <a
+                href={ link }
+                className={ `action_button${disabled ? ' disabled' : ''}` }
+                disabled={ disabled }
+            >
+                { label }
+            </a>
         );
     }
 }

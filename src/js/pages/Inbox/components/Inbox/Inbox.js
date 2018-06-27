@@ -7,8 +7,8 @@ import style from './style/inbox.scss';
 export default class Inbox extends Component {
     render() {
         const messages = [
-            { name: 'some name'},
-            { name: 'another name'}
+            { name: 'some name' },
+            { name: 'another name' }
         ];
 
         const messagesOutput = [];

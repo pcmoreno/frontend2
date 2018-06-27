@@ -1,4 +1,71 @@
-.message {
-    border: solid 1px black;
-    margin: 1rem;
+
+.messages {
+    > li {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
+
+.message {
+    margin-bottom: 1rem;
+    padding-bottom: 2rem;
+    border-bottom: solid 1px $beige-darken;
+    display: inline-block;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        margin-bottom: 2rem;
+    }
+}
+
+.participantsSummary {
+    width: 100%;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: left;
+    }
+
+    h3 {
+        color: $orange;
+    }
+}
+
+.participantsData {
+    width: 100%;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: left;
+    }
+
+    h4 {
+        padding: 1rem 0;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            padding: 0 1rem 1rem;
+        }
+    }
+
+}
+
+.participantsAction {
+    text-align: left;
+    float: left;
+    display: inline-block;
+    width: 100%;
+
+    > a {
+        float: left;
+    }
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 50%;
+        float: right;
+        text-align: right;
+
+        > a {
+            float: right;
+        }
+    }
+}
+

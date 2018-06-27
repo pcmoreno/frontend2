@@ -106,7 +106,7 @@ export default class ListviewEntityItem extends Component {
         }
 
         return (
-            <td title={ title } className={ `${style.td} ${entityId}` }>
+            <td title={ title } className={ `${style.td} ${entityId} ${this.props.widget ? this.props.widget.type : ''}` }>
                 { value }
             </td>
         );

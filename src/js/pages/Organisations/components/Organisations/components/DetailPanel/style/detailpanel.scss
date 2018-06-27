@@ -117,6 +117,18 @@ $detailpanel-margin: 10px;
     }
 }
 
+.header_icon {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+    margin-bottom: 10px;
+
+    svg {
+        display: inline-block;
+        font-size: 2rem;
+    }
+}
+
 .button_hide_detailpanel {
     /* only show the hide detailpanel button on responsive views */
     display: none;

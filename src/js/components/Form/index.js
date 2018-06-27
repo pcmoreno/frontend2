@@ -5,6 +5,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
+import * as formActions from './actions/form';
 import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
@@ -17,11 +18,13 @@ class Index extends Component {
         const { dispatch } = this.props;
 
         this.actions = bindActionCreators(
-            Object.assign({}, alertActions),
+            Object.assign({}, alertActions, formActions),
             dispatch
         );
 
         this.submitForm = this.submitForm.bind(this);
+        this.changeFormFieldValueForFormId = this.changeFormFieldValueForFormId.bind(this);
+        this.resetChangedFieldsForFormId = this.resetChangedFieldsForFormId.bind(this);
 
         this.api = ApiFactory.get('neon');
         this.i18n = translator(this.props.languageId, 'form');
@@ -52,7 +55,7 @@ class Index extends Component {
                 slug = field.value;
 
                 // since the uuid will now be part of the endpoint call, it can be removed from changedFields
-                // (no worries, it will be there for each subsequent submit if the first submit didnt work)
+                // note that if the (first) submit didnt work it will automatically return to changeFields
                 changedFields.splice(index, 1);
             }
         });
@@ -60,7 +63,7 @@ class Index extends Component {
         const sectionId = this.props.sectionId;
         const method = this.props.method;
 
-        // we only support post, put and delete calls for now
+        // only post, put and delete calls for now
         if (method !== FormMethod.CREATE_SECTION &&
             method !== FormMethod.UPDATE_SECTION &&
             method !== FormMethod.DELETE_SECTION) {
@@ -138,26 +141,63 @@ class Index extends Component {
         });
     }
 
+    /**
+     * Changes the stored field value for the given field and form id
+     * @param {string} formId - form id
+     * @param {string} formInputId - field key/id
+     * @param {string|number|boolean} formInputValue - input value
+     * @returns {undefined}
+     */
+    changeFormFieldValueForFormId(formId, formInputId, formInputValue) {
+
+        // react controlled component pattern takes over the built-in form state when input changes
+        this.actions.changeFormFieldValueForFormId(formId, formInputId, formInputValue);
+    }
+
+    /**
+     * Resets all field values for the given form id
+     * @param {string} formId - formId
+     * @returns {undefined}
+     */
+    resetChangedFieldsForFormId(formId) {
+        this.actions.resetChangedFieldsForFormId(formId);
+    }
+
     render() {
+        const {
+            formId,
+            sectionId,
+            hiddenFields,
+            forms, // from Form reducer
+            headerText,
+            submitButtonText,
+            closeModal,
+            translationKeysOverride,
+            languageId
+        } = this.props;
 
         // to ensure the i18n is updated when the languageId changes
-        this.i18n = translator(this.props.languageId, 'form');
+        this.i18n = translator(languageId, 'form');
 
         return (<Form
-            formId={this.props.formId}
-            sectionId={this.props.sectionId}
-            hiddenFields={this.props.hiddenFields}
-            forms={this.props.forms}
-            submitForm={this.submitForm}
-            headerText={this.props.headerText}
-            submitButtonText={this.props.submitButtonText}
-            changeFormFieldValueForFormId={this.props.changeFormFieldValueForFormId}
-            resetChangedFieldsForFormId={this.props.resetChangedFieldsForFormId}
-            closeModal={this.props.closeModal}
-            i18n={this.i18n}
-            translationKeysOverride={this.props.translationKeysOverride}
+            formId={ formId }
+            sectionId={ sectionId }
+            hiddenFields={ hiddenFields }
+            forms={ forms }
+            submitForm={ this.submitForm }
+            headerText={ headerText }
+            submitButtonText={ submitButtonText }
+            changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
+            resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
+            closeModal={ closeModal }
+            i18n={ this.i18n }
+            translationKeysOverride={ translationKeysOverride }
         />);
     }
 }
 
-export default connect()(Index);
+const mapStateToProps = state => ({
+    forms: state.formReducer.forms
+});
+
+export default connect(mapStateToProps)(Index);

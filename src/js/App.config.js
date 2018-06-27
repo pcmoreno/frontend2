@@ -25,7 +25,7 @@ const AppConfig = {
                     entities: '/v1/section/participantSession'
                 },
                 users: {
-                    entities: '/v1/section/fieldvalue/accountHasRole/role?value=1,2,3,4,5,6,7'
+                    entities: '/v1/section/fieldvalue/accountHasRole/{roleValue}'
                 },
                 organisations: {
                     rootEntities: '/v1/section/fieldvalue/organisation/organisationType?value=organisation',
@@ -46,7 +46,7 @@ const AppConfig = {
                     participantLogin: '/v1/user/invite/login/{slug}'
                 }
             },
-            urlEncodeParams: false,
+            urlEncodeParams: true,
             skipPrefixIndexParams: true,
             requestFailedMessage: 'An error occurred while processing your request.',
 

@@ -25,15 +25,12 @@ import Utils from '../../../../utils/utils';
  *     ]}
  *     headerText={i18n.organisations_add_project} // header text for the form modal, optional but highly recommended
  *     submitButtonText={i18n.organisations_add} // submit button text, optional but highly recommended
- *     forms={ forms } // all form configurations loaded in the components reducer (from section info call), required
  *     translationKeysOverride={{ // override default translation keys for fields, optional
  *         fieldKey: {
  *             label: 'form_field_key_label'
  *             placeholder: 'form_field_key_placeholder'
  *         }
  *     }}
- *     changeFormFieldValueForFormId={ method } // reducer action method that will store changed values for form fields, required
- *     resetChangedFieldsForFormId={ method } // reducer action method that will reset all values stored for a form, required
  *     afterSubmit = { response => { // callback method when submit was successful with the api response, required
  *         method(response);
  *     }}
@@ -88,6 +85,29 @@ export default class Form extends Component {
     }
 
     /**
+     * This methods prevents text fields to let the browser submit the form
+     * @param {Event} event - keydown event
+     * @returns {undefined}
+     */
+    defaultKeyDownTextFields(event) {
+
+        // avoid from submitting the form by the browser when event bubbles up
+        if (event.keyCode === 13) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+
+    /**
+     * Checks the field options if the field is required
+     * @param {Object} options - field options object
+     * @returns {boolean} required or not
+     */
+    isFieldRequired(options) {
+        return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
+    }
+
+    /**
      * Creates a form field as described by the given formFieldOptions
      *
      * @param {Object} formFieldOptions - description of the form field as returned by API
@@ -122,30 +142,38 @@ export default class Form extends Component {
             placeholder = formFieldOptions.form.all.attr.placeholder;
         }
 
+        // check if the field is required
+        const required = this.isFieldRequired(formFieldOptions) ? ' (*)' : '';
+
         // todo: Add exclusion fields so that names are not translated (see i18n property in fields)
 
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
                     value={value}
                     formId={this.props.formId}
-                    onChange={this.handleChange}/>);
+                    onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
+                />);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
+                    required={required}
                     currentForm={this.localState}
-                    options={formFieldOptions}
                     fieldId={fieldId}
                     label={label}
                     placeholder={placeholder}
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -155,6 +183,7 @@ export default class Form extends Component {
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
+                    required={required}
                     currentForm={this.localState}
                     options={formFieldOptions}
                     fieldId={fieldId}
@@ -166,6 +195,7 @@ export default class Form extends Component {
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
+                    required={required}
                     currentForm={ this.localState }
                     fieldId={fieldId}
                     options={formFieldOptions}
@@ -177,6 +207,7 @@ export default class Form extends Component {
                 />);
             case fieldType.EMAIL:
                 return (<Email
+                    required={required}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -184,6 +215,7 @@ export default class Form extends Component {
                     value={value}
                     formId={this.props.formId}
                     onChange={this.handleChange}
+                    onKeyDown={this.defaultKeyDownTextFields}
                 />);
             case fieldType.UUID:
                 return null; // not implemented (yet?)
@@ -263,7 +295,7 @@ export default class Form extends Component {
         const changedFields = [];
         let ableToSubmit = true;
 
-        // keep track processed form fields
+        // keep track of processed form fields
         const processedFields = [];
 
         // any hidden fields (with static values) need to be passed to the state or they wont submit
@@ -288,7 +320,7 @@ export default class Form extends Component {
                     let value;
 
                     // the value from an unchanged relationship field is still an object! extract its value
-                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object') {
+                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object' && field[fieldId].value) {
                         this.props.changeFormFieldValueForFormId(
                             this.props.formId,
                             field[fieldId],

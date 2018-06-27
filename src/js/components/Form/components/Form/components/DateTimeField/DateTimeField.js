@@ -7,6 +7,13 @@ import Utils from '../../../../../../utils/utils';
 import flatpickr from 'flatpickr';
 
 export default class DateTimeField extends Component {
+    constructor(props) {
+        super(props);
+
+        this.localState = {
+            date: null
+        };
+    }
 
     componentDidMount() {
 
@@ -22,6 +29,18 @@ export default class DateTimeField extends Component {
                 defaultMinute: 0
             }
         );
+
+        this.localState.date = Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm');
+        this.setState(this.localState);
+    }
+
+    componentDidUpdate() {
+
+        // the date is transformed on each update in case the form was already loaded by a previous amend call
+        if (this.localState.date !== Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm')) {
+            this.localState.date = Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm');
+            this.setState(this.localState);
+        }
     }
 
     render() {
@@ -30,19 +49,17 @@ export default class DateTimeField extends Component {
             fieldId,
             label,
             onChange,
-            value,
+            required,
+            onKeyDown,
             formId
         } = this.props;
-
-        // assume the data received from API is aways 'Amsterdam time'. convert to local notation.
-        const appointmentDate = Utils.formatDate(value, 'yyyy-MM-dd HH:mm');
 
         return (
             <div>
                 <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
                     </li>
                     <li>
                         <input
@@ -50,9 +67,10 @@ export default class DateTimeField extends Component {
                             placeholder="Select Date.."
                             readOnly="readonly"
                             onChange={ onChange }
+                            onKeyDown={ onKeyDown }
                             name={ fieldId }
                             id={ `${formId}_${fieldId}` }
-                            value={ appointmentDate || null }
+                            value={ this.localState.date }
                         />
                     </li>
                 </ul>

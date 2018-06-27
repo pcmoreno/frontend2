@@ -69,6 +69,7 @@ import reportReducer from './pages/Report/reducers/report';
 import usersReducer from './pages/Users/reducers/users';
 import participantsReducer from './pages/Participants/reducers/participants';
 import alertReducer from './components/Alert/reducers/alert';
+import formReducer from './components/Form/reducers/form';
 
 // combine into one
 const rootReducer = combineReducers({
@@ -78,7 +79,8 @@ const rootReducer = combineReducers({
     reportReducer,
     usersReducer,
     participantsReducer,
-    alertReducer
+    alertReducer,
+    formReducer
 });
 
 // configure redux store with the combined reducers
