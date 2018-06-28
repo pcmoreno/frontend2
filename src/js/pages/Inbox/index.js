@@ -41,7 +41,7 @@ class Index extends Component {
         // show spinner
         document.querySelector('#spinner').classList.remove('hidden');
 
-        // request participants
+        // fetch messages
         this.api.get(
             this.api.getBaseUrl(),
             this.api.getEndpoints().inbox.messages,
