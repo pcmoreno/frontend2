@@ -6,20 +6,16 @@ import style from './style/inbox.scss';
 
 export default class Inbox extends Component {
     render() {
-        const messages = [
-            { name: 'some name' },
-            { name: 'another name' }
-        ];
-
+        const { messages, i18n } = this.props;
         const messagesOutput = [];
 
         messages.forEach(message => {
-            messagesOutput.push(<Message name={ message.name } />);
+            messagesOutput.push(<Message message={ message } i18n={ i18n } />);
         });
 
         return (
             <main className={ style.inbox }>
-                { messagesOutput }
+                { messagesOutput.length > 0 ? messagesOutput : i18n.inbox_no_messages_for_participant }
             </main>
         );
     }

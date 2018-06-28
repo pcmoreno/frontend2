@@ -30,6 +30,10 @@
             background-color: $beige-darken;
         }
     }
+
+    &.disabled {
+        opacity: .5;
+    }
 }
 
 button {

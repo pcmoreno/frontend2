@@ -16,7 +16,7 @@ const AppConfig = {
                 updateAbstractSection: '/v1/section/{section}/slug/{slug}',
                 sectionInfo: '/v1/section/info', // This call gives information on how to build the form
                 inbox: {
-                    messages: '/get-inbox-messages/{accountSlug}'
+                    messages: '/v1/get-inbox-messages/{accountSlug}'
                 },
                 participants: {
                     entities: '/v1/section/participantSession'
