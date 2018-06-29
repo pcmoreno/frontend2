@@ -7,6 +7,7 @@ import ParticipantStatus from '../../constants/ParticipantStatus';
 import UserStatus from '../../constants/UserStatus';
 import AppConfig from '../../App.config';
 import Participant from './components/Participant';
+import User from './components/User';
 import Utils from '../../utils/utils';
 
 /** @jsx h */
@@ -42,7 +43,7 @@ export default class Index extends Component {
         // request participant session data for terms approval status
         return this.api.get(
             this.api.getBaseUrl(),
-            this.api.getEndpoints().register.userStatus,
+            this.api.getEndpoints().register.accountStatus,
             {
                 urlParams: {
                     identifiers: {
@@ -64,7 +65,7 @@ export default class Index extends Component {
         // request the accountHasRoleSlug for the given participant
         return this.api.get(
             this.api.getBaseUrl(),
-            this.api.getEndpoints().register.accountHasRole,
+            this.api.getEndpoints().register.participantAccountHasRole,
             {
                 urlParams: {
                     identifiers: {
@@ -247,7 +248,12 @@ export default class Index extends Component {
 
                 case RegisterComponents.USER:
 
-                    // todo: return user component
+                    // return user component
+                    component = <User
+                        accountHasRoleSlug={ accountHasRoleSlug }
+                        accountStatus={ accountHasRole.status }
+                        languageId={ languageId.replace('-', '_') || browserLanguage }
+                    />;
 
                     break;
 
