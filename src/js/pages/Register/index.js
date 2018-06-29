@@ -257,7 +257,6 @@ export default class Index extends Component {
                     component = <Participant
                         accountHasRoleSlug={ accountHasRoleSlug }
                         accountStatus={ accountHasRole.status }
-                        acccountRole={ accountHasRole.role }
                         languageId={ languageId.replace('-', '_') || browserLanguage }
                     />;
 

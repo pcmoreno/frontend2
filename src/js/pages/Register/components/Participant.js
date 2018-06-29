@@ -13,6 +13,16 @@ const termsAcceptedStatus = 'termsAndConditionsAccepted';
 const loginEndpoint = '/login';
 const registrationSuccessful = '?registrationSuccess=true';
 
+/**
+ * This Particpant registration component expects the following props to be set
+ *
+ * @example
+ * <Participant
+ *     accountHasRoleSlug={ '1235-abc-1234' }
+ *     accountStatus={ 'invited' }
+ *     languageId={ 'nl_NL' }
+ * />
+ */
 export default class Participant extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +32,7 @@ export default class Participant extends Component {
 
             // initial properties (this root component)
             accountHasRoleSlug: props.accountHasRoleSlug,
-            termsAccepted: props.status === termsAcceptedStatus,
+            termsAccepted: props.accountStatus === termsAcceptedStatus,
             languageId: props.languageId,
             approvalCheckboxChecked: false,
 
