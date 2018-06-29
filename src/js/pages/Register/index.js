@@ -6,6 +6,8 @@ import UserRoles from '../../constants/UserRoles';
 import ParticipantStatus from '../../constants/ParticipantStatus';
 import UserStatus from '../../constants/UserStatus';
 import AppConfig from '../../App.config';
+import Participant from './components/Participant';
+import Utils from '../../utils/utils';
 
 /** @jsx h */
 
@@ -229,8 +231,16 @@ export default class Index extends Component {
 
         const { accountHasRole, accountHasRoleSlug, componentToRender } = this.localState;
 
+        const browserLanguage = Utils.getBrowserLanguage(
+            AppConfig.languages.supported,
+            AppConfig.languages.defaultLanguage,
+            AppConfig.languages.mapped
+        );
+
         // validate required state props before rendering
         if (accountHasRole && componentToRender && accountHasRoleSlug) {
+
+            const languageId = accountHasRole.language || '';
 
             // determine which component to return
             switch (componentToRender) {
@@ -243,7 +253,13 @@ export default class Index extends Component {
 
                 case RegisterComponents.PARTICIPANT:
 
-                    // todo: return participant component
+                    // return participant component
+                    component = <Participant
+                        accountHasRoleSlug={ accountHasRoleSlug }
+                        accountStatus={ accountHasRole.status }
+                        acccountRole={ accountHasRole.role }
+                        languageId={ languageId.replace('-', '_') || browserLanguage }
+                    />;
 
                     break;
 

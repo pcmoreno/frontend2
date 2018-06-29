@@ -1,18 +1,15 @@
 import { h, Component, render } from 'preact';
 import ApiFactory from '../../../utils/api/factory';
 import Terms from './../components/Terms/Terms';
-import Logger from '../../../utils/logger';
 import Redirect from '../../../utils/components/Redirect';
 import Register from './../components/Register/Register';
 import translator from '../../../utils/translator';
-import Utils from '../../../utils/utils';
 import Login from './../components/Login/Login';
 import CognitoAuthenticator from '../../../utils/authenticator/cognito';
 
 /** @jsx h */
 
-const termsAccepted = 'termsAndConditionsAccepted';
-const invited = 'invited';
+const termsAcceptedStatus = 'termsAndConditionsAccepted';
 const loginEndpoint = '/login';
 const registrationSuccessful = '?registrationSuccess=true';
 
@@ -20,13 +17,13 @@ export default class Participant extends Component {
     constructor(props) {
         super(props);
 
+        // this component expects the props below to be set when instantiating this component
         this.localState = {
 
             // initial properties (this root component)
-            accountHasRoleId: this.props.matches.accountHasRoleId,
-            participantSessionId: this.props.matches.participantSessionId, // this is to support legacy links
-            termsAccepted: null,
-            languageId: '',
+            accountHasRoleSlug: props.accountHasRoleSlug,
+            termsAccepted: props.status === termsAcceptedStatus,
+            languageId: props.languageId,
             approvalCheckboxChecked: false,
 
             // terms component properties
@@ -56,120 +53,6 @@ export default class Participant extends Component {
         this.i18n = {};
     }
 
-    componentDidMount() {
-
-        // check if there was a user logged in, if so, logout and refresh the page
-        if (this.api.getAuthenticator().isAuthenticated()) {
-            this.api.getAuthenticator().logout().then(() => {
-
-                // logout successful, refresh this page
-                render(<Redirect to={window.location.pathname} refresh={true}/>);
-            }, error => {
-                Logger.instance.error({
-                    component: 'register',
-                    message: `Could not logout on register page: ${error}`
-                });
-            });
-
-            return;
-        }
-
-        // accountHasRoleId or participantSessionId is required to fetch the terms status
-        if (this.localState.accountHasRoleId || this.localState.participantSessionId &&
-            this.localState.termsAccepted === null) {
-
-            // with legacy links we don't have accountHasRoleId, so we need to fetch it
-            if (!this.localState.accountHasRoleId) {
-
-                // fetch the accountHasRoleId and the status afterwards
-                this.fetchAccountHasRoleId(this.localState.participantSessionId).then(response => {
-                    if (response && response.accountHasRoleSlug) {
-
-                        // save slug and fetch account status
-                        this.localState.accountHasRoleId = response.accountHasRoleSlug;
-                        this.fetchParticipantStatus(response.accountHasRoleSlug);
-
-                    } else {
-                        Logger.instance.error({
-                            component: 'register',
-                            message: `AccountHasRole slug could not be found for participantSession: ${this.localState.participantSessionId}`
-                        });
-                    }
-                });
-            } else {
-
-                // fetch status based on accountHasRoleId
-                this.fetchParticipantStatus(this.localState.accountHasRoleId);
-            }
-        }
-    }
-
-    /**
-     * Fetches the accountHasRoleId for the given particpant.
-     * This is used for legacy links (see app.js)
-     * @param {string} participantSessionId - participant id
-     * @returns {Promise} promise api call
-     */
-    fetchAccountHasRoleId(participantSessionId) {
-
-        // request the accountHasRoleId for the given participant
-        return this.api.get(
-            this.api.getBaseUrl(),
-            this.api.getEndpoints().register.participantAccountHasRole,
-            {
-                urlParams: {
-                    identifiers: {
-                        slug: participantSessionId
-                    }
-                }
-            }
-        );
-    }
-
-    fetchParticipantStatus(accountHasRoleId) {
-
-        // request participant session data for terms approval status
-        this.api.get(
-            this.api.getBaseUrl(),
-            this.api.getEndpoints().register.participantStatus,
-            {
-                urlParams: {
-                    identifiers: {
-                        slug: accountHasRoleId
-                    }
-                }
-            }
-        ).then(response => {
-
-            if (response.status && response.language) {
-
-                // convert given language to frontend usable language (e.g. nl-NL to nl_NL)
-                this.localState.languageId = Utils.convertParticipantLanguage(response.language);
-                this.i18n = translator(this.localState.languageId, 'register');
-
-                // check the terms accepted status
-                switch (response.status) {
-                    case invited:
-                        this.localState.termsAccepted = false;
-                        this.setState(this.localState);
-                        break;
-                    case termsAccepted:
-                        this.localState.termsAccepted = true;
-                        this.setState(this.localState);
-                        break;
-                    default:
-
-                        // when the user has any other status, you should be redirected to login
-                        render(<Redirect to={loginEndpoint} refresh={true}/>);
-                        break;
-                }
-            } else {
-
-                // todo: show an error when invitation link was not valid anymore?
-            }
-        });
-    }
-
     onApproveTerms(event) {
         event.preventDefault();
 
@@ -186,7 +69,7 @@ export default class Participant extends Component {
                 {
                     urlParams: {
                         identifiers: {
-                            slug: this.localState.accountHasRoleId
+                            slug: this.localState.accountHasRoleSlug
                         }
                     },
                     payload: {
@@ -248,7 +131,7 @@ export default class Participant extends Component {
             {
                 urlParams: {
                     identifiers: {
-                        slug: this.localState.accountHasRoleId
+                        slug: this.localState.accountHasRoleSlug
                     }
                 },
                 payload: {
@@ -332,7 +215,7 @@ export default class Participant extends Component {
                     {
                         urlParams: {
                             identifiers: {
-                                slug: this.localState.accountHasRoleId
+                                slug: this.localState.accountHasRoleSlug
                             }
                         },
                         headers: {
@@ -393,33 +276,43 @@ export default class Participant extends Component {
     render() {
         let component = null;
 
-        // do not render when we don't have participant id or don't know the approval status
-        if (!this.localState.accountHasRoleId ||
-            !this.localState.languageId ||
-            this.localState.termsAccepted === null) {
+        const {
+            accountHasRoleSlug,
+            languageId,
+            termsAccepted,
+            isRegistered,
+            showLogin,
+            loginError,
+            registerError,
+            registerButtonDisabled,
+            loginButtonDisabled,
+            approvalButtonDisabled
+        } = this.localState;
 
+        // do not render when we don't have participant id or don't know the approval status
+        if (!accountHasRoleSlug || !languageId) {
             return null;
         }
 
         // render terms component when they were not approved yet
-        if (!this.localState.termsAccepted) {
+        if (!termsAccepted) {
             component = <Terms
-                i18n = { translator(this.localState.languageId, 'register') }
+                i18n = { translator(languageId, 'register') }
                 onSubmit = { this.onApproveTerms.bind(this) }
                 onChange = { this.onChangeTermsApproval.bind(this) }
-                buttonDisabled = { this.localState.approvalButtonDisabled }
+                buttonDisabled = { approvalButtonDisabled }
             />;
 
-        } else if (this.localState.termsAccepted && !this.localState.isRegistered) {
+        } else if (termsAccepted && !isRegistered) {
 
             // show participant login when this was requested
-            if (this.localState.showLogin) {
+            if (showLogin) {
 
                 component = <Login
-                    i18n = { translator(this.localState.languageId, 'register') }
-                    language = { this.localState.languageId }
-                    error = { this.localState.loginError }
-                    buttonDisabled = { this.localState.loginButtonDisabled }
+                    i18n = { translator(languageId, 'register') }
+                    language = { languageId }
+                    error = { loginError }
+                    buttonDisabled = { loginButtonDisabled }
                     onSubmit = { this.onLoginAccount.bind(this) }
                     onChange = { this.onChangeFieldLoginForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }
@@ -429,16 +322,16 @@ export default class Participant extends Component {
 
                 // show register by default
                 component = <Register
-                    i18n = { translator(this.localState.languageId, 'register') }
-                    error = { this.localState.registerError }
-                    buttonDisabled = { this.localState.registerButtonDisabled }
+                    i18n = { translator(languageId, 'register') }
+                    error = { registerError }
+                    buttonDisabled = { registerButtonDisabled }
                     onSubmit = { this.onRegisterAccount.bind(this) }
                     onChange = { this.onChangeFieldRegistrationForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }
                 />;
             }
 
-        } else if (this.localState.isRegistered) {
+        } else if (isRegistered) {
             render(<Redirect to={loginEndpoint + registrationSuccessful} refresh={true}/>);
         }
 
