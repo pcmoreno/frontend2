@@ -30,7 +30,9 @@
             background-color: $beige-darken;
         }
     }
+}
 
+button {
     &:disabled {
         opacity: .5;
     }

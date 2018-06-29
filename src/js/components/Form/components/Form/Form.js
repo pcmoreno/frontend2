@@ -295,7 +295,7 @@ export default class Form extends Component {
         const changedFields = [];
         let ableToSubmit = true;
 
-        // keep track processed form fields
+        // keep track of processed form fields
         const processedFields = [];
 
         // any hidden fields (with static values) need to be passed to the state or they wont submit
@@ -320,7 +320,7 @@ export default class Form extends Component {
                     let value;
 
                     // the value from an unchanged relationship field is still an object! extract its value
-                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object') {
+                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object' && field[fieldId].value) {
                         this.props.changeFormFieldValueForFormId(
                             this.props.formId,
                             field[fieldId],

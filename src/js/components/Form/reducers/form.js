@@ -20,7 +20,7 @@ export default function formReducer(state = initialState, action) {
             // clear all forms
             newState.forms = [];
 
-            // first build up the forms with data from state
+            // first build up the forms with data from state (isnt this always cleared?)
             state.forms.forEach(form => {
                 if (action.formId !== form.id) {
                     newState.forms.push(form);

@@ -105,3 +105,11 @@ form {
         top: 0;
     }
 }
+
+textarea,
+input,
+select {
+    &:disabled {
+        opacity: .5;
+    }
+}
