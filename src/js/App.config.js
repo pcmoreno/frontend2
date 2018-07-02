@@ -39,11 +39,11 @@ const AppConfig = {
                     updateTextField: '/v1/section/textFieldInReport/slug/{slug}'
                 },
                 register: {
-                    participantStatus: '/v1/user/status/{slug}',
-                    participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}',
-                    participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
+                    accountStatus: '/v1/user/status/{slug}',
                     createAccount: '/v1/user/invite/create-account/{slug}',
-                    participantLogin: '/v1/user/invite/login/{slug}'
+                    accountLogin: '/v1/user/invite/login/{slug}',
+                    participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
+                    participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}' // todo: remove later, legacy link support
                 }
             },
             urlEncodeParams: true,

@@ -215,9 +215,9 @@ class App extends Component {
 
                         {/* Register routes: 1st is main route, others are legacy routes */}
                         {/* Keep the legacy endpoints so only dns redirection (cname) will do the job */}
-                        <AsyncRoute path="/register/:accountHasRoleId" getComponent={ getRegister } />
-                        <AsyncRoute path="/terms_and_conditions/:projectId/:participantSessionId" getComponent={ getRegister } />
-                        <AsyncRoute path="/register/:projectId/:participantSessionId" getComponent={ getRegister } />
+                        <AsyncRoute path="/register/:accountHasRoleSlug" getComponent={ getRegister } />
+                        <AsyncRoute path="/terms_and_conditions/:projectId/:participantSessionSlug" getComponent={ getRegister } />
+                        <AsyncRoute path="/register/:projectId/:participantSessionSlug" getComponent={ getRegister } />
 
                         <AsyncRoute path="/error" default getComponent={ getError } />
                         <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
