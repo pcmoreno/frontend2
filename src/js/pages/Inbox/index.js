@@ -57,7 +57,7 @@ class Index extends Component {
 
             this.actions.fetchMessages(response.messages);
         }).catch(error => {
-            this.actions.addAlert({ type: 'could not connect to API', text: error });
+            this.actions.addAlert({ type: error, text: this.i18n.users_could_not_process_your_request });
         });
     }
 

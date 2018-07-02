@@ -7,8 +7,6 @@ class Message extends Component {
     render() {
         const { message, i18n } = this.props;
 
-        // todo: filter out persona.fit messages by message.type and/or ensure they appear in a different design
-
         let startButton = <div className={ style.participantsAction }>
             <a className="action_button disabled" href="#notimplemented">
                 (link invalid)
