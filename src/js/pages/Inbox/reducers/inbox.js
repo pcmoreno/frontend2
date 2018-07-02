@@ -1,7 +1,7 @@
-// import * as actionType from './../constants/ActionTypes';
+import * as actionType from './../constants/ActionTypes';
 
 const initialState = {
-    items: []
+    messages: []
 };
 
 /**
@@ -14,6 +14,25 @@ export default function inboxReducer(state = initialState, action) {
     const newState = Object.assign({}, state);
 
     switch (action.type) {
+
+        case actionType.FETCH_MESSAGES: {
+
+            newState.messages = [];
+
+            if (action.messages.length) {
+                action.messages.forEach(message => {
+                    newState.messages.push({
+                        projectName: message.projectName,
+                        type: message.type,
+                        ssoLink: message.ssoLink,
+                        date: message.appointmentDate,
+                        status: message.status
+                    });
+                });
+            }
+
+            break;
+        }
 
         default:
             break;

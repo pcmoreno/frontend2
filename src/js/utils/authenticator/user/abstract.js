@@ -12,6 +12,7 @@ class AbstractUser {
      * @param {string} [props.firstName] - firstName
      * @param {string} [props.infix] - infix
      * @param {string} [props.lastName] - lastName
+     * @param {string} [props.id] - id
      */
     constructor(props) {
 
@@ -23,12 +24,17 @@ class AbstractUser {
             throw new Error('AbstractUser: roles[] cannot be empty.');
         }
 
+        if (!props.id) {
+            throw new Error('AbstractUser: id cannot be empty.');
+        }
+
         this.username = props.username;
         this.roles = props.roles;
 
         this.firstName = props.firstName || '';
         this.infix = props.infix || '';
         this.lastName = props.lastName || '';
+        this.id = props.id;
     }
 
     /**
@@ -70,6 +76,15 @@ class AbstractUser {
     getLastName() {
         return this.lastName;
     }
+
+    /**
+     * Returns the id
+     * @returns {string|number} id
+     */
+    getId() {
+        return this.id;
+    }
+
 
     /**
      * Returns the display name / full name

@@ -14,6 +14,7 @@ class NeonUser extends AbstractUser {
      */
     constructor(props) {
         super({
+            id: props.uuid,
             username: props.username,
             roles: props.roles,
             firstName: props.firstName,

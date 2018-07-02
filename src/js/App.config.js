@@ -15,6 +15,9 @@ const AppConfig = {
                 abstractSection: '/v1/section',
                 updateAbstractSection: '/v1/section/{section}/slug/{slug}',
                 sectionInfo: '/v1/section/info', // This call gives information on how to build the form
+                inbox: {
+                    messages: '/v1/get-inbox-messages/{accountSlug}'
+                },
                 participants: {
                     entities: '/v1/section/participantSession'
                 },
