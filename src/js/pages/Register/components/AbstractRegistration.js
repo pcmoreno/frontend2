@@ -113,7 +113,7 @@ export default class AbstractRegistration extends Component {
         } catch (error) {
 
             // exception matches lokalise keys
-            this.localState.registerError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR]
+            this.localState.registerError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
             this.localState.registerButtonDisabled = false;
             this.setState(this.localState);
         }
@@ -152,7 +152,7 @@ export default class AbstractRegistration extends Component {
         } catch (error) {
 
             // exception matches lokalise keys
-            this.localState.loginError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR]
+            this.localState.loginError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
             this.localState.loginButtonDisabled = false;
             this.setState(this.localState);
         }
