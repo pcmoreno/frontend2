@@ -1,3 +1,7 @@
+/**
+ * These properties must all have a ROLE_ prefix as these keys will be mangled upon making an obfuscated build.
+ * See webpack.config.js UglifyJS regex
+ */
 const UserRoles = {
     ROLE_APPLICATION_MANAGERS: 'ROLE_APPLICATION_MANAGERS',
     ROLE_CONSULTANTS: 'ROLE_CONSULTANTS',
