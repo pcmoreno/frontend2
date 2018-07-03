@@ -10,6 +10,7 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
+import TabbedModal from './../../../../components/TabbedModal';
 import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
@@ -62,6 +63,8 @@ class Organisations extends Component {
             closeModalToAddParticipant,
             openModalToAmendParticipant,
             closeModalToAmendParticipant,
+            openModalToEditCompetences,
+            closeModalToEditCompetences,
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
@@ -102,6 +105,7 @@ class Organisations extends Component {
                         openModalToAmendParticipant = { openModalToAmendParticipant }
                         closeModalToAmendParticipant = { closeModalToAmendParticipant }
                         openModalToInviteParticipant = { openModalToInviteParticipant }
+                        openModalToEditCompetences = { openModalToEditCompetences }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         i18n = { i18n }
@@ -269,6 +273,11 @@ class Organisations extends Component {
                         </form>
                     </section>
                 </aside>
+                <TabbedModal
+                    i18n={ i18n }
+                    languageId={ languageId }
+                    closeModalToEditCompetences={ this.props.closeModalToEditCompetences }
+                />
             </main>
         );
     }

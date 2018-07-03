@@ -173,7 +173,9 @@ class Index extends Component {
             submitButtonText,
             closeModal,
             translationKeysOverride,
-            languageId
+            languageId,
+            subNavigationNodes,
+            switchForm
         } = this.props;
 
         // to ensure the i18n is updated when the languageId changes
@@ -192,6 +194,8 @@ class Index extends Component {
             closeModal={ closeModal }
             i18n={ this.i18n }
             translationKeysOverride={ translationKeysOverride }
+            subNavigationNodes={ subNavigationNodes }
+            switchForm={ switchForm }
         />);
     }
 }
