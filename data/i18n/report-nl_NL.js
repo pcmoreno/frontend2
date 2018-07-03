@@ -37,6 +37,7 @@ export default {
     "report_emotional_stability_low_text": "<ul>\n                            <li>is sensitief, heeft oog en begrip voor de gevoelens van anderen. kan zich goed inleven.<\/li>\n                            <li>laat zich in gedrag leiden door gevoel.<\/li>\n                            <li>is onder druk sfeer- of spanningsgevoelig, kan dan meer dan gemiddeld emotioneel reageren.<\/li>\n                            <li>is alert bij mogelijke problemen, zal deze niet zo snel onderschatten.<\/li>\n                        <\/ul>",
     "report_energy": "Energie",
     "report_energy_default_text": "Nieuwsgierig en speels zijn. actief nieuwe leerervaringen opzoeken.",
+    "report_error_save_text": "Er ging iets mis bij het opslaan. Probeer het opnieuw.",
     "report_explanation": "Toelichting",
     "report_extraversion": "Extraversie",
     "report_extraversion_high_text": "<ul>\n                            <li>is spraakzaam, levendig en actief.<\/li>\n                            <li>verkeert graag in gezelschap, krijgt energie van sociaal contact.<\/li>\n                            <li>vindt het prettig daar te zijn waar de actie is.<\/li>\n                            <li>treedt in gezelschap gemakkelijk op de voorgrond, kan de situatie domineren en te druk gevonden worden.<\/li>\n                            <li>neemt het initiatief om contacten aan te gaan.<\/li>\n                        <\/ul>",
