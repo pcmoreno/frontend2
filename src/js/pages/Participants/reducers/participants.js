@@ -27,13 +27,12 @@ export default function participantsReducer(state = initialState, action) {
 
                 // extract participant status and see if it meets the requirements
                 const acceptedStatus = [
-                    ParticipantStatus.ADDED,
-                    ParticipantStatus.INVITED,
-                    ParticipantStatus.STARTED,
-                    ParticipantStatus.HNA_FINISHED,
-                    ParticipantStatus.PERSONA_FIT_FINISHED,
-                    ParticipantStatus.INVITATION_ACCEPTED,
-                    ParticipantStatus.WAITING_FOR_PERMISSION
+                    ParticipantStatus.STATUS_ADDED,
+                    ParticipantStatus.STATUS_INVITED,
+                    ParticipantStatus.STATUS_STARTED,
+                    ParticipantStatus.STATUS_HNA_FINISHED,
+                    ParticipantStatus.STATUS_PERSONA_FIT_FINISHED,
+                    ParticipantStatus.STATUS_INVITATION_ACCEPTED
                 ];
                 const participantStatus = participant.accountHasRole.genericRoleStatus;
 

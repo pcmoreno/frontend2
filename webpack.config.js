@@ -155,7 +155,13 @@ module.exports = {
                     ie8: true,
                     warnings: true
                 },
-                mangle: false,
+                keep_fnames: true,
+                mangle: {
+                    properties: {
+                        keep_quoted: true,
+                        regex: /^(ROLE_|PRODUCT_|PRIVATE_|NEON_|STATUS_)+[A-Z_0-9]*/
+                    }
+                },
                 output: {
                     comments: false
                 }

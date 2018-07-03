@@ -89,8 +89,8 @@ class Index extends Component {
                     // check for input validation errors form the API
                     if (response.errors) {
 
-                        // todo: show (translated) error message
-                        this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+                        // show (translated) error message
+                        this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
 
                         return onRejected(new Error('Could not save report text field'));
                     }
@@ -100,8 +100,8 @@ class Index extends Component {
 
                 }).catch((/* error */) => {
 
-                    // todo: show (translated) error message
-                    this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+                    // show (translated) error message
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
 
                     return onRejected(new Error('Could not save report text field'));
                 });
@@ -135,8 +135,8 @@ class Index extends Component {
                     // check for input validation errors form the API
                     if (response.errors) {
 
-                        // todo: show (translated) error message
-                        this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+                        // show (translated) error message
+                        this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
 
                         return onRejected(new Error('Could not save report text field'));
                     }
@@ -148,8 +148,8 @@ class Index extends Component {
 
                 }).catch((/* error */) => {
 
-                    // todo: show (translated) error message
-                    this.actions.addAlert({ type: 'error', text: 'Could not save report text field' });
+                    // show (translated) error message
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
 
                     return onRejected(new Error('Could not save report text field'));
                 });
@@ -161,6 +161,8 @@ class Index extends Component {
 
         // show spinner
         document.querySelector('#spinner').classList.remove('hidden');
+
+        this.i18n = translator(this.props.languageId, 'report');
 
         // request report data
         this.api.get(
@@ -196,7 +198,7 @@ class Index extends Component {
             <Report
                 report = { this.props.report }
                 saveReportText={this.saveReportText.bind(this)}
-                i18n = { translator(this.props.languageId, 'report') }
+                i18n = { this.i18n }
             />
         );
     }

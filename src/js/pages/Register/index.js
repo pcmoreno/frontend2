@@ -162,8 +162,8 @@ export default class Index extends Component {
         if (accountHasRole.role === UserRoles.ROLE_PARTICIPANT) {
 
             // validate the participant status
-            if (accountHasRole.status === ParticipantStatus.INVITED ||
-                accountHasRole.status === ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED) {
+            if (accountHasRole.status === ParticipantStatus.STATUS_INVITED ||
+                accountHasRole.status === ParticipantStatus.STATUS_TERMS_AND_CONDITIONS_ACCEPTED) {
 
                 // load the registration component for participant
                 this.loadRegistrationComponent(accountHasRole, RegisterComponents.PARTICIPANT);
@@ -177,7 +177,7 @@ export default class Index extends Component {
         } else {
 
             // validate the user status
-            if (accountHasRole.status === UserStatus.INVITED) {
+            if (accountHasRole.status === UserStatus.STATUS_INVITED) {
 
                 // load registration component for the user
                 this.loadRegistrationComponent(accountHasRole, RegisterComponents.USER);

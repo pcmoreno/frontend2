@@ -19,10 +19,10 @@ const AppConfig = {
                     messages: '/v1/get-inbox-messages/{accountSlug}'
                 },
                 participants: {
-                    entities: '/v1/section/participantSession'
+                    entities: '/v1/section/fieldvalue/participantSession/{filter}'
                 },
                 tasks: {
-                    entities: '/v1/section/participantSession'
+                    entities: '/v1/section/fieldvalue/participantSession/{filter}'
                 },
                 users: {
                     entities: '/v1/section/fieldvalue/accountHasRole/{roleValue}'
