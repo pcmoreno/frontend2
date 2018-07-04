@@ -9,7 +9,7 @@ export default class Index extends Component {
         return (<Modal
             id={ this.props.id }
             closeModal={ this.props.closeModal }
-            content={ this.props.children }
+            children={ this.props.children }
             modalHeader={ this.props.modalHeader }
         />);
     }

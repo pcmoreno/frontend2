@@ -1,0 +1,18 @@
+
+/* the tabbedComponents has unstyled tabs. in case extra styling is required, please do this using a modifier class
+on the implementing parent component: <TabbedComponent className={ style.someOverRide }> */
+
+/* the tab container */
+.tabs {
+}
+
+/* a single tab */
+.tabs section > div {
+}
+
+/* footer of a tab containing buttons */
+.tabs footer {
+    border-top: 1px solid #eee;
+    padding: 1rem;
+    height: 2.5rem;
+}

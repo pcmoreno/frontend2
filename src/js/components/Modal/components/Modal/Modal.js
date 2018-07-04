@@ -9,21 +9,24 @@ export default class Modal extends Component {
         let header = null;
 
         if (this.props.modalHeader) {
-            header = <header>
-                <button type="button" value="Close">
-                <span aria-hidden="true">×</span>
+            header = <header className={ style.modal_header }>
+                <button type="button" value="Close" className={ style.modal_close_gadget }>
+                    <span aria-hidden="true" onClick={ this.props.closeModal }>×</span>
                 </button>
                 <h3>{ this.props.modalHeader }</h3>
-            </header>
+            </header>;
         }
+
+        /* todo: add hidden */
 
         return (
             <aside id={ this.props.id } className={ `${style.modal_container}` }>
                 <section role="dialog">
-                    <section tabIndex="0" className={ style.background } onClick={ this.props.closeModal } role="button">
+                    <section tabIndex="0" className={ style.modal_background } onClick={ this.props.closeModal } role="button" />
+                    <aside className={ style.modal }>
                         { header }
-                        { this.props.content } />
-                    </section>
+                        { this.props.children }
+                    </aside>
                 </section>
             </aside>
         );
