@@ -62,6 +62,7 @@ export default {
     "form_project_name": "Project name",
     "form_project_name_placeholder": "Enter a name for the project",
     "form_project_product": "Product",
+    "form_stars_required": "* Required fields",
     "form_submit": "Submit",
     "form_value_can_not_be_empty": "This value can not be empty"
 };
