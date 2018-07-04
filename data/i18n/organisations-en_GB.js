@@ -178,7 +178,7 @@ export default {
     "organisations_amend_participant_label": " ",
     "organisations_amend_participant": "Edit participant",
     "organisations_refresh_list_error": "An error occurred while trying to refresh the lists, please try again later",
-    "organisations_unexpected_error": "",
+    "organisations_unexpected_error": "An error occurred while processing your request. please try again.",
     "organisations_select_participant_label": " ",
     "organisations_invite_participant_confirmation": "Are you sure you want to send an invitation?",
     "organisations_invite_participant_title": "Invite participant",
@@ -189,5 +189,6 @@ export default {
     "organisations_persona_fit_finished": "Finished",
     "organisations_redirected_to_online": "Redirected",
     "organisations_could_not_process_your_request": "Could not process your request",
-    "organisations_add_participant_button": "Add"
+    "organisations_add_participant_button": "Add",
+    "organisations_edit_competencies": "Edit competencies"
 };
