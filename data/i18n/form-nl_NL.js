@@ -5,7 +5,7 @@ export default {
     "form_account_first_name_placeholder": "Vul de voonaam in van de gebruiker",
     "form_account_gender": "Geslacht",
     "form_account_gender_placeholder": "Kies een geslacht",
-    "form_account_has_role_email": "E-mail",
+    "form_account_has_role_email": "E-mailadres",
     "form_account_has_role_language": "Taal",
     "form_account_infix": "Tussenvoegsel",
     "form_account_infix_placeholder": "Vul het tussenvoegsel in van de gebruiker",
