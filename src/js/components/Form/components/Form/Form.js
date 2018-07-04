@@ -60,6 +60,7 @@ export default class Form extends Component {
             }
         };
 
+        this.hasRequiredFields = false;
         this.translationKeysOverride = this.props.translationKeysOverride || [];
         this.logger = Logger.instance;
     }
@@ -148,7 +149,12 @@ export default class Form extends Component {
         }
 
         // check if the field is required
-        const required = this.isFieldRequired(formFieldOptions) ? ' (*)' : '';
+        const required = this.isFieldRequired(formFieldOptions) ? ' *' : '';
+
+        // if there is one or more required fields, let the form know
+        if (required && !this.hasRequiredFields) {
+            this.hasRequiredFields = true;
+        }
 
         // todo: Add exclusion fields so that names are not translated (see i18n property in fields)
 
@@ -540,6 +546,7 @@ export default class Form extends Component {
             // reset the form and field error messages
             this.resetFormFields();
             this.resetErrorMessages();
+            this.hasRequiredFields = false;
 
             // executes the provided close method
             this.props.closeModal();
@@ -608,6 +615,7 @@ export default class Form extends Component {
                 <main>
                     { formFields }
                     { hiddenFormFields }
+                    { this.hasRequiredFields ? <span className={ style.requiredLabel }>{ i18n.form_stars_required }</span> : null }
                 </main>
                 <footer>
                     <nav>
