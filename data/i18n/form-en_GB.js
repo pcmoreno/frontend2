@@ -5,7 +5,7 @@ export default {
     "form_account_first_name_placeholder": "Enter the first name of the user",
     "form_account_gender": "Gender",
     "form_account_gender_placeholder": "Choose a gender",
-    "form_account_has_role_email": "Email",
+    "form_account_has_role_email": "Email address",
     "form_account_has_role_language": "Language",
     "form_account_infix": "Infix",
     "form_account_infix_placeholder": "Enter the infix of the user",
