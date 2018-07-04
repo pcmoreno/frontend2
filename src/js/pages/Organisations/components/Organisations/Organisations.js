@@ -10,10 +10,11 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
-import TabbedModal from './../../../../components/TabbedModal';
+import Modal from './../../../../components/Modal';
 import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
+import TabbedComponent from '../../../../components/TabbedComponent';
 
 class Organisations extends Component {
     constructor(props) {
@@ -45,6 +46,11 @@ class Organisations extends Component {
 
         // no panel data loaded yet. while it loads, show empty detail panel with root entity data (is that always relevant?)
         return { entity: AppConfig.global.organisations.rootEntity };
+    }
+
+    closeModal(id) {
+        console.log(id)
+        document.querySelector(`#${id}`).classList.add('hidden');
     }
 
     render() {
@@ -91,6 +97,36 @@ class Organisations extends Component {
         if (!panels || !panels.length) {
             return null;
         }
+
+        const tabs = <section>
+            <div id="tab1">
+                <header>tab1
+                <nav>tab1 tab2</nav>
+                </header>
+                <main>tab1</main>
+                <footer>
+                    <button>submit</button>
+                </footer>
+            </div>
+            <div id="tab2">
+                <header>tab2
+                <nav>tab1 tab2 tab3</nav>
+                </header>
+                <main>tab2</main>
+                <footer>
+                    <button>submit</button>
+                </footer>
+            </div>
+            <div id="tab3">
+                <header>tab3
+                <nav>tab1 tab2</nav>
+                </header>
+                <main>tab3</main>
+                <footer>
+                    <button>submit</button>
+                </footer>
+            </div>
+        </section>;
 
         return (
             <main className={ style.organisations }>
@@ -273,11 +309,18 @@ class Organisations extends Component {
                         </form>
                     </section>
                 </aside>
-                <TabbedModal
+                <Modal
                     i18n={ i18n }
-                    languageId={ languageId }
-                    closeModalToEditCompetences={ this.props.closeModalToEditCompetences }
-                />
+                    id={ 'edit_competencies' }
+                    modalHeader={ i18n.organisations_edit_competencies }
+                    closeModal={ () => this.closeModal('edit_competencies') }
+                >
+                    <aside>
+                        <TabbedComponent>
+                            { tabs }
+                        </TabbedComponent>
+                    </aside>
+                </Modal>
             </main>
         );
     }
