@@ -1,5 +1,4 @@
 export default {
-    "users_add": "Add",
     "users_add_user": "Add user",
     "users_add_user_success": "The user was successfully invited",
     "users_application_manager": "Application manager",
