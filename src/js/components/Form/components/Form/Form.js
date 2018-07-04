@@ -104,7 +104,16 @@ export default class Form extends Component {
      * @returns {boolean} required or not
      */
     isFieldRequired(options) {
-        return ((((options || {}).generator || {}).entity || {}).validator || {}).NotBlank === null;
+        let isRequired = false;
+
+        try {
+            isRequired = options.form.all.required;
+        } catch (e) {
+
+            // do nothing and leave isRequired on false
+        }
+
+        return isRequired;
     }
 
     /**
@@ -131,15 +140,11 @@ export default class Form extends Component {
         }
 
         // check if the translation key for a field is overwritten or there is a generic translation available
-        // if not, the placeholder will be set to the one returned from the api
         if (this.translationKeysOverride[fieldId] && this.translationKeysOverride[fieldId].placeholder) {
             placeholder = i18n[this.translationKeysOverride[fieldId].placeholder];
 
         } else if (i18n[this.convertPlaceholderTranslationKey(fieldId)]) {
             placeholder = i18n[this.convertPlaceholderTranslationKey(fieldId)];
-
-        } else if (formFieldOptions.form.all.attr && formFieldOptions.form.all.attr.placeholder) {
-            placeholder = formFieldOptions.form.all.attr.placeholder;
         }
 
         // check if the field is required
