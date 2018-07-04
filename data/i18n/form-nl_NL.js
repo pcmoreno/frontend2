@@ -62,6 +62,7 @@ export default {
     "form_project_name": "Projectnaam",
     "form_project_name_placeholder": "Vul hier de projectnaam in",
     "form_project_product": "Product",
+    "form_stars_required": "* Verplichte velden",
     "form_submit": "Verstuur",
     "form_value_can_not_be_empty": "Deze waarde kan niet leeg zijn"
 };
