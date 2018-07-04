@@ -1,5 +1,4 @@
 export default {
-    "users_add": "Voeg toe",
     "users_add_user": "Gebruiker toevoegen",
     "users_add_user_success": "De gebruiker is succesvol toegevoegd",
     "users_application_manager": "Applicatiebeheerder",
