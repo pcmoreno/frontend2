@@ -10,6 +10,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Tasks from './components/Tasks/Tasks';
 import translator from '../../utils/translator';
+import Products from '../../constants/Products';
 
 class Index extends Component {
     constructor(props) {
@@ -47,7 +48,17 @@ class Index extends Component {
             api.getEndpoints().tasks.entities,
             {
                 urlParams: {
+                    identifiers: {
+                        filter: 'project:product:slug'
+                    },
                     parameters: {
+
+                        // filter on our 3 hna products
+                        value: [
+                            Products.PRODUCT_DEVELOPMENT,
+                            Products.PRODUCT_SELECTION,
+                            Products.PRODUCT_SELECTION_DEVELOPMENT
+                        ].join(','),
                         fields: 'uuid,participantSessionAppointmentDate,accountHasRole,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
                         limit: 10000
                     }

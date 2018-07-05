@@ -244,22 +244,22 @@ export default function organisationsReducer(state = initialState, action) {
 
                         // only invitation possible when:
                         const statusToInvite = [
-                            ParticipantStatus.ADDED,
-                            ParticipantStatus.INVITED,
-                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                            ParticipantStatus.STATUS_ADDED,
+                            ParticipantStatus.STATUS_INVITED,
+                            ParticipantStatus.STATUS_TERMS_AND_CONDITIONS_ACCEPTED
                         ];
 
                         // only amend possible when:
                         const statusToAmend = [
-                            ParticipantStatus.ADDED,
-                            ParticipantStatus.INVITED,
-                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED,
-                            ParticipantStatus.INVITATION_ACCEPTED,
-                            ParticipantStatus.REDIRECTED_TO_ONLINE,
-                            ParticipantStatus.STARTED,
-                            ParticipantStatus.ADDED,
-                            ParticipantStatus.INVITED,
-                            ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED
+                            ParticipantStatus.STATUS_ADDED,
+                            ParticipantStatus.STATUS_INVITED,
+                            ParticipantStatus.STATUS_TERMS_AND_CONDITIONS_ACCEPTED,
+                            ParticipantStatus.STATUS_INVITATION_ACCEPTED,
+                            ParticipantStatus.STATUS_REDIRECTED_TO_ONLINE,
+                            ParticipantStatus.STATUS_STARTED,
+                            ParticipantStatus.STATUS_ADDED,
+                            ParticipantStatus.STATUS_INVITED,
+                            ParticipantStatus.STATUS_TERMS_AND_CONDITIONS_ACCEPTED
                         ];
 
                         // build the list view config for participants
