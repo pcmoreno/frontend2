@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
-import style from './style/tabbedcomponent.scss';
+import style from './style/tabs.scss';
 
 /** @jsx h */
 
-export default class TabbedComponent extends Component {
+export default class Tabs extends Component {
     constructor(props) {
         super(props);
 
