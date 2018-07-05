@@ -1,1 +1,5 @@
 /* for all temporarily hacks. to overload global.scss, use !important. to overload components, just be more specific! */
+
+#edit_competencies > section > aside  section nav span[role='button']:last-child {
+    float: right;
+}

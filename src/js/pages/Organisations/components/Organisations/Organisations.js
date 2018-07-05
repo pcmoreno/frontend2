@@ -15,6 +15,9 @@ import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 import TabbedComponent from '../../../../components/TabbedComponent';
+import EditGlobalCompetencies from './components/EditCompetencies/components/EditGlobalCompetencies/EditGlobalCompetencies';
+import EditCustomCompetencies from './components/EditCompetencies/components/EditCustomCompetencies/EditCustomCompetencies';
+import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 
 class Organisations extends Component {
     constructor(props) {
@@ -29,19 +32,8 @@ class Organisations extends Component {
 
         this.logger = Logger.instance;
         this.getDetailPanelData = this.getDetailPanelData.bind(this);
-        this.switchTab = this.switchTab.bind(this);
-
-        this.localState = {
-            activeTab: 'tab1'
-        }
     }
 
-    switchTab(id) {
-        console.log('switching to tab id: '+id);
-
-        this.localState.activeTab = id;
-        this.setState(this.localState);
-    }
 
     // todo: can this be moved to index.js?
     getDetailPanelData() {
@@ -298,10 +290,20 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ () => this.closeModal('edit_competencies') }
                 >
-                    <TabbedComponent
-                        activeTab={ this.localState.activeTab }
-                        tabs={ [ { label: 'custom competencies', content: <customCompetencies />}, {}, {} ] }
-                    />
+                    <TabbedComponent i18n={ i18n }>
+                        <EditGlobalCompetencies
+                            id="organisations_edit_global_competencies"
+                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
+                        />
+                        <EditCustomCompetencies
+                            id="organisations_edit_custom_competencies"
+                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
+                        />
+                        <AddCustomCompetency
+                            id="organisations_add_custom_competency"
+                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
+                        />
+                    </TabbedComponent>
                 </Modal>
             </main>
         );
@@ -310,74 +312,3 @@ class Organisations extends Component {
 
 export default connect()(Organisations);
 
-
-
---------------------------------
-
-maak 3 nieuwe components:
-
-new component: globalCompetencies:
-
-<div><h4>global competencies</h4><listview entities={ this.props.customCompetencies}></listview></div>
-
-new component: customCompetencies:
-
-<div><h4>custom competencies</h4><listview entities={ this.props.customCompetencies}></listview></div>
-
-new component: add competency:
-
-<div><h4>add competency</h4>add: <input type="text"></div>
-
-import ze in organisations en stuur ze mee in de props naar tabbedComponent
-
-laat tabbedComponent de <nav> links opbouwen op basis van de id tags
-
-
-
-
-
-
-
-
-
-
-
-
-// todo: I dont like the fact that switchTab isnt part of the TabbedComponent component. How to solve this?
-
-const tabs = <section>
-    <div id="tab1" className="tab">
-        <nav>
-            <span onClick={ () => { this.switchTab('tab1') } }>tab1</span>
-            <span onClick={ () => { this.switchTab('tab2') } }>tab2</span>
-        </nav>
-        <main>tab1 content, listview etc.</main>
-        <footer>
-            <button class="action_button action_button__secondary" type="button" value="Close">Annuleren</button>
-            <button class="action_button" type="button" value="Submit">Submit</button>
-        </footer>
-    </div>
-    <div id="tab2" className="tab hidden">
-        <nav>
-            <span onClick={ () => { this.switchTab('tab1') } }>tab1</span>
-            <span onClick={ () => { this.switchTab('tab2') } }>tab2</span>
-            <span onClick={ () => { this.switchTab('tab3') } }>tab3</span>
-        </nav>
-        <main>tab2 content, listview etc.</main>
-        <footer>
-            <button class="action_button action_button__secondary" type="button" value="Close">Annuleren</button>
-            <button class="action_button" type="button" value="Submit">Submit</button>
-        </footer>
-    </div>
-    <div id="tab3" className="tab hidden">
-        <nav>
-            <span onClick={ () => { this.switchTab('tab1') } }>tab1</span>
-            <span onClick={ () => { this.switchTab('tab2') } }>tab2</span>
-        </nav>
-        <main>tab3 content, form etc.</main>
-        <footer>
-            <button class="action_button action_button__secondary" type="button" value="Close">Annuleren</button>
-            <button class="action_button" type="button" value="Submit">Submit</button>
-        </footer>
-    </div>
-</section>;

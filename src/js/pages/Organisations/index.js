@@ -734,10 +734,12 @@ class Index extends Component {
         }
     }
 
+    // todo: rename to competencies
     openModalToEditCompetences() {
         document.querySelector('#modal_edit_competences').classList.remove('hidden');
     }
 
+    // todo: is this one still required?
     closeModalToEditCompetences() {
         document.querySelector('#modal_edit_competences').classList.add('hidden');
     }

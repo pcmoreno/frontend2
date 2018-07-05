@@ -8,7 +8,7 @@ export default class Index extends Component {
     render() {
         return (<TabbedComponent
             children={ this.props.children }
-            activeTab={ this.props.activeTab }
+            i18n={ this.props.i18n }
         />);
     }
 }
