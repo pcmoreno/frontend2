@@ -190,5 +190,8 @@ export default {
     "organisations_redirected_to_online": "Doorverwezen",
     "organisations_could_not_process_your_request": "Kan uw verzoek niet verwerken",
     "organisations_add_participant_button": "Voeg toe",
-    "organisations_edit_competencies": "Bewerk competenties"
+    "organisations_edit_competencies": "Bewerk competenties",
+    "organisations_edit_global_competencies": "LTP competenties",
+    "organisations_edit_custom_competencies": "Klantspecifieke competenties",
+    "organisations_add_custom_competency": "Voeg toe"
 };
