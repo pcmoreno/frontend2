@@ -42,7 +42,7 @@ export default class Users extends Component {
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[]}
                         headerText={i18n.users_add_user}
-                        submitButtonText={i18n.users_add}
+                        submitButtonText={i18n.users_send_invite}
                         translationKeysOverride={{
                             firstName: {
                                 placeholder: 'form_account_first_name_placeholder'
@@ -59,7 +59,7 @@ export default class Users extends Component {
                             email: {
                                 placeholder: 'form_account_email_placeholder'
                             },
-                            accountHasRoleRole: {
+                            role: {
                                 label: 'form_account_role_label'
                             }
                         }}
