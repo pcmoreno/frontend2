@@ -287,6 +287,7 @@ class Organisations extends Component {
                     id={ 'modal_edit_competencies' }
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ () => this.closeModal('modal_edit_competencies') }
+                    className={ `hidden` }
                 >
                     <Tabs i18n={ i18n } activeTab="organisations_edit_global_competencies">
                         <EditGlobalCompetencies
