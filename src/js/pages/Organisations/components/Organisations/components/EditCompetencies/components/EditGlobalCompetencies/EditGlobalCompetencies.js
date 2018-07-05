@@ -8,7 +8,7 @@ export default class EditGlobalCompetencies extends Component {
         const { i18n } = this.props;
 
         return (
-            <div id="organisations_edit_global_competencies" className={ `${style.tab}` }>
+            <div id="organisations_edit_global_competencies" className={ `${style.tab} hidden` }>
                 <main>tab1 content, listview etc.</main>
                 <footer>
                     <button

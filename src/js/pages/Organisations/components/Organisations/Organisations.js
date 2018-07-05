@@ -14,7 +14,7 @@ import Modal from './../../../../components/Modal';
 import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
-import TabbedComponent from '../../../../components/Tabs';
+import Tabs from '../../../../components/Tabs';
 import EditGlobalCompetencies from './components/EditCompetencies/components/EditGlobalCompetencies/EditGlobalCompetencies';
 import EditCustomCompetencies from './components/EditCompetencies/components/EditCustomCompetencies/EditCustomCompetencies';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
@@ -288,7 +288,7 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ () => this.closeModal('modal_edit_competencies') }
                 >
-                    <TabbedComponent i18n={ i18n }>
+                    <Tabs i18n={ i18n } activeTab="organisations_edit_global_competencies">
                         <EditGlobalCompetencies
                             id="organisations_edit_global_competencies"
                             label="organisations_edit_global_competencies"
@@ -307,7 +307,7 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModal={() => this.closeModal('modal_edit_competencies')}
                         />
-                    </TabbedComponent>
+                    </Tabs>
                 </Modal>
             </main>
         );

@@ -554,7 +554,7 @@ export default class Form extends Component {
     }
 
     render() {
-        const { forms, hiddenFields, formId, headerText, submitButtonText, i18n, subNavigationNodes } = this.props;
+        const { forms, hiddenFields, formId, headerText, submitButtonText, i18n } = this.props;
 
         let formFields = i18n.form_loading_form;
         const hiddenFormFields = [];
@@ -604,29 +604,12 @@ export default class Form extends Component {
             });
         }
 
-        const subNavigation = [];
-
-        if (subNavigationNodes && this.props.switchForm) {
-            subNavigationNodes.forEach(subNavigationNode => {
-                subNavigation.push(
-                    <span
-                        role="button"
-                        tabIndex="1"
-                        onClick={() => {
-                            this.props.switchForm(subNavigationNode.label);
-                        }}
-                    >{subNavigationNode.label}</span>
-                );
-            });
-        }
-
         return (<section role="dialog" >
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
             <form id={formId} noValidate>
                 <header>
                     <button type="button" value="Close" onClick={ this.handleClose } disabled={ this.localState.form.disabled }><span aria-hidden="true">×</span></button>
                     <h3>{ headerText }</h3>
-                    { subNavigation }
                     <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
                 <main>
