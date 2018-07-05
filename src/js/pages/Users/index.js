@@ -11,6 +11,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Users from './components/Users/Users';
 import translator from '../../utils/translator';
+import UserRoles from '../../constants/UserRoles';
 
 class Index extends Component {
     constructor(props) {
@@ -126,9 +127,18 @@ class Index extends Component {
             {
                 urlParams: {
                     identifiers: {
-                        roleValue: 'role?value=1,2,3,4,5,6,7'
+                        filter: 'accountHasRoles:role:slug'
                     },
                     parameters: {
+                        value: [
+                            UserRoles.ROLE_APPLICATION_MANAGERS,
+                            UserRoles.ROLE_CONSULTANTS,
+                            UserRoles.ROLE_BEDRIJFSBUREAU,
+                            UserRoles.ROLE_BACKOFFICE,
+                            UserRoles.ROLE_CLIENT_CENTER,
+                            UserRoles.ROLE_ASSESSMENT_TEAM,
+                            UserRoles.ROLE_ASSESSORS
+                        ].join(','),
                         fields: 'uuid,account,firstName,infix,lastName,role,roleName',
                         limit: 10000
                     }
