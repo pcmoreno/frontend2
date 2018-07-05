@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import style from './style/footer.scss';
 
 /** @jsx h */
 
