@@ -193,3 +193,24 @@ table td.organisation {
         color: $white;
     }
 }
+
+/* styling for active tab link in the tab component */
+.tabs nav span.active {
+    color: $blue-darken;
+    text-decoration: underline;
+}
+
+/* float the 'add' option in the competencies modal to the right */
+#modal_edit_competencies > section > aside  section nav span[role='button']:last-child {
+    float: right;
+}
+
+/* hide the last option in the competencies modal */
+#tablink_organisations_add_custom_competency {
+    display: none;
+}
+
+/* show the last option in the competencies modal when the edit_custom_competencies option is selected */
+#tablink_organisations_edit_custom_competencies.active + span {
+    display: block;
+}

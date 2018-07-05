@@ -10,13 +10,13 @@ export default class Settings extends Component {
     }
 
     render() {
-        const { i18n, openModalToEditCompetences } = this.props;
+        const { i18n, openModalToEditCompetencies } = this.props;
 
         return (
             <div>
                 <div className={ style.toolbar }>
                     <button
-                        onClick={ openModalToEditCompetences }
+                        onClick={ openModalToEditCompetencies }
                         className={ 'action_button left' }
                         type={ 'button' }
                     >Edit competences</button>

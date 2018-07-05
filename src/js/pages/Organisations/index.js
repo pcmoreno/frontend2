@@ -734,14 +734,8 @@ class Index extends Component {
         }
     }
 
-    // todo: rename to competencies
-    openModalToEditCompetences() {
-        document.querySelector('#modal_edit_competences').classList.remove('hidden');
-    }
-
-    // todo: is this one still required?
-    closeModalToEditCompetences() {
-        document.querySelector('#modal_edit_competences').classList.add('hidden');
+    openModalToEditCompetencies() {
+        document.querySelector('#modal_edit_competencies').classList.remove('hidden');
     }
 
     render() {
@@ -768,8 +762,7 @@ class Index extends Component {
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
                 openModalToInviteParticipant={ this.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
-                openModalToEditCompetences={ this.openModalToEditCompetences }
-                closeModalToEditCompetences={ this.closeModalToEditCompetences }
+                openModalToEditCompetencies={ this.openModalToEditCompetencies }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }

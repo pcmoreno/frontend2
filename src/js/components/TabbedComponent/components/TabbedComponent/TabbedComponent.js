@@ -23,10 +23,17 @@ export default class TabbedComponent extends Component {
         // for the id of the tab, the tabbedComponent looks at the id provided by props. the id's on provided tab components
         // are only used by queryselector. this 'duplication' is to prevent issues extracting id's from a nested tab component.
         this.props.children.forEach(child => {
-            const element = document.querySelector(`#${child.attributes.id}`);
+            if (child !== null) {
+                const element = document.querySelector(`#${child.attributes.id}`);
 
-            if (!element.classList.contains('hidden')) {
-                element.classList.add('hidden');
+                if (!element.classList.contains('hidden')) {
+                    element.classList.add('hidden');
+
+                    // remove the 'active' from the tablink (see below)
+                    if (document.querySelector(`#tablink_${child.attributes.id}`)) {
+                        document.querySelector(`#tablink_${child.attributes.id}`).classList.remove('active');
+                    }
+                }
             }
         });
     }
@@ -35,31 +42,41 @@ export default class TabbedComponent extends Component {
         const activeElement = document.querySelector(`#${this.localState.activeTab}`);
 
         if (activeElement && activeElement.classList.contains('hidden')) {
-
             this.hideTabs();
-
             activeElement.classList.remove('hidden');
+
+            // the .active class can be used to do tab label highlighting or determine which tab is active (to hide
+            // other tabs, for example, as done on Organisations page)
+            if (document.querySelector(`#tablink_${this.localState.activeTab}`)) {
+                document.querySelector(`#tablink_${this.localState.activeTab}`).classList.add('active');
+            }
         }
     }
 
     render() {
         const { i18n } = this.props;
+        const tabLinks = [];
 
-        const nav = [];
-
-        // built up navigation for tabs based on id's of the given tabs. note the i18n label is based on that id, too.
-        this.props.children.forEach(child => {
-            nav.push(
-                <span role="button" tabIndex="1" onClick={() => {
-                    this.switchTab(child.attributes.id);
-                }}>{ i18n[child.attributes.id] }
-                </span>
-            );
+        // built up navigation for tabs based on id's of the given tabs
+        this.props.children.forEach((child, index) => {
+            if (child !== null) {
+                tabLinks.push(
+                    <span
+                        role="button"
+                        tabIndex={ index }
+                        onClick={() => {
+                            this.switchTab(child.attributes.id);
+                        }}
+                        id={ `tablink_${child.attributes.label}` }
+                    >{i18n[child.attributes.label]}
+                    </span>
+                );
+            }
         });
 
         return (
-            <section className={ style.tabs }>
-                <nav>{ nav }</nav>
+            <section className={ `${style.tabs} tabs` }>
+                <nav>{ tabLinks }</nav>
                 { this.props.children }
             </section>
         );

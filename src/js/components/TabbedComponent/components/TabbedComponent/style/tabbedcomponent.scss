@@ -1,11 +1,9 @@
 
-/* only include GENERAL styling for the tabbed component */
-
 .tabs {
-    /* tab navigation */
     nav {
         /* override default modal styling by moving the tab navigation up a notch */
         margin-top: -.75rem;
+        padding: 0 .5rem;
 
         span {
             color: $blue;
@@ -16,10 +14,9 @@
             }
         }
     }
-}
 
-/* tab footer */
-.tabs footer {
-    padding: 1rem;
-    height: 2.5rem;
+    footer {
+        padding: 1rem;
+        height: 2.5rem;
+    }
 }

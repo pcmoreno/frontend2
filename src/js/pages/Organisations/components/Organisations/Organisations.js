@@ -34,7 +34,6 @@ class Organisations extends Component {
         this.getDetailPanelData = this.getDetailPanelData.bind(this);
     }
 
-
     // todo: can this be moved to index.js?
     getDetailPanelData() {
         let newDetailPanelData;
@@ -53,6 +52,7 @@ class Organisations extends Component {
     }
 
     /* generic method to close the newly written modal component. this is currently only used for edit competencies */
+    // todo: start with replacing all closeModal**** methods with this one
     closeModal(id) {
         document.querySelector(`#${id}`).classList.add('hidden');
     }
@@ -73,8 +73,7 @@ class Organisations extends Component {
             closeModalToAddParticipant,
             openModalToAmendParticipant,
             closeModalToAmendParticipant,
-            openModalToEditCompetences,
-            closeModalToEditCompetences,
+            openModalToEditCompetencies,
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
@@ -102,6 +101,26 @@ class Organisations extends Component {
             return null;
         }
 
+        const tabbedComponent = <TabbedComponent i18n={ i18n }>
+            <EditGlobalCompetencies
+                id="organisations_edit_global_competencies"
+                label="organisations_edit_global_competencies"
+                i18n={ i18n }
+                closeModal={ () => this.closeModal('modal_edit_competencies') }
+            />
+            <EditCustomCompetencies
+                id="organisations_edit_custom_competencies"
+                label="organisations_edit_custom_competencies"
+                i18n={ i18n }
+                closeModal={ () => this.closeModal('modal_edit_competencies') }
+            />
+            <AddCustomCompetency
+                id="organisations_add_custom_competency"
+                label="organisations_add_custom_competency"
+                i18n={ i18n }
+                closeModal={() => this.closeModal('modal_edit_competencies')}
+            />
+        </TabbedComponent>;
 
         return (
             <main className={ style.organisations }>
@@ -116,7 +135,7 @@ class Organisations extends Component {
                         openModalToAmendParticipant = { openModalToAmendParticipant }
                         closeModalToAmendParticipant = { closeModalToAmendParticipant }
                         openModalToInviteParticipant = { openModalToInviteParticipant }
-                        openModalToEditCompetences = { openModalToEditCompetences }
+                        openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         i18n = { i18n }
@@ -286,24 +305,11 @@ class Organisations extends Component {
                 </aside>
                 <Modal
                     i18n={ i18n }
-                    id={ 'edit_competencies' }
+                    id={ 'modal_edit_competencies' }
                     modalHeader={ i18n.organisations_edit_competencies }
-                    closeModal={ () => this.closeModal('edit_competencies') }
+                    closeModal={ () => this.closeModal('modal_edit_competencies') }
                 >
-                    <TabbedComponent i18n={ i18n }>
-                        <EditGlobalCompetencies
-                            id="organisations_edit_global_competencies"
-                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
-                        />
-                        <EditCustomCompetencies
-                            id="organisations_edit_custom_competencies"
-                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
-                        />
-                        <AddCustomCompetency
-                            id="organisations_add_custom_competency"
-                            closeModalToEditCompetencies={ () => this.closeModal('edit_competencies') }
-                        />
-                    </TabbedComponent>
+                { tabbedComponent }
                 </Modal>
             </main>
         );
@@ -311,4 +317,3 @@ class Organisations extends Component {
 }
 
 export default connect()(Organisations);
-
