@@ -190,5 +190,8 @@ export default {
     "organisations_redirected_to_online": "Redirected",
     "organisations_could_not_process_your_request": "Could not process your request",
     "organisations_add_participant_button": "Add",
-    "organisations_edit_competencies": "Edit competencies"
+    "organisations_edit_competencies": "Edit competencies",
+    "organisations_edit_global_competencies": "LTP competencies",
+    "organisations_edit_custom_competencies": "Custom competencies",
+    "organisations_add_custom_competency": "Add"
 };
