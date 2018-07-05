@@ -4,7 +4,7 @@
 stages:
   - build
   - deploy_acc
-  #- deploy_prod
+  - deploy_prod
 
 ################################################################################
 ## Variables
