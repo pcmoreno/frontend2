@@ -101,27 +101,6 @@ class Organisations extends Component {
             return null;
         }
 
-        const tabbedComponent = <TabbedComponent i18n={ i18n }>
-            <EditGlobalCompetencies
-                id="organisations_edit_global_competencies"
-                label="organisations_edit_global_competencies"
-                i18n={ i18n }
-                closeModal={ () => this.closeModal('modal_edit_competencies') }
-            />
-            <EditCustomCompetencies
-                id="organisations_edit_custom_competencies"
-                label="organisations_edit_custom_competencies"
-                i18n={ i18n }
-                closeModal={ () => this.closeModal('modal_edit_competencies') }
-            />
-            <AddCustomCompetency
-                id="organisations_add_custom_competency"
-                label="organisations_add_custom_competency"
-                i18n={ i18n }
-                closeModal={() => this.closeModal('modal_edit_competencies')}
-            />
-        </TabbedComponent>;
-
         return (
             <main className={ style.organisations }>
                 { alertComponent }
@@ -309,7 +288,26 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ () => this.closeModal('modal_edit_competencies') }
                 >
-                { tabbedComponent }
+                    <TabbedComponent i18n={ i18n }>
+                        <EditGlobalCompetencies
+                            id="organisations_edit_global_competencies"
+                            label="organisations_edit_global_competencies"
+                            i18n={ i18n }
+                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                        />
+                        <EditCustomCompetencies
+                            id="organisations_edit_custom_competencies"
+                            label="organisations_edit_custom_competencies"
+                            i18n={ i18n }
+                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                        />
+                        <AddCustomCompetency
+                            id="organisations_add_custom_competency"
+                            label="organisations_add_custom_competency"
+                            i18n={ i18n }
+                            closeModal={() => this.closeModal('modal_edit_competencies')}
+                        />
+                    </TabbedComponent>
                 </Modal>
             </main>
         );
