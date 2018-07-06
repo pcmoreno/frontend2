@@ -6,16 +6,18 @@ import style from './style/tabs.scss';
 /**
  * Tabs component
  * Creates tabs rendered as an aside that uses composition to render the provided children
+ * Note that child component should always have a label and an id.
  *
  * @example
- * <Tabs i18n={ i18n } activeTab="organisations_edit_global_competencies">
- * <SomeComponent id={ 'some-id' } label={ 'label to show as tab link' }/></Tabs>
+ * <Tabs activeTab="some-id">
+ *     <SomeComponent
+ *         id={ 'some-id' }
+ *         label={ 'label to show as tab link' }
+ *      />
+ * </Tabs>
  *
- * @param {Object} i18n - i18n object
  * @param {string} activeTab - id of the tab to render as default
- * @param {string} id - used to render the subnavigation links
- * @param {string} label - used to render the subnavigation links
- * @returns {*} Tabs
+ * @returns {Tabs} Tabs
  */
 export default class Tabs extends Component {
     constructor(props) {
@@ -74,11 +76,16 @@ export default class Tabs extends Component {
     }
 
     render() {
-        const { i18n } = this.props;
         const tabLinks = [];
 
         // built up navigation for tabs based on id's of the given tabs
         this.props.children.forEach((child, index) => {
+
+            // check the required attributes before proceeding
+            if (!child.attributes.id || !child.attributes.label) {
+                throw new Error('Tabs: Child elements should always have a label and id');
+            }
+
             tabLinks.push(
                 <span
                     role="button"
@@ -86,8 +93,8 @@ export default class Tabs extends Component {
                     onClick={() => {
                         this.switchTab(child.attributes.id);
                     }}
-                    id={ `tablink_${child.attributes.label}` }
-                >{i18n[child.attributes.label]}
+                    id={ `tablink_${child.attributes.id}` }
+                >{child.attributes.label}
                 </span>
             );
         });

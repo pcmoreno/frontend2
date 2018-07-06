@@ -9,17 +9,18 @@ import style from './style/modal.scss';
  *
  * @example
  * <Modal
- *   i18n={ i18n }
  *   id={ 'some-identifier' }
- *   modalHeader={ i18n.identifier_of_translated_header }
+ *   modalHeader={ 'headerText' }
  *   closeModal={ () => someMethodToCloseTheModal('someArg') }
- * ><SomeComponent><div>something else</div></Modal>
+ * >
+ *     <SomeComponent />
+ *     <div>something else</div>
+ * </Modal>
  *
- * @param {Object} i18n - i18n object
  * @param {string} id - identifier that is put on the aside and eases closing / styling
- * @param {string} modalHeader - value to show as header text
+ * @param {string} [modalHeader] - value to show as header text
  * @param {Function} closeModal - method to call when user clicks outside the area
- * @returns {*} Modal
+ * @returns {Modal} Modal
  */
 export default class Modal extends Component {
     render() {

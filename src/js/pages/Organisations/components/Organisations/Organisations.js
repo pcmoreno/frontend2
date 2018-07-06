@@ -283,27 +283,26 @@ class Organisations extends Component {
                     </section>
                 </aside>
                 <Modal
-                    i18n={ i18n }
                     id={ 'modal_edit_competencies' }
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ () => this.closeModal('modal_edit_competencies') }
                 >
-                    <Tabs i18n={ i18n } activeTab="organisations_edit_global_competencies">
+                    <Tabs activeTab="organisations_edit_global_competencies">
                         <EditGlobalCompetencies
                             id="organisations_edit_global_competencies"
-                            label="organisations_edit_global_competencies"
+                            label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModal={ () => this.closeModal('modal_edit_competencies') }
                         />
                         <EditCustomCompetencies
                             id="organisations_edit_custom_competencies"
-                            label="organisations_edit_custom_competencies"
+                            label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModal={ () => this.closeModal('modal_edit_competencies') }
                         />
                         <AddCustomCompetency
                             id="organisations_add_custom_competency"
-                            label="organisations_add_custom_competency"
+                            label={ i18n.organisations_add_custom_competency }
                             i18n={ i18n }
                             closeModal={() => this.closeModal('modal_edit_competencies')}
                         />
