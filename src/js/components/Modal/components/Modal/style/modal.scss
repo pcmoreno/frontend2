@@ -1,0 +1,70 @@
+
+/* note that while the Form component awaits refactoring, and this modal component eventually forming the base of it,
+   the below styles are largely copied across from the Form component and some of its child elements. */
+
+.modal_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal_background {
+    width: 100%;
+    height: 100%;
+    background-color: $black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .5;
+    z-index: $z-index-modal-back;
+
+    @media screen and (max-width: $grid-breakpoints-md) {
+        opacity: 0;
+    }
+}
+
+.modal {
+    position: relative;
+    margin: 2rem auto auto;
+    background: #fff;
+    box-shadow: 0 10px 30px -2px $black;
+    border-radius: .25rem;
+    max-width: 640px;
+    width: 50%;
+    z-index: $z-index-modal-front;
+    overflow: hidden;
+
+    @media screen and (max-width: $grid-breakpoints-md) {
+        margin-top: 0;
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+    }
+}
+
+.modal_header {
+    padding: 1rem;
+
+    h3 {
+        color: $orange;
+    }
+}
+
+.modal_close_gadget {
+    float: right;
+    font-size: 1.5rem;
+    color: $brown;
+    font-weight: 700;
+    border: none;
+    padding: 0;
+    background: none;
+
+    &:hover {
+        color: $brown;
+        cursor: pointer;
+    }
+}

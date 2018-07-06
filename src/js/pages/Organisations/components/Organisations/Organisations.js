@@ -10,9 +10,14 @@ import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
+import Modal from './../../../../components/Modal';
 import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
+import Tabs from '../../../../components/Tabs';
+import EditGlobalCompetencies from './components/EditCompetencies/components/EditGlobalCompetencies/EditGlobalCompetencies';
+import EditCustomCompetencies from './components/EditCompetencies/components/EditCustomCompetencies/EditCustomCompetencies';
+import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 
 class Organisations extends Component {
     constructor(props) {
@@ -46,6 +51,12 @@ class Organisations extends Component {
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 
+    /* generic method to close the newly written modal component. this is currently only used for edit competencies */
+    // todo: start with replacing all closeModal**** methods with this one
+    closeModal(id) {
+        document.querySelector(`#${id}`).classList.add('hidden');
+    }
+
     render() {
         const {
             panels,
@@ -62,6 +73,7 @@ class Organisations extends Component {
             closeModalToAddParticipant,
             openModalToAmendParticipant,
             closeModalToAmendParticipant,
+            openModalToEditCompetencies,
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
@@ -102,6 +114,7 @@ class Organisations extends Component {
                         openModalToAmendParticipant = { openModalToAmendParticipant }
                         closeModalToAmendParticipant = { closeModalToAmendParticipant }
                         openModalToInviteParticipant = { openModalToInviteParticipant }
+                        openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         i18n = { i18n }
@@ -269,6 +282,32 @@ class Organisations extends Component {
                         </form>
                     </section>
                 </aside>
+                <Modal
+                    id={ 'modal_edit_competencies' }
+                    modalHeader={ i18n.organisations_edit_competencies }
+                    closeModal={ () => this.closeModal('modal_edit_competencies') }
+                >
+                    <Tabs activeTab="organisations_edit_global_competencies">
+                        <EditGlobalCompetencies
+                            id="organisations_edit_global_competencies"
+                            label={ i18n.organisations_edit_global_competencies }
+                            i18n={ i18n }
+                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                        />
+                        <EditCustomCompetencies
+                            id="organisations_edit_custom_competencies"
+                            label={ i18n.organisations_edit_custom_competencies }
+                            i18n={ i18n }
+                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                        />
+                        <AddCustomCompetency
+                            id="organisations_add_custom_competency"
+                            label={ i18n.organisations_add_custom_competency }
+                            i18n={ i18n }
+                            closeModal={() => this.closeModal('modal_edit_competencies')}
+                        />
+                    </Tabs>
+                </Modal>
             </main>
         );
     }
