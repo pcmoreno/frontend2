@@ -4,6 +4,7 @@ import { h, Component } from 'preact';
 
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
 import Participants from './components/Participants/Participants';
+import Settings from './components/Settings/Settings';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
@@ -43,9 +44,17 @@ export default class DetailPanel extends Component {
         let output = null,
             icon = null;
 
-        // todo: wrap all possible panels in a switch and use imports for each
-        if (this.localState.activeTab.toString() === 'participants') {
-            output = <p className={ style.detailpanelcontent_p }> <Participants
+        // todo: replace ugly selector name detailpanelcontent_p
+
+        switch (this.localState.activeTab.toString()) {
+
+            case 'information': output = <p>information</p>;
+                break;
+
+            case 'settings': output = <p className={ style.detailpanelcontent_p }><Settings openModalToEditCompetencies={ this.props.openModalToEditCompetencies } /></p>;
+                break;
+
+            case 'participants': output = <p className={ style.detailpanelcontent_p }><Participants
                 openModalToAddParticipant={ this.props.openModalToAddParticipant }
                 openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
@@ -58,6 +67,10 @@ export default class DetailPanel extends Component {
                 participantListView={ entity.participantListView }
                 i18n={ i18n }
             /></p>;
+                break;
+
+            default:
+                break;
         }
 
         // get correct header icon, LTP organisation does not render the icon

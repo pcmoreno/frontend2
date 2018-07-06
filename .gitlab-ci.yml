@@ -4,7 +4,7 @@
 stages:
   - build
   - deploy_acc
-  #- deploy_prod
+  - deploy_prod
 
 ################################################################################
 ## Variables
@@ -49,19 +49,21 @@ variables:
     - master
 
 ## Deploy production using aws cli
-#.deploy_prod_stage: &deploy_prod_stage
-#  image: ${BUILD_CONTAINER}
-#  before_script: *install_before_build
-#  script:
-#    - yarn run build:prod
-#    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
-#    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --delete
-#  cache:
-#    paths:
-#      - node_modules/
-#  only:
-#    - master
+.deploy_prod_stage: &deploy_prod_stage
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
+  script:
+    - yarn run build:prod
+    - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION}
+    - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION}
+    - aws s3 sync web ${AWS_BUCKET_PRODUCTION}/web --delete
+    - aws configure set preview.cloudfront true
+    - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_PROD} --paths "/*"
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - master
 
 ################################################################################
 ## Building & Testing
@@ -81,6 +83,6 @@ deploy_acc:
   stage: deploy_acc
 
 ## Deploy to Production
-#deploy_prod:
-#  <<: *deploy_prod_stage
-#  stage: deploy_prod
+deploy_prod:
+  <<: *deploy_prod_stage
+  stage: deploy_prod

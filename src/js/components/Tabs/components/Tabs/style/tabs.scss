@@ -1,0 +1,22 @@
+.tabs {
+    nav {
+        /* override default modal styling by moving the tab navigation up a notch */
+        margin-top: -.75rem;
+
+        padding: 0 .5rem;
+
+        span {
+            color: $blue;
+            padding: 0 .5rem;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    footer {
+        padding: 1rem;
+        height: 2.5rem;
+    }
+}

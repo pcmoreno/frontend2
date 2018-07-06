@@ -1,0 +1,20 @@
+.toolbar {
+    padding: .5rem;
+
+    button {
+        float: left;
+        margin-bottom: .5rem;
+    }
+
+    button svg {
+        margin-left: 10px;
+    }
+}
+
+.listView {
+    table thead th {
+        background-color: $beige-darken;
+        color: $black;
+        padding: 7px 12px;
+    }
+}

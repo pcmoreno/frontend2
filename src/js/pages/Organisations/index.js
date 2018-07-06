@@ -734,6 +734,10 @@ class Index extends Component {
         }
     }
 
+    openModalToEditCompetencies() {
+        document.querySelector('#modal_edit_competencies').classList.remove('hidden');
+    }
+
     render() {
 
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
@@ -758,6 +762,7 @@ class Index extends Component {
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
                 openModalToInviteParticipant={ this.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
+                openModalToEditCompetencies={ this.openModalToEditCompetencies }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
