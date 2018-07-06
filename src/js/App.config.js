@@ -1,4 +1,4 @@
-import UserRoles from './constants/UserRoles';
+import { UserRoles } from './constants/UserRoles';
 
 /**
  * Configuration module

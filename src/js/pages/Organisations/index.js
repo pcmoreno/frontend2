@@ -667,9 +667,9 @@ class Index extends Component {
         this.setState(this.localState);
 
         switch (participantStatus) {
-            case ParticipantStatus.STATUS_ADDED:
-            case ParticipantStatus.STATUS_INVITED:
-            case ParticipantStatus.STATUS_TERMS_AND_CONDITIONS_ACCEPTED:
+            case ParticipantStatus.ADDED:
+            case ParticipantStatus.INVITED:
+            case ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED:
 
                 // all fields
                 this.getFormFields('amendParticipant', {
@@ -682,7 +682,7 @@ class Index extends Component {
                 });
                 break;
 
-            case ParticipantStatus.STATUS_INVITATION_ACCEPTED:
+            case ParticipantStatus.INVITATION_ACCEPTED:
 
                 // all previous fields except email
                 this.getFormFields('amendParticipant', {
@@ -695,10 +695,10 @@ class Index extends Component {
                 });
                 break;
 
-            case ParticipantStatus.STATUS_REDIRECTED_TO_ONLINE:
-            case ParticipantStatus.STATUS_STARTED:
-            case ParticipantStatus.STATUS_HNA_FINISHED:
-            case ParticipantStatus.STATUS_PERSONA_FIT_FINISHED:
+            case ParticipantStatus.REDIRECTED_TO_ONLINE:
+            case ParticipantStatus.STARTED:
+            case ParticipantStatus.HNA_FINISHED:
+            case ParticipantStatus.PERSONA_FIT_FINISHED:
 
                 // all previous fields education level
                 this.getFormFields('amendParticipant', {

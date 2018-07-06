@@ -11,7 +11,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Users from './components/Users/Users';
 import translator from '../../utils/translator';
-import UserRoles from '../../constants/UserRoles';
+import { UserRoleSlugs } from '../../constants/UserRoles';
 
 class Index extends Component {
     constructor(props) {
@@ -131,13 +131,13 @@ class Index extends Component {
                     },
                     parameters: {
                         value: [
-                            UserRoles.ROLE_APPLICATION_MANAGERS,
-                            UserRoles.ROLE_CONSULTANTS,
-                            UserRoles.ROLE_BEDRIJFSBUREAU,
-                            UserRoles.ROLE_BACKOFFICE,
-                            UserRoles.ROLE_CLIENT_CENTER,
-                            UserRoles.ROLE_ASSESSMENT_TEAM,
-                            UserRoles.ROLE_ASSESSORS
+                            UserRoleSlugs.ROLE_APPLICATION_MANAGERS,
+                            UserRoleSlugs.ROLE_CONSULTANTS,
+                            UserRoleSlugs.ROLE_BEDRIJFSBUREAU,
+                            UserRoleSlugs.ROLE_BACKOFFICE,
+                            UserRoleSlugs.ROLE_CLIENT_CENTER,
+                            UserRoleSlugs.ROLE_ASSESSMENT_TEAM,
+                            UserRoleSlugs.ROLE_ASSESSORS
                         ].join(','),
                         fields: 'uuid,account,firstName,infix,lastName,role,roleName',
                         limit: 10000
