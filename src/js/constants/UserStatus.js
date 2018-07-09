@@ -1,4 +1,3 @@
-
 const UserStatus = {
     ADDED: 'added',
     INVITED: 'invited',
