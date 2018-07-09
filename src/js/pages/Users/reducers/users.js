@@ -1,4 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
+import ShownUserRoles from '../constants/ShownUserRoles';
 
 const initialState = {
     users: [],
@@ -24,39 +25,38 @@ export default function usersReducer(state = initialState, action) {
             // loop through newly retrieved items from the action and add to the newState
             action.users.forEach(user => {
 
-                // todo: remove when all dummy accounts have NAW data
-                let userName = '(dummy user)';
+                let userName = '';
 
-                if (user.account && user.account.firstName && user.account.lastName) {
+                if (user.firstName && user.lastName) {
                     let userInfix = ' ';
 
                     // extract user infix
-                    if (user.account.infix) {
-                        userInfix = ` ${user.account.infix} `;
+                    if (user.infix) {
+                        userInfix = ` ${user.infix} `;
                     }
 
                     // construct user name
-                    userName = `${user.account.firstName || ''}${userInfix}${user.account.lastName || ''}`;
+                    userName = `${user.firstName || ''}${userInfix}${user.lastName || ''}`;
                 }
 
                 // push all roles to temp array to output later
                 const userRoles = [];
 
-                if (user.role) {
-                    userRoles.push(user.role.roleName.toLowerCase());
+                if (user.accountHasRoles && user.accountHasRoles.length) {
+
+                    // api returns role entity wrapped inside the entries
+                    user.accountHasRoles.forEach(role => {
+                        if (~ShownUserRoles.indexOf(role.role.uuid)) {
+                            userRoles.push(role.role.roleName);
+                        }
+                    });
                 }
 
-                // build user list view
-                newState.users.push([
-                    {
-                        key: 'name',
-                        value: userName
-                    },
-                    {
-                        key: 'roles',
-                        value: userRoles
-                    }
-                ]);
+                // add to user list
+                newState.users.push({
+                    name: userName,
+                    roles: userRoles
+                });
             });
 
             break;

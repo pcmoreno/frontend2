@@ -20,14 +20,33 @@ export default class Users extends Component {
             i18n
         } = this.props;
 
-        const tabs = [];
+        const tabs = [],
+            userList = [];
+
+        // translate roles and build listView content
+        if (users && users.length) {
+            users.forEach(user => {
+                const translatedRoles = user.roles.map(role => i18n[`users_${role.toLowerCase()}`] || '');
+
+                userList.push([
+                    {
+                        key: 'name',
+                        value: user.name
+                    },
+                    {
+                        key: 'roles',
+                        value: translatedRoles
+                    }
+                ]);
+            });
+        }
 
         return (
             <main className={ `${style.users} full_width_sidebar` } id="page_with_sidebar">
                 <section className={ style.page_with_sidebar_container } id="page_with_sidebar_container">
                     <button className={ 'action_button '} onClick={ openModalToAddUser }>+ {i18n.users_add_user}</button>
                     <Listview
-                        entities={ users }
+                        entities={ userList }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'desc' }
                         i18n={i18n}

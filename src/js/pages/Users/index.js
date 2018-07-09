@@ -12,6 +12,7 @@ import ApiFactory from '../../utils/api/factory';
 import Users from './components/Users/Users';
 import translator from '../../utils/translator';
 import { UserRoleSlugs } from '../../constants/UserRoles';
+import ShownUserRoles from "./constants/ShownUserRoles";
 
 class Index extends Component {
     constructor(props) {
@@ -130,16 +131,9 @@ class Index extends Component {
                         filter: 'accountHasRoles:role:slug'
                     },
                     parameters: {
-                        value: [
-                            UserRoleSlugs.ROLE_APPLICATION_MANAGERS,
-                            UserRoleSlugs.ROLE_CONSULTANTS,
-                            UserRoleSlugs.ROLE_BEDRIJFSBUREAU,
-                            UserRoleSlugs.ROLE_BACKOFFICE,
-                            UserRoleSlugs.ROLE_CLIENT_CENTER,
-                            UserRoleSlugs.ROLE_ASSESSMENT_TEAM,
-                            UserRoleSlugs.ROLE_ASSESSORS
-                        ].join(','),
-                        fields: 'uuid,account,firstName,infix,lastName,role,roleName',
+                        value: ShownUserRoles.join(','),
+                        fields: 'uuid,firstName,infix,lastName,accountHasRoles,role,roleName',
+                        depth: 4, // avoid loop in accountHasRole resolving
                         limit: 10000
                     }
                 }
