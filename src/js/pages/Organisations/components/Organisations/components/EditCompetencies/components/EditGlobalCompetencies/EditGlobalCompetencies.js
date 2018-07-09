@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/editglobalcompetencies.scss';
+import Listview from '../../../../../../../../components/Listview';
 
 /** @jsx h */
 
@@ -7,9 +8,46 @@ export default class EditGlobalCompetencies extends Component {
     render() {
         const { i18n } = this.props;
 
+        const entities = [
+            [
+                {
+                    type: 'checkbox',
+                    key: 'selectParticipantLabel',
+                    action: () => {
+                        console.log('select');
+                    }
+                },
+                {
+                    key: 'name',
+                    value: 'value1'
+                }
+            ],
+            [
+                {
+                    type: 'checkbox',
+                    key: 'selectParticipantLabel',
+                    action: () => {
+                        console.log('select');
+                    }
+                },
+                {
+                    key: 'name',
+                    value: 'value2'
+                }
+            ]
+        ];
+
         return (
             <div id="organisations_edit_global_competencies" className={ `${style.tab} hidden` }>
-                <main>tab1 content, listview etc.</main>
+                <main>
+                    <Listview
+                        entities={ entities }
+                        defaultSortingKey={ 'name' }
+                        defaultSortingOrder={ 'desc' }
+                        i18n={i18n}
+                        translationKeyPrefix={ 'competencies_' }
+                    />
+                </main>
                 <footer>
                     <button
                         class="action_button action_button__secondary"

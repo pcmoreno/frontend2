@@ -19,15 +19,15 @@ export default class ListviewEntityItem extends Component {
     translate(element) {
 
         // returns either the translation for element, or the original element
-        const { translationKey, i18n } = this.props;
+        const { translationKeyPrefix, i18n } = this.props;
 
-        if (translationKey) {
+        if (translationKeyPrefix) {
 
             // convert to snake case
             const translatableElement = Utils.camelCaseToSnakeCase(element);
 
-            if (i18n[`${translationKey}${translatableElement}`]) {
-                return i18n[`${translationKey}${translatableElement}`];
+            if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
+                return i18n[`${translationKeyPrefix}${translatableElement}`];
             }
         }
 
@@ -80,7 +80,7 @@ export default class ListviewEntityItem extends Component {
                     link={ this.props.widget.link }
                     i18n={ this.props.i18n }
                     disabled={ this.props.widget.disabled }
-                    translationKey={ this.props.translationKey }
+                    translationKeyPrefix={ this.props.translationKeyPrefix }
                 />;
                     break;
 

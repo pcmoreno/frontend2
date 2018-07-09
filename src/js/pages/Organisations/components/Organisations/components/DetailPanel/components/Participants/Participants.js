@@ -49,7 +49,7 @@ export default class Participants extends Component {
                         i18n={ i18n }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
-                        translationKey={ 'organisations_' }
+                        translationKeyPrefix={ 'organisations_' }
                     />
                 </div>
             </div>

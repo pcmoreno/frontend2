@@ -16,7 +16,7 @@ export default class Tasks extends Component {
                     defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
                     i18n={i18n}
-                    translationKey={ 'tasks_' }
+                    translationKeyPrefix={ 'tasks_' }
                 />
             </main>
         );

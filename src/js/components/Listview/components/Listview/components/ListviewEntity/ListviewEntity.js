@@ -7,7 +7,7 @@ import style from './style/listviewentity.scss';
 export default class ListviewEntity extends Component {
 
     render() {
-        const { entity, i18n, translationKey, active } = this.props;
+        const { entity, i18n, translationKeyPrefix, active } = this.props;
         const entityItems = [];
 
         Object.keys(entity).forEach(entityKey => {
@@ -34,7 +34,7 @@ export default class ListviewEntity extends Component {
                     value={ value }
                     widget={ widget }
                     i18n={ i18n }
-                    translationKey={ translationKey }
+                    translationKeyPrefix={ translationKeyPrefix }
                     active={ active }
                 />
             );

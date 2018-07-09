@@ -16,7 +16,7 @@ export default class Participants extends Component {
                     defaultSortingKey={ 'assessmentdate' }
                     defaultSortingOrder={ 'desc' }
                     i18n={ i18n }
-                    translationKey={ 'participants_' }
+                    translationKeyPrefix={ 'participants_' }
                 />
             </main>
         );
