@@ -149,10 +149,11 @@ export default class Form extends Component {
         }
 
         // check if the field is required
-        const required = this.isFieldRequired(formFieldOptions) ? ' *' : '';
+        const isRequired = this.isFieldRequired(formFieldOptions);
+        const requiredLabel = isRequired ? ' *' : '';
 
         // if there is one or more required fields, let the form know
-        if (required && !this.hasRequiredFields) {
+        if (requiredLabel && !this.hasRequiredFields) {
             this.hasRequiredFields = true;
         }
 
@@ -161,7 +162,7 @@ export default class Form extends Component {
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -172,7 +173,7 @@ export default class Form extends Component {
                 />);
             case fieldType.TEXT_INPUT:
                 return (<TextInput
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -184,7 +185,7 @@ export default class Form extends Component {
                 />);
             case fieldType.TEXT_AREA:
                 return (<TextArea
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -194,7 +195,7 @@ export default class Form extends Component {
                     onChange={this.handleChange}/>);
             case fieldType.CHOICE:
                 return (<Choice
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={this.localState}
                     options={formFieldOptions}
                     fieldId={fieldId}
@@ -206,7 +207,7 @@ export default class Form extends Component {
                 />);
             case fieldType.RELATIONSHIP:
                 return (<Relationship
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={ this.localState }
                     fieldId={fieldId}
                     options={formFieldOptions}
@@ -218,7 +219,7 @@ export default class Form extends Component {
                 />);
             case fieldType.EMAIL:
                 return (<Email
-                    required={required}
+                    requiredLabel={requiredLabel}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}

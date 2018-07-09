@@ -7,7 +7,7 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class OneToOne extends AbstractRelationship {
     render() {
-        const { options, fieldId, onChange, currentForm, formId, label, i18n, value = null, required } = this.props;
+        const { options, fieldId, onChange, currentForm, formId, label, i18n, value = null, requiredLabel } = this.props;
 
         return (
             <div>
@@ -16,7 +16,7 @@ export default class OneToOne extends AbstractRelationship {
                 </span>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + requiredLabel }</label>
                     </li>
                     <li>
                         <select

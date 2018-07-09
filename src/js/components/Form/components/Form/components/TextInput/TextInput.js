@@ -6,13 +6,13 @@ import style from '../style/field.scss';
 
 export default class TextInput extends Component {
     render() {
-        const { currentForm, fieldId, onChange, value, formId, label, placeholder, onKeyDown, required } = this.props;
+        const { currentForm, fieldId, onChange, value, formId, label, placeholder, onKeyDown, requiredLabel } = this.props;
 
         return (
             <div>
                 <ul className={ style.fieldGroup }>
                     <li>
-                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + required }</label>
+                        <label htmlFor={ `${formId}_${fieldId}` }>{ label + requiredLabel }</label>
                     </li>
                     <li>
                         <input
