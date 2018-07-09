@@ -34,7 +34,7 @@ const AppConfig = {
                     inviteParticipants: '/v1/participant/invite'
                 },
                 report: {
-                    entitiy: '/v1/get-report-data/{slug}',
+                    entity: '/v1/get-report-data/{slug}',
                     createTextField: '/v1/section/textFieldInReport',
                     updateTextField: '/v1/section/textFieldInReport/slug/{slug}'
                 },

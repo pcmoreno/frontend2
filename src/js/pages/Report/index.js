@@ -167,7 +167,7 @@ class Index extends Component {
         // request report data
         this.api.get(
             this.api.getBaseUrl(),
-            this.api.getEndpoints().report.entitiy,
+            this.api.getEndpoints().report.entity,
             {
                 urlParams: {
                     identifiers: {
