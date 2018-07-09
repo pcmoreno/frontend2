@@ -11,8 +11,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Users from './components/Users/Users';
 import translator from '../../utils/translator';
-import { UserRoleSlugs } from '../../constants/UserRoles';
-import ShownUserRoles from "./constants/ShownUserRoles";
+import ShownUserRoles from './constants/ShownUserRoles';
 
 class Index extends Component {
     constructor(props) {
