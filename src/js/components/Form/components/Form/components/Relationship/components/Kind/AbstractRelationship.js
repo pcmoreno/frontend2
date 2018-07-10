@@ -13,10 +13,10 @@ export default class AbstractRelationship extends Component {
      * @param {Object} i18n - translations
      * @param {string} [value] - field value to be selected
      * @param {string} [placeholder] - placeholder (first option)
-     * @param {boolean} [required] - disable the placeholder when field is require
+     * @param {boolean} [isRequired] - disable the placeholder when field is require
      * @returns {Array} options list
      */
-    createOptions(fieldOptions, i18n, value, placeholder, required) {
+    createOptions(fieldOptions, i18n, value, placeholder, isRequired) {
         const formFieldOptions = [];
         let selectedSet = false;
 
@@ -28,7 +28,7 @@ export default class AbstractRelationship extends Component {
                 optionValue={ '' }
                 value={ placeholder }
                 selected={ selectPlaceholder }
-                disabled={ required }
+                disabled={ isRequired }
                 i18n={ i18n }
             />);
 
