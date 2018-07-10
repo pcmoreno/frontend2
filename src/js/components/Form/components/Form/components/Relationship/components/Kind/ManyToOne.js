@@ -7,7 +7,7 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class ManyToOne extends AbstractRelationship {
     render() {
-        const { options, fieldId, currentForm, onChange, formId, label, i18n, value = null, requiredLabel } = this.props;
+        const { options, fieldId, currentForm, onChange, formId, label, i18n, value = null, requiredLabel, placeholder, isRequired } = this.props;
 
         return (
             <div>
@@ -24,7 +24,7 @@ export default class ManyToOne extends AbstractRelationship {
                             name={ fieldId }
                             onBlur={ onChange }
                         >
-                            { this.createOptions(options[options.to], i18n, value) }
+                            { this.createOptions(options[options.to], i18n, value, placeholder, isRequired) }
                         </select>
                     </li>
                 </ul>

@@ -11,6 +11,21 @@ export default class Choice extends Component {
         const formFieldOptions = [];
         let selectedSet = false;
 
+        // check for a placeholder and add it as first option
+        if (this.props.placeholder) {
+            const selectPlaceholder = !this.props.value;
+
+            formFieldOptions.push(<Option
+                optionValue={ '' }
+                value={ this.props.placeholder }
+                selected={ selectPlaceholder }
+                disabled={ this.props.isRequired }
+                i18n={ i18n }
+            />);
+
+            selectedSet = selectPlaceholder;
+        }
+
         Object.keys(options.form.all.choices).forEach(option => {
             let selected = false;
 

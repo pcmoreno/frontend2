@@ -100,24 +100,6 @@ export default class Form extends Component {
     }
 
     /**
-     * Checks the field options if the field is required
-     * @param {Object} options - field options object
-     * @returns {boolean} required or not
-     */
-    isFieldRequired(options) {
-        let isRequired = false;
-
-        try {
-            isRequired = options.form.all.required;
-        } catch (e) {
-
-            // do nothing and leave isRequired on false
-        }
-
-        return isRequired;
-    }
-
-    /**
      * Creates a form field as described by the given formFieldOptions
      *
      * @param {Object} formFieldOptions - description of the form field as returned by API
@@ -128,6 +110,16 @@ export default class Form extends Component {
         const fieldId = formFieldOptions.fieldId;
         const value = formFieldOptions.value ? formFieldOptions.value : '';
         const i18n = this.props.i18n;
+
+        // make sure required config attributes are always set by default
+        // todo: we should improve this when making a new form component
+        if (!formFieldOptions.form) {
+            formFieldOptions.form = {
+                all: {}
+            };
+        } else if (!formFieldOptions.form.all) {
+            formFieldOptions.form.all = {};
+        }
 
         let label = formFieldOptions.form.all.label || '';
         let placeholder = '';
@@ -146,10 +138,15 @@ export default class Form extends Component {
 
         } else if (i18n[this.convertPlaceholderTranslationKey(fieldId)]) {
             placeholder = i18n[this.convertPlaceholderTranslationKey(fieldId)];
+
+        } else if (formFieldOptions.form.all.placeholder) {
+
+            // relationship fields will have a placeholder tag set
+            placeholder = formFieldOptions.form.all.placeholder;
         }
 
         // check if the field is required
-        const isRequired = this.isFieldRequired(formFieldOptions);
+        const isRequired = formFieldOptions.form.all.required;
         const requiredLabel = isRequired ? ' *' : '';
 
         // if there is one or more required fields, let the form know
@@ -196,6 +193,8 @@ export default class Form extends Component {
             case fieldType.CHOICE:
                 return (<Choice
                     requiredLabel={requiredLabel}
+                    isRequired={isRequired}
+                    placeholder={placeholder}
                     currentForm={this.localState}
                     options={formFieldOptions}
                     fieldId={fieldId}
@@ -208,6 +207,8 @@ export default class Form extends Component {
             case fieldType.RELATIONSHIP:
                 return (<Relationship
                     requiredLabel={requiredLabel}
+                    isRequired={isRequired}
+                    placeholder={placeholder}
                     currentForm={ this.localState }
                     fieldId={fieldId}
                     options={formFieldOptions}
@@ -364,7 +365,11 @@ export default class Form extends Component {
                                 }
 
                                 // the first value is the initial value
-                                value = choices[0];
+                                if (field[fieldName].form.all.placeholder) {
+                                    value = '';
+                                } else {
+                                    value = choices[0];
+                                }
 
                                 break;
                             }

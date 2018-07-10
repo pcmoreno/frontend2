@@ -9,7 +9,7 @@ import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {
     render() {
-        const { options, fieldId, label, onChange, value, currentForm, formId, i18n, requiredLabel } = this.props;
+        const { options, fieldId, label, onChange, value, currentForm, formId, i18n, requiredLabel, placeholder, isRequired } = this.props;
 
         // note that since component re-renders on submit (because state changes), the extraction of .value from the
         // consultant object has already taken place, thus if it .uuid cant be extracted, it will default to value
@@ -26,6 +26,8 @@ export default class Relationship extends Component {
                     formId={ formId }
                     i18n={ i18n }
                     requiredLabel={ requiredLabel }
+                    isRequired={ isRequired }
+                    placeholder={ placeholder }
                 />);
             case relationship.ONE_TO_MANY:
                 return (<OneToMany
@@ -38,6 +40,8 @@ export default class Relationship extends Component {
                     formId={ formId }
                     i18n={ i18n }
                     requiredLabel={ requiredLabel }
+                    isRequired={ isRequired }
+                    placeholder={ placeholder }
                 />);
             case relationship.MANY_TO_ONE:
                 return (<ManyToOne
@@ -50,6 +54,8 @@ export default class Relationship extends Component {
                     formId={ formId }
                     i18n={ i18n }
                     requiredLabel={ requiredLabel }
+                    isRequired={ isRequired }
+                    placeholder={ placeholder }
                 />);
             case relationship.ONE_TO_ONE:
                 return (<OneToOne
@@ -62,6 +68,8 @@ export default class Relationship extends Component {
                     formId={ formId }
                     i18n={ i18n }
                     requiredLabel={ requiredLabel }
+                    isRequired={ isRequired }
+                    placeholder={ placeholder }
                 />);
             default:
                 return null;
