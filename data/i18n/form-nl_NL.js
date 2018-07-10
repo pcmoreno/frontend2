@@ -33,7 +33,7 @@ export default {
     "form_option_choose_education_level": "Kies een opleidingsniveau",
     "form_option_choose_gender": "Kies een geslacht",
     "form_option_choose_language": "Kies een taal voor de deelnemer",
-    "form_option_choose_project": "Kies een project",
+    "form_option_choose_product": "Kies een product",
     "form_option_engels": "Engels",
     "form_option_female": "Vrouw",
     "form_option_high": "Academisch",

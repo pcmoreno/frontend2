@@ -33,7 +33,7 @@ export default {
     "form_option_choose_education_level": "Choose an education level",
     "form_option_choose_gender": "Choose a gender",
     "form_option_choose_language": "Choose a language for the participant",
-    "form_option_choose_project": "Choose a project",
+    "form_option_choose_product": "Choose a product",
     "form_option_engels": "English",
     "form_option_female": "Female",
     "form_option_high": "Master's degree",
