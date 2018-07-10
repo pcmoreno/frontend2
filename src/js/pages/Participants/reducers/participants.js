@@ -27,12 +27,12 @@ export default function participantsReducer(state = initialState, action) {
 
                 // extract participant status and see if it meets the requirements
                 const acceptedStatus = [
-                    ParticipantStatus.STATUS_ADDED,
-                    ParticipantStatus.STATUS_INVITED,
-                    ParticipantStatus.STATUS_STARTED,
-                    ParticipantStatus.STATUS_HNA_FINISHED,
-                    ParticipantStatus.STATUS_PERSONA_FIT_FINISHED,
-                    ParticipantStatus.STATUS_INVITATION_ACCEPTED
+                    ParticipantStatus.ADDED,
+                    ParticipantStatus.INVITED,
+                    ParticipantStatus.STARTED,
+                    ParticipantStatus.HNA_FINISHED,
+                    ParticipantStatus.PERSONA_FIT_FINISHED,
+                    ParticipantStatus.INVITATION_ACCEPTED
                 ];
                 const participantStatus = participant.accountHasRole.genericRoleStatus;
 
@@ -70,11 +70,11 @@ export default function participantsReducer(state = initialState, action) {
                     let appointmentDate = '';
                     let sortValueForAppointmentDate = '';
 
-                    if (participant.participantSessionAppointmentDate && participant.participantSessionAppointmentDate.date) {
+                    if (participant.participantSessionAppointmentDate) {
 
                         // construct appointment date
-                        appointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate.date, 'dd-MM-yyyy HH:mm');
-                        sortValueForAppointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate.date, 'yyyy-MM-dd HH:mm');
+                        appointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm');
+                        sortValueForAppointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm');
                     }
 
                     // construct startDate based on current Date with hours,minutes,seconds set to 00:00:00

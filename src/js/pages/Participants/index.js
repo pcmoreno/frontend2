@@ -10,7 +10,7 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from '../../utils/api/factory';
 import Participants from './components/Participants/Participants';
 import translator from '../../utils/translator';
-import Products from '../../constants/Products';
+import { ProductSlugs } from '../../constants/Products';
 
 class Index extends Component {
     constructor(props) {
@@ -55,9 +55,9 @@ class Index extends Component {
 
                         // filter on our 3 hna products
                         value: [
-                            Products.PRODUCT_DEVELOPMENT,
-                            Products.PRODUCT_SELECTION,
-                            Products.PRODUCT_SELECTION_DEVELOPMENT
+                            ProductSlugs.DEVELOPMENT,
+                            ProductSlugs.SELECTION,
+                            ProductSlugs.SELECTION_DEVELOPMENT
                         ].join(','),
                         fields: 'uuid,participantSessionAppointmentDate,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
                         limit: 10000
