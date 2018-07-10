@@ -60,8 +60,8 @@ export default function tasksReducer(state = initialState, action) {
                 if (task.participantSessionAppointmentDate) {
 
                     // construct appointment date
-                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate.date, 'dd-MM-yyyy HH:mm') || '';
-                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate.date, 'yyyy-MM-dd HH:mm') || '';
+                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm') || '';
+                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm') || '';
                 }
 
                 // extract organisation name
