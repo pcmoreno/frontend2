@@ -34,6 +34,7 @@ export default {
     "form_option_choose_gender": "Kies een geslacht",
     "form_option_choose_language": "Kies een taal voor de deelnemer",
     "form_option_choose_product": "Kies een product",
+    "form_option_choose_user_role": "Kies een rol",
     "form_option_engels": "Engels",
     "form_option_female": "Vrouw",
     "form_option_high": "Academisch",
