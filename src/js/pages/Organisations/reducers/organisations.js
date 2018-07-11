@@ -325,7 +325,7 @@ export default function organisationsReducer(state = initialState, action) {
                 tempCompetencies.push(
                     [
                         {
-                            key: 'name',
+                            key: 'competency_name',
                             value: competency.translationKey || competency.competencyName
                         },
                         {

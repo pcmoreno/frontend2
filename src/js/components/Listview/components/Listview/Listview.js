@@ -221,7 +221,9 @@ export default class Listview extends Component {
         const columns = [];
 
         this.localEntities[0].forEach(column => {
-            const translatedLabel = i18n[`${translationKeyPrefix || ''}${Utils.camelCaseToSnakeCase(column.key)}`];
+
+            // attempt to translate the given and lowercased key with prefix (if available). if not successful, default to the key itself
+            const translatedLabel = i18n[`${translationKeyPrefix || ''}${Utils.camelCaseToSnakeCase(column.key)}`] || column.key;
 
             columns.push({
                 label: translatedLabel || '',

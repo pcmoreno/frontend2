@@ -31,9 +31,9 @@ export default class ListviewEntityItem extends Component {
             if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
                 return i18n[`${translationKeyPrefix}${translatableElement}`];
             }
-        } else {
 
-            // in some cases, the translationKeyPrefix has deliberately been omitted so the translation is extracted directly (competencies)
+            // in some cases, the translationKeyPrefix should be omitted to get the translations (competencies)
+            // todo: look into adding a competencies_ prefix in lokalise instead (jan?)
             if (i18n[`${translatableElement}`]) {
                 return i18n[`${translatableElement}`];
             }

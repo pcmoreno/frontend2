@@ -878,7 +878,7 @@ class Index extends Component {
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
-                i18n={ translator(this.props.languageId, 'organisations') }
+                i18n={ translator(this.props.languageId, ['organisations', 'competencies']) }
                 languageId={ this.props.languageId }
                 selectedCompetencies={ this.props.selectedCompetencies }
             />
