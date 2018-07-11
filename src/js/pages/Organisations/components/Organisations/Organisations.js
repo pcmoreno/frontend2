@@ -119,6 +119,7 @@ class Organisations extends Component {
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         selectedCompetencies={ selectedCompetencies }
+                        languageId={ languageId }
                         i18n = { i18n }
                     />
                 </section>

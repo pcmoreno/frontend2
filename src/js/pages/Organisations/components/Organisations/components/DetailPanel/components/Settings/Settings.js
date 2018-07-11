@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview/index';
 import style from './style/settings.scss';
+import translator from '../../../../../../../../utils/translator';
 
 /** @jsx h */
 
@@ -10,7 +11,7 @@ export default class Settings extends Component {
     }
 
     render() {
-        const { i18n, openModalToEditCompetencies } = this.props;
+        const { openModalToEditCompetencies } = this.props;
 
         return (
             <div>
@@ -26,7 +27,7 @@ export default class Settings extends Component {
                 <div className={ style.listView }>
                     <Listview
                         entities={ this.props.selectedCompetencies }
-                        i18n={ i18n }
+                        i18n={ translator(this.props.languageId, 'competencies') }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
                     />

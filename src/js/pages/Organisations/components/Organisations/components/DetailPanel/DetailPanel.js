@@ -55,6 +55,7 @@ export default class DetailPanel extends Component {
                 <Settings
                     selectedCompetencies={ this.props.selectedCompetencies }
                     openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
+                    languageId={ this.props.languageId }
                     i18n={ i18n }
                 />
             </p>;

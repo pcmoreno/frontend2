@@ -5,6 +5,7 @@
  * @returns { Object } translations
  */
 export default function translator(languageId, componentId) {
+
     if (languageId && componentId) {
         return require('../../../data/i18n/' + componentId + '-' + languageId).default;
     }
