@@ -51,7 +51,13 @@ export default class DetailPanel extends Component {
             case 'information': output = <p>information</p>;
                 break;
 
-            case 'settings': output = <p className={ style.detailpanelcontent_p }><Settings openModalToEditCompetencies={ this.props.openModalToEditCompetencies } /></p>;
+            case 'settings': output = <p className={ style.detailpanelcontent_p }>
+                <Settings
+                    selectedCompetencies={ this.props.selectedCompetencies }
+                    openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
+                    i18n={ i18n }
+                />
+            </p>;
                 break;
 
             case 'participants': output = <p className={ style.detailpanelcontent_p }><Participants

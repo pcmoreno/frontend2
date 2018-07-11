@@ -82,6 +82,7 @@ class Organisations extends Component {
             toggleSelectAllParticipants,
             openModalToInviteParticipant,
             closeModalToInviteParticipant,
+            selectedCompetencies,
             i18n
         } = this.props;
 
@@ -117,6 +118,7 @@ class Organisations extends Component {
                         openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
+                        selectedCompetencies={ selectedCompetencies }
                         i18n = { i18n }
                     />
                 </section>

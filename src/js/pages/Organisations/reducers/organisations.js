@@ -13,9 +13,12 @@ const initialState = {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
             type: AppConfig.global.organisations.rootEntity.type,
-            participants: []
+            participants: [],
+
         }
     },
+    selectedCompetencies: [],
+    availableCompetencies: [],
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -29,6 +32,7 @@ const initialState = {
  */
 export default function organisationsReducer(state = initialState, action) {
     let newState = Object.assign({}, state);
+    let tempCompetencies = [];
 
     const logger = Logger.instance;
 
@@ -310,6 +314,52 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
         }
+
+        case actionType.FETCH_SELECTED_COMPETENCIES:
+
+            newState.selectedCompetencies = [];
+
+            tempCompetencies = [];
+
+            action.data.competencies.forEach(competency => {
+                tempCompetencies.push(
+                    [
+                        {
+                            key: 'name',
+                            value: competency.translationKey || competency.competencyName
+                        },
+                        {
+                            type: ListItemTypes.COMPETENCY_TYPE,
+                            key: 'competency_type',
+                            disabled: false,
+                            competencyType: competency.translationKey ? 'global' : 'custom'
+                        }
+
+                    ]
+                );
+            });
+
+            newState.selectedCompetencies = tempCompetencies;
+
+            break;
+
+        case actionType.FETCH_AVAILABLE_COMPETENCIES:
+
+            newState.availableCompetencies = [];
+
+            tempCompetencies = [];
+
+            action.data.competencies.forEach(competency => {
+                tempCompetencies.push({
+                    id: competency.id,
+                    name: competency.translationKey || competency.competencyName
+                });
+            });
+
+            newState.availableCompetencies = tempCompetencies;
+
+
+            break;
 
         case actionType.RESET_ORGANISATIONS:
 

@@ -16,18 +16,19 @@ export default class Settings extends Component {
             <div>
                 <div className={ style.toolbar }>
                     <button
-                        onClick={ openModalToEditCompetencies }
+                        onClick={ () => {
+                            openModalToEditCompetencies('a', 'b');
+                        } }
                         className={ 'action_button left' }
                         type={ 'button' }
                     >Edit competences</button>
                 </div>
                 <div className={ style.listView }>
                     <Listview
-                        entities={ [] }
+                        entities={ this.props.selectedCompetencies }
                         i18n={ i18n }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
-                        translationKeyPrefix={ 'organisations_' }
                     />
                 </div>
             </div>

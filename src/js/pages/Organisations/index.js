@@ -332,6 +332,9 @@ class Index extends Component {
 
         // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
+
+            // todo: could do with some constant defintions
+
             case 'organisation':
                 return 'organisation';
 
@@ -444,7 +447,7 @@ class Index extends Component {
         });
     }
 
-    fetchDetailPanelData(entity) {
+    fetchParticipantsForProject(entity) {
 
         // check if we are reloading or loading a new entity, to reset selected participants
         if (this.detailPanelEntity && this.detailPanelEntity.id !== entity.id && this.detailPanelEntity.type !== entity.type) {
@@ -452,6 +455,7 @@ class Index extends Component {
             this.setState(this.localState);
         }
 
+        // set the current entity
         this.detailPanelEntity = entity;
 
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
@@ -493,6 +497,87 @@ class Index extends Component {
 
             // reset back to LTP root organisation
             this.actions.resetDetailPanel();
+        }
+    }
+
+    fetchSelectedCompetenciesForProject(projectSlug) {
+        document.querySelector('#spinner_detail_panel').classList.remove('hidden');
+        const api = ApiFactory.get('neon');
+        const apiConfig = api.getConfig();
+        const params = {
+            urlParams: {
+                parameters: {
+                    fields: 'competencies,organisation,organisationName,competencyName,id,translationKey',
+                    limit: 10000
+                },
+                identifiers: {
+                    slug: projectSlug
+                }
+            }
+        };
+
+        const endPoint = apiConfig.endpoints.competencies.selectedCompetencies;
+
+        // request data for detail panel
+        api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner_detail_panel').classList.add('hidden');
+            this.actions.fetchSelectedCompetencies(projectSlug, response);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
+    fetchAvailableCompetenciesForOrganisation(organisationSlug) {
+
+        // todo: organisationSlug should be provided, instead of extracted from pathNodes here:
+
+        // to determine the parent organisation, first the pathNodes are queried
+        const parentOrganisation = this.props.pathNodes[1];
+
+        if (parentOrganisation.type !== 'organisation' || !parentOrganisation.uuid) {
+            this.actions.addAlert({ type: 'error', text: 'could not determine parent organisation' });
+        } else {
+            document.querySelector('#spinner').classList.remove('hidden');
+            const api = ApiFactory.get('neon');
+            const apiConfig = api.getConfig();
+            const params = {
+                urlParams: {
+                    parameters: {
+                        fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
+                        limit: 10000
+                    },
+                    identifiers: {
+                        slug: parentOrganisation.uuid
+                    }
+                }
+            };
+
+            const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
+
+            // request data for detail panel
+            api.get(
+                api.getBaseUrl(),
+                endPoint,
+                params
+            ).then(response => {
+                document.querySelector('#spinner').classList.add('hidden');
+                this.actions.fetchAvailableCompetencies(organisationSlug, response);
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: error });
+            });
+        }
+    }
+
+    fetchDetailPanelData(entity) {
+        if (entity.type === 'project' && entity.uuid) {
+            this.fetchParticipantsForProject(entity);
+            this.fetchSelectedCompetenciesForProject(entity.uuid);
+        } else {
+            this.actions.fetchDetailPanelData(entity, [], this.openModalToAmendParticipant, this.toggleParticipant);
         }
     }
 
@@ -734,8 +819,34 @@ class Index extends Component {
         }
     }
 
-    openModalToEditCompetencies() {
+    openModalToEditCompetencies(organisationId, projectId) {
+        console.log('projectId '+projectId);
+        console.log('organisationId '+organisationId);
+
         document.querySelector('#modal_edit_competencies').classList.remove('hidden');
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        // console.log('organsiation id = '+this.props.pathNodes[formOpenByPanelId || 0].uuid);
+        // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
+
+            //
+            // // request data for detail panel
+            // api.get(
+            //     api.getBaseUrl(),
+            //     endPoint,
+            //     params
+            // ).then(response => {
+            //     document.querySelector('#spinner').classList.add('hidden');
+            //
+            //     console.log('received data back:')
+            //     console.table(response)
+            //
+            //     // todo: add action/reducer flow
+            //     // store detail panel data in the state (and send the amend method with it)
+            //    //  this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant, this.toggleParticipant);
+            // }).catch(error => {
+            //     this.actions.addAlert({ type: 'error', text: error });
+            // });
     }
 
     render() {
@@ -769,6 +880,7 @@ class Index extends Component {
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, 'organisations') }
                 languageId={ this.props.languageId }
+                selectedCompetencies={ this.props.selectedCompetencies }
             />
         );
     }
@@ -778,6 +890,7 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
+    selectedCompetencies: state.organisationsReducer.selectedCompetencies,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

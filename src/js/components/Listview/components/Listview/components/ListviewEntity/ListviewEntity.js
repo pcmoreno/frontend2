@@ -14,7 +14,8 @@ export default class ListviewEntity extends Component {
             const value = entity[entityKey].value;
             let widget = null;
 
-            // in case a type was specified, construct a widget object with all possible properties (todo: spread?)
+            // in case a type was specified, construct a widget object with all possible properties
+            // todo: needs a switch here so only the props required for the desired widget are passed on instead of this mess
             if (entity[entityKey].type) {
                 widget = {
                     type: entity[entityKey].type,
@@ -23,7 +24,8 @@ export default class ListviewEntity extends Component {
                     label: entity[entityKey].label || '',
                     action: entity[entityKey].action || '',
                     link: entity[entityKey].link || '',
-                    id: entity[entityKey].id || ''
+                    id: entity[entityKey].id || '',
+                    competencyType: entity[entityKey].competencyType || ''
                 };
             }
 

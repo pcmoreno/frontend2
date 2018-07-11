@@ -21,6 +21,10 @@ const AppConfig = {
                 participants: {
                     entities: '/v1/section/fieldvalue/participantSession/{filter}'
                 },
+                competencies: {
+                    availableCompetencies: '/v1/section/organisation/slug/{slug}',
+                    selectedCompetencies: '/v1/section/project/slug/{slug}'
+                },
                 tasks: {
                     entities: '/v1/section/fieldvalue/participantSession/{filter}'
                 },

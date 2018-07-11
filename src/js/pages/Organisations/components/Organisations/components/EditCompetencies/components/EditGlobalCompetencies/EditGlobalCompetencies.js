@@ -8,6 +8,18 @@ export default class EditGlobalCompetencies extends Component {
     render() {
         const { i18n } = this.props;
 
+        // get available competencies by organisation slug
+        // http://dev.ltponline.com:8000/api/v1/section/organisation/slug/000023a3-7997-4f27-a067-b94c5faad0e9?fields=organisationName,selectedCompetencies,competencyName,id,translationKey
+        // onderscheid custom en global kan op basis van aanwezigheid translation key
+
+
+
+
+
+        // get selected competencies by organisation slug
+        // http://dev.ltponline.com:8000/api/v1/section/project/slug/f3bdaeb1-f1e6-4615-b211-60dc9a1d1a81?fields=competencies,organisation,organisationName,competencyName,id,translationKey
+        // onderscheid custom en global kan op basis van aanwezigheid translation key
+
         const entities = [
             [
                 {

@@ -3,6 +3,7 @@ import Logger from '../../../../../../../../utils/logger';
 import Pencil from './components/widgets/Pencil/Pencil';
 import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
+import CompetencyType from './components/widgets/CompetencyType/CompetencyType';
 import style from './style/listviewentityitem.scss';
 import ListItemTypes from '../../../../../../constants/ListItemTypes';
 import Utils from '../../../../../../../../utils/utils';
@@ -21,13 +22,20 @@ export default class ListviewEntityItem extends Component {
         // returns either the translation for element, or the original element
         const { translationKeyPrefix, i18n } = this.props;
 
+        // convert to snake case
+        const translatableElement = Utils.camelCaseToSnakeCase(element);
+
         if (translationKeyPrefix) {
 
-            // convert to snake case
-            const translatableElement = Utils.camelCaseToSnakeCase(element);
-
+            // construct the key required to extract the translation from the i18n object by combining translationKeyPrefix and the lowercased element key
             if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
                 return i18n[`${translationKeyPrefix}${translatableElement}`];
+            }
+        } else {
+
+            // in some cases, the translationKeyPrefix has deliberately been omitted so the translation is extracted directly (competencies)
+            if (i18n[`${translatableElement}`]) {
+                return i18n[`${translatableElement}`];
             }
         }
 
@@ -82,6 +90,10 @@ export default class ListviewEntityItem extends Component {
                     disabled={ this.props.widget.disabled }
                     translationKeyPrefix={ this.props.translationKeyPrefix }
                 />;
+                    break;
+
+                case ListItemTypes.COMPETENCY_TYPE:
+                    value = <CompetencyType competencyType={ this.props.widget.competencyType }/>;
                     break;
 
                 default:

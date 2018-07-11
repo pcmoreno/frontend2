@@ -57,6 +57,34 @@ export function fetchDetailPanelData(entity, data, openModalToAmendParticipant, 
 }
 
 /**
+ * Fetch selected competencies action
+ * @param {string} projectSlug - slug of the project that has the selected competencies
+ * @param {Object} data - data
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchSelectedCompetencies(projectSlug, data) {
+    return {
+        type: actionType.FETCH_SELECTED_COMPETENCIES,
+        projectSlug,
+        data
+    };
+}
+
+/**
+ * Fetch selected competencies action
+ * @param {string} organisationSlug - slug of the organisation that has the selected competencies
+ * @param {Object} data - data
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchAvailableCompetencies(organisationSlug, data) {
+    return {
+        type: actionType.FETCH_AVAILABLE_COMPETENCIES,
+        organisationSlug,
+        data
+    };
+}
+
+/**
  * Reset organisations items
  * @returns {{}} reset organisation items
  */

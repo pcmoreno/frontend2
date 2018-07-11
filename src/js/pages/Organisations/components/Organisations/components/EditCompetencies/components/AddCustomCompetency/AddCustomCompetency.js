@@ -9,7 +9,7 @@ export default class AddCustomCompetency extends Component {
 
         return (
             <div id="organisations_add_custom_competency" className={ `${style.tab} hidden` }>
-                <main>tab3 content, form etc.</main>
+                <main>tab3 content: form</main>
                 <footer>
                     <button
                         class="action_button action_button__secondary"
