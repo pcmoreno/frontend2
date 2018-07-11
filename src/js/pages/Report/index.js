@@ -167,18 +167,11 @@ class Index extends Component {
         // request report data
         this.api.get(
             this.api.getBaseUrl(),
-            this.api.getEndpoints().report.entities,
+            this.api.getEndpoints().report.entity,
             {
                 urlParams: {
                     identifiers: {
                         slug: participantSessionId
-                    },
-                    parameters: {
-                        fields: 'uuid,participantSessionAppointmentDate,project,projectName,organisation,organisationName,organisationType,product,productName,translationKey,textsTemplate,textsTemplateName,textFields,textFieldName,accountHasRole,account,firstName,infix,lastName,displayName,consultant,report,reportSlug,textFieldInReports,textFieldInReportSlug,textFieldInReportValue,textField,textFieldSlug',
-                        depth: 6 // depth control to avoid infinite results for default texts connected to custom texts
-
-                        // todo implement: calculatedScore,scoreName,scoreValue,Type,CompetencyScoreInReport,Competency
-                        // this wil be one api call because some day we would like to have one custom endpoint that returns all report information
                     }
                 }
             }
