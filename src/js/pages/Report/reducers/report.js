@@ -39,15 +39,15 @@ export default function reportReducer(state = initialState, action) {
                     name: ''
                 },
 
-                // consist of: texts.fieldName = {name: '', value: ''}
+                // consist of: fieldName = {name: '', value: '', slug: ''}
                 texts: {}
             };
 
             try {
-                const account = action.report.accountHasRole.account;
-                const product = action.report.project.product;
-                const organisation = action.report.project.organisation;
-                const consultant = action.report.consultant && action.report.consultant.account;
+                const participant = action.report.participant;
+                const product = action.report.product;
+                const organisation = action.report.organisation;
+                const consultant = action.report.consultant;
                 const report = action.report.report;
 
                 if (!report) {
@@ -58,13 +58,13 @@ export default function reportReducer(state = initialState, action) {
                 }
 
                 // set report id
-                newState.report.slug = report.reportSlug;
+                newState.report.slug = report.slug;
 
                 // set display name
-                if (account.infix) {
-                    newState.report.participant.name = `${account.firstName} ${account.infix} ${account.lastName}`;
+                if (participant.infix) {
+                    newState.report.participant.name = `${participant.firstName} ${participant.infix} ${participant.lastName}`;
                 } else {
-                    newState.report.participant.name = `${account.firstName} ${account.lastName}`;
+                    newState.report.participant.name = `${participant.firstName} ${participant.lastName}`;
                 }
 
                 // set product name
@@ -77,63 +77,53 @@ export default function reportReducer(state = initialState, action) {
                 } else if (organisation.organisationType.toLowerCase() === 'jobfunction') {
                     newState.report.organisation.jobFunction = organisation.organisationName;
 
-                    if (organisation.organisation) {
-                        newState.report.organisation.name = organisation.organisation.organisationName;
+                    if (organisation.parentOrganisation) {
+                        newState.report.organisation.name = organisation.parentOrganisation;
                     }
                 }
 
                 // set appointment date
-                newState.report.participant.appointmentDate = Utils.formatDate(action.report.participantSessionAppointmentDate, 'dd mmmm yyyy');
+                if (participant.appointmentDate) {
+                    newState.report.participant.appointmentDate = Utils.formatDate(participant.appointmentDate, 'dd mmmm yyyy');
+                }
 
                 // set consultant (display) name
-                if (consultant) {
-                    if (consultant.displayName) {
-                        newState.report.consultant.name = consultant.displayName;
-                    } else if (consultant.infix) {
-                        newState.report.consultant.name = `${consultant.firstName || ''} ${consultant.infix || ''} ${consultant.lastName || ''}`;
-                    } else {
-                        newState.report.consultant.name = `${consultant.firstName || ''} ${consultant.lastName || ''}`;
-                    }
+                if (consultant && consultant.consultantName) {
+                    newState.report.consultant.name = consultant.consultantName;
                 }
 
                 // set report texts
                 const mappedFieldNames = [];
 
-                report.textFieldsInReports = report.textFieldsInReports || [];
+                report.textFieldsInReport = report.textFieldsInReport || {};
 
-                report.textFieldInReports.forEach(textField => {
+                report.textFieldsInReport.forEach(textField => {
                     const mappedTextField = {
-                        slug: textField.textFieldInReportSlug
+                        slug: textField.slug,
+                        name: textField.name,
+                        value: textField.value
                     };
 
-                    // extract score/text (value)
-                    if (textField.textFieldInReportValue) {
-                        mappedTextField.value = textField.textFieldInReportValue;
-                    }
+                    // store field name to keep track of currently added fields
+                    mappedFieldNames.push(textField.name);
 
-                    // extract field name
-                    if (textField.textField) {
-                        mappedTextField.name = textField.textField.textFieldName;
-                        mappedFieldNames.push(mappedTextField.name);
-                    }
-
+                    // store text field
                     newState.report.texts[mappedTextField.name] = mappedTextField;
                 });
 
                 // get default text fields in case some where not available on the report
-                product.textsTemplate.textFields.forEach(textField => {
+                product.textsTemplate.forEach(textField => {
 
                     // add default text field if they were not set
-                    if (!~mappedFieldNames.indexOf(textField.textFieldName)) {
-                        newState.report.texts[textField.textFieldName] = {
+                    if (!~mappedFieldNames.indexOf(textField.name)) {
+                        newState.report.texts[textField.name] = {
                             slug: null,
-                            name: textField.textFieldName,
+                            name: textField.name,
                             value: null,
-                            textFieldTemplateSlug: textField.textFieldSlug
+                            textFieldTemplateSlug: textField.slug
                         };
                     }
                 });
-
 
                 // use a flag in the state to let the component know that the report is loaded
                 newState.report.isLoaded = true;
