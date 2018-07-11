@@ -104,9 +104,15 @@ export default class AbstractRegistration extends Component {
                 this.setState(this.localState);
 
             }).catch(error => {
+                let errorMessage = '';
+
+                // todo: errors for the registration field should still be implemented (for passwords) then this might change
+                if (error && error.username) {
+                    errorMessage = this.i18n.register_email_invalid;
+                }
 
                 // exception matches lokalise keys
-                this.localState.registerError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
+                this.localState.registerError = errorMessage || this.i18n[RegistrationError.UNEXPECTED_ERROR];
                 this.localState.registerButtonDisabled = false;
                 this.setState(this.localState);
             });
@@ -220,7 +226,7 @@ export default class AbstractRegistration extends Component {
                 if (response.errors) {
 
                     // for now always just display the first error
-                    return reject(new Error(response.errors[0] || RegistrationError.UNEXPECTED_ERROR));
+                    return reject(new Error(response.errors || RegistrationError.UNEXPECTED_ERROR));
                 }
 
                 // call succeeded
