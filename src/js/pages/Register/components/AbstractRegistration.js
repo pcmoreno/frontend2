@@ -226,7 +226,7 @@ export default class AbstractRegistration extends Component {
                 if (response.errors) {
 
                     // for now always just display the first error
-                    return reject(new Error(response.errors || RegistrationError.UNEXPECTED_ERROR));
+                    return reject(response.errors || new Error(RegistrationError.UNEXPECTED_ERROR));
                 }
 
                 // call succeeded
