@@ -9,7 +9,13 @@ export default class Checkbox extends Component {
 
         return (
             <span className={ `${style.checkbox}${disabled ? ' disabled' : ''}` }>
-                <input id="checkbox" type="checkbox" checked={ checked } onClick={ widgetAction } disabled={ disabled }/>
+                <input
+                    id="checkbox"
+                    type="checkbox"
+                    checked={ checked }
+                    onClick={ widgetAction }
+                    disabled={ disabled }
+                />
             </span>
         );
     }

@@ -12,7 +12,8 @@ export default class DetailPanel extends Component {
     constructor(props) {
         super(props);
 
-        // keep track of opened tab (defaults to 'information') todo: add to constants
+        // keep track of opened tab (defaults to 'information')
+        // todo: add to constants
         this.localState = {
             activeTab: 'information'
         };
@@ -44,7 +45,7 @@ export default class DetailPanel extends Component {
         let output = null,
             icon = null;
 
-        // todo: replace ugly selector name detailpanelcontent_p
+        // todo: replace ugly css selector name detailpanelcontent_p
 
         switch (this.localState.activeTab.toString()) {
 
@@ -56,6 +57,8 @@ export default class DetailPanel extends Component {
                     selectedCompetencies={ this.props.selectedCompetencies }
                     openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
                     languageId={ this.props.languageId }
+                    pathNodes={ this.props.pathNodes }
+                    entity={ this.props.entity }
                     i18n={ i18n }
                 />
             </p>;

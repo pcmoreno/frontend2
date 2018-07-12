@@ -121,6 +121,7 @@ class Organisations extends Component {
                         selectedCompetencies={ selectedCompetencies }
                         languageId={ languageId }
                         i18n = { i18n }
+                        pathNodes={ pathNodes }
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_organisation">
@@ -296,12 +297,16 @@ class Organisations extends Component {
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModal={ () => this.closeModal('modal_edit_competencies') }
+                            selectedCompetencies={ this.props.selectedCompetencies }
+                            availableCompetencies={ this.props.availableCompetencies }
                         />
                         <EditCustomCompetencies
                             id="organisations_edit_custom_competencies"
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModal={ () => this.closeModal('modal_edit_competencies') }
+                            selectedCompetencies={ this.props.selectedCompetencies }
+                            availableCompetencies={ this.props.availableCompetencies }
                         />
                         <AddCustomCompetency
                             id="organisations_add_custom_competency"

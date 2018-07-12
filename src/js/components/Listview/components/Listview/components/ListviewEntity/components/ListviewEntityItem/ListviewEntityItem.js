@@ -27,6 +27,8 @@ export default class ListviewEntityItem extends Component {
 
         if (translationKeyPrefix) {
 
+            console.log(`attempting to translate ${translationKeyPrefix}${translatableElement}`);
+
             // construct the key required to extract the translation from the i18n object by combining translationKeyPrefix and the lowercased element key
             if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
                 return i18n[`${translationKeyPrefix}${translatableElement}`];
@@ -96,6 +98,7 @@ export default class ListviewEntityItem extends Component {
                     value = <CompetencyType competencyType={ this.props.widget.competencyType }/>;
                     break;
 
+                case ListItemTypes.HIDDEN:
                 default:
                     value = '';
             }

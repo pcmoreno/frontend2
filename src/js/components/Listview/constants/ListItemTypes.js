@@ -3,7 +3,8 @@ const ListItemTypes = {
     PENCIL: 'pencil',
     CHECKBOX: 'checkbox',
     LABEL: 'label',
-    COMPETENCY_TYPE: 'competency_type'
+    COMPETENCY_TYPE: 'competency_type',
+    HIDDEN: 'hidden'
 };
 
 export default ListItemTypes;

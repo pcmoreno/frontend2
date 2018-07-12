@@ -56,6 +56,8 @@ class Index extends Component {
 
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
 
+        this.openModalToEditCompetencies = this.openModalToEditCompetencies.bind(this);
+
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
 
@@ -525,52 +527,52 @@ class Index extends Component {
             params
         ).then(response => {
             document.querySelector('#spinner_detail_panel').classList.add('hidden');
-            this.actions.fetchSelectedCompetencies(projectSlug, response);
+            this.actions.fetchSelectedCompetencies(projectSlug, response.competencies);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
 
-    fetchAvailableCompetenciesForOrganisation(organisationSlug) {
-
-        // todo: organisationSlug should be provided, instead of extracted from pathNodes here:
-
-        // to determine the parent organisation, first the pathNodes are queried
-        const parentOrganisation = this.props.pathNodes[1];
-
-        if (parentOrganisation.type !== 'organisation' || !parentOrganisation.uuid) {
-            this.actions.addAlert({ type: 'error', text: 'could not determine parent organisation' });
-        } else {
-            document.querySelector('#spinner').classList.remove('hidden');
-            const api = ApiFactory.get('neon');
-            const apiConfig = api.getConfig();
-            const params = {
-                urlParams: {
-                    parameters: {
-                        fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
-                        limit: 10000
-                    },
-                    identifiers: {
-                        slug: parentOrganisation.uuid
-                    }
-                }
-            };
-
-            const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
-
-            // request data for detail panel
-            api.get(
-                api.getBaseUrl(),
-                endPoint,
-                params
-            ).then(response => {
-                document.querySelector('#spinner').classList.add('hidden');
-                this.actions.fetchAvailableCompetencies(organisationSlug, response);
-            }).catch(error => {
-                this.actions.addAlert({ type: 'error', text: error });
-            });
-        }
-    }
+    // fetchAvailableCompetenciesForOrganisation(organisationSlug) {
+    //
+    //     // todo: organisationSlug should be provided, instead of extracted from pathNodes here:
+    //
+    //     // to determine the parent organisation, first the pathNodes are queried
+    //     const parentOrganisation = this.props.pathNodes[1];
+    //
+    //     if (parentOrganisation.type !== 'organisation' || !parentOrganisation.uuid) {
+    //         this.actions.addAlert({ type: 'error', text: 'could not determine parent organisation' });
+    //     } else {
+    //         document.querySelector('#spinner').classList.remove('hidden');
+    //         const api = ApiFactory.get('neon');
+    //         const apiConfig = api.getConfig();
+    //         const params = {
+    //             urlParams: {
+    //                 parameters: {
+    //                     fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
+    //                     limit: 10000
+    //                 },
+    //                 identifiers: {
+    //                     slug: parentOrganisation.uuid
+    //                 }
+    //             }
+    //         };
+    //
+    //         const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
+    //
+    //         // request data for detail panel
+    //         api.get(
+    //             api.getBaseUrl(),
+    //             endPoint,
+    //             params
+    //         ).then(response => {
+    //             document.querySelector('#spinner').classList.add('hidden');
+    //             this.actions.fetchAvailableCompetencies(organisationSlug, response);
+    //         }).catch(error => {
+    //             this.actions.addAlert({ type: 'error', text: error });
+    //         });
+    //     }
+    // }
 
     fetchDetailPanelData(entity) {
         if (entity.type === 'project' && entity.uuid) {
@@ -819,38 +821,46 @@ class Index extends Component {
         }
     }
 
-    openModalToEditCompetencies(organisationId, projectId) {
-        console.log('projectId '+projectId);
-        console.log('organisationId '+organisationId);
+    openModalToEditCompetencies(organisationSlug) {
+
+        // note that at this point the selectedCompetencies are already fetched (by the detail panel)
+        // therefore only the available competencies need to be fetched
 
         document.querySelector('#modal_edit_competencies').classList.remove('hidden');
         document.querySelector('#spinner').classList.remove('hidden');
 
-        // console.log('organsiation id = '+this.props.pathNodes[formOpenByPanelId || 0].uuid);
-        // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
+        const api = ApiFactory.get('neon');
+        const apiConfig = api.getConfig();
 
-            //
-            // // request data for detail panel
-            // api.get(
-            //     api.getBaseUrl(),
-            //     endPoint,
-            //     params
-            // ).then(response => {
-            //     document.querySelector('#spinner').classList.add('hidden');
-            //
-            //     console.log('received data back:')
-            //     console.table(response)
-            //
-            //     // todo: add action/reducer flow
-            //     // store detail panel data in the state (and send the amend method with it)
-            //    //  this.actions.fetchDetailPanelData(entity, response, this.openModalToAmendParticipant, this.toggleParticipant);
-            // }).catch(error => {
-            //     this.actions.addAlert({ type: 'error', text: error });
-            // });
+        const params = {
+            urlParams: {
+                parameters: {
+                    fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
+                    limit: 10000
+                },
+                identifiers: {
+                    slug: organisationSlug
+                }
+            }
+        };
+
+        const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
+
+        this.api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            // todo: note that the API returns the available competencies in the key 'selectedCompetencies' at the moment. this is incorrect and this should be fixed
+            this.actions.fetchAvailableCompetencies(organisationSlug, response.selectedCompetencies);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
     }
 
     render() {
-
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
@@ -881,6 +891,7 @@ class Index extends Component {
                 i18n={ translator(this.props.languageId, ['organisations', 'competencies']) }
                 languageId={ this.props.languageId }
                 selectedCompetencies={ this.props.selectedCompetencies }
+                availableCompetencies={ this.props.availableCompetencies }
             />
         );
     }
@@ -891,6 +902,7 @@ const mapStateToProps = state => ({
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
     selectedCompetencies: state.organisationsReducer.selectedCompetencies,
+    availableCompetencies: state.organisationsReducer.availableCompetencies,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

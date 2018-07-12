@@ -12,12 +12,16 @@ export default class Settings extends Component {
     render() {
         const { openModalToEditCompetencies } = this.props;
 
+        // todo: extract from the path or something better
+
+        const organisationSlug = this.props.pathNodes[1].uuid;
+
         return (
             <div>
                 <div className={ style.toolbar }>
                     <button
                         onClick={ () => {
-                            openModalToEditCompetencies('a', 'b');
+                            openModalToEditCompetencies(organisationSlug);
                         } }
                         className={ 'action_button left' }
                         type={ 'button' }

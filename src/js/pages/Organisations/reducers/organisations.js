@@ -13,8 +13,7 @@ const initialState = {
             name: AppConfig.global.organisations.rootEntity.name,
             id: AppConfig.global.organisations.rootEntity.id,
             type: AppConfig.global.organisations.rootEntity.type,
-            participants: [],
-
+            participants: []
         }
     },
     selectedCompetencies: [],
@@ -321,9 +320,14 @@ export default function organisationsReducer(state = initialState, action) {
 
             tempCompetencies = [];
 
-            action.data.competencies.forEach(competency => {
+            action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
+                        {
+                            type: 'hidden',
+                            key: 'id',
+                            value: competency.id
+                        },
                         {
                             key: 'competency_name',
                             value: competency.translationKey || competency.competencyName
@@ -349,15 +353,34 @@ export default function organisationsReducer(state = initialState, action) {
 
             tempCompetencies = [];
 
-            action.data.competencies.forEach(competency => {
-                tempCompetencies.push({
-                    id: competency.id,
-                    name: competency.translationKey || competency.competencyName
-                });
+            action.data.forEach(competency => {
+                tempCompetencies.push(
+                    [
+                        {
+                            type: 'checkbox',
+                            key: 'selectParticipantLabel',
+                            id: competency.id,
+                            action: () => {
+
+                            // console.log('select');
+                            }
+                        },
+                        {
+                            key: 'competency_name',
+                            value: competency.translationKey || competency.competencyName
+                        },
+                        {
+                            type: ListItemTypes.COMPETENCY_TYPE,
+                            key: 'competency_type',
+                            disabled: false,
+                            competencyType: competency.translationKey ? 'global' : 'custom'
+                        }
+
+                    ]
+                );
             });
 
             newState.availableCompetencies = tempCompetencies;
-
 
             break;
 

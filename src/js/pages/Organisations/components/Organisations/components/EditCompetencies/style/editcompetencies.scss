@@ -1,0 +1,26 @@
+.editcompetencies {
+    main {
+
+        /* there is an aesthetically pleasing 10% offset at bottom of (responsive) the modal
+           also, it takes into account the header and the 2rem padding on body and on the inside */
+        max-height: calc(100vh - 12.75rem - 4rem);
+
+        overflow-y: scroll;
+        padding: 1rem;
+        border-top: 1px solid $shadow;
+        border-bottom: 1px solid $shadow;
+        margin-top: .25rem;
+
+        thead {
+            display: none;
+        }
+
+        tbody {
+            border: 1px solid $shadow;
+
+            &:before {
+                display: none;
+            }
+        }
+    }
+}

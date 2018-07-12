@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
-import style from './style/editglobalcompetencies.scss';
 import Listview from '../../../../../../../../components/Listview';
+import style from './../../style/editcompetencies.scss';
 
 /** @jsx h */
 
@@ -8,56 +8,40 @@ export default class EditGlobalCompetencies extends Component {
     render() {
         const { i18n } = this.props;
 
-        // get available competencies by organisation slug
-        // http://dev.ltponline.com:8000/api/v1/section/organisation/slug/000023a3-7997-4f27-a067-b94c5faad0e9?fields=organisationName,selectedCompetencies,competencyName,id,translationKey
-        // onderscheid custom en global kan op basis van aanwezigheid translation key
+        // first construct a lookup array with the selected competencies (just the id's will do)
+        const selectedEntities = [];
 
-
-
-
-
-        // get selected competencies by organisation slug
-        // http://dev.ltponline.com:8000/api/v1/section/project/slug/f3bdaeb1-f1e6-4615-b211-60dc9a1d1a81?fields=competencies,organisation,organisationName,competencyName,id,translationKey
-        // onderscheid custom en global kan op basis van aanwezigheid translation key
-
-        const entities = [
-            [
-                {
-                    type: 'checkbox',
-                    key: 'selectParticipantLabel',
-                    action: () => {
-                        console.log('select');
-                    }
-                },
-                {
-                    key: 'name',
-                    value: 'value1'
+        this.props.selectedCompetencies.forEach(selectedCompetency => {
+            selectedCompetency.forEach(prop => {
+                if (prop.key === 'id') {
+                    selectedEntities.push(prop.value);
                 }
-            ],
-            [
-                {
-                    type: 'checkbox',
-                    key: 'selectParticipantLabel',
-                    action: () => {
-                        console.log('select');
-                    }
-                },
-                {
-                    key: 'name',
-                    value: 'value2'
+            });
+        });
+
+        // todo: you'll probably want to move some of this logic to a localState property to be able to do the selecting/deselecting
+
+        const globalCompetencies = [];
+
+        this.props.availableCompetencies.forEach(competency => {
+            competency.forEach(prop => {
+
+                // only add global competencies
+                if (prop.type === 'competency_type' && prop.competencyType === 'global') {
+                    globalCompetencies.push(competency);
                 }
-            ]
-        ];
+            });
+        });
 
         return (
-            <div id="organisations_edit_global_competencies" className={ `${style.tab} hidden` }>
+            <div id="organisations_edit_global_competencies" className={ `${style.editcompetencies} hidden` }>
                 <main>
                     <Listview
-                        entities={ entities }
-                        defaultSortingKey={ 'name' }
+                        entities={ globalCompetencies }
+                        defaultSortingKey={ 'competency_name' }
                         defaultSortingOrder={ 'desc' }
-                        i18n={i18n}
-                        translationKeyPrefix={ 'competencies_' }
+                        selectedEntities={ selectedEntities }
+                        i18n={ i18n }
                     />
                 </main>
                 <footer>
@@ -67,7 +51,9 @@ export default class EditGlobalCompetencies extends Component {
                         value="Close"
                         onClick={ this.props.closeModal }
                     >{ i18n.organisations_close }</button>
-                    <button class="action_button" type="button" value="Submit">{ i18n.organisations_select }</button>
+                    <button class="action_button" type="button" value="Submit">
+                        { i18n.organisations_select }
+                    </button>
                 </footer>
             </div>
         );

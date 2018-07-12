@@ -174,6 +174,22 @@ table td.organisation {
     padding: .5rem 1rem
 }
 
+#organisations_edit_global_competencies main table,
+#organisations_edit_custom_competencies main table {
+
+    /* checkbox column in the competencies modal */
+    td:first-child {
+        width: .5rem;
+        text-align: center;
+        padding: .5rem 1rem
+    }
+
+    /* in the global competencies modal hide the last column with the global icon. it is only required for detail panel */
+    td:last-child {
+        display: none;
+    }
+}
+
 .selectParticipantLabel,
 .amendParticipantLabel {
     padding: 0;
