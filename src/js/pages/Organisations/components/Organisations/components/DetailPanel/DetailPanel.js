@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
 import Participants from './components/Participants/Participants';
 import Settings from './components/Settings/Settings';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
+
+/** @jsx h */
 
 export default class DetailPanel extends Component {
     constructor(props) {
@@ -108,20 +107,20 @@ export default class DetailPanel extends Component {
                     </div>
                     <span
                         tabIndex="0"
-                        className={ style.button_hide_detailpanel }
+                        className={ `${style.button_hide_detailpanel}` }
                         onClick={ this.closeDetailPanel }
                         role="button">
                         x
                     </span>
                     <span
                         tabIndex="0"
-                        className={ style.button_fullwidth_detailpanel }
+                        className={ `${style.button_fullwidth_detailpanel}` }
                         onClick={ this.toggleFullWidthDetailPanel }
                         role="button">
                         &#11013;
                     </span>
                     { entity.name !== 'LTP' &&
-                        <div className={ style.header_icon }>{ icon }</div>
+                        <div className={ `${style.header_icon}` }>{ icon }</div>
                     }
                     <h2>{ entity.name }</h2>
                 </header>
@@ -131,7 +130,7 @@ export default class DetailPanel extends Component {
                     switchTab={ this.switchTab }
                     i18n={ i18n }
                 />
-                <main className={ style.modal_invite_participant }>
+                <main className={ `${style.modal_invite_participant}` }>
                     { output }
                 </main>
             </aside>

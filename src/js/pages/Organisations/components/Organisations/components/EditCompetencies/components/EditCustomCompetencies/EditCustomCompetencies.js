@@ -42,6 +42,7 @@ export default class EditCustomCompetencies extends Component {
                         defaultSortingOrder={ 'desc' }
                         selectedEntities={ selectedEntities }
                         i18n={ i18n }
+                        translationKeyPrefix={ 'competencies_' }
                     />
                 </main>
                 <footer>

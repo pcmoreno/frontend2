@@ -38,10 +38,11 @@ export default class EditGlobalCompetencies extends Component {
                 <main>
                     <Listview
                         entities={ globalCompetencies }
+                        selectedEntities={ selectedEntities }
                         defaultSortingKey={ 'competency_name' }
                         defaultSortingOrder={ 'desc' }
-                        selectedEntities={ selectedEntities }
                         i18n={ i18n }
+                        translationKeyPrefix={ 'competencies_' }
                     />
                 </main>
                 <footer>

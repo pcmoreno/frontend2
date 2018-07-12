@@ -27,17 +27,9 @@ export default class ListviewEntityItem extends Component {
 
         if (translationKeyPrefix) {
 
-            console.log(`attempting to translate ${translationKeyPrefix}${translatableElement}`);
-
             // construct the key required to extract the translation from the i18n object by combining translationKeyPrefix and the lowercased element key
             if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
                 return i18n[`${translationKeyPrefix}${translatableElement}`];
-            }
-
-            // in some cases, the translationKeyPrefix should be omitted to get the translations (competencies)
-            // todo: look into adding a competencies_ prefix in lokalise instead (jan?)
-            if (i18n[`${translatableElement}`]) {
-                return i18n[`${translatableElement}`];
             }
         }
 
