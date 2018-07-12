@@ -533,47 +533,6 @@ class Index extends Component {
         });
     }
 
-    // fetchAvailableCompetenciesForOrganisation(organisationSlug) {
-    //
-    //     // todo: organisationSlug should be provided, instead of extracted from pathNodes here:
-    //
-    //     // to determine the parent organisation, first the pathNodes are queried
-    //     const parentOrganisation = this.props.pathNodes[1];
-    //
-    //     if (parentOrganisation.type !== 'organisation' || !parentOrganisation.uuid) {
-    //         this.actions.addAlert({ type: 'error', text: 'could not determine parent organisation' });
-    //     } else {
-    //         document.querySelector('#spinner').classList.remove('hidden');
-    //         const api = ApiFactory.get('neon');
-    //         const apiConfig = api.getConfig();
-    //         const params = {
-    //             urlParams: {
-    //                 parameters: {
-    //                     fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
-    //                     limit: 10000
-    //                 },
-    //                 identifiers: {
-    //                     slug: parentOrganisation.uuid
-    //                 }
-    //             }
-    //         };
-    //
-    //         const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
-    //
-    //         // request data for detail panel
-    //         api.get(
-    //             api.getBaseUrl(),
-    //             endPoint,
-    //             params
-    //         ).then(response => {
-    //             document.querySelector('#spinner').classList.add('hidden');
-    //             this.actions.fetchAvailableCompetencies(organisationSlug, response);
-    //         }).catch(error => {
-    //             this.actions.addAlert({ type: 'error', text: error });
-    //         });
-    //     }
-    // }
-
     fetchDetailPanelData(entity) {
         if (entity.type === 'project' && entity.uuid) {
             this.fetchParticipantsForProject(entity);
