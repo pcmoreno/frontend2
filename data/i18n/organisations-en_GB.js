@@ -33,6 +33,7 @@ export default {
     "organisations_comments": "Comment(s)",
     "organisations_competencies": "Competencies",
     "organisations_competencies_custom": "Custom competencies",
+    "organisations_competencies_modal_loading": "Loading form",
     "organisations_competency_definition": "Competency definition",
     "organisations_competency_name": "Competency name",
     "organisations_competenties_ltp": "Ltp competencies",
