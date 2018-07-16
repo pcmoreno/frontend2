@@ -36,14 +36,17 @@ export default class EditCustomCompetencies extends Component {
         return (
             <div id="organisations_edit_custom_competencies" className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    <Listview
-                        entities={ customCompetencies }
-                        defaultSortingKey={ 'competency_name' }
-                        defaultSortingOrder={ 'desc' }
-                        selectedEntities={ selectedEntities }
-                        i18n={ i18n }
-                        translationKeyPrefix={ 'competencies_' }
-                    />
+                    { customCompetencies.length > 0
+                        ? <Listview
+                            entities={ customCompetencies }
+                            defaultSortingKey={ 'competency_name' }
+                            defaultSortingOrder={ 'desc' }
+                            selectedEntities={ selectedEntities }
+                            i18n={ i18n }
+                            translationKeyPrefix={ 'competencies_' }
+                        />
+                        : i18n.organisations_competencies_modal_loading
+                    }
                 </main>
                 <footer>
                     <button

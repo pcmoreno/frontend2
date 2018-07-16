@@ -37,7 +37,7 @@ export default class Modal extends Component {
         }
 
         return (
-            <aside id={ this.props.id } className={ `${style.modal_container} hidden` }>
+            <aside id={ this.props.id } className={ `${style.modal_container}` }>
                 <section role="dialog">
                     <section tabIndex="0" className={ style.modal_background } onClick={ this.props.closeModal } role="button" />
                     <aside className={ style.modal }>
