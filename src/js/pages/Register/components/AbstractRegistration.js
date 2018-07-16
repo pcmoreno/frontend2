@@ -51,7 +51,7 @@ export default class AbstractRegistration extends Component {
         };
 
         this.api = ApiFactory.get('neon');
-        this.i18n = translator(props.languageId, 'register');
+        this.i18n = translator(props.languageId, ['register', 'form']);
     }
 
     /**
@@ -104,16 +104,22 @@ export default class AbstractRegistration extends Component {
                 this.setState(this.localState);
 
             }).catch(error => {
+                let errorMessage = '';
+
+                // Always show the first error that was returned from the api
+                if (error && error[0]) {
+                    errorMessage = this.i18n[error[0]];
+                }
 
                 // exception matches lokalise keys
-                this.localState.registerError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
+                this.localState.registerError = errorMessage || this.i18n[error.message];
                 this.localState.registerButtonDisabled = false;
                 this.setState(this.localState);
             });
         } catch (error) {
 
             // exception matches lokalise keys
-            this.localState.registerError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
+            this.localState.registerError = this.i18n[error.message];
             this.localState.registerButtonDisabled = false;
             this.setState(this.localState);
         }
@@ -145,14 +151,14 @@ export default class AbstractRegistration extends Component {
             }).catch(error => {
 
                 // exception matches lokalise keys
-                this.localState.loginError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
+                this.localState.loginError = this.i18n[error.message];
                 this.localState.loginButtonDisabled = false;
                 this.setState(this.localState);
             });
         } catch (error) {
 
             // exception matches lokalise keys
-            this.localState.loginError = this.i18n[error.message] || this.i18n[RegistrationError.UNEXPECTED_ERROR];
+            this.localState.loginError = this.i18n[error.message];
             this.localState.loginButtonDisabled = false;
             this.setState(this.localState);
         }
@@ -220,7 +226,7 @@ export default class AbstractRegistration extends Component {
                 if (response.errors) {
 
                     // for now always just display the first error
-                    return reject(new Error(response.errors[0] || RegistrationError.UNEXPECTED_ERROR));
+                    return reject(response.errors || new Error(RegistrationError.UNEXPECTED_ERROR));
                 }
 
                 // call succeeded

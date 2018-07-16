@@ -113,7 +113,13 @@ const AppConfig = {
         defaultLanguage: 'en_GB',
         mapped: {
             nl: 'nl_NL',
-            en: 'en_GB'
+            en: 'en_GB',
+            'nl-nl': 'nl_NL',
+            'nl_nl': 'nl_NL', // eslint-disable-line
+            'en-gb': 'en_GB',
+            'en_gb': 'en_GB', // eslint-disable-line
+            'en-us': 'en_GB',
+            'en_us': 'en_GB' // eslint-disable-line
         }
     },
     sources: {

@@ -20,7 +20,7 @@ export default class Register extends Component {
                             </header>
                             <main>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="username">{ i18n.register_email_label }</label>
+                                    <label htmlFor="username">{ `${i18n.register_email_label} *` }</label>
                                     <input
                                         tabIndex="1"
                                         type="text"
@@ -33,7 +33,7 @@ export default class Register extends Component {
                                     />
                                 </div>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="password">{ i18n.register_new_password_label }</label>
+                                    <label htmlFor="password">{ `${i18n.register_new_password_label} *` }</label>
                                     <input
                                         tabIndex="2"
                                         type="password"
@@ -46,7 +46,7 @@ export default class Register extends Component {
                                     />
                                 </div>
                                 <div className={style.inputContainer}>
-                                    <label htmlFor="passwordConfirm">{ i18n.register_confirm_password_label }</label>
+                                    <label htmlFor="passwordConfirm">{ `${i18n.register_confirm_password_label} *` }</label>
                                     <input
                                         tabIndex="3"
                                         type="password"
