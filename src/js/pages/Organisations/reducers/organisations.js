@@ -405,6 +405,13 @@ export default function organisationsReducer(state = initialState, action) {
 
             break;
 
+        case actionType.RESET_COMPETENCIES:
+
+            newState.selectedCompetencies = [];
+            newState.availableCompetencies = [];
+
+            break;
+
         default:
             return state;
     }

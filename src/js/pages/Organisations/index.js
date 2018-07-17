@@ -46,17 +46,19 @@ class Index extends Component {
         this.openModalToInviteParticipant = this.openModalToInviteParticipant.bind(this);
         this.closeModalToInviteParticipant = this.closeModalToInviteParticipant.bind(this);
 
+        this.openModalToEditCompetencies = this.openModalToEditCompetencies.bind(this);
+        this.closeModalToEditCompetencies = this.closeModalToEditCompetencies.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
-        this.refreshDetailPanelDataWithMessage = this.refreshDetailPanelDataWithMessage.bind(this);
+        this.refreshDetailPanelParticipantsWithMessage = this.refreshDetailPanelParticipantsWithMessage.bind(this);
 
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
-
-        this.openModalToEditCompetencies = this.openModalToEditCompetencies.bind(this);
+        this.updateCompetencies = this.updateCompetencies.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -167,7 +169,7 @@ class Index extends Component {
                 }
 
                 // show message and reload detail panel
-                this.refreshDetailPanelDataWithMessage(successMessage);
+                this.refreshDetailPanelParticipantsWithMessage(successMessage);
 
                 // unlock the modal again
                 this.modalLocked = false;
@@ -213,26 +215,33 @@ class Index extends Component {
      * @param {Object} [options.addedParticipant] - added participant
      * @returns {undefined}
      */
-    refreshDetailPanelDataWithMessage(message, options = {}) {
+    refreshDetailPanelParticipantsWithMessage(message, options = {}) {
         let newParticipantUuid = null;
 
         if (options.addedParticipant && options.addedParticipant.entry && options.addedParticipant.entry.uuid) {
             newParticipantUuid = options.addedParticipant.entry.uuid;
         }
 
-        // Show a message, is translated in form definition on Organisations.js
-        this.actions.addAlert({ type: 'success', text: message });
-
-        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
-        // which is present in pathNodes but not in panels
-        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
-        const lastSelectedItem = this.props.pathNodes[panelId + 1];
-
         // check if there was a participant added that we need to select
         if (newParticipantUuid) {
             this.localState.selectedParticipants.push(newParticipantUuid);
             this.setState(this.localState);
         }
+
+        this.refreshDetailPanelWithMessage(message);
+    }
+
+    refreshDetailPanelWithMessage(message) {
+
+        // show a message, is translated in form definition on Organisations.js
+        if (message) {
+            this.actions.addAlert({ type: 'success', text: message });
+        }
+
+        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
+        // which is present in pathNodes but not in panels
+        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+        const lastSelectedItem = this.props.pathNodes[panelId + 1];
 
         // refresh detail panel of last selected item
         this.fetchDetailPanelData(lastSelectedItem);
@@ -782,6 +791,8 @@ class Index extends Component {
 
     openModalToEditCompetencies(organisationSlug) {
 
+        this.modalLocked = true;
+
         // note that at this point the selectedCompetencies are already fetched (by the detail panel)
         // therefore only the available competencies need to be fetched
 
@@ -811,12 +822,36 @@ class Index extends Component {
             params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-
-            // todo: note that the API returns the available competencies in the key 'selectedCompetencies' at the moment. this is incorrect and this should be fixed
             this.actions.fetchAvailableCompetencies(organisationSlug, response.selectedCompetencies);
+            this.modalLocked = false;
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
+    }
+
+    closeModalToEditCompetencies(message) {
+        if (!this.modalLocked) {
+            document.querySelector('#modal_edit_competencies').classList.add('hidden');
+
+            // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
+            this.actions.resetCompetencies();
+
+            if (message) {
+                this.refreshDetailPanelWithMessage(message);
+            } else {
+                this.refreshDetailPanelWithMessage();
+            }
+        }
+    }
+
+    updateCompetencies(message) {
+        if (!this.modalLocked) {
+            this.modalLocked = true;
+
+            // todo: add promise, then in the success do this:
+            this.modalLocked = false;
+            this.closeModalToEditCompetencies(message);
+        }
     }
 
     render() {
@@ -832,7 +867,7 @@ class Index extends Component {
                 fetchEntities = { this.fetchEntities }
                 fetchDetailPanelData = { this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
-                refreshDetailPanelDataWithMessage={ this.refreshDetailPanelDataWithMessage }
+                refreshDetailPanelParticipantsWithMessage={ this.refreshDetailPanelParticipantsWithMessage }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
                 closeModalToAddProject={ this.closeModalToAddProject }
@@ -843,6 +878,7 @@ class Index extends Component {
                 openModalToInviteParticipant={ this.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
                 openModalToEditCompetencies={ this.openModalToEditCompetencies }
+                closeModalToEditCompetencies={ this.closeModalToEditCompetencies }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
@@ -851,6 +887,7 @@ class Index extends Component {
                 languageId={ this.props.languageId }
                 selectedCompetencies={ this.props.selectedCompetencies }
                 availableCompetencies={ this.props.availableCompetencies }
+                updateCompetencies={ this.updateCompetencies }
             />
         );
     }

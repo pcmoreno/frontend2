@@ -15,7 +15,7 @@ export default class AddCustomCompetency extends Component {
                         class="action_button action_button__secondary"
                         type="button"
                         value="Close"
-                        onClick={ this.props.closeModal }
+                        onClick={ this.props.closeModalToEditCompetencies }
                     >{ i18n.organisations_close }</button>
                     <button class="action_button" type="button" value="Submit">{ i18n.organisations_save }</button>
                 </footer>

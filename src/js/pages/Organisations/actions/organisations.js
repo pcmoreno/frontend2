@@ -105,6 +105,17 @@ export function resetDetailPanel() {
 }
 
 /**
+ * Reset competencies
+ * @returns {{}} reset competencies
+ */
+export function resetCompetencies() {
+    return {
+        type: actionType.RESET_COMPETENCIES
+    };
+}
+
+
+/**
  * Sets the active panel id for the forms
  * @param {number} panelId - panel id
  * @returns {undefined}
