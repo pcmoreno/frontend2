@@ -23,6 +23,7 @@ export default {
     "form_error_duplicate_entry": "Deze waarde bestaat al",
     "form_error_duplicate_non_participant_role": "Deze gebruiker is al eerder uitgenodigd met de geselecteerde rol",
     "form_error_invalid_email": "Het e-mailadres is ongeldig",
+    "form_error_invalid_field_value": "De waarde van dit veld is ongeldig",
     "form_error_length_maximum": "De waarde van dit veld is te lang",
     "form_error_length_minimum": "De waarde van dit veld is te kort",
     "form_error_not_blank": "Dit veld mag niet leeg zijn",
