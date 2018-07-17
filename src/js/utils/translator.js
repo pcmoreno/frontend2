@@ -13,7 +13,7 @@ export function requireThis(component, languageId) {
 /**
  * @class translator
  * @param {string} languageId - language id
- * @param {string} componentId - component id
+ * @param {string|array} componentId - component id
  * @returns { Object } translations
  */
 export default function translator(languageId, componentId) {
