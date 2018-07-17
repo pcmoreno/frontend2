@@ -56,7 +56,6 @@ export default class DateTimeField extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ `${formId}_${fieldId}` }>{ label + requiredLabel }</label>
@@ -71,7 +70,9 @@ export default class DateTimeField extends Component {
                             name={ fieldId }
                             id={ `${formId}_${fieldId}` }
                             value={ this.localState.date }
+                            className={ currentForm.errors.fields[fieldId] && 'error' }
                         />
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
                 </ul>
             </div>

@@ -56,7 +56,6 @@ export default class Choice extends Component {
 
         return (
             <div>
-                <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                 <ul className={ style.fieldGroup }>
                     <li>
                         <label htmlFor={ `${formId}_${fieldId}` }>{ label + requiredLabel }</label>
@@ -66,9 +65,11 @@ export default class Choice extends Component {
                             id={ `${formId}_${fieldId}` }
                             name={ fieldId }
                             onBlur={ onChange }
+                            className={ currentForm.errors.fields[fieldId] && 'error' }
                         >
                             { this.createOptions(options, i18n) }
                         </select>
+                        <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
                 </ul>
             </div>
