@@ -81,6 +81,9 @@ class Index extends Component {
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
+
+        // this passed-on property determines which tab opens by default in the edit competencies modal
+        this.editCompetenciesActiveTab = null;
     }
 
     toggleSelectAllParticipants(event) {
@@ -833,6 +836,9 @@ class Index extends Component {
         if (!this.modalLocked) {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
+            // override the active tab to the first one
+            this.editCompetenciesActiveTab = 'organisations_edit_global_competencies';
+
             // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
             this.actions.resetCompetencies();
 
@@ -851,6 +857,18 @@ class Index extends Component {
             // todo: add promise, then in the success do this:
             this.modalLocked = false;
             this.closeModalToEditCompetencies(message);
+        }
+    }
+
+    addCompetency(message) {
+        if (!this.modalLocked) {
+            this.modalLocked = true;
+
+            // todo: add promise, then in the success do this:
+            this.modalLocked = false;
+
+            // switch to the custom competencies tab
+            this.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
         }
     }
 
@@ -888,6 +906,8 @@ class Index extends Component {
                 selectedCompetencies={ this.props.selectedCompetencies }
                 availableCompetencies={ this.props.availableCompetencies }
                 updateCompetencies={ this.updateCompetencies }
+                addCompetency={ this.addCompetency }
+                editCompetenciesActiveTab={ this.editCompetenciesActiveTab }
             />
         );
     }

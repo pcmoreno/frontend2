@@ -25,7 +25,7 @@ export default class Tabs extends Component {
 
         // you can provide the default tab over props
         this.localState = {
-            activeTab: this.props.activeTab
+            activeTab: null
         };
     }
 
@@ -68,10 +68,29 @@ export default class Tabs extends Component {
     }
 
     componentDidUpdate() {
+        if (this.props.activeTab !== null) {
+
+            // default to given tab
+            this.localState.activeTab = this.props.activeTab;
+        }
+
         this.updateTabs();
     }
 
     componentDidMount() {
+
+        if (this.props.activeTab) {
+
+            // default to given tab
+            this.localState.activeTab = this.props.activeTab;
+        } else {
+
+            // default to first child id
+            if (this.props.children) {
+                this.localState.activeTab = this.props.children[0].attributes.id;
+            }
+        }
+
         this.updateTabs();
     }
 
@@ -94,8 +113,7 @@ export default class Tabs extends Component {
                         this.switchTab(child.attributes.id);
                     }}
                     id={ `tablink_${child.attributes.id}` }
-                >{child.attributes.label}
-                </span>
+                >{child.attributes.label}</span>
             );
         });
 

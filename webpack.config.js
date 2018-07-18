@@ -1,6 +1,6 @@
 
 // todo: figure out how sourcemaps can be enabled by default for dev and acc environments
-let sourceMapsEnabled = false;
+let sourceMapsEnabled = true;
 let gzippedAssets = false;
 
 /* define plugins *****************************************************************************************************/

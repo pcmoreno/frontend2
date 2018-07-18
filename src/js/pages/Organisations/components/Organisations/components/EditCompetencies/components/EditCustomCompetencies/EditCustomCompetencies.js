@@ -13,13 +13,11 @@ export default class EditCustomCompetencies extends Component {
             customCompetencies: [],
             selectedCompetencies: []
         };
-
-        this.setState(this.localState);
     }
 
     componentWillUpdate() {
 
-        // ensures locally used vars are cleared on each update (also when reducer is cleared for reset_competencies action)
+        // ensures locally used vars are cleared on each update (also when reducer clears the state by reset_competencies action)
         if (this.localState.customCompetencies !== [] || this.localState.selectedEntities !== []) {
             this.localState.customCompetencies = [];
             this.localState.selectedEntities = [];
@@ -30,30 +28,25 @@ export default class EditCustomCompetencies extends Component {
     render() {
         const { i18n } = this.props;
 
-        // construct a lookup array with the selected competencies (just the id's will do)
-        if (this.props.selectedCompetencies.length > 0) {
-            this.props.selectedCompetencies.forEach(selectedCompetency => {
-                selectedCompetency.forEach(prop => {
+        this.props.selectedCompetencies.forEach(selectedCompetency => {
+            selectedCompetency.forEach(prop => {
 
-                    // only the id prop is required to check for selected competencies
-                    if (prop.key === 'id') {
-                        this.localState.selectedEntities.push(prop.value);
-                    }
-                });
+                // only the id prop is required to check for selected competencies
+                if (prop.key === 'id') {
+                    this.localState.selectedEntities.push(prop.value);
+                }
             });
-        }
+        });
 
-        if (this.props.availableCompetencies.length > 0) {
-            this.props.availableCompetencies.forEach(competency => {
-                competency.forEach(prop => {
+        this.props.availableCompetencies.forEach(competency => {
+            competency.forEach(prop => {
 
-                    // only add global competencies
-                    if (prop.type === 'competency_type' && prop.competencyType === 'global') {
-                        this.localState.customCompetencies.push(competency);
-                    }
-                });
+                // only add custom competencies
+                if (prop.type === 'competency_type' && prop.competencyType === 'custom') {
+                    this.localState.customCompetencies.push(competency);
+                }
             });
-        }
+        });
 
         return (
             <div id="organisations_edit_custom_competencies" className={ `${style.editcompetencies} hidden` }>
