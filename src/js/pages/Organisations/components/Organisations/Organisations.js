@@ -300,7 +300,7 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetencies={ this.props.selectedCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
-                            updateCompetencies={ this.props.updateCompetencies }
+                            updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <EditCustomCompetencies
                             id="organisations_edit_custom_competencies"
@@ -309,14 +309,14 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetencies={ this.props.selectedCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
-                            updateCompetencies={ this.props.updateCompetencies }
+                            updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency
                             id="organisations_add_custom_competency"
                             label={ i18n.organisations_add_custom_competency }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
-                            addCompetency={ this.props.addCompetency }
+                            addCustomCompetency={ this.props.addCustomCompetency }
                         />
                     </Tabs>
                 </Modal>

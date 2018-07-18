@@ -58,8 +58,9 @@ class Index extends Component {
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
-        this.updateCompetencies = this.updateCompetencies.bind(this);
-        this.addCompetency = this.addCompetency.bind(this);
+        this.updateCompetencySelection = this.updateCompetencySelection.bind(this);
+        this.addCustomCompetency = this.addCustomCompetency.bind(this);
+        this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -791,14 +792,7 @@ class Index extends Component {
         }
     }
 
-    openModalToEditCompetencies(organisationSlug) {
-
-        this.modalLocked = true;
-
-        // note that at this point the selectedCompetencies are already fetched (by the detail panel)
-        // therefore only the available competencies need to be fetched
-
-        document.querySelector('#modal_edit_competencies').classList.remove('hidden');
+    getGlobalAndCustomCompetencies(organisationSlug) {
         document.querySelector('#spinner').classList.remove('hidden');
 
         const api = ApiFactory.get('neon');
@@ -831,13 +825,27 @@ class Index extends Component {
         });
     }
 
+    openModalToEditCompetencies() {
+        this.modalLocked = true;
+
+        // note that at this point the selectedCompetencies are already fetched (by the detail panel)
+        // therefore only the available competencies need to be fetched
+
+        document.querySelector('#modal_edit_competencies').classList.remove('hidden');
+
+        // retrieve global and custom competencies and add them to the state
+        this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
+    }
+
     closeModalToEditCompetencies(message) {
         if (!this.modalLocked) {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
-            // override the active tab to the first one
+            // override the active tab to the first one, then immediately reset it so user can switch to other tabs
             this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competencies';
-            this.setState(this.localState);
+            this.setState(this.localState, () => {
+                this.localState.editCompetenciesActiveTab = null;
+            });
 
             // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
             this.actions.resetCompetencies();
@@ -850,7 +858,7 @@ class Index extends Component {
         }
     }
 
-    updateCompetencies(message) {
+    updateCompetencySelection(message) {
         if (!this.modalLocked) {
             this.modalLocked = true;
 
@@ -860,24 +868,31 @@ class Index extends Component {
         }
     }
 
-    addCompetency(message) {
+    addCustomCompetency(message) {
         if (!this.modalLocked) {
-
             this.modalLocked = true;
 
+            // todo: add promise, then in the success do the following:
             setTimeout(() => {
-
-                // todo: add promise, then in the success do this:
                 this.modalLocked = false;
 
-                // override the active tab to the second one
+                // reset competencies: this has issues since it clears selectedCompetencies and as such the marking
+                // of selected competencies fails. but most of all: is it needed, or will it simply overwrite?
+                // this.actions.resetCompetencies();
+
+                // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
                 this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
-                this.setState(this.localState);
+                this.setState(this.localState, () => {
+                    this.localState.editCompetenciesActiveTab = null;
+                });
+
+                // retrieve competencies again (including the one that was just added)
+                this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
 
                 if (message) {
                     this.actions.addAlert({ type: 'success', text: message });
                 }
-            }, 1000);
+            }, 3000);
         }
     }
 
@@ -914,8 +929,8 @@ class Index extends Component {
                 languageId={ this.props.languageId }
                 selectedCompetencies={ this.props.selectedCompetencies }
                 availableCompetencies={ this.props.availableCompetencies }
-                updateCompetencies={ this.updateCompetencies }
-                addCompetency={ this.addCompetency }
+                updateCompetencySelection={ this.updateCompetencySelection }
+                addCustomCompetency={ this.addCustomCompetency }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
             />
         );

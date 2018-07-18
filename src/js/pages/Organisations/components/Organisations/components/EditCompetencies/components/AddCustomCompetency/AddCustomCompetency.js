@@ -24,7 +24,7 @@ export default class AddCustomCompetency extends Component {
                         type="button"
                         value="Submit"
                         onClick={ () => {
-                            this.props.addCompetency(i18n.organisations_add_custom_competency_success);
+                            this.props.addCustomCompetency(i18n.organisations_add_custom_competency_success);
                         } }
                     >{ i18n.organisations_save }</button>
                 </footer>
