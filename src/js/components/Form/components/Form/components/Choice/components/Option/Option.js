@@ -10,7 +10,7 @@ export default class Option extends Component {
     }
 
     render() {
-        const { optionValue, value, selected, i18n, translationKey, disabled } = this.props;
+        const { optionValue, value, i18n, translationKey, disabled } = this.props;
         let translatedValue = value || '';
 
         // try to fetch translation based on translation key first, then on value
@@ -35,6 +35,6 @@ export default class Option extends Component {
             }
         }
 
-        return (<option value={ optionValue } disabled={ disabled } selected={ selected }>{ translatedValue }</option>);
+        return (<option value={ optionValue } disabled={ disabled }>{ translatedValue }</option>);
     }
 }

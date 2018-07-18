@@ -9,6 +9,8 @@ export default class ManyToMany extends AbstractRelationship {
     render() {
         const { currentForm, fieldId, options, onChange, formId, label, i18n, value = null, requiredLabel, placeholder, isRequired } = this.props;
 
+        const optionList = this.createOptions(options[options.to], i18n, value, placeholder, isRequired);
+
         return (
             <div>
                 <ul className={ style.fieldGroup }>
@@ -24,8 +26,9 @@ export default class ManyToMany extends AbstractRelationship {
                             multiple="multiple"
                             onBlur={ onChange }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            value={ value || this.defaultValue }
                         >
-                            { this.createOptions(options[options.to], i18n, value, placeholder, isRequired) }
+                            { optionList }
                         </select>
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
