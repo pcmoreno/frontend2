@@ -9,6 +9,7 @@ import TextArea from './components/TextArea/TextArea';
 import * as fieldType from './constants/FieldTypes';
 import Logger from '../../../../utils/logger';
 import Utils from '../../../../utils/utils';
+import FormErrors from '../../constants/FormErrors';
 
 /** @jsx h */
 
@@ -63,6 +64,7 @@ export default class Form extends Component {
         this.hasRequiredFields = false;
         this.translationKeysOverride = this.props.translationKeysOverride || [];
         this.logger = Logger.instance;
+        this.i18n = this.props.i18n;
     }
 
     /**
@@ -411,7 +413,7 @@ export default class Form extends Component {
                             ableToSubmit = false;
 
                             this.handleErrorMessages(
-                                { [fieldId]: `${this.props.i18n.form_value_can_not_be_empty}` }
+                                { [fieldId]: FormErrors.VALUE_CAN_NOT_BE_EMPTY }
                             );
                         }
                     }
@@ -462,7 +464,7 @@ export default class Form extends Component {
 
             // show an error (unexpected) as form field values could not be fetched
             this.handleErrorMessages({
-                form: this.props.i18n.form_could_not_process_your_request
+                form: FormErrors.COULD_NOT_PROCESS_REQUEST
             });
         }
     }
@@ -493,15 +495,15 @@ export default class Form extends Component {
 
                 // check for form error
                 if (key === 'form') {
-                    newState.errors.form = errors[key];
+                    newState.errors.form = this.i18n[errors[key]] || '';
                     continue;
                 }
 
                 // check whether field error is array or string and get the first item
                 if (Array.isArray(errors[key])) {
-                    newState.errors.fields[key] = errors[key][0];
+                    newState.errors.fields[key] = this.i18n[errors[key][0]] || this.i18n[FormErrors.INVALID_FIELD_VALUE];
                 } else {
-                    newState.errors.fields[key] = errors[key];
+                    newState.errors.fields[key] = this.i18n[errors[key]] || this.i18n[FormErrors.INVALID_FIELD_VALUE];
                 }
             }
         }
