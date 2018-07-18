@@ -42,6 +42,7 @@ export default {
     "organisations_development_orientation_definition": "Exert oneself to broaden and deepen one’s own knowledge and capabilities, and to have new experiences with a view to being able to grow professionally and increase the quality of one’s own work.  ",
     "organisations_dutch": "Dutch",
     "organisations_edit_competencies": "Edit competencies",
+    "organisations_edit_competencies_success": "The competency selection was successfully changed",
     "organisations_edit_custom_competencies": "Custom competencies",
     "organisations_edit_global_competencies": "LTP competencies",
     "organisations_education_level": "Level of education",
