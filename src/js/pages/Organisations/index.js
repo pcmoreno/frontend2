@@ -59,6 +59,7 @@ class Index extends Component {
 
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
         this.updateCompetencies = this.updateCompetencies.bind(this);
+        this.addCompetency = this.addCompetency.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -76,14 +77,12 @@ class Index extends Component {
 
         this.localState = {
             selectedParticipants: [],
-            selectedParticipantSlug: null
+            selectedParticipantSlug: null,
+            editCompetenciesActiveTab: null
         };
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
-
-        // this passed-on property determines which tab opens by default in the edit competencies modal
-        this.editCompetenciesActiveTab = null;
     }
 
     toggleSelectAllParticipants(event) {
@@ -837,7 +836,8 @@ class Index extends Component {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
             // override the active tab to the first one
-            this.editCompetenciesActiveTab = 'organisations_edit_global_competencies';
+            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competencies';
+            this.setState(this.localState);
 
             // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
             this.actions.resetCompetencies();
@@ -862,13 +862,22 @@ class Index extends Component {
 
     addCompetency(message) {
         if (!this.modalLocked) {
+
             this.modalLocked = true;
 
-            // todo: add promise, then in the success do this:
-            this.modalLocked = false;
+            setTimeout(() => {
 
-            // switch to the custom competencies tab
-            this.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
+                // todo: add promise, then in the success do this:
+                this.modalLocked = false;
+
+                // override the active tab to the second one
+                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
+                this.setState(this.localState);
+
+                if (message) {
+                    this.actions.addAlert({ type: 'success', text: message });
+                }
+            }, 1000);
         }
     }
 
@@ -907,7 +916,7 @@ class Index extends Component {
                 availableCompetencies={ this.props.availableCompetencies }
                 updateCompetencies={ this.updateCompetencies }
                 addCompetency={ this.addCompetency }
-                editCompetenciesActiveTab={ this.editCompetenciesActiveTab }
+                editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
             />
         );
     }

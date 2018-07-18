@@ -76,7 +76,7 @@ export default class EditGlobalCompetencies extends Component {
                         class="action_button"
                         type="button" value="Submit"
                         onClick={ () => {
-                            this.props.updateCompetencies(i18n.organisations_add_custom_competency_success);
+                            this.props.updateCompetencies(i18n.organisations_edit_competencies_success);
                         } }>{ i18n.organisations_select }</button>
                 </footer>
             </div>
