@@ -9,6 +9,8 @@ export default class OneToOne extends AbstractRelationship {
     render() {
         const { options, fieldId, onChange, currentForm, formId, label, i18n, value = null, requiredLabel, placeholder, isRequired } = this.props;
 
+        const optionList = this.createOptions(options[options.to], i18n, value, placeholder, isRequired);
+
         return (
             <div>
                 <ul className={ style.fieldGroup }>
@@ -21,8 +23,9 @@ export default class OneToOne extends AbstractRelationship {
                             name={ fieldId }
                             onBlur={ onChange }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            value={ value || this.defaultValue }
                         >
-                            { this.createOptions(options[options.to], i18n, value, placeholder, isRequired) }
+                            { optionList }
                         </select>
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>

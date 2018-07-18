@@ -6,6 +6,12 @@ import Option from '../../components/Option/Option';
 
 export default class AbstractRelationship extends Component {
 
+    constructor() {
+        super();
+
+        this.defaultValue = '';
+    }
+
     /**
      * Creates an option list for a relationship field
      *
@@ -25,9 +31,8 @@ export default class AbstractRelationship extends Component {
             const selectPlaceholder = !value;
 
             formFieldOptions.push(<Option
-                optionValue={ '' }
+                optionValue={ this.defaultValue }
                 value={ placeholder }
-                selected={ selectPlaceholder }
                 disabled={ isRequired }
                 i18n={ i18n }
             />);
@@ -51,11 +56,15 @@ export default class AbstractRelationship extends Component {
                 }
             }
 
+            // save the value to be selected
+            if (selected) {
+                this.defaultValue = option.slug;
+            }
+
             formFieldOptions.push(<Option
                 optionValue={ option.slug }
                 value={ option.name }
                 translationKey={ option.translationKey }
-                selected={ selected }
                 i18n={ i18n }
             />);
         });

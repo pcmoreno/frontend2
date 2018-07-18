@@ -7,6 +7,12 @@ import style from '../style/field.scss';
 
 export default class Choice extends Component {
 
+    constructor() {
+        super();
+
+        this.defaultValue = '';
+    }
+
     createOptions(options, i18n) {
         const formFieldOptions = [];
         let selectedSet = false;
@@ -16,9 +22,8 @@ export default class Choice extends Component {
             const selectPlaceholder = !this.props.value;
 
             formFieldOptions.push(<Option
-                optionValue={ '' }
+                optionValue={ this.defaultValue }
                 value={ this.props.placeholder }
-                selected={ selectPlaceholder }
                 disabled={ this.props.isRequired }
                 i18n={ i18n }
             />);
@@ -40,10 +45,14 @@ export default class Choice extends Component {
                 }
             }
 
+            // save the value to be selected
+            if (selected) {
+                this.defaultValue = options.form.all.choices[option];
+            }
+
             formFieldOptions.push(<Option
                 optionValue={ options.form.all.choices[option] }
                 value={ option }
-                selected={ selected }
                 i18n={ i18n }
             />);
         });
@@ -52,7 +61,9 @@ export default class Choice extends Component {
     }
 
     render() {
-        const { options, currentForm, fieldId, label, onChange, formId, i18n, requiredLabel } = this.props;
+        const { options, currentForm, fieldId, label, onChange, formId, i18n, requiredLabel, value } = this.props;
+
+        const optionList = this.createOptions(options, i18n);
 
         return (
             <div>
@@ -64,10 +75,11 @@ export default class Choice extends Component {
                         <select
                             id={ `${formId}_${fieldId}` }
                             name={ fieldId }
+                            value={ value || this.defaultValue }
                             onBlur={ onChange }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
                         >
-                            { this.createOptions(options, i18n) }
+                            { optionList }
                         </select>
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
