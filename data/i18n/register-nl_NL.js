@@ -9,7 +9,7 @@ export default {
     "register_disclaimer_content": "Ltp verwerkt uw ingevoerde gegevens met de grootste zorg tot een zo nauwkeurig mogelijk overzicht van uw kwaliteiten. ltp is op geen enkele wijze aansprakelijk voor de beslissingen die op basis van het uiteindelijke rapport worden genomen en de gevolgen daarvan.",
     "register_disclaimer_label": "Disclaimer",
     "register_email_invalid": "Het opgegeven e-mailadres is niet geldig",
-    "register_email_label": "Uw e-mailadres",
+    "register_email_label": "E-mailadres",
     "register_email_placeholder": "E-mailadres",
     "register_forgot_my_password_label": "Wachtwoord vergeten?",
     "register_forgot_password": "Wachtwoord vergeten?",
