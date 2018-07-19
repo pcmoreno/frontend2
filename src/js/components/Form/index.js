@@ -173,7 +173,8 @@ class Index extends Component {
             submitButtonText,
             closeModal,
             translationKeysOverride,
-            languageId
+            languageId,
+            method
         } = this.props;
 
         // to ensure the i18n is updated when the languageId changes
@@ -187,6 +188,7 @@ class Index extends Component {
             submitForm={ this.submitForm }
             headerText={ headerText }
             submitButtonText={ submitButtonText }
+            method={ method }
             changeFormFieldValueForFormId={ this.changeFormFieldValueForFormId }
             resetChangedFieldsForFormId={ this.resetChangedFieldsForFormId }
             closeModal={ closeModal }

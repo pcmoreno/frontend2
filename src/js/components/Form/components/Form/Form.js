@@ -10,6 +10,7 @@ import * as fieldType from './constants/FieldTypes';
 import Logger from '../../../../utils/logger';
 import Utils from '../../../../utils/utils';
 import FormErrors from '../../constants/FormErrors';
+import FormMethod from './constants/FormMethod';
 
 /** @jsx h */
 
@@ -334,19 +335,8 @@ export default class Form extends Component {
                     const fieldId = Object.keys(field)[0];
                     let value;
 
-                    // the value from an unchanged relationship field is still an object! extract its value
-                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object' && field[fieldId].value) {
-                        this.props.changeFormFieldValueForFormId(
-                            this.props.formId,
-                            field[fieldId],
-                            field[fieldId].value.uuid
-                        );
-
-                        // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
-                        field[fieldId].value = field[fieldId].value.uuid;
-                    }
-
-                    if (!field[fieldId].value || field[fieldId].value.length === 0) {
+                    // if the field is empty, proceed with fetching them
+                    if (!field[fieldId].value && field[fieldId].value !== '') {
 
                         // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
                         // form element. see if the element can be matched and its value extracted.
@@ -399,7 +389,9 @@ export default class Form extends Component {
                     }
 
                     // push field value to changedFields so it can be submitted
-                    if (fieldId && value) {
+                    // also proceed if the field is not required and set to empty
+                    if (fieldId && value ||
+                        (this.props.method === FormMethod.UPDATE_SECTION && !field[fieldId].form.all.required && value === '')) {
 
                         // store changed field
                         changedFields.push({ fieldId, value });
