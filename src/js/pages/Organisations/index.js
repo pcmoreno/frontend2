@@ -795,17 +795,21 @@ class Index extends Component {
     getGlobalAndCustomCompetencies(organisationSlug) {
         document.querySelector('#spinner').classList.remove('hidden');
 
+        // example GET: http://dev.ltponline.com:8000/api/v1/section/fieldvalue/competency/owningOrganisation?
+        // value=<organisationId>,null&fields=id,competencyName,competencyDefinition,translationKey
+        // todo: note that organisationSlug doesnt work yet
+
         const api = ApiFactory.get('neon');
         const apiConfig = api.getConfig();
 
         const params = {
             urlParams: {
                 parameters: {
-                    fields: 'organisationName,selectedCompetencies,competencyName,id,translationKey',
+                    fields: 'id,competencyName,competencyDefinition,translationKey',
                     limit: 10000
                 },
                 identifiers: {
-                    slug: organisationSlug
+                    slug: 430
                 }
             }
         };
@@ -818,7 +822,7 @@ class Index extends Component {
             params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.fetchAvailableCompetencies(organisationSlug, response.selectedCompetencies);
+            this.actions.fetchAvailableCompetencies(organisationSlug, response);
             this.modalLocked = false;
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
@@ -859,8 +863,12 @@ class Index extends Component {
     }
 
     updateCompetencySelection(message) {
+        console.log('not implemented yet')
+
         if (!this.modalLocked) {
             this.modalLocked = true;
+
+            // example PUT: http://dev.ltponline.com:8000/api/v1/section/project/slug/some-slug?form%5Bcompetencies%5D%5B0%5D=comp-slug-1&form%5Bcompetencies%5D%5B1%5D=comp-slug-2
 
             // todo: add promise, then in the success do this:
             this.modalLocked = false;
@@ -868,17 +876,38 @@ class Index extends Component {
         }
     }
 
-    addCustomCompetency(message) {
+    addCustomCompetency(competencyName, competencyDefinition) {
+
+        // example POST: http://dev.ltponline.com:8000/api/v1/section/competency?form[competencyName]=Een naam&form[owningOrganisation]=some-slug&form[competencyDefinition]=Bla
+
+        // check input values
+        if (!competencyName || !competencyDefinition) {
+            throw new Error('all fields required');
+        }
+
         if (!this.modalLocked) {
             this.modalLocked = true;
+        }
 
-            // todo: add promise, then in the success do the following:
-            setTimeout(() => {
+        // todo: needs the proper organisationSlug
+        const owningOrganisationSlug = '454cc65b-b2b6-4e49-8853-5fcd31cbebd4';
+
+        return new Promise((resolve, reject) => {
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().competencies.addCompetency,
+                {
+                    payload: {
+                        type: 'form',
+                        data: {
+                            competencyName,
+                            competencyDefinition,
+                            owningOrganisationSlug
+                        }
+                    }
+                }
+            ).then(response => {
                 this.modalLocked = false;
-
-                // reset competencies: this has issues since it clears selectedCompetencies and as such the marking
-                // of selected competencies fails. but most of all: is it needed, or will it simply overwrite?
-                // this.actions.resetCompetencies();
 
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
                 this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
@@ -889,11 +918,11 @@ class Index extends Component {
                 // retrieve competencies again (including the one that was just added)
                 this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
 
-                if (message) {
-                    this.actions.addAlert({ type: 'success', text: message });
-                }
-            }, 3000);
-        }
+                this.actions.addAlert({ type: 'success', text: i18n.organisations_add_custom_competency_success });
+            }).catch(() => {
+                reject(new Error('api error'));
+            });
+        });
     }
 
     render() {

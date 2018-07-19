@@ -317,7 +317,9 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             addCustomCompetency={ this.props.addCustomCompetency }
-                        />
+                        >
+
+                        </AddCustomCompetency>
                     </Tabs>
                 </Modal>
             </main>
