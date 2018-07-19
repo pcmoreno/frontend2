@@ -31,11 +31,15 @@ export default class AbstractRelationship extends Component {
             const selectPlaceholder = !value;
 
             formFieldOptions.push(<Option
-                optionValue={ this.defaultValue }
+                optionValue={ '' }
                 value={ placeholder }
                 disabled={ isRequired }
                 i18n={ i18n }
             />);
+
+            if (selectPlaceholder) {
+                this.defaultValue = '';
+            }
 
             selectedSet = selectPlaceholder;
         }
@@ -43,10 +47,12 @@ export default class AbstractRelationship extends Component {
         fieldOptions.forEach(option => {
             let selected = false;
 
-            if (value) {
+            // todo: this logic shouldnt be here in the frontend
+            // relationship values are empty objects
+            if (value || (option.selected && typeof value === 'object')) {
 
                 // see if the value (the stored option) matches the currently processed option
-                selected = (value === option.slug);
+                selected = (value === option.slug || option.selected);
             } else {
                 if (!selectedSet) {
                     selectedSet = true;

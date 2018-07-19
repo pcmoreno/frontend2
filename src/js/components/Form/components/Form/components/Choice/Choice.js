@@ -22,11 +22,15 @@ export default class Choice extends Component {
             const selectPlaceholder = !this.props.value;
 
             formFieldOptions.push(<Option
-                optionValue={ this.defaultValue }
+                optionValue={ '' }
                 value={ this.props.placeholder }
                 disabled={ this.props.isRequired }
                 i18n={ i18n }
             />);
+
+            if (selectPlaceholder) {
+                this.defaultValue = '';
+            }
 
             selectedSet = selectPlaceholder;
         }

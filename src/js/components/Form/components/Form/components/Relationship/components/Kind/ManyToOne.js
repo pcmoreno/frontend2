@@ -23,7 +23,9 @@ export default class ManyToOne extends AbstractRelationship {
                             name={ fieldId }
                             onBlur={ onChange }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
-                            value={ value || this.defaultValue }
+
+                            // todo: this kind of logic should not be here
+                            value={ value && typeof value !== 'object' ? value : this.defaultValue }
                         >
                             { optionList }
                         </select>
