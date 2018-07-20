@@ -10,6 +10,7 @@ import Form from './components/Form/Form';
 import ApiFactory from '../../utils/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
 import translator from '../../utils/translator';
+import FormErrors from './constants/FormErrors';
 
 class Index extends Component {
     constructor(props) {
@@ -115,7 +116,7 @@ class Index extends Component {
 
                         return resolve({
                             errors: {
-                                form: this.i18n.form_could_not_process_your_request
+                                form: FormErrors.COULD_NOT_PROCESS_REQUEST
                             }
                         });
                     }
@@ -131,10 +132,15 @@ class Index extends Component {
                 // resolve with nothing by default (success)
                 return resolve();
 
-            }).catch((/* error */) => {
-                resolve({
+            }).catch(error => {
+
+                if (error && error.errors) {
+                    return resolve(error);
+                }
+
+                return resolve({
                     errors: {
-                        form: this.i18n.form_could_not_process_your_request
+                        form: FormErrors.COULD_NOT_PROCESS_REQUEST
                     }
                 });
             });
