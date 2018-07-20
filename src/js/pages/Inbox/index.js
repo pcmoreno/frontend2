@@ -7,6 +7,8 @@ import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import Inbox from './components/Inbox/Inbox';
 import ApiFactory from '../../utils/api/factory';
 import translator from '../../utils/translator';
+import InboxActions from './constants/InboxActions';
+import InboxComponents from './constants/InboxComponents';
 
 /** @jsx h */
 
@@ -28,8 +30,12 @@ class Index extends Component {
     componentDidMount() {
         updateNavigationArrow();
 
-        // get items for first time
-        this.fetchMessages();
+        // only load this for a participant
+        if (this.api.getAuthoriser().authorise(this.api.getAuthenticator().getUser(), InboxComponents.INBOX_COMPONENT, InboxActions.LOAD_ACTION)) {
+
+            // get items for first time
+            this.fetchMessages();
+        }
     }
 
     componentWillMount() {
@@ -56,8 +62,8 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
 
             this.actions.fetchMessages(response.messages);
-        }).catch(error => {
-            this.actions.addAlert({ type: error, text: this.i18n.users_could_not_process_your_request });
+        }).catch(() => {
+            this.actions.addAlert({ type: 'error', text: this.i18n.inbox_could_not_process_your_request });
         });
     }
 

@@ -5,10 +5,16 @@ import { h, Component } from 'preact';
 import * as languageType from '../../../../../../constants/LanguageTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenufoldout.scss';
+import Authorised from '../../../../../../../../utils/components/Authorised';
+import ApiFactory from '../../../../../../../../utils/api/factory';
+import HeaderComponents from '../../../../../../constants/HeaderComponents';
+import HeaderActions from '../../../../../../constants/HeaderActions';
 
 export default class UserMenuFoldout extends Component {
     constructor() {
         super();
+
+        this.api = ApiFactory.get('neon');
     }
 
     render() {
@@ -30,11 +36,13 @@ export default class UserMenuFoldout extends Component {
                             <span>{ i18n[`header_${switchableLanguageId}`] }</span>
                         </div>
                     </li>
-                    <li>
-                        <div>
-                            <span>{i18n.header_feature_toggles}</span>
-                        </div>
-                    </li>
+                    <Authorised api={ this.api } component={ HeaderComponents.HEADER_COMPONENT } action={ HeaderActions.FEATURE_TOGGLE_ACTION }>
+                        <li>
+                            <div>
+                                <span>{ i18n.header_feature_toggles }</span>
+                            </div>
+                        </li>
+                    </Authorised>
                     <li>
                         <div
                             role="button"
