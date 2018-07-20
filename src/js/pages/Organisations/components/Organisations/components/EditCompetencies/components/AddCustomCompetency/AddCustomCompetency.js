@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import ApiFactory from '../../../../../../../../utils/api/factory';
 import style from './style/addcustomcompetency.scss';
+import OrganisationsError from './../../../../../../constants/OrganisationsError';
 
 /** @jsx h */
 
@@ -12,7 +13,8 @@ export default class AddCustomCompetency extends Component {
             addCustomCompetencyForm: {
                 competencyName: null,
                 competencyDefinition: null
-            }
+            },
+            error: ''
         };
 
         this.api = ApiFactory.get('neon');
@@ -30,23 +32,38 @@ export default class AddCustomCompetency extends Component {
         const competencyName = this.localState.addCustomCompetencyForm.competencyName;
         const competencyDefinition = this.localState.addCustomCompetencyForm.competencyDefinition;
 
-        // execute login process
+        if (!competencyName || !competencyDefinition) {
+            this.localState.error = this.props.i18n[OrganisationsError.ALL_FIELDS_REQUIRED];
+            this.setState(this.localState);
+            return;
+        }
+
         try {
-            this.props.addCustomCompetency(competencyName, competencyDefinition).then(() => {
-            }).catch(error => {
-                // organisations_add_custom_competency_error
-                console.log('fout 1: '+error);
-            });
+            this.props.addCustomCompetency(competencyName, competencyDefinition)
+                .then()
+                .catch(error => {
+
+                    let errorMessage = '';
+
+                    // always show the first error that was returned from the api
+                    if (error && error[0]) {
+                        errorMessage = this.props.i18n[error[0]];
+                    }
+
+                    this.localState.error = errorMessage || this.props.i18n[error.message];
+                    this.setState(this.localState);
+                });
+
         } catch (error) {
-            // organisations_add_custom_competency_error
-            console.log(error);
+
+            // exception matches lokalise keys
+            this.localState.error = this.props.i18n[error.message];
+            this.setState(this.localState);
         }
     }
 
     render() {
         const { i18n } = this.props;
-
-        const errors = '';
 
         return (
             <div id="organisations_add_custom_competency" className={ `${style.tab} hidden` }>
@@ -82,7 +99,7 @@ export default class AddCustomCompetency extends Component {
                                 />
                             </div>
                             <span className={style.errors}>
-                                { errors }
+                                { this.localState.error }
                             </span>
                         </main>
                     </form>

@@ -19,6 +19,10 @@
                     font-family: $fontsmall;
                 }
             }
+
+            @media screen and (max-width: 640px) {
+                position: relative;
+            }
         }
     }
 }

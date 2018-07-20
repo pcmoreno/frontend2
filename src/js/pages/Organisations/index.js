@@ -16,6 +16,7 @@ import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../constants/ParticipantStatus';
+import OrganisationsError from './constants/OrganisationsError';
 
 class Index extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ class Index extends Component {
             project: this.openModalToAddProject
         };
 
-        this.i18n = translator(this.props.languageId, 'organisations');
+        this.i18n = translator(this.props.languageId, ['organisations']);
 
         // flag if we have a full screen modal locked (can't close)
         this.modalLocked = false;
@@ -797,7 +798,7 @@ class Index extends Component {
 
         // example GET: http://dev.ltponline.com:8000/api/v1/section/fieldvalue/competency/owningOrganisation?
         // value=<organisationId>,null&fields=id,competencyName,competencyDefinition,translationKey
-        // todo: note that organisationSlug doesnt work yet
+        // todo: use the new endPoint that allows providing a slug and replace the static 430 organisationId
 
         const api = ApiFactory.get('neon');
         const apiConfig = api.getConfig();
@@ -878,19 +879,18 @@ class Index extends Component {
 
     addCustomCompetency(competencyName, competencyDefinition) {
 
-        // example POST: http://dev.ltponline.com:8000/api/v1/section/competency?form[competencyName]=Een naam&form[owningOrganisation]=some-slug&form[competencyDefinition]=Bla
-
         // check input values
         if (!competencyName || !competencyDefinition) {
-            throw new Error('all fields required');
+            throw new Error(OrganisationsError.ALL_FIELDS_REQUIRED);
         }
 
+        // lock until request is handled
         if (!this.modalLocked) {
             this.modalLocked = true;
         }
 
-        // todo: needs the proper organisationSlug
-        const owningOrganisationSlug = '454cc65b-b2b6-4e49-8853-5fcd31cbebd4';
+        // construct the slug
+        const owningOrganisationSlug = this.props.pathNodes[1].uuid;
 
         return new Promise((resolve, reject) => {
             this.api.post(
@@ -909,6 +909,11 @@ class Index extends Component {
             ).then(response => {
                 this.modalLocked = false;
 
+                // if the response throws errors, reject the request and return the errors
+                if (response && response.errors) {
+                    return reject(response.errors);
+                }
+
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
                 this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
                 this.setState(this.localState, () => {
@@ -918,9 +923,12 @@ class Index extends Component {
                 // retrieve competencies again (including the one that was just added)
                 this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
 
-                this.actions.addAlert({ type: 'success', text: i18n.organisations_add_custom_competency_success });
+                // show success message
+                this.actions.addAlert({ type: 'success', text: this.i18n.organisations_add_custom_competency_success });
+
+                return resolve();
             }).catch(() => {
-                reject(new Error('api error'));
+                reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
             });
         });
     }
@@ -930,20 +938,20 @@ class Index extends Component {
 
         return (
             <Organisations
-                panels = { panels }
-                formOpenByPanelId = { formOpenByPanelId }
+                panels={ panels }
+                formOpenByPanelId={ formOpenByPanelId }
                 panelHeaderAddMethods={ this.panelHeaderAddMethods }
-                detailPanelData = { detailPanelData }
-                pathNodes = { pathNodes }
-                fetchEntities = { this.fetchEntities }
-                fetchDetailPanelData = { this.fetchDetailPanelData }
+                detailPanelData={ detailPanelData }
+                pathNodes={ pathNodes }
+                fetchEntities={ this.fetchEntities }
+                fetchDetailPanelData={ this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
                 refreshDetailPanelParticipantsWithMessage={ this.refreshDetailPanelParticipantsWithMessage }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
                 closeModalToAddProject={ this.closeModalToAddProject }
-                openModalToAddParticipant = { this.openModalToAddParticipant }
-                closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                openModalToAddParticipant={ this.openModalToAddParticipant }
+                closeModalToAddParticipant={ this.closeModalToAddParticipant }
                 openModalToAmendParticipant={ this.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
                 openModalToInviteParticipant={ this.openModalToInviteParticipant }
@@ -954,7 +962,7 @@ class Index extends Component {
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
-                i18n={ translator(this.props.languageId, ['organisations', 'competencies']) }
+                i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
                 selectedCompetencies={ this.props.selectedCompetencies }
                 availableCompetencies={ this.props.availableCompetencies }
