@@ -22,6 +22,7 @@ export default class TextArea extends Component {
                             placeholder={ placeholder }
                             value={ value }
                             name={ `form[${fieldId}]` }
+                            className={ currentForm.errors.fields[fieldId] && 'error' }
                             onChange={ onChange }
                         />
                     </li>

@@ -9,6 +9,8 @@ import TextArea from './components/TextArea/TextArea';
 import * as fieldType from './constants/FieldTypes';
 import Logger from '../../../../utils/logger';
 import Utils from '../../../../utils/utils';
+import FormErrors from '../../constants/FormErrors';
+import FormMethod from './constants/FormMethod';
 
 /** @jsx h */
 
@@ -63,6 +65,7 @@ export default class Form extends Component {
         this.hasRequiredFields = false;
         this.translationKeysOverride = this.props.translationKeysOverride || [];
         this.logger = Logger.instance;
+        this.i18n = this.props.i18n;
     }
 
     /**
@@ -332,19 +335,8 @@ export default class Form extends Component {
                     const fieldId = Object.keys(field)[0];
                     let value;
 
-                    // the value from an unchanged relationship field is still an object! extract its value
-                    if (field[fieldId].type === fieldType.RELATIONSHIP && typeof (field[fieldId].value) === 'object' && field[fieldId].value) {
-                        this.props.changeFormFieldValueForFormId(
-                            this.props.formId,
-                            field[fieldId],
-                            field[fieldId].value.uuid
-                        );
-
-                        // overwrite value property (object -> object.value) since changeFormFieldValueForFormId is not instant
-                        field[fieldId].value = field[fieldId].value.uuid;
-                    }
-
-                    if (!field[fieldId].value || field[fieldId].value.length === 0) {
+                    // if the field is empty, proceed with fetching them
+                    if (!field[fieldId].value && field[fieldId].value !== '') {
 
                         // value is not in the formFields state. Perhaps it needs to be extracted from a 'special'
                         // form element. see if the element can be matched and its value extracted.
@@ -397,7 +389,9 @@ export default class Form extends Component {
                     }
 
                     // push field value to changedFields so it can be submitted
-                    if (fieldId && value) {
+                    // also proceed if the field is not required and set to empty
+                    if (fieldId && value ||
+                        (this.props.method === FormMethod.UPDATE_SECTION && !field[fieldId].form.all.required && value === '')) {
 
                         // store changed field
                         changedFields.push({ fieldId, value });
@@ -411,7 +405,7 @@ export default class Form extends Component {
                             ableToSubmit = false;
 
                             this.handleErrorMessages(
-                                { [fieldId]: `${this.props.i18n.form_value_can_not_be_empty}` }
+                                { [fieldId]: FormErrors.VALUE_CAN_NOT_BE_EMPTY }
                             );
                         }
                     }
@@ -462,7 +456,7 @@ export default class Form extends Component {
 
             // show an error (unexpected) as form field values could not be fetched
             this.handleErrorMessages({
-                form: this.props.i18n.form_could_not_process_your_request
+                form: FormErrors.COULD_NOT_PROCESS_REQUEST
             });
         }
     }
@@ -493,15 +487,15 @@ export default class Form extends Component {
 
                 // check for form error
                 if (key === 'form') {
-                    newState.errors.form = errors[key];
+                    newState.errors.form = this.i18n[errors[key]] || '';
                     continue;
                 }
 
                 // check whether field error is array or string and get the first item
                 if (Array.isArray(errors[key])) {
-                    newState.errors.fields[key] = errors[key][0];
+                    newState.errors.fields[key] = this.i18n[errors[key][0]] || this.i18n[FormErrors.INVALID_FIELD_VALUE];
                 } else {
-                    newState.errors.fields[key] = errors[key];
+                    newState.errors.fields[key] = this.i18n[errors[key]] || this.i18n[FormErrors.INVALID_FIELD_VALUE];
                 }
             }
         }

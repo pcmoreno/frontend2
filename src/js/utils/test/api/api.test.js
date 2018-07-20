@@ -1563,7 +1563,7 @@ test('API executeRequest should log an error when the network request failed or 
     });
 });
 
-test('API executeRequest should resolve with an error object when the api returns input validation errors', () => {
+test('API executeRequest should resolve with an error object when the api returns 400 Bad Request input validation errors', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1625,11 +1625,97 @@ test('API executeRequest should resolve with an error object when the api return
                 [
                     {
                         component: 'API',
-                        message: 'API call succeeded but with 400 Bad request response',
+                        message: 'API call succeeded but with 400 or 409 response',
                         requestOptions: '{}',
                         requestUrl: 'https://ltp.nl/organisations',
                         responseBody: '{"code":400,"errors":{"organisationName":["Organisation name is required."]}}',
                         responseStatus: 400,
+                        responseText: 'Bad Request'
+                    }
+                ]
+            ]);
+
+            expect(response).toEqual({
+                errors: {
+                    organisationName: [
+                        'Organisation name is required.'
+                    ]
+                }
+            });
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
+test('API executeRequest should resolve with an error object when the api returns 409 Duplicate input validation errors', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: false,
+                status: 409,
+                statusText: 'Bad Request',
+                url: 'https://ltp.nl/organisations',
+                json: () => {
+                    return new Promise((resolve, reject) => {
+                        return resolve({
+                            code: 409,
+                            errors: {
+                                organisationName: [
+                                    'Organisation name is required.'
+                                ]
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
+    spyOn(API, 'isWarningCode').and.callThrough();
+    spyOn(API, 'isErrorCode').and.callThrough();
+    spyOn(Logger.instance, 'warning');
+    spyOn(api, 'buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api.executeRequest(
+            api.getBaseUrl() + api.getEndpoints().organisation,
+            'get',
+            {}
+        ).then(response => {
+
+            expect(API.isWarningCode.calls.count()).toBe(0);
+            expect(API.isErrorCode.calls.count()).toBe(0);
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/organisations',
+                    {
+                        method: 'get',
+                        headers: {}
+                    }
+                ]
+            ]);
+            expect(Logger.instance.warning.calls.count()).toBe(1);
+            expect(Logger.instance.warning.calls.allArgs()).toEqual([
+                [
+                    {
+                        component: 'API',
+                        message: 'API call succeeded but with 400 or 409 response',
+                        requestOptions: '{}',
+                        requestUrl: 'https://ltp.nl/organisations',
+                        responseBody: '{"code":409,"errors":{"organisationName":["Organisation name is required."]}}',
+                        responseStatus: 409,
                         responseText: 'Bad Request'
                     }
                 ]

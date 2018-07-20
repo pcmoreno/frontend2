@@ -227,8 +227,8 @@ class API {
                 response.json().then(json => {
 
                     // check if this was an input validation error
-                    if (response.status === 400 && json.errors) {
-                        self.logApiMessage('warning', 'API call succeeded but with 400 Bad request response', parsedUrl, options, response, json);
+                    if (~[400, 409].indexOf(response.status) && json.errors) {
+                        self.logApiMessage('warning', 'API call succeeded but with 400 or 409 response', parsedUrl, options, response, json);
                         return resolve({ errors: json.errors });
                     }
 
