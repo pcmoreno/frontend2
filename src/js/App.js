@@ -94,7 +94,6 @@ ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
-import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
 import AuthorisedRoute from './utils/components/AuthorisedRoute';
 import Authenticated from './utils/components/Authenticated';
 import Redirect from './utils/components/Redirect';
