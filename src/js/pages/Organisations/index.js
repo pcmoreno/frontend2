@@ -62,6 +62,7 @@ class Index extends Component {
         this.updateCompetencySelection = this.updateCompetencySelection.bind(this);
         this.addCustomCompetency = this.addCustomCompetency.bind(this);
         this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
+        this.toggleCompetency = this.toggleCompetency.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -80,8 +81,10 @@ class Index extends Component {
         this.localState = {
             selectedParticipants: [],
             selectedParticipantSlug: null,
-            editCompetenciesActiveTab: null
+            editCompetenciesActiveTab: null,
         };
+
+        this.selectedCompetencies = [];
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
@@ -522,7 +525,7 @@ class Index extends Component {
         const params = {
             urlParams: {
                 parameters: {
-                    fields: 'competencies,organisation,organisationName,competencyName,id,translationKey',
+                    fields: 'competencies,organisation,organisationName,competencyName,competencySlug,translationKey',
                     limit: 10000
                 },
                 identifiers: {
@@ -796,9 +799,7 @@ class Index extends Component {
     getGlobalAndCustomCompetencies(organisationSlug) {
         document.querySelector('#spinner').classList.remove('hidden');
 
-        // example GET: http://dev.ltponline.com:8000/api/v1/section/fieldvalue/competency/owningOrganisation?
-        // value=<organisationId>,null&fields=id,competencyName,competencyDefinition,translationKey
-        // todo: use the new endPoint that allows providing a slug and replace the static 430 organisationId
+        // todo: remove static slug
 
         const api = ApiFactory.get('neon');
         const apiConfig = api.getConfig();
@@ -806,11 +807,10 @@ class Index extends Component {
         const params = {
             urlParams: {
                 parameters: {
-                    fields: 'id,competencyName,competencyDefinition,translationKey',
                     limit: 10000
                 },
                 identifiers: {
-                    slug: 430
+                    slug: 'c3245b96-8f65-4b66-8d48-94bce51ab4a9'
                 }
             }
         };
@@ -823,8 +823,13 @@ class Index extends Component {
             params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.fetchAvailableCompetencies(organisationSlug, response);
+            this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency);
             this.modalLocked = false;
+
+            // fill up the local state that keeps track of the selected competencies
+            this.props.selectedCompetencies.forEach(selectedCompetency => {
+                this.selectedCompetencies.push(selectedCompetency[0].value);
+            });
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });
@@ -863,8 +868,21 @@ class Index extends Component {
         }
     }
 
+    toggleCompetency(competencySlug) {
+        if (this.selectedCompetencies.indexOf(competencySlug) > -1) {
+
+            // deselect
+            this.selectedCompetencies.splice(this.selectedCompetencies.indexOf(competencySlug), 1);
+        } else {
+
+            // select
+            this.selectedCompetencies.push(competencySlug);
+        }
+    }
+
     updateCompetencySelection(message) {
-        console.log('not implemented yet')
+        console.log('selection is now: ');
+        console.table(this.selectedCompetencies);
 
         if (!this.modalLocked) {
             this.modalLocked = true;

@@ -22,7 +22,7 @@ const AppConfig = {
                     entities: '/v1/section/fieldvalue/participantSession/{filter}'
                 },
                 competencies: {
-                    availableCompetencies: '/v1/section/fieldvalue/competency/owningOrganisation?value={slug},null',
+                    availableCompetencies: '/v1/competencies-for-organisation/{slug}',
                     selectedCompetencies: '/v1/section/project/slug/{slug}',
                     addCompetency: '/v1/section/competency'
                 },

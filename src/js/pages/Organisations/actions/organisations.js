@@ -74,13 +74,15 @@ export function fetchSelectedCompetencies(projectSlug, data) {
  * Fetch available competencies action
  * @param {string} organisationSlug - slug of the organisation that has the available competencies
  * @param {Object} data - data
+ * @param {Function} toggleCompetency - method to select competency in competency modal
  * @returns {{type, data: *}} data to populate detail panel
  */
-export function fetchAvailableCompetencies(organisationSlug, data) {
+export function fetchAvailableCompetencies(organisationSlug, data, toggleCompetency) {
     return {
         type: actionType.FETCH_AVAILABLE_COMPETENCIES,
         organisationSlug,
-        data
+        data,
+        toggleCompetency
     };
 }
 

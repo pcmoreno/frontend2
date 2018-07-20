@@ -325,8 +325,8 @@ export default function organisationsReducer(state = initialState, action) {
                     [
                         {
                             type: 'hidden',
-                            key: 'id',
-                            value: competency.id
+                            key: 'competency_slug',
+                            value: competency.competencySlug
                         },
                         {
                             key: 'competency_name',
@@ -359,10 +359,9 @@ export default function organisationsReducer(state = initialState, action) {
                         {
                             type: 'checkbox',
                             key: 'selectParticipantLabel',
-                            id: competency.id,
-                            action: () => {
-
-                            // console.log('select');
+                            id: competency.competencySlug,
+                            action: event => {
+                                action.toggleCompetency(competency.competencySlug, event);
                             }
                         },
                         {

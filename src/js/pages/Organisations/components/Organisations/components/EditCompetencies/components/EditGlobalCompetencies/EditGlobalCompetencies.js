@@ -11,7 +11,7 @@ export default class EditGlobalCompetencies extends Component {
         // keep track of competencies in localState to aid the selecting/deselecting
         this.localState = {
             globalCompetencies: [],
-            selectedCompetencies: []
+            selectedEntities: []
         };
     }
 
@@ -32,7 +32,7 @@ export default class EditGlobalCompetencies extends Component {
             selectedCompetency.forEach(prop => {
 
                 // only the id prop is required to check for selected competencies
-                if (prop.key === 'id') {
+                if (prop.key === 'competency_slug') {
                     this.localState.selectedEntities.push(prop.value);
                 }
             });
@@ -65,7 +65,7 @@ export default class EditGlobalCompetencies extends Component {
                 </main>
                 <footer>
                     <button
-                        class="action_button action_button__secondary"
+                        className="action_button action_button__secondary"
                         type="button"
                         value="Close"
                         onClick={ () => {
@@ -73,7 +73,7 @@ export default class EditGlobalCompetencies extends Component {
                         } }
                     >{ i18n.organisations_close }</button>
                     <button
-                        class="action_button"
+                        className="action_button"
                         type="button" value="Submit"
                         onClick={ () => {
                             this.props.updateCompetencySelection(i18n.organisations_edit_competencies_success);
