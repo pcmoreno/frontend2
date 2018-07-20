@@ -71,8 +71,8 @@ export function fetchSelectedCompetencies(projectSlug, data) {
 }
 
 /**
- * Fetch selected competencies action
- * @param {string} organisationSlug - slug of the organisation that has the selected competencies
+ * Fetch available competencies action
+ * @param {string} organisationSlug - slug of the organisation that has the available competencies
  * @param {Object} data - data
  * @returns {{type, data: *}} data to populate detail panel
  */
