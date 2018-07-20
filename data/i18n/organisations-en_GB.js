@@ -22,6 +22,7 @@ export default {
     "organisations_add_user_error": "An error occurred while inviting a user, please try again later",
     "organisations_added": "Added",
     "organisations_added_invited": "Added + invited",
+    "organisations_all_fields_required": "Please fill in all required fields",
     "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later",
     "organisations_amend_custom_competency_success": "The competency was successfully amended",
     "organisations_amend_participant": "Edit participant",

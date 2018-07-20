@@ -22,6 +22,7 @@ export default {
     "organisations_add_user_error": "Er is een fout opgetreden bij het aanmaken van een gebruiker, probeer het later nogmaals",
     "organisations_added": "Toegevoegd",
     "organisations_added_invited": "Toegevoegd + uitgenodigd",
+    "organisations_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals",
     "organisations_amend_custom_competency_success": "De competentie is succesvol gewijzigd",
     "organisations_amend_participant": "Deelnemer bewerken",
