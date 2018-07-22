@@ -241,6 +241,33 @@ Now you can write your Expect this way:
 
 `expect(context.find('span').at(0).text()).toBe('12:34');`
 
+Some more examples of mocking dependencies of tested components
+use one of the examples below
+
+    jest.mock('preact-async-route', () => () => <div/>);
+    
+    jest.mock('preact-async-route', () => ({
+        AsyncRoute: 'mockAsyncRoute'
+    }));
+
+    jest.doMock('preact-async-route', () => {
+        const AsyncRoute = () => <div />;
+        return AsyncRoute;
+    });
+
+    jest.mock('preact-async-route', () => {
+        const AsyncRoute = () => <div />;
+        return AsyncRoute;
+    });
+
+    jest.mock('preact-async-route', () =>({
+        handleCancel: jest.fn()
+    }));
+    spyOn(AsyncRoute, 'handleCancel');
+
+
+source: `https://github.com/mzgoddard/preact-render-spy`
+
 ##### Mocking static assets and stylesheets
 
 You can mock the CSS imports and imports for other file types by using fileMocks and identity-obj-proxy
@@ -251,6 +278,54 @@ You can mock the CSS imports and imports for other file types by using fileMocks
           "\\.(css|less)$": "identity-obj-proxy"
     }
 }`
+
+
+##### Mocking state
+
+    const context = shallow(<ClickCounter />);
+    context.setState({ count: 2 });
+    expect(context.text()).toEqual('2');
+    
+    const context = shallow(<ClickCounter />);
+    expect(context.state()).toEqual({ count: 0 });
+    context.find('[onClick]').simulate('click');
+    expect(context.state('count')).toEqual(1);
+
+
+##### Mocking event methods
+
+    class ClickCount extends Component {
+        constructor(...args) {
+            super(...args);
+            this.state = {count: 0};
+            this.onClick = this.onClick.bind(this);
+        }
+    
+        onClick() {
+            this.setState({count: this.state.count + 1});
+        }
+    
+        render({}, {count}) {
+            return <div onClick={this.onClick}>{count}</div>;
+        }
+    }
+    const context = shallow(<ClickCount/>);
+    expect(context.find('div').contains('0')).toBeTruthy();
+    context.find('[onClick]').simulate('click');
+    expect(context.find('div').contains('1')).toBeTruthy();
+
+
+##### Mocking new props in same context
+
+
+    test('receives props', () => {
+      const context = shallow(<ReceivesProps value="test" />);
+      expect(context.text()).toBe('test');
+    
+      context.render(<ReceivesProps value="second" />);
+      expect(context.text()).toBe('_second_');
+    });
+
 
 ##### Mocking localStorage
 
