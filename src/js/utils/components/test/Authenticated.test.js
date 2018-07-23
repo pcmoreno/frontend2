@@ -47,9 +47,8 @@ test('Should render a div when is authenticated', () => {
 
     expect(api.getAuthenticator.calls.count()).toBe(1);
     expect(authenticator.isAuthenticated.calls.count()).toBe(1);
-    expect(utils.excludeProps.calls.count()).toBe(1);
-    expect(utils.createRootElement.calls.count()).toBe(1);
 
+    expect(utils.excludeProps.calls.count()).toBe(1);
     expect(utils.excludeProps.calls.allArgs()).toEqual([
         [
             ["api"],
@@ -68,6 +67,8 @@ test('Should render a div when is authenticated', () => {
             }
         ]
     ]);
+
+    expect(utils.createRootElement.calls.count()).toBe(1);
     expect(utils.createRootElement.calls.allArgs()).toEqual([
         [
             [
@@ -108,9 +109,8 @@ test('Should not render a div when is not authenticated', () => {
 
     expect(api.getAuthenticator.calls.count()).toBe(1);
     expect(authenticator.isAuthenticated.calls.count()).toBe(1);
-    expect(utils.excludeProps.calls.count()).toBe(1);
-    expect(utils.createRootElement.calls.count()).toBe(0);
 
+    expect(utils.excludeProps.calls.count()).toBe(1);
     expect(utils.excludeProps.calls.allArgs()).toEqual([
         [
             ["api"],
@@ -129,5 +129,7 @@ test('Should not render a div when is not authenticated', () => {
             }
         ]
     ]);
+
+    expect(utils.createRootElement.calls.count()).toBe(0);
     expect(utils.createRootElement.calls.allArgs()).toEqual([]);
 });
