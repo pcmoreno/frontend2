@@ -82,10 +82,8 @@ class Index extends Component {
             selectedParticipants: [],
             selectedParticipantSlug: null,
             editCompetenciesActiveTab: null,
-            chosenCompetencies: []
+            locallySelectedCompetencies: []
         };
-
-        // this.chosenCompetencies = [];
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
@@ -827,10 +825,10 @@ class Index extends Component {
             this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency);
             this.modalLocked = false;
 
-            // fill up the local state (chosenCompetencies) that keeps track of the chosen competencies
-            if (this.localState.chosenCompetencies.length === 0) {
+            // fill up the local state (locallySelectedCompetencies) that keeps track of the locally selected competencies
+            if (this.localState.locallySelectedCompetencies.length === 0) {
                 this.props.selectedCompetencies.forEach(selectedCompetency => {
-                    this.localState.chosenCompetencies.push(selectedCompetency[0].value);
+                    this.localState.locallySelectedCompetencies.push(selectedCompetency[0].value);
                 });
             }
 
@@ -864,8 +862,8 @@ class Index extends Component {
             // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
             this.actions.resetCompetencies();
 
-            // also clear the local state that kept track of the chosen competencies
-            this.localState.chosenCompetencies = [];
+            // also clear the local state that kept track of the locally selected competencies
+            this.localState.locallySelectedCompetencies = [];
 
             if (message) {
                 this.refreshDetailPanelWithMessage(message);
@@ -876,29 +874,79 @@ class Index extends Component {
     }
 
     toggleCompetency(competencySlug) {
-        if (this.localState.chosenCompetencies.indexOf(competencySlug) > -1) {
+        if (this.localState.locallySelectedCompetencies.indexOf(competencySlug) > -1) {
 
             // deselect:
-            this.localState.chosenCompetencies.splice(this.localState.chosenCompetencies.indexOf(competencySlug), 1);
+            this.localState.locallySelectedCompetencies.splice(this.localState.locallySelectedCompetencies.indexOf(competencySlug), 1);
         } else {
 
             // select:
-            this.localState.chosenCompetencies.push(competencySlug);
+            this.localState.locallySelectedCompetencies.push(competencySlug);
         }
 
         this.setState(this.localState);
     }
 
     updateCompetencySelection(message) {
+
+        // note this will submit all (de)selected competencies (both global and custom). if that is not the bedoeling,
+        // iterate over the locallySelectedCompetencies to determine their type. an extra 'isGlobal' flag would help!
+
         if (!this.modalLocked) {
             this.modalLocked = true;
 
+            console.log('going to submit '+this.localState.locallySelectedCompetencies.length+' competencies for this project');
+            console.table(this.localState.locallySelectedCompetencies);
+
             // example PUT: http://dev.ltponline.com:8000/api/v1/section/project/slug/some-slug?form%5Bcompetencies%5D%5B0%5D=comp-slug-1&form%5Bcompetencies%5D%5B1%5D=comp-slug-2
 
-            // todo: add promise, then in the success do this:
-            this.modalLocked = false;
-            this.closeModalToEditCompetencies(message);
+            // /api/v1/section/project/slug/some-slug?form[competencies][0]=comp-slug-1&form[competencies][1]=comp-slug-2
+
+            // construct the slug todo: add dynamic slug
+            const projectSlug = '454cc65b-b2b6-4e49-8853-5fcd31cbebd4';
+
+            // build up the string of competencies to be posted
+            let locallySelectedCompetencies = '?';
+
+            this.localState.locallySelectedCompetencies.forEach((uuid, index) => {
+                locallySelectedCompetencies += `${locallySelectedCompetencies.length > 1 ? '&' : ''}form[competencies][${index}]=${uuid}`;
+            });
+
+            return new Promise((resolve, reject) => {
+                this.api.put(
+                    this.api.getBaseUrl(),
+                    this.api.getEndpoints().competencies.updateSelectedCompetencies,
+                    {
+                        payload: {
+                            type: 'form',
+                            data: {
+                                locallySelectedCompetencies
+                            }
+                        },
+                        urlParams: {
+                            identifiers: {
+                                slug: projectSlug
+                            }
+                        }
+                    }
+                ).then(response => {
+                    this.modalLocked = false;
+
+                    // if the response throws errors, reject the request and return the errors
+                    if (response && response.errors) {
+                        return reject(response.errors);
+                    }
+
+                    this.closeModalToEditCompetencies(message);
+
+                    return resolve();
+                }).catch(() => {
+                    reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
+                });
+            });
         }
+
+        return false;
     }
 
     addCustomCompetency(competencyName, competencyDefinition) {
@@ -990,7 +1038,7 @@ class Index extends Component {
                 languageId={ this.props.languageId }
                 availableCompetencies={ this.props.availableCompetencies }
                 selectedCompetencies={ this.props.selectedCompetencies }
-                chosenCompetencies={ this.localState.chosenCompetencies }
+                locallySelectedCompetencies={ this.localState.locallySelectedCompetencies }
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }

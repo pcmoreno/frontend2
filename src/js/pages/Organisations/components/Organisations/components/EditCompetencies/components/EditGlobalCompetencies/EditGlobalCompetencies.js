@@ -27,7 +27,7 @@ export default class EditGlobalCompetencies extends Component {
                     { globalCompetencies.length > 0
                         ? <Listview
                             entities={ globalCompetencies }
-                            selectedEntities={ this.props.chosenCompetencies }
+                            selectedEntities={ this.props.locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
                             defaultSortingOrder={ 'desc' }
                             i18n={ i18n }

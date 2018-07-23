@@ -48,7 +48,7 @@ export default class DetailPanel extends Component {
 
         switch (this.localState.activeTab.toString()) {
 
-            case 'information': output = <p>information</p>;
+            case 'information': output = null;
                 break;
 
             case 'settings': output = <p className={ style.detailpanelcontent_p }>

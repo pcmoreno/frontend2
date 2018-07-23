@@ -24,7 +24,8 @@ const AppConfig = {
                 competencies: {
                     availableCompetencies: '/v1/competencies-for-organisation/{slug}',
                     selectedCompetencies: '/v1/section/project/slug/{slug}',
-                    addCompetency: '/v1/section/competency'
+                    addCompetency: '/v1/section/competency',
+                    updateSelectedCompetencies: '/v1/section/project/slug/{slug}'
                 },
                 tasks: {
                     entities: '/v1/section/fieldvalue/participantSession/{filter}'
