@@ -6,9 +6,6 @@ import RedirectHelper from '../../redirectHelper';
 // Mock the utils
 jest.mock('../../utils', () => {
     return {
-        createRootElement: (children, props) => {
-            return null;
-        },
         excludeProps: (exclude, props) => {
             return {
                 path: '/path'
