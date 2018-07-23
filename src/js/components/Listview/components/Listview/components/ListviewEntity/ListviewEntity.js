@@ -38,6 +38,7 @@ export default class ListviewEntity extends Component {
                     i18n={ i18n }
                     translationKeyPrefix={ translationKeyPrefix }
                     active={ active }
+                    action={ entity[entityKey].action }
                 />
             );
         });

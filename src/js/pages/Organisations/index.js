@@ -84,7 +84,7 @@ class Index extends Component {
             editCompetenciesActiveTab: null,
         };
 
-        this.selectedCompetencies = [];
+        this.chosenCompetencies = [];
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
@@ -826,9 +826,9 @@ class Index extends Component {
             this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency);
             this.modalLocked = false;
 
-            // fill up the local state that keeps track of the selected competencies
+            // fill up the local state (chosenCompetencies) that keeps track of the chosen competencies
             this.props.selectedCompetencies.forEach(selectedCompetency => {
-                this.selectedCompetencies.push(selectedCompetency[0].value);
+                this.chosenCompetencies.push(selectedCompetency[0].value);
             });
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
@@ -869,20 +869,28 @@ class Index extends Component {
     }
 
     toggleCompetency(competencySlug) {
-        if (this.selectedCompetencies.indexOf(competencySlug) > -1) {
+        if (this.chosenCompetencies.indexOf(competencySlug) > -1) {
 
             // deselect
-            this.selectedCompetencies.splice(this.selectedCompetencies.indexOf(competencySlug), 1);
+            this.chosenCompetencies.splice(this.chosenCompetencies.indexOf(competencySlug), 1);
+
+            // to ensure the localState, containing global and custom competency collections, is immediately updated
+            // with this new information, it needs to be updated accordint to the amended this.chosenCompetencies
+            //this.setState(this.chosenCompetencies);
         } else {
 
             // select
-            this.selectedCompetencies.push(competencySlug);
+            this.chosenCompetencies.push(competencySlug);
+
+            // to ensure the localState, containing global and custom competency collections, is immediately updated
+            // with this new information, it needs to be updated accordint to the amended this.chosenCompetencies
+            //this.setState(this.chosenCompetencies);
         }
     }
 
     updateCompetencySelection(message) {
         console.log('selection is now: ');
-        console.table(this.selectedCompetencies);
+        console.table(this.chosenCompetencies);
 
         if (!this.modalLocked) {
             this.modalLocked = true;
@@ -982,8 +990,8 @@ class Index extends Component {
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
-                selectedCompetencies={ this.props.selectedCompetencies }
                 availableCompetencies={ this.props.availableCompetencies }
+                selectedCompetencies={ this.props.selectedCompetencies }
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }

@@ -366,7 +366,10 @@ export default function organisationsReducer(state = initialState, action) {
                         },
                         {
                             key: 'competency_name',
-                            value: competency.translationKey || competency.competencyName
+                            value: competency.translationKey || competency.competencyName,
+                            action: event => {
+                                action.toggleCompetency(competency.competencySlug, event);
+                            }
                         },
                         {
                             type: ListItemTypes.COMPETENCY_TYPE,

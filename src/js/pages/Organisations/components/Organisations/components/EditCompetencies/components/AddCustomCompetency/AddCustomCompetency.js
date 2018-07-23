@@ -26,6 +26,20 @@ export default class AddCustomCompetency extends Component {
         this.localState.addCustomCompetencyForm[event.target.id] = event.target.value;
     }
 
+    clearFormFields() {
+
+        /* todo: can only be used locally. to clear fields on modal close outside this component, replace local state with reducer flow */
+
+        this.localState = {
+            addCustomCompetencyForm: {
+                competencyName: null,
+                competencyDefinition: null
+            }
+        };
+
+        this.setState(this.localState);
+    }
+
     onSubmit(event) {
         event.preventDefault();
 
@@ -40,7 +54,9 @@ export default class AddCustomCompetency extends Component {
 
         try {
             this.props.addCustomCompetency(competencyName, competencyDefinition)
-                .then()
+                .then(
+                    this.clearFormFields()
+                )
                 .catch(error => {
 
                     let errorMessage = '';
@@ -77,11 +93,12 @@ export default class AddCustomCompetency extends Component {
                                     type="text"
                                     id="competencyName"
                                     name="username"
-                                    autocomplete="on"
+                                    autoComplete="on"
                                     onChange={ event => {
                                         this.onChange(event);
                                     } }
                                     required
+                                    value={ this.localState.addCustomCompetencyForm.competencyName }
                                 />
                             </div>
                             <div>
@@ -91,11 +108,12 @@ export default class AddCustomCompetency extends Component {
                                     cols="50"
                                     tabIndex="2"
                                     id="competencyDefinition"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     onChange={ event => {
                                         this.onChange(event);
                                     } }
                                     required
+                                    value={ this.localState.addCustomCompetencyForm.competencyDefinition }
                                 />
                             </div>
                             <span className={style.errors}>
@@ -106,15 +124,16 @@ export default class AddCustomCompetency extends Component {
                 </main>
                 <footer>
                     <button
-                        class="action_button action_button__secondary"
+                        className="action_button action_button__secondary"
                         type="button"
                         value="Close"
                         onClick={ () => {
+                            this.clearFormFields();
                             this.props.closeModalToEditCompetencies();
                         } }
                     >{ i18n.organisations_close }</button>
                     <button
-                        class="action_button"
+                        className="action_button"
                         type="button"
                         value="Submit"
                         onClick={ () => {

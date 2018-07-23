@@ -58,7 +58,8 @@
                 text-overflow: ellipsis;
 
                 &:hover {
-                    cursor: help;
+                    /* the question mark turned out to only confuse people. leaving it out as a test */
+                    cursor: pointer;
                 }
             }
         }
