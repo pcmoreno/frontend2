@@ -7,6 +7,28 @@ jest.mock('@fortawesome/react-fontawesome', () => jest.fn().mockReturnValue('tru
 // test examples: https://github.com/mzgoddard/preact-render-spy/blob/master/src/shared-render.test.js
 // cheat sheet: https://devhints.io/jest
 
+// mock api factory, as this is required by the header component
+jest.mock('../../../../../utils/api/factory', () =>({
+    get: () => {
+        return {
+            getAuthenticator: () => {
+                return {
+                    getUser: () => {
+                        return {};
+                    }
+                }
+            },
+            getAuthoriser: () => {
+                return {
+                    authorise: () => {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+}));
+
 test('check if Header is rendering empty figure with class \'logo\'', () => {
     const context = shallow(<Header/>);
     context.setState({ items: {label: 'inbox', link: '/'}});
@@ -20,22 +42,27 @@ test('check if Navigation items are populated', () => {
 
     expect(context.find('Navigation').attr('items')).toEqual([
         {
+            "component": "inbox",
             "label": "Inbox",
             "link": "/inbox"
         },
         {
+            "component": "organisations",
             "label": "Organisations",
             "link": "/organisations"
         },
         {
+            "component": "tasks",
             "label": "Tasks",
             "link": "/tasks"
         },
         {
+            "component": "users",
             "label": "Users",
             "link": "/users"
         },
         {
+            "component": "participants",
             "label": "Participants",
             "link": "/participants"
         }
