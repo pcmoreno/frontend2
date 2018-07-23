@@ -12,7 +12,7 @@ test('Should render an async route when a user is authenticated', () => {
         }
     };
 
-    const context = shallow(<AuthenticatedRoute api={api} path={'/path'} />);
+    const context = shallow(<AuthenticatedRoute api={api} path='/path' />);
 
     expect(context.find('AsyncRoute')[0].attributes).toEqual({
         "path": "/path"
@@ -41,7 +41,7 @@ test('Should render a redirect when a user is not authenticated', () => {
         }
     };
 
-    const context = shallow(<AuthenticatedRoute api={api} path={'/path'} />);
+    const context = shallow(<AuthenticatedRoute api={api} path='/path' />);
 
     expect(context.find('Redirect')[0].attributes).toEqual({
         "to": "/login"
