@@ -69,6 +69,8 @@ class Index extends Component {
 
 
     render() {
+        this.i18n = translator(this.props.languageId, 'inbox');
+
         return (
             <Inbox
                 messages={ this.props.messages }
