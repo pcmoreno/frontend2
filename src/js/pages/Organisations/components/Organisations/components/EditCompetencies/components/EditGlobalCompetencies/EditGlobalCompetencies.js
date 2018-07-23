@@ -5,45 +5,18 @@ import style from './../../style/editcompetencies.scss';
 /** @jsx h */
 
 export default class EditGlobalCompetencies extends Component {
-    constructor(props) {
-        super(props);
-
-        // keep track of competencies in localState to aid the selecting/deselecting
-        this.localState = {
-            globalCompetencies: [],
-            selectedEntities: []
-        };
-    }
-
-    componentWillUpdate() {
-
-        // ensures locally used vars are cleared on each update (also when reducer clears the state by reset_competencies action)
-        if (this.localState.globalCompetencies !== [] || this.localState.selectedEntities !== []) {
-            this.localState.globalCompetencies = [];
-            this.localState.selectedEntities = [];
-            this.setState(this.localState);
-        }
-    }
-
     render() {
         const { i18n } = this.props;
 
-        this.props.selectedCompetencies.forEach(selectedCompetency => {
-            selectedCompetency.forEach(prop => {
-
-                // only the id prop is required to check for selected competencies
-                if (prop.key === 'competency_slug') {
-                    this.localState.selectedEntities.push(prop.value);
-                }
-            });
-        });
+        // rebuild the global competencies list
+        const globalCompetencies = [];
 
         this.props.availableCompetencies.forEach(competency => {
             competency.forEach(prop => {
 
                 // only add global competencies
                 if (prop.type === 'competency_type' && prop.competencyType === 'global') {
-                    this.localState.globalCompetencies.push(competency);
+                    globalCompetencies.push(competency);
                 }
             });
         });
@@ -51,10 +24,10 @@ export default class EditGlobalCompetencies extends Component {
         return (
             <div id="organisations_edit_global_competencies" className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    { this.localState.globalCompetencies.length > 0
+                    { globalCompetencies.length > 0
                         ? <Listview
-                            entities={ this.localState.globalCompetencies }
-                            selectedEntities={ this.localState.selectedEntities }
+                            entities={ globalCompetencies }
+                            selectedEntities={ this.props.chosenCompetencies }
                             defaultSortingKey={ 'competency_name' }
                             defaultSortingOrder={ 'desc' }
                             i18n={ i18n }

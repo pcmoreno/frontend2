@@ -299,6 +299,7 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetencies={ this.props.selectedCompetencies }
+                            chosenCompetencies={ this.props.chosenCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
@@ -308,6 +309,7 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetencies={ this.props.selectedCompetencies }
+                            chosenCompetencies={ this.props.chosenCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
