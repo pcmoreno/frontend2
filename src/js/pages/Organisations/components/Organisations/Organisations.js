@@ -47,7 +47,7 @@ class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // no panel data loaded yet. while it loads, show empty detail panel with root entity data (is that always relevant?)
+        // by default the detail panel shows the root entity
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 

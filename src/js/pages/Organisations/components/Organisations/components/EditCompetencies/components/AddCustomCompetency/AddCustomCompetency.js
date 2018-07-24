@@ -27,9 +27,6 @@ export default class AddCustomCompetency extends Component {
     }
 
     clearFormFields() {
-
-        /* todo: can only be used locally. to clear fields on modal close outside this component, replace local state with reducer flow */
-
         this.localState = {
             addCustomCompetencyForm: {
                 competencyName: null,
@@ -72,7 +69,7 @@ export default class AddCustomCompetency extends Component {
 
         } catch (error) {
 
-            // exception matches lokalise keys
+            // exception matches Lokalise keys
             this.localState.error = this.props.i18n[error.message];
             this.setState(this.localState);
         }

@@ -6,18 +6,14 @@ import style from './style/settings.scss';
 
 export default class Settings extends Component {
     render() {
-        const { openModalToEditCompetencies } = this.props;
-
-        // todo: after organisation view uses solely slug's instead of id's, ensure detail panel always has the parent
-        // todo: organisation slug so it can be fetched that way, instead of from the path like here:
-        const organisationSlug = this.props.pathNodes[1].uuid;
+        const { openModalToEditCompetencies, entity, i18n, selectedCompetencies } = this.props;
 
         return (
             <div>
                 <div className={ style.toolbar }>
                     <button
                         onClick={ () => {
-                            openModalToEditCompetencies(organisationSlug);
+                            openModalToEditCompetencies(entity.uuid);
                         } }
                         className={ 'action_button left' }
                         type={ 'button' }
@@ -25,8 +21,8 @@ export default class Settings extends Component {
                 </div>
                 <div className={ style.listView }>
                     <Listview
-                        entities={this.props.selectedCompetencies}
-                        i18n={this.props.i18n}
+                        entities={selectedCompetencies}
+                        i18n={i18n}
                         defaultSortingKey={'competency_name'}
                         defaultSortingOrder={'asc'}
                         translationKeyPrefix={'competencies_'}

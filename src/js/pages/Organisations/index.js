@@ -82,7 +82,8 @@ class Index extends Component {
             selectedParticipants: [],
             selectedParticipantSlug: null,
             editCompetenciesActiveTab: null,
-            locallySelectedCompetencies: []
+            locallySelectedCompetencies: [],
+            selectedProjectSlug: null
         };
 
         // keep track of current entity shown in detail panel
@@ -798,22 +799,18 @@ class Index extends Component {
     getGlobalAndCustomCompetencies(organisationSlug) {
         document.querySelector('#spinner').classList.remove('hidden');
 
-        // todo: remove static slug
-
         const api = ApiFactory.get('neon');
         const apiConfig = api.getConfig();
-
         const params = {
             urlParams: {
                 parameters: {
                     limit: 10000
                 },
                 identifiers: {
-                    slug: 'c3245b96-8f65-4b66-8d48-94bce51ab4a9'
+                    slug: organisationSlug
                 }
             }
         };
-
         const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
 
         this.api.get(
@@ -837,15 +834,17 @@ class Index extends Component {
         });
     }
 
-    openModalToEditCompetencies() {
+    openModalToEditCompetencies(projectSlug) {
+        this.localState.projectSlug = projectSlug;
+
         this.modalLocked = true;
 
         // note that at this point the selectedCompetencies are already fetched (by the detail panel)
-        // therefore only the available competencies need to be fetched
+        // and saved in the state, therefore only the available competencies (global + custom) need to be fetched
 
         document.querySelector('#modal_edit_competencies').classList.remove('hidden');
 
-        // retrieve global and custom competencies and add them to the state
+        // retrieve global and custom competencies for the outermost organisation and add them to the state
         this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
     }
 
@@ -864,6 +863,9 @@ class Index extends Component {
 
             // also clear the local state that kept track of the locally selected competencies
             this.localState.locallySelectedCompetencies = [];
+
+            // same goes for the selected project. this should not be incorrect, so clear it.
+            this.localState.selectedProjectSlug = null;
 
             if (message) {
                 this.refreshDetailPanelWithMessage(message);
@@ -887,30 +889,13 @@ class Index extends Component {
         this.setState(this.localState);
     }
 
-    updateCompetencySelection(message) {
+    updateCompetencySelection() {
 
-        // note this will submit all (de)selected competencies (both global and custom). if that is not the bedoeling,
+        // note this will submit all (de)selected competencies (both global and custom). if that is not the requirement,
         // iterate over the locallySelectedCompetencies to determine their type. an extra 'isGlobal' flag would help!
 
         if (!this.modalLocked) {
             this.modalLocked = true;
-
-            console.log('going to submit '+this.localState.locallySelectedCompetencies.length+' competencies for this project');
-            console.table(this.localState.locallySelectedCompetencies);
-
-            // example PUT: http://dev.ltponline.com:8000/api/v1/section/project/slug/some-slug?form%5Bcompetencies%5D%5B0%5D=comp-slug-1&form%5Bcompetencies%5D%5B1%5D=comp-slug-2
-
-            // /api/v1/section/project/slug/some-slug?form[competencies][0]=comp-slug-1&form[competencies][1]=comp-slug-2
-
-            // construct the slug todo: add dynamic slug
-            const projectSlug = '454cc65b-b2b6-4e49-8853-5fcd31cbebd4';
-
-            // build up the string of competencies to be posted
-            let locallySelectedCompetencies = '?';
-
-            this.localState.locallySelectedCompetencies.forEach((uuid, index) => {
-                locallySelectedCompetencies += `${locallySelectedCompetencies.length > 1 ? '&' : ''}form[competencies][${index}]=${uuid}`;
-            });
 
             return new Promise((resolve, reject) => {
                 this.api.put(
@@ -918,14 +903,14 @@ class Index extends Component {
                     this.api.getEndpoints().competencies.updateSelectedCompetencies,
                     {
                         payload: {
-                            type: 'form',
                             data: {
-                                locallySelectedCompetencies
-                            }
+                                competencies: this.localState.locallySelectedCompetencies.length > 0 ? this.localState.locallySelectedCompetencies : ''
+                            },
+                            type: 'form'
                         },
                         urlParams: {
                             identifiers: {
-                                slug: projectSlug
+                                slug: this.localState.projectSlug
                             }
                         }
                     }
@@ -937,7 +922,7 @@ class Index extends Component {
                         return reject(response.errors);
                     }
 
-                    this.closeModalToEditCompetencies(message);
+                    this.closeModalToEditCompetencies(this.i18n.organisations_edit_competencies_success);
 
                     return resolve();
                 }).catch(() => {
@@ -962,7 +947,7 @@ class Index extends Component {
         }
 
         // construct the slug
-        const owningOrganisationSlug = this.props.pathNodes[1].uuid;
+        const owningOrganisation = this.props.pathNodes[1].uuid;
 
         return new Promise((resolve, reject) => {
             this.api.post(
@@ -974,7 +959,7 @@ class Index extends Component {
                         data: {
                             competencyName,
                             competencyDefinition,
-                            owningOrganisationSlug
+                            owningOrganisation
                         }
                     }
                 }

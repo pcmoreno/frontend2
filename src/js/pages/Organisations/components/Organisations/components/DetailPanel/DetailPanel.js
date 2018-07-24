@@ -57,7 +57,7 @@ export default class DetailPanel extends Component {
                     openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
                     languageId={ this.props.languageId }
                     pathNodes={ this.props.pathNodes }
-                    entity={ this.props.entity }
+                    entity={ entity }
                     i18n={ i18n }
                 />
             </p>;
@@ -109,14 +109,16 @@ export default class DetailPanel extends Component {
                         tabIndex="0"
                         className={ `${style.button_hide_detailpanel}` }
                         onClick={ this.closeDetailPanel }
-                        role="button">
+                        role="button"
+                    >
                         x
                     </span>
                     <span
                         tabIndex="0"
                         className={ `${style.button_fullwidth_detailpanel}` }
                         onClick={ this.toggleFullWidthDetailPanel }
-                        role="button">
+                        role="button"
+                    >
                         &#11013;
                     </span>
                     { entity.name !== 'LTP' &&

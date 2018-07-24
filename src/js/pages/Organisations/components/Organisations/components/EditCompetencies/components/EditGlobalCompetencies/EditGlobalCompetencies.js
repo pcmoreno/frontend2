@@ -6,7 +6,7 @@ import style from './../../style/editcompetencies.scss';
 
 export default class EditGlobalCompetencies extends Component {
     render() {
-        const { i18n } = this.props;
+        const { i18n, projectSlug } = this.props;
 
         // rebuild the global competencies list
         const globalCompetencies = [];
@@ -49,7 +49,7 @@ export default class EditGlobalCompetencies extends Component {
                         className="action_button"
                         type="button" value="Submit"
                         onClick={ () => {
-                            this.props.updateCompetencySelection(i18n.organisations_edit_competencies_success);
+                            this.props.updateCompetencySelection(projectSlug);
                         } }>{ i18n.organisations_select }</button>
                 </footer>
             </div>
