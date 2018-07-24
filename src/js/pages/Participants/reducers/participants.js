@@ -79,11 +79,11 @@ export default function participantsReducer(state = initialState, action) {
                     }
 
                     // construct startDate based on current Date with hours,minutes,seconds set to 00:00:00
-                    const today = Utils.getTodayDate();
+                    const today = moment().startOf('day');
 
                     // if an appointmentDate was set, only add appointments from today and later to the state
                     if (appointmentDate === '' ||
-                        (appointmentDate !== '' && new Date(sortValueForAppointmentDate) && new Date(sortValueForAppointmentDate) > today)) {
+                        (appointmentDate !== '' && sortValueForAppointmentDate && moment(sortValueForAppointmentDate).isAfter(today))) {
 
                         // build list view
                         newState.participants.push([
