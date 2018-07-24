@@ -1,5 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
-import Utils from '../../../utils/utils';
+import moment from 'moment';
 import Logger from '../../../utils/logger';
 
 const initialState = {
@@ -84,7 +84,7 @@ export default function reportReducer(state = initialState, action) {
 
                 // set appointment date
                 if (participant.appointmentDate) {
-                    newState.report.participant.appointmentDate = Utils.formatDate(participant.appointmentDate, 'dd mmmm yyyy');
+                    newState.report.participant.appointmentDate = moment(participant.appointmentDate).format('DD MMMM YYYY');
                 }
 
                 // set consultant (display) name
