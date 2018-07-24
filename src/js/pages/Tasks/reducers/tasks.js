@@ -1,6 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
-import Utils from '../../../utils/utils';
 import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
+import moment from 'moment';
 
 const initialState = {
     tasks: []
@@ -60,8 +60,8 @@ export default function tasksReducer(state = initialState, action) {
                 if (task.participantSessionAppointmentDate) {
 
                     // construct appointment date
-                    appointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm') || '';
-                    sortValueForAppointmentDate = Utils.formatDate(task.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm') || '';
+                    appointmentDate = moment(task.participantSessionAppointmentDate).format('DD-MM-YYYY HH:mm') || '';
+                    sortValueForAppointmentDate = moment(task.participantSessionAppointmentDate).format('YYYY-MM-DD HH:mm') || '';
                 }
 
                 // extract organisation name

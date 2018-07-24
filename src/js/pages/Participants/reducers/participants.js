@@ -1,6 +1,7 @@
 import * as actionType from './../constants/ActionTypes';
 import Utils from '../../../utils/utils';
 import ParticipantStatus from '../../../constants/ParticipantStatus';
+import moment from 'moment';
 
 const initialState = {
     participants: []
@@ -73,8 +74,8 @@ export default function participantsReducer(state = initialState, action) {
                     if (participant.participantSessionAppointmentDate) {
 
                         // construct appointment date
-                        appointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'dd-MM-yyyy HH:mm');
-                        sortValueForAppointmentDate = Utils.formatDate(participant.participantSessionAppointmentDate, 'yyyy-MM-dd HH:mm');
+                        appointmentDate = moment(participant.participantSessionAppointmentDate).format('DD-MM-YYYY HH:mm');
+                        sortValueForAppointmentDate = moment(participant.participantSessionAppointmentDate).format('YYYY-MM-DD HH:mm');
                     }
 
                     // construct startDate based on current Date with hours,minutes,seconds set to 00:00:00

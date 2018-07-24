@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
+import moment from 'moment';
 
 /** @jsx h */
 
 import style from '../style/field.scss';
-import Utils from '../../../../../../utils/utils';
 import flatpickr from 'flatpickr';
 
 export default class DateTimeField extends Component {
@@ -11,7 +11,7 @@ export default class DateTimeField extends Component {
         super(props);
 
         this.localState = {
-            date: null
+            date: ''
         };
     }
 
@@ -30,17 +30,25 @@ export default class DateTimeField extends Component {
             }
         );
 
-        this.localState.date = Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm');
+        this.localState.date = this.formatDate(this.props.value); // moment(this.props.value).format('YYYY-MM-DD HH:mm');
         this.setState(this.localState);
     }
 
     componentDidUpdate() {
 
         // the date is transformed on each update in case the form was already loaded by a previous amend call
-        if (this.localState.date !== Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm')) {
-            this.localState.date = Utils.formatDate(this.props.value, 'yyyy-MM-dd HH:mm');
+        if (this.localState.date !== this.formatDate(this.props.value)) { // moment(this.props.value).format('YYYY-MM-DD HH:mm')) {
+            this.localState.date = this.formatDate(this.props.value); // moment(this.props.value).format('YYYY-MM-DD HH:mm');
             this.setState(this.localState);
         }
+    }
+
+    formatDate(date) {
+        if (date) {
+            return moment(date).format('YYYY-MM-DD HH:mm');
+        }
+
+        return '';
     }
 
     render() {

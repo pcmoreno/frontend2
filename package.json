@@ -33,6 +33,7 @@
         "if-env": "^1.0.0",
         "jest": "21.2.0",
         "jest-css-modules": "^1.1.0",
+        "moment": "^2.22.2",
         "postcss": "^6.0.13",
         "postcss-import": "^11.1.0",
         "postcss-loader": "^2.0.8",
