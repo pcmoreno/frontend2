@@ -76,7 +76,6 @@ export default class ListviewEntityItem extends Component {
 
                 case ListItemTypes.CHECKBOX:
                     value = <Checkbox
-                        id={ this.props.widget.id }
                         checked={ active }
                         widgetAction={ this.props.widget.action }
                         disabled={ this.props.widget.disabled }

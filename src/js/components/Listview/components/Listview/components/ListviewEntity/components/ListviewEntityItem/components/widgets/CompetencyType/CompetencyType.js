@@ -13,7 +13,7 @@ export default class CompetencyType extends Component {
             case 'global': icon = <span className={ style.global }>LTP</span>;
                 break;
 
-            case 'custom': icon = <span />;
+            case 'custom': icon = null;
                 break;
 
             default:
