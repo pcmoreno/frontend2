@@ -6,12 +6,19 @@ import style from './../../style/editcompetencies.scss';
 
 export default class EditGlobalCompetencySelection extends Component {
     render() {
-        const { i18n, projectSlug } = this.props;
+        const {
+            i18n,
+            projectSlug,
+            availableCompetencies,
+            locallySelectedCompetencies,
+            closeModalToEditCompetencies,
+            updateCompetencySelection
+        } = this.props;
 
         // rebuild the global competencies list
         const globalCompetencies = [];
 
-        this.props.availableCompetencies.forEach(competency => {
+        availableCompetencies.forEach(competency => {
             competency.forEach(prop => {
 
                 // only add global competencies
@@ -27,7 +34,7 @@ export default class EditGlobalCompetencySelection extends Component {
                     { globalCompetencies.length > 0
                         ? <Listview
                             entities={ globalCompetencies }
-                            selectedEntities={ this.props.locallySelectedCompetencies }
+                            selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
                             defaultSortingOrder={ 'desc' }
                             i18n={ i18n }
@@ -42,14 +49,14 @@ export default class EditGlobalCompetencySelection extends Component {
                         type="button"
                         value="Close"
                         onClick={ () => {
-                            this.props.closeModalToEditCompetencies();
+                            closeModalToEditCompetencies();
                         } }
                     >{ i18n.organisations_close }</button>
                     <button
                         className="action_button"
                         type="button" value="Submit"
                         onClick={ () => {
-                            this.props.updateCompetencySelection(projectSlug);
+                            updateCompetencySelection(projectSlug);
                         } }>{ i18n.organisations_select }</button>
                 </footer>
             </div>
