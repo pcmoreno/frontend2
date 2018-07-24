@@ -12,8 +12,18 @@ import ResearchQuestion from './components/ResearchQuestion/ResearchQuestion';
 import SelectionAdvice from './components/SelectionAdvice/SelectionAdvice';
 import Explanation from './components/Explanation/Explanation';
 import DevelopmentAdvice from './components/DevelopmentAdvice/DevelopmentAdvice';
+import Authorised from '../../../../utils/components/Authorised';
+import ReportActions from '../../constants/ReportActions';
+import ApiFactory from '../../../../utils/api/factory';
+import ReportComponents from '../../constants/ReportComponents';
 
 export default class Report extends Component {
+
+    constructor() {
+        super();
+
+        this.api = ApiFactory.get('neon');
+    }
 
     componentWillMount() {
         this.loadExternalEditorScripts();
@@ -158,7 +168,9 @@ export default class Report extends Component {
 
                 </section>
 
-                <Sidebar tabs={ tabs } i18n={i18n} />
+                <Authorised api={ this.api } component={ ReportComponents.REPORT_COMPONENT } action={ ReportActions.WRITE_ACTION }>
+                    <Sidebar tabs={ tabs } i18n={i18n} />
+                </Authorised>
 
             </main>
         );

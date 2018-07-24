@@ -94,7 +94,6 @@ ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 // The authenticated route and component are dependent on the neon api instance
-import AuthenticatedRoute from './utils/components/AuthenticatedRoute';
 import AuthorisedRoute from './utils/components/AuthorisedRoute';
 import Authenticated from './utils/components/Authenticated';
 import Redirect from './utils/components/Redirect';
@@ -222,11 +221,11 @@ class App extends Component {
 
                         <AsyncRoute path="/error" default getComponent={ getError } />
                         <AuthorisedRoute api={api} path="/report/:participantSessionId" getComponent={ getReport } component="report" />
-                        <AuthenticatedRoute api={api} path="/inbox" getComponent={ getInbox } />
-                        <AuthenticatedRoute api={api} path="/organisations" getComponent={ getOrganisations } />
-                        <AuthenticatedRoute api={api} path="/tasks" getComponent={ getTasks } />
-                        <AuthenticatedRoute api={api} path="/users" getComponent={ getUsers } />
-                        <AuthenticatedRoute api={api} path="/participants" getComponent={ getParticipants } />
+                        <AuthorisedRoute api={api} path="/inbox" getComponent={ getInbox } component="inbox" />
+                        <AuthorisedRoute api={api} path="/organisations" getComponent={ getOrganisations } component="organisations" />
+                        <AuthorisedRoute api={api} path="/tasks" getComponent={ getTasks } component="tasks" />
+                        <AuthorisedRoute api={api} path="/users" getComponent={ getUsers } component="users" />
+                        <AuthorisedRoute api={api} path="/participants" getComponent={ getParticipants } component="participants" />
                     </Router>
                 </section>
             </Provider>

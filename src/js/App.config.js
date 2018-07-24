@@ -6,6 +6,33 @@ import { UserRoles } from './constants/UserRoles';
  * @type {{}}
  */
 const AppConfig = {
+    headerRoutes: [
+        {
+            label: 'Inbox',
+            link: '/inbox',
+            component: 'inbox'
+        },
+        {
+            label: 'Organisations',
+            link: '/organisations',
+            component: 'organisations'
+        },
+        {
+            label: 'Tasks',
+            link: '/tasks',
+            component: 'tasks'
+        },
+        {
+            label: 'Users',
+            link: '/users',
+            component: 'users'
+        },
+        {
+            label: 'Participants',
+            link: '/participants',
+            component: 'participants'
+        }
+    ],
     api: {
         neon: {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
@@ -89,14 +116,67 @@ const AppConfig = {
     },
     authoriser: {
         neon: {
-
-            // example component. Can be removed once a real component/action is added.
-            component: {
-                editAction: [UserRoles.ROLE_APPLICATION_MANAGERS],
-                route: [UserRoles.ROLE_APPLICATION_MANAGERS]
+            header: {
+                featureToggleAction: [UserRoles.ROLE_APPLICATION_MANAGERS]
+            },
+            inbox: {
+                loadAction: [UserRoles.ROLE_PARTICIPANT],
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_CONSULTANTS,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_CLIENT_CENTER,
+                    UserRoles.ROLE_ASSESSMENT_TEAM,
+                    UserRoles.ROLE_ASSESSORS,
+                    UserRoles.ROLE_PARTICIPANT
+                ]
+            },
+            organisations: {
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ]
+            },
+            tasks: {
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_CONSULTANTS,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ]
             },
             report: {
-                route: [UserRoles.ROLE_APPLICATION_MANAGERS]
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_CONSULTANTS,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ],
+                writeAction: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_CONSULTANTS,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ]
+            },
+            users: {
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ]
+            },
+            participants: {
+                route: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_ASSESSMENT_TEAM,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ]
             },
             loginRedirect: '/login'
         }

@@ -5,6 +5,9 @@ import { h, Component } from 'preact';
 import style from './style/editabletext.scss';
 
 import FroalaEditor from 'react-froala-wysiwyg';
+import ReportComponents from '../../../../../../../../../../constants/ReportComponents';
+import ReportActions from '../../../../../../../../../../constants/ReportActions';
+import ApiFactory from '../../../../../../../../../../../../utils/api/factory';
 
 export default class EditableText extends Component {
 
@@ -56,6 +59,8 @@ export default class EditableText extends Component {
                 }
             }
         };
+
+        this.api = ApiFactory.get('neon');
     }
 
     componentDidMount() {
@@ -147,6 +152,12 @@ export default class EditableText extends Component {
     }
 
     render() {
+        let editMethod = false;
+
+        // check if this user is authorized to edit report texts
+        if (this.api.getAuthoriser().authorise(this.api.getAuthenticator().getUser(), ReportComponents.REPORT_COMPONENT, ReportActions.WRITE_ACTION)) {
+            editMethod = this.switchEditor.bind(this);
+        }
 
         // render editor or render the text only
         if (this.localState.editorEnabled) {
@@ -163,7 +174,7 @@ export default class EditableText extends Component {
         return (<div
             className={ `${style.editableText} ${!this.localState.text.replace(/ |<p>|<\/p>|<br>/g, '') ? style.empty : ''}` }
             id={ `report-${this.props.name}` }
-            onClick={this.switchEditor.bind(this)}
+            onClick={ editMethod }
             role='textbox'
             tabIndex='0'
         />);
