@@ -830,6 +830,7 @@ class Index extends Component {
             }
 
         }).catch(error => {
+            this.modalLocked = false;
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -926,6 +927,7 @@ class Index extends Component {
 
                     return resolve();
                 }).catch(() => {
+                    this.modalLocked = false;
                     reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
                 });
             });
@@ -985,6 +987,7 @@ class Index extends Component {
 
                 return resolve();
             }).catch(() => {
+                this.modalLocked = false;
                 reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
             });
         });

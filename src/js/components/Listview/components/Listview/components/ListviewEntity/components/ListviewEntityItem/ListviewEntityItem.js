@@ -22,10 +22,10 @@ export default class ListviewEntityItem extends Component {
         // returns either the translation for element, or the original element
         const { translationKeyPrefix, i18n } = this.props;
 
-        // convert to snake case
-        const translatableElement = Utils.camelCaseToSnakeCase(element);
-
         if (translationKeyPrefix) {
+
+            // convert to snake case
+            const translatableElement = Utils.camelCaseToSnakeCase(element);
 
             // construct the key required to extract the translation from the i18n object by combining translationKeyPrefix and the lowercased element key
             if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
