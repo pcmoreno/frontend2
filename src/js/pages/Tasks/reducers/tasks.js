@@ -67,8 +67,9 @@ export default function tasksReducer(state = initialState, action) {
                 // extract organisation name
                 let organisationName = project.organisation.organisationName;
 
-                if (project.organisation.organisationType.toLowerCase() === 'jobfunction') {
-                    organisationName = project.organisation.organisationName;
+                // when the organisation is a jobfunction, extract parent organisation
+                if (project.organisation.organisationType.toLowerCase() === 'jobfunction' && project.organisation.organisation) {
+                    organisationName = project.organisation.organisation.organisationName;
                 }
 
                 // build list view
