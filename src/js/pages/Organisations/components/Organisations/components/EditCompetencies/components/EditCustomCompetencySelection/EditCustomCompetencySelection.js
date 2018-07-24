@@ -4,7 +4,7 @@ import style from './../../style/editcompetencies.scss';
 
 /** @jsx h */
 
-export default class EditCustomCompetencies extends Component {
+export default class EditCustomCompetencySelection extends Component {
     render() {
         const { i18n, projectSlug } = this.props;
 
@@ -22,7 +22,7 @@ export default class EditCustomCompetencies extends Component {
         });
 
         return (
-            <div id="organisations_edit_custom_competencies" className={ `${style.editcompetencies} hidden` }>
+            <div id="organisations_edit_custom_competency_selection" className={ `${style.editcompetencies} hidden` }>
                 <main>
                     { customCompetencies.length > 0
                         ? <Listview

@@ -15,8 +15,8 @@ import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 import Tabs from '../../../../components/Tabs';
-import EditGlobalCompetencies from './components/EditCompetencies/components/EditGlobalCompetencies/EditGlobalCompetencies';
-import EditCustomCompetencies from './components/EditCompetencies/components/EditCustomCompetencies/EditCustomCompetencies';
+import EditGlobalCompetencySelection from './components/EditCompetencies/components/EditGlobalCompetencySelection/EditGlobalCompetencySelection';
+import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 
 class Organisations extends Component {
@@ -293,8 +293,8 @@ class Organisations extends Component {
                     closeModal={ closeModalToEditCompetencies }
                 >
                     <Tabs activeTab={ this.props.editCompetenciesActiveTab }>
-                        <EditGlobalCompetencies
-                            id="organisations_edit_global_competencies"
+                        <EditGlobalCompetencySelection
+                            id="organisations_edit_global_competency_selection"
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
@@ -303,8 +303,8 @@ class Organisations extends Component {
                             availableCompetencies={ this.props.availableCompetencies }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
-                        <EditCustomCompetencies
-                            id="organisations_edit_custom_competencies"
+                        <EditCustomCompetencySelection
+                            id="organisations_edit_custom_competency_selection"
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }

@@ -4,7 +4,7 @@ import style from './../../style/editcompetencies.scss';
 
 /** @jsx h */
 
-export default class EditGlobalCompetencies extends Component {
+export default class EditGlobalCompetencySelection extends Component {
     render() {
         const { i18n, projectSlug } = this.props;
 
@@ -22,7 +22,7 @@ export default class EditGlobalCompetencies extends Component {
         });
 
         return (
-            <div id="organisations_edit_global_competencies" className={ `${style.editcompetencies} hidden` }>
+            <div id="organisations_edit_global_competency_selection" className={ `${style.editcompetencies} hidden` }>
                 <main>
                     { globalCompetencies.length > 0
                         ? <Listview

@@ -853,7 +853,7 @@ class Index extends Component {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
             // override the active tab to the first one, then immediately reset it so user can switch to other tabs
-            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competencies';
+            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competency_selection';
             this.setState(this.localState, () => {
                 this.localState.editCompetenciesActiveTab = null;
             });
@@ -972,7 +972,7 @@ class Index extends Component {
                 }
 
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
-                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competencies';
+                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competency_selection';
                 this.setState(this.localState, () => {
                     this.localState.editCompetenciesActiveTab = null;
                 });
