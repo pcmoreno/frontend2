@@ -1,5 +1,4 @@
 import * as actionType from './../constants/ActionTypes';
-import Utils from '../../../utils/utils';
 import ParticipantStatus from '../../../constants/ParticipantStatus';
 import moment from 'moment';
 
