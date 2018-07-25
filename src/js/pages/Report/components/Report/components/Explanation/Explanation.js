@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import ReportSection from '../ReportSection/ReportSection';
-import TextBlock from '../ReportSection/components/ReportColumn/components/TextBlock/TextBlock';
+import TextBlock from '../../components/TextBlock/TextBlock';
 
 /** @jsx h */
 

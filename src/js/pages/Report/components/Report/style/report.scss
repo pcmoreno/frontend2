@@ -3,7 +3,11 @@
 
     /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
     height: calc(100vh - $application-header-height - 2rem);
-    padding: 1rem;
+
+    /* todo: this is because we have child widgets that should be full width. Maybe we should reconsider later */
+    > section > section {
+        padding: 1rem 60px;
+    }
 
     @supports (display: grid) {
         display: grid;
@@ -11,7 +15,6 @@
     }
 
     .page_with_sidebar_container {
-        padding: 0 60px;
         z-index: $z-index-application-top;
 
         /* smaller padding on smaller screens */

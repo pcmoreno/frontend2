@@ -16,6 +16,7 @@ import Authorised from '../../../../utils/components/Authorised';
 import ReportActions from '../../constants/ReportActions';
 import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
+import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
 
 export default class Report extends Component {
 
@@ -145,6 +146,11 @@ export default class Report extends Component {
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
+                    />
+
+                    {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
+                    <CompetencyProfile
+                        i18n={i18n}
                     />
 
                     <Explanation
