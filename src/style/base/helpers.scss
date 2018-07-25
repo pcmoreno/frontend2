@@ -233,6 +233,6 @@ table td.organisation {
 }
 
 /* show the last option in the competencies modal when the edit_custom_competencies option is selected */
-#tablink_organisations_edit_custom_competencies.active + span {
+#tablink_organisations_edit_custom_competency_selection.active + span {
     display: block;
 }
