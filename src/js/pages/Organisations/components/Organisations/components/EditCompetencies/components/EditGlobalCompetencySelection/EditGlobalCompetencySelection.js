@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview';
+import CompetencyType from './../../../../../../constants/CompetencyType';
 import style from './../../style/editcompetencies.scss';
+import CompetencyPropType from '../../../../../../constants/CompetencyPropType';
 
 /** @jsx h */
 
@@ -22,7 +24,7 @@ export default class EditGlobalCompetencySelection extends Component {
             competency.forEach(prop => {
 
                 // only add global competencies
-                if (prop.type === 'competency_type' && prop.competencyType === 'global') {
+                if (prop.type === CompetencyPropType.COMPETENCYTYPE && prop.competencyType === CompetencyType.GLOBAL) {
                     globalCompetencies.push(competency);
                 }
             });
@@ -54,7 +56,8 @@ export default class EditGlobalCompetencySelection extends Component {
                     >{ i18n.organisations_close }</button>
                     <button
                         className="action_button"
-                        type="button" value="Submit"
+                        type="button"
+                        value="Submit"
                         onClick={ () => {
                             updateCompetencySelection(projectSlug);
                         } }>{ i18n.organisations_select }</button>

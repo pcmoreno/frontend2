@@ -1,5 +1,7 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview';
+import CompetencyType from './../../../../../../constants/CompetencyType';
+import CompetencyPropType from './../../../../../../constants/CompetencyPropType';
 import style from './../../style/editcompetencies.scss';
 
 /** @jsx h */
@@ -22,7 +24,7 @@ export default class EditCustomCompetencySelection extends Component {
             competency.forEach(prop => {
 
                 // only add custom competencies
-                if (prop.type === 'competency_type' && prop.competencyType === 'custom') {
+                if (prop.type === CompetencyPropType.COMPETENCYTYPE && prop.competencyType === CompetencyType.CUSTOM) {
                     customCompetencies.push(competency);
                 }
             });
