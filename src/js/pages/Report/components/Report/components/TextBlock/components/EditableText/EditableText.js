@@ -5,9 +5,9 @@ import { h, Component } from 'preact';
 import style from './style/editabletext.scss';
 
 import FroalaEditor from 'react-froala-wysiwyg';
-import ReportComponents from '../../../../../../../../../../constants/ReportComponents';
-import ReportActions from '../../../../../../../../../../constants/ReportActions';
-import ApiFactory from '../../../../../../../../../../../../utils/api/factory';
+import ReportComponents from '../../../../../../constants/ReportComponents';
+import ReportActions from '../../../../../../constants/ReportActions';
+import ApiFactory from '../../../../../../../../utils/api/factory';
 
 export default class EditableText extends Component {
 
