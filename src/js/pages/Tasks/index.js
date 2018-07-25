@@ -92,7 +92,7 @@ class Index extends Component {
                             ProductSlugs.SELECTION_DEVELOPMENT
                         ].join(','),
                         fields: 'uuid,participantSessionAppointmentDate,participantSessionSlug,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
-                        limit: 100
+                        limit: 10000
                     }
                 }
             }
