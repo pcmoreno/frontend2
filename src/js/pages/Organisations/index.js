@@ -178,6 +178,10 @@ class Index extends Component {
                 // show message and reload detail panel
                 this.refreshDetailPanelParticipantsWithMessage(successMessage);
 
+                // since all selected were invited, clear the selected
+                this.localState.selectedParticipants = [];
+                this.setState(this.localState);
+
                 // unlock the modal again
                 this.modalLocked = false;
 
