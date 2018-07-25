@@ -3,5 +3,34 @@
         padding: 1rem;
         border-top: 1px solid $shadow;
         border-bottom: 1px solid $shadow;
+        margin-top: .25rem;
+
+        /* reset some default form styling since this is not your usual form modal */
+        form {
+            box-shadow: unset;
+            max-width: unset;
+            width: unset;
+            margin: .25rem 0 0;
+
+            main {
+                border: 0;
+                padding: 0;
+
+                label {
+                    font-family: $fontsmall;
+                }
+            }
+
+            @media screen and (max-width: 640px) {
+                position: relative;
+            }
+        }
     }
+}
+
+.errors {
+    color: $signal-red;
+    margin-top: 10px;
+    display: block;
+    min-height: 1.2rem;
 }

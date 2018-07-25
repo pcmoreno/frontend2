@@ -120,12 +120,21 @@ $detailpanel-margin: 10px;
 .header_icon {
     display: flex;
     justify-content: center;
-    margin-top: -20px;
+    margin-top: 0;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        margin-top: -20px;
+    }
+
     margin-bottom: 10px;
 
     svg {
-        display: inline-block;
         font-size: 2rem;
+        display: none;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            display: inline-block;
+        }
     }
 }
 

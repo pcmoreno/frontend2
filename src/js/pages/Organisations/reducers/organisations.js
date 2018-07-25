@@ -16,6 +16,8 @@ const initialState = {
             participants: []
         }
     },
+    selectedCompetencies: [],
+    availableCompetencies: [],
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -29,6 +31,7 @@ const initialState = {
  */
 export default function organisationsReducer(state = initialState, action) {
     let newState = Object.assign({}, state);
+    let tempCompetencies = [];
 
     const logger = Logger.instance;
 
@@ -311,6 +314,78 @@ export default function organisationsReducer(state = initialState, action) {
             break;
         }
 
+        case actionType.FETCH_SELECTED_COMPETENCIES:
+
+            newState.selectedCompetencies = [];
+
+            tempCompetencies = [];
+
+            action.data.forEach(competency => {
+                tempCompetencies.push(
+                    [
+                        {
+                            type: 'hidden',
+                            key: 'competency_slug',
+                            value: competency.competencySlug
+                        },
+                        {
+                            key: 'competency_name',
+                            value: competency.translationKey || competency.competencyName
+                        },
+                        {
+                            type: ListItemTypes.COMPETENCY_TYPE,
+                            key: 'competency_type',
+                            disabled: false,
+                            competencyType: competency.translationKey ? 'global' : 'custom'
+                        }
+
+                    ]
+                );
+            });
+
+            newState.selectedCompetencies = tempCompetencies;
+
+            break;
+
+        case actionType.FETCH_AVAILABLE_COMPETENCIES:
+
+            newState.availableCompetencies = [];
+
+            tempCompetencies = [];
+
+            action.data.forEach(competency => {
+                tempCompetencies.push(
+                    [
+                        {
+                            type: 'checkbox',
+                            key: 'selectParticipantLabel',
+                            id: competency.competencySlug,
+                            action: event => {
+                                action.toggleCompetency(competency.competencySlug, event);
+                            }
+                        },
+                        {
+                            key: 'competency_name',
+                            value: competency.translationKey || competency.competencyName,
+                            action: event => {
+                                action.toggleCompetency(competency.competencySlug, event);
+                            }
+                        },
+                        {
+                            type: ListItemTypes.COMPETENCY_TYPE,
+                            key: 'competency_type',
+                            disabled: false,
+                            competencyType: competency.translationKey ? 'global' : 'custom'
+                        }
+
+                    ]
+                );
+            });
+
+            newState.availableCompetencies = tempCompetencies;
+
+            break;
+
         case actionType.RESET_ORGANISATIONS:
 
             // reset state so all organisation data is refreshed
@@ -329,6 +404,13 @@ export default function organisationsReducer(state = initialState, action) {
         case actionType.RESET_DETAIL_PANEL:
 
             newState.detailPanelData = Object.assign({}, initialState.detailPanelData);
+
+            break;
+
+        case actionType.RESET_COMPETENCIES:
+
+            newState.selectedCompetencies = [];
+            newState.availableCompetencies = [];
 
             break;
 

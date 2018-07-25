@@ -15,8 +15,8 @@ import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 import Tabs from '../../../../components/Tabs';
-import EditGlobalCompetencies from './components/EditCompetencies/components/EditGlobalCompetencies/EditGlobalCompetencies';
-import EditCustomCompetencies from './components/EditCompetencies/components/EditCustomCompetencies/EditCustomCompetencies';
+import EditGlobalCompetencySelection from './components/EditCompetencies/components/EditGlobalCompetencySelection/EditGlobalCompetencySelection';
+import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 
 class Organisations extends Component {
@@ -47,12 +47,12 @@ class Organisations extends Component {
             return newDetailPanelData;
         }
 
-        // no panel data loaded yet. while it loads, show empty detail panel with root entity data (is that always relevant?)
+        // by default the detail panel shows the root entity
         return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     /* generic method to close the newly written modal component. this is currently only used for edit competencies */
-    // todo: start with replacing all closeModal**** methods with this one
+    // todo: start with replacing all closeModal**** methods with this one (actually.. not sure if we should do this)
     closeModal(id) {
         document.querySelector(`#${id}`).classList.add('hidden');
     }
@@ -67,13 +67,14 @@ class Organisations extends Component {
             alertComponent,
             fetchDetailPanelData,
             refreshPanelDataWithMessage,
-            refreshDetailPanelDataWithMessage,
+            refreshDetailPanelParticipantsWithMessage,
             closeModalToAddOrganisation,
             openModalToAddParticipant,
             closeModalToAddParticipant,
             openModalToAmendParticipant,
             closeModalToAmendParticipant,
             openModalToEditCompetencies,
+            closeModalToEditCompetencies,
             languageId,
             closeModalToAddJobFunction,
             closeModalToAddProject,
@@ -82,6 +83,7 @@ class Organisations extends Component {
             toggleSelectAllParticipants,
             openModalToInviteParticipant,
             closeModalToInviteParticipant,
+            selectedCompetencies,
             i18n
         } = this.props;
 
@@ -117,7 +119,10 @@ class Organisations extends Component {
                         openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
+                        selectedCompetencies={ selectedCompetencies }
+                        languageId={ languageId }
                         i18n = { i18n }
+                        pathNodes={ pathNodes }
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_organisation">
@@ -161,7 +166,7 @@ class Organisations extends Component {
                             }
                         }}
                         afterSubmit = { response => {
-                            refreshDetailPanelDataWithMessage(i18n.organisations_add_participant_success, {
+                            refreshDetailPanelParticipantsWithMessage(i18n.organisations_add_participant_success, {
                                 addedParticipant: response
                             });
                         } }
@@ -243,7 +248,7 @@ class Organisations extends Component {
                             }
                         }}
                         afterSubmit = { () => {
-                            refreshDetailPanelDataWithMessage(i18n.organisations_amend_participant_success);
+                            refreshDetailPanelParticipantsWithMessage(i18n.organisations_amend_participant_success);
                         } }
                         closeModal={ closeModalToAmendParticipant }
                         languageId={ languageId }
@@ -285,26 +290,35 @@ class Organisations extends Component {
                 <Modal
                     id={ 'modal_edit_competencies' }
                     modalHeader={ i18n.organisations_edit_competencies }
-                    closeModal={ () => this.closeModal('modal_edit_competencies') }
+                    closeModal={ closeModalToEditCompetencies }
                 >
-                    <Tabs activeTab="organisations_edit_global_competencies">
-                        <EditGlobalCompetencies
-                            id="organisations_edit_global_competencies"
+                    <Tabs activeTab={ this.props.editCompetenciesActiveTab }>
+                        <EditGlobalCompetencySelection
+                            id="organisations_edit_global_competency_selection"
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
-                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                            closeModalToEditCompetencies={ closeModalToEditCompetencies }
+                            selectedCompetencies={ this.props.selectedCompetencies }
+                            locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
+                            availableCompetencies={ this.props.availableCompetencies }
+                            updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
-                        <EditCustomCompetencies
-                            id="organisations_edit_custom_competencies"
+                        <EditCustomCompetencySelection
+                            id="organisations_edit_custom_competency_selection"
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
-                            closeModal={ () => this.closeModal('modal_edit_competencies') }
+                            closeModalToEditCompetencies={ closeModalToEditCompetencies }
+                            selectedCompetencies={ this.props.selectedCompetencies }
+                            locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
+                            availableCompetencies={ this.props.availableCompetencies }
+                            updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency
                             id="organisations_add_custom_competency"
                             label={ i18n.organisations_add_custom_competency }
                             i18n={ i18n }
-                            closeModal={() => this.closeModal('modal_edit_competencies')}
+                            closeModalToEditCompetencies={ closeModalToEditCompetencies }
+                            addCustomCompetency={ this.props.addCustomCompetency }
                         />
                     </Tabs>
                 </Modal>

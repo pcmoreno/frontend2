@@ -5,29 +5,27 @@ import style from './style/settings.scss';
 /** @jsx h */
 
 export default class Settings extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        const { i18n, openModalToEditCompetencies } = this.props;
+        const { openModalToEditCompetencies, entity, i18n, selectedCompetencies } = this.props;
 
         return (
             <div>
                 <div className={ style.toolbar }>
                     <button
-                        onClick={ openModalToEditCompetencies }
+                        onClick={ () => {
+                            openModalToEditCompetencies(entity.uuid);
+                        } }
                         className={ 'action_button left' }
                         type={ 'button' }
                     >Edit competences</button>
                 </div>
                 <div className={ style.listView }>
                     <Listview
-                        entities={ [] }
-                        i18n={ i18n }
-                        defaultSortingKey={ 'name' }
-                        defaultSortingOrder={ 'asc' }
-                        translationKey={ 'organisations_' }
+                        entities={selectedCompetencies}
+                        i18n={i18n}
+                        defaultSortingKey={'competency_name'}
+                        defaultSortingOrder={'asc'}
+                        translationKeyPrefix={'competencies_'}
                     />
                 </div>
             </div>

@@ -57,6 +57,36 @@ export function fetchDetailPanelData(entity, data, openModalToAmendParticipant, 
 }
 
 /**
+ * Fetch selected competencies action
+ * @param {string} projectSlug - slug of the project that has the selected competencies
+ * @param {Object} data - data
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchSelectedCompetencies(projectSlug, data) {
+    return {
+        type: actionType.FETCH_SELECTED_COMPETENCIES,
+        projectSlug,
+        data
+    };
+}
+
+/**
+ * Fetch available competencies action
+ * @param {string} organisationSlug - slug of the organisation that has the available competencies
+ * @param {Object} data - data
+ * @param {Function} toggleCompetency - method to select competency in competency modal
+ * @returns {{type, data: *}} data to populate detail panel
+ */
+export function fetchAvailableCompetencies(organisationSlug, data, toggleCompetency) {
+    return {
+        type: actionType.FETCH_AVAILABLE_COMPETENCIES,
+        organisationSlug,
+        data,
+        toggleCompetency
+    };
+}
+
+/**
  * Reset organisations items
  * @returns {{}} reset organisation items
  */
@@ -75,6 +105,17 @@ export function resetDetailPanel() {
         type: actionType.RESET_DETAIL_PANEL
     };
 }
+
+/**
+ * Reset competencies
+ * @returns {{}} reset competencies
+ */
+export function resetCompetencies() {
+    return {
+        type: actionType.RESET_COMPETENCIES
+    };
+}
+
 
 /**
  * Sets the active panel id for the forms

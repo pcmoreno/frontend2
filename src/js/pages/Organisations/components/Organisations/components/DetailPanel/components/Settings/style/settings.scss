@@ -17,4 +17,8 @@
         color: $black;
         padding: 7px 12px;
     }
+
+    table thead tr th:first-child, table thead tr th:last-child  {
+        border-radius: unset;
+    }
 }

@@ -39,7 +39,7 @@ import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/
  *     defaultSortingOrder= { 'asc' } // sorting order, asc or desc, optional
  *
  *     // translation key prefix to translate snake case entity keys/column names and option values from select fields
- *     translationKey={ 'prefix_' } // optional, but highly recommended
+ *     translationKeyPrefix={ 'prefix_' } // optional, but highly recommended
  *     i18n={ i18n } // translation object for the current component, required
  * </Listview>
  */
@@ -207,7 +207,7 @@ export default class Listview extends Component {
     }
 
     render() {
-        const { entities, i18n, translationKey, selectedEntities, toggleSelectAll } = this.props;
+        const { entities, i18n, translationKeyPrefix, selectedEntities, toggleSelectAll } = this.props;
 
         // set and order the given entities
         this.setAndSortEntities(entities);
@@ -221,7 +221,9 @@ export default class Listview extends Component {
         const columns = [];
 
         this.localEntities[0].forEach(column => {
-            const translatedLabel = i18n[`${translationKey || ''}${Utils.camelCaseToSnakeCase(column.key)}`];
+
+            // attempt to translate the given and lowercased key with prefix (if available)
+            const translatedLabel = i18n[`${translationKeyPrefix || ''}${Utils.camelCaseToSnakeCase(column.key)}`];
 
             columns.push({
                 label: translatedLabel || '',
@@ -258,7 +260,7 @@ export default class Listview extends Component {
                 key={ index }
                 entity={ row }
                 i18n={ i18n }
-                translationKey={ translationKey }
+                translationKeyPrefix={ translationKeyPrefix }
                 active={ activeFlag }
             />);
         });
@@ -292,6 +294,7 @@ export default class Listview extends Component {
 
                 case ListItemTypes.PENCIL:
                 case ListItemTypes.BUTTON:
+                case ListItemTypes.COMPETENCY_TYPE:
 
                     tableHead.push(<th
                         key={column.key}
@@ -300,6 +303,11 @@ export default class Listview extends Component {
                         {column.label}
                     </th>);
 
+                    break;
+
+                case ListItemTypes.HIDDEN:
+
+                // the 'hidden' type was introduced to be able to keep properties in the passed-on props without displaying them
                     break;
 
                 case ListItemTypes.LABEL:
@@ -317,6 +325,7 @@ export default class Listview extends Component {
             }
         });
 
+        // todo: cant use listview as id here, there are multiple listviews on the organisation view. convert to class.
         return (
             <table className={ style.listview } id="listview">
                 <thead>

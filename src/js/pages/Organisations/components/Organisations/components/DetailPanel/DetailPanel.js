@@ -1,18 +1,18 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
 import Participants from './components/Participants/Participants';
 import Settings from './components/Settings/Settings';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/detailpanel.scss';
 
+/** @jsx h */
+
 export default class DetailPanel extends Component {
     constructor(props) {
         super(props);
 
-        // keep track of opened tab (defaults to 'information') todo: add to constants
+        // keep track of opened tab (defaults to 'information')
+        // todo: add to constants
         this.localState = {
             activeTab: 'information'
         };
@@ -44,14 +44,23 @@ export default class DetailPanel extends Component {
         let output = null,
             icon = null;
 
-        // todo: replace ugly selector name detailpanelcontent_p
+        // todo: replace ugly css selector name detailpanelcontent_p
 
         switch (this.localState.activeTab.toString()) {
 
-            case 'information': output = <p>information</p>;
+            case 'information': output = null;
                 break;
 
-            case 'settings': output = <p className={ style.detailpanelcontent_p }><Settings openModalToEditCompetencies={ this.props.openModalToEditCompetencies } /></p>;
+            case 'settings': output = <p className={ style.detailpanelcontent_p }>
+                <Settings
+                    selectedCompetencies={ this.props.selectedCompetencies }
+                    openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
+                    languageId={ this.props.languageId }
+                    pathNodes={ this.props.pathNodes }
+                    entity={ entity }
+                    i18n={ i18n }
+                />
+            </p>;
                 break;
 
             case 'participants': output = <p className={ style.detailpanelcontent_p }><Participants
@@ -98,20 +107,22 @@ export default class DetailPanel extends Component {
                     </div>
                     <span
                         tabIndex="0"
-                        className={ style.button_hide_detailpanel }
+                        className={ `${style.button_hide_detailpanel}` }
                         onClick={ this.closeDetailPanel }
-                        role="button">
+                        role="button"
+                    >
                         x
                     </span>
                     <span
                         tabIndex="0"
-                        className={ style.button_fullwidth_detailpanel }
+                        className={ `${style.button_fullwidth_detailpanel}` }
                         onClick={ this.toggleFullWidthDetailPanel }
-                        role="button">
+                        role="button"
+                    >
                         &#11013;
                     </span>
                     { entity.name !== 'LTP' &&
-                        <div className={ style.header_icon }>{ icon }</div>
+                        <div className={ `${style.header_icon}` }>{ icon }</div>
                     }
                     <h2>{ entity.name }</h2>
                 </header>
@@ -121,7 +132,7 @@ export default class DetailPanel extends Component {
                     switchTab={ this.switchTab }
                     i18n={ i18n }
                 />
-                <main className={ style.modal_invite_participant }>
+                <main className={ `${style.modal_invite_participant}` }>
                     { output }
                 </main>
             </aside>

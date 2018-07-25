@@ -16,6 +16,7 @@ import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../constants/ParticipantStatus';
+import OrganisationsError from './constants/OrganisationsError';
 
 class Index extends Component {
     constructor(props) {
@@ -46,15 +47,22 @@ class Index extends Component {
         this.openModalToInviteParticipant = this.openModalToInviteParticipant.bind(this);
         this.closeModalToInviteParticipant = this.closeModalToInviteParticipant.bind(this);
 
+        this.openModalToEditCompetencies = this.openModalToEditCompetencies.bind(this);
+        this.closeModalToEditCompetencies = this.closeModalToEditCompetencies.bind(this);
+
         this.fetchEntities = this.fetchEntities.bind(this);
         this.fetchDetailPanelData = this.fetchDetailPanelData.bind(this);
         this.refreshPanelDataWithMessage = this.refreshPanelDataWithMessage.bind(this);
-        this.refreshDetailPanelDataWithMessage = this.refreshDetailPanelDataWithMessage.bind(this);
+        this.refreshDetailPanelParticipantsWithMessage = this.refreshDetailPanelParticipantsWithMessage.bind(this);
 
         this.toggleParticipant = this.toggleParticipant.bind(this);
         this.inviteParticipants = this.inviteParticipants.bind(this);
 
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
+        this.updateCompetencySelection = this.updateCompetencySelection.bind(this);
+        this.addCustomCompetency = this.addCustomCompetency.bind(this);
+        this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
+        this.toggleCompetency = this.toggleCompetency.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -65,14 +73,17 @@ class Index extends Component {
             project: this.openModalToAddProject
         };
 
-        this.i18n = translator(this.props.languageId, 'organisations');
+        this.i18n = translator(this.props.languageId, ['organisations']);
 
         // flag if we have a full screen modal locked (can't close)
         this.modalLocked = false;
 
         this.localState = {
             selectedParticipants: [],
-            selectedParticipantSlug: null
+            selectedParticipantSlug: null,
+            editCompetenciesActiveTab: null,
+            locallySelectedCompetencies: [],
+            selectedProjectSlug: null
         };
 
         // keep track of current entity shown in detail panel
@@ -165,7 +176,7 @@ class Index extends Component {
                 }
 
                 // show message and reload detail panel
-                this.refreshDetailPanelDataWithMessage(successMessage);
+                this.refreshDetailPanelParticipantsWithMessage(successMessage);
 
                 // since all selected were invited, clear the selected
                 this.localState.selectedParticipants = [];
@@ -215,26 +226,33 @@ class Index extends Component {
      * @param {Object} [options.addedParticipant] - added participant
      * @returns {undefined}
      */
-    refreshDetailPanelDataWithMessage(message, options = {}) {
+    refreshDetailPanelParticipantsWithMessage(message, options = {}) {
         let newParticipantUuid = null;
 
         if (options.addedParticipant && options.addedParticipant.entry && options.addedParticipant.entry.uuid) {
             newParticipantUuid = options.addedParticipant.entry.uuid;
         }
 
-        // Show a message, is translated in form definition on Organisations.js
-        this.actions.addAlert({ type: 'success', text: message });
-
-        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
-        // which is present in pathNodes but not in panels
-        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
-        const lastSelectedItem = this.props.pathNodes[panelId + 1];
-
         // check if there was a participant added that we need to select
         if (newParticipantUuid) {
             this.localState.selectedParticipants.push(newParticipantUuid);
             this.setState(this.localState);
         }
+
+        this.refreshDetailPanelWithMessage(message);
+    }
+
+    refreshDetailPanelWithMessage(message) {
+
+        // show a message, is translated in form definition on Organisations.js
+        if (message) {
+            this.actions.addAlert({ type: 'success', text: message });
+        }
+
+        // get panelId of last open panel, take + 1 into account as we have the LTP root organisation
+        // which is present in pathNodes but not in panels
+        const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+        const lastSelectedItem = this.props.pathNodes[panelId + 1];
 
         // refresh detail panel of last selected item
         this.fetchDetailPanelData(lastSelectedItem);
@@ -336,6 +354,9 @@ class Index extends Component {
 
         // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
+
+            // todo: could do with some constant defintions
+
             case 'organisation':
                 return 'organisation';
 
@@ -448,7 +469,7 @@ class Index extends Component {
         });
     }
 
-    fetchDetailPanelData(entity) {
+    fetchParticipantsForProject(entity) {
 
         // check if we are reloading or loading a new entity, to reset selected participants
         if (this.detailPanelEntity && this.detailPanelEntity.id !== entity.id && this.detailPanelEntity.type !== entity.type) {
@@ -456,6 +477,7 @@ class Index extends Component {
             this.setState(this.localState);
         }
 
+        // set the current entity
         this.detailPanelEntity = entity;
 
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
@@ -497,6 +519,46 @@ class Index extends Component {
 
             // reset back to LTP root organisation
             this.actions.resetDetailPanel();
+        }
+    }
+
+    fetchSelectedCompetenciesForProject(projectSlug) {
+        document.querySelector('#spinner_detail_panel').classList.remove('hidden');
+        const api = ApiFactory.get('neon');
+        const apiConfig = api.getConfig();
+        const params = {
+            urlParams: {
+                parameters: {
+                    fields: 'competencies,organisation,organisationName,competencyName,competencySlug,translationKey',
+                    limit: 10000
+                },
+                identifiers: {
+                    slug: projectSlug
+                }
+            }
+        };
+
+        const endPoint = apiConfig.endpoints.competencies.selectedCompetencies;
+
+        // request data for detail panel
+        api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner_detail_panel').classList.add('hidden');
+            this.actions.fetchSelectedCompetencies(projectSlug, response.competencies);
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
+    fetchDetailPanelData(entity) {
+        if (entity.type === 'project' && entity.uuid) {
+            this.fetchParticipantsForProject(entity);
+            this.fetchSelectedCompetenciesForProject(entity.uuid);
+        } else {
+            this.actions.fetchDetailPanelData(entity, [], this.openModalToAmendParticipant, this.toggleParticipant);
         }
     }
 
@@ -738,41 +800,240 @@ class Index extends Component {
         }
     }
 
-    openModalToEditCompetencies() {
+    getGlobalAndCustomCompetencies(organisationSlug) {
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        const api = ApiFactory.get('neon');
+        const apiConfig = api.getConfig();
+        const params = {
+            urlParams: {
+                parameters: {
+                    limit: 10000
+                },
+                identifiers: {
+                    slug: organisationSlug
+                }
+            }
+        };
+        const endPoint = apiConfig.endpoints.competencies.availableCompetencies;
+
+        this.api.get(
+            api.getBaseUrl(),
+            endPoint,
+            params
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency);
+            this.modalLocked = false;
+
+            // fill up the local state (locallySelectedCompetencies) that keeps track of the locally selected competencies
+            if (this.localState.locallySelectedCompetencies.length === 0) {
+                this.props.selectedCompetencies.forEach(selectedCompetency => {
+                    this.localState.locallySelectedCompetencies.push(selectedCompetency[0].value);
+                });
+            }
+
+        }).catch(error => {
+            this.modalLocked = false;
+            this.actions.addAlert({ type: 'error', text: error });
+        });
+    }
+
+    openModalToEditCompetencies(projectSlug) {
+        this.localState.projectSlug = projectSlug;
+
+        this.modalLocked = true;
+
+        // note that at this point the selectedCompetencies are already fetched (by the detail panel)
+        // and saved in the state, therefore only the available competencies (global + custom) need to be fetched
+
         document.querySelector('#modal_edit_competencies').classList.remove('hidden');
+
+        // retrieve global and custom competencies for the outermost organisation and add them to the state
+        this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
+    }
+
+    closeModalToEditCompetencies(message) {
+        if (!this.modalLocked) {
+            document.querySelector('#modal_edit_competencies').classList.add('hidden');
+
+            // override the active tab to the first one, then immediately reset it so user can switch to other tabs
+            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competency_selection';
+            this.setState(this.localState, () => {
+                this.localState.editCompetenciesActiveTab = null;
+            });
+
+            // to be sure the user always gets the latest status, also reset competencies when merely closing the modal
+            this.actions.resetCompetencies();
+
+            // also clear the local state that kept track of the locally selected competencies
+            this.localState.locallySelectedCompetencies = [];
+
+            // same goes for the selected project. this should not be incorrect, so clear it.
+            this.localState.selectedProjectSlug = null;
+
+            if (message) {
+                this.refreshDetailPanelWithMessage(message);
+            } else {
+                this.refreshDetailPanelWithMessage();
+            }
+        }
+    }
+
+    toggleCompetency(competencySlug) {
+        if (this.localState.locallySelectedCompetencies.indexOf(competencySlug) > -1) {
+
+            // deselect:
+            this.localState.locallySelectedCompetencies.splice(this.localState.locallySelectedCompetencies.indexOf(competencySlug), 1);
+        } else {
+
+            // select:
+            this.localState.locallySelectedCompetencies.push(competencySlug);
+        }
+
+        this.setState(this.localState);
+    }
+
+    updateCompetencySelection() {
+
+        // note this will submit all (de)selected competencies (both global and custom). if that is not the requirement,
+        // iterate over the locallySelectedCompetencies to determine their type. an extra 'isGlobal' flag would help!
+
+        if (!this.modalLocked) {
+            this.modalLocked = true;
+
+            return new Promise((resolve, reject) => {
+                this.api.put(
+                    this.api.getBaseUrl(),
+                    this.api.getEndpoints().competencies.updateSelectedCompetencies,
+                    {
+                        payload: {
+                            data: {
+                                competencies: this.localState.locallySelectedCompetencies.length > 0 ? this.localState.locallySelectedCompetencies : ''
+                            },
+                            type: 'form'
+                        },
+                        urlParams: {
+                            identifiers: {
+                                slug: this.localState.projectSlug
+                            }
+                        }
+                    }
+                ).then(response => {
+                    this.modalLocked = false;
+
+                    // if the response throws errors, reject the request and return the errors
+                    if (response && response.errors) {
+                        return reject(response.errors);
+                    }
+
+                    this.closeModalToEditCompetencies(this.i18n.organisations_edit_competencies_success);
+
+                    return resolve();
+                }).catch(() => {
+                    this.modalLocked = false;
+                    reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
+                });
+            });
+        }
+
+        return false;
+    }
+
+    addCustomCompetency(competencyName, competencyDefinition) {
+
+        // check input values
+        if (!competencyName || !competencyDefinition) {
+            throw new Error(OrganisationsError.ALL_FIELDS_REQUIRED);
+        }
+
+        // lock until request is handled
+        if (!this.modalLocked) {
+            this.modalLocked = true;
+        }
+
+        // construct the slug
+        const owningOrganisation = this.props.pathNodes[1].uuid;
+
+        return new Promise((resolve, reject) => {
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().competencies.addCompetency,
+                {
+                    payload: {
+                        type: 'form',
+                        data: {
+                            competencyName,
+                            competencyDefinition,
+                            owningOrganisation
+                        }
+                    }
+                }
+            ).then(response => {
+                this.modalLocked = false;
+
+                // if the response throws errors, reject the request and return the errors
+                if (response && response.errors) {
+                    return reject(response.errors);
+                }
+
+                // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
+                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competency_selection';
+                this.setState(this.localState, () => {
+                    this.localState.editCompetenciesActiveTab = null;
+                });
+
+                // retrieve competencies again (including the one that was just added)
+                this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
+
+                // show success message
+                this.actions.addAlert({ type: 'success', text: this.i18n.organisations_add_custom_competency_success });
+
+                return resolve();
+            }).catch(() => {
+                this.modalLocked = false;
+                reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
+            });
+        });
     }
 
     render() {
-
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
             <Organisations
-                panels = { panels }
-                formOpenByPanelId = { formOpenByPanelId }
+                panels={ panels }
+                formOpenByPanelId={ formOpenByPanelId }
                 panelHeaderAddMethods={ this.panelHeaderAddMethods }
-                detailPanelData = { detailPanelData }
-                pathNodes = { pathNodes }
-                fetchEntities = { this.fetchEntities }
-                fetchDetailPanelData = { this.fetchDetailPanelData }
+                detailPanelData={ detailPanelData }
+                pathNodes={ pathNodes }
+                fetchEntities={ this.fetchEntities }
+                fetchDetailPanelData={ this.fetchDetailPanelData }
                 refreshPanelDataWithMessage={ this.refreshPanelDataWithMessage }
-                refreshDetailPanelDataWithMessage={ this.refreshDetailPanelDataWithMessage }
+                refreshDetailPanelParticipantsWithMessage={ this.refreshDetailPanelParticipantsWithMessage }
                 closeModalToAddOrganisation={ this.closeModalToAddOrganisation }
                 closeModalToAddJobFunction={ this.closeModalToAddJobFunction }
                 closeModalToAddProject={ this.closeModalToAddProject }
-                openModalToAddParticipant = { this.openModalToAddParticipant }
-                closeModalToAddParticipant = { this.closeModalToAddParticipant }
+                openModalToAddParticipant={ this.openModalToAddParticipant }
+                closeModalToAddParticipant={ this.closeModalToAddParticipant }
                 openModalToAmendParticipant={ this.openModalToAmendParticipant }
                 closeModalToAmendParticipant={ this.closeModalToAmendParticipant }
                 openModalToInviteParticipant={ this.openModalToInviteParticipant }
                 closeModalToInviteParticipant={ this.closeModalToInviteParticipant }
                 openModalToEditCompetencies={ this.openModalToEditCompetencies }
+                closeModalToEditCompetencies={ this.closeModalToEditCompetencies }
                 inviteParticipants={ this.inviteParticipants }
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
-                i18n={ translator(this.props.languageId, 'organisations') }
+                i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
+                availableCompetencies={ this.props.availableCompetencies }
+                selectedCompetencies={ this.props.selectedCompetencies }
+                locallySelectedCompetencies={ this.localState.locallySelectedCompetencies }
+                updateCompetencySelection={ this.updateCompetencySelection }
+                addCustomCompetency={ this.addCustomCompetency }
+                editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
             />
         );
     }
@@ -782,6 +1043,8 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
+    selectedCompetencies: state.organisationsReducer.selectedCompetencies,
+    availableCompetencies: state.organisationsReducer.availableCompetencies,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

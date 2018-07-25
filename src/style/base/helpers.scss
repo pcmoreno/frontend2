@@ -160,12 +160,34 @@ table td.organisation {
     text-align: center;
 }
 
-/* the checkbox column in the list view inside the detail panel needs to reside in smaller column than the rest */
+/* certain columns in the list view inside the detail panel needs to reside in smaller column than the rest */
 #listview thead tr th.select_participant_label,
 #listview thead tr th.amend_participant_label {
     width: .5rem;
     text-align: center;
     padding: .5rem 1rem
+}
+
+#listview thead tr th.competency_type {
+    width: 1rem;
+    text-align: center;
+    padding: .5rem 1rem
+}
+
+#organisations_edit_global_competency_selection main table,
+#organisations_edit_custom_competency_selection main table {
+
+    /* checkbox column in the competencies modal */
+    td:first-child {
+        width: .5rem;
+        text-align: center;
+        padding: .5rem 1rem
+    }
+
+    /* in the global competencies modal hide the last column with the global icon. it is only required for detail panel */
+    td:last-child {
+        display: none;
+    }
 }
 
 .selectParticipantLabel,
@@ -211,6 +233,6 @@ table td.organisation {
 }
 
 /* show the last option in the competencies modal when the edit_custom_competencies option is selected */
-#tablink_organisations_edit_custom_competencies.active + span {
+#tablink_organisations_edit_custom_competency_selection.active + span {
     display: block;
 }

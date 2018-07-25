@@ -3,6 +3,7 @@ import Logger from '../../../../../../../../utils/logger';
 import Pencil from './components/widgets/Pencil/Pencil';
 import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
+import CompetencyType from './components/widgets/CompetencyType/CompetencyType';
 import style from './style/listviewentityitem.scss';
 import ListItemTypes from '../../../../../../constants/ListItemTypes';
 import Utils from '../../../../../../../../utils/utils';
@@ -19,15 +20,16 @@ export default class ListviewEntityItem extends Component {
     translate(element) {
 
         // returns either the translation for element, or the original element
-        const { translationKey, i18n } = this.props;
+        const { translationKeyPrefix, i18n } = this.props;
 
-        if (translationKey) {
+        if (translationKeyPrefix) {
 
             // convert to snake case
             const translatableElement = Utils.camelCaseToSnakeCase(element);
 
-            if (i18n[`${translationKey}${translatableElement}`]) {
-                return i18n[`${translationKey}${translatableElement}`];
+            // construct the key required to extract the translation from the i18n object by combining translationKeyPrefix and the lowercased element key
+            if (i18n[`${translationKeyPrefix}${translatableElement}`]) {
+                return i18n[`${translationKeyPrefix}${translatableElement}`];
             }
         }
 
@@ -38,6 +40,7 @@ export default class ListviewEntityItem extends Component {
         const { entityId, active } = this.props;
         let { value } = this.props;
         let title;
+        let action;
 
         if (Array.isArray(value)) {
 
@@ -72,7 +75,11 @@ export default class ListviewEntityItem extends Component {
                     break;
 
                 case ListItemTypes.CHECKBOX:
-                    value = <Checkbox checked={ active } widgetAction={ this.props.widget.action } disabled={ this.props.widget.disabled } />;
+                    value = <Checkbox
+                        checked={ active }
+                        widgetAction={ this.props.widget.action }
+                        disabled={ this.props.widget.disabled }
+                    />;
                     break;
 
                 case ListItemTypes.BUTTON: value = <Button
@@ -80,33 +87,41 @@ export default class ListviewEntityItem extends Component {
                     link={ this.props.widget.link }
                     i18n={ this.props.i18n }
                     disabled={ this.props.widget.disabled }
-                    translationKey={ this.props.translationKey }
+                    translationKeyPrefix={ this.props.translationKeyPrefix }
                 />;
                     break;
 
+                case ListItemTypes.COMPETENCY_TYPE:
+                    value = <CompetencyType competencyType={ this.props.widget.competencyType }/>;
+                    break;
+
+                case ListItemTypes.HIDDEN:
                 default:
                     value = '';
             }
 
-            title = this.props.widget.value;
+            title = this.translate(this.props.widget.value);
         } else if (value !== null && value !== 'undefined') {
+            title = this.translate(value);
+            value = this.translate(value);
 
-            // value is not a widget
-            title = value;
-
-            // attempt to translate
-            if (value) {
-                value = this.translate(value);
+            if (this.props.action) {
+                action = this.props.action;
             }
         } else {
 
             // default to empty string, so sorting still works
+            // todo: is this fallback still required after introducing the widgets and the way they are handled?
             value = '';
-            title = value;
+            title = '';
         }
 
         return (
-            <td title={ title } className={ `${style.td} ${entityId} ${this.props.widget ? this.props.widget.type : ''}` }>
+            <td
+                title={ title }
+                className={ `${style.td} ${entityId} ${this.props.widget ? this.props.widget.type : ''}` }
+                onClick={ action }
+            >
                 { value }
             </td>
         );
