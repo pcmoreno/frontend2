@@ -10,7 +10,7 @@ export default class Tasks extends Component {
         const { tasks, i18n } = this.props;
 
         return (
-            <main className={ style.tasks }>
+            <main className={ style.tasks } id="tasks">
                 <Listview
                     entities={ tasks }
                     defaultSortingKey={ 'assessmentdate' }

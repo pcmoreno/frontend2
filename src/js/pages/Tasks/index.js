@@ -22,6 +22,8 @@ class Index extends Component {
             Object.assign({}, tasksActions, alertActions),
             dispatch
         );
+
+        this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +35,36 @@ class Index extends Component {
 
     componentWillMount() {
         document.title = 'Tasks';
+    }
+
+    downloadIntermediateReport(event, participantSessionSlug) {
+        event.preventDefault();
+
+        // show spinner
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        const api = ApiFactory.get('neon');
+
+        api.get(
+            api.getBaseUrl(),
+            api.getEndpoints().report.downloadIntermediateReport,
+            {
+                urlParams: {
+                    identifiers: {
+                        slug: participantSessionSlug
+                    }
+                }
+            }
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            const openWindowToDownloadReport = window.open(response);
+
+            // prevent target="_blank" vulnerability
+            openWindowToDownloadReport.opener = null;
+        }).catch(error => {
+            this.actions.addAlert({ type: 'error', text: error });
+        });
     }
 
     getTasks() {
@@ -59,7 +91,7 @@ class Index extends Component {
                             ProductSlugs.SELECTION,
                             ProductSlugs.SELECTION_DEVELOPMENT
                         ].join(','),
-                        fields: 'uuid,participantSessionAppointmentDate,accountHasRole,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
+                        fields: 'uuid,participantSessionAppointmentDate,participantSessionSlug,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
                         limit: 10000
                     }
                 }
@@ -67,7 +99,7 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
 
-            this.actions.getTasks(response);
+            this.actions.getTasks(response, this.downloadIntermediateReport);
         }).catch(error => {
             this.actions.addAlert({ type: 'error', text: error });
         });

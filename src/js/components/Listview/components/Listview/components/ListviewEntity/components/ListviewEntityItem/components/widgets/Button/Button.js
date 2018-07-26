@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 
 export default class Button extends Component {
     render() {
-        const { link, disabled } = this.props;
+        const { link, disabled, target, action } = this.props;
         let label = this.props.label;
 
         if (this.props.i18n && this.props.translationKeyPrefix) {
@@ -14,12 +14,14 @@ export default class Button extends Component {
                 label = translatedLabel;
             }
         }
-
         return (
             <a
                 href={ link }
+                onClick={ action }
                 className={ `action_button${disabled ? ' disabled' : ''}` }
                 disabled={ disabled }
+                target={ target || '_self' }
+                rel="noopener noreferrer"
             >
                 { label }
             </a>

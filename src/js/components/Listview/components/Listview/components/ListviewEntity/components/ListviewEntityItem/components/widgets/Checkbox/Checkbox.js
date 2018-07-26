@@ -5,14 +5,14 @@ import style from './style/checkbox.scss';
 
 export default class Checkbox extends Component {
     render() {
-        const { widgetAction, checked, disabled } = this.props;
+        const { action, checked, disabled } = this.props;
 
         return (
             <span className={ `${style.checkbox}${disabled ? ' disabled' : ''}` }>
                 <input
                     type="checkbox"
                     checked={ checked }
-                    onClick={ widgetAction }
+                    onClick={ action }
                     disabled={ disabled }
                 />
             </span>

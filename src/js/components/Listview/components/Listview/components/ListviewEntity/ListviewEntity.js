@@ -24,6 +24,7 @@ export default class ListviewEntity extends Component {
                     label: entity[entityKey].label || '',
                     action: entity[entityKey].action || '',
                     link: entity[entityKey].link || '',
+                    target: entity[entityKey].target || '',
                     id: entity[entityKey].id || '',
                     competencyType: entity[entityKey].competencyType || ''
                 };
