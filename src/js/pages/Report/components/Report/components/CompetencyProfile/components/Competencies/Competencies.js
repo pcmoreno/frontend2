@@ -4,21 +4,40 @@ import Competency from './components/Competency/Competency';
 /** @jsx h */
 
 export default class Competencies extends Component {
+    // constructor(props) {
+    //     super(props);
+    //
+    //     // build up a localState so the competencies can be easier amended from the sidebar
+    //     this.localState = {
+    //         competencies: []
+    //     };
+    // }
+
+    // componentDidUpdate() {
+    //     if (this.localState.competencies !== this.props.competencies) {
+    //         this.localState.competencies = this.props.competencies;
+    //         this.setState(this.localState);
+    //     }
+    // }
 
     render() {
+        const competencies = [];
 
-        // const { i18n } = this.props;
+        this.props.competencies.forEach(competency => {
+            competencies.push(<Competency
+                name={ competency.name }
+                definition={ competency.definition }
+                score={ competency.score }
+            />);
+        });
 
-        // todo: we must check here if some of the required data is available, if nothing: do not render this component
-
+        if (competencies.length === 0) {
+            return null;
+        }
         return (
-            <section>
-
-                { /* todo: add some Competencies widgets here */ }
-                <Competency/>
-                <Competency/>
-
-            </section>
+            <ul>
+                { competencies }
+            </ul>
         );
     }
 }

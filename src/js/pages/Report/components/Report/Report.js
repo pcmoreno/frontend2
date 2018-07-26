@@ -90,6 +90,10 @@ export default class Report extends Component {
         }
 
         // define sidebar tabs
+
+
+        // todo: switch should be here
+
         const tabs = [
             {
                 name: i18n.report_report,
@@ -151,6 +155,7 @@ export default class Report extends Component {
                     {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
                     <CompetencyProfile
                         i18n={i18n}
+                        competencies={ report.competencies }
                     />
 
                     <Explanation

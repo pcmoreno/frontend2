@@ -11,11 +11,14 @@ export default class Competency extends Component {
         // todo: we must check here if some of the required data is available, if nothing: do not render this component
 
         return (
-            <section>
-
-                { /* todo: add some Competency values here */ }
-
-            </section>
+            <li>
+                <span>{ this.props.score }</span>
+                <br />
+                <br />
+                title
+                <br />
+                desc
+            </li>
         );
     }
 }
