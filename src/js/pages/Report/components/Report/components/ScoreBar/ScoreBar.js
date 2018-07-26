@@ -25,9 +25,10 @@ const svgActiveYOffset = 30;
 export default class ScoreBar extends Component {
 
     render() {
-        const { count } = this.props;
-        const score = Math.floor(this.props.score) || 0;
+        let { count, score } = this.props;
         const elements = [];
+
+        score = Math.floor(score) || 0;
 
         const activeStyle = {
             fill: ScoreColors[score] || ''
