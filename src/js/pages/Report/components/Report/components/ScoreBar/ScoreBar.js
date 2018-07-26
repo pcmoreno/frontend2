@@ -29,8 +29,7 @@ export default class ScoreBar extends Component {
         const score = Math.floor(this.props.score);
         const elements = [];
 
-        // require score to be 0 and count to be set
-        if (!score && score !== 0 || !count) {
+        if (score < 0 || !count) {
             return null;
         }
 
