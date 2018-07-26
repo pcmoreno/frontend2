@@ -55,7 +55,9 @@ class Index extends Component {
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            const openWindowToDownloadReport = window.open(response);
+
+            // explicitly set the document header as pdf and add the response body
+            const openWindowToDownloadReport = window.open('data:application/pdf,' + encodeURI(response));
 
             // prevent target="_blank" vulnerability
             openWindowToDownloadReport.opener = null;
