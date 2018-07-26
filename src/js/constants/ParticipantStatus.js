@@ -1,10 +1,10 @@
 const ParticipantStatus = {
     ADDED: 'added',
     INVITED: 'invited',
-    INVITATION_ACCEPTED: 'invitationAccepted',
     TERMS_AND_CONDITIONS_ACCEPTED: 'termsAndConditionsAccepted',
-    STARTED: 'started',
+    INVITATION_ACCEPTED: 'invitationAccepted',
     REDIRECTED_TO_ONLINE: 'redirectedToOnline',
+    STARTED: 'started',
     PHASE_ONE_FINISHED: 'phaseOneFinished',
     HNA_FINISHED: 'hnaFinished',
     PERSONA_FIT_FINISHED: 'personafitFinished'
