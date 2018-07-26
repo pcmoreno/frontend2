@@ -26,12 +26,8 @@ export default class ScoreBar extends Component {
 
     render() {
         const { count } = this.props;
-        const score = Math.floor(this.props.score);
+        const score = Math.floor(this.props.score) || 0;
         const elements = [];
-
-        if (score < 0 || !count) {
-            return null;
-        }
 
         const activeStyle = {
             fill: ScoreColors[score] || ''
