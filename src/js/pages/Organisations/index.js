@@ -355,7 +355,7 @@ class Index extends Component {
         // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
 
-            // todo: could do with some constant defintions
+            // todo: could do with some constant definitions
 
             case 'organisation':
                 return 'organisation';
@@ -463,6 +463,7 @@ class Index extends Component {
                 resolve(response);
 
             }).catch(error => {
+                document.querySelector('#spinner').classList.add('hidden');
                 this.actions.addAlert({ type: 'error', text: error });
                 reject(new Error(`Could not fetch sections for id: ${entity.id}, ${entity.type}`));
             });
@@ -516,6 +517,7 @@ class Index extends Component {
                 this.actions.addAlert({ type: 'error', text: error });
             });
         } else {
+            document.querySelector('#spinner_detail_panel').classList.add('hidden');
 
             // reset back to LTP root organisation
             this.actions.resetDetailPanel();
@@ -549,6 +551,7 @@ class Index extends Component {
             document.querySelector('#spinner_detail_panel').classList.add('hidden');
             this.actions.fetchSelectedCompetencies(projectSlug, response.competencies);
         }).catch(error => {
+            document.querySelector('#spinner_detail_panel').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -596,6 +599,7 @@ class Index extends Component {
             this.actions.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
+            document.querySelector('#spinner').classList.add('hidden');
 
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: this.i18n.organisations_could_not_process_your_request });
@@ -652,7 +656,6 @@ class Index extends Component {
 
     closeModalToAddParticipant() {
         document.querySelector('#modal_add_participant').classList.add('hidden');
-
         this.actions.resetForms();
     }
 
@@ -721,7 +724,6 @@ class Index extends Component {
         // after closing the form, reset the selected panel
         this.actions.setFormOpenByPanelId(null);
         document.querySelector('#modal_add_project').classList.add('hidden');
-
         this.actions.resetForms();
     }
 
@@ -834,6 +836,7 @@ class Index extends Component {
             }
 
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.modalLocked = false;
             this.actions.addAlert({ type: 'error', text: error });
         });

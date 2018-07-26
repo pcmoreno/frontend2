@@ -22,8 +22,6 @@ class Index extends Component {
             Object.assign({}, tasksActions, alertActions),
             dispatch
         );
-
-        this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
     }
 
     componentDidMount() {
@@ -58,11 +56,13 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
 
-            const openWindowToDownloadReport = window.open(response);
+            // explicitly set the document header as pdf and add the response body
+            const openWindowToDownloadReport = window.open('data:application/pdf,' + encodeURI(response));
 
             // prevent target="_blank" vulnerability
             openWindowToDownloadReport.opener = null;
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -98,9 +98,9 @@ class Index extends Component {
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-
             this.actions.getTasks(response, this.downloadIntermediateReport);
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }

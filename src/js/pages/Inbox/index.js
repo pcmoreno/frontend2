@@ -63,6 +63,7 @@ class Index extends Component {
 
             this.actions.fetchMessages(response.messages);
         }).catch(() => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: this.i18n.inbox_could_not_process_your_request });
         });
     }
