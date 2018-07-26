@@ -107,6 +107,7 @@ class Index extends Component {
             this.actions.storeFormDataInFormsCollection(formId, response.fields);
 
         }).catch((/* error */) => {
+            document.querySelector('#spinner').classList.add('hidden');
 
             // This is an unexpected API error and the form cannot be loaded
             this.actions.addAlert({ type: 'error', text: this.i18n.users_could_not_process_your_request });
@@ -142,6 +143,7 @@ class Index extends Component {
 
             this.actions.getUsers(response);
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }

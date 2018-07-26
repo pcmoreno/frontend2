@@ -69,6 +69,7 @@ class Index extends Component {
 
             this.actions.getParticipants(response);
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }

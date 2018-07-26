@@ -1,6 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
 import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
-import UserStatus from '../../../constants/UserStatus.js';
+import ParticipantStatus from '../../../constants/ParticipantStatus.js';
 import moment from 'moment';
 
 const initialState = {
@@ -74,7 +74,7 @@ export default function tasksReducer(state = initialState, action) {
                 }
 
                 // the button to show intermediate results is only enabled when the participant is at a certain phase
-                const statusesToShowIntermediateReport = [UserStatus.PHASEONEFINISHED, UserStatus.HNAFINISHED];
+                const statusesToShowIntermediateReport = [ParticipantStatus.PHASE_ONE_FINISHED, ParticipantStatus.HNA_FINISHED];
                 let downloadIntermediateReportButtonDisabled = true;
 
                 if (task.accountHasRole.genericRoleStatus && ~statusesToShowIntermediateReport.indexOf(task.accountHasRole.genericRoleStatus)) {

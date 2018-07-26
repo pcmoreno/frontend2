@@ -22,8 +22,6 @@ class Index extends Component {
             Object.assign({}, tasksActions, alertActions),
             dispatch
         );
-
-        this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
     }
 
     componentDidMount() {
@@ -57,12 +55,12 @@ class Index extends Component {
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-
             const openWindowToDownloadReport = window.open(response);
 
             // prevent target="_blank" vulnerability
             openWindowToDownloadReport.opener = null;
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
@@ -98,9 +96,9 @@ class Index extends Component {
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-
             this.actions.getTasks(response, this.downloadIntermediateReport);
         }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: error });
         });
     }
