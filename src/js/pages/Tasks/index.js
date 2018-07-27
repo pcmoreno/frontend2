@@ -11,6 +11,8 @@ import ApiFactory from '../../utils/api/factory';
 import Tasks from './components/Tasks/Tasks';
 import translator from '../../utils/translator';
 import { ProductSlugs } from '../../constants/Products';
+import Utils from '../../utils/utils';
+import Logger from '../../utils/logger';
 
 class Index extends Component {
     constructor(props) {
@@ -22,6 +24,10 @@ class Index extends Component {
             Object.assign({}, tasksActions, alertActions),
             dispatch
         );
+
+        this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
+
+        this.loadingPdf = false;
     }
 
     componentDidMount() {
@@ -37,6 +43,12 @@ class Index extends Component {
 
     downloadIntermediateReport(event, participantSessionSlug) {
         event.preventDefault();
+
+        if (this.loadingPdf) {
+            return;
+        }
+
+        this.loadingPdf = true;
 
         // show spinner
         document.querySelector('#spinner').classList.remove('hidden');
@@ -56,14 +68,20 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
 
-            // explicitly set the document header as pdf and add the response body
-            const openWindowToDownloadReport = window.open('data:application/pdf,' + encodeURI(response));
+            // download the pdf file, exceptions thrown are automatically caught in the promise chain
+            Utils.downloadPdfFromBlob(response);
+            this.loadingPdf = false;
 
-            // prevent target="_blank" vulnerability
-            openWindowToDownloadReport.opener = null;
         }).catch(error => {
+            this.loadingPdf = false;
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.addAlert({ type: 'error', text: error });
+
+            this.actions.addAlert({ type: 'error', text: this.i18n.tasks_error_download_pdf });
+            Logger.instance.error({
+                component: 'Tasks',
+                message: `Could not download intermediate report for participantSession: ${participantSessionSlug}`,
+                response: error && error.message ? error.message : error || ''
+            });
         });
     }
 
@@ -106,10 +124,12 @@ class Index extends Component {
     }
 
     render() {
+        this.i18n = translator(this.props.languageId, 'tasks');
+
         return (
             <Tasks
                 tasks = { this.props.tasks }
-                i18n = { translator(this.props.languageId, 'tasks') }
+                i18n = { this.i18n }
             />
         );
     }

@@ -453,6 +453,59 @@ const Utils = {
         time--;
 
         return -change / 2 * (time * (time - 2) - 1) + start;
+    },
+
+    /**
+     * Downloads the given blob data as a pdf
+     * This supports Firefox, Safari and Chrome (IE/Edge should still be tested)
+     * @param {Blob} blob - blob pdf data
+     * @param {Object} [options] - options
+     * @param {Object} [options.newTab] - open pdf in new tab (default: false)
+     * @returns {undefined}
+     * @throws {Error} exceptions while parsing or downloading
+     */
+    downloadPdfFromBlob(blob, options = {}) {
+        try {
+            blob = new Blob([blob], {
+                type: 'application/pdf'
+            });
+
+            const objectURL = window.URL.createObjectURL(blob);
+
+            // IE doesn't allow using a blob object directly as link href
+            // instead it is necessary to use msSaveOrOpenBlob
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(blob);
+                return;
+            }
+
+            const link = document.createElement('a');
+
+            link.href = objectURL;
+
+            if (options.newTab) {
+                link.rel = 'noopener noreferrer'; // for _blank vulnerability
+                link.target = '_blank';
+            } else {
+                link.download = ''; // tells the browser to download by default
+            }
+
+            document.body.appendChild(link); // appending to the body is required for Firefox
+
+            link.click(); // execute the download
+
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            let revokeTimeout = window.setTimeout(() => {
+                window.URL.revokeObjectURL(objectURL);
+
+                // clear and reset
+                document.body.removeChild(link);
+                window.clearTimeout(revokeTimeout);
+                revokeTimeout = null;
+            }, 100);
+        } catch (e) {
+            throw e;
+        }
     }
 };
 
