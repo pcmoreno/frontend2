@@ -21,7 +21,9 @@ export default class CompetencyProfile extends Component {
                 <Competencies/>
 
                 { /* todo: add the IQ and Power to Change widgets, from within the child widget, check the data, and do not render if unavailable */ }
-                <Intelligence/>
+                <Intelligence
+                    i18n={ i18n }
+                />
 
                 <PowerToChange/>
 
