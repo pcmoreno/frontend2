@@ -35,6 +35,7 @@ export default {
     "report_emotional_stability_low_text": "<ul>\n                            <li>is sensitive, has an eye for and grasp of the feelings of others. is good at empathising.<\/li>\n                            <li>allows his\/her behaviour to be guided by feeling.<\/li>\n                            <li>is sensitive to atmosphere or tension when under pressure, can then have an above-average emotional reaction.<\/li>\n                            <li>is alert in the event of possible problems, is not quick to underestimate them.<\/li>\n                        <\/ul>",
     "report_energy": "Energy",
     "report_energy_default_text": "Being inquisitive and playful. actively seek out new learning opportunities.",
+    "report_error_download_pdf": "An error occurred while downloading the pdf report. Please try again.",
     "report_error_save_text": "An error occurred while saving. Please try again.",
     "report_explanation": "Explanation",
     "report_extraversion": "Extraversion",
