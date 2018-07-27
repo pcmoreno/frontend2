@@ -69,7 +69,9 @@ class Index extends Component {
             document.querySelector('#spinner').classList.add('hidden');
 
             // download the pdf file, exceptions thrown are automatically caught in the promise chain
-            Utils.downloadPdfFromBlob(response);
+            Utils.downloadPdfFromBlob(response.blob, {
+                fileName: response.fileName
+            });
             this.loadingPdf = false;
 
         }).catch(error => {

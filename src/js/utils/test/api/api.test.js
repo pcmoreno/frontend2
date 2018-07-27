@@ -1152,8 +1152,10 @@ test('API executeRequest should return a Blob object on a request', () => {
                 headers: {
                     get: (header) => {
                         switch (header) {
-                            case 'content-type':
+                            case 'Content-Type':
                                 return 'application/pdf';
+                            case 'Content-Disposition':
+                                return 'attachment; filename="pdf-file-name.pdf"'
                         }
                     }
                 },
@@ -1195,13 +1197,17 @@ test('API executeRequest should return a Blob object on a request', () => {
             ]);
 
             // expect
-            expect(response).toEqual('JVBERi0xLjQKJeLjz9MKNCAwIG9iaiA8PC9MZW5ndGggNzA5L0ZpbHRlci9GbGF0ZURlY29kZT4+c3');
+            expect(response).toEqual({
+                fileName: 'pdf-file-name.pdf',
+                blob: 'JVBERi0xLjQKJeLjz9MKNCAwIG9iaiA8PC9MZW5ndGggNzA5L0ZpbHRlci9GbGF0ZURlY29kZT4+c3'
+            });
 
             // always resolve test to give the signal that we are done
             resolve();
         });
     });
 });
+
 test('API executeRequest should return a Blob object on a request', () => {
 
     // api instance and mocked config
@@ -1218,8 +1224,10 @@ test('API executeRequest should return a Blob object on a request', () => {
                 headers: {
                     get: (header) => {
                         switch (header) {
-                            case 'content-type':
+                            case 'Content-Type':
                                 return 'application/pdf';
+                            case 'Content-Disposition':
+                                return 'attachment; filename="pdf-file-name.pdf"'
                         }
                     }
                 },

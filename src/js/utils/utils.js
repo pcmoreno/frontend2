@@ -461,6 +461,7 @@ const Utils = {
      * @param {Blob} blob - blob pdf data
      * @param {Object} [options] - options
      * @param {Object} [options.newTab] - open pdf in new tab (default: false)
+     * @param {Object} [options.fileName] - open pdf in new tab (default: browser behaviour)
      * @returns {undefined}
      * @throws {Error} exceptions while parsing or downloading
      */
@@ -487,7 +488,7 @@ const Utils = {
                 link.rel = 'noopener noreferrer'; // for _blank vulnerability
                 link.target = '_blank';
             } else {
-                link.download = ''; // tells the browser to download by default
+                link.download = options.fileName || ''; // tells the browser to download by default
             }
 
             document.body.appendChild(link); // appending to the body is required for Firefox

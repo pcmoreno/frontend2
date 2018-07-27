@@ -224,9 +224,24 @@ class API {
             return fetch(parsedUrl, requestParams).then(response => {
 
                 // parse pdf response
-                if (response.headers.get('content-type') === 'application/pdf') {
+                if (response.headers.get('Content-Type') === 'application/pdf') {
+                    const contentHeader = response.headers.get('Content-Disposition');
+                    let fileName = '';
+
+                    try {
+                        if (~contentHeader.indexOf('filename=')) {
+                            fileName = contentHeader.split('filename=')[1].replace(/"/g, '').trim();
+                        }
+                    } catch (e) {
+
+                        // ignore
+                    }
+
                     return response.blob().then(blob => {
-                        resolve(blob);
+                        resolve({
+                            fileName,
+                            blob
+                        });
                     }).catch(error => {
 
                         // consider this as a failed request
