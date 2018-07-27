@@ -35,6 +35,7 @@ export default {
     "report_emotional_stability_low_text": "<ul>\n                            <li>is sensitief, heeft oog en begrip voor de gevoelens van anderen. kan zich goed inleven.<\/li>\n                            <li>laat zich in gedrag leiden door gevoel.<\/li>\n                            <li>is onder druk sfeer- of spanningsgevoelig, kan dan meer dan gemiddeld emotioneel reageren.<\/li>\n                            <li>is alert bij mogelijke problemen, zal deze niet zo snel onderschatten.<\/li>\n                        <\/ul>",
     "report_energy": "Energie",
     "report_energy_default_text": "Nieuwsgierig en speels zijn. actief nieuwe leerervaringen opzoeken.",
+    "report_error_download_pdf": "Er is een fout opgetreden bij het downloaden van het pdf rapport. Probeer het opnieuw.",
     "report_error_save_text": "Er ging iets mis bij het opslaan. Probeer het opnieuw.",
     "report_explanation": "Toelichting",
     "report_extraversion": "Extraversie",
