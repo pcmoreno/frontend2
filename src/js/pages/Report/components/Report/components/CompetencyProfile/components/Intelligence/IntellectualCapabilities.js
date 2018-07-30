@@ -11,14 +11,14 @@ export default class Intelligence extends Component {
     render() {
         const { i18n, score } = this.props;
 
+        // todo: add the missing tested level
 
         return (
             <div className={ style.intelligence }>
                 <section>
                     <h3>{ i18n.report_intellectual_capabilities }</h3>
                     <p>{ i18n.report_intellectual_capabilities_default_text_paragraph_1 }</p>
-                    <p>{ i18n.report_intellectual_capabilities_default_text_paragraph_2 }</p>
-                    <p>{ i18n.report_intellectual_capabilities_default_text_paragraph_3 }</p>
+                    <p>{ `${i18n.report_tested_level} ${'todo: add the education level'}` }</p>
                 </section>
                 <section className={ style.scoreContainer }>
                     <h2>{ score }</h2>
