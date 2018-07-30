@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import Competency from './components/Competency/Competency';
+import style from './style/competencies.scss';
 
 /** @jsx h */
 
@@ -35,7 +36,7 @@ export default class Competencies extends Component {
             return null;
         }
         return (
-            <ul>
+            <ul className={ style.competencies }>
                 { competencies }
             </ul>
         );

@@ -1,23 +1,25 @@
 import { h, Component } from 'preact';
+import style from './style/competency.scss';
 
 /** @jsx h */
 
 export default class Competency extends Component {
-
     render() {
-
-        // const { i18n } = this.props;
+        const { name, score, definition } = this.props;
 
         // todo: we must check here if some of the required data is available, if nothing: do not render this component
 
         return (
-            <li>
-                <span>{ this.props.score }</span>
-                <br />
-                <br />
-                title
-                <br />
-                desc
+            <li className={ style.competency }>
+                <header>
+                    <h2>{ name }</h2>
+                    <h3>{ score }</h3>
+                </header>
+                <article>
+                    <p>
+                        { definition }
+                        </p>
+                </article>
             </li>
         );
     }
