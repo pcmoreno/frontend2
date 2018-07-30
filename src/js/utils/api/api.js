@@ -223,8 +223,35 @@ class API {
             // execute the request
             return fetch(parsedUrl, requestParams).then(response => {
 
+                // parse pdf response
+                if (response.headers.get('Content-Type') === 'application/pdf') {
+                    const contentHeader = response.headers.get('Content-Disposition');
+                    let fileName = '';
+
+                    try {
+                        if (~contentHeader.indexOf('filename=')) {
+                            fileName = contentHeader.split('filename=')[1].replace(/"/g, '').trim();
+                        }
+                    } catch (e) {
+
+                        // ignore
+                    }
+
+                    return response.blob().then(blob => {
+                        resolve({
+                            fileName,
+                            blob
+                        });
+                    }).catch(error => {
+
+                        // consider this as a failed request
+                        self.logApiMessage('error', 'Parsing BLOB response failed', parsedUrl, options, response, error);
+                        return reject(new Error(self.config.requestFailedMessage));
+                    });
+                }
+
                 // try to get and return the json response
-                response.json().then(json => {
+                return response.json().then(json => {
 
                     // check if this was an input validation error
                     if (~[400, 409].indexOf(response.status) && json.errors) {
