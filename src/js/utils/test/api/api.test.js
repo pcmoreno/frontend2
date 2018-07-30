@@ -11,6 +11,7 @@ jest.mock('../../../App.config', () => {
                 baseUrl: 'https://ltp.nl',
                 endpoints: {
                     organisation: '/organisations',
+                    pdf: '/pdf',
                     organisationById: '/organisation/{id}',
                     twoIds: '/organisations/{orgId}/division/{divId}'
                 },
@@ -61,6 +62,9 @@ global.fetch = jest.fn().mockImplementation((url, options) => {
             status: 200,
             statusText: 'OK',
             url: 'https://ltp.nl/organisations',
+            headers: {
+                get: (header) => { }
+            },
             json: () => {
                 return new Promise((resolve, reject) => {
                     return resolve({id: '123'})
@@ -1081,6 +1085,9 @@ test('API executeRequest should return a JSON object on a request', () => {
                 status: 200,
                 statusText: 'OK',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({id:'123'})
@@ -1129,6 +1136,159 @@ test('API executeRequest should return a JSON object on a request', () => {
     });
 });
 
+test('API executeRequest should return a Blob object on a request', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: true,
+                status: 200,
+                statusText: 'OK',
+                url: 'https://ltp.nl/pdf',
+                headers: {
+                    get: (header) => {
+                        switch (header) {
+                            case 'Content-Type':
+                                return 'application/pdf';
+                            case 'Content-Disposition':
+                                return 'attachment; filename="pdf-file-name.pdf"'
+                        }
+                    }
+                },
+                blob: () => {
+                    return new Promise((resolve, reject) => {
+                        return resolve('JVBERi0xLjQKJeLjz9MKNCAwIG9iaiA8PC9MZW5ndGggNzA5L0ZpbHRlci9GbGF0ZURlY29kZT4+c3')
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
+    spyOn(Logger.instance, 'error');
+    spyOn(Logger.instance, 'warning');
+    spyOn(api, 'buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api.executeRequest(
+            api.getBaseUrl() + api.getEndpoints().pdf,
+            'get',
+            {}
+        ).then(response => {
+
+            expect(Logger.instance.warning.calls.count()).toBe(0);
+            expect(Logger.instance.error.calls.count()).toBe(0);
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/pdf',
+                    {
+                        method: 'get',
+                        headers: {}
+                    }
+                ]
+            ]);
+
+            // expect
+            expect(response).toEqual({
+                fileName: 'pdf-file-name.pdf',
+                blob: 'JVBERi0xLjQKJeLjz9MKNCAwIG9iaiA8PC9MZW5ndGggNzA5L0ZpbHRlci9GbGF0ZURlY29kZT4+c3'
+            });
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
+test('API executeRequest should return a Blob object on a request', () => {
+
+    // api instance and mocked config
+    let api = new API('neon', null);
+
+    // mock fetch method and return json by default
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ok: true,
+                status: 200,
+                statusText: 'OK',
+                url: 'https://ltp.nl/pdf',
+                headers: {
+                    get: (header) => {
+                        switch (header) {
+                            case 'Content-Type':
+                                return 'application/pdf';
+                            case 'Content-Disposition':
+                                return 'attachment; filename="pdf-file-name.pdf"'
+                        }
+                    }
+                },
+                blob: () => {
+                    return new Promise((resolve, reject) => {
+                        throw Error('Could not parse blob');
+                    });
+                }
+            });
+        });
+    });
+
+    // spy on method
+    spyOn(global, 'fetch').and.callThrough();
+    spyOn(api, 'executeRequest').and.callThrough();
+    spyOn(Logger.instance, 'error');
+    spyOn(Logger.instance, 'warning');
+    spyOn(api, 'buildURL').and.callThrough();
+
+    // expected (async) result
+    return new Promise((resolve, reject) => {
+        api.executeRequest(
+            api.getBaseUrl() + api.getEndpoints().pdf,
+            'get',
+            {}
+        ).then().catch(error => {
+
+            expect(Logger.instance.warning.calls.count()).toBe(0);
+            expect(Logger.instance.error.calls.count()).toBe(1);
+            expect(global.fetch.calls.count()).toBe(1);
+            expect(global.fetch.calls.allArgs()).toEqual([
+                [
+                    'https://ltp.nl/pdf',
+                    {
+                        method: 'get',
+                        headers: {}
+                    }
+                ]
+            ]);
+            expect(Logger.instance.error.calls.allArgs()).toEqual([
+                [
+                    {
+                        component: 'API',
+                        message: 'Parsing BLOB response failed',
+                        requestOptions: '{}',
+                        requestUrl: 'https://ltp.nl/pdf',
+                        responseBody: '{}',
+                        responseStatus: 200,
+                        responseText: 'OK'
+                    }
+                ]
+            ]);
+
+            expect(error).toEqual(new Error('An error occurred while processing your request.'));
+
+            // always resolve test to give the signal that we are done
+            resolve();
+        });
+    });
+});
+
 // Yes, the next few tests look completely redundant as only the status code is different in the fetch response
 // and in the warning log expectation. However, this is required as we cannot mock different responses for global.fetch
 // as we are doing multiple async calls to an async method. It would not be possible to overwrite the fetch mock
@@ -1146,6 +1306,9 @@ test('API executeRequest should log a warning and return json when fetch returns
                 status: 300,
                 statusText: 'Multiple Choices',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({id: '123'})
@@ -1223,6 +1386,9 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 status: 400,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({id: '123'})
@@ -1292,6 +1458,9 @@ test('API executeRequest should return an empty object when fetch returns 204 No
                 status: 204,
                 statusText: 'No Content',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return reject('Error parsing JSON')
@@ -1347,6 +1516,9 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                 status: 400,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return reject('Error parsing JSON')
@@ -1503,6 +1675,9 @@ test('API executeRequest should log an error when the network request failed or 
                 status: 400,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return reject('Error parsing JSON')
@@ -1576,6 +1751,9 @@ test('API executeRequest should resolve with an error object when the api return
                 status: 400,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({
@@ -1662,6 +1840,9 @@ test('API executeRequest should resolve with an error object when the api return
                 status: 409,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({
@@ -1748,6 +1929,9 @@ test('API executeRequest should log an error and print all request information',
                 status: 400,
                 statusText: 'Bad Request',
                 url: 'https://ltp.nl/organisations',
+                headers: {
+                    get: (header) => { }
+                },
                 json: () => {
                     return new Promise((resolve, reject) => {
                         return resolve({id: '123'})
