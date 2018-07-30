@@ -6,26 +6,28 @@ import ScoreBar from '../../../ScoreBar/ScoreBar';
 
 const intelligenceScoreCount = 5;
 
-export default class Intelligence extends Component {
+export default class IntellectualCapabilities extends Component {
 
     render() {
-        const { i18n, score } = this.props;
+        const { i18n, score, educationLevel } = this.props;
 
-        // todo: add the missing tested level
+        const educationLevelTranslation = `report_tested_level_${educationLevel}`;
 
         return (
             <div className={ style.intelligence }>
-                <section>
-                    <h3>{ i18n.report_intellectual_capabilities }</h3>
-                    <p>{ i18n.report_intellectual_capabilities_default_text_paragraph_1 }</p>
-                    <p>{ `${i18n.report_tested_level} ${'todo: add the education level'}` }</p>
-                </section>
+                <h3>{ i18n.report_intellectual_capabilities }</h3>
                 <section className={ style.scoreContainer }>
                     <h2>{ score }</h2>
                     <ScoreBar
                         score={ score }
                         count={ intelligenceScoreCount }
                     />
+                </section>
+                <section>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: i18n.report_intellectual_capabilities_default_text_paragraph_1 }}
+                    />
+                    <p>{ `${i18n.report_tested_level} ${i18n[educationLevelTranslation] || ''}` }</p>
                 </section>
             </div>
         );
