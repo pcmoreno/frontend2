@@ -5,10 +5,10 @@
  */
 export default function hyphenatePattern(lang) {
     switch (lang) {
-        case 'nl':
+        case 'nl_NL':
             return import('hyphenation.nl');
 
-        case 'en-GB':
+        case 'en_GB':
         default:
             return import('hyphenation.en-gb');
     }
