@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import style from './style/competencyprofile.scss';
 import Competencies from './components/Competencies/Competencies';
-import Intelligence from './components/Intelligence/Intelligence';
+import IntellectualCapabilities from './components/Intelligence/IntellectualCapabilities';
 import PowerToChange from './components/PowerToChange/PowerToChange';
 
 /** @jsx h */
@@ -9,9 +9,9 @@ import PowerToChange from './components/PowerToChange/PowerToChange';
 export default class CompetencyProfile extends Component {
 
     render() {
-        const { i18n, competencies, languageId } = this.props;
+        const { i18n, staticScores, educationLevel, competencies, languageId } = this.props;
 
-        // todo: we must check here if some of the required data is available, if nothing: do not render this component
+        const intellectualCapabilityScore = staticScores && staticScores.intelligenceScore;
 
         return (
             <section className={ style.competencyProfile }>
@@ -20,11 +20,16 @@ export default class CompetencyProfile extends Component {
                 <Competencies
                     competencies={ competencies }
                     languageId={ languageId }
-                    i18n={ this.props.i18n }
+                    i18n={ i18n }
                 />
 
-                { /* todo: add the IQ and Power to Change widgets, from within the child widget, check the data, and do not render if unavailable */ }
-                <Intelligence/>
+                { intellectualCapabilityScore && <IntellectualCapabilities
+                    slug={ intellectualCapabilityScore.slug }
+                    templateSlug={ intellectualCapabilityScore.textFieldTemplateSlug }
+                    score={ intellectualCapabilityScore.value }
+                    educationLevel={ educationLevel }
+                    i18n={ i18n }
+                />}
 
                 <PowerToChange/>
 

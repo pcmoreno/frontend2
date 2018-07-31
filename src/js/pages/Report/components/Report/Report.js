@@ -82,7 +82,7 @@ export default class Report extends Component {
 
         // todo: titles of blocks/sections should be translated
 
-        const { report, saveReportText, i18n } = this.props;
+        const { report, saveReportText, i18n, languageId } = this.props;
 
         // don't render without a report
         if (!report || !report.isLoaded) {
@@ -90,7 +90,6 @@ export default class Report extends Component {
         }
 
         // define sidebar tabs
-
         const tabs = [
             {
                 name: i18n.report_report,
@@ -152,8 +151,13 @@ export default class Report extends Component {
                     {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
                     <CompetencyProfile
                         i18n={i18n}
+                        educationLevel={report.participant.educationLevel}
+                        staticScores = {{
+                            intelligenceScore: report.texts.intelligenceScore,
+                            powerToChangeScore: report.texts.powerToChangeScore
+                        }}
                         competencies={ report.competencies }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
 
                     <Explanation
