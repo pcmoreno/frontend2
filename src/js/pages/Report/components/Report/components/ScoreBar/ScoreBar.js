@@ -28,7 +28,15 @@ export default class ScoreBar extends Component {
         let { count, score } = this.props;
         const elements = [];
 
-        score = Math.floor(score) || 0;
+        // when the score is set, floor it, with 1 as a minimum
+        // scores higher than 5 should become a 5 (the count)
+        if (score > 0 && score <= count) {
+            score = Math.floor(score) || 1;
+        } else if (score > count) {
+            score = count;
+        } else {
+            score = 0;
+        }
 
         const activeStyle = {
             fill: ScoreColors[score] || ''
