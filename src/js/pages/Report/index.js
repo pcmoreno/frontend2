@@ -99,10 +99,10 @@ class Index extends Component {
                     return onFulfilled({});
 
                 }).catch((/* error */) => {
+                    document.querySelector('#spinner').classList.add('hidden');
 
                     // show (translated) error message
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-
                     return onRejected(new Error('Could not save report text field'));
                 });
 
@@ -147,10 +147,10 @@ class Index extends Component {
                     });
 
                 }).catch((/* error */) => {
+                    document.querySelector('#spinner').classList.add('hidden');
 
                     // show (translated) error message
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-
                     return onRejected(new Error('Could not save report text field'));
                 });
             }

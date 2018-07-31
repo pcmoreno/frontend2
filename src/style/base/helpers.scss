@@ -236,3 +236,8 @@ table td.organisation {
 #tablink_organisations_edit_custom_competency_selection.active + span {
     display: block;
 }
+
+/* completely hide disabled buttons on the task overview listview */
+#tasks #listview .action_button.disabled {
+    opacity: 0;
+}

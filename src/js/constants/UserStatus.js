@@ -1,7 +1,6 @@
 const UserStatus = {
     ADDED: 'added',
-    INVITED: 'invited',
-    INVITATION_ACCEPTED: 'invitationAccepted'
+    INVITED: 'invited'
 };
 
 export default UserStatus;

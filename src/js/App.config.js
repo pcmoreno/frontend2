@@ -69,7 +69,8 @@ const AppConfig = {
                 report: {
                     entity: '/v1/get-report-data/{slug}',
                     createTextField: '/v1/section/textFieldInReport',
-                    updateTextField: '/v1/section/textFieldInReport/slug/{slug}'
+                    updateTextField: '/v1/section/textFieldInReport/slug/{slug}',
+                    downloadIntermediateReport: '/v1/download-intermediate-report/{slug}'
                 },
                 register: {
                     accountStatus: '/v1/user/status/{slug}',
