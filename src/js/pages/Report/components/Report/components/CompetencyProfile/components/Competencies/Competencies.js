@@ -1,24 +1,30 @@
 import { h, Component } from 'preact';
 import Competency from './components/Competency/Competency';
+import style from './style/competencies.scss';
 
 /** @jsx h */
 
 export default class Competencies extends Component {
-
     render() {
+        const competencies = [];
 
-        // const { i18n } = this.props;
+        this.props.competencies.forEach(competency => {
+            competencies.push(<Competency
+                name={ competency.name }
+                definition={ competency.definition }
+                score={ competency.score }
+                languageId={ this.props.languageId }
+                i18n={ this.props.i18n }
+            />);
+        });
 
-        // todo: we must check here if some of the required data is available, if nothing: do not render this component
-
+        if (competencies.length === 0) {
+            return null;
+        }
         return (
-            <section>
-
-                { /* todo: add some Competencies widgets here */ }
-                <Competency/>
-                <Competency/>
-
-            </section>
+            <ul className={ style.competencies }>
+                { competencies }
+            </ul>
         );
     }
 }

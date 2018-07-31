@@ -40,7 +40,8 @@ export default function reportReducer(state = initialState, action) {
                 },
 
                 // consist of: fieldName = {name: '', value: '', slug: ''}
-                texts: {}
+                texts: {},
+                competencies: []
             };
 
             try {
@@ -124,6 +125,9 @@ export default function reportReducer(state = initialState, action) {
                         };
                     }
                 });
+
+                // set competencies
+                newState.report.competencies = action.report.report.competencies;
 
                 // use a flag in the state to let the component know that the report is loaded
                 newState.report.isLoaded = true;
