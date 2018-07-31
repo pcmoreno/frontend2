@@ -156,6 +156,7 @@ export default class Report extends Component {
                     <CompetencyProfile
                         i18n={i18n}
                         competencies={ report.competencies }
+                        languageId={ this.props.languageId }
                     />
 
                     <Explanation

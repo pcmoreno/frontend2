@@ -9,7 +9,7 @@ import PowerToChange from './components/PowerToChange/PowerToChange';
 export default class CompetencyProfile extends Component {
 
     render() {
-        const { i18n, competencies } = this.props;
+        const { i18n, competencies, languageId } = this.props;
 
         // todo: we must check here if some of the required data is available, if nothing: do not render this component
 
@@ -20,6 +20,8 @@ export default class CompetencyProfile extends Component {
                 { /* todo: add the competency widgets, from within the child widget, check the data, and do not render if unavailable */ }
                 <Competencies
                     competencies={ competencies }
+                    languageId={ languageId }
+                    i18n={ this.props.i18n }
                 />
 
                 { /* todo: add the IQ and Power to Change widgets, from within the child widget, check the data, and do not render if unavailable */ }

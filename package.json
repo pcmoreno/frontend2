@@ -93,5 +93,10 @@
         "build:dev": "webpack",
         "build:acc": "yarn run lint && yarn run jest && NODE_ENV=production FROALA_KEY=${FROALA_KEY} NEON_API_BASE_URL=${NEON_API_ACC_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_ACC_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_ACC_APP_CLIENT_ID} webpack -p",
         "build:prod": "yarn run lint && yarn run jest && NODE_ENV=production FROALA_KEY=${FROALA_KEY} NEON_API_BASE_URL=${NEON_API_PROD_BASE_URL} COGNITO_USER_POOL_ID=${COGNITO_PROD_USER_POOL_ID} COGNITO_APP_CLIENT_ID=${COGNITO_PROD_APP_CLIENT_ID} webpack -p"
+    },
+    "dependencies": {
+        "hyphenation.en-gb": "^0.2.1",
+        "hyphenation.nl": "^0.2.1",
+        "hypher": "^0.2.5"
     }
 }

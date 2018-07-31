@@ -29,6 +29,8 @@ export default class Competencies extends Component {
                 name={ competency.name }
                 definition={ competency.definition }
                 score={ competency.score }
+                languageId={ this.props.languageId }
+                i18n={ this.props.i18n }
             />);
         });
 
