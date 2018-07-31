@@ -5,22 +5,6 @@ import style from './style/competencies.scss';
 /** @jsx h */
 
 export default class Competencies extends Component {
-    // constructor(props) {
-    //     super(props);
-    //
-    //     // build up a localState so the competencies can be easier amended from the sidebar
-    //     this.localState = {
-    //         competencies: []
-    //     };
-    // }
-
-    // componentDidUpdate() {
-    //     if (this.localState.competencies !== this.props.competencies) {
-    //         this.localState.competencies = this.props.competencies;
-    //         this.setState(this.localState);
-    //     }
-    // }
-
     render() {
         const competencies = [];
 

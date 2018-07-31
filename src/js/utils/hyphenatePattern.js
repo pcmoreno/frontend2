@@ -1,9 +1,9 @@
 /**
- * @class hyphenation
+ * @class hyphenatePattern
  * @param {string} lang - language id
  * @returns { Object } hyphenation pattern
  */
-export default function hyphenation(lang) {
+export default function hyphenatePattern(lang) {
     switch (lang) {
         case 'nl':
             return import('hyphenation.nl');

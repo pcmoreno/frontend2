@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import Hypher from 'hypher';
-import hyphenate from '../../../../../../../../../../utils/hyphenate';
+import ScoreBar from '../../../../../ScoreBar/ScoreBar';
+import hyphenatePattern from '../../../../../../../../../../utils/hyphenatePattern';
 import style from './style/competency.scss';
 
 /** @jsx h */
@@ -23,7 +24,9 @@ export default class Competency extends Component {
     }
 
     initHypher() {
-        hyphenate(this.languageId).then(result => {
+
+        // load the right hyphenation pattern for the current language and start the hyphenation process
+        hyphenatePattern(this.languageId).then(result => {
 
             // instantiate new Hypher object
             this.hypher = new Hypher(result);
@@ -63,11 +66,9 @@ export default class Competency extends Component {
     }
 
     render() {
-        const { score } = this.props;
 
+        // to prevent jumping of texts, do not render until Hypher is done loading patterns and transforming the text
         if (!this.hypher) {
-
-            // to prevent jumping of texts, dont render until Hypher is done loading patterns and transforming the text
             return null;
         }
 
@@ -77,7 +78,8 @@ export default class Competency extends Component {
                     <div className={ style.title_container }>
                         <h2 dangerouslySetInnerHTML={ { __html: this.localState.competencyName } } />
                     </div>
-                    <h3>{ score }</h3>
+                    <h3>{ this.props.score }</h3>
+                    <ScoreBar score={ this.props.score } count={ 5 } />
                 </header>
                 <article>
                     <p dangerouslySetInnerHTML={ { __html: this.localState.competencyDefinition } } />
