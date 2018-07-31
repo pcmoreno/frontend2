@@ -1,6 +1,6 @@
-const ParticipantStatus = {
+const LanguageTypes = {
     NL: 'nl_NL',
     EN: 'en_GB'
 };
 
-export default ParticipantStatus;
+export default LanguageTypes;
