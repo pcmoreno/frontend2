@@ -67,6 +67,8 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.participant.name = `${participant.firstName} ${participant.lastName}`;
                 }
 
+                newState.report.participant.educationLevel = participant.educationLevel;
+
                 // set product name
                 newState.report.product.name = product.productName;
                 newState.report.product.translationKey = product.translationKey;
@@ -92,37 +94,18 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.consultant.name = consultant.consultantName;
                 }
 
-                // set report texts
-                const mappedFieldNames = [];
-
                 report.textFieldsInReport = report.textFieldsInReport || {};
 
                 report.textFieldsInReport.forEach(textField => {
                     const mappedTextField = {
                         slug: textField.slug,
+                        textFieldTemplateSlug: textField.templateSlug,
                         name: textField.name,
                         value: textField.value
                     };
 
-                    // store field name to keep track of currently added fields
-                    mappedFieldNames.push(textField.name);
-
                     // store text field
                     newState.report.texts[mappedTextField.name] = mappedTextField;
-                });
-
-                // get default text fields in case some where not available on the report
-                product.textsTemplate.forEach(textField => {
-
-                    // add default text field if they were not set
-                    if (!~mappedFieldNames.indexOf(textField.name)) {
-                        newState.report.texts[textField.name] = {
-                            slug: null,
-                            name: textField.name,
-                            value: null,
-                            textFieldTemplateSlug: textField.slug
-                        };
-                    }
                 });
 
                 // use a flag in the state to let the component know that the report is loaded

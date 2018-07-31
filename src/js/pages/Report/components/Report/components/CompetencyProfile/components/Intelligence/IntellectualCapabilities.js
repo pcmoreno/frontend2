@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import style from './style/intelligence.scss';
+import style from './style/intellectualcapabilities.scss';
 import ScoreBar from '../../../ScoreBar/ScoreBar';
 
 /** @jsx h */
@@ -17,13 +17,14 @@ export default class IntellectualCapabilities extends Component {
             <div className={ style.intelligence }>
                 <h3>{ i18n.report_intellectual_capabilities }</h3>
                 <section className={ style.scoreContainer }>
+                    <h3 className="hidden">{ i18n.report_intellectual_capabilities }</h3>
                     <h2>{ score }</h2>
                     <ScoreBar
                         score={ score }
                         count={ intelligenceScoreCount }
                     />
                 </section>
-                <section>
+                <section className={ style.textContainer }>
                     <div
                         dangerouslySetInnerHTML={{ __html: i18n.report_intellectual_capabilities_default_text_paragraph_1 }}
                     />

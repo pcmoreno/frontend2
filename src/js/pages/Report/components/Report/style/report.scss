@@ -7,6 +7,11 @@
     /* todo: this is because we have child widgets that should be full width. Maybe we should reconsider later */
     > section > section {
         padding: 1rem 60px;
+
+        /* smaller padding on smaller screens */
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            padding: 1rem 15px;
+        }
     }
 
     @supports (display: grid) {

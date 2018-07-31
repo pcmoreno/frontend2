@@ -151,6 +151,11 @@ export default class Report extends Component {
                     {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
                     <CompetencyProfile
                         i18n={i18n}
+                        educationLevel={report.participant.educationLevel}
+                        staticScores = {{
+                            intelligenceScore: report.texts.intelligenceScore,
+                            powerToChangeScore: report.texts.powerToChangeScore
+                        }}
                     />
 
                     <Explanation
