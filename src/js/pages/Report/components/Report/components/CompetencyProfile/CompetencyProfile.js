@@ -11,11 +11,7 @@ export default class CompetencyProfile extends Component {
     render() {
         const { i18n, staticScores, educationLevel, competencies, languageId } = this.props;
 
-        if (!staticScores) {
-            return null;
-        }
-
-        const intellectualCapabilityScore = staticScores.intelligenceScore;
+        const intellectualCapabilityScore = staticScores && staticScores.intelligenceScore;
 
         return (
             <section className={ style.competencyProfile }>
@@ -27,13 +23,13 @@ export default class CompetencyProfile extends Component {
                     i18n={ i18n }
                 />
 
-                <IntellectualCapabilities
+                { intellectualCapabilityScore && <IntellectualCapabilities
                     slug={ intellectualCapabilityScore.slug }
                     templateSlug={ intellectualCapabilityScore.textFieldTemplateSlug }
                     score={ intellectualCapabilityScore.value }
                     educationLevel={ educationLevel }
                     i18n={ i18n }
-                />
+                />}
 
                 <PowerToChange/>
 
