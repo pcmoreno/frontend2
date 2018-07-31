@@ -1,3 +1,5 @@
+import LanguageTypes from '../constants/LanguageTypes';
+
 /**
  * @class hyphenatePattern
  * @param {string} lang - language id
@@ -5,10 +7,10 @@
  */
 export default function hyphenatePattern(lang) {
     switch (lang) {
-        case 'nl_NL':
+        case LanguageTypes.NL:
             return import('hyphenation.nl');
 
-        case 'en_GB':
+        case LanguageTypes.EN:
         default:
             return import('hyphenation.en-gb');
     }

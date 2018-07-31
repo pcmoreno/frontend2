@@ -6,6 +6,9 @@ import style from './style/competency.scss';
 
 /** @jsx h */
 
+// how many bars should the scorebar have
+const count = 5;
+
 export default class Competency extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +20,8 @@ export default class Competency extends Component {
 
         this.hypher = false;
         this.languageId = this.props.languageId;
+
+
     }
 
     hyphenateText(val) {
@@ -40,7 +45,6 @@ export default class Competency extends Component {
         let name = this.props.name;
         let definition = this.props.definition;
 
-        // todo: test if this works
         if (this.props.translationKey) {
             name = this.props.i18n[this.props.translationKey] || this.props.name;
             definition = this.props.i18n[`${this.props.translationKey}_definition`] || this.props.definition;
@@ -79,7 +83,7 @@ export default class Competency extends Component {
                         <h2 dangerouslySetInnerHTML={ { __html: this.localState.competencyName } } />
                     </div>
                     <h3>{ this.props.score }</h3>
-                    <ScoreBar score={ this.props.score } count={ 5 } />
+                    <ScoreBar score={ this.props.score } count={ count } />
                 </header>
                 <article>
                     <p dangerouslySetInnerHTML={ { __html: this.localState.competencyDefinition } } />
