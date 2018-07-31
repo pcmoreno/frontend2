@@ -9,7 +9,7 @@ import PowerToChange from './components/PowerToChange/PowerToChange';
 export default class CompetencyProfile extends Component {
 
     render() {
-        const { i18n, staticScores, educationLevel } = this.props;
+        const { i18n, staticScores, educationLevel, competencies, languageId } = this.props;
 
         if (!staticScores) {
             return null;
@@ -21,8 +21,11 @@ export default class CompetencyProfile extends Component {
             <section className={ style.competencyProfile }>
                 <h2>{ i18n.report_competency_profile }</h2>
 
-                { /* todo: add the competency widgets, from within the child widget, check the data, and do not render if unavailable */ }
-                <Competencies/>
+                <Competencies
+                    competencies={ competencies }
+                    languageId={ languageId }
+                    i18n={ i18n }
+                />
 
                 <IntellectualCapabilities
                     slug={ intellectualCapabilityScore.slug }

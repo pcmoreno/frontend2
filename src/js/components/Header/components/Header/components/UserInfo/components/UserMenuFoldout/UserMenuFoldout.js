@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 
 /** @jsx h */
 
-import * as languageType from '../../../../../../constants/LanguageTypes';
+import LanguageTypes from '../../../../../../../../constants/LanguageTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenufoldout.scss';
 import Authorised from '../../../../../../../../utils/components/Authorised';
@@ -19,7 +19,7 @@ export default class UserMenuFoldout extends Component {
 
     render() {
         const { logoutAction, switchLanguage, languageId, toggleUserMenu, i18n } = this.props;
-        const switchableLanguageId = languageId === languageType.NL ? languageType.EN : languageType.NL;
+        const switchableLanguageId = languageId === LanguageTypes.NL ? LanguageTypes.EN : LanguageTypes.NL;
 
         return (
             <div className={ `${style.user_menu_foldout} hidden` } id="user_menu_foldout">

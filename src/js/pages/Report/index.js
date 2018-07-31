@@ -192,6 +192,7 @@ class Index extends Component {
                 report = { this.props.report }
                 saveReportText={this.saveReportText.bind(this)}
                 i18n = { this.i18n }
+                languageId={ this.props.languageId }
             />
         );
     }

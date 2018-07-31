@@ -82,7 +82,7 @@ export default class Report extends Component {
 
         // todo: titles of blocks/sections should be translated
 
-        const { report, saveReportText, i18n } = this.props;
+        const { report, saveReportText, i18n, languageId } = this.props;
 
         // don't render without a report
         if (!report || !report.isLoaded) {
@@ -156,6 +156,8 @@ export default class Report extends Component {
                             intelligenceScore: report.texts.intelligenceScore,
                             powerToChangeScore: report.texts.powerToChangeScore
                         }}
+                        competencies={ report.competencies }
+                        languageId={ languageId }
                     />
 
                     <Explanation
