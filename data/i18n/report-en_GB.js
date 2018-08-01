@@ -29,6 +29,8 @@ export default {
     "report_development_orientation": "Development-orientation",
     "report_development_orientation_high_text": "<ul>\n                            <li>is willing to make efforts to acquire new knowledge and skills by means of courses or independent study.<\/li>\n                            <li>this is not only in order to do the work more effectively but also for their own personal development.<\/li>\n                        <\/ul>",
     "report_development_orientation_low_text": "<ul>\n                            <li>considers acquiring new skills and knowledge through study not to be the most important aspect of work.<\/li>\n                            <li>professional development is not an active area of focus.<\/li>\n                        <\/ul>",
+    "report_development_oriented": "Development oriented",
+    "report_development_oriented_default_text": "The belief that it is possible, useful and pleasant to work on your own development (‘growth mindset’).",
     "report_development_report": "Development report",
     "report_emotional_stability": "Emotional stability",
     "report_emotional_stability_high_text": "<ul>\n                            <li>is balanced and deals with stressful situations in a controlled manner.<\/li>\n                            <li>feels self-assured and has the idea that he\/she has situations under control.<\/li>\n                            <li>looks at problems rationally. sees primarily the positive side of matters, can therefore underestimate problems.<\/li>\n                            <li>can be perceived by others as being (too) little sensitive.<\/li>\n                        <\/ul>",
