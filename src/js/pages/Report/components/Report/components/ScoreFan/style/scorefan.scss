@@ -1,10 +1,10 @@
 .scoreFanWrapper {
-    display: flex;
-    justify-content: center;
+    text-align: center;
 }
 
 .scoreFanContainer {
     margin-top: -2.5rem;
+    display: inline-block;
 
     @media screen and (max-width: $grid-breakpoints-lg) {
         margin-top: -1.5rem;
