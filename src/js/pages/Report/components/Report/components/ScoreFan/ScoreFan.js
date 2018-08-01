@@ -87,7 +87,7 @@ export default class ScoreFan extends Component {
                     </div>
                 </div>
                 <h1 className={ style.score }>
-                    { score }
+                    { score > 0 ? score : '' }
                 </h1>
             </section>
         );

@@ -59,7 +59,7 @@ export default class ScoreBar extends Component {
 
         return (
             <section className={ style.scoreBar }>
-                <h2>{ score }</h2>
+                <h1>{ score > 0 ? score : '' }</h1>
                 <svg version="1.0" x="0px" y="0px" viewBox="0 0 516 140">
                     <g>
                         { elements }

@@ -23,6 +23,28 @@ export default class PowerToChange extends Component {
                     htmlDescription={ description }
                     leftText={ i18n.report_power_to_change_below_average }
                     rightText={ i18n.report_power_to_change_above_average }
+                    footerAppendix={[
+                        [
+                            {
+                                title: i18n.report_development_oriented,
+                                description: i18n.report_development_oriented_default_text
+                            },
+                            {
+                                title: i18n.report_self_management,
+                                description: i18n.report_self_management_default_text
+                            }
+                        ],
+                        [
+                            {
+                                title: i18n.report_energy,
+                                description: i18n.report_energy_default_text
+                            },
+                            {
+                                title: i18n.report_resilience,
+                                description: i18n.report_resilience_default_text
+                            }
+                        ]
+                    ]}
                 />
             </div>
         );

@@ -1,7 +1,7 @@
 .staticScore {
     background: $white;
     border-radius: 5px;
-    margin: 20px 0;
+    margin-top: 2.5rem;
     padding: 20px 15px;
 
     h3 {
@@ -52,5 +52,63 @@
         left: unset;
         margin-top: 1rem;
         margin-bottom: 2.5rem;
+    }
+}
+
+.footer {
+    padding: 1.25rem .5rem;
+    background: $blue-darken;
+
+    @supports (display: grid) {
+        float: none;
+        width: unset;
+        display: grid;
+        grid-gap: 1rem;
+
+        /* this automatically fills available space with all columns that are supposed to show, with a min width of 100px */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            grid-template-columns: 1fr;
+            grid-gap: 0;
+        }
+    }
+
+    table {
+        vertical-align: top;
+        border-top: 2px solid $blue;
+        border-collapse: collapse;
+
+        tbody {
+            display: table;
+            width: 100%;
+        }
+
+        tr {
+            border-bottom: 2px solid $blue;
+        }
+
+        td {
+            font-weight: normal;
+            color: $white;
+            padding: .5rem 5px;
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.5rem;
+        }
+
+        /* align tables vertically on small screens */
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            width: 100%;
+        }
+    }
+
+    /* hide border bottom from all last table rows except for the last table */
+    table:not(:last-child) {
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            tr:last-child {
+                border-bottom: unset;
+            }
+        }
     }
 }
