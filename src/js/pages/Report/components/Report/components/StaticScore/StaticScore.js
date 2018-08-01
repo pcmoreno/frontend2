@@ -6,12 +6,40 @@ import ScoreFan from '../ScoreFan/ScoreFan';
 
 /** @jsx h */
 
+/**
+ * Renders a Static score widget
+ * @example
+ * <StaticScore>
+ *     score={1} // optional
+ *     count={4} // required
+ *     title={'Widget title'} // required
+ *     scoreWidgetType={ScoreWidgetType.SCORE_BAR} // required
+ *     htmlDescription={'<p>description text</p>'} // optional
+ *     leftText={'left/low indicator text'} // optional
+ *     rightText={'right/high indicator text'} // optional
+ *     footerAppendix={[
+ *         [
+ *             {
+ *                 title: 'title',
+ *                 description: 'desc'
+ *             }
+ *         ],
+ *         [
+ *             ...
+ *         ]
+ *     ]} // optional two-dimensional array, title and description are also optional
+ * </StaticScore>
+ */
 export default class StaticScore extends Component {
 
     render() {
         const { score, scoreCount, title, scoreWidgetType, htmlDescription, leftText, rightText, footerAppendix } = this.props;
         let scoreWidget = null;
         let footerWidget = null;
+
+        if (!scoreWidgetType) {
+            throw new Error('ScoreWidgetType is required');
+        }
 
         switch (scoreWidgetType) {
             case ScoreWidgetType.SCORE_BAR:
