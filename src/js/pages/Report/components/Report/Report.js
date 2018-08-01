@@ -17,6 +17,7 @@ import ReportActions from '../../constants/ReportActions';
 import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
+import IntellectualCapabilities from './components/Attachment/IntellectualCapabilities/IntellectualCapabilities';
 
 export default class Report extends Component {
 
@@ -174,6 +175,27 @@ export default class Report extends Component {
                         i18n={i18n}
                         saveReportText={saveReportText}
                     />
+
+                    { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
+                    <IntellectualCapabilities
+                        i18n={i18n}
+                    />
+
+                    {/*<Personality*/}
+                        {/*i18n={i18n}*/}
+                    {/*/>*/}
+
+                    {/*<Motives*/}
+                        {/*i18n={i18n}*/}
+                    {/*/>*/}
+
+                    {/*<InfluencingStyles*/}
+                        {/*i18n={i18n}*/}
+                    {/*/>*/}
+
+                    {/*<WorkingStyles*/}
+                        {/*i18n={i18n}*/}
+                    {/*/>*/}
 
                 </section>
 
