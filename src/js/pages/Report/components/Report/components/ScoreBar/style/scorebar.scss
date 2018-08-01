@@ -3,4 +3,12 @@
         max-height: 70px;
         fill: $beige;
     }
+
+    > h2 {
+        color: $brown;
+        font-weight: normal;
+        display: flex;
+        justify-content: center;
+        height: 2.5rem;
+    }
 }

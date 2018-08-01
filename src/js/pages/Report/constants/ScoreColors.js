@@ -6,4 +6,6 @@ const ScoreColors = {
     5: '#90c2dd'
 };
 
-export default ScoreColors;
+const ScoreFanColor = '#90c2dd';
+
+export { ScoreFanColor, ScoreColors };

@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import ScoreColors from '../../../../constants/ScoreColors';
+import { ScoreColors } from '../../../../constants/ScoreColors';
 import style from './style/scorebar.scss';
 
 /** @jsx h */
@@ -59,6 +59,7 @@ export default class ScoreBar extends Component {
 
         return (
             <section className={ style.scoreBar }>
+                <h2>{ score }</h2>
                 <svg version="1.0" x="0px" y="0px" viewBox="0 0 516 140">
                     <g>
                         { elements }

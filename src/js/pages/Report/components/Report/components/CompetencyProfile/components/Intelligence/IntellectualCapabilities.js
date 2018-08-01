@@ -1,6 +1,5 @@
 import { h, Component } from 'preact';
 import style from './style/intellectualcapabilities.scss';
-import ScoreBar from '../../../ScoreBar/ScoreBar';
 import StaticScore from '../../../StaticScore/StaticScore';
 import ScoreWidgetType from '../../../../../../constants/ScoreWidgetType';
 
