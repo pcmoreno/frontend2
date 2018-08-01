@@ -7,10 +7,10 @@
     }
 
     background: $blue-green-gradient;
-    padding: 1rem 2.75rem!important;
+    padding: 1rem 2.75rem !important;
 
     /* smaller padding on smaller screens */
     @media screen and (max-width: $grid-breakpoints-lg) {
-        padding: 1rem!important;
+        padding: 1rem !important;
     }
 }
