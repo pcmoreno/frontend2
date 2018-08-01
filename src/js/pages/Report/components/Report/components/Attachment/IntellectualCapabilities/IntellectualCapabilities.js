@@ -5,6 +5,7 @@ import TextBlock from '../../../components/TextBlock/TextBlock';
 import AttachmentRow from '../AttachmentRow/AttachmentRow';
 import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
+import BulletList from '../BulletList/BulletList';
 
 /** @jsx h */
 
@@ -45,8 +46,14 @@ export default class IntellectualCapabilities extends Component {
                     </AttachmentRow>
                     <AttachmentRow>
                         <section />
-                        <section><p>{i18n.report_abstract_intelligence_text}</p></section>
-                        <section><p>{i18n.report_abstract_intelligence_text}</p></section>
+                        <BulletList>
+                            <header>{i18n.report_low_score}</header>
+                            <p dangerouslySetInnerHTML={ { __html: i18n.report_emotional_stability_low_text } } />
+                        </BulletList>
+                        <BulletList>
+                            <header>{i18n.report_high_score}</header>
+                            <p dangerouslySetInnerHTML={ { __html: i18n.report_emotional_stability_high_text } } />
+                        </BulletList>
                     </AttachmentRow>
                 </ReportColumn>
             </ReportSection>

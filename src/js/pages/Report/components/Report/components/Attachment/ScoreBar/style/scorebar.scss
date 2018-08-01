@@ -1,5 +1,6 @@
 .scoreBar {
     padding: 1rem .5rem 1.5rem 0;
+    max-width: 480px;
 
     /* give it slightly more padding on the sides to solve the visual artifact of misalignment with the text */
     @media screen and (min-width: $grid-breakpoints-lg) {
