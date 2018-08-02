@@ -12,14 +12,21 @@
     position: relative;
     height: 2rem;
 
-    span:first-child {
+    span {
         position: absolute;
-        left: 0;
+
+        &:first-child {
+            left: 0;
+        }
+
+        &:last-child {
+            right: 0;
+        }
     }
 
-    span:last-child {
-        position: absolute;
-        right: 0;
+    /* always show the legend on small screens */
+    @media screen and (max-width: $grid-breakpoints-lg) {
+        display: block !important;
     }
 }
 

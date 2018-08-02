@@ -16,6 +16,8 @@ export default class Personality extends Component {
         // construct the object required for the TextBlock component to render the text
         const personality = {
             title: i18n.report_personality,
+            slug: 'personality',
+            name: 'personality',
             value: `<p>${i18n.report_personality_default_text}</p>
                     <p>${i18n.report_personality_questionnaire_intro_text}</p>`
         };

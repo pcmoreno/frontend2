@@ -16,6 +16,8 @@ export default class Motives extends Component {
         // construct the object required for the TextBlock component to render the text
         const motives = {
             title: i18n.report_motives,
+            slug: 'motives',
+            name: 'motives',
             value: `<p>${i18n.report_motives_default_text}</p>
                     <p>${i18n.report_motives_questionnaire_intro}</p>`
         };

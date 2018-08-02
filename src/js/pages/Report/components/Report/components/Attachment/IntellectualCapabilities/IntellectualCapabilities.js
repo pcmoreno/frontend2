@@ -10,14 +10,22 @@ import ScoreBar from '../ScoreBar/ScoreBar';
 
 export default class IntellectualCapabilities extends Component {
     render() {
-        const { i18n, score = null } = this.props;
+        const { i18n, score = null, testedLevel = null } = this.props;
+
+        let testedLevelSection = '';
+
+        if (testedLevel) {
+            testedLevelSection = `<p>${i18n.report_tested_level} ${testedLevel}</p>`;
+        }
 
         // construct the object required for the TextBlock component to render the text
         const intellectualCapabilities = {
             title: i18n.report_intellectual_capabilities,
+            slug: 'intellectual_capabilities',
+            name: 'intellectual_capabilities',
             value: `<p>${i18n.report_intellectual_capabilities_default_text_paragraph_2}</p>
                     <p>${i18n.report_intellectual_capabilities_default_text_paragraph_3}</p>
-                    <p>${i18n.report_tested_level} tested_level</p>`
+                    ${testedLevelSection}`
         };
 
         /* todo: score is not properly used/injected into the component */
@@ -40,13 +48,13 @@ export default class IntellectualCapabilities extends Component {
                         </Details>
                     </AttachmentRow>
 
-                    <AttachmentRow>
+                    <AttachmentRow intellectualCapabilities={ true }>
                         <h4>{i18n.report_abstract_intelligence}</h4>
                         <ScoreBar score={ score } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
-                    <AttachmentRow>
+                    <AttachmentRow intellectualCapabilities={ true }>
                         <p>{i18n.report_abstract_intelligence_text}</p>
                         <section />
                         <section />
@@ -58,7 +66,7 @@ export default class IntellectualCapabilities extends Component {
                         <section />
                     </AttachmentRow>
 
-                    <AttachmentRow>
+                    <AttachmentRow intellectualCapabilities={ true }>
                         <p>{i18n.report_verbal_intelligence_text}</p>
                         <section />
                         <section />
@@ -70,7 +78,7 @@ export default class IntellectualCapabilities extends Component {
                         <section />
                     </AttachmentRow>
 
-                    <AttachmentRow>
+                    <AttachmentRow intellectualCapabilities={ true }>
                         <p>{i18n.report_numeric_intelligence_text}</p>
                         <section />
                         <section />

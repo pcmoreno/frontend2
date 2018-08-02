@@ -16,6 +16,8 @@ export default class WorkingStyles extends Component {
         // construct the object required for the TextBlock component to render the text
         const workingStyles = {
             title: i18n.report_working_styles,
+            slug: 'working_styles',
+            name: 'working_styles',
             value: `<p>${i18n.report_working_styles_default_text}</p>
                     <p>${i18n.report_working_styles_questionnaire_intro}</p>`
         };

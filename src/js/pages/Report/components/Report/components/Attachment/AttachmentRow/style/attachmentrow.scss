@@ -37,7 +37,7 @@
     @media screen and (min-width: $grid-breakpoints-lg) {
         width: 30%;
         float: left;
-        padding-bottom: 3rem;
+        padding-bottom: 2.5rem;
     }
 
     &:first-child {
@@ -54,6 +54,28 @@
 
     p {
         font-size: 120%;
+        padding: 0 0 1rem 0;
+    }
+}
+
+/* the attachent section for the intellectual capabilities has slightly different styling */
+.intellectualCapabilities {
+    h4 {
+        margin-top: 2rem;
+    }
+
+    p {
+        color: $medium-brown;
+        padding-top: 0;
+        padding-bottom: 1rem;
+        margin-bottom: 0;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    div section {
         padding: 0;
     }
 }

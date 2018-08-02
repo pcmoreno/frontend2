@@ -9,12 +9,10 @@ export default class ScoreBar extends Component {
 
         return (
             <section className={ style.scoreBar }>
-                { legend
-                    ? <section className={ style.legend }>
-                        <span>{ i18n.report_low }</span>
-                        <span>{ i18n.report_high }</span>
-                    </section>
-                    : '' }
+                <section className={`${style.legend} ${legend ? '' : 'hidden'}`}>
+                    <span>{ i18n.report_low }</span>
+                    <span>{ i18n.report_high }</span>
+                </section>
                 <div>
                     <svg version="1.0" x="0px" y="0px" viewBox="0 0 508 20">
                         <g>

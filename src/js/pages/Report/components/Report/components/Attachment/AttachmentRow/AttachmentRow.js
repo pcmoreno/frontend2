@@ -5,14 +5,14 @@ import style from './style/attachmentrow.scss';
 
 export default class AttachmentRow extends Component {
     render() {
-        const { children, intro } = this.props;
+        const { children, intro, intellectualCapabilities } = this.props;
 
         if (!children) {
             return null;
         }
 
         return (
-            <div className={ `${style.attachmentrow} ${intro && style.intro}` }>
+            <div className={ `${style.attachmentrow} ${intro ? style.intro : ''} ${intellectualCapabilities ? style.intellectualCapabilities : ''}` }>
                 { children }
             </div>
         );

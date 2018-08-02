@@ -16,6 +16,8 @@ export default class InfluencingStyles extends Component {
         // construct the object required for the TextBlock component to render the text
         const influencingStyles = {
             title: i18n.report_influencing_styles,
+            slug: 'influencing_styles',
+            name: 'influencing_styles',
             value: `<p>${i18n.report_influencing_styles_default_text}</p>
                     <p>${i18n.report_influencing_styles_questionnaire_intro}</p>`
         };

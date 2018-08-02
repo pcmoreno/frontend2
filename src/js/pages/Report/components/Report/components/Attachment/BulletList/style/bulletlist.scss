@@ -1,4 +1,10 @@
 .bulletList {
+    margin-bottom: 1rem;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        margin-bottom: 4rem;
+    }
+
     header {
         margin-bottom: .25rem;
     }
