@@ -94,7 +94,7 @@ export default class StaticScore extends Component {
 
         return (
             <div>
-                <div className={ style.staticScore }>
+                <div className={ `${style.staticScore} ${footerWidget ? style.footerVisible : ''}` }>
                     <h3>{ title }</h3>
                     <section className={ style.scoreContainer }>
                         { scoreWidget }

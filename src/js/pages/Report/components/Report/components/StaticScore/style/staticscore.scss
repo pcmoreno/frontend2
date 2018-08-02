@@ -55,9 +55,15 @@
     }
 }
 
+.footerVisible {
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+}
+
 .footer {
     padding: 1.25rem .5rem;
     background: $blue-darken;
+    border-radius: 0 0 5px 5px;
 
     @supports (display: grid) {
         float: none;
