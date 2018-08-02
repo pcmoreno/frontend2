@@ -19,6 +19,7 @@ import style from './style/sidebar.scss';
  *         icon: 'user',
  *         component: <div />
  *      }
+ * ];
  *
  * // note: the two sections with their ids/classes are required for collapsing and responsive views
  * render(

@@ -17,6 +17,8 @@ import ReportActions from '../../constants/ReportActions';
 import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
+import SidebarReport from './components/SidebarContent/SidebarReport';
+import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 
 export default class Report extends Component {
 
@@ -94,12 +96,17 @@ export default class Report extends Component {
             {
                 name: i18n.report_report,
                 icon: ['far', 'file-alt'],
-                component: <div />
+                component: <SidebarReport
+                    i18n={ i18n }
+                    reportTexts={ report.texts }
+                />
             },
             {
                 name: i18n.report_participant,
                 icon: 'user',
-                component: <div />
+                component: <SidebarParticipant
+                    i18n={ i18n }
+                />
             }
         ];
 
@@ -142,7 +149,8 @@ export default class Report extends Component {
                     {/* in textFields_textTemplates */}
                     <SelectionAdvice
                         texts={{
-                            selectionAdvice: report.texts.selectionAdvice
+                            selectionAdvice: report.texts.selectionAdvice,
+                            selectionAdviceOutcome: report.texts.selectionAdviceOutcome
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
