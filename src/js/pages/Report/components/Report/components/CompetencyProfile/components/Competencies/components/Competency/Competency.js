@@ -82,7 +82,6 @@ export default class Competency extends Component {
                     <div className={ style.title_container }>
                         <h2 dangerouslySetInnerHTML={ { __html: this.localState.competencyName } } />
                     </div>
-                    <h3>{ this.props.score }</h3>
                     <ScoreBar score={ this.props.score } count={ count } />
                 </header>
                 <article>

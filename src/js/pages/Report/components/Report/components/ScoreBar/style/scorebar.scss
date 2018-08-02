@@ -3,4 +3,11 @@
         max-height: 70px;
         fill: $beige;
     }
+
+    > h1 {
+        color: $brown;
+        font-weight: normal;
+        display: block;
+        text-align: center;
+    }
 }

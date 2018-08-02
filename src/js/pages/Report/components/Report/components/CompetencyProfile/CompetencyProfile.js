@@ -12,6 +12,7 @@ export default class CompetencyProfile extends Component {
         const { i18n, staticScores, educationLevel, competencies, languageId } = this.props;
 
         const intellectualCapabilityScore = staticScores && staticScores.intelligenceScore;
+        const powerToChangeScore = staticScores && staticScores.powerToChangeScore;
 
         return (
             <section className={ style.competencyProfile }>
@@ -24,14 +25,15 @@ export default class CompetencyProfile extends Component {
                 />
 
                 { intellectualCapabilityScore && <IntellectualCapabilities
-                    slug={ intellectualCapabilityScore.slug }
-                    templateSlug={ intellectualCapabilityScore.textFieldTemplateSlug }
                     score={ intellectualCapabilityScore.value }
                     educationLevel={ educationLevel }
                     i18n={ i18n }
                 />}
 
-                <PowerToChange/>
+                { powerToChangeScore && <PowerToChange
+                    score={ powerToChangeScore.value }
+                    i18n={ i18n }
+                />}
 
             </section>
         );
