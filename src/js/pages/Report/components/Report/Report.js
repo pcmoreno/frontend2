@@ -18,6 +18,10 @@ import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
 import IntellectualCapabilities from './components/Attachment/IntellectualCapabilities/IntellectualCapabilities';
+import Personality from './components/Attachment/Personality/Personality';
+import Motives from './components/Attachment/Motives/Motives';
+import InfluencingStyles from './components/Attachment/InfluencingStyles/InfluencingStyles';
+import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
 
 export default class Report extends Component {
 
@@ -181,21 +185,21 @@ export default class Report extends Component {
                         i18n={i18n}
                     />
 
-                    {/*<Personality*/}
-                        {/*i18n={i18n}*/}
-                    {/*/>*/}
+                    <Personality
+                        i18n={i18n}
+                    />
 
-                    {/*<Motives*/}
-                        {/*i18n={i18n}*/}
-                    {/*/>*/}
+                    <Motives
+                        i18n={i18n}
+                    />
 
-                    {/*<InfluencingStyles*/}
-                        {/*i18n={i18n}*/}
-                    {/*/>*/}
+                    <InfluencingStyles
+                        i18n={i18n}
+                    />
 
-                    {/*<WorkingStyles*/}
-                        {/*i18n={i18n}*/}
-                    {/*/>*/}
+                    <WorkingStyles
+                        i18n={i18n}
+                    />
 
                 </section>
 
