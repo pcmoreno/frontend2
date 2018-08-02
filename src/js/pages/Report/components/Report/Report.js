@@ -91,6 +91,11 @@ export default class Report extends Component {
             return null;
         }
 
+        const staticScores = {
+            intellectualCapabilities: report.texts.intelligenceScore,
+            powerToChangeScore: report.texts.powerToChangeScore
+        };
+
         // define sidebar tabs
         const tabs = [
             {
@@ -99,6 +104,7 @@ export default class Report extends Component {
                 component: <SidebarReport
                     i18n={ i18n }
                     reportTexts={ report.texts }
+                    staticScores={ staticScores }
                 />
             },
             {
@@ -160,10 +166,7 @@ export default class Report extends Component {
                     <CompetencyProfile
                         i18n={i18n}
                         educationLevel={report.participant.educationLevel}
-                        staticScores = {{
-                            intelligenceScore: report.texts.intelligenceScore,
-                            powerToChangeScore: report.texts.powerToChangeScore
-                        }}
+                        staticScores= { staticScores }
                         competencies={ report.competencies }
                         languageId={ languageId }
                     />
