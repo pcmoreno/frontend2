@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import ScoreColors from '../../../../constants/ScoreColors';
+import { ScoreColors } from '../../../../constants/ScoreColors';
 import style from './style/scorebar.scss';
 
 /** @jsx h */
@@ -28,7 +28,15 @@ export default class ScoreBar extends Component {
         let { count, score } = this.props;
         const elements = [];
 
-        score = Math.floor(score) || 0;
+        // when the score is set, floor it, with 1 as a minimum
+        // scores higher than 5 should become a 5 (the count)
+        if (score > 0 && score <= count) {
+            score = Math.floor(score) || 1;
+        } else if (score > count) {
+            score = count;
+        } else {
+            score = 0;
+        }
 
         const activeStyle = {
             fill: ScoreColors[score] || ''
@@ -51,6 +59,7 @@ export default class ScoreBar extends Component {
 
         return (
             <section className={ style.scoreBar }>
+                <h1>{ score > 0 ? score : '' }</h1>
                 <svg version="1.0" x="0px" y="0px" viewBox="0 0 516 140">
                     <g>
                         { elements }
