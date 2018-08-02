@@ -58,7 +58,7 @@
     }
 }
 
-/* the attachent section for the intellectual capabilities has slightly different styling */
+/* the attachment section for the intellectual capabilities has slightly different styling */
 .intellectualCapabilities {
     h4 {
         margin-top: 2rem;
@@ -66,8 +66,7 @@
 
     p {
         color: $medium-brown;
-        padding-top: 0;
-        padding-bottom: 1rem;
+        padding: 0 0 1rem;
         margin-bottom: 0;
 
         @media screen and (min-width: $grid-breakpoints-lg) {

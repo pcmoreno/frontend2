@@ -12,7 +12,7 @@ export default class AttachmentRow extends Component {
         }
 
         return (
-            <div className={ `${style.attachmentrow} ${intro ? style.intro : ''} ${intellectualCapabilities ? style.intellectualCapabilities : ''}` }>
+            <div className={ `${style.attachmentrow} ${intro ? style.intro : ''}${intellectualCapabilities ? style.intellectualCapabilities : ''}` }>
                 { children }
             </div>
         );
