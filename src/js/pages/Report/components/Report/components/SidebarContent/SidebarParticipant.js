@@ -11,38 +11,28 @@ export default class SidebarParticipant extends Component {
         const { scores, hnaCategoryScores = [], i18n } = this.props;
         const scoreCollection = [];
 
-        // at minimum the scores are required */
+        /* at minimum the scores are required */
         if (!scores) {
             return null;
         }
 
-        const sections = [
-            'IntellectualCapabilities',
-            'Personality',
-            'WorkingStyles',
-            'Motives',
-            'InfluencingStyles'
-        ];
-
-        sections.forEach(section => {
-
+        /* loop through the categories and each key within, to build up a row of label, score, categoryScore */
+        Object.keys(HnaCategories).forEach(section => {
             const sectionScores = HnaCategories[section];
 
-            scoreCollection.push(<h4>{ i18n[`report_${[Utils.camelCaseToSnakeCase(section)]}`] }</h4>);
+            scoreCollection.push(<h4>{ i18n[`report_${[Utils.camelCaseToSnakeCase(section)]}`] || section }</h4>);
 
             Object.keys(sectionScores).forEach(score => {
                 const key = sectionScores[score];
 
                 scoreCollection.push(
                     <ParticipantScoreRow
-                        label={`report_${score.toLowerCase()}`}
-                        score={parseFloat(scores[key]).toFixed(2) || ''}
-                        categoryScore={hnaCategoryScores[key] || ''}
-                        i18n={i18n}
+                        label={ i18n[`report_${score.toLowerCase()}`] || score }
+                        score={ parseFloat(scores[key]).toFixed(2) || '' }
+                        categoryScore={ hnaCategoryScores[key] || '' }
                     />
                 );
             });
-
         });
 
         return (
