@@ -36,13 +36,11 @@ export default class UserMenuFoldout extends Component {
                             <span>{ i18n[`header_${switchableLanguageId}`] }</span>
                         </div>
                     </li>
-                    <Authorised api={ this.api } component={ HeaderComponents.HEADER_COMPONENT } action={ HeaderActions.FEATURE_TOGGLE_ACTION }>
-                        <li>
-                            <div>
-                                <span>{ i18n.header_feature_toggles }</span>
-                            </div>
-                        </li>
-                    </Authorised>
+                    <li>
+                        <Authorised api={ this.api } component={ HeaderComponents.HEADER_COMPONENT } action={ HeaderActions.FEATURE_TOGGLE_ACTION }>
+                            <span>{ i18n.header_feature_toggles }</span>
+                        </Authorised>
+                    </li>
                     <li>
                         <div
                             role="button"
