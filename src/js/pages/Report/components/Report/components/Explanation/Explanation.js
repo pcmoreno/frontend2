@@ -29,7 +29,7 @@ export default class Explanation extends Component {
         }
 
         return (
-            <ReportSection title={''} fullWidth={true}>
+            <ReportSection title={i18n.report_explanation} fullWidth={true}>
                 <TextBlock
                     field={texts.strongPoints}
                     editable={true}

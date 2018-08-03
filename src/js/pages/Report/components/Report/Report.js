@@ -17,6 +17,11 @@ import ReportActions from '../../constants/ReportActions';
 import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
+import IntellectualCapabilities from './components/Attachment/IntellectualCapabilities/IntellectualCapabilities';
+import Personality from './components/Attachment/Personality/Personality';
+import Motives from './components/Attachment/Motives/Motives';
+import InfluencingStyles from './components/Attachment/InfluencingStyles/InfluencingStyles';
+import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
 import SidebarReport from './components/SidebarContent/SidebarReport';
 import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 
@@ -188,6 +193,32 @@ export default class Report extends Component {
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
+                    />
+
+                    { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
+                    <IntellectualCapabilities
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <Personality
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <Motives
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <InfluencingStyles
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <WorkingStyles
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                 </section>

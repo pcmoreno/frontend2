@@ -1,0 +1,27 @@
+.bulletList {
+    margin-bottom: 1rem;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        margin-bottom: 4rem;
+    }
+
+    header {
+        margin-bottom: .25rem;
+    }
+
+    li {
+        list-style-type: none;
+        color: $medium-brown;
+        padding-bottom: .5rem;
+        padding-left: 2rem;
+
+        &:before {
+            color: $orange;
+            content: '\2022';
+            font-size: 120%;
+            left: -1rem;
+            margin-left: -7px;
+            position: relative;
+        }
+    }
+}

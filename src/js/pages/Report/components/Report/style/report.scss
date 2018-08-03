@@ -27,12 +27,4 @@
             padding: 0;
         }
     }
-
-    h1,
-    h2,
-    h3 {
-        &::first-letter {
-            text-transform: uppercase;
-        }
-    }
 }
