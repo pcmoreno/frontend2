@@ -5,12 +5,13 @@ import TextBlock from '../../../components/TextBlock/TextBlock';
 import AttachmentRow from '../AttachmentRow/AttachmentRow';
 import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
+import HnaCategories from '../../../../../../../constants/HnaCategories';
 
 /** @jsx h */
 
 export default class IntellectualCapabilities extends Component {
     render() {
-        const { i18n, scores = [], testedLevel = null } = this.props;
+        const { i18n, hnaCategoryScores = [], testedLevel = null } = this.props;
 
         let testedLevelSection = '';
 
@@ -48,7 +49,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow intellectualCapabilities={ true }>
                         <h4>{i18n.report_abstract_intelligence}</h4>
-                        <ScoreBar score={ scores['itg-abstr'] } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -60,7 +61,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_verbal_intelligence}</h4>
-                        <ScoreBar score={ scores['itg-verba'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -72,7 +73,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_numeric_intelligence}</h4>
-                        <ScoreBar score={ scores['itg-numer'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

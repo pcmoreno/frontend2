@@ -6,12 +6,13 @@ import AttachmentRow from '../AttachmentRow/AttachmentRow';
 import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import BulletList from '../BulletList/BulletList';
+import HnaCategories from '../../../../../../../constants/HnaCategories';
 
 /** @jsx h */
 
 export default class Personality extends Component {
     render() {
-        const { i18n, scores = [] } = this.props;
+        const { i18n, hnaCategoryScores = [] } = this.props;
 
         // construct the object required for the TextBlock component to render the text
         const personality = {
@@ -38,7 +39,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_emotional_stability}</h4>
-                        <ScoreBar score={ scores['psh-emost'] } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -56,7 +57,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_extraversion}</h4>
-                        <ScoreBar score={ scores['psh-extve'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -74,7 +75,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_conscientiousness}</h4>
-                        <ScoreBar score={ scores['psh-consc'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -92,7 +93,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_open_mindness}</h4>
-                        <ScoreBar score={ scores['psh-opvge'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -110,7 +111,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_mildness}</h4>
-                        <ScoreBar score={ scores['psh-vrien'] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

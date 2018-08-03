@@ -187,27 +187,27 @@ export default class Report extends Component {
                     { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
                     <IntellectualCapabilities
                         i18n={i18n}
-                        scores={report.scores}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                     <Personality
                         i18n={i18n}
-                        scores={report.scores}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                     <Motives
                         i18n={i18n}
-                        scores={report.scores}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                     <InfluencingStyles
                         i18n={i18n}
-                        scores={report.scores}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                     <WorkingStyles
                         i18n={i18n}
-                        scores={report.scores}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                 </section>
