@@ -1,7 +1,7 @@
-const SelectionAdvice = {
+const SelectionAdviceValues = {
     POSITIVE: 'positive',
     TENTATIVE: 'tentative',
     NEGATIVE: 'negative'
 };
 
-export default SelectionAdvice;
+export default SelectionAdviceValues;

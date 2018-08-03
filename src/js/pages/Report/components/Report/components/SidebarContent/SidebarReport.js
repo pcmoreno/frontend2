@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/report.scss';
-import SelectionAdvice from '../../../../constants/SelectionAdvice';
+import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 
@@ -16,6 +16,7 @@ export default class SidebarReport extends Component {
         super(props);
 
         this.onInputStaticScore = this.onInputStaticScore.bind(this);
+        this.onChangeSelectionAdvice = this.onChangeSelectionAdvice.bind(this);
     }
 
     onInputStaticScore(event) {
@@ -24,6 +25,36 @@ export default class SidebarReport extends Component {
         if (value !== event.target.value) {
             event.target.value = value;
         }
+
+        const textField = this.props.staticScores[event.target.id.replace(sidebarScorePrefix, '')];
+
+        if (value && textField) {
+            this.saveReportText(textField, value);
+        }
+    }
+
+    onChangeSelectionAdvice(event) {
+        let approved = false;
+        const value = event.target.value;
+
+        Object.keys(SelectionAdviceValues).forEach(key => {
+            if (SelectionAdviceValues[key] === value) {
+                approved = true;
+            }
+        });
+
+        if (approved) {
+            this.saveReportText(this.props.reportTexts.selectionAdviceOutcome, value);
+        }
+    }
+
+    saveReportText(textField, value) {
+        this.props.saveReportText({
+            slug: textField.slug,
+            textFieldTemplateSlug: textField.textFieldTemplateSlug,
+            name: textField.name,
+            value
+        }, true);
     }
 
     render() {
@@ -33,10 +64,10 @@ export default class SidebarReport extends Component {
         const staticScoreRows = [];
 
         if (reportTexts.selectionAdviceOutcome) {
-            selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdvice.POSITIVE;
+            selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdviceValues.POSITIVE;
 
-            Object.keys(SelectionAdvice).forEach((key, i) => {
-                selectionAdviceOptions[i] = SelectionAdvice[key];
+            Object.keys(SelectionAdviceValues).forEach((key, i) => {
+                selectionAdviceOptions[i] = SelectionAdviceValues[key];
             });
 
             selectionAdviceOptions = selectionAdviceOptions.map(advice => <option
@@ -70,7 +101,7 @@ export default class SidebarReport extends Component {
 
         return (
             <div className={ style.sidebarReport }>
-                { selectionAdvice && <section className={ style.selectionAdvice }>
+                { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>
                     <h4>{ i18n.report_selection_advice }</h4>
                     <select>
                         { selectionAdviceOptions }

@@ -106,6 +106,9 @@ const AppConfig = {
             }
         }
     },
+    report: {
+        textSaveInterval: 10000
+    },
     authenticator: {
         neon: {
             loginRedirect: '/login'
