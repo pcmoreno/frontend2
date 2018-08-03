@@ -55,7 +55,7 @@ export default {
     "report_intellectual_capabilities": "Intellectueel vermogen",
     "report_intellectual_capabilities_default_text_paragraph_1": "<p>U heeft een aantal tests doorlopen die een beroep doen op uw intellectuele vermogen. hier ziet u de totaalscore op intellectueel vermogen.<\/p>\n<p>De score op intellectueel vermogen is afgezet tegen de voor u relevante normgroep: het getoetste niveau.<\/p>\n<p>Het gaat hierbij om het gevraagde denkniveau voor de functie. dit denkniveau hoeft niet per definitie overeen te komen met uw opleidingsniveau.<\/p>",
     "report_intellectual_capabilities_default_text_paragraph_2": "De resultaten hieronder zijn de resultaten op de individuele vaardigheidstests. Houd er rekening mee dat de totale score die eerder in het verslag wordt beschreven is niet een gemiddelde van de onderstaande tests. relaties tussen verschillende tests zorgen ervoor dat de totale score hoger of lager dan de gemiddelde score kan worden.\n\nOnderstaand gedeelte van het rapport is automatisch tot stand gekomen en alleen gebaseerd op de resultaten van de capaciteitentests. de andere onderdelen van het assessment zijn er niet in meegenomen.",
-    "report_intellectual_capabilities_score": "Intellectueel vermogen",
+    "report_intelligence_score": "Intellectueel vermogen",
     "report_introduction": "Introductie",
     "report_january": "Januari",
     "report_jobfunction": "Functie",
