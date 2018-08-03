@@ -1,0 +1,24 @@
+.selectionBlock {
+    font-size: 1.8rem;
+    padding: 1.25rem;
+    margin: 1rem 0 1.25rem 0;
+    position: relative;
+    color: $white;
+    font-family: $fontsmall;
+
+    > span {
+        margin-left: 2rem;
+    }
+}
+
+.positive {
+    background: $advice-bg-positive;
+}
+
+.tentative {
+    background: $advice-bg-tentative;
+}
+
+.negative {
+    background: $advice-bg-negative;
+}

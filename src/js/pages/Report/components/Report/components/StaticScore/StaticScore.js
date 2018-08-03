@@ -11,7 +11,8 @@ import ScoreFan from '../ScoreFan/ScoreFan';
  * @example
  * <StaticScore>
  *     score={1} // optional
- *     count={4} // required
+ *     min={1} // required
+ *     max={4} // required
  *     title={'Widget title'} // required
  *     scoreWidgetType={ScoreWidgetType.SCORE_BAR} // required
  *     htmlDescription={'<p>description text</p>'} // optional
@@ -33,7 +34,7 @@ import ScoreFan from '../ScoreFan/ScoreFan';
 export default class StaticScore extends Component {
 
     render() {
-        const { score, scoreCount, title, scoreWidgetType, htmlDescription, leftText, rightText, footerAppendix } = this.props;
+        const { score, min, max, title, scoreWidgetType, htmlDescription, leftText, rightText, footerAppendix } = this.props;
         let scoreWidget = null;
         let footerWidget = null;
 
@@ -45,13 +46,15 @@ export default class StaticScore extends Component {
             case ScoreWidgetType.SCORE_BAR:
                 scoreWidget = <ScoreBar
                     score={ score }
-                    count={ scoreCount }
+                    min={ min }
+                    max={ max }
                 />;
                 break;
             case ScoreWidgetType.SCORE_FAN:
                 scoreWidget = <ScoreFan
                     score={ score }
-                    count={ scoreCount }
+                    min={ min }
+                    max={ max }
                     leftText={ leftText }
                     rightText={ rightText }
                 />;

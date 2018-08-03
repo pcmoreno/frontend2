@@ -22,6 +22,8 @@ import Personality from './components/Attachment/Personality/Personality';
 import Motives from './components/Attachment/Motives/Motives';
 import InfluencingStyles from './components/Attachment/InfluencingStyles/InfluencingStyles';
 import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
+import SidebarReport from './components/SidebarContent/SidebarReport';
+import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 
 export default class Report extends Component {
 
@@ -94,17 +96,28 @@ export default class Report extends Component {
             return null;
         }
 
+        const staticScores = {
+            intellectualCapabilities: report.texts.intelligenceScore,
+            powerToChangeScore: report.texts.powerToChangeScore
+        };
+
         // define sidebar tabs
         const tabs = [
             {
                 name: i18n.report_report,
                 icon: ['far', 'file-alt'],
-                component: <div />
+                component: <SidebarReport
+                    i18n={ i18n }
+                    reportTexts={ report.texts }
+                    staticScores={ staticScores }
+                />
             },
             {
                 name: i18n.report_participant,
                 icon: 'user',
-                component: <div />
+                component: <SidebarParticipant
+                    i18n={ i18n }
+                />
             }
         ];
 
@@ -147,7 +160,8 @@ export default class Report extends Component {
                     {/* in textFields_textTemplates */}
                     <SelectionAdvice
                         texts={{
-                            selectionAdvice: report.texts.selectionAdvice
+                            selectionAdvice: report.texts.selectionAdvice,
+                            selectionAdviceOutcome: report.texts.selectionAdviceOutcome
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
@@ -157,10 +171,7 @@ export default class Report extends Component {
                     <CompetencyProfile
                         i18n={i18n}
                         educationLevel={report.participant.educationLevel}
-                        staticScores = {{
-                            intelligenceScore: report.texts.intelligenceScore,
-                            powerToChangeScore: report.texts.powerToChangeScore
-                        }}
+                        staticScores= { staticScores }
                         competencies={ report.competencies }
                         languageId={ languageId }
                     />

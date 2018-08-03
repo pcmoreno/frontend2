@@ -2,10 +2,9 @@ import { h, Component } from 'preact';
 import style from './style/intellectualcapabilities.scss';
 import StaticScore from '../../../StaticScore/StaticScore';
 import ScoreWidgetType from '../../../../../../constants/ScoreWidgetType';
+import StaticScoreValue from '../../../../../../constants/StaticScoreValue';
 
 /** @jsx h */
-
-const intelligenceScoreCount = 5;
 
 export default class IntellectualCapabilities extends Component {
 
@@ -21,7 +20,8 @@ export default class IntellectualCapabilities extends Component {
             <div className={ style.intelligence }>
                 <StaticScore
                     score={ score }
-                    scoreCount={ intelligenceScoreCount }
+                    min={ StaticScoreValue.MIN_VALUE }
+                    max={ StaticScoreValue.MAX_VALUE }
                     title={ i18n.report_intellectual_capabilities }
                     scoreWidgetType={ ScoreWidgetType.SCORE_BAR }
                     htmlDescription={ description }

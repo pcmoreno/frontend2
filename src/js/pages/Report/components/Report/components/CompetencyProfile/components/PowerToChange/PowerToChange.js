@@ -2,10 +2,9 @@ import { h, Component } from 'preact';
 import style from './style/powertochange.scss';
 import StaticScore from '../../../StaticScore/StaticScore';
 import ScoreWidgetType from '../../../../../../constants/ScoreWidgetType';
+import StaticScoreValue from '../../../../../../constants/StaticScoreValue';
 
 /** @jsx h */
-
-const intelligenceScoreCount = 5;
 
 export default class PowerToChange extends Component {
 
@@ -17,7 +16,8 @@ export default class PowerToChange extends Component {
             <div className={ style.powerToChange }>
                 <StaticScore
                     score={ score }
-                    scoreCount={ intelligenceScoreCount }
+                    min={ StaticScoreValue.MIN_VALUE }
+                    max={ StaticScoreValue.MAX_VALUE }
                     title={ i18n.report_power_to_change }
                     scoreWidgetType={ ScoreWidgetType.SCORE_FAN }
                     htmlDescription={ description }
