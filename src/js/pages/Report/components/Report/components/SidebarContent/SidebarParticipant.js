@@ -25,13 +25,15 @@ export default class SidebarParticipant extends Component {
             Object.keys(sectionScores).forEach(score => {
                 const key = sectionScores[score];
 
-                scoreCollection.push(
-                    <ParticipantScoreRow
-                        label={ i18n[`report_${score.toLowerCase()}`] || score }
-                        score={ parseFloat(scores[key]).toFixed(2) || '' }
-                        categoryScore={ hnaCategoryScores[key] || '' }
-                    />
-                );
+                if (scores[key]) {
+                    scoreCollection.push(
+                        <ParticipantScoreRow
+                            label={i18n[`report_${score.toLowerCase()}`] || score}
+                            score={parseFloat(scores[key]).toFixed(2) || ''}
+                            categoryScore={hnaCategoryScores[key] || ''}
+                        />
+                    );
+                }
             });
         });
 
