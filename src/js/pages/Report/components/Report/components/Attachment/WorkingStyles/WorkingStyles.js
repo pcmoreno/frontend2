@@ -19,7 +19,7 @@ export default class WorkingStyles extends Component {
             title: i18n.report_working_styles,
             slug: 'working_styles',
             name: 'working_styles',
-            value: `<p>${i18n.report_working_styles_default_text}</p>`
+            value: `${i18n.report_working_styles_default_text}`
         };
 
         return (

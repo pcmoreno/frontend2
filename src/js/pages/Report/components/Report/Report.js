@@ -26,7 +26,6 @@ import SidebarReport from './components/SidebarContent/SidebarReport';
 import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 
 export default class Report extends Component {
-
     constructor() {
         super();
 
@@ -39,8 +38,7 @@ export default class Report extends Component {
 
     loadExternalEditorScripts() {
 
-        // load external scripts if they were not set
-        // in this case, all external scripts should be loaded in the right order.
+        // load external scripts if they were not set (in the right order)
         if (!window.$ || !window.jQuery) {
             Utils.loadExternalScript(AppConfig.sources.jquery).then(() => {
                 this.loadFroalaEditor();
@@ -79,7 +77,7 @@ export default class Report extends Component {
 
     componentDidUpdate() {
 
-        // attempt to hide the sidebar on small screens by default. not sure if componentdidupdate is the right place
+        // attempt to hide the sidebar on small screens by default
         if (window.innerWidth < 640 && document.querySelector('#page_with_sidebar')) {
             document.querySelector('#page_with_sidebar').classList.remove('full_width_sidebar');
         }
@@ -116,6 +114,8 @@ export default class Report extends Component {
                 name: i18n.report_participant,
                 icon: 'user',
                 component: <SidebarParticipant
+                    scores={ report.scores }
+                    hnaCategoryScores={ report.hnaCategoryScores }
                     i18n={ i18n }
                 />
             }

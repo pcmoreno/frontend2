@@ -4,10 +4,12 @@
     top: $sidebar-header-top;
     right: 0;
     z-index: $z-index-application-top;
+    overflow: auto;
+    bottom: 0;
+    height: auto;
 
     /* ensure width matches the grid layout specification (due to fixed position) */
     width: 25%;
-    height: 100vh;
 
     header {
         background: $black;

@@ -19,7 +19,7 @@ export default class Personality extends Component {
             title: i18n.report_personality,
             slug: 'personality',
             name: 'personality',
-            value: `<p>${i18n.report_personality_default_text}</p>`
+            value: `${i18n.report_personality_default_text}`
         };
 
         return (

@@ -1,0 +1,21 @@
+.list {
+    list-style-type: none;
+    width: 100%;
+    display: table;
+    padding: 0 .5rem;
+    box-sizing: border-box;
+
+    li {
+        float: left;
+        padding: .2rem;
+        box-sizing: border-box;
+        color: $white;
+        width: 15%;
+        text-align: right;
+
+        &:first-child {
+            width: 70%;
+            text-align: left;
+        }
+    }
+}

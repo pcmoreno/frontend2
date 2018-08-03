@@ -19,7 +19,7 @@ export default class Motives extends Component {
             title: i18n.report_motives,
             slug: 'motives',
             name: 'motives',
-            value: `<p>${i18n.report_motives_default_text}</p>`
+            value: `${i18n.report_motives_default_text}`
         };
 
         return (
