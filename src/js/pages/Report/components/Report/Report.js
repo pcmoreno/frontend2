@@ -17,6 +17,13 @@ import ReportActions from '../../constants/ReportActions';
 import ApiFactory from '../../../../utils/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
+import IntellectualCapabilities from './components/Attachment/IntellectualCapabilities/IntellectualCapabilities';
+import Personality from './components/Attachment/Personality/Personality';
+import Motives from './components/Attachment/Motives/Motives';
+import InfluencingStyles from './components/Attachment/InfluencingStyles/InfluencingStyles';
+import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
+import SidebarReport from './components/SidebarContent/SidebarReport';
+import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 
 export default class Report extends Component {
 
@@ -82,25 +89,35 @@ export default class Report extends Component {
 
         // todo: titles of blocks/sections should be translated
 
-        const { report, saveReportText, i18n } = this.props;
+        const { report, saveReportText, i18n, languageId } = this.props;
 
         // don't render without a report
         if (!report || !report.isLoaded) {
             return null;
         }
 
-        // define sidebar tabs
+        const staticScores = {
+            intellectualCapabilities: report.texts.intelligenceScore,
+            powerToChangeScore: report.texts.powerToChangeScore
+        };
 
+        // define sidebar tabs
         const tabs = [
             {
                 name: i18n.report_report,
                 icon: ['far', 'file-alt'],
-                component: <div />
+                component: <SidebarReport
+                    i18n={ i18n }
+                    reportTexts={ report.texts }
+                    staticScores={ staticScores }
+                />
             },
             {
                 name: i18n.report_participant,
                 icon: 'user',
-                component: <div />
+                component: <SidebarParticipant
+                    i18n={ i18n }
+                />
             }
         ];
 
@@ -143,7 +160,8 @@ export default class Report extends Component {
                     {/* in textFields_textTemplates */}
                     <SelectionAdvice
                         texts={{
-                            selectionAdvice: report.texts.selectionAdvice
+                            selectionAdvice: report.texts.selectionAdvice,
+                            selectionAdviceOutcome: report.texts.selectionAdviceOutcome
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
@@ -152,8 +170,10 @@ export default class Report extends Component {
                     {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
                     <CompetencyProfile
                         i18n={i18n}
+                        educationLevel={report.participant.educationLevel}
+                        staticScores= { staticScores }
                         competencies={ report.competencies }
-                        languageId={ this.props.languageId }
+                        languageId={ languageId }
                     />
 
                     <Explanation
@@ -173,6 +193,32 @@ export default class Report extends Component {
                         }}
                         i18n={i18n}
                         saveReportText={saveReportText}
+                    />
+
+                    { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
+                    <IntellectualCapabilities
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <Personality
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <Motives
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <InfluencingStyles
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
+                    />
+
+                    <WorkingStyles
+                        i18n={i18n}
+                        hnaCategoryScores={report.hnaCategoryScores}
                     />
 
                 </section>

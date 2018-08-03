@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
-import ScoreColors from '../../../../constants/ScoreColors';
+import { ScoreColors } from '../../../../constants/ScoreColors';
 import style from './style/scorebar.scss';
+import Utils from '../../../../../../utils/utils';
 
 /** @jsx h */
 
@@ -18,24 +19,25 @@ const svgActiveYOffset = 30;
  *
  * @example
  * <ScoreBar>
+ *     min={1}
  *     score={4}
- *     count={5}
+ *     max={5}
  * </ScoreBar>
  */
 export default class ScoreBar extends Component {
 
     render() {
-        let { count, score } = this.props;
+        let { min, max, score } = this.props;
         const elements = [];
 
-        score = Math.floor(score) || 0;
+        score = Utils.parseScore(score, min, max, true);
 
         const activeStyle = {
             fill: ScoreColors[score] || ''
         };
 
         // build the svg item list
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < max; i++) {
             const active = score >= (i + 1);
 
             elements.push(
@@ -51,6 +53,7 @@ export default class ScoreBar extends Component {
 
         return (
             <section className={ style.scoreBar }>
+                <h1>{ score > 0 ? score : '' }</h1>
                 <svg version="1.0" x="0px" y="0px" viewBox="0 0 516 140">
                     <g>
                         { elements }

@@ -6,7 +6,12 @@
 
     /* todo: this is because we have child widgets that should be full width. Maybe we should reconsider later */
     > section > section {
-        padding: 1rem 60px;
+        padding: 1rem 3.75rem;
+
+        /* smaller padding on smaller screens */
+        @media screen and (max-width: $grid-breakpoints-lg) {
+            padding: 1rem 2rem;
+        }
     }
 
     @supports (display: grid) {
@@ -20,14 +25,6 @@
         /* smaller padding on smaller screens */
         @media screen and (max-width: $grid-breakpoints-lg) {
             padding: 0;
-        }
-    }
-
-    h1,
-    h2,
-    h3 {
-        &::first-letter {
-            text-transform: uppercase;
         }
     }
 }

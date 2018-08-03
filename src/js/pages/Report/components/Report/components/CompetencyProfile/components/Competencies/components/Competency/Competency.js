@@ -7,7 +7,8 @@ import style from './style/competency.scss';
 /** @jsx h */
 
 // how many bars should the scorebar have
-const count = 5;
+const max = 5;
+const min = 1;
 
 export default class Competency extends Component {
     constructor(props) {
@@ -82,8 +83,7 @@ export default class Competency extends Component {
                     <div className={ style.title_container }>
                         <h2 dangerouslySetInnerHTML={ { __html: this.localState.competencyName } } />
                     </div>
-                    <h3>{ this.props.score }</h3>
-                    <ScoreBar score={ this.props.score } count={ count } />
+                    <ScoreBar score={ this.props.score } max={ max } min={ min }/>
                 </header>
                 <article>
                     <p dangerouslySetInnerHTML={ { __html: this.localState.competencyDefinition } } />

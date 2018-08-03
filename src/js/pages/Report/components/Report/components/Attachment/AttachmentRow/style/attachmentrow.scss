@@ -1,0 +1,80 @@
+.attachmentrow {
+    display: table;
+    width: 100%;
+
+    > * {
+        width: 100%;
+        float: none;
+        box-sizing: border-box;
+        padding: 1rem 0 0;
+
+        /* ensure empty elements take up space, too, whilst not having impact on responsive (collapsed) views */
+        &:empty {
+            padding: 0;
+            min-height: 1px;
+        }
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            width: 33.3%;
+            float: left;
+            padding: 0 1rem;
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+}
+
+/* the intro text and its accompanying aside are divided in a 2+1 manner, except on responsive views */
+.intro > * {
+    width: 100%;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        width: 30%;
+        float: left;
+        padding-bottom: 2.5rem;
+    }
+
+    &:first-child {
+        width: 100%;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            width: 66.5%;
+        }
+    }
+
+    &:last-child {
+        float: right;
+    }
+
+    p {
+        font-size: 120%;
+        padding: 0 0 1rem 0;
+    }
+}
+
+/* the attachment section for the intellectual capabilities has slightly different styling */
+.intellectualCapabilities {
+    h4 {
+        margin-top: 2rem;
+    }
+
+    p {
+        color: $medium-brown;
+        padding: 0 0 1rem;
+        margin-bottom: 0;
+
+        @media screen and (min-width: $grid-breakpoints-lg) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    div section {
+        padding: 0;
+    }
+}

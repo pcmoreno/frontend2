@@ -1,0 +1,27 @@
+.details {
+    color: $medium-brown;
+    padding: 1rem 0;
+    margin: 0;
+
+    @media screen and (min-width: $grid-breakpoints-lg) {
+        padding: 0 0 0 1rem;
+        margin-top: 1.5rem;
+    }
+
+    h4 {
+        font-family: $fontsmall;
+        font-size: 1rem;
+        padding-bottom: .5rem;
+        text-indent: .5rem;
+    }
+}
+
+.sections {
+    border: solid 1px $beige-darken;
+    border-radius: $border-radius-small;
+    padding: .5rem;
+
+    ul li {
+        padding: .5rem 0 0;
+    }
+}
