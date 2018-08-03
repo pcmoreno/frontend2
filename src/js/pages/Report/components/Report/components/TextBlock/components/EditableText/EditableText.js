@@ -8,6 +8,7 @@ import FroalaEditor from 'react-froala-wysiwyg';
 import ReportComponents from '../../../../../../constants/ReportComponents';
 import ReportActions from '../../../../../../constants/ReportActions';
 import ApiFactory from '../../../../../../../../utils/api/factory';
+import AppConfig from '../../../../../../../../App.config';
 
 export default class EditableText extends Component {
 
@@ -17,7 +18,6 @@ export default class EditableText extends Component {
         this.localState = {
             newTextField: true,
             waitingForCreation: false,
-            slug: props.slug,
             editorEnabled: false,
             textEditable: false,
             text: props.text || ''
@@ -70,6 +70,40 @@ export default class EditableText extends Component {
 
         // prepare current text
         this.setTextElement();
+
+        this.lastSavedText = this.localState.text;
+    }
+
+    setSaveInterval() {
+
+        // set an interval to check changes every x seconds and trigger update calls
+        this.timeout = window.setTimeout(() => {
+            this.saveInterval = window.setInterval(() => {
+                this.saveReportText();
+            }, AppConfig.report.textSaveInterval);
+        }, 1000);
+    }
+
+    clearSaveInterval() {
+        window.clearTimeout(this.timeout);
+        window.clearInterval(this.saveInterval);
+
+        this.timeout = null;
+        delete this.timeout;
+
+        this.saveInterval = null;
+        delete this.saveInterval;
+    }
+
+    componentWillUnmount() {
+        this.clearSaveInterval();
+    }
+
+    saveReportText() {
+        if (this.lastSavedText !== this.localState.text) {
+            this.props.saveReportText(this.localState.text);
+            this.lastSavedText = this.localState.text;
+        }
     }
 
     /**
@@ -90,6 +124,14 @@ export default class EditableText extends Component {
     switchEditor() {
         if (this.localState.textEditable) {
             this.localState.editorEnabled = !this.localState.editorEnabled;
+
+            if (this.localState.editorEnabled) {
+                this.setSaveInterval();
+            } else {
+                this.clearSaveInterval();
+                this.saveReportText();
+            }
+
             this.setState(this.localState);
         }
     }
@@ -109,13 +151,6 @@ export default class EditableText extends Component {
      */
     handleTextChange(text) {
         this.localState.text = text;
-
-        this.props.saveReportText({
-            slug: this.props.slug,
-            textFieldTemplateSlug: this.props.textFieldTemplateSlug,
-            name: this.props.name,
-            value: this.localState.text
-        });
     }
 
     render() {
@@ -130,10 +165,10 @@ export default class EditableText extends Component {
         if (this.localState.editorEnabled) {
             return (<FroalaEditor
                 tag='textarea'
-                config={this.froalaConfig}
-                model={this.localState.text}
-                onModelChange={this.handleTextChange.bind(this)}
-                onBlur={this.switchEditor.bind(this)}
+                config={ this.froalaConfig }
+                model={ this.localState.text }
+                onModelChange={ this.handleTextChange.bind(this) }
+                onBlur={ this.switchEditor.bind(this) }
             />);
         }
 
