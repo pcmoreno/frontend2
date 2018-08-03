@@ -92,7 +92,7 @@ export default class Report extends Component {
         }
 
         const staticScores = {
-            intellectualCapabilities: report.texts.intelligenceScore,
+            intelligenceScore: report.texts.intelligenceScore,
             powerToChangeScore: report.texts.powerToChangeScore
         };
 
@@ -105,6 +105,7 @@ export default class Report extends Component {
                     i18n={ i18n }
                     reportTexts={ report.texts }
                     staticScores={ staticScores }
+                    saveReportText={ saveReportText }
                 />
             },
             {

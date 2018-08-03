@@ -15,7 +15,7 @@ export default class TextBlock extends Component {
             textFieldTemplateSlug: field.textFieldTemplateSlug,
             name: field.name,
             value: text
-        });
+        }, false);
     }
 
     render() {

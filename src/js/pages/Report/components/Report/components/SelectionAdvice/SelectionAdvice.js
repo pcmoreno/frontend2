@@ -4,6 +4,7 @@ import ReportColumn from '../ReportSection/components/ReportColumn/ReportColumn'
 import TextBlock from '../../components/TextBlock/TextBlock';
 import style from './style/selectionadvice.scss';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 
 /** @jsx h */
 
@@ -25,19 +26,19 @@ export default class SelectionAdvice extends Component {
         if (texts.selectionAdviceOutcome && texts.selectionAdviceOutcome.value) {
             selectionAdvice = texts.selectionAdviceOutcome.value.toLowerCase();
         } else {
-            selectionAdvice = SelectionAdvice.POSITIVE;
+            selectionAdvice = SelectionAdviceValues.POSITIVE;
         }
 
         switch (selectionAdvice) {
-            case SelectionAdvice.POSITIVE:
+            case SelectionAdviceValues.POSITIVE:
                 bannerStyle = style.positive;
                 bannerIcon = <FontAwesomeIcon icon={ 'check' } />;
                 break;
-            case SelectionAdvice.TENTATIVE:
+            case SelectionAdviceValues.TENTATIVE:
                 bannerStyle = style.tentative;
-                bannerIcon = <FontAwesomeIcon icon={ 'elipssish' } />;
+                bannerIcon = <FontAwesomeIcon icon={ 'ellipsis-h' } />;
                 break;
-            case SelectionAdvice.NEGATIVE:
+            case SelectionAdviceValues.NEGATIVE:
                 bannerStyle = style.negative;
                 bannerIcon = <FontAwesomeIcon icon={ 'times' } />;
                 break;

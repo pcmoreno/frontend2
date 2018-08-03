@@ -15,6 +15,7 @@ const initialState = {
 export default function reportReducer(state = initialState, action) {
     const newState = Object.assign({}, state);
     const logger = Logger.instance;
+    let templateSlug = null;
 
     switch (action.type) {
 
@@ -119,6 +120,22 @@ export default function reportReducer(state = initialState, action) {
 
                 // todo: log/throw an error. Parsing the response of the report page failed.
             }
+
+            break;
+
+        case actionType.UPDATE_TEXT_FIELD:
+            templateSlug = newState.report.texts[action.textField.name].textFieldTemplateSlug;
+
+            // clone all levels of the state of objects that needs to be changed (to trigger re-rendering)
+            newState.report = Object.assign({}, state.report);
+            newState.report.texts = Object.assign({}, state.report.texts);
+
+            newState.report.texts[action.textField.name] = {
+                slug: action.textField.slug,
+                textFieldTemplateSlug: templateSlug,
+                name: action.textField.name,
+                value: action.textField.value
+            };
 
             break;
 

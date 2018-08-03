@@ -61,9 +61,10 @@ class Index extends Component {
      * @param {string} reportText.textFieldTemplateSlug - template slug of text field
      * @param {string} reportText.name - text field name
      * @param {string} [reportText.value] - text field value
+     * @param {boolean} stateRefresh - refresh state or not
      * @returns {Promise} promise
      */
-    saveReportText(reportText) {
+    saveReportText(reportText, stateRefresh) {
         const reportSlug = this.props.report.slug;
 
         reportText.value = reportText.value || '';
@@ -144,6 +145,8 @@ class Index extends Component {
                 }
             ).then(response => {
 
+                let textFieldSlug = reportText.slug;
+
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
 
@@ -159,11 +162,23 @@ class Index extends Component {
                 // Update the state with the new id if we just created a text field, do nothing on update
                 if (apiMethod === ApiMethod.POST && response.entry.textFieldInReportSlug) {
 
+                    textFieldSlug = response.entry.textFieldInReportSlug;
+
+                    // todo: state changes will interfere with the froala editor, so for now we store the new ids in reportTextsCreated...
                     // store this in the local state for when we try to update the same text field in the same session
                     this.reportTextsCreated[uniqueFieldName] = response.entry.textFieldInReportSlug;
 
                     // clear stored value that this text was being created
                     this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
+                }
+
+                // don't do this for froala editor texts, only for scores that are text fields
+                if (stateRefresh) {
+                    this.actions.updateTextField({
+                        slug: textFieldSlug,
+                        name: reportText.name,
+                        value: reportText.value
+                    });
                 }
 
                 // resolve when the call succeeds
