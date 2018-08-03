@@ -32,6 +32,10 @@
                 border-bottom: 0;
             }
 
+            &:empty {
+                display: none;
+            }
+
             div {
                 display: inline-block;
                 height: 100%;
