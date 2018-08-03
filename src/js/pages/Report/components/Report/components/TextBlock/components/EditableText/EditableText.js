@@ -103,51 +103,18 @@ export default class EditableText extends Component {
     }
 
     /**
-     * Updates the state with the given text (from Froala editor)
-     * On each break from typing, this event is triggered.
+     * Stores the changed text value from the editor
      * @param {string} text - text
      * @returns {undefined}
      */
     handleTextChange(text) {
         this.localState.text = text;
 
-        if (!this.localState.slug && this.localState.waitingForCreation) {
-
-            // there is no slug and we already posted before, so do nothing and wait.
-            return;
-        }
-
-        // store text field slug if available
-        if (!this.localState.slug && this.props.slug) {
-            this.localState.slug = this.props.slug;
-        }
-
-        // if the text field slug is not set, we are going to create a new text field entry. Set this value to make sure
-        // that we won't sent multiple post calls
-        if (!this.localState.slug) {
-            this.localState.waitingForCreation = true;
-        }
-
-        // call to save the report text
-        this.props.saveReportText(
-            this.localState.slug,
-            this.props.textFieldTemplateSlug,
-            this.localState.text
-        ).then(result => {
-
-            // store slug if we didn't have any (when creating a new textFieldInReport)
-            if (!this.localState.slug) {
-                this.localState.slug = result.slug;
-            }
-
-            // we're not waiting anymore...
-            this.localState.waitingForCreation = false;
-
-        }, (/* error */) => {
-
-            // we're not waiting anymore...
-            // error will be shown by the main report component
-            this.localState.waitingForCreation = false;
+        this.props.saveReportText({
+            slug: this.props.slug,
+            textFieldTemplateSlug: this.props.textFieldTemplateSlug,
+            name: this.props.name,
+            value: this.localState.text
         });
     }
 
