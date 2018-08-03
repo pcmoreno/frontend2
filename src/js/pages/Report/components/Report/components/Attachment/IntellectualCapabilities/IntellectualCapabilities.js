@@ -10,7 +10,7 @@ import ScoreBar from '../ScoreBar/ScoreBar';
 
 export default class IntellectualCapabilities extends Component {
     render() {
-        const { i18n, score = null, testedLevel = null } = this.props;
+        const { i18n, scores = [], testedLevel = null } = this.props;
 
         let testedLevelSection = '';
 
@@ -23,12 +23,9 @@ export default class IntellectualCapabilities extends Component {
             title: i18n.report_intellectual_capabilities,
             slug: 'intellectual_capabilities',
             name: 'intellectual_capabilities',
-            value: `<p>${i18n.report_intellectual_capabilities_default_text_paragraph_2}</p>
-                    <p>${i18n.report_intellectual_capabilities_default_text_paragraph_3}</p>
-                    ${testedLevelSection}`
+            value: `<p>${i18n.report_intellectual_capabilities_default_text_paragraph_2}</p>`
         };
 
-        /* todo: score is not properly used/injected into the component */
         /* todo: tested level is not properly used/injected into the component */
 
         return (
@@ -39,6 +36,7 @@ export default class IntellectualCapabilities extends Component {
                             field={ intellectualCapabilities }
                             editable={ false }
                         />
+                        {testedLevelSection}
                         <Details title={ i18n.report_questionnaires } i18n={ i18n }>
                             <ul>
                                 <li>{ i18n.report_abstract_intelligence_test }</li>
@@ -50,7 +48,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow intellectualCapabilities={ true }>
                         <h4>{i18n.report_abstract_intelligence}</h4>
-                        <ScoreBar score={ score } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ scores['itg-abstr'] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -62,7 +60,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_verbal_intelligence}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['itg-verba'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -74,7 +72,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_numeric_intelligence}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['itg-numer'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

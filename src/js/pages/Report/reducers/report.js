@@ -115,6 +115,8 @@ export default function reportReducer(state = initialState, action) {
                 // use a flag in the state to let the component know that the report is loaded
                 newState.report.isLoaded = true;
 
+                newState.report.scores = action.report.report.hnaCategoryScores;
+
             } catch (e) {
 
                 // todo: log/throw an error. Parsing the response of the report page failed.

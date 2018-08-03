@@ -11,18 +11,15 @@ import BulletList from '../BulletList/BulletList';
 
 export default class WorkingStyles extends Component {
     render() {
-        const { i18n, score = null } = this.props;
+        const { i18n, scores = [] } = this.props;
 
         // construct the object required for the TextBlock component to render the text
         const workingStyles = {
             title: i18n.report_working_styles,
             slug: 'working_styles',
             name: 'working_styles',
-            value: `<p>${i18n.report_working_styles_default_text}</p>
-                    <p>${i18n.report_working_styles_questionnaire_intro}</p>`
+            value: `<p>${i18n.report_working_styles_default_text}</p>`
         };
-
-        /* todo: score is not properly used/injected into the component */
 
         return (
             <ReportSection>
@@ -41,7 +38,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_success_achievement}</h4>
-                        <ScoreBar score={ score } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-stnas'] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -59,7 +56,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_quality_achievement}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-stnak'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -77,7 +74,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_development_orientation}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-ontge'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -95,7 +92,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_performance_uncertainty}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-onzop'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -113,7 +110,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_looking_for_challenges}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-uitzo'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -131,7 +128,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_decisiveness}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-dooro'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -149,7 +146,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_goal_oriented}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-dogez'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -167,7 +164,7 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_taking_risks}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['wst-risne'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

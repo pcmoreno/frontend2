@@ -11,18 +11,15 @@ import BulletList from '../BulletList/BulletList';
 
 export default class InfluencingStyles extends Component {
     render() {
-        const { i18n, score = null } = this.props;
+        const { i18n, scores = [] } = this.props;
 
         // construct the object required for the TextBlock component to render the text
         const influencingStyles = {
             title: i18n.report_influencing_styles,
             slug: 'influencing_styles',
             name: 'influencing_styles',
-            value: `<p>${i18n.report_influencing_styles_default_text}</p>
-                    <p>${i18n.report_influencing_styles_questionnaire_intro}</p>`
+            value: `<p>${i18n.report_influencing_styles_default_text}</p>`
         };
-
-        /* todo: score is not properly used/injected into the component */
 
         return (
             <ReportSection>
@@ -41,7 +38,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_manipulative}</h4>
-                        <ScoreBar score={ score } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ scores['bis-manup'] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -59,7 +56,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_straightforward}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['bis-recdz'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -77,7 +74,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_assertive}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['bis-asser'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -95,7 +92,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_anticipating}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['bis-antic'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

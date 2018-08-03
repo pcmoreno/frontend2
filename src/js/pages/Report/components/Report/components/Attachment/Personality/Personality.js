@@ -11,18 +11,15 @@ import BulletList from '../BulletList/BulletList';
 
 export default class Personality extends Component {
     render() {
-        const { i18n, score = null } = this.props;
+        const { i18n, scores = [] } = this.props;
 
         // construct the object required for the TextBlock component to render the text
         const personality = {
             title: i18n.report_personality,
             slug: 'personality',
             name: 'personality',
-            value: `<p>${i18n.report_personality_default_text}</p>
-                    <p>${i18n.report_personality_questionnaire_intro_text}</p>`
+            value: `<p>${i18n.report_personality_default_text}</p>`
         };
-
-        /* todo: score is not properly used/injected into the component */
 
         return (
             <ReportSection>
@@ -41,7 +38,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_emotional_stability}</h4>
-                        <ScoreBar score={ score } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ scores['psh-emost'] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -59,7 +56,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_extraversion}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['psh-extve'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -77,7 +74,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_conscientiousness}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['psh-consc'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -95,7 +92,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_open_mindness}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['psh-opvge'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -113,7 +110,7 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_mildness}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['psh-vrien'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 

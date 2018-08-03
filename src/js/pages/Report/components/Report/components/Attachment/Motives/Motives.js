@@ -11,18 +11,15 @@ import BulletList from '../BulletList/BulletList';
 
 export default class Motives extends Component {
     render() {
-        const { i18n, score = null } = this.props;
+        const { i18n, scores = [] } = this.props;
 
         // construct the object required for the TextBlock component to render the text
         const motives = {
             title: i18n.report_motives,
             slug: 'motives',
             name: 'motives',
-            value: `<p>${i18n.report_motives_default_text}</p>
-                    <p>${i18n.report_motives_questionnaire_intro}</p>`
+            value: `<p>${i18n.report_motives_default_text}</p>`
         };
-
-        /* todo: score is not properly used/injected into the component */
 
         return (
             <ReportSection>
@@ -41,7 +38,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_performance_motivation}</h4>
-                        <ScoreBar score={ score } legend={ true } i18n={ i18n } />
+                        <ScoreBar score={ scores['dve-premo'] } legend={ true } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -59,7 +56,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_to_influence}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['dve-behai'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -77,7 +74,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_acceptance}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['dve-behaa'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
@@ -93,9 +90,10 @@ export default class Motives extends Component {
                         </BulletList>
                     </AttachmentRow>
 
+                    {/* attention! this is a typo coming from the API it should be dve-beaau */}
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_autonomy}</h4>
-                        <ScoreBar score={ score } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ scores['dve-deaau'] } legend={ false } i18n={ i18n } />
                         <section />
                     </AttachmentRow>
 
