@@ -151,7 +151,7 @@ class Index extends Component {
                 if (response.errors) {
 
                     // show (translated) error message
-                    this.actions.addAlert({type: 'error', text: this.i18n.report_error_save_text});
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
 
                     return onRejected(new Error('Could not save report text field'));
                 }
