@@ -507,6 +507,41 @@ const Utils = {
         } catch (e) {
             throw e;
         }
+    },
+
+    /**
+     * Parses the given score with the given instructions.
+     * Returns 0 by default if the score is unset.
+     *
+     * @param {number} score - score to parse
+     * @param {number} min - min value
+     * @param {number} max - max value
+     * @param {boolean} floor - floor to an integer
+     * @returns {number} integer or float
+     */
+    parseScore(score, min, max, floor) {
+
+        // when the score is set, floor it, with 1 as a minimum
+        // scores higher than 5 should become a 5 (the count)
+        if (score > 0 && score <= max) {
+
+            if (!floor) {
+                if (score > min) {
+                    score = parseFloat(score);
+                } else {
+                    score = min;
+                }
+            } else {
+                score = Math.floor(score) || min;
+            }
+
+        } else if (score > max) {
+            score = max;
+        } else {
+            score = 0;
+        }
+
+        return score;
     }
 };
 

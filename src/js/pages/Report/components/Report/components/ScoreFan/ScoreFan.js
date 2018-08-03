@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import { ScoreFanColor } from '../../../../constants/ScoreColors';
 import style from './style/scorefan.scss';
+import Utils from '../../../../../../utils/utils';
 
 /** @jsx h */
 
@@ -11,7 +12,8 @@ import style from './style/scorefan.scss';
  * @example
  * <ScoreFan>
  *     score={4}
- *     count={5}
+ *     min={1}
+ *     max={5}
  *     leftText={''}
  *     rightText={''}
  * </ScoreFan>
@@ -19,19 +21,11 @@ import style from './style/scorefan.scss';
 export default class ScoreFan extends Component {
 
     render() {
-        let { count, score, leftText, rightText } = this.props;
+        let { min, max, score, leftText, rightText } = this.props;
         let rotation = null;
         let scoreSegment = null;
 
-        // when the score is set, floor it, with 1 as a minimum
-        // scores higher than 5 should become a 5 (the count)
-        if (score > 0 && score <= count) {
-            score = Math.floor(score) || 1;
-        } else if (score > count) {
-            score = count;
-        } else {
-            score = 0;
-        }
+        score = Utils.parseScore(score, min, max, true);
 
         const activeStyle = {
             fill: ScoreFanColor

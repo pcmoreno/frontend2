@@ -211,3 +211,23 @@ test('Utils camelCaseToSnakeCase should convert strings correctly', () => {
 // todo: add unit test for formatDate
 // todo: add unit test for repeatPad
 // todo: add unit test for padLeft
+
+test('Utils should parse a given score correctly', () => {
+
+    // 0 score is unset, should return 0
+    expect(Utils.parseScore(0, 1, 5, true)).toEqual(0);
+    expect(Utils.parseScore(0, 1, 5, false)).toEqual(0);
+
+    expect(Utils.parseScore(0.1, 1, 5, false)).toEqual(1);
+    expect(Utils.parseScore(0.1, 1, 5, true)).toEqual(1);
+
+    expect(Utils.parseScore(1.1, 1, 5, true)).toEqual(1);
+    expect(Utils.parseScore(1.1, 1, 5, false)).toEqual(1.1);
+
+    expect(Utils.parseScore(3.5, 1, 5, true)).toEqual(3);
+    expect(Utils.parseScore(4.9, 1, 5, false)).toEqual(4.9);
+
+    expect(Utils.parseScore(7.6, 1, 5, true)).toEqual(5);
+    expect(Utils.parseScore(5, 1, 5, false)).toEqual(5);
+    expect(Utils.parseScore(5.1, 1, 5, false)).toEqual(5);
+});
