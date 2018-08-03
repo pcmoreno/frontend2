@@ -55,7 +55,7 @@ export default {
     "report_intellectual_capabilities": "Intellectual capabilities",
     "report_intellectual_capabilities_default_text_paragraph_1": "<p>You have completed a number of ability tests that measure different intellectual abilities. here you will see the total score on intelectual ability.<\/p>\n<p>Your scores on these tests are set against the applicable norm group; the tested level.<\/p>\n<p>This refers to the thinking level required for the job function. this thinking level does not necessarily have to be related to your educational level.<\/p>",
     "report_intellectual_capabilities_default_text_paragraph_2": "The results below are the results on the individual ability tests. please note that the overall score that is described earlier in the report, is not an average of the tests listed below. relationships between different tests ensure that the overall score may be higher or lower than the average score.\n\nThe following section of the report is automated and solely based on the results of the ability tests. the other components of the assessment are not included.",
-    "report_intellectual_capabilities_score": "Intellectual capabilities",
+    "report_intelligence_score": "Intellectual capabilities",
     "report_introduction": "Introduction",
     "report_january": "January",
     "report_jobfunction": "Job function",
