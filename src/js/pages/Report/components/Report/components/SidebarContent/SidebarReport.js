@@ -61,7 +61,7 @@ export default class SidebarReport extends Component {
         const { i18n, reportTexts, staticScores } = this.props;
         let selectionAdviceOptions = [];
         let selectionAdvice = null;
-        const staticScoreRows = [];
+        let staticScoreRows = null;
 
         if (reportTexts.selectionAdviceOutcome) {
             selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdviceValues.POSITIVE;
@@ -78,24 +78,28 @@ export default class SidebarReport extends Component {
             </option>);
         }
 
-        if (staticScores) {
-            Object.keys(staticScores).forEach(key => {
-                const score = Utils.parseScore(staticScores[key].value, StaticScoreValue.MIN_VALUE, StaticScoreValue.MAX_VALUE, true);
+        if (staticScores && Object.keys(staticScores).length) {
+            staticScoreRows = [];
 
-                staticScoreRows.push(
-                    <tr>
-                        <td>{ i18n[`report_${Utils.camelCaseToSnakeCase(key)}`] || key}</td>
-                        <td><input
-                            id={ `${sidebarScorePrefix}${key}` }
-                            onInput={ this.onInputStaticScore }
-                            type='number'
-                            pattern={ `[${staticScoreRegexRange}]` }
-                            min={ StaticScoreValue.MIN_VALUE }
-                            max={ StaticScoreValue.MAX_VALUE }
-                            value={ score || '' }
-                        /></td>
-                    </tr>
-                );
+            Object.keys(staticScores).forEach(key => {
+                if (staticScores.hasOwnProperty(key)) {
+                    const score = Utils.parseScore(staticScores[key].value, StaticScoreValue.MIN_VALUE, StaticScoreValue.MAX_VALUE, true);
+
+                    staticScoreRows.push(
+                        <tr>
+                            <td>{ i18n[`report_${Utils.camelCaseToSnakeCase(key)}`] || key}</td>
+                            <td><input
+                                id={ `${sidebarScorePrefix}${key}` }
+                                onInput={ this.onInputStaticScore }
+                                type='number'
+                                pattern={ `[${staticScoreRegexRange}]` }
+                                min={ StaticScoreValue.MIN_VALUE }
+                                max={ StaticScoreValue.MAX_VALUE }
+                                value={ score || '' }
+                            /></td>
+                        </tr>
+                    );
+                }
             });
         }
 
@@ -108,7 +112,7 @@ export default class SidebarReport extends Component {
                     </select>
                 </section>}
 
-                { staticScores && <section className={ style.staticScores }>
+                { staticScoreRows && <section className={ style.staticScores }>
                     <h4>{ i18n.report_results_report_pagina }</h4>
                     <table>
                         { staticScoreRows }
