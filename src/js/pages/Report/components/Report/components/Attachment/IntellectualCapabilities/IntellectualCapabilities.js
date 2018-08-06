@@ -24,7 +24,7 @@ export default class IntellectualCapabilities extends Component {
             title: i18n.report_intellectual_capabilities,
             slug: 'intellectual_capabilities',
             name: 'intellectual_capabilities',
-            value: `<p>${i18n.report_intellectual_capabilities_default_text_paragraph_2}</p>`
+            value: `${i18n.report_intellectual_capabilities_default_text_paragraph_2}`
         };
 
         /* todo: tested level is not properly used/injected into the component */

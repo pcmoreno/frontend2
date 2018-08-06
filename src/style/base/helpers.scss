@@ -108,6 +108,7 @@ table td.organisation {
         width: $sidebar-collapsed-dimensions;
         height: $sidebar-collapsed-dimensions;
         box-shadow: 10px 40px 30px -2px #000;
+        overflow: unset !important;
 
         // its z-index now needs to be higher than the page
         z-index: $z-index-application-top;

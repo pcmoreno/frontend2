@@ -19,7 +19,7 @@ export default class InfluencingStyles extends Component {
             title: i18n.report_influencing_styles,
             slug: 'influencing_styles',
             name: 'influencing_styles',
-            value: `<p>${i18n.report_influencing_styles_default_text}</p>`
+            value: `${i18n.report_influencing_styles_default_text}`
         };
 
         return (
