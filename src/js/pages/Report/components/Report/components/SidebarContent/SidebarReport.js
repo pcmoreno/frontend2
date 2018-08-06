@@ -3,12 +3,17 @@ import style from './style/report.scss';
 import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
+import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
 
 /** @jsx h */
 
 const sidebarScorePrefix = 'sidebar_score_';
+
 const staticScoreRegexRange = `${StaticScoreValue.MIN_VALUE}-${StaticScoreValue.MAX_VALUE}`;
 const staticScoreFullRegex = new RegExp(`[^${staticScoreRegexRange}]`, 'g');
+
+const competencyScoreRegexRange = `${CompetencyScoreValue.MIN_VALUE}-${CompetencyScoreValue.MAX_VALUE}`;
+const competencyScoreFullRegex = new RegExp(`[^${competencyScoreRegexRange}]`, 'g');
 
 export default class SidebarReport extends Component {
 
@@ -17,6 +22,7 @@ export default class SidebarReport extends Component {
 
         this.onInputStaticScore = this.onInputStaticScore.bind(this);
         this.onChangeSelectionAdvice = this.onChangeSelectionAdvice.bind(this);
+        this.onInputCompetencyScore = this.onInputCompetencyScore.bind(this);
     }
 
     onInputStaticScore(event) {
@@ -30,6 +36,27 @@ export default class SidebarReport extends Component {
 
         if (value && textField) {
             this.saveReportText(textField, value);
+        }
+    }
+
+    onInputCompetencyScore(event) {
+        const value = event.target.value.replace(competencyScoreFullRegex, '').slice(0, 1);
+
+        if (value !== event.target.value) {
+            event.target.value = value;
+        }
+
+        const elementFieldName = event.target.id.replace(sidebarScorePrefix, '');
+        let competency = null;
+
+        this.props.competencies.forEach(comp => {
+            if (comp.name.toLowerCase() === elementFieldName) {
+                competency = comp;
+            }
+        });
+
+        if (competency && value) {
+            this.saveCompetencyScore(competency, value);
         }
     }
 
@@ -57,11 +84,16 @@ export default class SidebarReport extends Component {
         }, true);
     }
 
+    saveCompetencyScore(competency, score) {
+        // console.log('save : ', competency, score);
+    }
+
     render() {
-        const { i18n, reportTexts, staticScores } = this.props;
+        const { i18n, reportTexts, staticScores, competencies } = this.props;
         let selectionAdviceOptions = [];
         let selectionAdvice = null;
         let staticScoreRows = null;
+        let competencyScoreRows = null;
 
         if (reportTexts.selectionAdviceOutcome) {
             selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdviceValues.POSITIVE;
@@ -103,6 +135,29 @@ export default class SidebarReport extends Component {
             });
         }
 
+        if (competencies && competencies.length) {
+            competencyScoreRows = [];
+
+            competencies.forEach(competency => {
+                const score = Utils.parseScore(competency.score, CompetencyScoreValue.MIN_VALUE, CompetencyScoreValue.MAX_VALUE, true);
+
+                competencyScoreRows.push(
+                    <tr>
+                        <td>{ i18n[competency.translationKey] || competency.name }</td>
+                        <td><input
+                            id={ `${sidebarScorePrefix}${competency.name.toLowerCase()}` }
+                            onInput={ this.onInputCompetencyScore }
+                            type='number'
+                            pattern={ `[${competencyScoreRegexRange}]` }
+                            min={ CompetencyScoreValue.MIN_VALUE }
+                            max={ CompetencyScoreValue.MAX_VALUE }
+                            value={ score || '' }
+                        /></td>
+                    </tr>
+                );
+            });
+        }
+
         return (
             <div className={ style.sidebarReport }>
                 { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>
@@ -110,6 +165,13 @@ export default class SidebarReport extends Component {
                     <select>
                         { selectionAdviceOptions }
                     </select>
+                </section>}
+
+                { competencyScoreRows && <section className={ style.staticScores }>
+                    <h4>{ i18n.report_score_the_following_competencies }</h4>
+                    <table>
+                        { competencyScoreRows }
+                    </table>
                 </section>}
 
                 { staticScoreRows && <section className={ style.staticScores }>

@@ -108,6 +108,7 @@ export default class Report extends Component {
                     i18n={ i18n }
                     reportTexts={ report.texts }
                     staticScores={ staticScores }
+                    competencies={ report.competencies }
                     saveReportText={ saveReportText }
                 />
             },
