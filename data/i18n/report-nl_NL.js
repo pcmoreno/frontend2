@@ -133,7 +133,7 @@ export default {
     "report_resilience": "Veerkracht",
     "report_resilience_default_text": "De draad weer oppakken na tegenslag.",
     "report_results_report_pagina": "Uitslagen",
-    "report_score_the_following_competencies": "Geef een score op de volgende",
+    "report_score_the_following_competencies": "Geef een score op de volgende competencies",
     "report_selection_advice": "Selectieadvies",
     "report_selection_advice_default_text": "Op basis van de resultaten adviseren wij voor deze functie:",
     "report_selection_development_report": "Selecterend ontwikkelrapport",
