@@ -34,6 +34,8 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
+        this.reportTextsBeingCreated = [];
+        this.reportTextsCreated = {};
 
         // reset state, so old report data is unset, until we get new data
         this.actions.resetReport();
@@ -45,7 +47,10 @@ class Index extends Component {
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
 
+        // saves format 'templateSlug-fieldName', to keep track of the fields that are being created at this moment
         this.reportTextsBeingCreated = [];
+
+        // saves mapping of key/value 'templateSlug-fieldName': newSlug
         this.reportTextsCreated = {};
 
         // fetch report data
@@ -57,7 +62,7 @@ class Index extends Component {
      * ids correspond to the specific textFieldInReportId
      *
      * @param {Object} reportText - report text object
-     * @param {string} reportText.slug - slug of text field
+     * @param {string} [reportText.slug] - slug of text field
      * @param {string} reportText.textFieldTemplateSlug - template slug of text field
      * @param {string} reportText.name - text field name
      * @param {string} [reportText.value] - text field value
@@ -150,6 +155,11 @@ class Index extends Component {
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
 
+                // clear stored value that this text (if it) was being created
+                if (~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
+                    this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
+                }
+
                 // check for input validation errors form the API
                 if (response.errors) {
 
@@ -166,10 +176,7 @@ class Index extends Component {
 
                     // todo: state changes will interfere with the froala editor, so for now we store the new ids in reportTextsCreated...
                     // store this in the local state for when we try to update the same text field in the same session
-                    this.reportTextsCreated[uniqueFieldName] = response.entry.textFieldInReportSlug;
-
-                    // clear stored value that this text was being created
-                    this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
+                    this.reportTextsCreated[uniqueFieldName] = textFieldSlug;
                 }
 
                 // don't do this for froala editor texts, only for scores that are text fields
@@ -186,6 +193,11 @@ class Index extends Component {
 
             }).catch((/* error */) => {
                 document.querySelector('#spinner').classList.add('hidden');
+
+                // clear stored value that this text (if it) was being created
+                if (~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
+                    this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
+                }
 
                 // show (translated) error message
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
