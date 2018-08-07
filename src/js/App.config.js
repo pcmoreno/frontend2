@@ -137,6 +137,7 @@ const AppConfig = {
                 ]
             },
             organisations: {
+                amendNameAction: [UserRoles.ROLE_APPLICATION_MANAGERS],
                 route: [
                     UserRoles.ROLE_APPLICATION_MANAGERS,
                     UserRoles.ROLE_BACKOFFICE,

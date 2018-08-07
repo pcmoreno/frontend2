@@ -64,6 +64,8 @@ class Index extends Component {
         this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
         this.toggleCompetency = this.toggleCompetency.bind(this);
 
+        this.amendInlineEditable = this.amendInlineEditable.bind(this);
+
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
 
@@ -1000,6 +1002,47 @@ class Index extends Component {
         });
     }
 
+    amendInlineEditable(sectionId, slug, value, fieldType) {
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        const data = {};
+
+        data[fieldType] = value;
+
+        this.api.put(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().updateAbstractSection,
+            {
+                payload: {
+                    type: 'form',
+                    data
+                },
+                urlParams: {
+                    identifiers: {
+                        section: sectionId,
+                        slug
+                    },
+                    parameters: {
+                        fields: 'id,uuid'
+                    }
+                }
+            }
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            if (response && response.errors) {
+                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+            }
+
+            // todo: refresh the (right) panel(s)
+
+        }).catch(error => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+        });
+    }
+
     render() {
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
@@ -1037,6 +1080,7 @@ class Index extends Component {
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
+                amendInlineEditable={ this.amendInlineEditable }
             />
         );
     }

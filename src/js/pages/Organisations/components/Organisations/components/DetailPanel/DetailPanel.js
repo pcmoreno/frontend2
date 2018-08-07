@@ -3,6 +3,7 @@ import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPane
 import Participants from './components/Participants/Participants';
 import Settings from './components/Settings/Settings';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import InlineEditableText from './components/InlineEditableText/InlineEditableText';
 import style from './style/detailpanel.scss';
 
 /** @jsx h */
@@ -41,8 +42,11 @@ export default class DetailPanel extends Component {
     render() {
         const { data, i18n } = this.props;
         const entity = data.entity;
+
         let output = null,
-            icon = null;
+            icon = null,
+            amendFieldType = '',
+            amendSectionType = '';
 
         // todo: replace ugly css selector name detailpanelcontent_p
 
@@ -86,12 +90,18 @@ export default class DetailPanel extends Component {
         switch (entity.type) {
             case 'jobFunction':
                 icon = <FontAwesomeIcon icon='suitcase' />;
+                amendFieldType = 'organisationName';
+                amendSectionType = 'organisation';
                 break;
             case 'organisation':
                 icon = <FontAwesomeIcon icon='building' />;
+                amendFieldType = 'organisationName';
+                amendSectionType = 'organisation';
                 break;
             case 'project':
                 icon = <FontAwesomeIcon icon='clipboard-list' />;
+                amendFieldType = 'projectName';
+                amendSectionType = 'project';
                 break;
             default:
                 break;
@@ -124,7 +134,15 @@ export default class DetailPanel extends Component {
                     { entity.name !== 'LTP' &&
                         <div className={ `${style.header_icon}` }>{ icon }</div>
                     }
-                    <h2>{ entity.name }</h2>
+                    <h2>
+                        <InlineEditableText
+                            initialValue={ entity.name }
+                            amendFunction={ this.props.amendInlineEditable }
+                            amendSectionType={ amendSectionType }
+                            slug={ entity.uuid }
+                            amendFieldType={ amendFieldType }
+                        />
+                    </h2>
                 </header>
                 <DetailPanelNavigation
                     entity={ entity }

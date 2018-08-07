@@ -84,6 +84,7 @@ class Organisations extends Component {
             openModalToInviteParticipant,
             closeModalToInviteParticipant,
             selectedCompetencies,
+            amendInlineEditable,
             i18n
         } = this.props;
 
@@ -123,6 +124,7 @@ class Organisations extends Component {
                         languageId={ languageId }
                         i18n = { i18n }
                         pathNodes={ pathNodes }
+                        amendInlineEditable={ amendInlineEditable }
                     />
                 </section>
                 <aside className={ `${style.modal_container} hidden` } id="modal_add_organisation">
