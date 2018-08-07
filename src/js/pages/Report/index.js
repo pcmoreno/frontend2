@@ -104,7 +104,18 @@ class Index extends Component {
         }
 
         return new Promise((onFulfilled, onRejected) => {
-            this.saveReportEntityRelationship({
+
+            // verify template slug upon creation
+            if (apiMethod === ApiMethod.POST && !postData.textField) {
+                Logger.instance.error({
+                    message: 'Template slug missing upon creation of report text field',
+                    component: 'report'
+                });
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
+                return onRejected(new Error('Template slug missing upon creation of report text field'));
+            }
+
+            return this.saveReportEntityRelationship({
                 apiMethod,
                 postData,
                 apiEndpoint,
