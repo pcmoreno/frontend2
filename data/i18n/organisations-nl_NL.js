@@ -25,6 +25,8 @@ export default {
     "organisations_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "organisations_amend_custom_competency_error": "Er is een fout opgetreden bij het wijzigen van de competentie, probeer het later nogmaals",
     "organisations_amend_custom_competency_success": "De competentie is succesvol gewijzigd",
+    "organisations_amend_entity_name_invalid_length": "De opgegeven waarde dient minimaal 3 en maximaal 255 karakters te bevatten.",
+    "organisations_amend_entity_name_success": "De naam is successvol gewijzigd.",
     "organisations_amend_participant": "Deelnemer bewerken",
     "organisations_amend_participant_error": "Er is een fout opgetreden bij het wijzigen van een deelnemer, probeer het later nogmaals",
     "organisations_amend_participant_success": "De deelnemer is succesvol gewijzigd",
