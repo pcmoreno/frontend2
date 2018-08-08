@@ -113,7 +113,7 @@ export default function reportReducer(state = initialState, action) {
                 // set competencies
                 newState.report.competencies = [];
 
-                action.report.report.competencies.forEach(competency => {
+                report.competencies.forEach(competency => {
                     newState.report.competencies.push({
                         definition: competency.definition,
                         name: competency.name,

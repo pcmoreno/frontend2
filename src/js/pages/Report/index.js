@@ -56,7 +56,7 @@ class Index extends Component {
      * @param {Object} competency - competency props
      * @param {string} competency.templateSlug - competency template slug
      * @param {string} competency.name -  competency name
-     * @param {string} competency.slug - competency slug
+     * @param {string|null} [competency.slug] - competency slug
      * @param {string|number} competency.score - competency score
      * @param {boolean} stateRefresh - state refresh
      * @returns {Promise<any>} promise
@@ -123,11 +123,11 @@ class Index extends Component {
 
                 if (!slug) {
                     Logger.instance.error({
-                        message: 'Did not receive new report text slug upon creation',
+                        message: 'Did not receive new competency in report slug upon creation',
                         component: 'report'
                     });
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                    return onRejected(new Error('Did not receive new report slug upon creation'));
+                    return onRejected(new Error('Did not receive new competency in report slug upon creation'));
                 }
 
                 // don't do this for froala editor texts, only for scores that are text fields
@@ -285,7 +285,11 @@ class Index extends Component {
 
                     // show (translated) error message
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                    return onRejected(new Error('Could not save report text field'));
+                    Logger.instance.error({
+                        message: 'Could not save report relationship/field',
+                        component: 'report'
+                    });
+                    return onRejected(new Error('Could not save report relationship/field'));
                 }
 
                 // resolve when the call succeeds
@@ -296,7 +300,7 @@ class Index extends Component {
 
                 // show (translated) error message
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                return onRejected(new Error('Could not save report text field'));
+                return onRejected(new Error('Could not save report relationship/field'));
             });
         });
     }
