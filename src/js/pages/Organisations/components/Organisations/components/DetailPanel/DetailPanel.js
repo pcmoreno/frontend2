@@ -141,6 +141,7 @@ export default class DetailPanel extends Component {
                             amendSectionType={ amendSectionType }
                             slug={ entity.uuid }
                             amendFieldType={ amendFieldType }
+                            i18n={ i18n }
                         />
                     </h2>
                 </header>

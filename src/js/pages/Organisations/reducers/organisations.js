@@ -30,7 +30,7 @@ const initialState = {
  * @returns {Object} state
  */
 export default function organisationsReducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
     let tempCompetencies = [];
 
     const logger = Logger.instance;
@@ -411,6 +411,54 @@ export default function organisationsReducer(state = initialState, action) {
 
             newState.selectedCompetencies = [];
             newState.availableCompetencies = [];
+
+            break;
+
+        case actionType.UPDATE_AMENDED_ENTITY:
+            try {
+                const panelId = action.amendedEntity.panelId;
+                const entityId = action.amendedEntity.id;
+
+                // purge the referenced panels array (need to rebuild from scratch)
+                newState.panels = [];
+
+                // construct empty helper arrays
+                const tempPanels = [];
+                const tempEntities = [];
+
+                // build up the array
+                state.panels.forEach((panel, index) => {
+
+                    const tempPanel = Object.assign({}, panel);
+
+                    // keep track of processed panelId, to be sure the match below happens in the right panelId
+                    // because, organisations and job functions can have similar id's
+                    const tempPanelId = index;
+
+                    panel.entities.forEach(entity => {
+
+                        // check if id matches, then overwrite the name
+                        if (panelId === tempPanelId && entity.id === entityId) {
+                            entity.name = action.value;
+                        }
+
+                        tempEntities.push(entity);
+                    });
+
+                    // empty, then overwrite with the iterated collection
+                    tempPanel.entites = [];
+                    tempPanel.entities = tempEntities;
+
+                    tempPanels.push(Object.assign({}, panel));
+                });
+
+                // overwrite
+                newState.panels = tempPanels;
+
+            } catch (e) {
+
+                // todo: log/throw an error. Parsing the response of the report page failed.
+            }
 
             break;
 

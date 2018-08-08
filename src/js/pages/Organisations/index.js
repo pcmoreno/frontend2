@@ -1005,7 +1005,7 @@ class Index extends Component {
     amendInlineEditable(sectionId, slug, value, fieldType) {
 
         if (value.length < 3 || value.length > 255) {
-            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
         } else {
             document.querySelector('#spinner').classList.remove('hidden');
 
@@ -1037,10 +1037,13 @@ class Index extends Component {
                 if (response && response.errors) {
                     this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
                 } else {
-                    this.actions.addAlert({ type: 'success', text: this.i18n.organisations_amend_entity_name_successful });
-                }
+                    this.actions.addAlert({ type: 'success', text: this.i18n.organisations_amend_entity_name_success });
 
-                // todo: refresh the (right) panel(s)
+                    const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+                    const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+                    this.actions.updateAmendedEntity(lastSelectedItem, value);
+                }
 
             }).catch(error => {
                 document.querySelector('#spinner').classList.add('hidden');
@@ -1055,6 +1058,7 @@ class Index extends Component {
 
         return (
             <Organisations
+                actions={ this.actions }
                 panels={ panels }
                 formOpenByPanelId={ formOpenByPanelId }
                 panelHeaderAddMethods={ this.panelHeaderAddMethods }

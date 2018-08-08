@@ -1,8 +1,6 @@
 import { h, Component } from 'preact';
 import KeyCodes from '../../../../../../../../constants/KeyCodes';
-import { bindActionCreators } from 'redux';
 import ApiFactory from '../../../../../../../../utils/api/factory';
-import * as alertActions from './../../../../../../../../components/Alert/actions/alert';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/inlineeditabletext.scss';
 
@@ -11,12 +9,6 @@ import style from './style/inlineeditabletext.scss';
 export default class InlineEditableText extends Component {
     constructor(props) {
         super(props);
-        const { dispatch } = this.props;
-
-        this.actions = bindActionCreators(
-            Object.assign({}, alertActions),
-            dispatch
-        );
 
         this.amendInlineEditable = this.amendInlineEditable.bind(this);
         this.keyPressedWhileAmending = this.keyPressedWhileAmending.bind(this);
@@ -24,34 +16,21 @@ export default class InlineEditableText extends Component {
         this.api = ApiFactory.get('neon');
     }
 
-    validateEditableText(value) {
-        if (value.length < 3 || value.length > 255) {
-            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
-
-            return false;
-        }
-
-        return true;
-    }
-
     amendInlineEditable(event) {
         event.preventDefault();
         const value = event.currentTarget.value;
 
-        if (this.validateEditableText(value)) {
-
-            // call amending function when change was detected
-            if (event.currentTarget.value !== this.props.initialValue) {
-                this.props.amendFunction(
-                    this.props.amendSectionType,
-                    this.props.slug,
-                    value,
-                    this.props.amendFieldType
-                );
-            }
-
-            event.currentTarget.blur();
+        // call amending function when change was detected
+        if (event.currentTarget.value !== this.props.initialValue) {
+            this.props.amendFunction(
+                this.props.amendSectionType,
+                this.props.slug,
+                value,
+                this.props.amendFieldType
+            );
         }
+
+        event.currentTarget.blur();
     }
 
     keyPressedWhileAmending(event) {
@@ -84,7 +63,7 @@ export default class InlineEditableText extends Component {
         }
 
         return (
-            <div className={ style.amendInlineEditable }>
+            <div className={ `${style.amendInlineEditable} ${readOnly === true ? '' : style.active}` }>
                 <input
                     type="text"
                     name="name"

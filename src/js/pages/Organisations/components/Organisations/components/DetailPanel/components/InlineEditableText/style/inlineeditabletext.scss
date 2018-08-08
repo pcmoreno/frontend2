@@ -13,12 +13,7 @@
         border: 0;
         width: 93%;
 
-        &:focus {
-            background: $white;
-            color: $black;
-            padding: 0 .5rem;
-            border: solid 2px $blue-darken;
-        }
+
     }
 
     > span {
@@ -33,6 +28,17 @@
             right: 4px;
             top: 6px;
             font-size: .75rem;
+        }
+    }
+}
+
+.active {
+    input {
+        &:focus {
+            background: $white;
+            color: $black;
+            padding: 0 .5rem;
+            border: solid 2px $blue-darken;
         }
     }
 }
