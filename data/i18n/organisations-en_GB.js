@@ -25,6 +25,8 @@ export default {
     "organisations_all_fields_required": "Please fill in all required fields",
     "organisations_amend_custom_competency_error": "An error occurred while amending the competency, please try again later",
     "organisations_amend_custom_competency_success": "The competency was successfully amended",
+    "organisations_amend_entity_name_invalid_length": "The specified value must contain a minimum of 3 and a maximum of 255 characters.",
+    "organisations_amend_entity_name_success": "The name was successfully amended.",
     "organisations_amend_participant": "Edit participant",
     "organisations_amend_participant_error": "An error occurred while amending the participant, please try again later",
     "organisations_amend_participant_success": "The participant was successfully amended",
