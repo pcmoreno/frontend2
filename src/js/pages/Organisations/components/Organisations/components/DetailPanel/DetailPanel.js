@@ -4,6 +4,8 @@ import Participants from './components/Participants/Participants';
 import Settings from './components/Settings/Settings';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import InlineEditableText from './components/InlineEditableText/InlineEditableText';
+import DetailPanelTabType from '../../../../constants/DetailPanelTabType';
+import EntityType from '../../../../../../constants/EntityType';
 import style from './style/detailpanel.scss';
 
 /** @jsx h */
@@ -13,9 +15,8 @@ export default class DetailPanel extends Component {
         super(props);
 
         // keep track of opened tab (defaults to 'information')
-        // todo: add to constants
         this.localState = {
-            activeTab: 'information'
+            activeTab: DetailPanelTabType.INFORMATION
         };
 
         this.switchTab = this.switchTab.bind(this);
@@ -48,14 +49,12 @@ export default class DetailPanel extends Component {
             amendFieldType = '',
             amendSectionType = '';
 
-        // todo: replace ugly css selector name detailpanelcontent_p
-
         switch (this.localState.activeTab.toString()) {
 
-            case 'information': output = null;
+            case DetailPanelTabType.INFORMATION: output = null;
                 break;
 
-            case 'settings': output = <p className={ style.detailpanelcontent_p }>
+            case DetailPanelTabType.SETTINGS: output = <p className={ style.content_wrapper }>
                 <Settings
                     selectedCompetencies={ this.props.selectedCompetencies }
                     openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
@@ -67,19 +66,21 @@ export default class DetailPanel extends Component {
             </p>;
                 break;
 
-            case 'participants': output = <p className={ style.detailpanelcontent_p }><Participants
-                openModalToAddParticipant={ this.props.openModalToAddParticipant }
-                openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
-                closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
-                closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
-                selectedParticipants={ this.props.selectedParticipants }
-                toggleSelectAllParticipants={ this.props.toggleSelectAllParticipants }
-                toggleParticipant = { this.props.toggleParticipant }
-                openModalToAmendParticipant={ this.props.openModalToAmendParticipant }
-                closeModalToAmendParticipant={ this.props.closeModalToAmendParticipant }
-                participantListView={ entity.participantListView }
-                i18n={ i18n }
-            /></p>;
+            case DetailPanelTabType.PARTICIPANTS: output = <p className={ style.content_wrapper }>
+                <Participants
+                    openModalToAddParticipant={ this.props.openModalToAddParticipant }
+                    openModalToInviteParticipant={ this.props.openModalToInviteParticipant }
+                    closeModalToInviteParticipant={ this.props.closeModalToInviteParticipant }
+                    closeModalToAddParticipant={ this.props.closeModalToAddParticipant }
+                    selectedParticipants={ this.props.selectedParticipants }
+                    toggleSelectAllParticipants={ this.props.toggleSelectAllParticipants }
+                    toggleParticipant = { this.props.toggleParticipant }
+                    openModalToAmendParticipant={ this.props.openModalToAmendParticipant }
+                    closeModalToAmendParticipant={ this.props.closeModalToAmendParticipant }
+                    participantListView={ entity.participantListView }
+                    i18n={ i18n }
+                />
+            </p>;
                 break;
 
             default:
@@ -88,20 +89,26 @@ export default class DetailPanel extends Component {
 
         // get correct header icon, LTP organisation does not render the icon
         switch (entity.type) {
-            case 'jobFunction':
+            case EntityType.JOB_FUNCTION:
                 icon = <FontAwesomeIcon icon='suitcase' />;
-                amendFieldType = 'organisationName';
-                amendSectionType = 'organisation';
+
+                // to be able to amend names for entities, specify the correct section and fieldType
+                amendFieldType = `${EntityType.ORGANISATION}Name`;
+                amendSectionType = EntityType.ORGANISATION;
                 break;
-            case 'organisation':
+            case EntityType.ORGANISATION:
                 icon = <FontAwesomeIcon icon='building' />;
-                amendFieldType = 'organisationName';
-                amendSectionType = 'organisation';
+
+                // to be able to amend names for entities, specify the correct section and fieldType
+                amendFieldType = `${EntityType.ORGANISATION}Name`;
+                amendSectionType = EntityType.ORGANISATION;
                 break;
-            case 'project':
+            case EntityType.PROJECT:
                 icon = <FontAwesomeIcon icon='clipboard-list' />;
-                amendFieldType = 'projectName';
-                amendSectionType = 'project';
+
+                // to be able to amend names for entities, specify the correct section and fieldType
+                amendFieldType = `${EntityType.PROJECT}Name`;
+                amendSectionType = EntityType.PROJECT;
                 break;
             default:
                 break;
@@ -151,7 +158,7 @@ export default class DetailPanel extends Component {
                     switchTab={ this.switchTab }
                     i18n={ i18n }
                 />
-                <main className={ `${style.modal_invite_participant}` }>
+                <main>
                     { output }
                 </main>
             </aside>

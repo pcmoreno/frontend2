@@ -1045,10 +1045,10 @@ class Index extends Component {
                     this.actions.updateAmendedEntity(lastSelectedItem, value);
                 }
 
-            }).catch(error => {
+            }).catch(() => {
                 document.querySelector('#spinner').classList.add('hidden');
 
-                this.actions.addAlert({type: 'error', text: this.i18n.organisations_unexpected_error});
+                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
             });
         }
     }

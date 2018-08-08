@@ -1,10 +1,15 @@
 import { h, Component } from 'preact';
-import KeyCodes from '../../../../../../../../constants/KeyCodes';
 import ApiFactory from '../../../../../../../../utils/api/factory';
+import KeyCodes from '../../../../../../../../constants/KeyCodes';
+import OrganisationsComponents from '../../../../../../constants/OrganisationsComponents';
+import OrganisationsActions from '../../../../../../constants/OrganisationsActions';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/inlineeditabletext.scss';
 
 /** @jsx h */
+
+// max characters for input field
+const maxLength = 255;
 
 export default class InlineEditableText extends Component {
     constructor(props) {
@@ -54,10 +59,16 @@ export default class InlineEditableText extends Component {
 
     render() {
         const { initialValue } = this.props;
+
         let readOnly = true;
 
+        // only allow editing when not root organisation and permission is granted
         if (this.props.slug &&
-            this.api.getAuthoriser().authorise(this.api.getAuthenticator().getUser(), 'organisations', 'amendNameAction')
+            this.api.getAuthoriser().authorise(
+                this.api.getAuthenticator().getUser(),
+                OrganisationsComponents.ORGANISATIONS_COMPONENT,
+                OrganisationsActions.AMEND_ACTION
+            )
         ) {
             readOnly = false;
         }
@@ -70,7 +81,7 @@ export default class InlineEditableText extends Component {
                     required
                     defaultValue={ initialValue }
                     readOnly={ readOnly }
-                    maxLength="255"
+                    maxLength={ maxLength }
                     autoComplete="off"
                     onBlur={ event => {
                         this.amendInlineEditable(event);
