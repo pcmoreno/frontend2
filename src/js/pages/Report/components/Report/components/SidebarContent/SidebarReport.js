@@ -25,6 +25,10 @@ export default class SidebarReport extends Component {
         this.onInputCompetencyScore = this.onInputCompetencyScore.bind(this);
     }
 
+    componentDidMount() {
+        this.isBeingCreated = [];
+    }
+
     onInputStaticScore(event) {
         const value = event.target.value.replace(staticScoreFullRegex, '').slice(0, 1);
 
@@ -76,12 +80,29 @@ export default class SidebarReport extends Component {
     }
 
     saveReportText(textField, value) {
+        const uniqueFieldName = `${textField.textFieldTemplateSlug}-${textField.name}`;
+
+        if (this.isBeingCreated[uniqueFieldName]) {
+            return;
+        }
+
+        if (!textField.slug) {
+            this.isBeingCreated[uniqueFieldName] = true;
+        }
+
         this.props.saveReportText({
             slug: textField.slug,
             textFieldTemplateSlug: textField.textFieldTemplateSlug,
             name: textField.name,
             value
-        }, true);
+        }, true).then(() => {
+
+            // we don't need a slug from the response here upon creation,
+            // the state will be updated and will update the slug in this component
+            this.isBeingCreated[uniqueFieldName] = false;
+        }).catch(() => {
+            this.isBeingCreated[uniqueFieldName] = false;
+        });
     }
 
     saveCompetencyScore(competency, score) {
