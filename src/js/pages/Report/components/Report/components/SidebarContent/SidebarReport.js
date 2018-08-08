@@ -32,6 +32,7 @@ export default class SidebarReport extends Component {
     onInputStaticScore(event) {
         const value = event.target.value.replace(staticScoreFullRegex, '').slice(0, 1);
 
+        // if our parsed/validated value is different, also update the text field value
         if (value !== event.target.value) {
             event.target.value = value;
         }
@@ -46,6 +47,7 @@ export default class SidebarReport extends Component {
     onInputCompetencyScore(event) {
         const value = event.target.value.replace(competencyScoreFullRegex, '').slice(0, 1);
 
+        // if our parsed/validated value is different, also update the text field value
         if (value !== event.target.value) {
             event.target.value = value;
         }
