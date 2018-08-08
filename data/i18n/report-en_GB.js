@@ -38,6 +38,7 @@ export default {
     "report_energy": "Energy",
     "report_energy_default_text": "Being inquisitive and playful. actively seek out new learning opportunities.",
     "report_error_download_pdf": "An error occurred while downloading the pdf report. Please try again.",
+    "report_error_save_score": "An error occurred while saving. Please try again.",
     "report_error_save_text": "An error occurred while saving. Please try again.",
     "report_explanation": "Explanation",
     "report_extraversion": "Extraversion",

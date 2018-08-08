@@ -38,6 +38,7 @@ export default {
     "report_energy": "Energie",
     "report_energy_default_text": "Nieuwsgierig en speels zijn. actief nieuwe leerervaringen opzoeken.",
     "report_error_download_pdf": "Er is een fout opgetreden bij het downloaden van het pdf rapport. Probeer het opnieuw.",
+    "report_error_save_score": "Er ging iets mis bij het opslaan. Probeer het opnieuw.",
     "report_error_save_text": "Er ging iets mis bij het opslaan. Probeer het opnieuw.",
     "report_explanation": "Toelichting",
     "report_extraversion": "Extraversie",
