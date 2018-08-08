@@ -27,6 +27,7 @@ class Index extends Component {
         this.api = ApiFactory.get('neon');
 
         this.saveReportText = this.saveReportText.bind(this);
+        this.saveCompetencyScore = this.saveCompetencyScore.bind(this);
     }
 
     componentWillMount() {
@@ -34,8 +35,6 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
-        this.reportTextsBeingCreated = [];
-        this.reportTextsCreated = {};
 
         // reset state, so old report data is unset, until we get new data
         this.actions.resetReport();
@@ -47,64 +46,126 @@ class Index extends Component {
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
 
-        // saves format 'templateSlug-fieldName', to keep track of the fields that are being created at this moment
-        this.reportTextsBeingCreated = [];
-
-        // saves mapping of key/value 'templateSlug-fieldName': newSlug
-        this.reportTextsCreated = {};
-
         // fetch report data
         this.getReport(this.participantSessionId);
     }
 
     /**
+     * Saves a competency score for this report
+     *
+     * @param {Object} competency - competency props
+     * @param {string} competency.templateSlug - competency template slug
+     * @param {string} competency.name -  competency name
+     * @param {string|null} [competency.slug] - competency slug
+     * @param {string|number} competency.score - competency score
+     * @param {boolean} stateRefresh - state refresh
+     * @returns {Promise<any>} promise
+     */
+    saveCompetencyScore(competency, stateRefresh) {
+        const reportSlug = this.props.report.slug;
+
+        // build up the payload depending on whether we're going to create or update
+        let apiMethod = null,
+            apiEndpoint = null,
+            urlParams = null,
+            postData = null;
+
+        if (competency.slug) {
+            apiMethod = ApiMethod.PUT;
+            apiEndpoint = this.api.getEndpoints().report.updateCompetencyScore;
+            urlParams = {
+                identifiers: {
+                    slug: competency.slug
+                }
+            };
+            postData = {
+                scoreOfCompetencyInReport: competency.score
+            };
+        } else {
+            apiMethod = ApiMethod.POST;
+            apiEndpoint = this.api.getEndpoints().report.createCompetencyScore;
+            urlParams = {
+                parameters: {
+                    fields: 'competencyScoredInReportSlug'
+                }
+            };
+            postData = {
+                report: reportSlug,
+                scoreOfCompetencyInReport: competency.score,
+                competency: competency.templateSlug
+            };
+        }
+
+        return new Promise((onFulfilled, onRejected) => {
+
+            // verify template slug upon creation
+            if (apiMethod === ApiMethod.POST && !postData.competency) {
+                Logger.instance.error({
+                    message: 'Template slug of competencyScoredInReport missing upon creation',
+                    component: 'report'
+                });
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
+                return onRejected(new Error('Template slug of competencyScoredInReport missing upon creation'));
+            }
+
+            return this.saveReportEntityRelationship({
+                apiMethod,
+                postData,
+                apiEndpoint,
+                urlParams
+            }).then(response => {
+                let slug = competency.slug;
+
+                // extract new slug if this was a post/create call
+                if (apiMethod === ApiMethod.POST && response && response.entry && response.entry.competencyScoredInReportSlug) {
+                    slug = response.entry.competencyScoredInReportSlug;
+                }
+
+                if (!slug) {
+                    Logger.instance.error({
+                        message: 'Did not receive new competencyScoredInReport slug upon creation',
+                        component: 'report'
+                    });
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
+                    return onRejected(new Error('Did not receive new competencyScoredInReport slug upon creation'));
+                }
+
+                // don't do this for froala editor texts, only for scores that are text fields
+                if (stateRefresh) {
+                    this.actions.updateCompetencyScore({
+                        slug,
+                        name: competency.name,
+                        score: competency.score,
+                        templateSlug: competency.templateSlug
+                    });
+                }
+
+                return onFulfilled({
+                    slug
+                });
+            }).catch(onRejected);
+        });
+    }
+
+    /**
      * Sends an api call to create or update the given report text
-     * ids correspond to the specific textFieldInReportId
      *
      * @param {Object} reportText - report text object
-     * @param {string} [reportText.slug] - slug of text field
-     * @param {string} reportText.textFieldTemplateSlug - template slug of text field
+     * @param {string|null} [reportText.slug] - slug of text field
+     * @param {string} reportText.templateSlug - template slug of text field
      * @param {string} reportText.name - text field name
-     * @param {string} [reportText.value] - text field value
+     * @param {string} reportText.value - text field value
      * @param {boolean} stateRefresh - refresh state or not
      * @returns {Promise} promise
      */
     saveReportText(reportText, stateRefresh) {
         const reportSlug = this.props.report.slug;
 
-        reportText.value = reportText.value || '';
-
-        if (!(reportText.slug || reportText.textFieldTemplateSlug) || !reportText.name) {
-            Logger.instance.error({
-                component: 'Report',
-                message: 'Report text field: one of the slugs and name field are required'
-            });
-            return null;
-        }
-
-        const uniqueFieldName = `${reportText.textFieldTemplateSlug}-${reportText.name}`;
-
-        // check if this report text was created before in this session
-        if (!reportText.slug && this.reportTextsCreated[uniqueFieldName]) {
-            reportText.slug = this.reportTextsCreated[uniqueFieldName];
-        }
-
-        // check if report text is existing or should be created
-        // in this case, its a new text and we were not creating this one yet...
-        if (!reportText.slug && !~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
-            this.reportTextsBeingCreated.push(uniqueFieldName);
-
-        } else if (~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
-
-            // text field is being created, ignore for now
-            return null;
-        }
-
         // build up the payload depending on whether we're going to create or update
-        let apiMethod = null;
-        let apiEndpoint = null;
-        let urlParams = null;
-        let postData = null;
+        let apiMethod = null,
+            apiEndpoint = null,
+            urlParams = null,
+            postData = null;
 
         if (reportText.slug) {
             apiMethod = ApiMethod.PUT;
@@ -128,9 +189,75 @@ class Index extends Component {
             postData = {
                 report: reportSlug,
                 textFieldInReportValue: reportText.value,
-                textField: reportText.textFieldTemplateSlug
+                textField: reportText.templateSlug
             };
         }
+
+        return new Promise((onFulfilled, onRejected) => {
+
+            // verify template slug upon creation
+            if (apiMethod === ApiMethod.POST && !postData.textField) {
+                Logger.instance.error({
+                    message: 'Template slug of textFieldInReport missing upon creation',
+                    component: 'report'
+                });
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
+                return onRejected(new Error('Template slug of textFieldInReport missing upon creation'));
+            }
+
+            return this.saveReportEntityRelationship({
+                apiMethod,
+                postData,
+                apiEndpoint,
+                urlParams
+            }).then(response => {
+                let slug = reportText.slug;
+
+                // extract new slug if this was a post/create call
+                if (apiMethod === ApiMethod.POST && response && response.entry && response.entry.textFieldInReportSlug) {
+                    slug = response.entry.textFieldInReportSlug;
+                }
+
+                if (!slug) {
+                    Logger.instance.error({
+                        message: 'Did not receive new textFieldInReport slug upon creation',
+                        component: 'report'
+                    });
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
+                    return onRejected(new Error('Did not receive new textFieldInReport slug upon creation'));
+                }
+
+                // don't do this for froala editor texts, only for scores that are text fields
+                if (stateRefresh) {
+                    this.actions.updateTextField({
+                        slug,
+                        name: reportText.name,
+                        value: reportText.value
+                    });
+                }
+
+                return onFulfilled({
+                    slug
+                });
+            }).catch(onRejected);
+        });
+    }
+
+    /**
+     * Executes an api call (for example for creating or updating report texts and scores)
+     *
+     * @param {Object} callOptions - call options
+     * @param {string} callOptions.apiMethod - api method
+     * @param {Object} callOptions.postData - data to be posted
+     * @param {string} callOptions.apiEndpoint - api endpoint
+     * @param {string} callOptions.urlParams - api url params
+     * @returns {Promise<any>} promise
+     */
+    saveReportEntityRelationship(callOptions) {
+        const apiMethod = callOptions.apiMethod;
+        const postData = callOptions.postData;
+        const apiEndpoint = callOptions.apiEndpoint;
+        const urlParams = callOptions.urlParams;
 
         // show loader
         document.querySelector('#spinner').classList.remove('hidden');
@@ -150,58 +277,30 @@ class Index extends Component {
                 }
             ).then(response => {
 
-                let textFieldSlug = reportText.slug;
-
                 // hide loader
                 document.querySelector('#spinner').classList.add('hidden');
-
-                // clear stored value that this text (if it) was being created
-                if (~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
-                    this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
-                }
 
                 // check for input validation errors form the API
                 if (response.errors) {
 
                     // show (translated) error message
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-
-                    return onRejected(new Error('Could not save report text field'));
-                }
-
-                // Update the state with the new id if we just created a text field, do nothing on update
-                if (apiMethod === ApiMethod.POST && response.entry.textFieldInReportSlug) {
-
-                    textFieldSlug = response.entry.textFieldInReportSlug;
-
-                    // todo: state changes will interfere with the froala editor, so for now we store the new ids in reportTextsCreated...
-                    // store this in the local state for when we try to update the same text field in the same session
-                    this.reportTextsCreated[uniqueFieldName] = textFieldSlug;
-                }
-
-                // don't do this for froala editor texts, only for scores that are text fields
-                if (stateRefresh) {
-                    this.actions.updateTextField({
-                        slug: textFieldSlug,
-                        name: reportText.name,
-                        value: reportText.value
+                    Logger.instance.error({
+                        message: 'Could not save report relationship/field',
+                        component: 'report'
                     });
+                    return onRejected(new Error('Could not save report relationship/field'));
                 }
 
                 // resolve when the call succeeds
-                return onFulfilled({});
+                return onFulfilled(response);
 
-            }).catch((/* error */) => {
+            }).catch(() => {
                 document.querySelector('#spinner').classList.add('hidden');
-
-                // clear stored value that this text (if it) was being created
-                if (~this.reportTextsBeingCreated.indexOf(uniqueFieldName)) {
-                    this.reportTextsBeingCreated.splice(this.reportTextsBeingCreated.indexOf(uniqueFieldName), 1);
-                }
 
                 // show (translated) error message
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                return onRejected(new Error('Could not save report text field'));
+                return onRejected(new Error('Could not save report relationship/field'));
             });
         });
     }
@@ -240,6 +339,7 @@ class Index extends Component {
             <Report
                 report = { this.props.report }
                 saveReportText={ this.saveReportText }
+                saveCompetencyScore={ this.saveCompetencyScore }
                 i18n = { this.i18n }
                 languageId={ this.props.languageId }
             />

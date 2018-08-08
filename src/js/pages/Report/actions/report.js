@@ -33,6 +33,24 @@ export function updateTextField(textField) {
     };
 }
 
+/**
+ * updates the given competency score field
+ * @param {Object} competency - competency object
+ * @param {string} competency.slug - slug
+ * @param {string} competency.templateSlug - template slug
+ * @param {string} competency.name - competency name
+ * @param {string} competency.score - score
+ * @returns {{type, competency: null}} competency
+ */
+export function updateCompetencyScore(competency) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.UPDATE_COMPETENCY_SCORE,
+        competency
+    };
+}
 
 /**
  * reset state action

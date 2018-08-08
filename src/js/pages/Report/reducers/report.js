@@ -101,7 +101,7 @@ export default function reportReducer(state = initialState, action) {
                 report.textFieldsInReport.forEach(textField => {
                     const mappedTextField = {
                         slug: textField.slug,
-                        textFieldTemplateSlug: textField.templateSlug,
+                        templateSlug: textField.templateSlug,
                         name: textField.name,
                         value: textField.value
                     };
@@ -111,7 +111,18 @@ export default function reportReducer(state = initialState, action) {
                 });
 
                 // set competencies
-                newState.report.competencies = action.report.report.competencies;
+                newState.report.competencies = [];
+
+                report.competencies.forEach(competency => {
+                    newState.report.competencies.push({
+                        definition: competency.definition,
+                        name: competency.name,
+                        score: competency.score,
+                        slug: competency.slug,
+                        templateSlug: competency.templateSlug,
+                        translationKey: competency.translationKey
+                    });
+                });
 
                 // use a flag in the state to let the component know that the report is loaded
                 newState.report.isLoaded = true;
@@ -134,7 +145,7 @@ export default function reportReducer(state = initialState, action) {
             break;
 
         case actionType.UPDATE_TEXT_FIELD:
-            templateSlug = newState.report.texts[action.textField.name].textFieldTemplateSlug;
+            templateSlug = newState.report.texts[action.textField.name].templateSlug;
 
             // clone all levels of the state of objects that needs to be changed (to trigger re-rendering)
             newState.report = Object.assign({}, state.report);
@@ -142,10 +153,26 @@ export default function reportReducer(state = initialState, action) {
 
             newState.report.texts[action.textField.name] = {
                 slug: action.textField.slug,
-                textFieldTemplateSlug: templateSlug,
+                templateSlug,
                 name: action.textField.name,
                 value: action.textField.value
             };
+
+            break;
+
+        case actionType.UPDATE_COMPETENCY_SCORE:
+
+            newState.report = Object.assign({}, state.report);
+            newState.report.competencies = [];
+
+            state.report.competencies.forEach(competency => {
+                if (competency.name === action.competency.name && competency.templateSlug === action.competency.templateSlug) {
+                    competency.slug = action.competency.slug;
+                    competency.score = action.competency.score;
+                }
+
+                newState.report.competencies.push(competency);
+            });
 
             break;
 

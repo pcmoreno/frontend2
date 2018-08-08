@@ -70,7 +70,9 @@ const AppConfig = {
                     entity: '/v1/get-report-data/{slug}',
                     createTextField: '/v1/section/textFieldInReport',
                     updateTextField: '/v1/section/textFieldInReport/slug/{slug}',
-                    downloadIntermediateReport: '/v1/download-intermediate-report/{slug}'
+                    downloadIntermediateReport: '/v1/download-intermediate-report/{slug}',
+                    createCompetencyScore: '/v1/section/competencyScoredInReport',
+                    updateCompetencyScore: '/v1/section/competencyScoredInReport/slug/{slug}'
                 },
                 register: {
                     accountStatus: '/v1/user/status/{slug}',
