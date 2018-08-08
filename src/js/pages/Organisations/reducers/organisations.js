@@ -446,7 +446,6 @@ export default function organisationsReducer(state = initialState, action) {
                     });
 
                     // empty, then overwrite with the iterated collection
-                    tempPanel.entites = [];
                     tempPanel.entities = tempEntities;
 
                     tempPanels.push(Object.assign({}, panel));
@@ -454,6 +453,18 @@ export default function organisationsReducer(state = initialState, action) {
 
                 // overwrite
                 newState.panels = tempPanels;
+
+                // also update the path with the new name
+                newState.pathNodes = [];
+                state.pathNodes.forEach(pathNode => {
+
+                    // overwrite the name of this pathNode with the amended name
+                    if (pathNode.uuid === action.amendedEntity.uuid) {
+                        pathNode.name = action.value;
+                    }
+
+                    newState.pathNodes.push(pathNode);
+                });
 
             } catch (e) {
 
