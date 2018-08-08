@@ -1003,44 +1003,51 @@ class Index extends Component {
     }
 
     amendInlineEditable(sectionId, slug, value, fieldType) {
-        document.querySelector('#spinner').classList.remove('hidden');
 
-        const data = {};
+        if (value.length < 3 || value.length > 255) {
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+        } else {
+            document.querySelector('#spinner').classList.remove('hidden');
 
-        data[fieldType] = value;
+            const data = {};
 
-        this.api.put(
-            this.api.getBaseUrl(),
-            this.api.getEndpoints().updateAbstractSection,
-            {
-                payload: {
-                    type: 'form',
-                    data
-                },
-                urlParams: {
-                    identifiers: {
-                        section: sectionId,
-                        slug
+            data[fieldType] = value;
+
+            this.api.put(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().updateAbstractSection,
+                {
+                    payload: {
+                        type: 'form',
+                        data
                     },
-                    parameters: {
-                        fields: 'id,uuid'
+                    urlParams: {
+                        identifiers: {
+                            section: sectionId,
+                            slug
+                        },
+                        parameters: {
+                            fields: 'id,uuid'
+                        }
                     }
                 }
-            }
-        ).then(response => {
-            document.querySelector('#spinner').classList.add('hidden');
+            ).then(response => {
+                document.querySelector('#spinner').classList.add('hidden');
 
-            if (response && response.errors) {
-                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
-            }
+                if (response && response.errors) {
+                    this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+                } else {
+                    this.actions.addAlert({ type: 'success', text: this.i18n.organisations_amend_entity_name_successful });
+                }
 
-            // todo: refresh the (right) panel(s)
+                // todo: refresh the (right) panel(s)
 
-        }).catch(error => {
-            document.querySelector('#spinner').classList.add('hidden');
+            }).catch(error => {
+                document.querySelector('#spinner').classList.add('hidden');
 
-            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
-        });
+                this.actions.addAlert({type: 'error', text: this.i18n.organisations_unexpected_error});
+            });
+        }
     }
 
     render() {
