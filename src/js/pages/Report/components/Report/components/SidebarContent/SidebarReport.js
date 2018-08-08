@@ -84,6 +84,7 @@ export default class SidebarReport extends Component {
     saveReportText(textField, value) {
         const uniqueFieldName = `${textField.templateSlug}-${textField.name}`;
 
+        // if there was no slug and we're already creating the entry, do not proceed
         if (this.isBeingCreated[uniqueFieldName]) {
             return;
         }
@@ -110,6 +111,7 @@ export default class SidebarReport extends Component {
     saveCompetencyScore(competency, score) {
         const uniqueFieldName = `${competency.templateSlug}-${competency.name}`;
 
+        // if there was no slug and we're already creating the entry, do not proceed
         if (this.isBeingCreated[uniqueFieldName]) {
             return;
         }

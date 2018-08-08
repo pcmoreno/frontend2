@@ -101,11 +101,11 @@ class Index extends Component {
             // verify template slug upon creation
             if (apiMethod === ApiMethod.POST && !postData.competency) {
                 Logger.instance.error({
-                    message: 'Template slug missing upon creation of report competency score field',
+                    message: 'Template slug of competencyScoredInReport missing upon creation',
                     component: 'report'
                 });
-                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                return onRejected(new Error('Template slug missing upon creation of report competency score field'));
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
+                return onRejected(new Error('Template slug of competencyScoredInReport missing upon creation'));
             }
 
             return this.saveReportEntityRelationship({
@@ -123,11 +123,11 @@ class Index extends Component {
 
                 if (!slug) {
                     Logger.instance.error({
-                        message: 'Did not receive new competency in report slug upon creation',
+                        message: 'Did not receive new competencyScoredInReport slug upon creation',
                         component: 'report'
                     });
-                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                    return onRejected(new Error('Did not receive new competency in report slug upon creation'));
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
+                    return onRejected(new Error('Did not receive new competencyScoredInReport slug upon creation'));
                 }
 
                 // don't do this for froala editor texts, only for scores that are text fields
@@ -198,11 +198,11 @@ class Index extends Component {
             // verify template slug upon creation
             if (apiMethod === ApiMethod.POST && !postData.textField) {
                 Logger.instance.error({
-                    message: 'Template slug missing upon creation of report text field',
+                    message: 'Template slug of textFieldInReport missing upon creation',
                     component: 'report'
                 });
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                return onRejected(new Error('Template slug missing upon creation of report text field'));
+                return onRejected(new Error('Template slug of textFieldInReport missing upon creation'));
             }
 
             return this.saveReportEntityRelationship({
@@ -220,11 +220,11 @@ class Index extends Component {
 
                 if (!slug) {
                     Logger.instance.error({
-                        message: 'Did not receive new report text slug upon creation',
+                        message: 'Did not receive new textFieldInReport slug upon creation',
                         component: 'report'
                     });
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
-                    return onRejected(new Error('Did not receive new report slug upon creation'));
+                    return onRejected(new Error('Did not receive new textFieldInReport slug upon creation'));
                 }
 
                 // don't do this for froala editor texts, only for scores that are text fields
