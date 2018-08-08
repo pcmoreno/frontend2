@@ -32,7 +32,7 @@ class Alert extends Component {
             }
 
             return (<div className = { `${style.alert} ${gradientClass}` } >
-                <h6>{ alert.text }</h6>
+                <h5>{ alert.text }</h5>
             </div>);
         }
 

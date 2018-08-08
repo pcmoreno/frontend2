@@ -72,6 +72,8 @@ export default class EditableText extends Component {
         this.setTextElement();
 
         this.lastSavedText = this.localState.text;
+        this.isBeingCreated = false;
+        this.createdSlug = null; // this is the slug of the field when created in this session
     }
 
     setSaveInterval() {
@@ -100,10 +102,42 @@ export default class EditableText extends Component {
     }
 
     saveReportText() {
-        if (this.lastSavedText !== this.localState.text) {
-            this.props.saveReportText(this.localState.text);
-            this.lastSavedText = this.localState.text;
+
+        if (this.lastSavedText === this.localState.text) {
+            return;
         }
+
+        // use slug from state, response or null (when it didn't have a slug at all)
+        const slugToPost = this.props.slug || this.createdSlug || null;
+
+        // if there was no slug and we're already creating the entry, do not proceed
+        if (!slugToPost && this.isBeingCreated) {
+            return;
+        }
+
+        // keep track of the text that we are sending to the api as a status
+        this.lastSavedText = this.localState.text;
+
+        // set to being created if there was no slug to post
+        this.isBeingCreated = !slugToPost;
+
+        // call to parent to do the api call
+        this.props.saveReportText({
+            slug: slugToPost,
+            templateSlug: this.props.templateSlug,
+            name: this.props.name,
+            value: this.localState.text
+        }, false).then(response => {
+
+            if (response && response.slug) {
+                this.createdSlug = response.slug;
+            }
+
+            this.isBeingCreated = false;
+
+        }).catch(() => {
+            this.isBeingCreated = false;
+        });
     }
 
     /**

@@ -7,19 +7,8 @@ import EditableText from './components/EditableText/EditableText';
 
 export default class TextBlock extends Component {
 
-    saveReportText(text) {
-        const field = this.props.field;
-
-        this.props.saveReportText({
-            slug: field.slug,
-            textFieldTemplateSlug: field.textFieldTemplateSlug,
-            name: field.name,
-            value: text
-        }, false);
-    }
-
     render() {
-        const { field, hideTitle, editable } = this.props;
+        const { field, hideTitle, editable, saveReportText } = this.props;
 
         // validate props
         if (!field) {
@@ -30,10 +19,12 @@ export default class TextBlock extends Component {
             <section className={ style.textBlock }>
                 <h3>{ !hideTitle && field.title }</h3>
                 <EditableText
+                    slug={ field.slug }
+                    templateSlug={ field.templateSlug }
                     name={ field.name }
                     textEditable={ editable }
                     text={ field.value }
-                    saveReportText={ this.saveReportText.bind(this) }
+                    saveReportText={ saveReportText }
                 />
             </section>
         );
