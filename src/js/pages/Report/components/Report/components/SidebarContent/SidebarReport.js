@@ -80,7 +80,7 @@ export default class SidebarReport extends Component {
     }
 
     saveReportText(textField, value) {
-        const uniqueFieldName = `${textField.textFieldTemplateSlug}-${textField.name}`;
+        const uniqueFieldName = `${textField.templateSlug}-${textField.name}`;
 
         if (this.isBeingCreated[uniqueFieldName]) {
             return;
@@ -92,7 +92,7 @@ export default class SidebarReport extends Component {
 
         this.props.saveReportText({
             slug: textField.slug,
-            textFieldTemplateSlug: textField.textFieldTemplateSlug,
+            templateSlug: textField.templateSlug,
             name: textField.name,
             value
         }, true).then(() => {
@@ -106,7 +106,29 @@ export default class SidebarReport extends Component {
     }
 
     saveCompetencyScore(competency, score) {
-        // console.log('save : ', competency, score);
+        const uniqueFieldName = `${competency.templateSlug}-${competency.name}`;
+
+        if (this.isBeingCreated[uniqueFieldName]) {
+            return;
+        }
+
+        if (!competency.slug) {
+            this.isBeingCreated[uniqueFieldName] = true;
+        }
+
+        this.props.saveCompetencyScore({
+            slug: competency.slug,
+            templateSlug: competency.templateSlug,
+            name: competency.name,
+            score
+        }, true).then(() => {
+
+            // we don't need a slug from the response here upon creation,
+            // the state will be updated and will update the slug in this component
+            this.isBeingCreated[uniqueFieldName] = false;
+        }).catch(() => {
+            this.isBeingCreated[uniqueFieldName] = false;
+        });
     }
 
     render() {

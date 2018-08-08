@@ -124,7 +124,7 @@ export default class EditableText extends Component {
         // call to parent to do the api call
         this.props.saveReportText({
             slug: slugToPost,
-            textFieldTemplateSlug: this.props.templateSlug,
+            templateSlug: this.props.templateSlug,
             name: this.props.name,
             value: this.localState.text
         }, false).then(response => {

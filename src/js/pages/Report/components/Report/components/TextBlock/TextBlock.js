@@ -20,7 +20,7 @@ export default class TextBlock extends Component {
                 <h3>{ !hideTitle && field.title }</h3>
                 <EditableText
                     slug={ field.slug }
-                    templateSlug={ field.textFieldTemplateSlug }
+                    templateSlug={ field.templateSlug }
                     name={ field.name }
                     textEditable={ editable }
                     text={ field.value }

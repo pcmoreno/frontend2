@@ -27,6 +27,7 @@ class Index extends Component {
         this.api = ApiFactory.get('neon');
 
         this.saveReportText = this.saveReportText.bind(this);
+        this.saveCompetencyScore = this.saveCompetencyScore.bind(this);
     }
 
     componentWillMount() {
@@ -34,8 +35,6 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
-        this.reportTextsBeingCreated = [];
-        this.reportTextsCreated = {};
 
         // reset state, so old report data is unset, until we get new data
         this.actions.resetReport();
@@ -47,14 +46,105 @@ class Index extends Component {
         // retrieve report data by URL parameters
         this.participantSessionId = this.props.matches.participantSessionId;
 
-        // saves format 'templateSlug-fieldName', to keep track of the fields that are being created at this moment
-        this.reportTextsBeingCreated = [];
-
-        // saves mapping of key/value 'templateSlug-fieldName': newSlug
-        this.reportTextsCreated = {};
-
         // fetch report data
         this.getReport(this.participantSessionId);
+    }
+
+    /**
+     * Saves a competency score for this report
+     *
+     * @param {Object} competency - competency props
+     * @param {string} competency.templateSlug - competency template slug
+     * @param {string} competency.name -  competency name
+     * @param {string} competency.slug - competency slug
+     * @param {string|number} competency.score - competency score
+     * @param {boolean} stateRefresh - state refresh
+     * @returns {Promise<any>} promise
+     */
+    saveCompetencyScore(competency, stateRefresh) {
+        const reportSlug = this.props.report.slug;
+
+        // build up the payload depending on whether we're going to create or update
+        let apiMethod = null,
+            apiEndpoint = null,
+            urlParams = null,
+            postData = null;
+
+        if (competency.slug) {
+            apiMethod = ApiMethod.PUT;
+            apiEndpoint = this.api.getEndpoints().report.updateCompetencyScore;
+            urlParams = {
+                identifiers: {
+                    slug: competency.slug
+                }
+            };
+            postData = {
+                scoreOfCompetencyInReport: competency.score
+            };
+        } else {
+            apiMethod = ApiMethod.POST;
+            apiEndpoint = this.api.getEndpoints().report.createCompetencyScore;
+            urlParams = {
+                parameters: {
+                    fields: 'competencyScoredInReportSlug'
+                }
+            };
+            postData = {
+                report: reportSlug,
+                scoreOfCompetencyInReport: competency.score,
+                competency: competency.templateSlug
+            };
+        }
+
+        return new Promise((onFulfilled, onRejected) => {
+
+            // verify template slug upon creation
+            if (apiMethod === ApiMethod.POST && !postData.competency) {
+                Logger.instance.error({
+                    message: 'Template slug missing upon creation of report competency score field',
+                    component: 'report'
+                });
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
+                return onRejected(new Error('Template slug missing upon creation of report competency score field'));
+            }
+
+            return this.saveReportEntityRelationship({
+                apiMethod,
+                postData,
+                apiEndpoint,
+                urlParams
+            }).then(response => {
+                let slug = competency.slug;
+
+                // extract new slug if this was a post/create call
+                if (apiMethod === ApiMethod.POST && response && response.entry && response.entry.competencyScoredInReportSlug) {
+                    slug = response.entry.competencyScoredInReportSlug;
+                }
+
+                if (!slug) {
+                    Logger.instance.error({
+                        message: 'Did not receive new report text slug upon creation',
+                        component: 'report'
+                    });
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
+                    return onRejected(new Error('Did not receive new report slug upon creation'));
+                }
+
+                // don't do this for froala editor texts, only for scores that are text fields
+                if (stateRefresh) {
+                    this.actions.updateCompetencyScore({
+                        slug,
+                        name: competency.name,
+                        score: competency.score,
+                        templateSlug: competency.templateSlug
+                    });
+                }
+
+                return onFulfilled({
+                    slug
+                });
+            }).catch(onRejected);
+        });
     }
 
     /**
@@ -62,7 +152,7 @@ class Index extends Component {
      *
      * @param {Object} reportText - report text object
      * @param {string|null} [reportText.slug] - slug of text field
-     * @param {string} reportText.textFieldTemplateSlug - template slug of text field
+     * @param {string} reportText.templateSlug - template slug of text field
      * @param {string} reportText.name - text field name
      * @param {string} reportText.value - text field value
      * @param {boolean} stateRefresh - refresh state or not
@@ -99,7 +189,7 @@ class Index extends Component {
             postData = {
                 report: reportSlug,
                 textFieldInReportValue: reportText.value,
-                textField: reportText.textFieldTemplateSlug
+                textField: reportText.templateSlug
             };
         }
 
@@ -130,7 +220,7 @@ class Index extends Component {
 
                 if (!slug) {
                     Logger.instance.error({
-                        message: 'Did not receive new report slug upon creation',
+                        message: 'Did not receive new report text slug upon creation',
                         component: 'report'
                     });
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
@@ -245,6 +335,7 @@ class Index extends Component {
             <Report
                 report = { this.props.report }
                 saveReportText={ this.saveReportText }
+                saveCompetencyScore={ this.saveCompetencyScore }
                 i18n = { this.i18n }
                 languageId={ this.props.languageId }
             />
