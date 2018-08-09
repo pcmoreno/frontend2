@@ -29,9 +29,9 @@ export default class InlineEditableText extends Component {
         if (event.currentTarget.value !== this.props.initialValue) {
             this.props.amendFunction(
                 this.props.amendSectionType,
+                this.props.amendFieldType,
                 this.props.slug,
-                value,
-                this.props.amendFieldType
+                value
             );
         }
 

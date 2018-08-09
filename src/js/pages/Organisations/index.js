@@ -1002,7 +1002,7 @@ class Index extends Component {
         });
     }
 
-    amendInlineEditable(sectionId, slug, value, fieldType) {
+    amendInlineEditable(section, field, slug, value) {
 
         if (value.length < 3 || value.length > 255) {
             this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
@@ -1011,7 +1011,7 @@ class Index extends Component {
 
             const data = {};
 
-            data[fieldType] = value;
+            data[field] = value;
 
             this.api.put(
                 this.api.getBaseUrl(),
@@ -1023,7 +1023,7 @@ class Index extends Component {
                     },
                     urlParams: {
                         identifiers: {
-                            section: sectionId,
+                            section,
                             slug
                         },
                         parameters: {
@@ -1044,7 +1044,6 @@ class Index extends Component {
 
                     this.actions.updateAmendedEntity(lastSelectedItem, value);
                 }
-
             }).catch(() => {
                 document.querySelector('#spinner').classList.add('hidden');
 
