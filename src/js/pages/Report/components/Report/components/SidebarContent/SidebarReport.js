@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import style from './style/report.scss';
 import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
+import DownloadReport from './components/DownloadReport/DownloadReport';
 import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
@@ -207,6 +208,10 @@ export default class SidebarReport extends Component {
 
         return (
             <div className={ style.sidebarReport }>
+                <DownloadReport
+                    i18n={ this.props.i18n }
+                />
+
                 { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>
                     <h4>{ i18n.report_selection_advice }</h4>
                     <select>

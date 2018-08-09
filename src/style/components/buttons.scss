@@ -16,11 +16,11 @@
     border-radius: $border-radius-small;
     margin: .15rem;
 
-
     &:hover {
         background-color: $blue-lighten;
     }
 
+    /* light version of the generic button */
     &.action_button__secondary {
         background: $white;
         color: $brown;
@@ -28,6 +28,24 @@
 
         &:hover {
             background-color: $beige-darken;
+        }
+
+        &.wide {
+            width: 100%;
+        }
+    }
+
+    /* light version of the generic button with a darker hover style */
+    &.light_with_dark_hover {
+        box-shadow: 0 2px 1px 0 $blue-darken;
+        background: $white;
+        border: 0;
+        color: $blue;
+
+        &:hover,
+        &:hover svg {
+            background-color: $blue-darken;
+            color: $white;
         }
     }
 

@@ -1,0 +1,19 @@
+.downloadreport {
+    display: inline-block;
+
+    button {
+        float: left;
+        margin: .25rem;
+    }
+
+    span {
+        text-indent: .5rem;
+        display: inline-block;
+        font-weight: 500;
+    }
+
+    p {
+        color: $white;
+        padding: .5rem;
+    }
+}
