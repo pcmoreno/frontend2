@@ -418,53 +418,50 @@ export default function organisationsReducer(state = initialState, action) {
             try {
                 const panelId = action.amendedEntity.panelId;
                 const entityId = action.amendedEntity.id;
+                const entities = state.panels[panelId].entities;
+                let index = null;
 
-                // purge the referenced panels array (need to rebuild from scratch)
-                newState.panels = [];
-
-                // construct empty helper arrays
-                const tempPanels = [];
-                const tempEntities = [];
-
-                // build up the array
-                state.panels.forEach((panel, index) => {
-
-                    const tempPanel = Object.assign({}, panel);
-
-                    // keep track of processed panelId, to be sure the match below happens in the right panelId
-                    // because, organisations and job functions can have similar id's
-                    const tempPanelId = index;
-
-                    panel.entities.forEach(entity => {
-
-                        // check if id matches, then overwrite the name
-                        if (panelId === tempPanelId && entity.id === entityId) {
-                            entity.name = action.value;
-                        }
-
-                        tempEntities.push(entity);
-                    });
-
-                    // empty, then overwrite with the iterated collection
-                    tempPanel.entities = tempEntities;
-
-                    tempPanels.push(Object.assign({}, panel));
-                });
-
-                // overwrite
-                newState.panels = tempPanels;
-
-                // also update the path with the new name
-                newState.pathNodes = [];
-                state.pathNodes.forEach(pathNode => {
-
-                    // overwrite the name of this pathNode with the amended name
-                    if (pathNode.uuid === action.amendedEntity.uuid && pathNode.panelId === action.amendedEntity.panelId) {
-                        pathNode.name = action.value;
+                // get the index of the entity we want to change
+                for (let i = 0; i < entities.length; i++) {
+                    if (entities[i].id === entityId) {
+                        index = i;
+                        break;
                     }
+                }
 
-                    newState.pathNodes.push(pathNode);
-                });
+                // build the new entities array, with the changed object
+                const newEntities = [
+                    ...entities.slice(0, index),
+                    Object.assign({}, entities[index], { name: action.value }),
+                    ...entities.slice(index + 1)
+                ];
+
+                newState.panels = [
+                    ...state.panels.slice(0, panelId),
+                    Object.assign({}, state.panels[panelId], { entities: newEntities }),
+                    ...state.panels.slice(panelId + 1)
+                ];
+
+                index = null;
+
+                // get the index of the entity we want to change
+                for (let i = 0; i < state.pathNodes.length; i++) {
+                    if (state.pathNodes[i].uuid === action.amendedEntity.uuid &&
+                        state.pathNodes[i].panelId === action.amendedEntity.panelId) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                // build the new entities array, with the changed object
+                newState.pathNodes = [
+                    ...state.pathNodes.slice(0, index),
+                    Object.assign({}, state.pathNodes[index], { name: action.value }),
+                    ...state.pathNodes.slice(index + 1)
+                ];
+
+                // finally update detail panel data, this is where the edit happened
+                newState.detailPanelData.entity = Object.assign({}, state.detailPanelData.entity, { name: action.value });
 
             } catch (e) {
 
@@ -476,6 +473,7 @@ export default function organisationsReducer(state = initialState, action) {
         default:
             return state;
     }
+    console.log('new state detail panel ', newState.detailPanelData.entity.name);
 
     // return the copied, mutated state
     return newState;
