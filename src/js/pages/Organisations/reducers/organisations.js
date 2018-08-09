@@ -473,7 +473,6 @@ export default function organisationsReducer(state = initialState, action) {
         default:
             return state;
     }
-    console.log('new state detail panel ', newState.detailPanelData.entity.name);
 
     // return the copied, mutated state
     return newState;
