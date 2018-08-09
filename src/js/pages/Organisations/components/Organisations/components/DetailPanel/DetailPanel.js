@@ -6,6 +6,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import InlineEditableText from './components/InlineEditableText/InlineEditableText';
 import DetailPanelTabType from '../../../../constants/DetailPanelTabType';
 import EntityType from '../../../../../../constants/EntityType';
+import FieldType from '../../../../constants/FieldType';
 import style from './style/detailpanel.scss';
 
 /** @jsx h */
@@ -93,21 +94,21 @@ export default class DetailPanel extends Component {
                 icon = <FontAwesomeIcon icon='suitcase' />;
 
                 // to be able to amend names for entities, specify the correct section and fieldType
-                amendFieldType = `${EntityType.ORGANISATION}Name`;
+                amendFieldType = FieldType.ORGANISATION;
                 amendSectionType = EntityType.ORGANISATION;
                 break;
             case EntityType.ORGANISATION:
                 icon = <FontAwesomeIcon icon='building' />;
 
                 // to be able to amend names for entities, specify the correct section and fieldType
-                amendFieldType = `${EntityType.ORGANISATION}Name`;
+                amendFieldType = FieldType.ORGANISATION;
                 amendSectionType = EntityType.ORGANISATION;
                 break;
             case EntityType.PROJECT:
                 icon = <FontAwesomeIcon icon='clipboard-list' />;
 
                 // to be able to amend names for entities, specify the correct section and fieldType
-                amendFieldType = `${EntityType.PROJECT}Name`;
+                amendFieldType = FieldType.PROJECT;
                 amendSectionType = EntityType.PROJECT;
                 break;
             default:

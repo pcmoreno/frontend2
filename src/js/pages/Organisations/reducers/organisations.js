@@ -459,7 +459,7 @@ export default function organisationsReducer(state = initialState, action) {
                 state.pathNodes.forEach(pathNode => {
 
                     // overwrite the name of this pathNode with the amended name
-                    if (pathNode.uuid === action.amendedEntity.uuid) {
+                    if (pathNode.uuid === action.amendedEntity.uuid && pathNode.panelId === action.amendedEntity.panelId) {
                         pathNode.name = action.value;
                     }
 
