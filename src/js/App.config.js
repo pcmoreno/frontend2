@@ -139,6 +139,12 @@ const AppConfig = {
                 ]
             },
             organisations: {
+                amendNameAction: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_BACKOFFICE,
+                    UserRoles.ROLE_BEDRIJFSBUREAU,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ],
                 route: [
                     UserRoles.ROLE_APPLICATION_MANAGERS,
                     UserRoles.ROLE_BACKOFFICE,

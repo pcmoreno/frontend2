@@ -1,0 +1,42 @@
+.amendInlineEditable {
+    position: relative;
+
+    input {
+        text-overflow: ellipsis;
+        font-size: 2.4rem;
+        color: $beige-lighten;
+        font-family: $fontheavy;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+        background: none;
+        border: 0;
+        width: 93%;
+    }
+
+    > span {
+        display: none;
+    }
+
+    &:hover {
+        > span {
+            color: $white;
+            display: inline-block;
+            position: absolute;
+            right: 4px;
+            top: 6px;
+            font-size: .75rem;
+        }
+    }
+}
+
+.active {
+    input {
+        &:focus {
+            background: $white;
+            color: $black;
+            padding: 0 .5rem;
+            border: solid 2px $blue-darken;
+        }
+    }
+}

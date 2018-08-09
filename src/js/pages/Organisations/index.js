@@ -64,6 +64,8 @@ class Index extends Component {
         this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
         this.toggleCompetency = this.toggleCompetency.bind(this);
 
+        this.amendInlineEditable = this.amendInlineEditable.bind(this);
+
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
 
@@ -1000,11 +1002,62 @@ class Index extends Component {
         });
     }
 
+    amendInlineEditable(section, field, slug, value) {
+
+        if (value.length < 3 || value.length > 255) {
+            this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
+        } else {
+            document.querySelector('#spinner').classList.remove('hidden');
+
+            const data = {};
+
+            data[field] = value;
+
+            this.api.put(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().updateAbstractSection,
+                {
+                    payload: {
+                        type: 'form',
+                        data
+                    },
+                    urlParams: {
+                        identifiers: {
+                            section,
+                            slug
+                        },
+                        parameters: {
+                            fields: 'id,uuid'
+                        }
+                    }
+                }
+            ).then(response => {
+                document.querySelector('#spinner').classList.add('hidden');
+
+                if (response && response.errors) {
+                    this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+                } else {
+                    this.actions.addAlert({ type: 'success', text: this.i18n.organisations_amend_entity_name_success });
+
+                    const panelId = this.props.pathNodes[this.props.pathNodes.length - 1].panelId;
+                    const lastSelectedItem = this.props.pathNodes[panelId + 1];
+
+                    this.actions.updateAmendedEntity(lastSelectedItem, value);
+                }
+            }).catch(() => {
+                document.querySelector('#spinner').classList.add('hidden');
+
+                this.actions.addAlert({ type: 'error', text: this.i18n.organisations_unexpected_error });
+            });
+        }
+    }
+
     render() {
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         return (
             <Organisations
+                actions={ this.actions }
                 panels={ panels }
                 formOpenByPanelId={ formOpenByPanelId }
                 panelHeaderAddMethods={ this.panelHeaderAddMethods }
@@ -1037,6 +1090,7 @@ class Index extends Component {
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
+                amendInlineEditable={ this.amendInlineEditable }
             />
         );
     }

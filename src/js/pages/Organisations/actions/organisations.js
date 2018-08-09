@@ -128,3 +128,17 @@ export function setFormOpenByPanelId(panelId) {
         panelId
     };
 }
+
+/**
+ * Updates the name of the amended entity in the organisation view
+ * @param {Object} amendedEntity - the item that was amended
+ * @param {string} value - its new name
+ * @returns {undefined}
+ */
+export function updateAmendedEntity(amendedEntity, value) {
+    return {
+        type: actionType.UPDATE_AMENDED_ENTITY,
+        amendedEntity,
+        value
+    };
+}
