@@ -143,7 +143,6 @@ const AppConfig = {
                     UserRoles.ROLE_APPLICATION_MANAGERS,
                     UserRoles.ROLE_BACKOFFICE,
                     UserRoles.ROLE_BEDRIJFSBUREAU,
-                    UserRoles.ROLE_CONSULTANTS,
                     UserRoles.ROLE_CLIENT_CENTER
                 ],
                 route: [
