@@ -11,6 +11,7 @@ export default {
     "login_email_placeholder": "Email address",
     "login_forgot_my_password_label": "I forgot my password",
     "login_forgot_password": "Forgot your password?",
+    "login_forgot_password_all_fields_required": "Please fill in all required fields",
     "login_forgot_password_description": "Enter your email address and we will send you a link to change your password.",
     "login_forgot_password_email": "Email address",
     "login_forgot_password_email_placeholder": "Email address",
