@@ -1,7 +1,7 @@
 export default {
     "login_activate_your_account": "Activate your account",
     "login_all_fields_required": "Please fill in all required fields",
-    "login_api_general_error": "An error occurred while processing your request. please try again.",
+    "login_api_general_error": "An error occurred while processing your request. Please try again.",
     "login_change_password_confirm": "Change",
     "login_change_password_new_password": "New password",
     "login_change_password_new_password_confirm": "Confirm password",
