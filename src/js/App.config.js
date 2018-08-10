@@ -201,7 +201,8 @@ const AppConfig = {
                 name: 'LTP',
                 type: 'organisation'
             }
-        }
+        },
+        forgotPasswordUrl: '/forgot-password'
     },
     languages: {
         supported: [

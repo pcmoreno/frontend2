@@ -1,7 +1,5 @@
 import { h, Component } from 'preact';
 
-// todo: translate this
-
 /** @jsx h */
 
 import style from './style/login.scss';

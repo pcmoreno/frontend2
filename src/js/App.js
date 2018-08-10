@@ -181,6 +181,14 @@ function getError() {
     return System.import('./pages/Error').then(module => module.default);
 }
 
+/**
+ * Returns the forgot password page
+ * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} forgot password page
+ */
+function getForgotPassword() {
+    return System.import('./pages/ForgotPassword').then(module => module.default);
+}
+
 import Header from './components/Header';
 
 /**
@@ -217,6 +225,7 @@ class App extends Component {
                     <Router>
                         <Redirect path="/" to="/inbox" />
                         <AsyncRoute path="/login" getComponent={ getLogin } />
+                        <AsyncRoute path="/forgot-password/" getComponent={ getForgotPassword }/>
 
                         {/* Register routes: 1st is main route, others are legacy routes */}
                         {/* Keep the legacy endpoints so only dns redirection (cname) will do the job */}
