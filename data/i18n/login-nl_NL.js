@@ -11,6 +11,7 @@ export default {
     "login_email_placeholder": "E-mailadres",
     "login_forgot_my_password_label": "Wachtwoord vergeten?",
     "login_forgot_password": "Wachtwoord vergeten?",
+    "login_forgot_password_all_fields_required": "Voer a.u.b. de verplichte velden in",
     "login_forgot_password_description": "Vul uw e-mailadres in en wij zullen u een link sturen om uw wachtwoord te wijzigen.",
     "login_forgot_password_email": "E-mailadres",
     "login_forgot_password_email_placeholder": "E-mailadres",
