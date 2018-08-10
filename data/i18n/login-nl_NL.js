@@ -1,7 +1,7 @@
 export default {
     "login_activate_your_account": "Activeer uw account",
     "login_all_fields_required": "Voer a.u.b. de verplichte velden in",
-    "login_api_general_error": "Er is een fout opgetreden. probeer het opnieuw.",
+    "login_api_general_error": "Er is een fout opgetreden. Probeer het opnieuw.",
     "login_change_password_confirm": "Wijzigen",
     "login_change_password_new_password": "Nieuw wachtwoord",
     "login_change_password_new_password_confirm": "Bevestig wachtwoord",
