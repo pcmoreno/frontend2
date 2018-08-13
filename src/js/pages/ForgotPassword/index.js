@@ -7,8 +7,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import AppConfig from '../../App.config';
-
-// import Logger from '../../utils/logger';
+import Logger from '../../utils/logger';
 
 export default class Index extends Component {
     constructor(props) {
@@ -26,20 +25,27 @@ export default class Index extends Component {
      */
     submitForgotPasswordRequest(username) {
         return new Promise((resolve, reject) => {
-
-            // todo: implement actual api call here to request the email
-            // console.log('request email');
-
-            // todo: resolve with empty object when call succeeds, remove two lines below
-            resolve({ username });
-            reject(new Error(''));
-
-            // todo: put in catch
-            // reject(new Error('Could not request password reset email'));
-            // Logger.instance.error({
-            //     component: 'login',
-            //     message: `Could not request password reset email for user: ${username}`
-            // });
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().forgotPassword.requestEmail,
+                {
+                    payload: {
+                        type: 'form',
+                        formKey: 'request_new_password_form',
+                        data: {
+                            email: username
+                        }
+                    }
+                }
+            ).then(response => {
+                resolve(response);
+            }).catch(error => {
+                reject(new Error('Could not request password reset email'));
+                Logger.instance.error({
+                    component: 'login',
+                    message: `Could not request password reset email for user: ${username}, error: ${error.message || error}`
+                });
+            });
         });
     }
 
@@ -54,7 +60,7 @@ export default class Index extends Component {
         return (
             <ForgotPassword
                 submitForgotPasswordRequest={ this.submitForgotPasswordRequest }
-                i18n={ translator(browserLanguage, 'login') }
+                i18n={ translator(browserLanguage, ['login', 'form']) }
             />
         );
     }

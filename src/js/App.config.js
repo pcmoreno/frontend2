@@ -80,6 +80,9 @@ const AppConfig = {
                     accountLogin: '/v1/user/invite/login/{slug}',
                     participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
                     participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}' // todo: remove later, legacy link support
+                },
+                forgotPassword: {
+                    requestEmail: '/v1/user/request-password'
                 }
             },
             urlEncodeParams: true,

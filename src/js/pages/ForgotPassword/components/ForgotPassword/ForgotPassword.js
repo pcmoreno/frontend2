@@ -37,28 +37,26 @@ export default class ForgotPassword extends Component {
             return;
         }
 
-        this.setSubmitDisabled(true);
+        this.localState.submitDisabled = true;
+        this.setState(this.localState);
 
         // request email
-        this.props.submitForgotPasswordRequest(this.localState.username).then(() => {
+        this.props.submitForgotPasswordRequest(this.localState.username).then(response => {
 
-            // no need to set state for this, submit disable will trigger it
-            this.localState.requestSuccessful = true;
+            if (response.errors) {
+                this.localState.error = this.props.i18n[response.errors[0]] || this.props.i18n.login_api_general_error;
+            } else {
+                this.localState.requestSuccessful = true;
+            }
 
-            this.setSubmitDisabled(false);
+            this.localState.submitDisabled = false;
+            this.setState(this.localState);
 
         }).catch(() => {
-
-            // no need to set state for this, submit disable will trigger it
             this.localState.error = this.props.i18n.login_api_general_error;
-
-            this.setSubmitDisabled(false);
+            this.localState.submitDisabled = false;
+            this.setState(this.localState);
         });
-    }
-
-    setSubmitDisabled(disabled) {
-        this.localState.submitDisabled = disabled;
-        this.setState(this.localState);
     }
 
     render() {
