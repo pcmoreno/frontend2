@@ -89,6 +89,8 @@ export default class Report extends Component {
 
         const { report, saveReportText, i18n, languageId, saveCompetencyScore } = this.props;
 
+        console.table(report)
+
         // don't render without a report
         if (!report || !report.isLoaded) {
             return null;
@@ -111,6 +113,7 @@ export default class Report extends Component {
                     competencies={ report.competencies }
                     saveReportText={ saveReportText }
                     saveCompetencyScore={ saveCompetencyScore }
+                    generateReport={ this.props.generateReport }
                 />
             },
             {

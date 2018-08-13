@@ -28,6 +28,7 @@ class Index extends Component {
 
         this.saveReportText = this.saveReportText.bind(this);
         this.saveCompetencyScore = this.saveCompetencyScore.bind(this);
+        this.generateReport = this.generateReport.bind(this);
     }
 
     componentWillMount() {
@@ -334,6 +335,38 @@ class Index extends Component {
         });
     }
 
+    generateReport() {
+        return new Promise((onFulfilled, onRejected) => {
+
+            this.api[ApiMethod.POST](
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().report.generatePdf,
+                {
+                    urlParams: {
+                        identifiers: {
+                            slug: this.participantSessionId
+                        }
+                    }
+                }
+            ).then(response => {
+
+                // check for input validation errors form the API
+                if (response.errors) {
+
+                    // show (translated) error message
+                    return onRejected(new Error('kapot'));
+                }
+
+                // resolve when the call succeeds
+                return onFulfilled(response);
+
+            }).catch(() => {
+                this.actions.addAlert({ type: 'error', text: 'Could not generate report for this participant (translate)' });
+                return onRejected(new Error(`Could not generate report for participant ${this.participantSessionId}`));
+            });
+        });
+    }
+
     render() {
         return (
             <Report
@@ -342,6 +375,7 @@ class Index extends Component {
                 saveCompetencyScore={ this.saveCompetencyScore }
                 i18n = { this.i18n }
                 languageId={ this.props.languageId }
+                generateReport={ this.generateReport }
             />
         );
     }

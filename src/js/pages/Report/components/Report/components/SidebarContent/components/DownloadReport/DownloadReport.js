@@ -13,9 +13,11 @@ export default class DownloadReport extends Component {
         };
     }
 
-    generateReport() {
+    handleGenerateReport() {
         this.localState.generating = true;
         this.setState(this.localState);
+
+        this.props.generateReport();
     }
 
     render() {
@@ -27,7 +29,7 @@ export default class DownloadReport extends Component {
                 type="submit"
                 className="action_button light_with_dark_hover"
                 onClick={ () => {
-                    this.generateReport();
+                    this.handleGenerateReport();
                 } }
             >
                 <FontAwesomeIcon icon={ 'sync-alt' } />
