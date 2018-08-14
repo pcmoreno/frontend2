@@ -210,7 +210,9 @@ export default class SidebarReport extends Component {
             <div className={ style.sidebarReport }>
                 <DownloadReport
                     i18n={ this.props.i18n }
+                    generatedReport={ this.props.generatedReport }
                     generateReport={ this.props.generateReport }
+                    downloadReport={ this.props.downloadReport }
                 />
 
                 { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>

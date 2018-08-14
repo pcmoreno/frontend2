@@ -14,6 +14,8 @@ class Message extends Component {
         </div>;
 
         if (message.ssoLink && message.ssoLink !== 'Something went wrong with the API call') {
+            console.log(message.ssoLink)
+
             startButton = <div className={ style.participantsAction }>
                 <a className="action_button" href={ message.ssoLink }>
                     { i18n.inbox_start }
