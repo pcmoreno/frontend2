@@ -23,6 +23,8 @@ class Index extends Component {
             dispatch
         );
 
+        this.startQuestionnaire = this.startQuestionnaire.bind(this);
+
         this.api = ApiFactory.get('neon');
         this.i18n = translator(this.props.languageId, 'inbox');
     }
@@ -68,6 +70,32 @@ class Index extends Component {
         });
     }
 
+    startQuestionnaire(participantSessionSlug) {
+
+        // show spinner
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        // request redirect url
+        this.api.put(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().inbox.redirectToOnline,
+            {
+                payload: {
+                    data: {
+                        participantSessionSlug
+                    },
+                    type: 'form'
+                }
+            }
+        ).then(response => {
+            document.querySelector('#spinner').classList.add('hidden');
+
+            window.open('http://www.nu.nl');
+        }).catch(() => {
+            document.querySelector('#spinner').classList.add('hidden');
+            this.actions.addAlert({ type: 'error', text: this.i18n.inbox_could_not_process_your_request });
+        });
+    }
 
     render() {
         this.i18n = translator(this.props.languageId, 'inbox');
@@ -75,6 +103,7 @@ class Index extends Component {
         return (
             <Inbox
                 messages={ this.props.messages }
+                startQuestionnaire={ this.startQuestionnaire }
                 i18n={ this.i18n }
             />
         );
