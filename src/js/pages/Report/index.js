@@ -357,15 +357,20 @@ class Index extends Component {
                 if (response.errors) {
 
                     // show (translated) error message
-                    return onRejected(new Error(`Could not generate report for participant ${this.participantSessionId}`));
+                    return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
                 }
 
                 // resolve when the call succeeds
                 return onFulfilled(response);
 
-            }).catch(() => {
-                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
-                return onRejected(new Error('Could not generate report'));
+            }).catch(error => {
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_generating });
+                Logger.instance.error({
+                    component: 'Tasks',
+                    message: `Could not generate report for participantSession: ${this.participantSessionId}`,
+                    response: error && error.message ? error.message : error || ''
+                });
+                return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
             });
         });
     }

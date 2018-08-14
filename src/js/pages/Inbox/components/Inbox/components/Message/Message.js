@@ -7,11 +7,8 @@ class Message extends Component {
     render() {
         const { message, i18n } = this.props;
 
-        let startButton = <div className={ style.participantsAction }>
-            <a className="action_button disabled" href="#notimplemented">
-                (link invalid)
-            </a>
-        </div>;
+        // this ensures start button is only visible when the link is valid
+        let startButton = null;
 
         if (message.ssoLink && message.ssoLink !== 'Something went wrong with the API call') {
             startButton = <div className={ style.participantsAction }>

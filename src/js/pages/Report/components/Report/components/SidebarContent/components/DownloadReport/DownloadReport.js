@@ -14,7 +14,7 @@ export default class DownloadReport extends Component {
         };
     }
 
-    handleGenerateReport() {
+    generateReport() {
 
         // immediately hide the generate button to prevent bashing
         this.localState.generating = true;
@@ -23,7 +23,7 @@ export default class DownloadReport extends Component {
         this.props.generateReport();
     }
 
-    handleDownloadReport() {
+    downloadReport() {
         this.props.downloadReport();
     }
 
@@ -31,13 +31,13 @@ export default class DownloadReport extends Component {
         const { i18n, generatedReport } = this.props;
 
 
-        // only show the downloadbutton when the status is 'published'
+        // only show the download button when the status is 'published'
         const downloadButton = (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED
             ? <button
                 type="submit"
                 className="action_button light_with_dark_hover"
                 onClick={ () => {
-                    this.handleDownloadReport();
+                    this.downloadReport();
                 } }
             >
                 <FontAwesomeIcon icon={ 'download' } />
@@ -52,7 +52,7 @@ export default class DownloadReport extends Component {
                 type="submit"
                 className="action_button light_with_dark_hover"
                 onClick={ () => {
-                    this.handleGenerateReport();
+                    this.generateReport();
                 } }
             >
                 <FontAwesomeIcon icon={ 'sync-alt' } />
