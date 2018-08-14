@@ -31,7 +31,7 @@ export default class DownloadReport extends Component {
         const { i18n, generatedReport } = this.props;
 
 
-        // only show the downloadbutton when the status is 'published' todo: add link to report
+        // only show the downloadbutton when the status is 'published'
         const downloadButton = (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED
             ? <button
                 type="submit"

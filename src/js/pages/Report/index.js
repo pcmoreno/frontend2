@@ -12,7 +12,7 @@ import Report from './components/Report/Report';
 import translator from '../../utils/translator';
 import Logger from '../../utils/logger';
 import ApiMethod from '../../utils/api/constants/ApiMethod';
-import Utils from "../../utils/utils";
+import Utils from '../../utils/utils';
 
 class Index extends Component {
     constructor(props) {
