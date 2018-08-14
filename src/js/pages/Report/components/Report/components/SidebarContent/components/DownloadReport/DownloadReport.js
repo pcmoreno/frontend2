@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import downloadReportGenerationStatus from '../../../../../../constants/downloadReportGenerationStatus';
+import DownloadReportGenerationStatus from '../../../../../../constants/DownloadReportGenerationStatus';
 import style from './style/downloadreport.scss';
 
 /** @jsx h */
@@ -10,7 +10,7 @@ export default class DownloadReport extends Component {
         super(props);
 
         this.localState = {
-            generating: this.props.generatedReport.generationStatus === downloadReportGenerationStatus.GENERATING
+            generating: this.props.generatedReport.generationStatus === DownloadReportGenerationStatus.GENERATING
         };
     }
 
@@ -32,7 +32,7 @@ export default class DownloadReport extends Component {
 
 
         // only show the download button when the status is 'published'
-        const downloadButton = (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED
+        const downloadButton = (generatedReport.generationStatus === DownloadReportGenerationStatus.PUBLISHED
             ? <button
                 type="submit"
                 className="action_button light_with_dark_hover"

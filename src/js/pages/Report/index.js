@@ -363,13 +363,8 @@ class Index extends Component {
                 // resolve when the call succeeds
                 return onFulfilled(response);
 
-            }).catch(error => {
+            }).catch(() => {
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_generating });
-                Logger.instance.error({
-                    component: 'Tasks',
-                    message: `Could not generate report for participantSession: ${this.participantSessionId}`,
-                    response: error && error.message ? error.message : error || ''
-                });
                 return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
             });
         });

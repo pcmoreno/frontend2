@@ -1,5 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
-import downloadReportGenerationStatus from '../constants/downloadReportGenerationStatus';
+import downloadReportGenerationStatus from '../constants/DownloadReportGenerationStatus';
 import moment from 'moment';
 import Logger from '../../../utils/logger';
 

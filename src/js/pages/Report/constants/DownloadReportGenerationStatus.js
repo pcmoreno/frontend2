@@ -1,7 +1,7 @@
-const downloadReportGenerationStatus = {
+const DownloadReportGenerationStatus = {
     NOTAVAILABLE: 'not_available',
     GENERATING: 'generating',
     PUBLISHED: 'published'
 };
 
-export default downloadReportGenerationStatus;
+export default DownloadReportGenerationStatus;
