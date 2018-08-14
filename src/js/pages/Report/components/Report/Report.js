@@ -85,8 +85,6 @@ export default class Report extends Component {
 
     render() {
 
-        // todo: titles of blocks/sections should be translated
-
         const { report, saveReportText, i18n, languageId, saveCompetencyScore } = this.props;
 
         // don't render without a report
@@ -111,6 +109,9 @@ export default class Report extends Component {
                     competencies={ report.competencies }
                     saveReportText={ saveReportText }
                     saveCompetencyScore={ saveCompetencyScore }
+                    generateReport={ this.props.generateReport }
+                    downloadReport={ this.props.downloadReport }
+                    generatedReport={ report.generatedReport }
                 />
             },
             {
@@ -227,7 +228,7 @@ export default class Report extends Component {
                 </section>
 
                 <Authorised api={ this.api } component={ ReportComponents.REPORT_COMPONENT } action={ ReportActions.WRITE_ACTION }>
-                    <Sidebar tabs={ tabs } i18n={i18n} />
+                    <Sidebar tabs={tabs} i18n={i18n} />
                 </Authorised>
 
             </main>

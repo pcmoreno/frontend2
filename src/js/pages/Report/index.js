@@ -12,6 +12,7 @@ import Report from './components/Report/Report';
 import translator from '../../utils/translator';
 import Logger from '../../utils/logger';
 import ApiMethod from '../../utils/api/constants/ApiMethod';
+import Utils from '../../utils/utils';
 
 class Index extends Component {
     constructor(props) {
@@ -28,6 +29,10 @@ class Index extends Component {
 
         this.saveReportText = this.saveReportText.bind(this);
         this.saveCompetencyScore = this.saveCompetencyScore.bind(this);
+        this.generateReport = this.generateReport.bind(this);
+        this.downloadReport = this.downloadReport.bind(this);
+
+        this.loadingPdf = false;
     }
 
     componentWillMount() {
@@ -334,6 +339,86 @@ class Index extends Component {
         });
     }
 
+    generateReport() {
+        return new Promise((onFulfilled, onRejected) => {
+
+            this.api[ApiMethod.POST](
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().report.generateReport,
+                {
+                    urlParams: {
+                        identifiers: {
+                            slug: this.participantSessionId
+                        }
+                    }
+                }
+            ).then(response => {
+
+                if (response.errors) {
+
+                    // show (translated) error message
+                    return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
+                }
+
+                // resolve when the call succeeds
+                return onFulfilled(response);
+
+            }).catch(() => {
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_generating });
+                return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
+            });
+        });
+    }
+
+    downloadReport() {
+        if (this.loadingPdf) {
+            return;
+        }
+
+        const api = ApiFactory.get('neon');
+
+        this.loadingPdf = true;
+
+        // show spinner
+        document.querySelector('#spinner').classList.remove('hidden');
+
+        api.get(
+            api.getBaseUrl(),
+            api.getEndpoints().report.downloadReport,
+            {
+                urlParams: {
+                    identifiers: {
+                        slug: this.participantSessionId
+                    }
+                }
+            }
+        ).then(response => {
+
+            if (response.errors) {
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
+            }
+
+            document.querySelector('#spinner').classList.add('hidden');
+
+            // download the pdf file, exceptions thrown are automatically caught in the promise chain
+            Utils.downloadPdfFromBlob(response.blob, {
+                fileName: response.fileName
+            });
+            this.loadingPdf = false;
+
+        }).catch(error => {
+            this.loadingPdf = false;
+            document.querySelector('#spinner').classList.add('hidden');
+
+            this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
+            Logger.instance.error({
+                component: 'Tasks',
+                message: `Could not download report for participantSession: ${this.participantSessionId}`,
+                response: error && error.message ? error.message : error || ''
+            });
+        });
+    }
+
     render() {
         return (
             <Report
@@ -342,6 +427,8 @@ class Index extends Component {
                 saveCompetencyScore={ this.saveCompetencyScore }
                 i18n = { this.i18n }
                 languageId={ this.props.languageId }
+                generateReport={ this.generateReport }
+                downloadReport={ this.downloadReport }
             />
         );
     }

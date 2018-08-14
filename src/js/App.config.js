@@ -71,8 +71,10 @@ const AppConfig = {
                     createTextField: '/v1/section/textFieldInReport',
                     updateTextField: '/v1/section/textFieldInReport/slug/{slug}',
                     downloadIntermediateReport: '/v1/download-intermediate-report/{slug}',
+                    downloadReport: '/v1/download-pdf-report/{slug}',
                     createCompetencyScore: '/v1/section/competencyScoredInReport',
-                    updateCompetencyScore: '/v1/section/competencyScoredInReport/slug/{slug}'
+                    updateCompetencyScore: '/v1/section/competencyScoredInReport/slug/{slug}',
+                    generateReport: '/v1/generate-pdf-report/{slug}'
                 },
                 register: {
                     accountStatus: '/v1/user/status/{slug}',

@@ -1,4 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
+import downloadReportGenerationStatus from '../constants/DownloadReportGenerationStatus';
 import moment from 'moment';
 import Logger from '../../../utils/logger';
 
@@ -42,7 +43,8 @@ export default function reportReducer(state = initialState, action) {
 
                 // consist of: fieldName = {name: '', value: '', slug: ''}
                 texts: {},
-                competencies: []
+                competencies: [],
+                generatedReport: {}
             };
 
             try {
@@ -51,6 +53,7 @@ export default function reportReducer(state = initialState, action) {
                 const organisation = action.report.organisation;
                 const consultant = action.report.consultant;
                 const report = action.report.report;
+                const generatedReport = action.report.generatedReport;
 
                 if (!report) {
                     logger.error({
@@ -135,6 +138,14 @@ export default function reportReducer(state = initialState, action) {
                 // set hnaCategoryScores
                 if (report.hnaCategoryScores) {
                     newState.report.hnaCategoryScores = report.hnaCategoryScores;
+                }
+
+                // set downloadReport generation status
+                newState.report.generatedReport.generationStatus = generatedReport.generationStatus;
+
+                // if generationStatus is 'published', set the last generated date
+                if (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED) {
+                    newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY');
                 }
 
             } catch (e) {
