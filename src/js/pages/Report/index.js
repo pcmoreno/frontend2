@@ -396,14 +396,16 @@ class Index extends Component {
 
             if (response.errors) {
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
+                return;
             }
-
-            document.querySelector('#spinner').classList.add('hidden');
 
             // download the pdf file, exceptions thrown are automatically caught in the promise chain
             Utils.downloadPdfFromBlob(response.blob, {
                 fileName: response.fileName
             });
+
+            document.querySelector('#spinner').classList.add('hidden');
+
             this.loadingPdf = false;
 
         }).catch(error => {

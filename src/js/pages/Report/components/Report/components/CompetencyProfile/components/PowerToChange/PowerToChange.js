@@ -10,7 +10,7 @@ export default class PowerToChange extends Component {
 
     render() {
         const { i18n, score } = this.props;
-        let description = i18n.report_power_to_change_default_text_paragraph_1;
+        const description = i18n.report_power_to_change_default_text_paragraph_1;
 
         return (
             <div className={ style.powerToChange }>
