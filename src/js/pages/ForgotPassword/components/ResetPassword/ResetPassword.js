@@ -40,6 +40,12 @@ export default class ResetPassword extends Component {
         const password = this.localState.input.password;
         const passwordConfirm = this.localState.input.passwordConfirm;
 
+        if (!password || !passwordConfirm) {
+            this.localState.error = this.props.i18n.login_forgot_password_all_fields_required;
+            this.setState(this.localState);
+            return;
+        }
+
         if (password !== passwordConfirm) {
             this.localState.error = this.props.i18n.login_change_password_passwords_dont_match;
             this.setState(this.localState);
