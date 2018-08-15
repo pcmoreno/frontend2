@@ -8,6 +8,7 @@ import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import AppConfig from '../../App.config';
 import Logger from '../../utils/logger';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 export default class Index extends Component {
     constructor(props) {
@@ -16,6 +17,41 @@ export default class Index extends Component {
         this.api = ApiFactory.get('neon');
 
         this.submitForgotPasswordRequest = this.submitForgotPasswordRequest.bind(this);
+        this.submitResetPasswordRequest = this.submitResetPasswordRequest.bind(this);
+        this.validateResetToken = this.validateResetToken.bind(this);
+    }
+
+    submitResetPasswordRequest(email, token, password, passwordConfirm) {
+        return new Promise((resolve, reject) => {
+            this.api.post(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().forgotPassword.changePassword,
+                {
+                    payload: {
+                        type: 'form',
+                        formKey: 'change_password_form',
+                        data: {
+                            password: {
+                                first: password,
+                                second: passwordConfirm
+                            },
+                            email,
+                            token
+                        }
+                    }
+                }
+            ).then(response => {
+                resolve(response);
+            }).catch(error => {
+                reject(new Error('Could not request password reset email'));
+                Logger.instance.error({
+                    component: 'login',
+                    message: `Could not request password reset email for user: ${email}, error: ${error.message || error}`
+                });
+            });
+        });
+    }
+
     validateResetToken(email, token) {
         return new Promise((resolve, reject) => {
             this.api.get(
@@ -73,18 +109,28 @@ export default class Index extends Component {
     }
 
     render() {
-
         const browserLanguage = Utils.getBrowserLanguage(
             AppConfig.languages.supported,
             AppConfig.languages.defaultLanguage,
             AppConfig.languages.mapped
         );
+        let component = null;
 
-        return (
-            <ForgotPassword
+        if (this.props.matches.token && this.props.matches.email) {
+            component = <ResetPassword
+                submitResetPasswordRequest={ this.submitResetPasswordRequest }
+                validateResetToken={ this.validateResetToken }
+                token={ this.props.token }
+                email={ this.props.email }
+                i18n={ translator(browserLanguage, ['login', 'form']) }
+            />;
+        } else {
+            component = <ForgotPassword
                 submitForgotPasswordRequest={ this.submitForgotPasswordRequest }
                 i18n={ translator(browserLanguage, ['login', 'form']) }
-            />
-        );
+            />;
+        }
+
+        return (component);
     }
 }
