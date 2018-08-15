@@ -82,7 +82,9 @@ const AppConfig = {
                     participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}' // todo: remove later, legacy link support
                 },
                 forgotPassword: {
-                    requestEmail: '/v1/user/request-password'
+                    requestEmail: '/v1/user/request-password',
+                    validateToken: '/v1/user/verify-password-reset/{email}/{token}',
+                    changePassword: '/v1/user/change-password'
                 }
             },
             urlEncodeParams: true,
