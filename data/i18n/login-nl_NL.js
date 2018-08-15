@@ -23,7 +23,7 @@ export default {
     "login_login_failed": "Inloggen mislukt. probeer het opnieuw.",
     "login_login_label": "Inloggen",
     "login_new_user_title": "Account aanmaken",
-    "login_password_change_successful": "Uw wachtwoord is gewijzigd.",
+    "login_password_change_successful": "Uw wachtwoord is gewijzigd. U kunt nu inloggen.",
     "login_password_label": "Wachtwoord",
     "login_password_placeholder": "Wachtwoord",
     "login_registration_successful": "Registratie geslaagd. u kunt nu inloggen."
