@@ -60,6 +60,9 @@ export default class Index extends Component {
         if (this.props.matches && this.props.matches.registrationSuccess) {
             this.localState.successMessage = this.i18n.login_registration_successful;
             this.setState(this.localState);
+        } else if (this.props.matches && this.props.matches.passwordChangeSuccessful) {
+            this.localState.successMessage = this.i18n.login_password_change_successful;
+            this.setState(this.localState);
         }
 
         this.timeout = window.setTimeout(() => {

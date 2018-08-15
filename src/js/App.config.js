@@ -82,6 +82,11 @@ const AppConfig = {
                     accountLogin: '/v1/user/invite/login/{slug}',
                     participantAcceptTerms: '/v1/participant/invite/terms-and-conditions/{slug}',
                     participantAccountHasRole: '/v1/participant/invite/account-has-role/{slug}' // todo: remove later, legacy link support
+                },
+                forgotPassword: {
+                    requestEmail: '/v1/user/request-password',
+                    validateToken: '/v1/user/verify-password-reset/{email}/{token}',
+                    changePassword: '/v1/user/change-password'
                 }
             },
             urlEncodeParams: true,
@@ -92,6 +97,7 @@ const AppConfig = {
             // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
             credentials: 'include',
             logoutRedirect: '/login',
+            loginRedirect: '/login',
             loggingExclusions: {
 
                 // endpoints of api errors should not be logged at all
@@ -203,7 +209,8 @@ const AppConfig = {
                 name: 'LTP',
                 type: 'organisation'
             }
-        }
+        },
+        forgotPasswordUrl: '/forgot-password'
     },
     languages: {
         supported: [

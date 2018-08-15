@@ -3,6 +3,7 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 import style from './style/loginform.scss';
+import AppConfig from '../../../../App.config';
 
 export default class LoginForm extends Component {
 
@@ -45,7 +46,7 @@ export default class LoginForm extends Component {
                                 />
                             </div>
                             <span className={ style.link }>
-                                <a href="#notimplemented">{ i18n.login_forgot_password }</a>
+                                <a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.login_forgot_password }</a>
                             </span>
                             <span className={ style.errors }>
                                 { error }
