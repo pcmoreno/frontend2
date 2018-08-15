@@ -5,11 +5,11 @@ import style from './style/scorebar.scss';
 
 export default class ScoreBar extends Component {
     render() {
-        const { legend, i18n, score } = this.props;
+        const { i18n, score } = this.props;
 
         return (
             <section className={ style.scoreBar }>
-                <section className={`${style.legend} ${legend ? '' : 'hidden'}`}>
+                <section className={`${style.legend} hidden`}>
                     <span>{ i18n.report_low }</span>
                     <span>{ i18n.report_high }</span>
                 </section>
