@@ -1004,7 +1004,7 @@ class Index extends Component {
 
     amendInlineEditable(section, field, slug, value) {
 
-        if (value.length < 3 || value.length > 255) {
+        if (value.length < 2 || value.length > 255) {
             this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
         } else {
             document.querySelector('#spinner').classList.remove('hidden');
