@@ -4,6 +4,7 @@ import { h, Component } from 'preact';
 
 import mainStyle from '../../style/register.scss';
 import style from './style/register.scss';
+import AppConfig from '../../../../App.config';
 
 export default class Register extends Component {
 
@@ -78,7 +79,7 @@ export default class Register extends Component {
                             <span>{ i18n.register_login_label }</span>
                         </div>
                         <p className={ mainStyle.link}>
-                            <a href="#notimplemented">{ i18n.register_forgot_my_password_label }</a>
+                            <a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.register_forgot_my_password_label }</a>
                         </p>
                     </section>
                 </div>

@@ -35,7 +35,7 @@ export default class Index extends Component {
                                 first: password,
                                 second: passwordConfirm
                             },
-                            email,
+                            email: email.toLowerCase(),
                             token
                         }
                     }
@@ -60,7 +60,7 @@ export default class Index extends Component {
                 {
                     urlParams: {
                         identifiers: {
-                            email,
+                            email: email.toLowerCase(),
                             token
                         }
                     }
