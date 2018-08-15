@@ -2,7 +2,8 @@ const HnaCategories = {
     IntellectualCapabilities: {
         ABSTRACT_INTELLIGENCE: 'itg-abstr',
         VERBAL_INTELLIGENCE: 'itg-verba',
-        NUMERIC_INTELLIGENCE: 'itg-numer'
+        NUMERIC_INTELLIGENCE: 'itg-numer',
+        TOTAL_INTELLIGENCE: 'itg-totaa'
     },
     Personality: {
         EMOTIONAL_STABILITY: 'psh-emost',
