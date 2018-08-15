@@ -4,10 +4,11 @@ import Register from './../components/Register/Register';
 import translator from '../../../utils/translator';
 import Login from './../components/Login/Login';
 import AbstractRegistration from './AbstractRegistration';
+import AppConfig from '../../../App.config';
 
 /** @jsx h */
 
-const loginEndpoint = '/login';
+const loginEndpoint = AppConfig.api.neon.loginRedirect;
 const registrationSuccessful = '?registrationSuccess=true';
 
 /**

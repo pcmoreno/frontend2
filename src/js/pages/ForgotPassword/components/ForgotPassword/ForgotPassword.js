@@ -37,6 +37,7 @@ export default class ForgotPassword extends Component {
             return;
         }
 
+        this.localState.error = '';
         this.localState.submitDisabled = true;
         this.setState(this.localState);
 

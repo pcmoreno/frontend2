@@ -1,4 +1,4 @@
-import { h, Component, render } from 'preact';
+import { h, Component } from 'preact';
 import ApiFactory from '../../utils/api/factory';
 
 /** @jsx h */
@@ -16,6 +16,29 @@ export default class Index extends Component {
         this.api = ApiFactory.get('neon');
 
         this.submitForgotPasswordRequest = this.submitForgotPasswordRequest.bind(this);
+    validateResetToken(email, token) {
+        return new Promise((resolve, reject) => {
+            this.api.get(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().forgotPassword.validateToken,
+                {
+                    urlParams: {
+                        identifiers: {
+                            email,
+                            token
+                        }
+                    }
+                }
+            ).then(response => {
+                resolve(response);
+            }).catch(error => {
+                reject(new Error('Could not request password reset email'));
+                Logger.instance.error({
+                    component: 'login',
+                    message: `Could verify password reset token for user: ${email}, error: ${error.message || error}`
+                });
+            });
+        });
     }
 
     /**

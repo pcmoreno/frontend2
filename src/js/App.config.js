@@ -97,6 +97,7 @@ const AppConfig = {
             // https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
             credentials: 'include',
             logoutRedirect: '/login',
+            loginRedirect: '/login',
             loggingExclusions: {
 
                 // endpoints of api errors should not be logged at all
