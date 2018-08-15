@@ -7,6 +7,7 @@ import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import BulletList from '../BulletList/BulletList';
 import HnaCategories from '../../../../../../../constants/HnaCategories';
+import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 /** @jsx h */
 
@@ -37,10 +38,19 @@ export default class InfluencingStyles extends Component {
                         </Details>
                     </AttachmentRow>
 
+                    <AttachmentRow intellectualCapabilities={ true }>
+                        <section />
+                        <legend>
+                            <span>{ i18n.report_low }</span>
+                            <span>{ i18n.report_high }</span>
+                        </legend>
+                        <section />
+                    </AttachmentRow>
+
                     <AttachmentRow>
                         <h4>{i18n.report_manipulative}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } legend={ true } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -57,8 +67,8 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_straightforward}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -75,8 +85,8 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_assertive}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -93,8 +103,8 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_anticipating}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>

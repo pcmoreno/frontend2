@@ -21,8 +21,6 @@ export default class Competency extends Component {
 
         this.hypher = false;
         this.languageId = this.props.languageId;
-
-
     }
 
     hyphenateText(val) {

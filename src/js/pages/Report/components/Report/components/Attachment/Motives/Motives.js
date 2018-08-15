@@ -7,6 +7,7 @@ import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import BulletList from '../BulletList/BulletList';
 import HnaCategories from '../../../../../../../constants/HnaCategories';
+import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 /** @jsx h */
 
@@ -37,10 +38,19 @@ export default class Motives extends Component {
                         </Details>
                     </AttachmentRow>
 
+                    <AttachmentRow intellectualCapabilities={ true }>
+                        <section />
+                        <legend>
+                            <span>{ i18n.report_low }</span>
+                            <span>{ i18n.report_high }</span>
+                        </legend>
+                        <section />
+                    </AttachmentRow>
+
                     <AttachmentRow>
                         <h4>{i18n.report_performance_motivation}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } legend={ true } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -57,8 +67,8 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_to_influence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -75,8 +85,8 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_acceptance}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -94,8 +104,8 @@ export default class Motives extends Component {
                     {/* attention! this is a typo coming from the API it should be dve-beaau */}
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_autonomy}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>

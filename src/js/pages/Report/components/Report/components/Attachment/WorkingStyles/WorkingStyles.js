@@ -7,6 +7,7 @@ import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import BulletList from '../BulletList/BulletList';
 import HnaCategories from '../../../../../../../constants/HnaCategories';
+import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 /** @jsx h */
 
@@ -37,10 +38,19 @@ export default class WorkingStyles extends Component {
                         </Details>
                     </AttachmentRow>
 
+                    <AttachmentRow intellectualCapabilities={ true }>
+                        <section />
+                        <legend>
+                            <span>{ i18n.report_low }</span>
+                            <span>{ i18n.report_high }</span>
+                        </legend>
+                        <section />
+                    </AttachmentRow>
+
                     <AttachmentRow>
                         <h4>{i18n.report_success_achievement}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.SUCCESS_ACHIEVEMENT] } legend={ true } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.SUCCESS_ACHIEVEMENT] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.SUCCESS_ACHIEVEMENT] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -57,8 +67,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_quality_achievement}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.QUALITY_ACHIEVEMENT] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.QUALITY_ACHIEVEMENT] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.QUALITY_ACHIEVEMENT] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -75,8 +85,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_development_orientation}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DEVELOPMENT_ORIENTATION] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DEVELOPMENT_ORIENTATION] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.DEVELOPMENT_ORIENTATION] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -93,8 +103,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_performance_uncertainty}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.PERFORMANCE_UNCERTAINTY] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.PERFORMANCE_UNCERTAINTY] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.PERFORMANCE_UNCERTAINTY] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -111,8 +121,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_looking_for_challenges}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.LOOKING_FOR_CHALLENGES] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.LOOKING_FOR_CHALLENGES] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.LOOKING_FOR_CHALLENGES] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -129,8 +139,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_decisiveness}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DECISIVENESS] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DECISIVENESS] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.DECISIVENESS] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -147,8 +157,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_goal_oriented}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.GOAL_ORIENTED] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.GOAL_ORIENTED] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.GOAL_ORIENTED] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -165,8 +175,8 @@ export default class WorkingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_taking_risks}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.TAKING_RISKS] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.TAKING_RISKS] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.TAKING_RISKS] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
