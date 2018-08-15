@@ -49,7 +49,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_performance_motivation}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -67,7 +67,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_to_influence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -85,7 +85,7 @@ export default class Motives extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_acceptance}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -104,7 +104,7 @@ export default class Motives extends Component {
                     {/* attention! this is a typo coming from the API it should be dve-beaau */}
                     <AttachmentRow>
                         <h4>{i18n.report_need_for_autonomy}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
                     </AttachmentRow>
 

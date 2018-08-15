@@ -49,7 +49,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_manipulative}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -67,7 +67,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_straightforward}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -85,7 +85,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_assertive}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
                     </AttachmentRow>
 
@@ -103,7 +103,7 @@ export default class InfluencingStyles extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_anticipating}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } legend={ false } i18n={ i18n } />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
                     </AttachmentRow>
 
