@@ -17,7 +17,7 @@ export default class RequestPasswordForm extends Component {
                 </header>
                 <main className={ style.modal_main }>
                     <div>
-                        <label htmlFor="email">{ i18n.login_forgot_password_email }</label>
+                        <label htmlFor="username">{ i18n.login_forgot_password_email }</label>
                         <input
                             tabIndex="1"
                             type="text"

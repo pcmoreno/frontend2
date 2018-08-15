@@ -71,7 +71,7 @@ export default class Index extends Component {
                 reject(new Error('Could not request password reset email'));
                 Logger.instance.error({
                     component: 'login',
-                    message: `Could verify password reset token for user: ${email}, error: ${error.message || error}`
+                    message: `Could not verify password reset token for user: ${email}, error: ${error.message || error}`
                 });
             });
         });
