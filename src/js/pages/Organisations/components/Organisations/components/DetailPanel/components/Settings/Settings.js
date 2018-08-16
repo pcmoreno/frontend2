@@ -17,7 +17,7 @@ export default class Settings extends Component {
                         } }
                         className={ 'action_button left' }
                         type={ 'button' }
-                    >Edit competences</button>
+                    >{ selectedCompetencies.length > 0 ? i18n.organisations_edit_competencies : i18n.organisations_add_competencies }</button>
                 </div>
                 <div className={ style.listView }>
                     <Listview
