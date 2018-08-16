@@ -93,7 +93,7 @@ class CognitoAuthenticator extends AbstractAuthenticator {
 
         // extract username and password
         const cognitoAuthDetails = {
-            Username: credentials.username,
+            Username: credentials.username.toLowerCase(),
             Password: credentials.password
         };
 
@@ -102,7 +102,7 @@ class CognitoAuthenticator extends AbstractAuthenticator {
 
         // prepare user data (connected with pool
         const userData = {
-            Username: credentials.username,
+            Username: credentials.username.toLowerCase(),
             Pool: this.userPool
         };
         const cognitoUser = this.cognitoUser = new CognitoUser(userData);
