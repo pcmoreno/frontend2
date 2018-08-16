@@ -1,6 +1,7 @@
 export default {
     "organisations_access": "Access",
     "organisations_add": "Add",
+    "organisations_add_competencies": "Add competencies",
     "organisations_add_custom_competency": "Add",
     "organisations_add_custom_competency_error": "An error occurred while adding the competencies, please try again later",
     "organisations_add_custom_competency_success": "The competency was successfully added",
