@@ -92,7 +92,7 @@ export default class Index extends Component {
                         type: 'form',
                         formKey: 'request_new_password_form',
                         data: {
-                            email: username
+                            email: username.toLowerCase()
                         }
                     }
                 }
@@ -102,7 +102,7 @@ export default class Index extends Component {
                 reject(new Error('Could not request password reset email'));
                 Logger.instance.error({
                     component: 'login',
-                    message: `Could not request password reset email for user: ${username}, error: ${error.message || error}`
+                    message: `Could not request password reset email for user: ${username.toLowerCase()}, error: ${error.message || error}`
                 });
             });
         });

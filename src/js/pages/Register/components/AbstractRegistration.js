@@ -40,7 +40,7 @@ export default class AbstractRegistration extends Component {
             },
             isRegistered: false,
 
-            // login component properties
+            // login component properties, conversion to lowercase is only done in methods that execute api calls
             loginFields: {
                 username: '',
                 password: ''
@@ -212,7 +212,7 @@ export default class AbstractRegistration extends Component {
                         type: 'form',
                         formKey: 'register_account_for_participant_form',
                         data: {
-                            username,
+                            username: username.toLowerCase(),
                             password: {
                                 first: password,
                                 second: passwordConfirm
@@ -260,7 +260,7 @@ export default class AbstractRegistration extends Component {
 
             // get cognito token to perform the custom login afterwards
             cognitoAuthenticator.authenticate({
-                username,
+                username: username.toLowerCase(),
                 password
             }).then(token => {
 
@@ -281,7 +281,7 @@ export default class AbstractRegistration extends Component {
                         payload: {
                             type: 'form',
                             data: {
-                                username,
+                                username: username.toLowerCase(),
                                 password
                             }
                         }
