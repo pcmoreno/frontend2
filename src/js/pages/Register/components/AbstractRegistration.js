@@ -258,9 +258,9 @@ export default class AbstractRegistration extends Component {
         // perform api call
         return new Promise((resolve, reject) => {
 
-            // get cognito token to perform the custom login afterwards
+            // get cognito token to perform the custom login afterwards, authenticator does lowercase conversion
             cognitoAuthenticator.authenticate({
-                username: username.toLowerCase(),
+                username,
                 password
             }).then(token => {
 
