@@ -28,6 +28,30 @@
             }
         }
     }
+
+    legend {
+        position: relative;
+        height: 2rem;
+        max-width: 480px;
+
+        span {
+            position: absolute;
+            padding: 0 1rem;
+
+            &:first-child {
+                left: 0;
+            }
+
+            &:last-child {
+                right: 0;
+            }
+
+            /* always hide the legend on small screens */
+            @media screen and (max-width: $grid-breakpoints-lg) {
+                display: none;
+            }
+        }
+    }
 }
 
 /* the intro text and its accompanying aside are divided in a 2+1 manner, except on responsive views */
@@ -60,10 +84,6 @@
 
 /* the attachment section for the intellectual capabilities has slightly different styling */
 .intellectualCapabilities {
-    h4 {
-        margin-top: 2rem;
-    }
-
     p {
         color: $medium-brown;
         padding: 0 0 1rem;

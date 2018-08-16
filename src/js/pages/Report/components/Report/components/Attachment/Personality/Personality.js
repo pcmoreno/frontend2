@@ -7,6 +7,7 @@ import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import BulletList from '../BulletList/BulletList';
 import HnaCategories from '../../../../../../../constants/HnaCategories';
+import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 /** @jsx h */
 
@@ -37,10 +38,19 @@ export default class Personality extends Component {
                         </Details>
                     </AttachmentRow>
 
+                    <AttachmentRow intellectualCapabilities={ true }>
+                        <section />
+                        <legend>
+                            <span>{ i18n.report_low }</span>
+                            <span>{ i18n.report_high }</span>
+                        </legend>
+                        <section />
+                    </AttachmentRow>
+
                     <AttachmentRow>
                         <h4>{i18n.report_emotional_stability}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } legend={ true } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -57,8 +67,8 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_extraversion}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -75,8 +85,8 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_conscientiousness}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -93,8 +103,8 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_open_mindness}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>
@@ -111,8 +121,8 @@ export default class Personality extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_mildness}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } i18n={ i18n } />
+                        <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } i18n={ i18n } />
                     </AttachmentRow>
 
                     <AttachmentRow>

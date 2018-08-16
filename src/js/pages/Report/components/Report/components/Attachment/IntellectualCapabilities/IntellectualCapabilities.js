@@ -6,6 +6,7 @@ import AttachmentRow from '../AttachmentRow/AttachmentRow';
 import Details from '../Details/Details';
 import ScoreBar from '../ScoreBar/ScoreBar';
 import HnaCategories from '../../../../../../../constants/HnaCategories';
+import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 /** @jsx h */
 
@@ -48,9 +49,22 @@ export default class IntellectualCapabilities extends Component {
                     </AttachmentRow>
 
                     <AttachmentRow intellectualCapabilities={ true }>
-                        <h4>{i18n.report_abstract_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] } legend={ true } i18n={ i18n } />
                         <section />
+                        <legend>
+                            <span>{ i18n.report_low }</span>
+                            <span>{ i18n.report_high }</span>
+                        </legend>
+                        <section />
+                    </AttachmentRow>
+
+                    <AttachmentRow intellectualCapabilities={ true }>
+                        <h4>{i18n.report_abstract_intelligence}</h4>
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreLabel
+                            score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] }
+                            i18n={ i18n }
+                            intelligence={ true }
+                        />
                     </AttachmentRow>
 
                     <AttachmentRow intellectualCapabilities={ true }>
@@ -61,8 +75,12 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_verbal_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreLabel
+                            score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] }
+                            i18n={ i18n }
+                            intelligence={ true }
+                        />
                     </AttachmentRow>
 
                     <AttachmentRow intellectualCapabilities={ true }>
@@ -73,8 +91,12 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_numeric_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] } legend={ false } i18n={ i18n } />
-                        <section />
+                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreLabel
+                            score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] }
+                            i18n={ i18n }
+                            intelligence={ true }
+                        />
                     </AttachmentRow>
 
                     <AttachmentRow intellectualCapabilities={ true }>
