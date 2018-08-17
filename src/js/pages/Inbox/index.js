@@ -10,7 +10,7 @@ import translator from '../../utils/translator';
 import InboxActions from './constants/InboxActions';
 import InboxComponents from './constants/InboxComponents';
 import Logger from '../../utils/logger';
-import Redirect from "../../utils/components/Redirect";
+import Redirect from '../../utils/components/Redirect';
 
 /** @jsx h */
 
