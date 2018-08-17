@@ -38,7 +38,7 @@ export default class EditGlobalCompetencySelection extends Component {
                             entities={ globalCompetencies }
                             selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
-                            defaultSortingOrder={ 'desc' }
+                            defaultSortingOrder={ 'asc' }
                             i18n={ i18n }
                             translationKeyPrefix={ 'competencies_' }
                         />

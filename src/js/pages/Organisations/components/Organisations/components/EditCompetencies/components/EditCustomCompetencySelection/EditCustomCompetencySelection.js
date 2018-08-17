@@ -38,7 +38,7 @@ export default class EditCustomCompetencySelection extends Component {
                             entities={ customCompetencies }
                             selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
-                            defaultSortingOrder={ 'desc' }
+                            defaultSortingOrder={ 'asc' }
                             i18n={ i18n }
                             translationKeyPrefix={ 'competencies_' }
                         />

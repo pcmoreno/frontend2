@@ -55,6 +55,8 @@ export default class Listview extends Component {
         };
 
         this.localEntities = [];
+
+        this.sortEntities = this.sortEntities.bind(this);
     }
 
     setDefaultSorting() {
@@ -109,6 +111,7 @@ export default class Listview extends Component {
 
         // bubble sort the entities on given sortBy key in the order set by sortOrder
         entities.sort((a, b) => {
+
             let aSortColumn = null,
                 bSortColumn = null;
 
@@ -126,8 +129,14 @@ export default class Listview extends Component {
                 }
             }
 
-            const nameA = this.sortingKey(aSortColumn).toLowerCase();
-            const nameB = this.sortingKey(bSortColumn).toLowerCase();
+            let nameA = this.sortingKey(aSortColumn).toLowerCase();
+            let nameB = this.sortingKey(bSortColumn).toLowerCase();
+
+            // before sorting, ensure the field is translated if possible
+            if (this.props.translationKeyPrefix) {
+                nameA = this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`] || nameA;
+                nameB = this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`] || nameB;
+            }
 
             if (sortOrder === 'asc') {
                 if (nameA < nameB) {

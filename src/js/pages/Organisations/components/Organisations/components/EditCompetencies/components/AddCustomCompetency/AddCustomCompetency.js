@@ -133,7 +133,7 @@ export default class AddCustomCompetency extends Component {
                         className="action_button"
                         type="button"
                         value="Submit"
-                        onClick={ () => {
+                        onClick={ event => {
                             this.onSubmit(event);
                         } }
                     >{ i18n.organisations_save }</button>
