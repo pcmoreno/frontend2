@@ -21,12 +21,18 @@ export default class ResetPassword extends Component {
 
         this.localState = {
             tokenValidated: false,
+            personaFitApp: false,
             error: '',
             input: {
                 password: '',
                 passwordConfirm: ''
             }
         };
+
+        // todo: this should be removed ASAP when refactoring persona fit app integration
+        if (window.location.pathname && ~window.location.pathname.indexOf('/app')) {
+            this.localState.personaFitApp = true;
+        }
     }
 
     onChangeInput(event) {
@@ -120,8 +126,9 @@ export default class ResetPassword extends Component {
             return null;
         }
 
+        // todo: this should be removed ASAP when refactoring persona fit app integration
         return (
-            <main className={ style.resetpassword }>
+            <main className={ `${style.resetpassword} ${this.localState.personaFitApp ? style.personaFitApp : ''}` }>
                 <div className={ style.modal }>
                     <section className={ style.margin }>
                         <ResetPasswordForm
