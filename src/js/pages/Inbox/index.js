@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h, Component, render } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as inboxActions from './actions/inbox';
@@ -9,6 +9,8 @@ import ApiFactory from '../../utils/api/factory';
 import translator from '../../utils/translator';
 import InboxActions from './constants/InboxActions';
 import InboxComponents from './constants/InboxComponents';
+import Logger from '../../utils/logger';
+import Redirect from "../../utils/components/Redirect";
 
 /** @jsx h */
 
@@ -90,7 +92,19 @@ class Index extends Component {
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
 
-            window.open('http://www.nu.nl');
+            if (response.errors || !response.redirectUrl) {
+
+                // todo: show an error somewhere on the page
+                Logger.instance.error({
+                    component: 'inbox',
+                    message: 'Could not request redirect url for ltp online',
+                    response
+                });
+                return;
+            }
+
+            render(<Redirect to={ response.redirectUrl } refresh={ true }/>);
+
         }).catch(() => {
             document.querySelector('#spinner').classList.add('hidden');
             this.actions.addAlert({ type: 'error', text: this.i18n.inbox_could_not_process_your_request });
