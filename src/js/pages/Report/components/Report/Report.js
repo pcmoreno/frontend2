@@ -24,6 +24,7 @@ import InfluencingStyles from './components/Attachment/InfluencingStyles/Influen
 import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
 import SidebarReport from './components/SidebarContent/SidebarReport';
 import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
+import translator from '../../../../utils/translator';
 
 export default class Report extends Component {
     constructor() {
@@ -125,6 +126,9 @@ export default class Report extends Component {
             }
         ];
 
+        // this is the participant language for the online report texts (does not include the sidebar)
+        const i18nOnlineReport = translator(report.language.replace('-', '_') || languageId, 'report');
+
         // note: some fields may depend on the report/product type. textFields_textsTemplates dictates which fields
         // should be on a report type/product/template when there is no text available on the report, and the template
         // does not require this field, they are ignored in the rendering process automatically
@@ -135,11 +139,11 @@ export default class Report extends Component {
                 <section className={style.page_with_sidebar_container} id="page_with_sidebar_container">
 
                     <Header
-                        participant={report.participant}
-                        product={report.product}
-                        organisation={report.organisation}
-                        consultant={report.consultant}
-                        i18n={i18n}
+                        participant={ report.participant }
+                        product={ report.product }
+                        organisation={ report.organisation }
+                        consultant={ report.consultant }
+                        i18n={ i18nOnlineReport }
                     />
 
                     <Introduction
@@ -149,16 +153,16 @@ export default class Report extends Component {
                             parts: report.texts.parts,
                             structure: report.texts.structure
                         }}
-                        i18n={i18n}
-                        saveReportText={saveReportText}
+                        i18n={ i18nOnlineReport }
+                        saveReportText={ saveReportText }
                     />
 
                     <ResearchQuestion
                         texts={{
                             researchQuestion: report.texts.enquiry
                         }}
-                        i18n={i18n}
-                        saveReportText={saveReportText}
+                        i18n={ i18nOnlineReport }
+                        saveReportText={ saveReportText }
                     />
                     {/* Selection advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
@@ -167,14 +171,14 @@ export default class Report extends Component {
                             selectionAdvice: report.texts.selectionAdvice,
                             selectionAdviceOutcome: report.texts.selectionAdviceOutcome
                         }}
-                        i18n={i18n}
-                        saveReportText={saveReportText}
+                        i18n={ i18nOnlineReport }
+                        saveReportText={ saveReportText }
                     />
 
                     {/* The competency profile and its child widgets (Intelligence and Competencies) should only render when they are available */}
                     <CompetencyProfile
-                        i18n={i18n}
-                        educationLevel={report.participant.educationLevel}
+                        i18n={ i18nOnlineReport }
+                        educationLevel={ report.participant.educationLevel }
                         staticScores= { staticScores }
                         competencies={ report.competencies }
                         languageId={ languageId }
@@ -185,8 +189,8 @@ export default class Report extends Component {
                             strongPoints: report.texts.strongPoints,
                             pointsOfAttention: report.texts.pointsOfAttention
                         }}
-                        i18n={i18n}
-                        saveReportText={saveReportText}
+                        i18n={ i18nOnlineReport }
+                        saveReportText={ saveReportText }
                     />
 
                     {/* Development advice is only shown if this was written on this report or when this field was attached to this template/product */}
@@ -195,34 +199,34 @@ export default class Report extends Component {
                         texts={{
                             developmentAdvice: report.texts.developmentAdvice
                         }}
-                        i18n={i18n}
-                        saveReportText={saveReportText}
+                        i18n={ i18nOnlineReport }
+                        saveReportText={ saveReportText }
                     />
 
                     { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
                     <IntellectualCapabilities
-                        i18n={i18n}
-                        hnaCategoryScores={report.hnaCategoryScores}
+                        i18n={ i18nOnlineReport }
+                        hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
                     <Personality
-                        i18n={i18n}
-                        hnaCategoryScores={report.hnaCategoryScores}
+                        i18n={ i18nOnlineReport }
+                        hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
                     <Motives
-                        i18n={i18n}
-                        hnaCategoryScores={report.hnaCategoryScores}
+                        i18n={ i18nOnlineReport }
+                        hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
                     <InfluencingStyles
-                        i18n={i18n}
-                        hnaCategoryScores={report.hnaCategoryScores}
+                        i18n={ i18nOnlineReport }
+                        hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
                     <WorkingStyles
-                        i18n={i18n}
-                        hnaCategoryScores={report.hnaCategoryScores}
+                        i18n={ i18nOnlineReport }
+                        hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
                 </section>
