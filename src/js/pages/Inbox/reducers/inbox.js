@@ -24,9 +24,9 @@ export default function inboxReducer(state = initialState, action) {
                     newState.messages.push({
                         projectName: message.projectName,
                         type: message.type,
-                        ssoLink: message.ssoLink,
                         date: message.appointmentDate,
-                        status: message.status
+                        status: message.status,
+                        participantSessionSlug: message.participantSessionSlug
                     });
                 });
             }

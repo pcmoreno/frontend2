@@ -6,11 +6,15 @@ import style from './style/inbox.scss';
 
 export default class Inbox extends Component {
     render() {
-        const { messages, i18n } = this.props;
+        const { messages, startQuestionnaire, i18n } = this.props;
         const messagesOutput = [];
 
         messages.forEach(message => {
-            messagesOutput.push(<Message message={ message } i18n={ i18n } />);
+            messagesOutput.push(<Message
+                message={ message }
+                startQuestionnaire={ startQuestionnaire }
+                i18n={ i18n }
+            />);
         });
 
         return (
