@@ -10,6 +10,8 @@ import style from './style/competency.scss';
 const max = 5;
 const min = 1;
 
+const TRANSLATION_KEY_PREFIX = 'competencies_';
+
 export default class Competency extends Component {
     constructor(props) {
         super(props);
@@ -45,8 +47,8 @@ export default class Competency extends Component {
         let definition = this.props.definition;
 
         if (this.props.translationKey) {
-            name = this.props.i18n[this.props.translationKey] || this.props.name;
-            definition = this.props.i18n[`${this.props.translationKey}_definition`] || this.props.definition;
+            name = this.props.i18n[`${TRANSLATION_KEY_PREFIX}${this.props.translationKey}`] || this.props.name;
+            definition = this.props.i18n[`${TRANSLATION_KEY_PREFIX}${this.props.translationKey}_definition`] || this.props.definition;
         }
 
         // update local state so component re-renders

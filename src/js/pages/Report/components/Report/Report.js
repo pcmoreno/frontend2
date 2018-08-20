@@ -127,7 +127,8 @@ export default class Report extends Component {
         ];
 
         // this is the participant language for the online report texts (does not include the sidebar)
-        const i18nOnlineReport = translator(report.language.replace('-', '_') || languageId, 'report');
+        const reportLanguage = report.language.replace('-', '_') || languageId;
+        const i18nOnlineReport = translator(reportLanguage, ['report', 'competencies']);
 
         // note: some fields may depend on the report/product type. textFields_textsTemplates dictates which fields
         // should be on a report type/product/template when there is no text available on the report, and the template
@@ -181,7 +182,7 @@ export default class Report extends Component {
                         educationLevel={ report.participant.educationLevel }
                         staticScores= { staticScores }
                         competencies={ report.competencies }
-                        languageId={ languageId }
+                        languageId={ reportLanguage }
                     />
 
                     <Explanation

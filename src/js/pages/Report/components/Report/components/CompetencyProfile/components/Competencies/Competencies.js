@@ -15,6 +15,7 @@ export default class Competencies extends Component {
                 score={ competency.score }
                 languageId={ this.props.languageId }
                 i18n={ this.props.i18n }
+                translationKey={ competency.translationKey }
             />);
         });
 
