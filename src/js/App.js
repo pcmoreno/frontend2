@@ -231,10 +231,9 @@ class App extends Component {
                         <AsyncRoute path="/login" getComponent={ getLogin } />
                         <AsyncRoute path="/forgot-password" getComponent={ getForgotPassword }/>
 
-                        { /* requires params: email and token, change_password is legacy link (from neon1 and persona fit app) */ }
+                        { /* requires params: email and token, including /app for persona fit app (legacy endpoint) */ }
                         <AsyncRoute path="/reset-password" getComponent={ getForgotPassword }/>
-                        <AsyncRoute path="/change_password" getComponent={ getForgotPassword }/>
-                        <AsyncRoute path="/change_password/app" getComponent={ getForgotPassword }/>
+                        <AsyncRoute path="/reset-password/app" getComponent={ getForgotPassword }/>
 
                         {/* Register routes: 1st is main route, others are legacy routes */}
                         {/* Keep the legacy endpoints so only dns redirection (cname) will do the job */}
