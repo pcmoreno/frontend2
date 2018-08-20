@@ -3,10 +3,12 @@ import { h, Component, render } from 'preact';
 /** @jsx h */
 
 import style from './style/resetpassword.scss';
-import ResetPasswordForm from './components/ResetPasswordForm';
+import ResetPasswordForm from './components/ResetPasswordForm/ResetPasswordForm';
 import Redirect from '../../../../utils/components/Redirect';
 import Logger from '../../../../utils/logger';
 import AppConfig from '../../../../App.config';
+import ApiFactory from '../../../../utils/api/factory';
+import PersonaFitConfirm from './components/PeronaFitConfirm/PersonaFitConfirm';
 
 const loginEndpoint = AppConfig.api.neon.loginRedirect;
 const passwordChangeSuccessful = '?passwordChangeSuccessful=true';
@@ -21,12 +23,21 @@ export default class ResetPassword extends Component {
 
         this.localState = {
             tokenValidated: false,
+            personaFitApp: false,
+            showPersonaFitConfirm: false,
             error: '',
             input: {
                 password: '',
                 passwordConfirm: ''
             }
         };
+
+        // todo: this should be removed ASAP when refactoring persona fit app integration
+        if (window.location.pathname && ~window.location.pathname.indexOf('/app')) {
+            this.localState.personaFitApp = true;
+        }
+
+        this.api = ApiFactory.get('neon');
     }
 
     onChangeInput(event) {
@@ -69,7 +80,14 @@ export default class ResetPassword extends Component {
                 this.localState.submitDisabled = false;
                 this.setState(this.localState);
             } else {
-                render(<Redirect to={ loginEndpoint + passwordChangeSuccessful } refresh={ true }/>);
+
+                // todo: this should be removed ASAP when refactoring persona fit app integration
+                if (!this.localState.personaFitApp) {
+                    render(<Redirect to={ loginEndpoint + passwordChangeSuccessful } refresh={ true }/>);
+                } else {
+                    this.localState.showPersonaFitConfirm = true;
+                    this.setState(this.localState);
+                }
             }
 
         }).catch(() => {
@@ -80,6 +98,24 @@ export default class ResetPassword extends Component {
     }
 
     componentDidMount() {
+
+        // check if there was a user logged in, if so, logout and refresh the page
+        if (this.api.getAuthenticator().isAuthenticated()) {
+            this.api.getAuthenticator().logout().then(() => {
+
+                // logout successful, refresh this page
+                render(<Redirect to={ window.location.pathname + window.location.search } refresh={ true }/>);
+            }, error => {
+                Logger.instance.error({
+                    component: 'reset-password',
+                    message: 'Could not logout on reset password page',
+                    response: error
+                });
+            });
+
+            return;
+        }
+
         this.validateToken();
     }
 
@@ -115,22 +151,32 @@ export default class ResetPassword extends Component {
 
     render() {
         const { i18n } = this.props;
+        let component = null;
 
         if (!this.localState.tokenValidated) {
             return null;
         }
 
+        if (this.localState.showPersonaFitConfirm) {
+            component = <PersonaFitConfirm
+                i18n={ i18n }
+            />;
+        } else {
+            component = <ResetPasswordForm
+                i18n={ i18n }
+                onChangeInput={ this.onChangeInput }
+                onSubmit={ this.onSubmit }
+                submitDisabled={ this.localState.submitDisabled }
+                error={ this.localState.error }
+            />;
+        }
+
+        // todo: this should be removed ASAP when refactoring persona fit app integration
         return (
-            <main className={ style.resetpassword }>
+            <main className={ `${style.resetpassword} ${this.localState.personaFitApp ? style.personaFitApp : ''}` }>
                 <div className={ style.modal }>
                     <section className={ style.margin }>
-                        <ResetPasswordForm
-                            i18n={ i18n }
-                            onChangeInput={ this.onChangeInput }
-                            onSubmit={ this.onSubmit }
-                            submitDisabled={ this.localState.submitDisabled }
-                            error={ this.localState.error }
-                        />
+                        { component }
                     </section>
                 </div>
             </main>
