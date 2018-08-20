@@ -3,7 +3,7 @@ import { h, Component, render } from 'preact';
 /** @jsx h */
 
 import style from './style/resetpassword.scss';
-import ResetPasswordForm from './components/ResetPasswordForm';
+import ResetPasswordForm from './components/ResetPasswordForm/ResetPasswordForm';
 import Redirect from '../../../../utils/components/Redirect';
 import Logger from '../../../../utils/logger';
 import AppConfig from '../../../../App.config';
