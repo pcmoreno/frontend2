@@ -126,7 +126,7 @@ export default class AddCustomCompetency extends Component {
                             this.clearFormFields();
                             this.props.closeModalToEditCompetencies();
                         } }
-                    >{ i18n.organisations_close }</button>
+                    >{ i18n.organisations_cancel }</button>
                     <button
                         className="action_button"
                         type="button"
