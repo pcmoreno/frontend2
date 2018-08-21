@@ -49,6 +49,7 @@ export default {
     "organisations_edit_competencies": "Edit competencies",
     "organisations_edit_competencies_success": "The competency selection was successfully changed",
     "organisations_edit_custom_competencies": "Custom competencies",
+    "organisations_edit_custom_competency": "Edit competency",
     "organisations_edit_global_competencies": "LTP competencies",
     "organisations_education_level": "Level of education",
     "organisations_education_level_high": "Master's degree",
