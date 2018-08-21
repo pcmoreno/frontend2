@@ -18,6 +18,7 @@ import Tabs from '../../../../components/Tabs';
 import EditGlobalCompetencySelection from './components/EditCompetencies/components/EditGlobalCompetencySelection/EditGlobalCompetencySelection';
 import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
+import CompetencyTab from '../../constants/CompetencyTab';
 
 class Organisations extends Component {
     constructor(props) {
@@ -296,7 +297,7 @@ class Organisations extends Component {
                 >
                     <Tabs activeTab={ this.props.editCompetenciesActiveTab }>
                         <EditGlobalCompetencySelection
-                            id="organisations_edit_global_competency_selection"
+                            id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
@@ -306,7 +307,7 @@ class Organisations extends Component {
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <EditCustomCompetencySelection
-                            id="organisations_edit_custom_competency_selection"
+                            id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
@@ -316,7 +317,7 @@ class Organisations extends Component {
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency
-                            id="organisations_add_custom_competency"
+                            id={ CompetencyTab.ADD_CUSTOM_COMPETENCY }
                             label={ i18n.organisations_add_custom_competency }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }

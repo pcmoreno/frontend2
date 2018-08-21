@@ -17,6 +17,7 @@ import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../constants/ParticipantStatus';
 import OrganisationsError from './constants/OrganisationsError';
+import CompetencyTab from './constants/CompetencyTab';
 
 class Index extends Component {
     constructor(props) {
@@ -863,7 +864,7 @@ class Index extends Component {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
             // override the active tab to the first one, then immediately reset it so user can switch to other tabs
-            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competency_selection';
+            this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION;
             this.setState(this.localState, () => {
                 this.localState.editCompetenciesActiveTab = null;
             });
@@ -982,9 +983,8 @@ class Index extends Component {
                     return reject(response.errors);
                 }
 
-                // todo: make constant(s)
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
-                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competency_selection';
+                this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
                 this.setState(this.localState, () => {
                     this.localState.editCompetenciesActiveTab = null;
                 });
