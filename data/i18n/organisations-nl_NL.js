@@ -33,6 +33,7 @@ export default {
     "organisations_amend_participant_success": "De deelnemer is succesvol gewijzigd",
     "organisations_appointment_with_ltp": "Afspraak bij ltp",
     "organisations_attentive_listening_definition": "Onbevangen en onbevooroordeeld aandacht geven en horen wat er gezegd wordt. daarbij open staan voor de argumenten, suggesties en ideeën van anderen.",
+    "organisations_cancel": "Annuleren",
     "organisations_close": "Sluit",
     "organisations_comments": "Opmerking(en)",
     "organisations_competencies": "Competenties",
