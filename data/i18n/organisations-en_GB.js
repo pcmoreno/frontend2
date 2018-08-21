@@ -33,6 +33,7 @@ export default {
     "organisations_amend_participant_success": "The participant was successfully amended",
     "organisations_appointment_with_ltp": "Appointment with ltp",
     "organisations_attentive_listening_definition": "Pay attention and listen to what is said in an open-minded and unprejudiced manner. in doing so, be open to the arguments, suggestions and ideas of others.",
+    "organisations_cancel": "Cancel",
     "organisations_close": "Close",
     "organisations_comments": "Comment(s)",
     "organisations_competencies": "Competencies",
