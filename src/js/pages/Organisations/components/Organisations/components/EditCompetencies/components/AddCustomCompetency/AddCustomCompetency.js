@@ -50,22 +50,20 @@ export default class AddCustomCompetency extends Component {
         }
 
         try {
-            this.props.addCustomCompetency(competencyName, competencyDefinition)
-                .then(
-                    this.clearFormFields()
-                )
-                .catch(error => {
+            this.props.addCustomCompetency(competencyName, competencyDefinition).then(() => {
+                this.clearFormFields();
+            }).catch(error => {
 
-                    let errorMessage = '';
+                let errorMessage = '';
 
-                    // always show the first error that was returned from the api
-                    if (error && error[0]) {
-                        errorMessage = this.props.i18n[error[0]];
-                    }
+                // always show the first error that was returned from the api
+                if (error && error[0]) {
+                    errorMessage = this.props.i18n[error[0]];
+                }
 
-                    this.localState.error = errorMessage || this.props.i18n[error.message];
-                    this.setState(this.localState);
-                });
+                this.localState.error = errorMessage || this.props.i18n[error.message];
+                this.setState(this.localState);
+            });
 
         } catch (error) {
 

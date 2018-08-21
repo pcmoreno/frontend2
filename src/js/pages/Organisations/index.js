@@ -982,6 +982,7 @@ class Index extends Component {
                     return reject(response.errors);
                 }
 
+                // todo: make constant(s)
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
                 this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competency_selection';
                 this.setState(this.localState, () => {
