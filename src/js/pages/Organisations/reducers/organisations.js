@@ -320,6 +320,8 @@ export default function organisationsReducer(state = initialState, action) {
 
             tempCompetencies = [];
 
+            // todo: do we want to build list views like this in here (including all actions), i'd prefer not
+            // todo: however, we will also run intue issues with assigning back to the state when changing this later
             action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
@@ -338,7 +340,6 @@ export default function organisationsReducer(state = initialState, action) {
                             disabled: false,
                             competencyType: competency.translationKey ? 'global' : 'custom'
                         }
-
                     ]
                 );
             });
@@ -353,6 +354,8 @@ export default function organisationsReducer(state = initialState, action) {
 
             tempCompetencies = [];
 
+            // todo: do we want to build list views like this in here (including all actions), i'd prefer not
+            // todo: however, we will also run into issues with assigning back to the state when changing this later
             action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
@@ -377,7 +380,6 @@ export default function organisationsReducer(state = initialState, action) {
                             disabled: false,
                             competencyType: competency.translationKey ? 'global' : 'custom'
                         }
-
                     ]
                 );
             });

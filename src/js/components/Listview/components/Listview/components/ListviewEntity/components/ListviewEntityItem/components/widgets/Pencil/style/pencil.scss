@@ -2,12 +2,9 @@
     border: none;
     background: none;
     color: $blue;
+    margin-left: -5px;
 
     &:hover {
         cursor: pointer;
-    }
-
-    button svg {
-        margin: .5rem;
     }
 }

@@ -3,6 +3,7 @@ import Listview from '../../../../../../../../components/Listview';
 import CompetencyType from './../../../../../../constants/CompetencyType';
 import CompetencyPropType from './../../../../../../constants/CompetencyPropType';
 import style from './../../style/editcompetencies.scss';
+import ListItemTypes from '../../../../../../../../components/Listview/constants/ListItemTypes';
 
 /** @jsx h */
 
@@ -25,16 +26,28 @@ export default class EditCustomCompetencySelection extends Component {
 
                 // only add custom competencies
                 if (prop.type === CompetencyPropType.COMPETENCYTYPE && prop.competencyType === CompetencyType.CUSTOM) {
-                    customCompetencies.push(competency);
+
+                    // todo: find a better way to separate list content and/or hiding certain columns
+                    // remove the ltp/custom column
+                    const compRow = competency.slice(0, competency.length - 1);
+
+                    compRow.push({
+                        key: 'amendParticipantLabel',
+                        type: ListItemTypes.PENCIL,
+                    });
+
+                    customCompetencies.push(compRow);
                 }
             });
         });
 
+        // todo: we need a better solution for forms/modals to show a loading indicator rather than a label
+        // todo: as no data might be allowed, like in this modal
         return (
             <div id="organisations_edit_custom_competency_selection" className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    { customCompetencies.length > 0
-                        ? <Listview
+                    { customCompetencies.length > 0 &&
+                        <Listview
                             entities={ customCompetencies }
                             selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
@@ -42,7 +55,6 @@ export default class EditCustomCompetencySelection extends Component {
                             i18n={ i18n }
                             translationKeyPrefix={ 'competencies_' }
                         />
-                        : i18n.organisations_competencies_modal_loading
                     }
                 </main>
                 <footer>
