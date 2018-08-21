@@ -1,7 +1,7 @@
 import I18n from 'react-native-i18n';
 
-import nl_NL from './data/i18n/login-nl_NL.js'
-import en_GB from './data/i18n/login-en_GB.js'
+import nl_NL from './data/i18n/organisations-nl_NL.js'
+import en_GB from './data/i18n/organisations-en_GB.js'
 
 I18n.fallbacks = true;
 
