@@ -422,13 +422,15 @@ class Index extends Component {
     }
 
     render() {
+        const { report, languageId } = this.props;
+
         return (
             <Report
-                report = { this.props.report }
+                report = { report }
                 saveReportText={ this.saveReportText }
                 saveCompetencyScore={ this.saveCompetencyScore }
                 i18n = { this.i18n }
-                languageId={ this.props.languageId }
+                languageId={ languageId }
                 generateReport={ this.generateReport }
                 downloadReport={ this.downloadReport }
             />

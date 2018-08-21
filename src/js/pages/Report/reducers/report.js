@@ -148,6 +148,9 @@ export default function reportReducer(state = initialState, action) {
                     newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY');
                 }
 
+                // get participant language for the report
+                newState.report.language = participant.language;
+
             } catch (e) {
 
                 // todo: log/throw an error. Parsing the response of the report page failed.
