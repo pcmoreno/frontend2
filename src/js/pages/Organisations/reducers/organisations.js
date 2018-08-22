@@ -16,7 +16,7 @@ const initialState = {
             participants: []
         }
     },
-    selectedCompetencies: [],
+    selectedCompetenciesListView: [],
     availableCompetencies: [],
 
     // this value is set to determine which panel is active and opened a form
@@ -316,17 +316,18 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.FETCH_SELECTED_COMPETENCIES:
 
-            newState.selectedCompetencies = [];
+            newState.selectedCompetenciesListView = [];
 
             tempCompetencies = [];
 
             // todo: do we want to build list views like this in here (including all actions), i'd prefer not
             // todo: however, we will also run intue issues with assigning back to the state when changing this later
+            // todo: but this is not data access friendly, what if I would need a competency object within a component....
             action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
                         {
-                            type: 'hidden',
+                            type: ListItemTypes.HIDDEN,
                             key: 'competency_slug',
                             value: competency.competencySlug
                         },
@@ -344,7 +345,7 @@ export default function organisationsReducer(state = initialState, action) {
                 );
             });
 
-            newState.selectedCompetencies = tempCompetencies;
+            newState.selectedCompetenciesListView = tempCompetencies;
 
             break;
 
@@ -354,13 +355,11 @@ export default function organisationsReducer(state = initialState, action) {
 
             tempCompetencies = [];
 
-            // todo: do we want to build list views like this in here (including all actions), i'd prefer not
-            // todo: however, we will also run into issues with assigning back to the state when changing this later
             action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
                         {
-                            type: 'checkbox',
+                            type: ListItemTypes.CHECKBOX,
                             key: 'selectParticipantLabel',
                             id: competency.competencySlug,
                             action: event => {
@@ -411,7 +410,7 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.RESET_COMPETENCIES:
 
-            newState.selectedCompetencies = [];
+            newState.selectedCompetenciesListView = [];
             newState.availableCompetencies = [];
 
             break;

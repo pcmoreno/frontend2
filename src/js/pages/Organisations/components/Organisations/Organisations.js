@@ -84,7 +84,7 @@ class Organisations extends Component {
             toggleSelectAllParticipants,
             openModalToInviteParticipant,
             closeModalToInviteParticipant,
-            selectedCompetencies,
+            selectedCompetenciesListView,
             amendInlineEditable,
             i18n
         } = this.props;
@@ -121,7 +121,7 @@ class Organisations extends Component {
                         openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
-                        selectedCompetencies={ selectedCompetencies }
+                        selectedCompetenciesListView={ selectedCompetenciesListView }
                         languageId={ languageId }
                         i18n = { i18n }
                         pathNodes={ pathNodes }
@@ -301,7 +301,7 @@ class Organisations extends Component {
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
-                            selectedCompetencies={ this.props.selectedCompetencies }
+                            selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
@@ -311,7 +311,7 @@ class Organisations extends Component {
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
-                            selectedCompetencies={ this.props.selectedCompetencies }
+                            selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
                             availableCompetencies={ this.props.availableCompetencies }
                             updateCompetencySelection={ this.props.updateCompetencySelection }

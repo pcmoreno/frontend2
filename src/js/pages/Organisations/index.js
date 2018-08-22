@@ -833,7 +833,7 @@ class Index extends Component {
 
             // fill up the local state (locallySelectedCompetencies) that keeps track of the locally selected competencies
             if (this.localState.locallySelectedCompetencies.length === 0) {
-                this.props.selectedCompetencies.forEach(selectedCompetency => {
+                this.props.selectedCompetenciesListView.forEach(selectedCompetency => {
                     this.localState.locallySelectedCompetencies.push(selectedCompetency[0].value);
                 });
             }
@@ -1086,7 +1086,7 @@ class Index extends Component {
                 i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
                 availableCompetencies={ this.props.availableCompetencies }
-                selectedCompetencies={ this.props.selectedCompetencies }
+                selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                 locallySelectedCompetencies={ this.localState.locallySelectedCompetencies }
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
@@ -1101,7 +1101,7 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
-    selectedCompetencies: state.organisationsReducer.selectedCompetencies,
+    selectedCompetenciesListView: state.organisationsReducer.selectedCompetenciesListView,
     availableCompetencies: state.organisationsReducer.availableCompetencies,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
