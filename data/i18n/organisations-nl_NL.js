@@ -51,6 +51,7 @@ export default {
     "organisations_edit_competencies_success": "De selectie van competenties is succesvol gewijzigd",
     "organisations_edit_custom_competencies": "Klantspecifieke competenties",
     "organisations_edit_custom_competency": "Bewerk competentie",
+    "organisations_edit_custom_competency_success": "De competentie is succesvol gewijzigd",
     "organisations_edit_global_competencies": "LTP competenties",
     "organisations_education_level": "Opleidingsniveau",
     "organisations_education_level_high": "Academisch",
