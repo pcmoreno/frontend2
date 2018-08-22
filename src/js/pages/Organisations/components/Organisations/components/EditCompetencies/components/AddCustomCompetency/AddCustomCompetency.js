@@ -15,6 +15,7 @@ export default class AddCustomCompetency extends Component {
                 competencyName: null,
                 competencyDefinition: null
             },
+            isBeingCreated: false,
             error: ''
         };
 
@@ -50,9 +51,16 @@ export default class AddCustomCompetency extends Component {
             return;
         }
 
+        if (this.localState.isBeingCreated) {
+            return;
+        }
+
+        this.localState.isBeingCreated = true;
+
         try {
             this.props.addCustomCompetency(competencyName, competencyDefinition).then(() => {
                 this.clearFormFields();
+                this.localState.isBeingCreated = false;
             }).catch(error => {
 
                 let errorMessage = '';
@@ -62,6 +70,7 @@ export default class AddCustomCompetency extends Component {
                     errorMessage = this.props.i18n[error[0]];
                 }
 
+                this.localState.isBeingCreated = false;
                 this.localState.error = errorMessage || this.props.i18n[error.message];
                 this.setState(this.localState);
             });
@@ -69,6 +78,7 @@ export default class AddCustomCompetency extends Component {
         } catch (error) {
 
             // exception matches Lokalise keys
+            this.localState.isBeingCreated = false;
             this.localState.error = this.props.i18n[error.message];
             this.setState(this.localState);
         }
@@ -94,6 +104,7 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
+                                    value={ this.localState.addCustomCompetencyForm.competencyName }
                                 />
                             </div>
                             <div>
@@ -108,6 +119,7 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
+                                    value={ this.localState.addCustomCompetencyForm.competencyDefinition }
                                 />
                             </div>
                             <span className={style.errors}>
