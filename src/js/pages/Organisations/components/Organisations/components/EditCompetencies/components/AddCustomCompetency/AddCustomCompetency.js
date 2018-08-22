@@ -6,6 +6,9 @@ import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
+// todo: these components should be made differently, they are causing troubles as a tab component
+// todo: which is actually also a modal and also a conditional input field which is always shown
+// todo: thus never hidden, thus never properly reset-able. Same goes for the other tabs like EditCustomCompetency.js
 export default class AddCustomCompetency extends Component {
     constructor(props) {
         super(props);
@@ -56,6 +59,8 @@ export default class AddCustomCompetency extends Component {
         }
 
         this.localState.isBeingCreated = true;
+        this.localState.error = '';
+        this.setState(this.localState);
 
         try {
             this.props.addCustomCompetency(competencyName, competencyDefinition).then(() => {
@@ -81,6 +86,19 @@ export default class AddCustomCompetency extends Component {
             this.localState.isBeingCreated = false;
             this.localState.error = this.props.i18n[error.message];
             this.setState(this.localState);
+        }
+    }
+
+    componentDidUpdate() {
+        const element = document.querySelector(`#${CompetencyTab.ADD_CUSTOM_COMPETENCY}`);
+
+        // todo: this is called too many times. We should think of another way to detect this tab to be hidden
+        // this is a primitive way of clearing the attributes when hiding this screen
+        if (element.classList.contains('hidden')) {
+            this.localState.isBeingCreated = false;
+            this.localState.error = '';
+            this.localState.addCustomCompetencyForm.competencyDefinition = null;
+            this.localState.addCustomCompetencyForm.competencyName = null;
         }
     }
 
