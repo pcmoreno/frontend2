@@ -132,7 +132,7 @@ export default class EditCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
-                                    value={ this.localState.editCustomCompetencyForm.competencyDefinition  }
+                                    value={ this.localState.editCustomCompetencyForm.competencyDefinition }
                                 />
                             </div>
                             <span className={style.errors}>

@@ -25,7 +25,7 @@ export default class EditCustomCompetencySelection extends Component {
         return (
             <div id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION } className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    { availableCustomCompetenciesListView != null && availableCustomCompetenciesListView.length > 0
+                    { availableCustomCompetenciesListView !== null && availableCustomCompetenciesListView.length > 0
                         ? <Listview
                             entities={ availableCustomCompetenciesListView }
                             selectedEntities={ locallySelectedCompetencies }
