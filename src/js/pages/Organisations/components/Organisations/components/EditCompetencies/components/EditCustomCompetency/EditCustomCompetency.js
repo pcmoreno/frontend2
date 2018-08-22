@@ -57,6 +57,8 @@ export default class EditCustomCompetency extends Component {
         }
 
         this.localState.isSaving = true;
+        this.localState.error = '';
+        this.setState(this.localState);
 
         try {
             this.props.editCustomCompetency(competencySlug, competencyName, competencyDefinition).then(() => {
@@ -95,6 +97,7 @@ export default class EditCustomCompetency extends Component {
         if (customCompetencyToEdit && !this.localState.editCustomCompetencyForm.competencyName) {
             this.localState.editCustomCompetencyForm.competencyName = customCompetencyToEdit.name;
             this.localState.editCustomCompetencyForm.competencyDefinition = customCompetencyToEdit.definition;
+            this.localState.error = '';
         } else if (!customCompetencyToEdit) {
             this.localState.editCustomCompetencyForm.competencyName = null;
             this.localState.editCustomCompetencyForm.competencyDefinition = null;
