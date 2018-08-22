@@ -12,7 +12,7 @@ export default class EditGlobalCompetencySelection extends Component {
         const {
             i18n,
             projectSlug,
-            availableCompetencies,
+            availableCompetenciesListView,
             locallySelectedCompetencies,
             closeModalToEditCompetencies,
             updateCompetencySelection
@@ -21,7 +21,7 @@ export default class EditGlobalCompetencySelection extends Component {
         // rebuild the global competencies list
         const globalCompetencies = [];
 
-        availableCompetencies.forEach(competency => {
+        availableCompetenciesListView.forEach(competency => {
             competency.forEach(prop => {
 
                 // only add global competencies

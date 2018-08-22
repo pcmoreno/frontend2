@@ -1085,7 +1085,7 @@ class Index extends Component {
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
-                availableCompetencies={ this.props.availableCompetencies }
+                availableCompetenciesListView={ this.props.availableCompetenciesListView }
                 selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                 locallySelectedCompetencies={ this.localState.locallySelectedCompetencies }
                 updateCompetencySelection={ this.updateCompetencySelection }
@@ -1102,7 +1102,7 @@ const mapStateToProps = state => ({
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
     selectedCompetenciesListView: state.organisationsReducer.selectedCompetenciesListView,
-    availableCompetencies: state.organisationsReducer.availableCompetencies,
+    availableCompetenciesListView: state.organisationsReducer.availableCompetenciesListView,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

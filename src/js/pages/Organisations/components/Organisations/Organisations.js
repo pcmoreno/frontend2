@@ -303,7 +303,7 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetencies={ this.props.availableCompetencies }
+                            availableCompetenciesListView={ this.props.availableCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <EditCustomCompetencySelection
@@ -313,7 +313,7 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetencies={ this.props.availableCompetencies }
+                            availableCompetenciesListView={ this.props.availableCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency

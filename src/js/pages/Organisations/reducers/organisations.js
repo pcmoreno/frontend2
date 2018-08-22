@@ -17,7 +17,7 @@ const initialState = {
         }
     },
     selectedCompetenciesListView: [],
-    availableCompetencies: [],
+    availableCompetenciesListView: [],
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -351,7 +351,7 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.FETCH_AVAILABLE_COMPETENCIES:
 
-            newState.availableCompetencies = [];
+            newState.availableCompetenciesListView = [];
 
             tempCompetencies = [];
 
@@ -383,7 +383,7 @@ export default function organisationsReducer(state = initialState, action) {
                 );
             });
 
-            newState.availableCompetencies = tempCompetencies;
+            newState.availableCompetenciesListView = tempCompetencies;
 
             break;
 
@@ -411,7 +411,7 @@ export default function organisationsReducer(state = initialState, action) {
         case actionType.RESET_COMPETENCIES:
 
             newState.selectedCompetenciesListView = [];
-            newState.availableCompetencies = [];
+            newState.availableCompetenciesListView = [];
 
             break;
 

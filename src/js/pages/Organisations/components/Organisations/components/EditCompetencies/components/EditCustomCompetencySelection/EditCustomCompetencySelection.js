@@ -13,7 +13,7 @@ export default class EditCustomCompetencySelection extends Component {
         const {
             i18n,
             projectSlug,
-            availableCompetencies,
+            availableCompetenciesListView,
             locallySelectedCompetencies,
             closeModalToEditCompetencies,
             updateCompetencySelection
@@ -22,7 +22,7 @@ export default class EditCustomCompetencySelection extends Component {
         // rebuild the custom competencies list
         const customCompetencies = [];
 
-        availableCompetencies.forEach(competency => {
+        availableCompetenciesListView.forEach(competency => {
             competency.forEach(prop => {
 
                 // only add custom competencies
