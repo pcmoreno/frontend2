@@ -3,6 +3,7 @@ import Listview from '../../../../../../../../components/Listview';
 import CompetencyType from './../../../../../../constants/CompetencyType';
 import style from './../../style/editcompetencies.scss';
 import CompetencyPropType from '../../../../../../constants/CompetencyPropType';
+import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
@@ -31,7 +32,7 @@ export default class EditGlobalCompetencySelection extends Component {
         });
 
         return (
-            <div id="organisations_edit_global_competency_selection" className={ `${style.editcompetencies} hidden` }>
+            <div id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION } className={ `${style.editcompetencies} hidden` }>
                 <main>
                     { globalCompetencies.length > 0
                         ? <Listview

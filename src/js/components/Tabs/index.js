@@ -8,7 +8,7 @@ export default class Index extends Component {
         return (<Tabs
             children={ this.props.children }
             i18n={ this.props.i18n }
-            activeTab={ this.props.activeTab }
+            activeTabOverride={ this.props.activeTabOverride }
         />);
     }
 }

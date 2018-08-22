@@ -4,6 +4,7 @@ import CompetencyType from './../../../../../../constants/CompetencyType';
 import CompetencyPropType from './../../../../../../constants/CompetencyPropType';
 import style from './../../style/editcompetencies.scss';
 import ListItemTypes from '../../../../../../../../components/Listview/constants/ListItemTypes';
+import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
@@ -44,7 +45,7 @@ export default class EditCustomCompetencySelection extends Component {
         // todo: we need a better solution for forms/modals to show a loading indicator rather than a label
         // todo: as no data might be allowed, like in this modal
         return (
-            <div id="organisations_edit_custom_competency_selection" className={ `${style.editcompetencies} hidden` }>
+            <div id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION } className={ `${style.editcompetencies} hidden` }>
                 <main>
                     { customCompetencies.length > 0 &&
                         <Listview

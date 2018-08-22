@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import ApiFactory from '../../../../../../../../utils/api/factory';
 import style from './style/addcustomcompetency.scss';
 import OrganisationsError from './../../../../../../constants/OrganisationsError';
+import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
@@ -77,7 +78,7 @@ export default class AddCustomCompetency extends Component {
         const { i18n } = this.props;
 
         return (
-            <div id="organisations_add_custom_competency" className={ `${style.tab} hidden` }>
+            <div id={ CompetencyTab.ADD_CUSTOM_COMPETENCY } className={ `${style.tab} hidden` }>
                 <main>
                     <form>
                         <main>
@@ -93,7 +94,6 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
-                                    value={ this.localState.addCustomCompetencyForm.competencyName }
                                 />
                             </div>
                             <div>
@@ -108,7 +108,6 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
-                                    value={ this.localState.addCustomCompetencyForm.competencyDefinition }
                                 />
                             </div>
                             <span className={style.errors}>

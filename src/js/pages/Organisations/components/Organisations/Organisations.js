@@ -295,7 +295,7 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ closeModalToEditCompetencies }
                 >
-                    <Tabs activeTab={ this.props.editCompetenciesActiveTab }>
+                    <Tabs activeTabOverride={ this.props.editCompetenciesActiveTab }>
                         <EditGlobalCompetencySelection
                             id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_global_competencies }
