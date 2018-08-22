@@ -1,21 +1,21 @@
 import { h, Component } from 'preact';
 import ApiFactory from '../../../../../../../../utils/api/factory';
-import style from './style/addcustomcompetency.scss';
+import style from './style/editcustomcompetency.scss';
 import OrganisationsError from './../../../../../../constants/OrganisationsError';
 import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
-export default class AddCustomCompetency extends Component {
+export default class EditCustomCompetency extends Component {
     constructor(props) {
         super(props);
 
         this.localState = {
-            addCustomCompetencyForm: {
+            editCustomCompetencyForm: {
                 competencyName: null,
                 competencyDefinition: null
             },
-            isBeingCreated: false,
+            isSaving: false,
             error: ''
         };
 
@@ -25,12 +25,12 @@ export default class AddCustomCompetency extends Component {
     onChange(event) {
         event.preventDefault();
 
-        this.localState.addCustomCompetencyForm[event.target.id] = event.target.value;
+        this.localState.editCustomCompetencyForm[event.target.id] = event.target.value;
     }
 
     clearFormFields() {
         this.localState = {
-            addCustomCompetencyForm: {
+            editCustomCompetencyForm: {
                 competencyName: null,
                 competencyDefinition: null
             }
@@ -42,25 +42,25 @@ export default class AddCustomCompetency extends Component {
     onSubmit(event) {
         event.preventDefault();
 
-        const competencyName = this.localState.addCustomCompetencyForm.competencyName;
-        const competencyDefinition = this.localState.addCustomCompetencyForm.competencyDefinition;
+        const competencySlug = this.props.customCompetencyToEdit.slug;
+        const competencyName = this.localState.editCustomCompetencyForm.competencyName;
+        const competencyDefinition = this.localState.editCustomCompetencyForm.competencyDefinition;
 
-        if (!competencyName || !competencyDefinition) {
+        if (!competencySlug || !competencyName || !competencyDefinition) {
             this.localState.error = this.props.i18n[OrganisationsError.ALL_FIELDS_REQUIRED];
             this.setState(this.localState);
             return;
         }
 
-        if (this.localState.isBeingCreated) {
+        if (this.localState.isSaving) {
             return;
         }
 
-        this.localState.isBeingCreated = true;
+        this.localState.isSaving = true;
 
         try {
-            this.props.addCustomCompetency(competencyName, competencyDefinition).then(() => {
+            this.props.editCustomCompetency(competencySlug, competencyName, competencyDefinition).then(() => {
                 this.clearFormFields();
-                this.localState.isBeingCreated = false;
             }).catch(error => {
 
                 let errorMessage = '';
@@ -70,7 +70,7 @@ export default class AddCustomCompetency extends Component {
                     errorMessage = this.props.i18n[error[0]] || this.props.i18n.organisations_unexpected_error;
                 }
 
-                this.localState.isBeingCreated = false;
+                this.localState.isSaving = false;
                 this.localState.error = errorMessage || this.props.i18n[error.message];
                 this.setState(this.localState);
             });
@@ -78,17 +78,30 @@ export default class AddCustomCompetency extends Component {
         } catch (error) {
 
             // exception matches Lokalise keys
-            this.localState.isBeingCreated = false;
+            this.localState.isSaving = false;
             this.localState.error = this.props.i18n[error.message];
             this.setState(this.localState);
         }
     }
 
+    componentDidUpdate() {
+
+    }
+
     render() {
-        const { i18n } = this.props;
+        const { i18n, customCompetencyToEdit } = this.props;
+
+        // this is to set or reset the fields, this is handled by the onSwitchTab event in organisations index
+        if (customCompetencyToEdit && !this.localState.editCustomCompetencyForm.competencyName) {
+            this.localState.editCustomCompetencyForm.competencyName = customCompetencyToEdit.name;
+            this.localState.editCustomCompetencyForm.competencyDefinition = customCompetencyToEdit.definition;
+        } else if (!customCompetencyToEdit) {
+            this.localState.editCustomCompetencyForm.competencyName = null;
+            this.localState.editCustomCompetencyForm.competencyDefinition = null;
+        }
 
         return (
-            <div id={ CompetencyTab.ADD_CUSTOM_COMPETENCY } className={ `${style.tab} hidden` }>
+            <div id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY } className={ `${style.tab} hidden` }>
                 <main>
                     <form>
                         <main>
@@ -104,7 +117,7 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
-                                    value={ this.localState.addCustomCompetencyForm.competencyName }
+                                    value={ this.localState.editCustomCompetencyForm.competencyName }
                                 />
                             </div>
                             <div>
@@ -119,7 +132,7 @@ export default class AddCustomCompetency extends Component {
                                         this.onChange(event);
                                     } }
                                     required
-                                    value={ this.localState.addCustomCompetencyForm.competencyDefinition }
+                                    value={ this.localState.editCustomCompetencyForm.competencyDefinition  }
                                 />
                             </div>
                             <span className={style.errors}>

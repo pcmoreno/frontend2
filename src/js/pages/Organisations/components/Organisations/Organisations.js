@@ -19,6 +19,7 @@ import EditGlobalCompetencySelection from './components/EditCompetencies/compone
 import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 import CompetencyTab from '../../constants/CompetencyTab';
+import EditCustomCompetency from './components/EditCompetencies/components/EditCustomCompetency/EditCustomCompetency';
 
 class Organisations extends Component {
     constructor(props) {
@@ -295,7 +296,10 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ closeModalToEditCompetencies }
                 >
-                    <Tabs activeTabOverride={ this.props.editCompetenciesActiveTab }>
+                    <Tabs
+                        activeTabOverride={ this.props.editCompetenciesActiveTab }
+                        onBeforeTabSwitch={ this.props.onBeforeTabSwitch }
+                    >
                         <EditGlobalCompetencySelection
                             id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_global_competencies }
@@ -303,7 +307,7 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetenciesListView={ this.props.availableCompetenciesListView }
+                            availableGlobalCompetenciesListView={ this.props.availableGlobalCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <EditCustomCompetencySelection
@@ -313,7 +317,7 @@ class Organisations extends Component {
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetenciesListView={ this.props.availableCompetenciesListView }
+                            availableCustomCompetenciesListView={ this.props.availableCustomCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency
@@ -322,6 +326,14 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             addCustomCompetency={ this.props.addCustomCompetency }
+                        />
+                        <EditCustomCompetency
+                            id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY }
+                            label={ '' } // leave empty to hide the label
+                            i18n={ i18n }
+                            closeModalToEditCompetencies={ closeModalToEditCompetencies }
+                            editCustomCompetency={ this.props.editCustomCompetency }
+                            customCompetencyToEdit={ this.props.customCompetencyToEdit }
                         />
                     </Tabs>
                 </Modal>

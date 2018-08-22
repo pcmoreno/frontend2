@@ -30,6 +30,11 @@ export default class Tabs extends Component {
     }
 
     switchTab(id) {
+
+        if (this.props.onBeforeTabSwitch) {
+            this.props.onBeforeTabSwitch(id);
+        }
+
         this.localState.activeTab = id;
         this.setState(this.localState);
     }
@@ -70,7 +75,7 @@ export default class Tabs extends Component {
     componentDidUpdate(prevProps) {
 
         // change the tab if the override has changed
-        if (prevProps.activeTabOverride !== this.props.activeTabOverride) {
+        if (this.props.activeTabOverride && prevProps.activeTabOverride !== this.props.activeTabOverride) {
             this.localState.activeTab = this.props.activeTabOverride;
         }
 

@@ -196,13 +196,6 @@ table td.organisation {
     }
 }
 
-#organisations_edit_global_competency_selection main table {
-    /* in the global competencies modal hide the last column with the global icon. it is only required for detail panel */
-    td:last-child {
-        display: none;
-    }
-}
-
 .selectParticipantLabel,
 .amendParticipantLabel {
     padding: 0;

@@ -9,6 +9,7 @@ export default class Index extends Component {
             children={ this.props.children }
             i18n={ this.props.i18n }
             activeTabOverride={ this.props.activeTabOverride }
+            onBeforeTabSwitch={ this.props.onBeforeTabSwitch }
         />);
     }
 }

@@ -75,14 +75,16 @@ export function fetchSelectedCompetencies(projectSlug, data) {
  * @param {string} organisationSlug - slug of the organisation that has the available competencies
  * @param {Object} data - data
  * @param {Function} toggleCompetency - method to select competency in competency modal
+ * @param {Function} openEditCustomCompetencyTab - method to open the edit custom competency tab
  * @returns {{type, data: *}} data to populate detail panel
  */
-export function fetchAvailableCompetencies(organisationSlug, data, toggleCompetency) {
+export function fetchAvailableCompetencies(organisationSlug, data, toggleCompetency, openEditCustomCompetencyTab) {
     return {
         type: actionType.FETCH_AVAILABLE_COMPETENCIES,
         organisationSlug,
         data,
-        toggleCompetency
+        toggleCompetency,
+        openEditCustomCompetencyTab
     };
 }
 
