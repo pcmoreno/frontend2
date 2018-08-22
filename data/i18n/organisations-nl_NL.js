@@ -39,6 +39,7 @@ export default {
     "organisations_competencies": "Competenties",
     "organisations_competencies_custom": "Klantspecifieke competenties",
     "organisations_competencies_modal_loading": "Formulier wordt geladen",
+    "organisations_competencies_modal_no_results": "Er zijn geen competenties om weer te geven",
     "organisations_competency_definition": "Competentiedefinitie",
     "organisations_competency_name": "Competentienaam",
     "organisations_competenties_ltp": "Ltp competenties",
