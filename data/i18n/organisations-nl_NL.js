@@ -87,7 +87,7 @@ export default {
     "organisations_persona_fit_finished": "Afgerond",
     "organisations_project": "Project",
     "organisations_projects": "Project(en)",
-    "organisations_redirected_to_online": "Doorverwezen",
+    "organisations_redirected_to_online": "Gestart",
     "organisations_refresh_list_error": "Er is een fout opgetreden bij het verversen van de lijsten, probeer het later nogmaals",
     "organisations_required_fields": "Verplichte velden",
     "organisations_save": "Opslaan",
