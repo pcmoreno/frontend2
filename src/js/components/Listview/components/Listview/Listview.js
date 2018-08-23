@@ -134,8 +134,13 @@ export default class Listview extends Component {
 
             // before sorting, ensure the field is translated if possible
             if (this.props.translationKeyPrefix) {
-                nameA = this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`] || nameA;
-                nameB = this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`] || nameB;
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`]) {
+                    nameA = this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`].toLowerCase();
+                }
+
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`]) {
+                    nameB = this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`].toLowerCase();
+                }
             }
 
             if (sortOrder === 'asc') {
