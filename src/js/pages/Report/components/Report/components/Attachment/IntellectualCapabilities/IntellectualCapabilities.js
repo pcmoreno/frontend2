@@ -59,7 +59,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow intellectualCapabilities={ true }>
                         <h4>{i18n.report_abstract_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreBar fill={ true } score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] } i18n={ i18n } />
                         <ScoreLabel
                             score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.ABSTRACT_INTELLIGENCE] }
                             i18n={ i18n }
@@ -75,7 +75,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_verbal_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreBar fill={ true } score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] } i18n={ i18n } />
                         <ScoreLabel
                             score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.VERBAL_INTELLIGENCE] }
                             i18n={ i18n }
@@ -91,7 +91,7 @@ export default class IntellectualCapabilities extends Component {
 
                     <AttachmentRow>
                         <h4>{i18n.report_numeric_intelligence}</h4>
-                        <ScoreBar score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] } i18n={ i18n } />
+                        <ScoreBar fill={ true } score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] } i18n={ i18n } />
                         <ScoreLabel
                             score={ hnaCategoryScores[HnaCategories.IntellectualCapabilities.NUMERIC_INTELLIGENCE] }
                             i18n={ i18n }
