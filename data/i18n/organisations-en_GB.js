@@ -87,7 +87,7 @@ export default {
     "organisations_persona_fit_finished": "Finished",
     "organisations_project": "Project",
     "organisations_projects": "Project(s)",
-    "organisations_redirected_to_online": "Redirected",
+    "organisations_redirected_to_online": "Started",
     "organisations_refresh_list_error": "An error occurred while trying to refresh the lists, please try again later",
     "organisations_required_fields": "Required fields",
     "organisations_save": "Save",
