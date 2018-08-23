@@ -29,12 +29,15 @@ export default class Modal extends Component {
 
         if (this.props.modalHeader) {
             header = <header className={ style.modal_header }>
-                <button type="button" value="Close" className={ style.modal_close_gadget }>
-                    <span
-                        aria-hidden="true"
-                        onClick={ () => {
-                            this.props.closeModal();
-                        } }>×</span>
+                <button
+                    type="button"
+                    value="Close"
+                    className={ style.modal_close_gadget }
+                    onClick={ () => {
+                        this.props.closeModal();
+                    } }
+                >
+                    <span aria-hidden="true">×</span>
                 </button>
                 <h3>{ this.props.modalHeader }</h3>
             </header>;
