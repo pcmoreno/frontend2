@@ -390,13 +390,15 @@ class Index extends Component {
                     identifiers: {
                         slug: this.participantSessionId
                     }
+                },
+                headers: {
+                    Accept: 'application/pdf'
                 }
             }
         ).then(response => {
 
-            if (response.errors) {
-                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
-                return;
+            if (!response || response.errors) {
+                throw new Error('Could not download report');
             }
 
             // download the pdf file, exceptions thrown are automatically caught in the promise chain
