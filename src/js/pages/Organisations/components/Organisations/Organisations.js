@@ -18,6 +18,8 @@ import Tabs from '../../../../components/Tabs';
 import EditGlobalCompetencySelection from './components/EditCompetencies/components/EditGlobalCompetencySelection/EditGlobalCompetencySelection';
 import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
+import CompetencyTab from '../../constants/CompetencyTab';
+import EditCustomCompetency from './components/EditCompetencies/components/EditCustomCompetency/EditCustomCompetency';
 
 class Organisations extends Component {
     constructor(props) {
@@ -83,7 +85,7 @@ class Organisations extends Component {
             toggleSelectAllParticipants,
             openModalToInviteParticipant,
             closeModalToInviteParticipant,
-            selectedCompetencies,
+            selectedCompetenciesListView,
             amendInlineEditable,
             i18n
         } = this.props;
@@ -120,7 +122,7 @@ class Organisations extends Component {
                         openModalToEditCompetencies = { openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
-                        selectedCompetencies={ selectedCompetencies }
+                        selectedCompetenciesListView={ selectedCompetenciesListView }
                         languageId={ languageId }
                         i18n = { i18n }
                         pathNodes={ pathNodes }
@@ -294,33 +296,44 @@ class Organisations extends Component {
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ closeModalToEditCompetencies }
                 >
-                    <Tabs activeTab={ this.props.editCompetenciesActiveTab }>
+                    <Tabs
+                        activeTabOverride={ this.props.editCompetenciesActiveTab }
+                        onBeforeTabSwitch={ this.props.onBeforeTabSwitch }
+                    >
                         <EditGlobalCompetencySelection
-                            id="organisations_edit_global_competency_selection"
+                            id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_global_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
-                            selectedCompetencies={ this.props.selectedCompetencies }
+                            selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetencies={ this.props.availableCompetencies }
+                            availableGlobalCompetenciesListView={ this.props.availableGlobalCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <EditCustomCompetencySelection
-                            id="organisations_edit_custom_competency_selection"
+                            id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION }
                             label={ i18n.organisations_edit_custom_competencies }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
-                            selectedCompetencies={ this.props.selectedCompetencies }
+                            selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                             locallySelectedCompetencies={ this.props.locallySelectedCompetencies }
-                            availableCompetencies={ this.props.availableCompetencies }
+                            availableCustomCompetenciesListView={ this.props.availableCustomCompetenciesListView }
                             updateCompetencySelection={ this.props.updateCompetencySelection }
                         />
                         <AddCustomCompetency
-                            id="organisations_add_custom_competency"
+                            id={ CompetencyTab.ADD_CUSTOM_COMPETENCY }
                             label={ i18n.organisations_add_custom_competency }
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             addCustomCompetency={ this.props.addCustomCompetency }
+                        />
+                        <EditCustomCompetency
+                            id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY }
+                            label={ '' } // leave empty to hide the label
+                            i18n={ i18n }
+                            closeModalToEditCompetencies={ closeModalToEditCompetencies }
+                            editCustomCompetency={ this.props.editCustomCompetency }
+                            customCompetencyToEdit={ this.props.customCompetencyToEdit }
                         />
                     </Tabs>
                 </Modal>

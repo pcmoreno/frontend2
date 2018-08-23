@@ -57,7 +57,7 @@ export default class DetailPanel extends Component {
 
             case DetailPanelTabType.SETTINGS: output = <p className={ style.content_wrapper }>
                 <Settings
-                    selectedCompetencies={ this.props.selectedCompetencies }
+                    selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                     openModalToEditCompetencies={ this.props.openModalToEditCompetencies }
                     languageId={ this.props.languageId }
                     pathNodes={ this.props.pathNodes }

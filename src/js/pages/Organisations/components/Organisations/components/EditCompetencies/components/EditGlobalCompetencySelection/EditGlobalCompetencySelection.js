@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview';
-import CompetencyType from './../../../../../../constants/CompetencyType';
 import style from './../../style/editcompetencies.scss';
-import CompetencyPropType from '../../../../../../constants/CompetencyPropType';
+import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
@@ -11,38 +10,31 @@ export default class EditGlobalCompetencySelection extends Component {
         const {
             i18n,
             projectSlug,
-            availableCompetencies,
+            availableGlobalCompetenciesListView,
             locallySelectedCompetencies,
             closeModalToEditCompetencies,
             updateCompetencySelection
         } = this.props;
 
-        // rebuild the global competencies list
-        const globalCompetencies = [];
+        let message = i18n.organisations_competencies_modal_loading;
 
-        availableCompetencies.forEach(competency => {
-            competency.forEach(prop => {
-
-                // only add global competencies
-                if (prop.type === CompetencyPropType.COMPETENCYTYPE && prop.competencyType === CompetencyType.GLOBAL) {
-                    globalCompetencies.push(competency);
-                }
-            });
-        });
+        if (availableGlobalCompetenciesListView !== null) {
+            message = i18n.organisations_competencies_modal_no_results;
+        }
 
         return (
-            <div id="organisations_edit_global_competency_selection" className={ `${style.editcompetencies} hidden` }>
+            <div id={ CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION } className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    { globalCompetencies.length > 0
+                    { availableGlobalCompetenciesListView !== null && availableGlobalCompetenciesListView.length > 0
                         ? <Listview
-                            entities={ globalCompetencies }
+                            entities={ availableGlobalCompetenciesListView }
                             selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
                             defaultSortingOrder={ 'asc' }
                             i18n={ i18n }
                             translationKeyPrefix={ 'competencies_' }
                         />
-                        : i18n.organisations_competencies_modal_loading
+                        : message
                     }
                 </main>
                 <footer>
@@ -53,7 +45,7 @@ export default class EditGlobalCompetencySelection extends Component {
                         onClick={ () => {
                             closeModalToEditCompetencies();
                         } }
-                    >{ i18n.organisations_close }</button>
+                    >{ i18n.organisations_cancel }</button>
                     <button
                         className="action_button"
                         type="button"

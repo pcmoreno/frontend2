@@ -30,6 +30,11 @@ export default class Tabs extends Component {
     }
 
     switchTab(id) {
+
+        if (this.props.onBeforeTabSwitch) {
+            this.props.onBeforeTabSwitch(id);
+        }
+
         this.localState.activeTab = id;
         this.setState(this.localState);
     }
@@ -67,11 +72,11 @@ export default class Tabs extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.activeTab !== null) {
+    componentDidUpdate(prevProps) {
 
-            // default to given tab
-            this.localState.activeTab = this.props.activeTab;
+        // change the tab if the override has changed
+        if (this.props.activeTabOverride && prevProps.activeTabOverride !== this.props.activeTabOverride) {
+            this.localState.activeTab = this.props.activeTabOverride;
         }
 
         this.updateTabs();
@@ -79,10 +84,10 @@ export default class Tabs extends Component {
 
     componentDidMount() {
 
-        if (this.props.activeTab) {
+        if (this.props.activeTabOverride) {
 
             // default to given tab
-            this.localState.activeTab = this.props.activeTab;
+            this.localState.activeTab = this.props.activeTabOverride;
         } else {
 
             // default to first child id
@@ -101,20 +106,22 @@ export default class Tabs extends Component {
         this.props.children.forEach((child, index) => {
 
             // check the required attributes before proceeding
-            if (!child.attributes.id || !child.attributes.label) {
-                throw new Error('Tabs: Child elements should always have a label and id');
+            if (!child.attributes.id) {
+                throw new Error('Tabs: Child elements should always have an id');
             }
 
-            tabLinks.push(
-                <span
-                    role="button"
-                    tabIndex={ index }
-                    onClick={() => {
-                        this.switchTab(child.attributes.id);
-                    }}
-                    id={ `tablink_${child.attributes.id}` }
-                >{child.attributes.label}</span>
-            );
+            if (child.attributes.label) {
+                tabLinks.push(
+                    <span
+                        role="button"
+                        tabIndex={ index }
+                        onClick={() => {
+                            this.switchTab(child.attributes.id);
+                        }}
+                        id={ `tablink_${child.attributes.id}` }
+                    >{child.attributes.label}</span>
+                );
+            }
         });
 
         return (

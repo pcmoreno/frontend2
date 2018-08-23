@@ -6,7 +6,7 @@ import style from './style/settings.scss';
 
 export default class Settings extends Component {
     render() {
-        const { openModalToEditCompetencies, entity, i18n, selectedCompetencies } = this.props;
+        const { openModalToEditCompetencies, entity, i18n, selectedCompetenciesListView } = this.props;
 
         return (
             <div>
@@ -17,11 +17,11 @@ export default class Settings extends Component {
                         } }
                         className={ 'action_button left' }
                         type={ 'button' }
-                    >{ selectedCompetencies.length > 0 ? i18n.organisations_edit_competencies : i18n.organisations_add_competencies }</button>
+                    >{ selectedCompetenciesListView.length > 0 ? i18n.organisations_edit_competencies : i18n.organisations_add_competencies }</button>
                 </div>
                 <div className={ style.listView }>
                     <Listview
-                        entities={selectedCompetencies}
+                        entities={selectedCompetenciesListView}
                         i18n={i18n}
                         defaultSortingKey={'competency_name'}
                         defaultSortingOrder={'asc'}

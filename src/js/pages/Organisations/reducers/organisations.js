@@ -3,6 +3,7 @@ import Logger from '../../../utils/logger';
 import AppConfig from './../../../App.config';
 import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../../constants/ParticipantStatus';
+import CompetencyType from '../constants/CompetencyType';
 
 const initialState = {
     panels: [],
@@ -16,8 +17,9 @@ const initialState = {
             participants: []
         }
     },
-    selectedCompetencies: [],
-    availableCompetencies: [],
+    selectedCompetenciesListView: [],
+    availableGlobalCompetenciesListView: null,
+    availableCustomCompetenciesListView: null,
 
     // this value is set to determine which panel is active and opened a form
     formOpenByPanelId: null
@@ -32,6 +34,8 @@ const initialState = {
 export default function organisationsReducer(state = initialState, action) {
     const newState = Object.assign({}, state);
     let tempCompetencies = [];
+    let tempGlobalCompetencies = [];
+    let tempCustomCompetencies = [];
 
     const logger = Logger.instance;
 
@@ -316,15 +320,18 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.FETCH_SELECTED_COMPETENCIES:
 
-            newState.selectedCompetencies = [];
+            newState.selectedCompetenciesListView = [];
 
             tempCompetencies = [];
 
+            // todo: do we want to build list views like this in here (including all actions), i'd prefer not
+            // todo: however, we will also run intue issues with assigning back to the state when changing this later
+            // todo: but this is not data access friendly, what if I would need a competency object within a component....
             action.data.forEach(competency => {
                 tempCompetencies.push(
                     [
                         {
-                            type: 'hidden',
+                            type: ListItemTypes.HIDDEN,
                             key: 'competency_slug',
                             value: competency.competencySlug
                         },
@@ -336,53 +343,81 @@ export default function organisationsReducer(state = initialState, action) {
                             type: ListItemTypes.COMPETENCY_TYPE,
                             key: 'competency_type',
                             disabled: false,
-                            competencyType: competency.translationKey ? 'global' : 'custom'
+                            competencyType: competency.translationKey ? CompetencyType.GLOBAL : CompetencyType.CUSTOM
                         }
-
                     ]
                 );
             });
 
-            newState.selectedCompetencies = tempCompetencies;
+            newState.selectedCompetenciesListView = tempCompetencies;
 
             break;
 
         case actionType.FETCH_AVAILABLE_COMPETENCIES:
 
-            newState.availableCompetencies = [];
+            newState.availableGlobalCompetenciesListView = [];
+            newState.availableCustomCompetenciesListView = [];
 
-            tempCompetencies = [];
+            tempGlobalCompetencies = [];
+            tempCustomCompetencies = [];
 
             action.data.forEach(competency => {
-                tempCompetencies.push(
-                    [
-                        {
-                            type: 'checkbox',
-                            key: 'selectParticipantLabel',
-                            id: competency.competencySlug,
-                            action: event => {
-                                action.toggleCompetency(competency.competencySlug, event);
+                if (competency.isGlobal) {
+                    tempGlobalCompetencies.push(
+                        [
+                            {
+                                type: ListItemTypes.CHECKBOX,
+                                key: 'selectCompetencyLabel',
+                                id: competency.competencySlug,
+                                action: event => {
+                                    action.toggleCompetency(competency.competencySlug, event);
+                                }
+                            },
+                            {
+                                key: 'competency_name',
+                                value: competency.translationKey || competency.competencyName,
+                                action: event => {
+                                    action.toggleCompetency(competency.competencySlug, event);
+                                }
                             }
-                        },
-                        {
-                            key: 'competency_name',
-                            value: competency.translationKey || competency.competencyName,
-                            action: event => {
-                                action.toggleCompetency(competency.competencySlug, event);
+                        ]
+                    );
+                } else {
+                    tempCustomCompetencies.push(
+                        [
+                            {
+                                type: ListItemTypes.CHECKBOX,
+                                key: 'selectCompetencyLabel',
+                                id: competency.competencySlug,
+                                action: event => {
+                                    action.toggleCompetency(competency.competencySlug, event);
+                                }
+                            },
+                            {
+                                key: 'competency_name',
+                                value: competency.translationKey || competency.competencyName,
+                                action: event => {
+                                    action.toggleCompetency(competency.competencySlug, event);
+                                }
+                            },
+                            {
+                                key: 'amendCustomCompetency',
+                                type: ListItemTypes.PENCIL,
+                                action: () => {
+                                    action.openEditCustomCompetencyTab({
+                                        slug: competency.competencySlug,
+                                        name: competency.competencyName,
+                                        definition: competency.competencyDefinition
+                                    });
+                                }
                             }
-                        },
-                        {
-                            type: ListItemTypes.COMPETENCY_TYPE,
-                            key: 'competency_type',
-                            disabled: false,
-                            competencyType: competency.translationKey ? 'global' : 'custom'
-                        }
-
-                    ]
-                );
+                        ]
+                    );
+                }
             });
 
-            newState.availableCompetencies = tempCompetencies;
+            newState.availableGlobalCompetenciesListView = tempGlobalCompetencies;
+            newState.availableCustomCompetenciesListView = tempCustomCompetencies;
 
             break;
 
@@ -409,8 +444,9 @@ export default function organisationsReducer(state = initialState, action) {
 
         case actionType.RESET_COMPETENCIES:
 
-            newState.selectedCompetencies = [];
-            newState.availableCompetencies = [];
+            newState.selectedCompetenciesListView = [];
+            newState.availableGlobalCompetenciesListView = null;
+            newState.availableCustomCompetenciesListView = null;
 
             break;
 

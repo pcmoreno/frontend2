@@ -17,6 +17,7 @@ import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../constants/ParticipantStatus';
 import OrganisationsError from './constants/OrganisationsError';
+import CompetencyTab from './constants/CompetencyTab';
 
 class Index extends Component {
     constructor(props) {
@@ -61,10 +62,14 @@ class Index extends Component {
         this.toggleSelectAllParticipants = this.toggleSelectAllParticipants.bind(this);
         this.updateCompetencySelection = this.updateCompetencySelection.bind(this);
         this.addCustomCompetency = this.addCustomCompetency.bind(this);
+        this.editCustomCompetency = this.editCustomCompetency.bind(this);
         this.getGlobalAndCustomCompetencies = this.getGlobalAndCustomCompetencies.bind(this);
         this.toggleCompetency = this.toggleCompetency.bind(this);
 
         this.amendInlineEditable = this.amendInlineEditable.bind(this);
+
+        this.openEditCustomCompetencyTab = this.openEditCustomCompetencyTab.bind(this);
+        this.onBeforeTabSwitch = this.onBeforeTabSwitch.bind(this);
 
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
@@ -85,7 +90,8 @@ class Index extends Component {
             selectedParticipantSlug: null,
             editCompetenciesActiveTab: null,
             locallySelectedCompetencies: [],
-            selectedProjectSlug: null
+            selectedProjectSlug: null,
+            customCompetencyToEdit: null
         };
 
         // keep track of current entity shown in detail panel
@@ -827,12 +833,12 @@ class Index extends Component {
             params
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
-            this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency);
+            this.actions.fetchAvailableCompetencies(organisationSlug, response, this.toggleCompetency, this.openEditCustomCompetencyTab);
             this.modalLocked = false;
 
             // fill up the local state (locallySelectedCompetencies) that keeps track of the locally selected competencies
             if (this.localState.locallySelectedCompetencies.length === 0) {
-                this.props.selectedCompetencies.forEach(selectedCompetency => {
+                this.props.selectedCompetenciesListView.forEach(selectedCompetency => {
                     this.localState.locallySelectedCompetencies.push(selectedCompetency[0].value);
                 });
             }
@@ -863,7 +869,7 @@ class Index extends Component {
             document.querySelector('#modal_edit_competencies').classList.add('hidden');
 
             // override the active tab to the first one, then immediately reset it so user can switch to other tabs
-            this.localState.editCompetenciesActiveTab = 'organisations_edit_global_competency_selection';
+            this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_GLOBAL_COMPETENCY_SELECTION;
             this.setState(this.localState, () => {
                 this.localState.editCompetenciesActiveTab = null;
             });
@@ -983,10 +989,8 @@ class Index extends Component {
                 }
 
                 // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
-                this.localState.editCompetenciesActiveTab = 'organisations_edit_custom_competency_selection';
-                this.setState(this.localState, () => {
-                    this.localState.editCompetenciesActiveTab = null;
-                });
+                this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
+                this.setState(this.localState);
 
                 // retrieve competencies again (including the one that was just added)
                 this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
@@ -1000,6 +1004,95 @@ class Index extends Component {
                 reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
             });
         });
+    }
+
+    editCustomCompetency(slug, competencyName, competencyDefinition) {
+
+        // check input values
+        if (!slug || !competencyName || !competencyDefinition) {
+            throw new Error(OrganisationsError.ALL_FIELDS_REQUIRED);
+        }
+
+        // lock until request is handled
+        if (!this.modalLocked) {
+            this.modalLocked = true;
+        }
+
+        return new Promise((resolve, reject) => {
+            this.api.put(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().competencies.editCompetency,
+                {
+                    urlParams: {
+                        identifiers: {
+                            slug
+                        }
+                    },
+                    payload: {
+                        type: 'form',
+                        data: {
+                            competencyName,
+                            competencyDefinition
+                        }
+                    }
+                }
+            ).then(response => {
+                this.modalLocked = false;
+
+                // if the response throws errors, reject the request and return the errors
+                if (response && response.errors) {
+                    return reject(response.errors);
+                }
+
+                // switch tab to edit custom competencies, then immediately reset it so user can switch to other tabs
+                this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
+                this.localState.customCompetencyToEdit = null;
+                this.setState(this.localState);
+
+                // retrieve competencies again (including the one that was just added)
+                this.getGlobalAndCustomCompetencies(this.props.pathNodes[1].uuid);
+
+                // show success message
+                this.actions.addAlert({ type: 'success', text: this.i18n.organisations_edit_custom_competency_success });
+
+                return resolve();
+            }).catch(() => {
+                this.modalLocked = false;
+                reject(new Error(OrganisationsError.UNEXPECTED_ERROR));
+            });
+        });
+    }
+
+    openEditCustomCompetencyTab(competency) {
+        this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY;
+        this.localState.customCompetencyToEdit = competency;
+        this.setState(this.localState);
+    }
+
+    /**
+     * Handles some state variables before swichting tabs in the competency tab modal
+     * @param {string} tabId - tabId
+     * @returns {undefined}
+     */
+    onBeforeTabSwitch(tabId) {
+        let setState = false;
+
+        // for now we just want to reset the override when the tab component is switching internally
+        if (tabId !== this.localState.editCompetenciesActiveTab) {
+            this.localState.editCompetenciesActiveTab = null;
+            setState = true;
+        }
+
+        // when the tab for amending a custom competency is not open anymore, reset it
+        if (tabId !== CompetencyTab.EDIT_CUSTOM_COMPETENCY) {
+            this.localState.customCompetencyToEdit = null;
+            setState = true;
+        }
+
+        // finally update the state
+        if (setState) {
+            this.setState(this.localState);
+        }
     }
 
     amendInlineEditable(section, field, slug, value) {
@@ -1084,11 +1177,15 @@ class Index extends Component {
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
                 i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
                 languageId={ this.props.languageId }
-                availableCompetencies={ this.props.availableCompetencies }
-                selectedCompetencies={ this.props.selectedCompetencies }
+                availableGlobalCompetenciesListView={ this.props.availableGlobalCompetenciesListView }
+                availableCustomCompetenciesListView={ this.props.availableCustomCompetenciesListView }
+                selectedCompetenciesListView={ this.props.selectedCompetenciesListView }
                 locallySelectedCompetencies={ this.localState.locallySelectedCompetencies }
                 updateCompetencySelection={ this.updateCompetencySelection }
                 addCustomCompetency={ this.addCustomCompetency }
+                editCustomCompetency={ this.editCustomCompetency }
+                customCompetencyToEdit={ this.localState.customCompetencyToEdit }
+                onBeforeTabSwitch={ this.onBeforeTabSwitch }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
                 amendInlineEditable={ this.amendInlineEditable }
             />
@@ -1100,8 +1197,9 @@ const mapStateToProps = state => ({
     panels: state.organisationsReducer.panels,
     formOpenByPanelId: state.organisationsReducer.formOpenByPanelId,
     detailPanelData: state.organisationsReducer.detailPanelData,
-    selectedCompetencies: state.organisationsReducer.selectedCompetencies,
-    availableCompetencies: state.organisationsReducer.availableCompetencies,
+    selectedCompetenciesListView: state.organisationsReducer.selectedCompetenciesListView,
+    availableGlobalCompetenciesListView: state.organisationsReducer.availableGlobalCompetenciesListView,
+    availableCustomCompetenciesListView: state.organisationsReducer.availableCustomCompetenciesListView,
     pathNodes: state.organisationsReducer.pathNodes,
     languageId: state.headerReducer.languageId
 });

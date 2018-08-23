@@ -184,10 +184,15 @@ table td.organisation {
         text-align: center;
         padding: .5rem 1rem
     }
+}
 
-    /* in the global competencies modal hide the last column with the global icon. it is only required for detail panel */
+#organisations_edit_custom_competency_selection main table {
+
+    /* pencil column in the competencies modal */
     td:last-child {
-        display: none;
+        width: 1rem;
+        text-align: center;
+        padding: .5rem 1rem
     }
 }
 

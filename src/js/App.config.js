@@ -53,6 +53,7 @@ const AppConfig = {
                     availableCompetencies: '/v1/competencies-for-organisation/{slug}',
                     selectedCompetencies: '/v1/section/project/slug/{slug}',
                     addCompetency: '/v1/section/competency',
+                    editCompetency: '/v1/section/competency/slug/{slug}',
                     updateSelectedCompetencies: '/v1/section/project/slug/{slug}'
                 },
                 tasks: {

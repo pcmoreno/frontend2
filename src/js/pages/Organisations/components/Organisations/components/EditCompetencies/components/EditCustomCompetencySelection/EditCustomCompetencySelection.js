@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview';
-import CompetencyType from './../../../../../../constants/CompetencyType';
-import CompetencyPropType from './../../../../../../constants/CompetencyPropType';
 import style from './../../style/editcompetencies.scss';
+import CompetencyTab from '../../../../../../constants/CompetencyTab';
 
 /** @jsx h */
 
@@ -11,38 +10,31 @@ export default class EditCustomCompetencySelection extends Component {
         const {
             i18n,
             projectSlug,
-            availableCompetencies,
+            availableCustomCompetenciesListView,
             locallySelectedCompetencies,
             closeModalToEditCompetencies,
             updateCompetencySelection
         } = this.props;
 
-        // rebuild the custom competencies list
-        const customCompetencies = [];
+        let message = i18n.organisations_competencies_modal_loading;
 
-        availableCompetencies.forEach(competency => {
-            competency.forEach(prop => {
-
-                // only add custom competencies
-                if (prop.type === CompetencyPropType.COMPETENCYTYPE && prop.competencyType === CompetencyType.CUSTOM) {
-                    customCompetencies.push(competency);
-                }
-            });
-        });
+        if (availableCustomCompetenciesListView !== null) {
+            message = i18n.organisations_competencies_modal_no_results;
+        }
 
         return (
-            <div id="organisations_edit_custom_competency_selection" className={ `${style.editcompetencies} hidden` }>
+            <div id={ CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION } className={ `${style.editcompetencies} hidden` }>
                 <main>
-                    { customCompetencies.length > 0
+                    { availableCustomCompetenciesListView !== null && availableCustomCompetenciesListView.length > 0
                         ? <Listview
-                            entities={ customCompetencies }
+                            entities={ availableCustomCompetenciesListView }
                             selectedEntities={ locallySelectedCompetencies }
                             defaultSortingKey={ 'competency_name' }
                             defaultSortingOrder={ 'asc' }
                             i18n={ i18n }
                             translationKeyPrefix={ 'competencies_' }
                         />
-                        : i18n.organisations_competencies_modal_loading
+                        : message
                     }
                 </main>
                 <footer>
@@ -53,7 +45,7 @@ export default class EditCustomCompetencySelection extends Component {
                         onClick={ () => {
                             closeModalToEditCompetencies();
                         } }
-                    >{ i18n.organisations_close }</button>
+                    >{ i18n.organisations_cancel }</button>
                     <button
                         className="action_button"
                         type="button" value="Submit"
