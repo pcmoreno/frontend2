@@ -63,10 +63,17 @@ class Index extends Component {
                     identifiers: {
                         slug: participantSessionSlug
                     }
+                },
+                headers: {
+                    Accept: 'application/pdf'
                 }
             }
         ).then(response => {
             document.querySelector('#spinner').classList.add('hidden');
+
+            if (!response || response.errors) {
+                throw new Error('Could not download intermediate report');
+            }
 
             // download the pdf file, exceptions thrown are automatically caught in the promise chain
             Utils.downloadPdfFromBlob(response.blob, {
