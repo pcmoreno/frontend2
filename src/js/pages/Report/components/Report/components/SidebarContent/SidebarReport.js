@@ -5,10 +5,13 @@ import DownloadReport from './components/DownloadReport/DownloadReport';
 import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
+import CompetencyProperty from '../../../../constants/CompetencyProperty';
 
 /** @jsx h */
 
 const sidebarScorePrefix = 'sidebar_score_';
+const TRANSLATION_KEY_PREFIX = 'competencies_';
+
 
 const staticScoreRegexRange = `${StaticScoreValue.MIN_VALUE}-${StaticScoreValue.MAX_VALUE}`;
 const staticScoreFullRegex = new RegExp(`[^${staticScoreRegexRange}]`, 'g');
@@ -186,7 +189,21 @@ export default class SidebarReport extends Component {
         if (competencies && competencies.length) {
             competencyScoreRows = [];
 
-            competencies.forEach(competency => {
+            // clone, translate and sort the competencies. This does not change output values, only the order of the array
+            // because the translate method will set a new field (translated_name) to store the translated value
+            // instead of overwriting the original value
+            const competenciesClone = competencies.slice(0);
+            const translatedCompetencies = Utils.translateFieldInArray(
+                competenciesClone,
+                CompetencyProperty.NAME,
+                CompetencyProperty.TRANSLATED_NAME,
+                CompetencyProperty.TRANSLATION_KEY,
+                i18n,
+                TRANSLATION_KEY_PREFIX
+            );
+            const sortedCompetencies = Utils.alphabeticallySortFieldInArray(translatedCompetencies, CompetencyProperty.TRANSLATED_NAME);
+
+            sortedCompetencies.forEach(competency => {
                 const score = Utils.parseScore(competency.score, CompetencyScoreValue.MIN_VALUE, CompetencyScoreValue.MAX_VALUE, true);
 
                 competencyScoreRows.push(
