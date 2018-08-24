@@ -568,6 +568,75 @@ const Utils = {
         }
 
         return null;
+    },
+
+    /**
+     * Translates the given field of an object in the given array if there is a translation available
+     *
+     * @param {array} data - data array with objects
+     * @param {string} fieldName - property of an object in the array
+     * @param {string} translatedFieldName - property of an object in the array where the translated value will be set to
+     * @param {string} translationKeyFieldName - key that contains the translation key value (can be the same as fieldName)
+     * @param {Object} i18n - i18n translation object
+     * @param {string} [i18nPrefix] - optional translation key prefix
+     * @returns {array} data array
+     */
+    translateFieldInArray(data, fieldName, translatedFieldName, translationKeyFieldName, i18n, i18nPrefix = '') {
+        if (!data || !data.forEach) {
+            throw new Error('Data should be an array');
+        }
+
+        if (!fieldName) {
+            throw new Error('Field name is required');
+        }
+
+        if (!i18n) {
+            throw new Error('i18n object is required');
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            if (data[i][translationKeyFieldName]) {
+                if (i18n[`${i18nPrefix}${data[i][translationKeyFieldName]}`]) {
+                    data[i][translatedFieldName] = i18n[`${i18nPrefix}${data[i][translationKeyFieldName]}`] || data[i][fieldName];
+                    continue;
+                }
+            }
+
+            // fallback
+            data[i][translatedFieldName] = data[i][fieldName];
+        }
+
+        return data;
+    },
+
+    /**
+     * Sorts the given data array of objects (statically descending at this point) on the given field name
+     * @param {array} data - data array with objects
+     * @param {string} fieldName - property of an object in the array (to sort on)
+     * @returns {array} data array
+     */
+    alphabeticallySortFieldInArray(data, fieldName) {
+        if (!data || !data.forEach) {
+            throw new Error('Data should be an array');
+        }
+
+        if (!fieldName) {
+            throw new Error('Field name is required');
+        }
+
+        data.sort((a, b) => {
+            if (a[fieldName].toLowerCase() < b[fieldName].toLowerCase()) {
+                return -1;
+            }
+
+            if (a[fieldName].toLowerCase() > b[fieldName].toLowerCase()) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        return data;
     }
 };
 

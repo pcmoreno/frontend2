@@ -93,6 +93,10 @@ export default class Report extends Component {
             return null;
         }
 
+        // this is the participant language for the online report texts (does not include the sidebar)
+        const reportLanguage = report.language.replace('-', '_') || languageId;
+        const i18nOnlineReport = translator(reportLanguage, ['report', 'competencies']);
+
         const staticScores = {
             intelligenceScore: report.texts.intelligenceScore,
             powerToChangeScore: report.texts.powerToChangeScore
@@ -105,6 +109,7 @@ export default class Report extends Component {
                 icon: ['far', 'file-alt'],
                 component: <SidebarReport
                     i18n={ i18n }
+                    i18nOnlineReport={ i18nOnlineReport }
                     reportTexts={ report.texts }
                     staticScores={ staticScores }
                     competencies={ report.competencies }
@@ -125,10 +130,6 @@ export default class Report extends Component {
                 />
             }
         ];
-
-        // this is the participant language for the online report texts (does not include the sidebar)
-        const reportLanguage = report.language.replace('-', '_') || languageId;
-        const i18nOnlineReport = translator(reportLanguage, ['report', 'competencies']);
 
         // note: some fields may depend on the report/product type. textFields_textsTemplates dictates which fields
         // should be on a report type/product/template when there is no text available on the report, and the template

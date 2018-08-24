@@ -5,10 +5,13 @@ import DownloadReport from './components/DownloadReport/DownloadReport';
 import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
+import CompetencyProperty from '../../../../constants/CompetencyProperty';
 
 /** @jsx h */
 
 const sidebarScorePrefix = 'sidebar_score_';
+const TRANSLATION_KEY_PREFIX = 'competencies_';
+
 
 const staticScoreRegexRange = `${StaticScoreValue.MIN_VALUE}-${StaticScoreValue.MAX_VALUE}`;
 const staticScoreFullRegex = new RegExp(`[^${staticScoreRegexRange}]`, 'g');
@@ -137,7 +140,7 @@ export default class SidebarReport extends Component {
     }
 
     render() {
-        const { i18n, reportTexts, staticScores, competencies } = this.props;
+        const { i18n, i18nOnlineReport, reportTexts, staticScores, competencies } = this.props;
         let selectionAdviceOptions = [];
         let selectionAdvice = null;
         let staticScoreRows = null;
@@ -186,12 +189,26 @@ export default class SidebarReport extends Component {
         if (competencies && competencies.length) {
             competencyScoreRows = [];
 
-            competencies.forEach(competency => {
+            // clone, translate and sort the competencies. This does not change output values, only the order of the array
+            // because the translate method will set a new field (translated_name) to store the translated value
+            // instead of overwriting the original value
+            const competenciesClone = competencies.slice(0);
+            const translatedCompetencies = Utils.translateFieldInArray(
+                competenciesClone,
+                CompetencyProperty.NAME,
+                CompetencyProperty.TRANSLATED_NAME,
+                CompetencyProperty.TRANSLATION_KEY,
+                i18nOnlineReport,
+                TRANSLATION_KEY_PREFIX
+            );
+            const sortedCompetencies = Utils.alphabeticallySortFieldInArray(translatedCompetencies, CompetencyProperty.TRANSLATED_NAME);
+
+            sortedCompetencies.forEach(competency => {
                 const score = Utils.parseScore(competency.score, CompetencyScoreValue.MIN_VALUE, CompetencyScoreValue.MAX_VALUE, true);
 
                 competencyScoreRows.push(
                     <tr>
-                        <td>{ i18n[competency.translationKey] || competency.name }</td>
+                        <td>{ i18nOnlineReport[`${TRANSLATION_KEY_PREFIX}${competency.translationKey}`] || competency.name }</td>
                         <td><input
                             id={ `${sidebarScorePrefix}${competency.name.toLowerCase()}` }
                             onInput={ this.onInputCompetencyScore }
