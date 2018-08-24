@@ -44,7 +44,7 @@ export default {
     "report_development_oriented_default_text": "Geloven dat het mogelijk, nuttig en plezierig is om aan je ontwikkeling te werken (‘growth mindset’).",
     "report_development_report": "Ontwikkelrapport",
     "report_download_pdf_current_version": "Huidige versie",
-    "report_download_pdf_explanation": "Er wordt een nieuwe PDF gegenereerd. Dit kan enige tijd duren. Ververs de pagina om het rapport te kunnen downloaden.",
+    "report_download_pdf_explanation": "Er wordt een nieuwe PDF gegenereerd. Dit kan enige tijd duren.",
     "report_download_pdf_generate": "Genereer rapport",
     "report_download_pdf_problem_downloading": "Er is een fout opgetreden bij het downloaden van het rapport. Probeer het later opnieuw.",
     "report_download_pdf_problem_generating": "Er is een probleem opgetreden bij het genereren van het rapport. Probeer het later opnieuw.",
