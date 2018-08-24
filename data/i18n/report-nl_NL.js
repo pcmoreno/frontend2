@@ -157,6 +157,7 @@ export default {
     "report_retest_button": "Hertest",
     "report_retest_failed": "Het verzoek voor een hertest is mislukt. Probeer het opnieuw.",
     "report_retest_success": "Het verzoek voor een hertest is succesvol ontvangen. Dit kan even duren...",
+    "report_retest_success_description": "Het verzoek voor een hertest is succesvol ontvangen. Dit kan even duren. Ververs straks de pagina om de resultaten te zien.",
     "report_retest_title": "Hertest uitvoeren",
     "report_score_the_following_competencies": "Geef een score op de volgende competencies",
     "report_selection_advice": "Selectieadvies",
