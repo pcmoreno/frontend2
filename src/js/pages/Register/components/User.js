@@ -46,7 +46,7 @@ export default class User extends AbstractRegistration {
             if (showLogin) {
 
                 component = <Login
-                    i18n = { translator(languageId, 'register') }
+                    i18n = { this.i18n }
                     language = { languageId }
                     error = { loginError }
                     buttonDisabled = { loginButtonDisabled }
@@ -59,7 +59,7 @@ export default class User extends AbstractRegistration {
 
                 // show register by default
                 component = <Register
-                    i18n = { translator(languageId, 'register') }
+                    i18n = { this.i18n }
                     error = { registerError }
                     buttonDisabled = { registerButtonDisabled }
                     onSubmit = { this.onRegisterAccount.bind(this) }
