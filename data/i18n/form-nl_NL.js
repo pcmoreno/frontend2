@@ -20,6 +20,7 @@ export default {
     "form_display_name": "Weergavenaam",
     "form_education_level": "Opleidingsniveau",
     "form_email": "E-mailadres",
+    "form_error_duplicate_custom_competency": "Deze competentie bestaat al",
     "form_error_duplicate_entry": "Deze waarde bestaat al",
     "form_error_duplicate_non_participant_role": "Deze gebruiker is al eerder uitgenodigd met de geselecteerde rol",
     "form_error_email_duplicate_in_project": "Deze deelnemer bestaat al",
