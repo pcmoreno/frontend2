@@ -571,8 +571,9 @@ const Utils = {
     },
 
     /**
-     * Translates the given fieldName if there is a translation available
-     * @param {array} data - data array
+     * Translates the given field of an object in the given array if there is a translation available
+     *
+     * @param {array} data - data array with objects
      * @param {string} fieldName - property of an object in the array
      * @param {string} translatedFieldName - property of an object in the array where the translated value will be set to
      * @param {string} translationKeyFieldName - key that contains the translation key value (can be the same as fieldName)
@@ -609,8 +610,8 @@ const Utils = {
     },
 
     /**
-     * Sorts the given data array (statically descending at this point) on the given fied name
-     * @param {array} data - data array
+     * Sorts the given data array of objects (statically descending at this point) on the given field name
+     * @param {array} data - data array with objects
      * @param {string} fieldName - property of an object in the array (to sort on)
      * @returns {array} data array
      */
