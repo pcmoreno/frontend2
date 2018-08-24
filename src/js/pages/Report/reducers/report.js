@@ -145,7 +145,7 @@ export default function reportReducer(state = initialState, action) {
 
                 // if generationStatus is 'published', set the last generated date
                 if (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED) {
-                    newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY');
+                    newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
                 }
 
                 // get participant language for the report
