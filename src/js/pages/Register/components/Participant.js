@@ -2,7 +2,6 @@ import { h, render } from 'preact';
 import Terms from './../components/Terms/Terms';
 import Redirect from '../../../utils/components/Redirect';
 import Register from './../components/Register/Register';
-import translator from '../../../utils/translator';
 import Login from './../components/Login/Login';
 import AbstractRegistration from './AbstractRegistration';
 import AppConfig from '../../../App.config';
@@ -96,7 +95,7 @@ export default class Participant extends AbstractRegistration {
         // render terms component when they were not approved yet
         if (!termsAccepted) {
             component = <Terms
-                i18n = { translator(languageId, 'register') }
+                i18n = { this.i18n }
                 onSubmit = { this.onApproveTerms.bind(this) }
                 onChange = { this.onChangeTermsApproval.bind(this) }
                 buttonDisabled = { approvalButtonDisabled }
@@ -108,7 +107,7 @@ export default class Participant extends AbstractRegistration {
             if (showLogin) {
 
                 component = <Login
-                    i18n = { translator(languageId, 'register') }
+                    i18n = { this.i18n }
                     language = { languageId }
                     error = { loginError }
                     buttonDisabled = { loginButtonDisabled }
@@ -121,7 +120,7 @@ export default class Participant extends AbstractRegistration {
 
                 // show register by default
                 component = <Register
-                    i18n = { translator(languageId, 'register') }
+                    i18n = { this.i18n }
                     error = { registerError }
                     buttonDisabled = { registerButtonDisabled }
                     onSubmit = { this.onRegisterAccount.bind(this) }
