@@ -140,7 +140,7 @@ export default class SidebarReport extends Component {
     }
 
     render() {
-        const { i18n, reportTexts, staticScores, competencies } = this.props;
+        const { i18n, i18nOnlineReport, reportTexts, staticScores, competencies } = this.props;
         let selectionAdviceOptions = [];
         let selectionAdvice = null;
         let staticScoreRows = null;
@@ -198,7 +198,7 @@ export default class SidebarReport extends Component {
                 CompetencyProperty.NAME,
                 CompetencyProperty.TRANSLATED_NAME,
                 CompetencyProperty.TRANSLATION_KEY,
-                i18n,
+                i18nOnlineReport,
                 TRANSLATION_KEY_PREFIX
             );
             const sortedCompetencies = Utils.alphabeticallySortFieldInArray(translatedCompetencies, CompetencyProperty.TRANSLATED_NAME);
@@ -208,7 +208,7 @@ export default class SidebarReport extends Component {
 
                 competencyScoreRows.push(
                     <tr>
-                        <td>{ i18n[competency.translationKey] || competency.name }</td>
+                        <td>{ i18nOnlineReport[`${TRANSLATION_KEY_PREFIX}${competency.translationKey}`] || competency.name }</td>
                         <td><input
                             id={ `${sidebarScorePrefix}${competency.name.toLowerCase()}` }
                             onInput={ this.onInputCompetencyScore }
