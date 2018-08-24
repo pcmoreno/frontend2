@@ -22,6 +22,7 @@ export default {
     "form_email": "E-mailadres",
     "form_error_duplicate_entry": "Deze waarde bestaat al",
     "form_error_duplicate_non_participant_role": "Deze gebruiker is al eerder uitgenodigd met de geselecteerde rol",
+    "form_error_email_duplicate_in_project": "Deze deelnemer bestaat al",
     "form_error_invalid_email": "Het e-mailadres is ongeldig",
     "form_error_invalid_field_value": "De waarde van dit veld is ongeldig",
     "form_error_length_maximum": "De waarde van dit veld is te lang",
