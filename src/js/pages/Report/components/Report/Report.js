@@ -118,6 +118,7 @@ export default class Report extends Component {
                     generateReport={ this.props.generateReport }
                     downloadReport={ this.props.downloadReport }
                     getReportGenerationStatus={ this.props.getReportGenerationStatus }
+                    triggerRetest={ this.props.triggerRetest }
                     generatedReport={ report.generatedReport }
                 />
             },
