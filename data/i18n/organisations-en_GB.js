@@ -61,6 +61,7 @@ export default {
     "organisations_english": "English",
     "organisations_finished": "Finished",
     "organisations_first_name": "First name",
+    "organisations_form_error_duplicate_custom_competency": "The competency does already exist",
     "organisations_gender": "Gender",
     "organisations_gender_female": "Female",
     "organisations_gender_male": "Male",
