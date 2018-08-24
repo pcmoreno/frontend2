@@ -22,6 +22,7 @@ export default {
     "form_email": "Email address",
     "form_error_duplicate_entry": "This value does already exist",
     "form_error_duplicate_non_participant_role": "This user was already invited with the selected role",
+    "form_error_email_duplicate_in_project": "The participant does already exist",
     "form_error_invalid_email": "The email address is invalid",
     "form_error_invalid_field_value": "The value of this field is invalid",
     "form_error_length_maximum": "The value of this field is too long",
