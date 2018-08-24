@@ -64,3 +64,20 @@ export function resetReport() {
         type: actionType.RESET_REPORT
     };
 }
+
+/**
+ * Updates the report generation status in the state with the given state
+ * @param {DownloadReportGenerationStatus} status - report generation status
+ * @param {Object} reportPublishedOn - published on (date object)
+ * @returns {{type: string, status: ''}} status
+ */
+export function updateReportGenerationStatus(status, reportPublishedOn) {
+
+    // return action type and the value(s) to be sent to reducer for state mutation
+
+    return {
+        type: actionType.UPDATE_REPORT_GENERATION_STATUS,
+        status,
+        reportPublishedOn
+    };
+}

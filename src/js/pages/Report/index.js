@@ -13,6 +13,7 @@ import translator from '../../utils/translator';
 import Logger from '../../utils/logger';
 import ApiMethod from '../../utils/api/constants/ApiMethod';
 import Utils from '../../utils/utils';
+import DownloadReportGenerationStatus from './constants/DownloadReportGenerationStatus';
 
 class Index extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class Index extends Component {
         this.saveCompetencyScore = this.saveCompetencyScore.bind(this);
         this.generateReport = this.generateReport.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
+        this.getReportGenerationStatus = this.getReportGenerationStatus.bind(this);
 
         this.loadingPdf = false;
     }
@@ -368,6 +370,41 @@ class Index extends Component {
         });
     }
 
+    getReportGenerationStatus() {
+        return new Promise((onFulfilled, onRejected) => {
+            this.api.get(
+                this.api.getBaseUrl(),
+                this.api.getEndpoints().report.reportGenerationStatus,
+                {
+                    urlParams: {
+                        identifiers: {
+                            slug: this.participantSessionId
+                        }
+                    }
+                }
+            ).then(response => {
+
+                if (response.errors) {
+
+                    // show (translated) error message
+                    this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_generating });
+                    return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
+                }
+
+                if (response.generatedReport.generationStatus === DownloadReportGenerationStatus.PUBLISHED) {
+                    this.actions.updateReportGenerationStatus(DownloadReportGenerationStatus.PUBLISHED, response.generatedReport.reportPublishedOn);
+                }
+
+                // resolve when the call succeeds
+                return onFulfilled(response.generatedReport.generationStatus);
+
+            }).catch(() => {
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_generating });
+                return onRejected(new Error(this.i18n.report_download_pdf_problem_generating));
+            });
+        });
+    }
+
     downloadReport() {
         if (this.loadingPdf) {
             return;
@@ -435,6 +472,7 @@ class Index extends Component {
                 languageId={ languageId }
                 generateReport={ this.generateReport }
                 downloadReport={ this.downloadReport }
+                getReportGenerationStatus={ this.getReportGenerationStatus }
             />
         );
     }

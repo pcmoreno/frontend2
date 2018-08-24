@@ -1,7 +1,8 @@
 import * as actionType from './../constants/ActionTypes';
 import downloadReportGenerationStatus from '../constants/DownloadReportGenerationStatus';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Logger from '../../../utils/logger';
+import DateTimeZone from '../../../constants/DateTimeZone';
 
 const initialState = {
     report: null
@@ -145,7 +146,17 @@ export default function reportReducer(state = initialState, action) {
 
                 // if generationStatus is 'published', set the last generated date
                 if (generatedReport.generationStatus === downloadReportGenerationStatus.PUBLISHED) {
-                    newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
+                    if (generatedReport.reportPublishedOn.timezone.toUpperCase() === DateTimeZone.UTC) {
+
+                        // remove incompatible timezone offset. For UTC normally a Z is returned
+                        if (~generatedReport.reportPublishedOn.date.indexOf('.000000')) {
+                            generatedReport.reportPublishedOn.date = generatedReport.reportPublishedOn.date.replace('.000000', 'Z');
+                        }
+
+                        newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).utc().tz(DateTimeZone.AMSTERDAM).format('DD-MM-YYYY HH:mm');
+                    } else {
+                        newState.report.generatedReport.generationDate = moment(generatedReport.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
+                    }
                 }
 
                 // get participant language for the report
@@ -187,6 +198,28 @@ export default function reportReducer(state = initialState, action) {
 
                 newState.report.competencies.push(competency);
             });
+
+            break;
+
+        case actionType.UPDATE_REPORT_GENERATION_STATUS:
+
+            newState.report = Object.assign({}, state.report);
+            newState.report.generatedReport = Object.assign({}, state.report.generatedReport);
+
+            // update report generation status
+            newState.report.generatedReport.generationStatus = action.status;
+
+            if (action.reportPublishedOn.timezone.toUpperCase() === DateTimeZone.UTC) {
+
+                // remove incompatible timezone offset. For UTC normally a Z is returned
+                if (~action.reportPublishedOn.date.indexOf('.000000')) {
+                    action.reportPublishedOn.date = action.reportPublishedOn.date.replace('.000000', 'Z');
+                }
+
+                newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).utc().tz(DateTimeZone.AMSTERDAM).format('DD-MM-YYYY HH:mm');
+            } else {
+                newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
+            }
 
             break;
 
