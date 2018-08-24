@@ -1,7 +1,6 @@
 import { h, render } from 'preact';
 import Redirect from '../../../utils/components/Redirect';
 import Register from './../components/Register/Register';
-import translator from '../../../utils/translator';
 import Login from './../components/Login/Login';
 import AbstractRegistration from './AbstractRegistration';
 import AppConfig from '../../../App.config';
