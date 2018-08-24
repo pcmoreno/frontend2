@@ -31,7 +31,7 @@ class Message extends Component {
         const participantSessionSlug = message.participantSessionSlug;
 
         if (message.appointmentDate) {
-            finishBefore = <div>{ i18n.inbox_complete_before }: { message.date }</div>;
+            finishBefore = <div>{ i18n.inbox_complete_before }: { message.appointmentDate }</div>;
         }
 
         return (
@@ -43,7 +43,7 @@ class Message extends Component {
                             <p>{ i18n.inbox_invitation_description_text }</p>
                         </article>
                         <section className={ style.participantsData }>
-                            <h4>{ message.projectName }</h4>
+                            <h4>{ message.organisationName }</h4>
                             { finishBefore }
                             <div className={ style.participantsAction }>
                                 <button
