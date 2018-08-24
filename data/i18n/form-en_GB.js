@@ -33,6 +33,7 @@ export default {
     "form_error_password_do_not_match": "The passwords do not match",
     "form_error_password_too_long": "The password is too long",
     "form_error_password_too_short": "The password should contain at least 8 characters",
+    "form_error_registration_user_already_exists": "This user does already exist. Choose login or forgot password to proceed.",
     "form_first_name": "First name",
     "form_gender": "Gender",
     "form_infix": "Infix",
