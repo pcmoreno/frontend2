@@ -155,6 +155,7 @@ export default {
     "report_resilience_default_text": "Picking up the thread after setbacks.",
     "report_results_report_pagina": "Results",
     "report_retest_button": "Retest",
+    "report_retest_title": "Trigger retest",
     "report_score_the_following_competencies": "Score the following competencies",
     "report_selection_advice": "Selection advice",
     "report_selection_advice_default_text": "Based on the results our advice for this job function is:",
