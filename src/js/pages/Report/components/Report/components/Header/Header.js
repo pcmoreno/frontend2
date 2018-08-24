@@ -11,10 +11,10 @@ export default class Header extends Component {
 
         const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
-        let date = participant.appointmentDate;
+        let date = participant.appointmentDate.toLowerCase();
 
         months.forEach(month => {
-            if (participant.appointmentDate.indexOf(month) >= 0) {
+            if (participant.appointmentDate.toLowerCase().indexOf(month) >= 0) {
                 date = date.replace(month, i18n[`report_${month}`]);
             }
         });

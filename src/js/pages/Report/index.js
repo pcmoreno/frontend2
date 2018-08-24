@@ -315,8 +315,6 @@ class Index extends Component {
         // show spinner
         document.querySelector('#spinner').classList.remove('hidden');
 
-        this.i18n = translator(this.props.languageId, 'report');
-
         // request report data
         this.api.get(
             this.api.getBaseUrl(),
@@ -425,6 +423,8 @@ class Index extends Component {
 
     render() {
         const { report, languageId } = this.props;
+
+        this.i18n = translator(this.props.languageId, 'report');
 
         return (
             <Report
