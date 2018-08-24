@@ -33,6 +33,7 @@ export default {
     "form_error_password_do_not_match": "De wachtwoorden komen niet overeen",
     "form_error_password_too_long": "Het wachtwoord is te lang",
     "form_error_password_too_short": "Het wachtwoord moet minimaal 8 karakters bevatten",
+    "form_error_registration_user_already_exists": "Deze gebruiker bestaat al. Klik op inloggen of wachtwoord vergeten om verder te gaan.",
     "form_first_name": "Voornaam",
     "form_gender": "Geslacht",
     "form_infix": "Tussenvoegsel",
