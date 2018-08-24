@@ -61,6 +61,7 @@ export default {
     "organisations_english": "Engels",
     "organisations_finished": "Afgerond",
     "organisations_first_name": "Voornaam",
+    "organisations_form_error_duplicate_custom_competency": "Deze competentie bestaat al",
     "organisations_gender": "Geslacht",
     "organisations_gender_female": "Vrouw",
     "organisations_gender_male": "Man",
