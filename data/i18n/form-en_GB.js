@@ -20,6 +20,7 @@ export default {
     "form_display_name": "Display name",
     "form_education_level": "Educational level",
     "form_email": "Email address",
+    "form_error_duplicate_custom_competency": "The competency does already exist",
     "form_error_duplicate_entry": "This value does already exist",
     "form_error_duplicate_non_participant_role": "This user was already invited with the selected role",
     "form_error_email_duplicate_in_project": "The participant does already exist",
