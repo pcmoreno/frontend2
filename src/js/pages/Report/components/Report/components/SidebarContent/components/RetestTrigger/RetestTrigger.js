@@ -13,10 +13,6 @@ export default class RetestTrigger extends Component {
         };
     }
 
-    componentWillUnmount() {
-        this.stopRetestTimeout();
-    }
-
     triggerRetest() {
         this.localState.retestDisabled = true;
         this.setState(this.localState);
