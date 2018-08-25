@@ -51,14 +51,12 @@ form {
             margin-bottom: .5rem;
         }
 
-        /* browsers renders these form elements all differently and font should be direct targeted */
         textarea,
         input,
         select {
             border: 0;
             height: 2rem;
             margin: 5px 0;
-            font-family: $fontsmall;
             font-size: .75rem;
             box-sizing: border-box;
             padding: 5px 10px;
@@ -111,6 +109,10 @@ form {
 textarea,
 input,
 select {
+
+    /* browsers renders these form elements all differently and font should be direct targeted */
+    font-family: $fontsmall;
+
     &:disabled {
         opacity: .5;
     }
