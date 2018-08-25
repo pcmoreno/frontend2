@@ -210,12 +210,18 @@ export default class Listview extends Component {
     setAndSortEntities(entities) {
         const storedAmount = this.localEntities.length;
 
-        // set the new set of entities
+        // set the new set of entities, and sort it
         if (!storedAmount || this.localEntities !== entities) {
             this.localEntities = entities;
+
+            // only sort again when there are entities and there were entities before
+            // otherwise it will fall back to the setDefaultSorting method call below
+            if (this.localEntities.length && storedAmount > 0) {
+                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+            }
         }
 
-        // if we initially didn't have entities, perform the default sorting
+        // if we initially didn't have entities, perform the default sorting (only at the first render with entities)
         if (!storedAmount) {
             this.setDefaultSorting();
         }
