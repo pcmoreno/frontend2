@@ -218,8 +218,6 @@ export default class Listview extends Component {
         // if we initially didn't have entities, perform the default sorting
         if (!storedAmount) {
             this.setDefaultSorting();
-        } else {
-            this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
         }
     }
 
