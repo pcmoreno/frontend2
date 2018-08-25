@@ -134,12 +134,15 @@ export default class Listview extends Component {
 
             // before sorting, ensure the field is translated if possible
             if (this.props.translationKeyPrefix) {
-                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`]) {
-                    nameA = this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`].toLowerCase();
+                const convertedNameA = Utils.camelCaseToSnakeCase(this.sortingKey(aSortColumn));
+                const convertedNameB = Utils.camelCaseToSnakeCase(this.sortingKey(bSortColumn));
+
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameA}`]) {
+                    nameA = this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameA}`].toLowerCase();
                 }
 
-                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`]) {
-                    nameB = this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`].toLowerCase();
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameB}`]) {
+                    nameB = this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameB}`].toLowerCase();
                 }
             }
 
