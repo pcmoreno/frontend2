@@ -58,6 +58,7 @@ export default class DateTimeField extends Component {
             label,
             onChange,
             requiredLabel,
+            placeholder,
             onKeyDown,
             formId
         } = this.props;
@@ -71,7 +72,7 @@ export default class DateTimeField extends Component {
                     <li>
                         <input
                             type="text"
-                            placeholder="Select Date.."
+                            placeholder={ placeholder }
                             readOnly="readonly"
                             onChange={ onChange }
                             onKeyDown={ onKeyDown }

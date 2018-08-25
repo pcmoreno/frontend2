@@ -164,6 +164,7 @@ export default class Form extends Component {
                 return (<DateTimeField
                     requiredLabel={requiredLabel}
                     currentForm={this.localState}
+                    placeholder={placeholder}
                     fieldId={fieldId}
                     label={label}
                     value={value}
