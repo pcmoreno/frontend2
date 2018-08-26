@@ -65,7 +65,18 @@ export default class Choice extends Component {
     }
 
     render() {
-        const { options, currentForm, fieldId, label, onChange, formId, i18n, requiredLabel, value } = this.props;
+        const {
+            options,
+            currentForm,
+            fieldId,
+            label,
+            onChange,
+            formId,
+            i18n,
+            requiredLabel,
+            value,
+            disabled
+        } = this.props;
 
         const optionList = this.createOptions(options, i18n);
 
@@ -82,6 +93,7 @@ export default class Choice extends Component {
                             value={ value || this.defaultValue }
                             onBlur={ onChange }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            disabled={ disabled }
                         >
                             { optionList }
                         </select>

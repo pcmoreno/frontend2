@@ -7,7 +7,20 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class ManyToOne extends AbstractRelationship {
     render() {
-        const { options, fieldId, currentForm, onChange, formId, label, i18n, value = null, requiredLabel, placeholder, isRequired } = this.props;
+        const {
+            options,
+            fieldId,
+            currentForm,
+            onChange,
+            formId,
+            label,
+            i18n,
+            value = null,
+            requiredLabel,
+            placeholder,
+            isRequired,
+            disabled
+        } = this.props;
 
         const optionList = this.createOptions(options[options.to], i18n, value, placeholder, isRequired);
 
@@ -26,6 +39,7 @@ export default class ManyToOne extends AbstractRelationship {
 
                             // todo: this kind of logic should not be here
                             value={ value && typeof value !== 'object' ? value : this.defaultValue }
+                            disabled={ disabled }
                         >
                             { optionList }
                         </select>

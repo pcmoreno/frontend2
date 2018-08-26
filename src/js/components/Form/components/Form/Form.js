@@ -25,6 +25,9 @@ import FormMethod from './constants/FormMethod';
  *     hiddenFields={[ // hidden fields that will only be added in the api call, optional
  *         { fieldId: 'extraField', value: 'value' }
  *     ]}
+ *     disabledFields{[ // field keys that will be disabled (not hidden) in the form. Disabled fields are never submitted, optional
+ *         'fieldName'
+ *     ]}
  *     headerText={i18n.organisations_add_project} // header text for the form modal, optional but highly recommended
  *     submitButtonText={i18n.organisations_add} // submit button text, optional but highly recommended
  *     translationKeysOverride={{ // override default translation keys for fields, optional
@@ -104,6 +107,7 @@ export default class Form extends Component {
 
     /**
      * Creates a form field as described by the given formFieldOptions
+     * todo: this method is too dependent on the API form response. This should be wrapped in a reducer first.
      *
      * @param {Object} formFieldOptions - description of the form field as returned by API
      * @returns {Object} component - the component for the form field
@@ -157,12 +161,24 @@ export default class Form extends Component {
             this.hasRequiredFields = true;
         }
 
+        let disabled = false;
+
+        // check if the field should be disabled
+        if (this.props.disabledFields && this.props.disabledFields.length) {
+            if (~this.props.disabledFields.indexOf(fieldId)) {
+                disabled = true;
+            }
+        } else if (formFieldOptions.form.all.disabled) {
+            disabled = true;
+        }
+
         // todo: Add exclusion fields so that names are not translated (see i18n property in fields)
 
         switch (type) {
             case fieldType.DATE_TIME_FIELD:
                 return (<DateTimeField
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     currentForm={this.localState}
                     placeholder={placeholder}
                     fieldId={fieldId}
@@ -175,6 +191,7 @@ export default class Form extends Component {
             case fieldType.TEXT_INPUT:
                 return (<TextInput
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -187,6 +204,7 @@ export default class Form extends Component {
             case fieldType.TEXT_AREA:
                 return (<TextArea
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -197,6 +215,7 @@ export default class Form extends Component {
             case fieldType.CHOICE:
                 return (<Choice
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     isRequired={isRequired}
                     placeholder={placeholder}
                     currentForm={this.localState}
@@ -211,6 +230,7 @@ export default class Form extends Component {
             case fieldType.RELATIONSHIP:
                 return (<Relationship
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     isRequired={isRequired}
                     placeholder={placeholder}
                     currentForm={ this.localState }
@@ -225,6 +245,7 @@ export default class Form extends Component {
             case fieldType.EMAIL:
                 return (<Email
                     requiredLabel={requiredLabel}
+                    disabled={disabled}
                     currentForm={this.localState}
                     fieldId={fieldId}
                     label={label}
@@ -310,6 +331,7 @@ export default class Form extends Component {
         event.preventDefault();
 
         const changedFields = [];
+        const disabledFields = this.props.disabledFields || [];
         let ableToSubmit = true;
 
         // keep track of processed form fields
@@ -391,23 +413,25 @@ export default class Form extends Component {
 
                     // push field value to changedFields so it can be submitted
                     // also proceed if the field is not required and set to empty
-                    if (fieldId && value ||
-                        (this.props.method === FormMethod.UPDATE_SECTION && !field[fieldId].form.all.required && value === '')) {
+                    if (!field[fieldId].form.all.disabled && !~disabledFields.indexOf(fieldId)) {
+                        if (fieldId && value ||
+                            (this.props.method === FormMethod.UPDATE_SECTION && !field[fieldId].form.all.required && value === '')) {
 
-                        // store changed field
-                        changedFields.push({ fieldId, value });
+                            // store changed field
+                            changedFields.push({ fieldId, value });
 
-                        // add the field id to processed fields
-                        processedFields.push(fieldId);
+                            // add the field id to processed fields
+                            processedFields.push(fieldId);
 
-                    } else {
+                        } else {
 
-                        if (field[fieldId].form.all.required) {
-                            ableToSubmit = false;
+                            if (field[fieldId].form.all.required) {
+                                ableToSubmit = false;
 
-                            this.handleErrorMessages(
-                                { [fieldId]: FormErrors.VALUE_CAN_NOT_BE_EMPTY }
-                            );
+                                this.handleErrorMessages(
+                                    { [fieldId]: FormErrors.VALUE_CAN_NOT_BE_EMPTY }
+                                );
+                            }
                         }
                     }
                 });

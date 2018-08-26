@@ -7,7 +7,20 @@ import AbstractRelationship from './AbstractRelationship';
 
 export default class OneToMany extends AbstractRelationship {
     render() {
-        const { options, fieldId, onChange, currentForm, formId, label, i18n, value = null, requiredLabel, placeholder, isRequired } = this.props;
+        const {
+            options,
+            fieldId,
+            onChange,
+            currentForm,
+            formId,
+            label,
+            i18n,
+            value = null,
+            requiredLabel,
+            placeholder,
+            isRequired,
+            disabled
+        } = this.props;
 
         const optionList = this.createOptions(options[options.to], i18n, value, placeholder, isRequired);
 
@@ -29,6 +42,7 @@ export default class OneToMany extends AbstractRelationship {
 
                             // todo: this kind of logic should not be here
                             value={ value && typeof value !== 'object' ? value : this.defaultValue }
+                            disabled={ disabled }
                         >
                             { optionList }
                         </select>

@@ -174,6 +174,7 @@ class Index extends Component {
             formId,
             sectionId,
             hiddenFields,
+            disabledFields,
             forms, // from Form reducer
             headerText,
             submitButtonText,
@@ -190,6 +191,7 @@ class Index extends Component {
             formId={ formId }
             sectionId={ sectionId }
             hiddenFields={ hiddenFields }
+            disabledFields={ disabledFields }
             forms={ forms }
             submitForm={ this.submitForm }
             headerText={ headerText }

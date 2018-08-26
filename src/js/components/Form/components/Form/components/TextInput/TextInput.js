@@ -6,7 +6,18 @@ import style from '../style/field.scss';
 
 export default class TextInput extends Component {
     render() {
-        const { currentForm, fieldId, onChange, value, formId, label, placeholder, onKeyDown, requiredLabel } = this.props;
+        const {
+            currentForm,
+            fieldId,
+            onChange,
+            value,
+            formId,
+            label,
+            placeholder,
+            onKeyDown,
+            requiredLabel,
+            disabled
+        } = this.props;
 
         return (
             <div>
@@ -25,6 +36,7 @@ export default class TextInput extends Component {
                             autoComplete={ 'we-do-not-want-console-warnings-for-this-attribute-being-disabled' }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
                             onKeyDown={ onKeyDown }
+                            disabled={ disabled }
                         />
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>
