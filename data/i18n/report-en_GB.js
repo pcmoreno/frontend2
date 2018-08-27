@@ -207,6 +207,7 @@ export default {
     "report_total_intelligence": "Total",
     "report_validity": "Validity",
     "report_validity_default_text": "People change over time. new experiences, changed circumstances – in professional and private life – can lead to significant changes. for this reason, the validity of a personal assessment report is limited. we accordingly recommend that you consider the report’s contents applicable for only a period of about two years.",
+    "report_values_questionnaire": "Values Questionnaire",
     "report_variety": "Variety",
     "report_verbal_intelligence": "Verbal intelligence",
     "report_verbal_intelligence_test": "Verbal intelligence test",
