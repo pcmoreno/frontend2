@@ -230,6 +230,7 @@ export default class SidebarReport extends Component {
                     generatedReport={ this.props.generatedReport }
                     generateReport={ this.props.generateReport }
                     downloadReport={ this.props.downloadReport }
+                    getReportGenerationStatus={ this.props.getReportGenerationStatus }
                 />
 
                 { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>

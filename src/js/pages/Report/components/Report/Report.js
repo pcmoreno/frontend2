@@ -117,6 +117,7 @@ export default class Report extends Component {
                     saveCompetencyScore={ saveCompetencyScore }
                     generateReport={ this.props.generateReport }
                     downloadReport={ this.props.downloadReport }
+                    getReportGenerationStatus={ this.props.getReportGenerationStatus }
                     generatedReport={ report.generatedReport }
                 />
             },
