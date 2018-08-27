@@ -34,9 +34,7 @@ const HnaCategories = {
         ASSERTIVE: 'bis-asser',
         ANTICIPATING: 'bis-antic'
     },
-
-    // todo: find correct name and add translation for WV
-    WV: {
+    ValuesQuestionnaire: {
         SUPPORT_AND_RECOGNITION: 'wv-1se',
         CONFORMITY: 'wv-2co',
         INDEPENDENCE: 'wv-3on',
