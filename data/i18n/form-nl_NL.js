@@ -73,7 +73,7 @@ export default {
     "form_participant_infix_placeholder": "Vul het tussenvoegsel in van de deelnemer",
     "form_participant_last_name_placeholder": "Vul de achternaam in van de deelnemer",
     "form_participant_session_appointment_date": "Afspraakdatum",
-    "form_participant_session_appointment_date_placeholder": "dd-mm-jjjj uu:mm",
+    "form_participant_session_appointment_date_placeholder": "Selecteer een datum",
     "form_project_name": "Projectnaam",
     "form_project_name_placeholder": "Vul hier de projectnaam in",
     "form_project_product": "Product",

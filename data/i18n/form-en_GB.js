@@ -73,7 +73,7 @@ export default {
     "form_participant_infix_placeholder": "Enter the infix of the participant",
     "form_participant_last_name_placeholder": "Enter the last name of the participant",
     "form_participant_session_appointment_date": "Appointment date",
-    "form_participant_session_appointment_date_placeholder": "dd-mm-yyyy hh:mm",
+    "form_participant_session_appointment_date_placeholder": "Select a date",
     "form_project_name": "Project name",
     "form_project_name_placeholder": "Enter a name for the project",
     "form_project_product": "Product",
