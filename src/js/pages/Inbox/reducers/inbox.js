@@ -1,4 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
+import moment from 'moment/moment';
 
 const initialState = {
     messages: []
@@ -22,9 +23,9 @@ export default function inboxReducer(state = initialState, action) {
             if (action.messages.length) {
                 action.messages.forEach(message => {
                     newState.messages.push({
-                        projectName: message.projectName,
+                        organisationName: message.organisationName,
                         type: message.type,
-                        date: message.appointmentDate,
+                        appointmentDate: message.appointmentDate ? moment(message.appointmentDate).format('DD-MM-YYYY') : null,
                         status: message.status,
                         participantSessionSlug: message.participantSessionSlug
                     });

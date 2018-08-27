@@ -12,12 +12,14 @@ import ScoreLabel from '../ScoreLabel/ScoreLabel';
 
 export default class IntellectualCapabilities extends Component {
     render() {
-        const { i18n, hnaCategoryScores = [], testedLevel = null } = this.props;
+        const { i18n, hnaCategoryScores = [], educationLevel } = this.props;
 
         let testedLevelSection = '';
 
-        if (testedLevel) {
-            testedLevelSection = `<p>${i18n.report_tested_level} ${testedLevel}</p>`;
+        if (educationLevel) {
+            const educationLevelTranslation = `report_tested_level_${educationLevel}`;
+
+            testedLevelSection = `<p>${i18n.report_tested_level} ${i18n[educationLevelTranslation]}</p>`;
         }
 
         // construct the object required for the TextBlock component to render the text
@@ -25,7 +27,7 @@ export default class IntellectualCapabilities extends Component {
             title: i18n.report_intellectual_capabilities,
             slug: 'intellectual_capabilities',
             name: 'intellectual_capabilities',
-            value: `${i18n.report_intellectual_capabilities_default_text_paragraph_2}`
+            value: `${i18n.report_intellectual_capabilities_default_text_paragraph_2} ${testedLevelSection}`
         };
 
         /* todo: tested level is not properly used/injected into the component */
@@ -38,7 +40,6 @@ export default class IntellectualCapabilities extends Component {
                             field={ intellectualCapabilities }
                             editable={ false }
                         />
-                        {testedLevelSection}
                         <Details title={ i18n.report_questionnaires } i18n={ i18n }>
                             <ul>
                                 <li>{ i18n.report_abstract_intelligence_test }</li>

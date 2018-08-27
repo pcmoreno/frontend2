@@ -208,6 +208,7 @@ export default class Report extends Component {
                     { /* should always be visible, but the scorebar may be empty if the API didnt return them */ }
                     <IntellectualCapabilities
                         i18n={ i18nOnlineReport }
+                        educationLevel={ report.participant.educationLevel }
                         hnaCategoryScores={ report.hnaCategoryScores }
                     />
 
