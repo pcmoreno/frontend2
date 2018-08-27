@@ -8,6 +8,7 @@
 
     > section {
         margin-top: 1rem;
+        width: 100%;
     }
 }
 
@@ -35,6 +36,7 @@
         border: 0;
         text-align: center;
         margin: 0;
+        width: 2rem;
         padding: .3rem .5rem .3rem 1.2rem;
         color: $white;
         font-family: $fontsmall;
@@ -43,9 +45,19 @@
 
     table {
         width: 100%;
-    }
+        table-layout: fixed; /* this is required to avoid overflowing */
 
-    tr > td:nth-child(2) {
-        text-align: right;
+        tr > td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        tr > td:nth-child(1) {
+            width: 70%;
+        }
+
+        tr > td:nth-child(2) {
+            text-align: right;
+        }
     }
 }

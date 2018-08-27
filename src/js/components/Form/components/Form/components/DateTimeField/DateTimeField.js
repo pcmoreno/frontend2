@@ -58,8 +58,10 @@ export default class DateTimeField extends Component {
             label,
             onChange,
             requiredLabel,
+            placeholder,
             onKeyDown,
-            formId
+            formId,
+            disabled
         } = this.props;
 
         return (
@@ -71,7 +73,7 @@ export default class DateTimeField extends Component {
                     <li>
                         <input
                             type="text"
-                            placeholder="Select Date.."
+                            placeholder={ placeholder }
                             readOnly="readonly"
                             onChange={ onChange }
                             onKeyDown={ onKeyDown }
@@ -79,6 +81,7 @@ export default class DateTimeField extends Component {
                             id={ `${formId}_${fieldId}` }
                             value={ this.localState.date }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
+                            disabled={disabled}
                         />
                         <span className={ `${style.errorMessage}` }>{ currentForm.errors.fields[fieldId] }</span>
                     </li>

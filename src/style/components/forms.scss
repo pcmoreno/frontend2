@@ -109,6 +109,10 @@ form {
 textarea,
 input,
 select {
+
+    /* browsers renders these form elements all differently and font should be direct targeted */
+    font-family: $fontsmall;
+
     &:disabled {
         opacity: .5;
     }

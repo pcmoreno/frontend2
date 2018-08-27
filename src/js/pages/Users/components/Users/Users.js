@@ -48,7 +48,7 @@ export default class Users extends Component {
                     <Listview
                         entities={ userList }
                         defaultSortingKey={ 'name' }
-                        defaultSortingOrder={ 'desc' }
+                        defaultSortingOrder={ 'asc' }
                         i18n={i18n}
                         translationKeyPrefix={ 'users_' }
                     />

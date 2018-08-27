@@ -24,6 +24,12 @@ export default class Header extends Component {
             product.name = i18n[`report_${product.translationKey}`];
         }
 
+        let showSecondTable = true;
+
+        if (!date && !consultant.name) {
+            showSecondTable = false;
+        }
+
         return (
             <section className={ style.header }>
                 <h1>{ participant.name }</h1>
@@ -44,20 +50,24 @@ export default class Header extends Component {
                         </tbody>
                     </table>
 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>{ i18n.report_assessment_date }</th>
-                                <td>{ date }</td>
-                            </tr>
-                            {
-                                consultant.name && <tr>
-                                    <th>{ i18n.report_consultant }</th>
-                                    <td>{ consultant.name }</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    {
+                        showSecondTable && <table>
+                            <tbody>
+                                {
+                                    date && <tr>
+                                        <th>{i18n.report_assessment_date}</th>
+                                        <td>{date}</td>
+                                    </tr>
+                                }
+                                {
+                                    consultant.name && <tr>
+                                        <th>{ i18n.report_consultant }</th>
+                                        <td>{ consultant.name }</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
                 </div>
             </section>
         );

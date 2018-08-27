@@ -134,12 +134,15 @@ export default class Listview extends Component {
 
             // before sorting, ensure the field is translated if possible
             if (this.props.translationKeyPrefix) {
-                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`]) {
-                    nameA = this.props.i18n[`${this.props.translationKeyPrefix}${nameA}`].toLowerCase();
+                const convertedNameA = Utils.camelCaseToSnakeCase(this.sortingKey(aSortColumn));
+                const convertedNameB = Utils.camelCaseToSnakeCase(this.sortingKey(bSortColumn));
+
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameA}`]) {
+                    nameA = this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameA}`].toLowerCase();
                 }
 
-                if (this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`]) {
-                    nameB = this.props.i18n[`${this.props.translationKeyPrefix}${nameB}`].toLowerCase();
+                if (this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameB}`]) {
+                    nameB = this.props.i18n[`${this.props.translationKeyPrefix}${convertedNameB}`].toLowerCase();
                 }
             }
 
@@ -207,16 +210,20 @@ export default class Listview extends Component {
     setAndSortEntities(entities) {
         const storedAmount = this.localEntities.length;
 
-        // set the new set of entities
+        // set the new set of entities, and sort it
         if (!storedAmount || this.localEntities !== entities) {
             this.localEntities = entities;
+
+            // only sort again when there are entities and there were entities before
+            // otherwise it will fall back to the setDefaultSorting method call below
+            if (this.localEntities.length && storedAmount > 0) {
+                this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
+            }
         }
 
-        // if we initially didn't have entities, perform the default sorting
+        // if we initially didn't have entities, perform the default sorting (only at the first render with entities)
         if (!storedAmount) {
             this.setDefaultSorting();
-        } else {
-            this.sortEntities(this.localEntities, this.localState.sortBy, this.localState.sortOrder);
         }
     }
 

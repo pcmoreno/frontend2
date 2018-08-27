@@ -10,7 +10,7 @@
         padding: .2rem;
         box-sizing: border-box;
         color: $white;
-        width: 20%;
+        width: 25%;
         text-align: right;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -21,7 +21,7 @@
         }
 
         &:first-child {
-            width: 70%;
+            width: 65%;
             text-align: left;
         }
     }

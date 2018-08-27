@@ -6,7 +6,17 @@ import style from '../style/field.scss';
 
 export default class TextArea extends Component {
     render() {
-        const { currentForm, fieldId, label, onChange, value, formId, placeholder, requiredLabel } = this.props;
+        const {
+            currentForm,
+            fieldId,
+            label,
+            onChange,
+            value,
+            formId,
+            placeholder,
+            requiredLabel,
+            disabled
+        } = this.props;
 
         return (
             <div>
@@ -24,6 +34,7 @@ export default class TextArea extends Component {
                             name={ `form[${fieldId}]` }
                             className={ currentForm.errors.fields[fieldId] && 'error' }
                             onChange={ onChange }
+                            disabled={ disabled }
                         />
                     </li>
                 </ul>

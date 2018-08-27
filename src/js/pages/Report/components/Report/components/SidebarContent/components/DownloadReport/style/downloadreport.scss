@@ -4,11 +4,14 @@
     button {
         float: left;
         margin: .25rem;
+
+        svg {
+            margin-right: .5rem;
+        }
     }
 
     span {
         text-indent: .5rem;
-        display: inline-block;
         font-weight: 500;
     }
 
