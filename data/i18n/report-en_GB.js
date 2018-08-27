@@ -44,7 +44,7 @@ export default {
     "report_development_oriented_default_text": "The belief that it is possible, useful and pleasant to work on your own development (‘growth mindset’).",
     "report_development_report": "Development report",
     "report_download_pdf_current_version": "Current version",
-    "report_download_pdf_explanation": "A new PDF is generated. This may take a while.",
+    "report_download_pdf_explanation": "A new PDF is generated. This may take a while.\nThe report can be downloaded once the report is generated.",
     "report_download_pdf_generate": "Generate report",
     "report_download_pdf_problem_downloading": "An error occurred while downloading the report. Please try again later.",
     "report_download_pdf_problem_generating": "There was a problem generating the report. Please try again later.",
