@@ -34,6 +34,8 @@ class Index extends Component {
         this.downloadReport = this.downloadReport.bind(this);
         this.getReportGenerationStatus = this.getReportGenerationStatus.bind(this);
 
+        this.triggerRetest = this.triggerRetest.bind(this);
+
         this.loadingPdf = false;
     }
 
@@ -458,6 +460,32 @@ class Index extends Component {
         });
     }
 
+    triggerRetest() {
+        this.api.post(
+            this.api.getBaseUrl(),
+            this.api.getEndpoints().report.triggerRetest,
+            {
+                urlParams: {
+                    identifiers: {
+                        slug: this.participantSessionId
+                    }
+                }
+            }
+        ).then(response => {
+
+            if (response.errors) {
+
+                // show (translated) error message
+                this.actions.addAlert({ type: 'error', text: this.i18n.report_retest_failed });
+            } else {
+                this.actions.addAlert({ type: 'success', text: this.i18n.report_retest_success });
+            }
+
+        }).catch(() => {
+            this.actions.addAlert({ type: 'error', text: this.i18n.report_retest_failed });
+        });
+    }
+
     render() {
         const { report, languageId } = this.props;
 
@@ -473,6 +501,7 @@ class Index extends Component {
                 generateReport={ this.generateReport }
                 downloadReport={ this.downloadReport }
                 getReportGenerationStatus={ this.getReportGenerationStatus }
+                triggerRetest={ this.triggerRetest }
             />
         );
     }
