@@ -24,12 +24,20 @@ export default class SidebarParticipant extends Component {
 
             Object.keys(sectionScores).forEach(score => {
                 const key = sectionScores[score];
+                let scoreNumber = parseFloat(scores[key]).toFixed(2);
+
+                // when the score is ZIJN or WILLEN dont fix to two decimals
+                if (HnaCategories.ToBe.hasOwnProperty(score) ||
+                    HnaCategories.ToWant.hasOwnProperty(score) ||
+                    HnaCategories.Fit.hasOwnProperty(score)) {
+                    scoreNumber = scores[key];
+                }
 
                 if (scores[key]) {
                     scoreCollection.push(
                         <ParticipantScoreRow
                             label={i18n[`report_${score.toLowerCase()}`] || score}
-                            score={parseFloat(scores[key]).toFixed(2) || ''}
+                            score={scoreNumber || ''}
                             categoryScore={hnaCategoryScores[key] || ''}
                         />
                     );

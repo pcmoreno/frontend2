@@ -76,7 +76,9 @@ const AppConfig = {
                     downloadReport: '/v1/download-pdf-report/{slug}',
                     createCompetencyScore: '/v1/section/competencyScoredInReport',
                     updateCompetencyScore: '/v1/section/competencyScoredInReport/slug/{slug}',
-                    generateReport: '/v1/generate-pdf-report/{slug}'
+                    generateReport: '/v1/generate-pdf-report/{slug}',
+                    reportGenerationStatus: '/v1/get-report-data/{slug}',
+                    triggerRetest: '/v1/get-retest-results/{slug}'
                 },
                 register: {
                     accountStatus: '/v1/user/status/{slug}',
@@ -119,7 +121,9 @@ const AppConfig = {
         }
     },
     report: {
-        textSaveInterval: 10000
+        textSaveInterval: 10000,
+        reportPollingStartTimeout: 2000,
+        reportPollingInterval: 2000
     },
     authenticator: {
         neon: {
@@ -183,6 +187,10 @@ const AppConfig = {
                     UserRoles.ROLE_APPLICATION_MANAGERS,
                     UserRoles.ROLE_BACKOFFICE,
                     UserRoles.ROLE_CONSULTANTS,
+                    UserRoles.ROLE_CLIENT_CENTER
+                ],
+                retestAction: [
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
                     UserRoles.ROLE_CLIENT_CENTER
                 ]
             },

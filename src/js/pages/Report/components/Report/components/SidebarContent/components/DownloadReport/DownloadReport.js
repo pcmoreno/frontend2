@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DownloadReportGenerationStatus from '../../../../../../constants/DownloadReportGenerationStatus';
 import style from './style/downloadreport.scss';
+import AppConfig from '../../../../../../../../App.config';
 
 /** @jsx h */
 
@@ -20,11 +21,51 @@ export default class DownloadReport extends Component {
         this.localState.generating = true;
         this.setState(this.localState);
 
-        this.props.generateReport();
+        this.props.generateReport().then(() => {
+            this.startReportStatusPolling();
+        });
     }
 
     downloadReport() {
         this.props.downloadReport();
+    }
+
+    startReportStatusPolling() {
+        this.reportStatusPollingTimeout = window.setTimeout(() => {
+            this.reportStatusPollingInterval = window.setInterval(() => {
+
+                // poll the generation status of the report
+                this.props.getReportGenerationStatus().then(status => {
+
+                    // the getReportGenerationStatus wil update the state, so only need to cancel the polling here
+                    if (status === DownloadReportGenerationStatus.PUBLISHED) {
+                        this.localState.generating = false;
+                        this.setState(this.localState);
+                        this.stopReportStatusPolling();
+                    }
+                }).catch(() => {
+                    this.stopReportStatusPolling();
+                });
+            }, AppConfig.report.reportPollingInterval);
+        }, AppConfig.report.reportPollingStartTimeout);
+    }
+
+    stopReportStatusPolling() {
+        if (this.reportStatusPollingTimeout) {
+            window.clearTimeout(this.reportStatusPollingTimeout);
+            this.reportStatusPollingTimeout = null;
+            delete this.reportStatusPollingTimeout;
+        }
+
+        if (this.reportStatusPollingInterval) {
+            window.clearInterval(this.reportStatusPollingInterval);
+            this.reportStatusPollingInterval = null;
+            delete this.reportStatusPollingInterval;
+        }
+    }
+
+    componentWillUnmount() {
+        this.stopReportStatusPolling();
     }
 
     render() {

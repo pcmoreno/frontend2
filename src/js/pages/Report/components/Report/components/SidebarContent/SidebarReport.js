@@ -6,6 +6,11 @@ import Utils from '../../../../../../utils/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
 import CompetencyProperty from '../../../../constants/CompetencyProperty';
+import Authorised from '../../../../../../utils/components/Authorised';
+import RetestTrigger from './components/RetestTrigger/RetestTrigger';
+import ApiFactory from '../../../../../../utils/api/factory';
+import ReportComponents from '../../../../constants/ReportComponents';
+import ReportActions from '../../../../constants/ReportActions';
 
 /** @jsx h */
 
@@ -27,6 +32,8 @@ export default class SidebarReport extends Component {
         this.onInputStaticScore = this.onInputStaticScore.bind(this);
         this.onChangeSelectionAdvice = this.onChangeSelectionAdvice.bind(this);
         this.onInputCompetencyScore = this.onInputCompetencyScore.bind(this);
+
+        this.api = ApiFactory.get('neon');
     }
 
     componentDidMount() {
@@ -225,11 +232,18 @@ export default class SidebarReport extends Component {
 
         return (
             <div className={ style.sidebarReport }>
+                <Authorised api={ this.api } component={ ReportComponents.REPORT_COMPONENT } action={ ReportActions.RETEST_ACTION }>
+                    <RetestTrigger
+                        i18n={ this.props.i18n }
+                        triggerRetest={ this.props.triggerRetest }
+                    />
+                </Authorised>
                 <DownloadReport
                     i18n={ this.props.i18n }
                     generatedReport={ this.props.generatedReport }
                     generateReport={ this.props.generateReport }
                     downloadReport={ this.props.downloadReport }
+                    getReportGenerationStatus={ this.props.getReportGenerationStatus }
                 />
 
                 { selectionAdvice && <section className={ style.selectionAdvice } onChange={ this.onChangeSelectionAdvice }>
