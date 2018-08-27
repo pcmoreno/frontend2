@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/message.scss';
+import translator from '../../../../../../utils/translator';
 
 /** @jsx h */
 
@@ -24,14 +25,18 @@ class Message extends Component {
     }
 
     render() {
-        const { message, i18n } = this.props;
+        const { message } = this.props;
+
+        // ensure each message is presented in the chosen language of the participant when its invitation was created
+        const inboxMessage = message.languageId.replace('-', '_') || message.languageId;
+        const i18nInboxMessage = translator(inboxMessage, ['inbox']);
 
         let finishBefore;
 
         const participantSessionSlug = message.participantSessionSlug;
 
         if (message.appointmentDate) {
-            finishBefore = <div>{ i18n.inbox_complete_before }: { message.appointmentDate }</div>;
+            finishBefore = <div>{ i18nInboxMessage.inbox_complete_before }: { message.appointmentDate }</div>;
         }
 
         return (
@@ -39,8 +44,8 @@ class Message extends Component {
                 <li>
                     <div className={ style.message }>
                         <article className={ style.participantsSummary }>
-                            <h3>{ i18n.inbox_invitation }</h3>
-                            <p>{ i18n.inbox_invitation_description_text }</p>
+                            <h3>{ i18nInboxMessage.inbox_invitation }</h3>
+                            <p>{ i18nInboxMessage.inbox_invitation_description_text }</p>
                         </article>
                         <section className={ style.participantsData }>
                             <h4>{ message.organisationName }</h4>
@@ -54,7 +59,7 @@ class Message extends Component {
                                         event => this.startingQuestionnaire(event, participantSessionSlug)
                                     }
                                 >
-                                    { i18n.inbox_start }
+                                    { i18nInboxMessage.inbox_start }
                                 </button>
                             </div>
                         </section>

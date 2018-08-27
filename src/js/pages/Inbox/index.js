@@ -34,6 +34,8 @@ class Index extends Component {
     componentDidMount() {
         updateNavigationArrow();
 
+        this.fetchMessages();
+
         // only load this for a participant
         if (this.api.getAuthoriser().authorise(this.api.getAuthenticator().getUser(), InboxComponents.INBOX_COMPONENT, InboxActions.LOAD_ACTION)) {
 

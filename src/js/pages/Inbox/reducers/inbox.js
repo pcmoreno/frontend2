@@ -27,7 +27,8 @@ export default function inboxReducer(state = initialState, action) {
                         type: message.type,
                         appointmentDate: message.appointmentDate ? moment(message.appointmentDate).format('DD-MM-YYYY') : null,
                         status: message.status,
-                        participantSessionSlug: message.participantSessionSlug
+                        participantSessionSlug: message.participantSessionSlug,
+                        languageId: message.language
                     });
                 });
             }
