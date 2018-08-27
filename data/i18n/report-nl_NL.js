@@ -207,6 +207,7 @@ export default {
     "report_total_intelligence": "Totaal",
     "report_validity": "Validiteit",
     "report_validity_default_text": "Mensen veranderen in de tijd. nieuwe ervaringen, veranderende omstandigheden, zowel in het professionele als in het privéleven van mensen, kunnen leiden tot significante veranderingen. de validiteit van een persoonlijk assessmentrapport is om deze reden beperkt. wij adviseren u dan ook om de inhoud slechts voor een periode van ongeveer twee jaar als van toepassing te beschouwen.",
+    "report_values_questionnaire": "Waardenvragenlijst",
     "report_variety": "Afwisseling hebben",
     "report_verbal_intelligence": "Verbale intelligentie",
     "report_verbal_intelligence_test": "Verbale-intelligentietest",
