@@ -85,6 +85,7 @@ export default {
     "organisations_organisation_sensitivity_definition": "The capability of sensing what is going on in one’s own organisation. have understanding for the interests and feelings of others.",
     "organisations_participants": "Participants",
     "organisations_persona_fit_finished": "Finished",
+    "organisations_phase_one_finished": "Phase 1 finished",
     "organisations_project": "Project",
     "organisations_projects": "Project(s)",
     "organisations_redirected_to_online": "Started",
