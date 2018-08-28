@@ -86,19 +86,20 @@ export default class EditCustomCompetency extends Component {
         }
     }
 
-    componentDidUpdate() {
-
-    }
-
     render() {
         const { i18n, customCompetencyToEdit } = this.props;
 
         // this is to set or reset the fields, this is handled by the onSwitchTab event in organisations index
-        if (customCompetencyToEdit && !this.localState.editCustomCompetencyForm.competencyName) {
+        // note the specific check for null, to prevent an emptied competencyName being identified as the initial state
+        if (customCompetencyToEdit && this.localState.editCustomCompetencyForm.competencyName === null) {
+
+            // received a competency over props, therefore populating the form for amending
             this.localState.editCustomCompetencyForm.competencyName = customCompetencyToEdit.name;
             this.localState.editCustomCompetencyForm.competencyDefinition = customCompetencyToEdit.definition;
             this.localState.error = '';
         } else if (!customCompetencyToEdit) {
+
+            // emptying localState since no competency received over props, so a new one can be added
             this.localState.editCustomCompetencyForm.competencyName = null;
             this.localState.editCustomCompetencyForm.competencyDefinition = null;
         }
