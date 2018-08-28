@@ -85,6 +85,7 @@ export default {
     "organisations_organisation_sensitivity_definition": "Het vermogen om aan te voelen wat er leeft in de eigen organisatie. begrip hebben voor de belangen en gevoelens van anderen.",
     "organisations_participants": "Deelnemers",
     "organisations_persona_fit_finished": "Afgerond",
+    "organisations_phase_one_finished": "Deel 1 afgerond",
     "organisations_project": "Project",
     "organisations_projects": "Project(en)",
     "organisations_redirected_to_online": "Gestart",
