@@ -1148,6 +1148,9 @@ class Index extends Component {
     render() {
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
+        // ensure i18n is updated when the languageId changes
+        this.i18n = translator(this.props.languageId, ['organisations', 'competencies', 'form']);
+
         return (
             <Organisations
                 actions={ this.actions }
@@ -1175,7 +1178,7 @@ class Index extends Component {
                 selectedParticipants={ this.localState.selectedParticipants }
                 selectedParticipantSlug={ this.localState.selectedParticipantSlug }
                 toggleSelectAllParticipants={ this.toggleSelectAllParticipants }
-                i18n={ translator(this.props.languageId, ['organisations', 'competencies', 'form']) }
+                i18n={ this.i18n }
                 languageId={ this.props.languageId }
                 availableGlobalCompetenciesListView={ this.props.availableGlobalCompetenciesListView }
                 availableCustomCompetenciesListView={ this.props.availableCustomCompetenciesListView }
