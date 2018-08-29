@@ -50,7 +50,7 @@ export default class Index extends Component {
         const api = ApiFactory.get('neon');
 
         if (api.getAuthenticator().isAuthenticated()) {
-            render(<Redirect to={'/'}/>);
+            render(<Redirect to={'/'} refresh={true} />);
         }
     }
 
