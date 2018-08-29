@@ -9,7 +9,7 @@ import LoginForm from '../../../../components/LoginForm/index';
 export default class Login extends Component {
 
     render() {
-        const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, language } = this.props;
+        const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, language, emailInput } = this.props;
 
         return (
             <main className={ `${mainStyle.main} ${style.main}` }>
@@ -24,6 +24,7 @@ export default class Login extends Component {
                         <LoginForm
                             language={ language }
                             onSubmit={ onSubmit }
+                            username={ emailInput }
                             handleChange={ onChange }
                             error = { error }
                             buttonDisabled = { buttonDisabled }

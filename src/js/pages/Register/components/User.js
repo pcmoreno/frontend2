@@ -49,6 +49,7 @@ export default class User extends AbstractRegistration {
                     language = { languageId }
                     error = { loginError }
                     buttonDisabled = { loginButtonDisabled }
+                    emailInput={ this.localState.loginFields.username }
                     onSubmit = { this.onLoginAccount.bind(this) }
                     onChange = { this.onChangeFieldLoginForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }
@@ -61,6 +62,7 @@ export default class User extends AbstractRegistration {
                     i18n = { this.i18n }
                     error = { registerError }
                     buttonDisabled = { registerButtonDisabled }
+                    emailInput={ this.localState.registerFields.username }
                     onSubmit = { this.onRegisterAccount.bind(this) }
                     onChange = { this.onChangeFieldRegistrationForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }

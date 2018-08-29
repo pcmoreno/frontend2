@@ -6,12 +6,13 @@ import translator from '../../utils/translator';
 
 export default class Index extends Component {
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage, language } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage, language, username } = this.props;
 
         return (
             <LoginForm
                 onSubmit={ onSubmit }
                 handleChange={ handleChange }
+                username={ username }
                 error = { error }
                 buttonDisabled = { buttonDisabled }
                 successMessage = { successMessage }

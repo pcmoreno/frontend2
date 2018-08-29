@@ -8,7 +8,7 @@ import AppConfig from '../../../../App.config';
 export default class LoginForm extends Component {
 
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n, username } = this.props;
 
         return (
             <div className={ style.modal }>
@@ -29,6 +29,7 @@ export default class LoginForm extends Component {
                                     autoComplete="on"
                                     placeholder={ i18n.login_email_placeholder }
                                     onChange={ handleChange }
+                                    value={ username || '' }
                                     required
                                 />
                             </div>
