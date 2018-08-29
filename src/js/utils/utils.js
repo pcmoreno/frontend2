@@ -262,7 +262,9 @@ const Utils = {
 
             // error listener
             script.onerror = function() {
-                Logger.instance.error(`Error loading external script: ${src}`);
+                Logger.instance.error({
+                    message: `Error loading external script: ${src}`
+                });
                 onRejected(new Error(`Error loading external script: ${src}`));
             };
 

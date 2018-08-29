@@ -9,6 +9,7 @@ import Logger from '../../../../utils/logger';
 import AppConfig from '../../../../App.config';
 import ApiFactory from '../../../../utils/api/factory';
 import PersonaFitConfirm from './components/PeronaFitConfirm/PersonaFitConfirm';
+import Components from '../../../../constants/Components';
 
 const loginEndpoint = AppConfig.api.neon.loginRedirect;
 const passwordChangeSuccessful = '?passwordChangeSuccessful=true';
@@ -107,7 +108,7 @@ export default class ResetPassword extends Component {
                 render(<Redirect to={ window.location.pathname + window.location.search } refresh={ true }/>);
             }, error => {
                 Logger.instance.error({
-                    component: 'reset-password',
+                    component: Components.FORGOT_PASSWORD,
                     message: 'Could not logout on reset password page',
                     response: error
                 });
@@ -125,7 +126,7 @@ export default class ResetPassword extends Component {
             if (response.errors || !response.valid) {
                 Logger.instance.warning({
                     message: 'Password reset token is invalid',
-                    component: 'reset-password',
+                    component: Components.FORGOT_PASSWORD,
                     response: {
                         errors: response.errors,
                         email: this.props.email

@@ -9,6 +9,7 @@ import Utils from '../../utils/utils';
 import AppConfig from '../../App.config';
 import Logger from '../../utils/logger';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import Components from '../../constants/Components';
 
 export default class Index extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ export default class Index extends Component {
             }).catch(error => {
                 reject(new Error('Could not request password reset email'));
                 Logger.instance.error({
-                    component: 'login',
+                    component: Components.FORGOT_PASSWORD,
                     message: `Could not request password reset email for user: ${email}, error: ${error.message || error}`
                 });
             });
@@ -70,7 +71,7 @@ export default class Index extends Component {
             }).catch(error => {
                 reject(new Error('Could not request password reset email'));
                 Logger.instance.error({
-                    component: 'login',
+                    component: Components.FORGOT_PASSWORD,
                     message: `Could not verify password reset token for user: ${email}, error: ${error.message || error}`
                 });
             });
@@ -101,7 +102,7 @@ export default class Index extends Component {
             }).catch(error => {
                 reject(new Error('Could not request password reset email'));
                 Logger.instance.error({
-                    component: 'login',
+                    component: Components.FORGOT_PASSWORD,
                     message: `Could not request password reset email for user: ${username.toLowerCase()}, error: ${error.message || error}`
                 });
             });

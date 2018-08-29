@@ -14,6 +14,7 @@ import Logger from '../../utils/logger';
 import ApiMethod from '../../utils/api/constants/ApiMethod';
 import Utils from '../../utils/utils';
 import DownloadReportGenerationStatus from './constants/DownloadReportGenerationStatus';
+import Components from '../../constants/Components';
 
 class Index extends Component {
     constructor(props) {
@@ -111,7 +112,7 @@ class Index extends Component {
             if (apiMethod === ApiMethod.POST && !postData.competency) {
                 Logger.instance.error({
                     message: 'Template slug of competencyScoredInReport missing upon creation',
-                    component: 'report'
+                    component: Components.REPORT
                 });
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
                 return onRejected(new Error('Template slug of competencyScoredInReport missing upon creation'));
@@ -133,7 +134,7 @@ class Index extends Component {
                 if (!slug) {
                     Logger.instance.error({
                         message: 'Did not receive new competencyScoredInReport slug upon creation',
-                        component: 'report'
+                        component: Components.REPORT
                     });
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_score });
                     return onRejected(new Error('Did not receive new competencyScoredInReport slug upon creation'));
@@ -208,7 +209,7 @@ class Index extends Component {
             if (apiMethod === ApiMethod.POST && !postData.textField) {
                 Logger.instance.error({
                     message: 'Template slug of textFieldInReport missing upon creation',
-                    component: 'report'
+                    component: Components.REPORT
                 });
                 this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
                 return onRejected(new Error('Template slug of textFieldInReport missing upon creation'));
@@ -230,7 +231,7 @@ class Index extends Component {
                 if (!slug) {
                     Logger.instance.error({
                         message: 'Did not receive new textFieldInReport slug upon creation',
-                        component: 'report'
+                        component: Components.REPORT
                     });
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
                     return onRejected(new Error('Did not receive new textFieldInReport slug upon creation'));
@@ -296,7 +297,7 @@ class Index extends Component {
                     this.actions.addAlert({ type: 'error', text: this.i18n.report_error_save_text });
                     Logger.instance.error({
                         message: 'Could not save report relationship/field',
-                        component: 'report'
+                        component: Components.REPORT
                     });
                     return onRejected(new Error('Could not save report relationship/field'));
                 }
@@ -453,7 +454,7 @@ class Index extends Component {
 
             this.actions.addAlert({ type: 'error', text: this.i18n.report_download_pdf_problem_downloading });
             Logger.instance.error({
-                component: 'Tasks',
+                component: Components.REPORT,
                 message: `Could not download report for participantSession: ${this.participantSessionId}`,
                 response: error && error.message ? error.message : error || ''
             });

@@ -5,6 +5,7 @@ import translator from '../../../utils/translator';
 import RegistrationError from '../constants/RegistrationError';
 import Logger from '../../../utils/logger';
 import CognitoAuthenticator from '../../../utils/authenticator/cognito';
+import Components from '../../../constants/Components';
 
 /** @jsx h */
 
@@ -292,7 +293,7 @@ export default class AbstractRegistration extends Component {
                     // thrown errors are caught by the parent/upper catch
                     if (!response.user) {
                         Logger.instance.error({
-                            component: 'register',
+                            component: Components.REGISTER,
                             message: `Could not fetch user information (login) for accountHasRole: ${accountHasRoleSlug}`
                         });
                         return reject(new Error(RegistrationError.UNEXPECTED_ERROR));

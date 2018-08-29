@@ -104,10 +104,11 @@ ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
 import Logger from './utils/logger';
+import Components from './constants/Components';
 
 // init logger
 Logger.instance.notice({
-    component: 'Application',
+    component: Components.APPLICATION,
     message: 'Open application'
 });
 
