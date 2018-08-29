@@ -6,6 +6,10 @@ import AppConfig from '../../../App.config';
 // Mock the application api config
 jest.mock('../../../App.config', () => {
     return {
+        logger: {
+            devModeBaseUrl: 'https://neon-api.acceptance.ltponline.com',
+            devMode: false
+        },
         api: {
             neon: {
                 baseUrl: 'https://ltp.nl',
@@ -1373,7 +1377,7 @@ test('API executeRequest should log a warning and return json when fetch returns
     });
 });
 
-test('API executeRequest should log an error and Promise.reject when fetch returns an error code with valid JSON', () => {
+test('API executeRequest should log a warning and Promise.reject when fetch returns an error code with valid JSON', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1401,7 +1405,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, 'executeRequest').and.callThrough();
-    spyOn(Logger.instance, 'error');
+    spyOn(Logger.instance, 'warning');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
@@ -1410,8 +1414,7 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
             api.getBaseUrl() + api.getEndpoints().organisation,
             'get',
             {}
-        ).then().catch(error => {
-
+        ).then(response => {
             expect(global.fetch.calls.count()).toBe(1);
             expect(global.fetch.calls.allArgs()).toEqual([
                 [
@@ -1422,12 +1425,12 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                     }
                 ]
             ]);
-            expect(Logger.instance.error.calls.count()).toBe(1);
-            expect(Logger.instance.error.calls.allArgs()).toEqual([
+            expect(Logger.instance.warning.calls.count()).toBe(1);
+            expect(Logger.instance.warning.calls.allArgs()).toEqual([
                 [
                     {
                         component: 'API',
-                        message: 'API call succeeded but with an error flagged response code',
+                        message: 'API call succeeded but with 400 or 409 response',
                         requestOptions: '{}',
                         requestUrl: 'https://ltp.nl/organisations',
                         responseBody: '{"id":"123"}',
@@ -1436,8 +1439,6 @@ test('API executeRequest should log an error and Promise.reject when fetch retur
                     }
                 ]
             ]);
-
-            expect(error).toEqual(new Error('An error occurred while processing your request.'));
 
             // always resolve test to give the signal that we are done
             resolve();
@@ -1916,7 +1917,7 @@ test('API executeRequest should resolve with an error object when the api return
     });
 });
 
-test('API executeRequest should log an error and print all request information', () => {
+test('API executeRequest should log a warning and print all request information', () => {
 
     // api instance and mocked config
     let api = new API('neon', null);
@@ -1944,7 +1945,7 @@ test('API executeRequest should log an error and print all request information',
     // spy on method
     spyOn(global, 'fetch').and.callThrough();
     spyOn(api, 'executeRequest').and.callThrough();
-    spyOn(Logger.instance, 'error');
+    spyOn(Logger.instance, 'warning');
     spyOn(api, 'buildURL').and.callThrough();
 
     // expected (async) result
@@ -1963,7 +1964,7 @@ test('API executeRequest should log an error and print all request information',
                     }
                 }
             }
-        ).then().catch(error => {
+        ).then(response => {
             expect(global.fetch.calls.count()).toBe(1);
             expect(global.fetch.calls.allArgs()).toEqual([
                 [
@@ -1978,12 +1979,12 @@ test('API executeRequest should log an error and print all request information',
                     }
                 ]
             ]);
-            expect(Logger.instance.error.calls.count()).toBe(1);
-            expect(Logger.instance.error.calls.allArgs()).toEqual([
+            expect(Logger.instance.warning.calls.count()).toBe(1);
+            expect(Logger.instance.warning.calls.allArgs()).toEqual([
                 [
                     {
                         component: 'API',
-                        message: 'API call succeeded but with an error flagged response code',
+                        message: 'API call succeeded but with 400 or 409 response',
                         requestOptions: '{"headers":{"X-Custom-Header":"header-value"},"payload":{"type":"json","data":{"x":"y"}}}',
                         requestUrl: 'https://ltp.nl/organisations',
                         responseBody: '{"id":"123"}',

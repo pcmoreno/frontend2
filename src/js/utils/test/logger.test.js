@@ -38,31 +38,33 @@ test('check if error calls console.error', () => {
         [
             'Error in component API: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: 500,
                 component: 'API',
                 environment: 'test',
                 message: 'API call failed',
+                neonApiResponse: null,
                 responseBody: '{"message":"Internal Server Error"}',
                 session: Logger.instance.sessionId,
                 type: 'error',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ],
         [
             'Error in component Organisations overview: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: null,
                 component: 'Organisations overview',
                 environment: 'test',
                 message: 'An error occurred',
+                neonApiResponse: null,
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'error',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ]
     ]);
@@ -169,31 +171,33 @@ test('check if warning calls console.warn', () => {
         [
             'Warning in component API: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: 404,
                 component: 'API',
                 environment: 'test',
                 message: 'Resource not found was unexpected',
+                neonApiResponse: null,
                 responseBody: '{"message":"Resource not found"}',
                 session: Logger.instance.sessionId,
                 type: 'warning',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ],
         [
             'Warning in component Organisations overview: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: null,
                 component: 'Organisations overview',
                 environment: 'test',
                 message: 'Somebody tried to click self-destruct',
+                neonApiResponse: null,
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'warning',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ]
     ]);
@@ -234,31 +238,33 @@ test('check if notice calls console.log', () => {
         [
             'Notice in component API: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: 200,
                 component: 'API',
                 environment: 'test',
                 message: 'Something was called',
+                neonApiResponse: null,
                 responseBody: '{"message":"Resource was found"}',
                 session: Logger.instance.sessionId,
                 type: 'notice',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ],
         [
             'Notice in component Organisations overview: ',
             {
-                application: 'frontend',
+                application: 'neon-frontend',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: null,
                 component: 'Organisations overview',
                 environment: 'test',
                 message: 'User did something interesting',
+                neonApiResponse: null,
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'notice',
-                userAgent: undefined,
+                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
             }
         ]
     ]);
