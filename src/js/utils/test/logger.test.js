@@ -3,8 +3,6 @@ import Logger from '../logger';
 // TODO: Implement test methods for logz.io when built in... (production env)
 // TODO: console.error is being called (as intended to for the test), however this looks like an error in the console when running the unit tests
 
-navigator.userAgent = 'Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)';
-
 test('check if error calls console.error', () => {
 
     // declare logger and define mocked error objects
@@ -50,7 +48,7 @@ test('check if error calls console.error', () => {
                 responseBody: '{"message":"Internal Server Error"}',
                 session: Logger.instance.sessionId,
                 type: 'error',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ],
         [
@@ -66,7 +64,7 @@ test('check if error calls console.error', () => {
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'error',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ]
     ]);
@@ -183,7 +181,7 @@ test('check if warning calls console.warn', () => {
                 responseBody: '{"message":"Resource not found"}',
                 session: Logger.instance.sessionId,
                 type: 'warning',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ],
         [
@@ -199,7 +197,7 @@ test('check if warning calls console.warn', () => {
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'warning',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ]
     ]);
@@ -250,7 +248,7 @@ test('check if notice calls console.log', () => {
                 responseBody: '{"message":"Resource was found"}',
                 session: Logger.instance.sessionId,
                 type: 'notice',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ],
         [
@@ -266,7 +264,7 @@ test('check if notice calls console.log', () => {
                 responseBody: null,
                 session: Logger.instance.sessionId,
                 type: 'notice',
-                userAgent: "Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)"
+                userAgent: navigator.userAgent
             }
         ]
     ]);
