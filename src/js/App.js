@@ -103,6 +103,14 @@ let store = createStore(rootReducer);
 ApiFactory.create('neon', new NeonAuthenticator(), new NeonAuthoriser());
 const api = ApiFactory.get('neon');
 
+import Logger from './utils/logger';
+
+// init logger
+Logger.instance.notice({
+    component: 'Application',
+    message: 'Open application'
+});
+
 // The authenticated route and component are dependent on the neon api instance
 import AuthorisedRoute from './utils/components/AuthorisedRoute';
 import Authenticated from './utils/components/Authenticated';
