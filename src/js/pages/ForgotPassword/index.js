@@ -126,7 +126,15 @@ export default class Index extends Component {
                 i18n={ translator(browserLanguage, ['login', 'form']) }
             />;
         } else {
+
+            let username = '';
+
+            if (this.props.matches && this.props.matches.username) {
+                username = this.props.matches.username;
+            }
+
             component = <ForgotPassword
+                username={ username }
                 submitForgotPasswordRequest={ this.submitForgotPasswordRequest }
                 i18n={ translator(browserLanguage, ['login', 'form']) }
             />;

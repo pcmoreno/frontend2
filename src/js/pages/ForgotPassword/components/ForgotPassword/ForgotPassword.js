@@ -18,7 +18,7 @@ export default class ForgotPassword extends Component {
             submitDisabled: false,
             requestSuccessful: false,
             error: '',
-            username: ''
+            username: props.username || ''
         };
     }
 
@@ -69,6 +69,7 @@ export default class ForgotPassword extends Component {
             // render request form
             content = <RequestPasswordForm
                 i18n={ i18n }
+                username={ this.localState.username }
                 onChangeInput={ this.onChangeInput }
                 onSubmit={ this.onSubmit }
                 submitDisabled={ this.localState.submitDisabled }
