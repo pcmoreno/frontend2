@@ -58,8 +58,6 @@ jest.mock('../../../App.config', () => {
     }
 });
 
-navigator.userAgent = 'Node.js (darwin; U; rv:v8.11.3) AppleWebKit/537.36 (KHTML, like Gecko)';
-
 // mock fetch method and return json by default
 global.fetch = jest.fn().mockImplementation((url, options) => {
     return new Promise((resolve, reject) => {
