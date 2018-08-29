@@ -9,6 +9,7 @@ import AppConfig from '../../App.config';
 import Participant from './components/Participant';
 import User from './components/User';
 import Utils from '../../utils/utils';
+import Components from '../../constants/Components';
 
 /** @jsx h */
 
@@ -86,7 +87,7 @@ export default class Index extends Component {
                 render(<Redirect to={ window.location.pathname } refresh={ true }/>);
             }, error => {
                 Logger.instance.error({
-                    component: 'register',
+                    component: Components.REGISTER,
                     message: `Could not logout on register page: ${error}`
                 });
             });
@@ -120,7 +121,7 @@ export default class Index extends Component {
 
             }).catch(() => {
                 Logger.instance.error({
-                    component: 'register',
+                    component: Components.REGISTER,
                     message: `Could not fetch accountHasRole for accountHasRoleSlug: ${accountHasRoleSlug}`
                 });
             });
@@ -139,7 +140,7 @@ export default class Index extends Component {
 
             }).catch(() => {
                 Logger.instance.error({
-                    component: 'register',
+                    component: Components.REGISTER,
                     message: `Could not fetch accountHasRole for participantSessionSlug: ${participantSessionSlug}`
                 });
             });
@@ -214,7 +215,7 @@ export default class Index extends Component {
         // validate required properties
         if (!accountHasRole.role || !accountHasRole.status || !accountHasRoleSlug || !registrationComponent) {
             Logger.instance.error({
-                component: 'register',
+                component: Components.REGISTER,
                 message: `Could not load registration for ${registrationComponent.toLowerCase()}: ${JSON.stringify(accountHasRole)}`
             });
 

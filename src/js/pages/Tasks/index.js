@@ -13,6 +13,7 @@ import translator from '../../utils/translator';
 import { ProductSlugs } from '../../constants/Products';
 import Utils from '../../utils/utils';
 import Logger from '../../utils/logger';
+import Components from '../../constants/Components';
 
 class Index extends Component {
     constructor(props) {
@@ -87,7 +88,7 @@ class Index extends Component {
 
             this.actions.addAlert({ type: 'error', text: this.i18n.tasks_error_download_pdf });
             Logger.instance.error({
-                component: 'Tasks',
+                component: Components.TASKS,
                 message: `Could not download intermediate report for participantSession: ${participantSessionSlug}`,
                 response: error && error.message ? error.message : error || ''
             });

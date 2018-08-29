@@ -3,6 +3,7 @@ import downloadReportGenerationStatus from '../constants/DownloadReportGeneratio
 import moment from 'moment-timezone';
 import Logger from '../../../utils/logger';
 import DateTimeZone from '../../../constants/DateTimeZone';
+import Components from '../../../constants/Components';
 
 const initialState = {
     report: null
@@ -163,62 +164,86 @@ export default function reportReducer(state = initialState, action) {
                 newState.report.language = participant.language;
 
             } catch (e) {
-
-                // todo: log/throw an error. Parsing the response of the report page failed.
+                Logger.instance.error({
+                    message: `Exception in report reducer GET_REPORT: ${e}`,
+                    component: Components.REPORT
+                });
             }
 
             break;
 
         case actionType.UPDATE_TEXT_FIELD:
-            templateSlug = newState.report.texts[action.textField.name].templateSlug;
 
-            // clone all levels of the state of objects that needs to be changed (to trigger re-rendering)
-            newState.report = Object.assign({}, state.report);
-            newState.report.texts = Object.assign({}, state.report.texts);
+            try {
+                templateSlug = newState.report.texts[action.textField.name].templateSlug;
 
-            newState.report.texts[action.textField.name] = {
-                slug: action.textField.slug,
-                templateSlug,
-                name: action.textField.name,
-                value: action.textField.value
-            };
+                // clone all levels of the state of objects that needs to be changed (to trigger re-rendering)
+                newState.report = Object.assign({}, state.report);
+                newState.report.texts = Object.assign({}, state.report.texts);
+
+                newState.report.texts[action.textField.name] = {
+                    slug: action.textField.slug,
+                    templateSlug,
+                    name: action.textField.name,
+                    value: action.textField.value
+                };
+            } catch (e) {
+                Logger.instance.error({
+                    message: `Exception in report reducer UPDATE_TEXT_FIELD: ${e}`,
+                    component: Components.REPORT
+                });
+            }
 
             break;
 
         case actionType.UPDATE_COMPETENCY_SCORE:
 
-            newState.report = Object.assign({}, state.report);
-            newState.report.competencies = [];
+            try {
+                newState.report = Object.assign({}, state.report);
+                newState.report.competencies = [];
 
-            state.report.competencies.forEach(competency => {
-                if (competency.name === action.competency.name && competency.templateSlug === action.competency.templateSlug) {
-                    competency.slug = action.competency.slug;
-                    competency.score = action.competency.score;
-                }
+                state.report.competencies.forEach(competency => {
+                    if (competency.name === action.competency.name && competency.templateSlug === action.competency.templateSlug) {
+                        competency.slug = action.competency.slug;
+                        competency.score = action.competency.score;
+                    }
 
-                newState.report.competencies.push(competency);
-            });
+                    newState.report.competencies.push(competency);
+                });
+            } catch (e) {
+                Logger.instance.error({
+                    message: `Exception in report reducer UPDATE_COMPETENCY_SCORE: ${e}`,
+                    component: Components.REPORT
+                });
+            }
 
             break;
 
         case actionType.UPDATE_REPORT_GENERATION_STATUS:
 
-            newState.report = Object.assign({}, state.report);
-            newState.report.generatedReport = Object.assign({}, state.report.generatedReport);
+            try {
+                newState.report = Object.assign({}, state.report);
+                newState.report.generatedReport = Object.assign({}, state.report.generatedReport);
 
-            // update report generation status
-            newState.report.generatedReport.generationStatus = action.status;
+                // update report generation status
+                newState.report.generatedReport.generationStatus = action.status;
 
-            if (action.reportPublishedOn.timezone.toUpperCase() === DateTimeZone.UTC) {
+                if (action.reportPublishedOn.timezone.toUpperCase() === DateTimeZone.UTC) {
 
-                // remove incompatible timezone offset. For UTC normally a Z is returned
-                if (~action.reportPublishedOn.date.indexOf('.000000')) {
-                    action.reportPublishedOn.date = action.reportPublishedOn.date.replace('.000000', 'Z');
+                    // remove incompatible timezone offset. For UTC normally a Z is returned
+                    if (~action.reportPublishedOn.date.indexOf('.000000')) {
+                        action.reportPublishedOn.date = action.reportPublishedOn.date.replace('.000000', 'Z');
+                    }
+
+                    newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).utc().tz(DateTimeZone.AMSTERDAM).format('DD-MM-YYYY HH:mm');
+                } else {
+                    newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
                 }
-
-                newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).utc().tz(DateTimeZone.AMSTERDAM).format('DD-MM-YYYY HH:mm');
-            } else {
-                newState.report.generatedReport.generationDate = moment(action.reportPublishedOn.date).format('DD-MM-YYYY HH:mm');
+            } catch (e) {
+                Logger.instance.error({
+                    message: `Exception in report reducer UPDATE_REPORT_GENERATION_STATUS: ${e}`,
+                    component: Components.REPORT
+                });
             }
 
             break;

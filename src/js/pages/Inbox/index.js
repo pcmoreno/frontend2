@@ -11,6 +11,7 @@ import InboxActions from './constants/InboxActions';
 import InboxComponents from './constants/InboxComponents';
 import Logger from '../../utils/logger';
 import Redirect from '../../utils/components/Redirect';
+import Components from '../../constants/Components';
 
 /** @jsx h */
 
@@ -96,7 +97,7 @@ class Index extends Component {
 
                 // todo: show an error somewhere on the page
                 Logger.instance.error({
-                    component: 'inbox',
+                    component: Components.INBOX,
                     message: 'Could not request redirect url for ltp online',
                     response
                 });

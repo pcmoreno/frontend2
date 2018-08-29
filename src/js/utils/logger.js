@@ -37,7 +37,7 @@ class Logger {
                             message
                         }, 'warning');
 
-                        oldCons.warn(message);
+                        // oldCons.warn(message);
                     },
                     error: message => {
 
@@ -158,10 +158,12 @@ class Logger {
                     console.error('Error in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 case 'warning':
-                    console.warn('Warning in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
+
+                    // console.warn('Warning in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 case 'notice':
-                    console.log('Notice in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
+
+                    // console.log('Notice in component ' + logObject.component + ': ', logObject); // eslint-disable-line no-console,prefer-template
                     break;
                 default:
                     break;

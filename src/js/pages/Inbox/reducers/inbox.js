@@ -1,5 +1,7 @@
 import * as actionType from './../constants/ActionTypes';
 import moment from 'moment/moment';
+import Logger from '../../../utils/logger';
+import Components from '../../../constants/Components';
 
 const initialState = {
     messages: []
@@ -18,18 +20,26 @@ export default function inboxReducer(state = initialState, action) {
 
         case actionType.FETCH_MESSAGES: {
 
-            newState.messages = [];
+            try {
 
-            if (action.messages.length) {
-                action.messages.forEach(message => {
-                    newState.messages.push({
-                        organisationName: message.organisationName,
-                        type: message.type,
-                        appointmentDate: message.appointmentDate ? moment(message.appointmentDate).format('DD-MM-YYYY') : null,
-                        status: message.status,
-                        participantSessionSlug: message.participantSessionSlug,
-                        languageId: message.language
+                newState.messages = [];
+
+                if (action.messages.length) {
+                    action.messages.forEach(message => {
+                        newState.messages.push({
+                            organisationName: message.organisationName,
+                            type: message.type,
+                            appointmentDate: message.appointmentDate ? moment(message.appointmentDate).format('DD-MM-YYYY') : null,
+                            status: message.status,
+                            participantSessionSlug: message.participantSessionSlug,
+                            languageId: message.language
+                        });
                     });
+                }
+            } catch (e) {
+                Logger.instance.error({
+                    message: `Exception in inbox reducer FETCH_MESSAGES: ${e}`,
+                    component: Components.INBOX
                 });
             }
 
