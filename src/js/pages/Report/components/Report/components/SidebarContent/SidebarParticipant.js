@@ -33,11 +33,12 @@ export default class SidebarParticipant extends Component {
                     scoreNumber = scores[key];
                 }
 
-                if (scores[key]) {
+                // only if value is valid number, output this row
+                if (!isNaN(scoreNumber)) {
                     scoreCollection.push(
                         <ParticipantScoreRow
                             label={i18n[`report_${score.toLowerCase()}`] || score}
-                            score={scoreNumber || ''}
+                            score={scoreNumber}
                             categoryScore={hnaCategoryScores[key] || ''}
                         />
                     );
