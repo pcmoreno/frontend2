@@ -8,7 +8,7 @@ import AppConfig from '../../../../App.config';
 export default class LoginForm extends Component {
 
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n, username, getUsername } = this.props;
 
         return (
             <div className={ style.modal }>
@@ -29,6 +29,7 @@ export default class LoginForm extends Component {
                                     autoComplete="on"
                                     placeholder={ i18n.login_email_placeholder }
                                     onChange={ handleChange }
+                                    value={ username || '' }
                                     required
                                 />
                             </div>
@@ -46,7 +47,7 @@ export default class LoginForm extends Component {
                                 />
                             </div>
                             <span className={ style.link }>
-                                <a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.login_forgot_password }</a>
+                                <a href={ `${AppConfig.global.forgotPasswordUrl}?username=${getUsername ? getUsername() : ''}`}>{ i18n.login_forgot_password }</a>
                             </span>
                             <span className={ style.errors }>
                                 { error }

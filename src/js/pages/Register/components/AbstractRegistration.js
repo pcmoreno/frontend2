@@ -35,7 +35,7 @@ export default class AbstractRegistration extends Component {
             registerError: '',
             registerButtonDisabled: false, // error handling is done after button press
             registerFields: {
-                username: '',
+                username: props.accountHasRoleEmail || '',
                 password: '',
                 passwordConfirm: ''
             },
@@ -43,7 +43,7 @@ export default class AbstractRegistration extends Component {
 
             // login component properties, conversion to lowercase is only done in methods that execute api calls
             loginFields: {
-                username: '',
+                username: props.accountHasRoleEmail || '',
                 password: ''
             },
             loginError: '',

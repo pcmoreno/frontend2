@@ -152,6 +152,7 @@ export default class Index extends Component {
      * @param {Object} accountHasRole - account has role information
      * @param {string} accountHasRole.role - role names
      * @param {string} accountHasRole.status - status
+     * @param {string} accountHasRole.email - email
      * @param {string} [accountHasRole.accountHasRoleSlug] - status
      * @param {string} [accountHasRole.language] - status
      * @returns {undefined}
@@ -251,6 +252,7 @@ export default class Index extends Component {
 
                     // return user component
                     component = <User
+                        accountHasRoleEmail={ accountHasRole.email }
                         accountHasRoleSlug={ accountHasRoleSlug }
                         accountStatus={ accountHasRole.status }
                         languageId={ languageId.replace('-', '_') || browserLanguage }
@@ -262,6 +264,7 @@ export default class Index extends Component {
 
                     // return participant component
                     component = <Participant
+                        accountHasRoleEmail={ accountHasRole.email }
                         accountHasRoleSlug={ accountHasRoleSlug }
                         accountStatus={ accountHasRole.status }
                         languageId={ languageId.replace('-', '_') || browserLanguage }

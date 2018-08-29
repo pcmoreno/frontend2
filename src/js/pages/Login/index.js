@@ -22,6 +22,7 @@ export default class Index extends Component {
         };
 
         this.submitLogin = this.submitLogin.bind(this);
+        this.getUsername = this.getUsername.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
         this.localState = {
@@ -85,6 +86,10 @@ export default class Index extends Component {
         this.inputValues[event.currentTarget.id] = event.currentTarget.value;
     }
 
+    getUsername() {
+        return this.inputValues.username;
+    }
+
     submitLogin(event) {
         event.preventDefault();
 
@@ -142,6 +147,8 @@ export default class Index extends Component {
                 handleChange={ this.handleChange }
                 localState={ this.localState }
                 language = { this.language }
+                username={ this.inputValues.username }
+                getUsername = { this.getUsername }
             />
         );
     }

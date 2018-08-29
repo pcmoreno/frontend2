@@ -7,7 +7,7 @@ import style from './style/requestpasswordform.scss';
 export default class RequestPasswordForm extends Component {
 
     render() {
-        const { i18n, onChangeInput, onSubmit, submitDisabled, error } = this.props;
+        const { i18n, onChangeInput, onSubmit, submitDisabled, error, username } = this.props;
 
         return (
             <form>
@@ -26,6 +26,7 @@ export default class RequestPasswordForm extends Component {
                             autocomplete="on"
                             placeholder={ i18n.login_forgot_password_email_placeholder }
                             onChange={ onChangeInput }
+                            value={ username }
                             required
                         />
                     </div>

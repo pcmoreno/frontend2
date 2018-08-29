@@ -9,7 +9,7 @@ import AppConfig from '../../../../App.config';
 export default class Register extends Component {
 
     render() {
-        const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n } = this.props;
+        const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, emailInput } = this.props;
 
         return (
             <main className={ `${mainStyle.main} ${style.main}` }>
@@ -30,6 +30,7 @@ export default class Register extends Component {
                                         autocomplete="off"
                                         placeholder={ i18n.register_email_placeholder }
                                         onChange={onChange}
+                                        value={ emailInput }
                                         required
                                     />
                                 </div>
