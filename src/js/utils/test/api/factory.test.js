@@ -6,6 +6,10 @@ import AppConfig from '../../../App.config';
 // Mock the application api config
 jest.mock('../../../App.config', () => {
     return {
+        logger: {
+            devModeBaseUrl: 'https://neon-api.acceptance.ltponline.com',
+            devMode: false
+        },
         api: {
             neon: {
                 baseUrl: 'https://ltp.nl',

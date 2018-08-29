@@ -1,7 +1,7 @@
 import Utils from './utils';
+import AppConfig from '../App.config';
 
-const loggerInstance = Symbol('logger Instance');
-const singletonEnforcer = Symbol('singleton Enforcer');
+let loggerInstance = null;
 
 /**
  * @class Logger
@@ -9,13 +9,50 @@ const singletonEnforcer = Symbol('singleton Enforcer');
  */
 class Logger {
 
-    constructor(enforcer) {
-        if (enforcer !== singletonEnforcer) {
-            throw new Error('Cannot construct singleton');
-        }
-
+    constructor() {
         this.env = process.env.NODE_ENV;
         this.sessionId = Utils.uuid();
+        this.loggerToken = '';
+        this.baseUrl = AppConfig.api.neon.baseUrl.replace('/api', '');
+        this.devMode = AppConfig.logger.devMode;
+
+        if (this.devMode) {
+            this.baseUrl = AppConfig.logger.devModeBaseUrl;
+        }
+
+        if (this.env === 'production' || this.env === 'acceptance' || this.devMode) {
+
+            // define a new console
+            console = (function(oldCons, logger) { // eslint-disable-line no-console, no-global-assign
+                return {
+                    log: message => {
+                        oldCons.log(message);
+                    },
+                    info: message => {
+                        oldCons.info(message);
+                    },
+                    warn: message => {
+
+                        logger.postToLogger({
+                            message
+                        }, 'warning');
+
+                        oldCons.warn(message);
+                    },
+                    error: message => {
+
+                        logger.postToLogger({
+                            message
+                        }, 'error');
+
+                        oldCons.error(message);
+                    }
+                };
+            }(window.console, this));
+
+            // Then redefine the old console
+            window.console = console;
+        }
     }
 
     /**
@@ -41,6 +78,38 @@ class Logger {
     }
 
     /**
+     * Get the logz.io API token, request it or simply return the one that we cached
+     * @returns {Promise<any>} promise
+     */
+    getToken() {
+        return new Promise((resolve, reject) => {
+
+            // check if we already requested the token before, if not, request it
+            if (this.loggerToken) {
+                return resolve(this.loggerToken);
+            }
+
+            // fetch the token from the API
+            return fetch(`${AppConfig.api.neon.baseUrl}${AppConfig.api.neon.endpoints.logzioToken}`, {
+                method: 'GET'
+            }).then(response => {
+
+                response.json().then(json => {
+                    if (json && json.key) {
+                        this.loggerToken = json.key;
+                        resolve(json.key);
+                    } else {
+                        reject(new Error('Could not fetch logger token'));
+                    }
+                });
+
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    }
+
+    /**
      * Posts the log object to external logging service in production mode. In development mode the console will
      * be called using console.log, warn and error.
      *
@@ -55,21 +124,33 @@ class Logger {
      * @param {string} type - log type [error, warning, notice]
      * @returns {undefined}
      */
-    _postToLogger(logObject, type) {
-        let ua = window.userAgent;
+    postToLogger(logObject, type) {
+        const ua = navigator.userAgent;
 
         // extend the logObject with user agent and log type by default
-        logObject.application = 'frontend';
+        logObject.application = 'neon-frontend';
         logObject.userAgent = ua;
         logObject.type = type;
         logObject.session = this.sessionId;
         logObject.environment = this.env;
         logObject.applicationUrl = window && window.location && window.location.href;
+        logObject.neonApiResponse = logObject.response ? JSON.stringify(logObject.response) : null;
+
+        // remove old key names (not allowed by our current logz.io mapping
+        delete logObject.response;
 
         // log to external logging service in production env, or use console in dev env
-        if (this.env === 'production') {
+        if (this.env === 'production' || this.env === 'acceptance' || this.devMode) {
 
-            // TODO: Implement logz.io post call here
+            // get the token and log the message
+            this.getToken().then(token => {
+
+                // logz.io post call
+                fetch(`${this.baseUrl}/logzio?token=${token}`, {
+                    method: 'POST',
+                    body: JSON.stringify(logObject)
+                });
+            });
 
         } else {
             switch (logObject.type) {
@@ -100,7 +181,7 @@ class Logger {
      */
     notice(logObject) {
         if (Logger.validateLogObject(logObject)) {
-            this._postToLogger(logObject, 'notice');
+            this.postToLogger(logObject, 'notice');
         }
     }
 
@@ -116,7 +197,7 @@ class Logger {
      */
     warning(logObject) {
         if (Logger.validateLogObject(logObject)) {
-            this._postToLogger(logObject, 'warning');
+            this.postToLogger(logObject, 'warning');
         }
     }
 
@@ -132,15 +213,15 @@ class Logger {
      */
     error(logObject) {
         if (Logger.validateLogObject(logObject)) {
-            this._postToLogger(logObject, 'error');
+            this.postToLogger(logObject, 'error');
         }
     }
 
     static get instance() {
-        if (!this[loggerInstance]) {
-            this[loggerInstance] = new Logger(singletonEnforcer);
+        if (!loggerInstance) {
+            loggerInstance = new Logger();
         }
-        return this[loggerInstance];
+        return loggerInstance;
     }
 }
 

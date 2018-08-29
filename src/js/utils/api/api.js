@@ -254,9 +254,9 @@ class API {
                 return response.json().then(json => {
 
                     // check if this was an input validation error
-                    if (~[400, 409].indexOf(response.status) && json.errors) {
+                    if (~[400, 409].indexOf(response.status) || json.errors) {
                         self.logApiMessage('warning', 'API call succeeded but with 400 or 409 response', parsedUrl, options, response, json);
-                        return resolve({ errors: json.errors });
+                        return resolve({ errors: json.errors || [] });
                     }
 
                     // renew token if 401 was returned, and try the same API call again
