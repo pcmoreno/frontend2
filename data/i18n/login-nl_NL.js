@@ -23,11 +23,11 @@ export default {
     "login_forgot_password_send": "Verstuur",
     "login_forgot_password_title": "Wachtwoord vergeten",
     "login_login_button_label": "Inloggen",
-    "login_login_failed": "Inloggen mislukt. probeer het opnieuw.",
+    "login_login_failed": "Inloggen mislukt. Probeer het opnieuw.",
     "login_login_label": "Inloggen",
     "login_new_user_title": "Account aanmaken",
     "login_password_change_successful": "Uw wachtwoord is gewijzigd. U kunt nu inloggen.",
     "login_password_label": "Wachtwoord",
     "login_password_placeholder": "Wachtwoord",
-    "login_registration_successful": "Registratie geslaagd. u kunt nu inloggen."
+    "login_registration_successful": "Registratie geslaagd. U kunt nu inloggen."
 };
