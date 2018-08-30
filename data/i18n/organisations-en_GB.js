@@ -9,7 +9,7 @@ export default {
     "organisations_add_job_function_error": "An error occurred while adding the job function, please try again later",
     "organisations_add_job_function_success": "The job function was successfully added",
     "organisations_add_manager": "Add manager",
-    "organisations_add_manager_description_text": "No managers found. click 'new manager' to add a manager.",
+    "organisations_add_manager_description_text": "No managers found. Click 'new manager' to add a manager.",
     "organisations_add_organisation": "Add organisation",
     "organisations_add_organisation_error": "An error occurred while adding the organisation, please try again later",
     "organisations_add_organisation_success": "The organisation was successfully added",
@@ -32,7 +32,7 @@ export default {
     "organisations_amend_participant_error": "An error occurred while amending the participant, please try again later",
     "organisations_amend_participant_success": "The participant was successfully amended",
     "organisations_appointment_with_ltp": "Appointment with ltp",
-    "organisations_attentive_listening_definition": "Pay attention and listen to what is said in an open-minded and unprejudiced manner. in doing so, be open to the arguments, suggestions and ideas of others.",
+    "organisations_attentive_listening_definition": "Pay attention and listen to what is said in an open-minded and unprejudiced manner. In doing so, be open to the arguments, suggestions and ideas of others.",
     "organisations_cancel": "Cancel",
     "organisations_close": "Close",
     "organisations_comments": "Comment(s)",
@@ -45,7 +45,7 @@ export default {
     "organisations_competenties_ltp": "Ltp competencies",
     "organisations_consultant": "Consultant",
     "organisations_could_not_process_your_request": "Could not process your request",
-    "organisations_development_orientation_definition": "Exert oneself to broaden and deepen one’s own knowledge and capabilities, and to have new experiences with a view to being able to grow professionally and increase the quality of one’s own work.  ",
+    "organisations_development_orientation_definition": "Exert oneself to broaden and deepen one’s own knowledge and capabilities, and to have new experiences with a view to being able to grow professionally and increase the quality of one’s own work.",
     "organisations_dutch": "Dutch",
     "organisations_edit_competencies": "Edit competencies",
     "organisations_edit_competencies_success": "The competency selection was successfully changed",
@@ -82,7 +82,7 @@ export default {
     "organisations_new_manager": "New manager",
     "organisations_openness_to_change_definition": "Be able to approach matters from different and new points of view, with the aim of finding innovative insights and solutions.",
     "organisations_organisation": "Organisation",
-    "organisations_organisation_sensitivity_definition": "The capability of sensing what is going on in one’s own organisation. have understanding for the interests and feelings of others.",
+    "organisations_organisation_sensitivity_definition": "The capability of sensing what is going on in one’s own organisation. Have understanding for the interests and feelings of others.",
     "organisations_participants": "Participants",
     "organisations_persona_fit_finished": "Finished",
     "organisations_phase_one_finished": "Phase 1 finished",
@@ -97,5 +97,5 @@ export default {
     "organisations_status": "Status",
     "organisations_surname": "Surname",
     "organisations_terms_and_conditions_accepted": "Terms and conditions accepted",
-    "organisations_unexpected_error": "An error occurred while processing your request. please try again."
+    "organisations_unexpected_error": "An error occurred while processing your request. Please try again."
 };
