@@ -200,6 +200,10 @@ export default class Index extends Component {
         render(<Redirect to={ AppConfig.authenticator.neon.loginRedirect } refresh={ true }/>);
     }
 
+    forgotPassword(emailaddress = null) {
+        console.log('email = '+emailaddress);
+    }
+
     /**
      * Triggers the load of the registration component for a participant or user
      * @param {Object} accountHasRole - account has role information
@@ -268,6 +272,7 @@ export default class Index extends Component {
                         accountHasRoleSlug={ accountHasRoleSlug }
                         accountStatus={ accountHasRole.status }
                         languageId={ languageId.replace('-', '_') || browserLanguage }
+                        forgotPassword={ this.forgotPassword }
                     />;
 
                     break;

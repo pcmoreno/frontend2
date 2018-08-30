@@ -7,7 +7,6 @@ import style from './style/register.scss';
 import AppConfig from '../../../../App.config';
 
 export default class Register extends Component {
-
     render() {
         const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, emailInput } = this.props;
 
@@ -80,7 +79,11 @@ export default class Register extends Component {
                             <span>{ i18n.register_login_label }</span>
                         </div>
                         <p className={ mainStyle.link}>
-                            <a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.register_forgot_my_password_label }</a>
+                            {/*<a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.register_forgot_my_password_label }</a>*/}
+                            <span onClick={ () => {
+                                this.props.forgotPassword(this.props.emailInput);
+                            } }>{ i18n.register_forgot_my_password_label }
+                            </span>
                         </p>
                     </section>
                 </div>

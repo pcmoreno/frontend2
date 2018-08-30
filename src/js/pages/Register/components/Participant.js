@@ -115,6 +115,7 @@ export default class Participant extends AbstractRegistration {
                     onSubmit = { this.onLoginAccount.bind(this) }
                     onChange = { this.onChangeFieldLoginForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }
+                    forgotPassword={ this.props.forgotPassword }
                 />;
 
             } else {
@@ -128,6 +129,7 @@ export default class Participant extends AbstractRegistration {
                     onSubmit = { this.onRegisterAccount.bind(this) }
                     onChange = { this.onChangeFieldRegistrationForm.bind(this) }
                     showLogin = { this.switchToLogin.bind(this) }
+                    forgotPassword={ this.props.forgotPassword }
                 />;
             }
 
