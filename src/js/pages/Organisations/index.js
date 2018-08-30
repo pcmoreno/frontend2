@@ -775,6 +775,7 @@ class Index extends Component {
             case ParticipantStatus.STARTED:
             case ParticipantStatus.HNA_FINISHED:
             case ParticipantStatus.PERSONA_FIT_FINISHED:
+            case ParticipantStatus.PHASE_ONE_FINISHED:
 
                 // all previous fields education level
                 this.getFormFields('amendParticipant', {
