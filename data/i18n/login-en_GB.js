@@ -23,11 +23,11 @@ export default {
     "login_forgot_password_send": "Send",
     "login_forgot_password_title": "Forgot password",
     "login_login_button_label": "Login",
-    "login_login_failed": "Login failed. please try again.",
+    "login_login_failed": "Login failed. Please try again.",
     "login_login_label": "Login",
     "login_new_user_title": "Create account",
     "login_password_change_successful": "Your password has sucessfully been changed. You can login now.",
     "login_password_label": "Password",
     "login_password_placeholder": "Password",
-    "login_registration_successful": "Registration successful. you can login now."
+    "login_registration_successful": "Registration successful. You can login now."
 };
