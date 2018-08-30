@@ -7,9 +7,12 @@
                 "modules": "commonjs",
                 "useBuiltIns": "entry",
                 "targets": {
-                    "browsers": [
-                        "last 2 Chrome versions"
-                    ]
+                    "chrome": "58",
+                    "firefox": "54",
+                    "ie": "11",
+                    "safari": "10",
+                    "opera": "44",
+                    "edge": "16"
                 }
             }
         ],
