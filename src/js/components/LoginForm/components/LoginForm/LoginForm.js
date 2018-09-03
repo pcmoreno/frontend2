@@ -10,14 +10,21 @@ export default class LoginForm extends Component {
     constructor(props) {
         super(props);
 
-        this.forgotPassWordHandler = this.forgotPassWordHandler.bind(this);
+        this.forgotPasswordHandler = this.forgotPasswordHandler.bind(this);
     }
 
-    forgotPassWordHandler() {
+    forgotPasswordHandler() {
 
         // since user can overwrite the pre-filled in username (email), pass on the form field
         // value directly to the password forget function
-        render(<Redirect to={ `${AppConfig.global.forgotPasswordUrl}?username=${document.querySelector('#username').value}` } refresh={ true }/>);
+
+        let amendedUsername;
+
+        if (document.querySelector('#username')) {
+            amendedUsername = `?username=${document.querySelector('#username').value}`;
+        }
+
+        render(<Redirect to={ `${AppConfig.global.forgotPasswordUrl}${amendedUsername}` } refresh={ true }/>);
     }
 
     render() {
@@ -63,7 +70,7 @@ export default class LoginForm extends Component {
                                 <span role="link"
                                     tabIndex="0"
                                     onClick={() => {
-                                        this.forgotPassWordHandler();
+                                        this.forgotPasswordHandler();
                                     }}>{i18n.login_forgot_password}
                                 </span>
                             </span>
