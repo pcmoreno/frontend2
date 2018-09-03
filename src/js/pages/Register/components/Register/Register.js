@@ -1,12 +1,26 @@
-import { h, Component } from 'preact';
+import { h, Component, render } from 'preact';
 
 /** @jsx h */
 
 import mainStyle from '../../style/register.scss';
 import style from './style/register.scss';
 import AppConfig from '../../../../App.config';
+import Redirect from '../../../../utils/components/Redirect';
 
 export default class Register extends Component {
+    constructor(props) {
+        super(props);
+
+        this.forgotPassWordHandler = this.forgotPassWordHandler.bind(this);
+    }
+
+    forgotPassWordHandler() {
+
+        // since user can overwrite the pre-filled in username (email), pass on the form field
+        // value directly to the password forget function
+        render(<Redirect to={ `${AppConfig.global.forgotPasswordUrl}?username=${document.querySelector('#username').value}` } refresh={ true }/>);
+    }
+
     render() {
         const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, emailInput } = this.props;
 
@@ -79,10 +93,11 @@ export default class Register extends Component {
                             <span>{ i18n.register_login_label }</span>
                         </div>
                         <p className={ mainStyle.link}>
-                            {/*<a href={ AppConfig.global.forgotPasswordUrl }>{ i18n.register_forgot_my_password_label }</a>*/}
-                            <span onClick={ () => {
-                                this.props.forgotPassword(this.props.emailInput);
-                            } }>{ i18n.register_forgot_my_password_label }
+                            <span role="link"
+                                tabIndex="0"
+                                onClick={() => {
+                                    this.forgotPassWordHandler();
+                                }}>{i18n.register_forgot_my_password_label}
                             </span>
                         </p>
                     </section>

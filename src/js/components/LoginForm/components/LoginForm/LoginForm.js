@@ -1,14 +1,27 @@
-import { h, Component } from 'preact';
+import { h, Component, render } from 'preact';
 
 /** @jsx h */
 
 import style from './style/loginform.scss';
 import AppConfig from '../../../../App.config';
+import Redirect from '../../../../utils/components/Redirect';
 
 export default class LoginForm extends Component {
+    constructor(props) {
+        super(props);
+
+        this.forgotPassWordHandler = this.forgotPassWordHandler.bind(this);
+    }
+
+    forgotPassWordHandler() {
+
+        // since user can overwrite the pre-filled in username (email), pass on the form field
+        // value directly to the password forget function
+        render(<Redirect to={ `${AppConfig.global.forgotPasswordUrl}?username=${document.querySelector('#username').value}` } refresh={ true }/>);
+    }
 
     render() {
-        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n, username, getUsername } = this.props;
+        const { onSubmit, handleChange, error, buttonDisabled, successMessage, i18n, username } = this.props;
 
         return (
             <div className={ style.modal }>
@@ -47,7 +60,12 @@ export default class LoginForm extends Component {
                                 />
                             </div>
                             <span className={ style.link }>
-                                <a href={ `${AppConfig.global.forgotPasswordUrl}?username=${getUsername ? getUsername() : ''}`}>{ i18n.login_forgot_password }</a>
+                                <span role="link"
+                                    tabIndex="0"
+                                    onClick={() => {
+                                        this.forgotPassWordHandler();
+                                    }}>{i18n.login_forgot_password}
+                                </span>
                             </span>
                             <span className={ style.errors }>
                                 { error }
