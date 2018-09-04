@@ -137,7 +137,7 @@ export default class DetailPanel extends Component {
                         onClick={ this.toggleFullWidthDetailPanel }
                         role="button"
                     >
-                        &#11013;
+                        <FontAwesomeIcon icon='long-arrow-alt-left' />
                     </span>
                     { entity.name !== 'LTP' &&
                         <div className={ `${style.header_icon}` }>{ icon }</div>

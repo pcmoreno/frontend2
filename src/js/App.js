@@ -40,6 +40,7 @@ import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faDownload from '@fortawesome/fontawesome-free-solid/faDownload';
 import faSyncAlt from '@fortawesome/fontawesome-free-solid/faSyncAlt';
+import faLongArrowAltLeft from '@fortawesome/fontawesome-free-solid/faLongArrowAltLeft';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
 fontawesome.library.add(
@@ -62,7 +63,8 @@ fontawesome.library.add(
     faCheck,
     faEllipsisH,
     faDownload,
-    faSyncAlt
+    faSyncAlt,
+    faLongArrowAltLeft
 );
 
 // react-redux: make the store available to all container components in the application without passing it explicitly
