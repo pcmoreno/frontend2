@@ -162,11 +162,10 @@ table td.organisation {
 }
 
 /* certain columns in the list view inside the detail panel needs to reside in smaller column than the rest */
-#listview thead tr th.select_participant_label,
-#listview thead tr th.amend_participant_label {
-    width: .5rem;
+#listview thead tr th.select_participant_label {
+    width: 2.5rem;
     text-align: center;
-    padding: .5rem 1rem
+    padding: .5rem 0;
 }
 
 #listview thead tr th.competency_type {
