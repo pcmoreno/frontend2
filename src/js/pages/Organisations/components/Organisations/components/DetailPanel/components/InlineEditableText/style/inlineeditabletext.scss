@@ -26,6 +26,9 @@
             right: 4px;
             top: 6px;
             font-size: .75rem;
+
+            /* this ensures the pencil icon itself can not be clicked. instead the element underneath becomes focused */
+            pointer-events: none;
         }
     }
 }
