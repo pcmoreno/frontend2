@@ -8,6 +8,7 @@ export default class ListviewEntity extends Component {
 
     render() {
         const { entity, i18n, translationKeyPrefix, active } = this.props;
+
         const entityItems = [];
 
         Object.keys(entity).forEach(entityKey => {
@@ -32,7 +33,8 @@ export default class ListviewEntity extends Component {
 
             entityItems.push(
                 <ListviewEntityItem
-                    key={ entityKey }
+                    key={ entity[entityKey].key }
+                    elementKey={ entity[entityKey].key }
                     entityId={ entityKey }
                     value={ value }
                     widget={ widget }

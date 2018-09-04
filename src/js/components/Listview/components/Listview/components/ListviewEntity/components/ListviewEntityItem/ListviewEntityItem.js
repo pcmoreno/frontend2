@@ -37,7 +37,7 @@ export default class ListviewEntityItem extends Component {
     }
 
     render() {
-        const { entityId, active } = this.props;
+        const { active } = this.props;
         let { value } = this.props;
         let title;
         let action;
@@ -121,7 +121,7 @@ export default class ListviewEntityItem extends Component {
         return (
             <td
                 title={ title }
-                className={ `${style.td} ${entityId} ${this.props.widget ? this.props.widget.type : ''}` }
+                className={ `${style.td} ${this.props.elementKey} ${this.props.widget ? this.props.widget.type : ''}` }
                 onClick={ action }
             >
                 { value }
