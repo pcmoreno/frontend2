@@ -180,7 +180,7 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: './src/assets', to: './assets' },
 
-            // froala editor files
+            // copy vendor files
             { from: './node_modules/froala-editor/js/froala_editor.min.js', to: './assets/vendor/froala-editor/js/' },
             { from: './node_modules/froala-editor/js/plugins/paragraph_format.min.js', to: './assets/vendor/froala-editor/js/' },
             { from: './node_modules/froala-editor/js/plugins/lists.min.js', to: './assets/vendor/froala-editor/js/' },
@@ -189,7 +189,10 @@ module.exports = {
             { from: './node_modules/froala-editor/css/froala_editor.min.css', to: './assets/vendor/froala-editor/css/' },
             { from: './node_modules/font-awesome/css/font-awesome.min.css', to: './assets/vendor/froala-editor/css/' },
             { from: './node_modules/font-awesome/fonts', to: './assets/vendor/froala-editor/fonts/' },
-            { from: './node_modules/flatpickr/dist/flatpickr.min.css', to: './assets/vendor/flatpickr/css/' }
+            { from: './node_modules/flatpickr/dist/flatpickr.min.css', to: './assets/vendor/flatpickr/css/' },
+            { from: './node_modules/outdatedbrowser/outdatedbrowser/outdatedbrowser.min.css', to: './assets/vendor/outdatedbrowser/css/' },
+            { from: './node_modules/outdatedbrowser/outdatedbrowser/outdatedbrowser.min.js', to: './assets/vendor/outdatedbrowser/js/' },
+            { from: './node_modules/outdatedbrowser/outdatedbrowser/lang/en.html', to: './assets/vendor/outdatedbrowser/lang/' }
         ])
     ],
     resolve: {
