@@ -66,6 +66,7 @@ export default class Index extends Component {
             this.setState(this.localState);
         }
 
+        // todo: this is messing with already filled in login data, it will clear the input fields in the form. fix!
         this.timeout = window.setTimeout(() => {
 
             // hide message
