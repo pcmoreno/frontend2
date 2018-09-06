@@ -65,6 +65,23 @@ variables:
   only:
     - master
 
+  ## Deploy production to live bucket using aws cli
+.deploy_live_prod_stage: &deploy_live_prod_stage
+  image: ${BUILD_CONTAINER}
+  before_script: *install_before_build
+  script:
+  - yarn run build:prod
+  - aws s3 cp index.html ${AWS_BUCKET_PRODUCTION_LIVE}
+  - aws s3 cp service-worker.js ${AWS_BUCKET_PRODUCTION_LIVE}
+  - aws s3 sync web ${AWS_BUCKET_PRODUCTION_LIVE}/web --delete
+  - aws configure set preview.cloudfront true
+  - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_PROD_LIVE} --paths "/*"
+  cache:
+    paths:
+    - node_modules/
+  only:
+  - master
+
 ################################################################################
 ## Building & Testing
 ################################################################################
@@ -85,4 +102,9 @@ deploy_acc:
 ## Deploy to Production
 deploy_prod:
   <<: *deploy_prod_stage
+  stage: deploy_prod
+
+## Deploy to Production live bucket
+deploy_live_prod:
+  <<: *deploy_live_prod_stage
   stage: deploy_prod
