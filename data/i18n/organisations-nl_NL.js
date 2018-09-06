@@ -83,6 +83,7 @@ export default {
     "organisations_openness_to_change_definition": "In staat zijn zaken vanuit verschillende en nieuwe invalshoeken te benaderen gericht op het vinden van vernieuwende inzichten en oplossingen.",
     "organisations_organisation": "Organisatie",
     "organisations_organisation_sensitivity_definition": "Het vermogen om aan te voelen wat er leeft in de eigen organisatie. Begrip hebben voor de belangen en gevoelens van anderen.",
+    "organisations_page_title": "Organisaties",
     "organisations_participants": "Deelnemers",
     "organisations_persona_fit_finished": "Afgerond",
     "organisations_phase_one_finished": "Deel 1 afgerond",
