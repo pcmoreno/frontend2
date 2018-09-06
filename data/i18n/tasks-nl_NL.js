@@ -4,6 +4,7 @@ export default {
     "tasks_error_download_pdf": "Er is een fout opgetreden bij het downloaden van het pdf rapport. Probeer het opnieuw.",
     "tasks_name": "Naam",
     "tasks_organisation": "Organisatie",
+    "tasks_page_title": "Taken",
     "tasks_participant": "Deelnemer",
     "tasks_report": "Rapport",
     "tasks_results": "Resultaten",
