@@ -26,6 +26,7 @@ export default {
     "login_login_failed": "Login failed. Please try again.",
     "login_login_label": "Login",
     "login_new_user_title": "Create account",
+    "login_page_title": "Login",
     "login_password_change_successful": "Your password has sucessfully been changed. You can login now.",
     "login_password_label": "Password",
     "login_password_placeholder": "Password",
