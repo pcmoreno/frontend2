@@ -4,6 +4,7 @@ export default {
     "tasks_error_download_pdf": "An error occurred while downloading the pdf report. Please try again.",
     "tasks_name": "Name",
     "tasks_organisation": "Organisation",
+    "tasks_page_title": "Tasks",
     "tasks_participant": "Participant",
     "tasks_report": "Report",
     "tasks_results": "Results",
