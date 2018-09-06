@@ -31,7 +31,13 @@ class Index extends Component {
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
         this.api = ApiFactory.get('neon');
+
         this.i18n = translator(this.props.languageId, 'users');
+        document.title = this.i18n.users_page_title;
+    }
+
+    componentDidUpdate() {
+        document.title = this.i18n.users_page_title;
     }
 
     refreshDataWithMessage(message) {
@@ -152,7 +158,8 @@ class Index extends Component {
     render() {
         const { users, languageId } = this.props;
 
-        this.i18n = translator(languageId, 'users');
+        // ensure i18n is updated when the languageId changes
+        this.i18n = translator(this.props.languageId, 'users');
 
         return (
             <Users

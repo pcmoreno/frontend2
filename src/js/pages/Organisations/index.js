@@ -81,6 +81,7 @@ class Index extends Component {
         };
 
         this.i18n = translator(this.props.languageId, ['organisations']);
+        document.title = this.i18n.organisations_page_title;
 
         // flag if we have a full screen modal locked (can't close)
         this.modalLocked = false;
@@ -210,8 +211,8 @@ class Index extends Component {
         }
     }
 
-    componentWillMount() {
-        document.title = 'Organisations';
+    componentDidUpdate() {
+        document.title = this.i18n.organisations_page_title;
     }
 
     componentWillUnmount() {

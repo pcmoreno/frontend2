@@ -45,6 +45,7 @@ export default class Index extends Component {
 
         this.i18n = translator(language, 'login');
         this.language = language;
+        document.title = this.i18n.login_page_title;
     }
 
     componentWillMount() {
@@ -78,6 +79,10 @@ export default class Index extends Component {
             this.timeout = null;
             delete this.timeout;
         }, successTimeout);
+    }
+
+    componentDidUpdate() {
+        document.title = this.i18n.login_page_title;
     }
 
     handleChange(event) {

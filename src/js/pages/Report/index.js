@@ -27,6 +27,9 @@ class Index extends Component {
             dispatch
         );
 
+        this.i18n = translator(this.props.languageId, 'report');
+        document.title = this.i18n.report_page_title;
+
         this.api = ApiFactory.get('neon');
 
         this.saveReportText = this.saveReportText.bind(this);
@@ -40,8 +43,8 @@ class Index extends Component {
         this.loadingPdf = false;
     }
 
-    componentWillMount() {
-        document.title = 'Report';
+    componentDidUpdate() {
+        document.title = this.i18n.report_page_title;
     }
 
     componentWillUnmount() {
@@ -490,6 +493,8 @@ class Index extends Component {
     render() {
         const { report, languageId } = this.props;
 
+
+        // ensure i18n is updated when the languageId changes
         this.i18n = translator(this.props.languageId, 'report');
 
         return (
