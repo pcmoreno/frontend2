@@ -5,6 +5,7 @@ export default {
     "inbox_invitation_description_text": "U bent uitgenodigd voor een assessment. Wanneer u op start klikt, gaat u naar het testprogramma. Elk onderdeel van het programma is voorzien van een instructie en tijdsindicatie. U kunt tussen de onderdelen door pauzeren.",
     "inbox_no_messages_for_participant": "Er zijn geen berichten aanwezig",
     "inbox_organisation": "Organisatie",
+    "inbox_page_title": "Inbox",
     "inbox_start": "Start",
     "invitation": "Uitnodiging",
     "start": "Start"
