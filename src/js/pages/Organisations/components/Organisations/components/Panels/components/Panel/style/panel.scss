@@ -28,25 +28,6 @@
         /* hide all panels (look inside helpers.scss for the  css that displays .panel.active) */
         display: none;
     }
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        /*
-        &.active {
-             for ie11
-            width: 100%;
-
-            @supports (display: grid) {
-                width: unset;
-            }
-        }
-        */
-    }
-
-    /*
-    &.empty {
-        display: none;
-    }
-    */
 }
 
 .itemlist {

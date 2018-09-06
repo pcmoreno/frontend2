@@ -2,10 +2,6 @@
 
 // the root component combines reducers, sets up the store and ties routing components together
 
-// unclear if and where this polyfill is required, but this seems to be the most common approach
-// we dont need full babel polyfill. To enable certain features, look at .babelrc
-// import 'babel-polyfill';
-
 import { h, render, Component } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
@@ -16,10 +12,10 @@ import NeonAuthoriser from './utils/authoriser/neon';
 
 /** @jsx h */
 
-// import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set!)
+// import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set)
 import fontawesome from '@fortawesome/fontawesome';
 
-// you need to import each individual icon (its a bug. do not combine or it'll include the whole library!)
+// you need to import each individual icon (its a bug. do not combine or it'll include the whole library)
 import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
 import faEye from '@fortawesome/fontawesome-free-solid/faEye';
 import faUser from '@fortawesome/fontawesome-free-solid/faUser';
@@ -98,7 +94,7 @@ const rootReducer = combineReducers({
 });
 
 // configure redux store with the combined reducers
-let store = createStore(rootReducer);
+const store = createStore(rootReducer);
 
 // configure the Neon API once, so we can use it in any component from now
 // this can be fetched by calling ApiFactory.get('neon')
@@ -119,7 +115,7 @@ import AuthorisedRoute from './utils/components/AuthorisedRoute';
 import Authenticated from './utils/components/Authenticated';
 import Redirect from './utils/components/Redirect';
 
-// import common css so it becomes available in all page components. also easier to have client specific css this way!
+// import common css so it becomes available in all page components and eases separation for client specific css.
 import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
 
 // Asyncroute ensures the right component' js code is loaded when user requests the route, webpack does the splitting.

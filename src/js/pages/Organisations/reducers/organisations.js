@@ -338,8 +338,8 @@ export default function organisationsReducer(state = initialState, action) {
                 tempCompetencies = [];
 
                 // todo: do we want to build list views like this in here (including all actions), i'd prefer not
-                // todo: however, we will also run intue issues with assigning back to the state when changing this later
-                // todo: but this is not data access friendly, what if I would need a competency object within a component....
+                // todo: however, we will also run into issues with assigning back to the state when changing this later
+                // todo: but this is not data access friendly, what if I would need a competency object within a component?
                 action.data.forEach(competency => {
                     tempCompetencies.push(
                         [

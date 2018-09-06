@@ -615,8 +615,6 @@ class Index extends Component {
         });
     }
 
-    // todo: refactor below methods into a combined function
-
     /**
      * Opens modal to add organisation
      * @param {Object} options - options

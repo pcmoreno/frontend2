@@ -98,6 +98,7 @@ class Index extends Component {
             if (response.errors || !response.redirectUrl) {
 
                 // todo: show an error somewhere on the page
+
                 Logger.instance.error({
                     component: Components.INBOX,
                     message: 'Could not request redirect url for ltp online',

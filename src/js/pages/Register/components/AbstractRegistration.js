@@ -192,7 +192,6 @@ export default class AbstractRegistration extends Component {
             throw new Error(RegistrationError.ALL_FIELDS_REQUIRED);
         }
 
-        // todo: do we need to set any validation like password strength/length??
         // set password error if passwords don't match
         if (password !== passwordConfirm) {
             throw new Error(RegistrationError.PASSWORD_DONT_MATCH);
