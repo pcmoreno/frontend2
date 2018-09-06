@@ -83,6 +83,7 @@ export default {
     "organisations_openness_to_change_definition": "Be able to approach matters from different and new points of view, with the aim of finding innovative insights and solutions.",
     "organisations_organisation": "Organisation",
     "organisations_organisation_sensitivity_definition": "The capability of sensing what is going on in one’s own organisation. Have understanding for the interests and feelings of others.",
+    "organisations_page_title": "Organisations",
     "organisations_participants": "Participants",
     "organisations_persona_fit_finished": "Finished",
     "organisations_phase_one_finished": "Phase 1 finished",
