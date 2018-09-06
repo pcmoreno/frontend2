@@ -348,7 +348,7 @@ export default class Listview extends Component {
 
         // todo: cant use listview as id here, there are multiple listviews on the organisation view. convert to class.
         return (
-            <table className={ style.listview } id="listview">
+            <table className={ `${style.listview} listview` }>
                 <thead>
                     <tr>
                         { tableHead }

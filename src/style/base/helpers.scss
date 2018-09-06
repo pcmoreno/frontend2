@@ -83,7 +83,7 @@ table td.organisation {
 }
 
 /* buttons dont need to float here (in fact I would remove the float in total and add it to the modal style */
-#listview .action_button {
+.listview .action_button {
     float: left;
 }
 
@@ -162,13 +162,13 @@ table td.organisation {
 }
 
 /* certain columns in the list view inside the detail panel needs to reside in smaller column than the rest */
-#listview thead tr th.select_participant_label {
+.listview thead tr th.select_participant_label {
     width: 2.5rem;
     text-align: center;
     padding: .5rem 0;
 }
 
-#listview thead tr th.competency_type {
+.listview thead tr th.competency_type {
     width: 1rem;
     text-align: center;
     padding: .5rem 1rem
@@ -202,12 +202,12 @@ table td.organisation {
 }
 
 /* alignment of checkbox seems a bit off, correction */
-#listview thead tr th.select_participant_label #checkbox {
+.listview thead tr th.select_participant_label #checkbox {
     margin-left: -1px;
 }
 
 /* the default active colour for entities in the listview component */
-#listview tr.active {
+.listview tr.active {
     background: $blue;
 
     /*  pencil on a blue background */
@@ -243,6 +243,6 @@ table td.organisation {
 }
 
 /* completely hide disabled buttons on the task overview listview */
-#tasks #listview .action_button.disabled {
+#tasks .listview .action_button.disabled {
     opacity: 0;
 }
