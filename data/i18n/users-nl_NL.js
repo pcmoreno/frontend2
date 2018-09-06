@@ -18,6 +18,7 @@ export default {
     "users_infix": "Tussenvoegsel",
     "users_name": "Naam",
     "users_optional": "Optioneel",
+    "users_page_title": "Gebruikers",
     "users_role": "Rol",
     "users_role_application_managers": "Applicatiebeheerder",
     "users_role_assessment_team": "Assessment team",

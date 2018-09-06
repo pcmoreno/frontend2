@@ -18,6 +18,7 @@ export default {
     "users_infix": "Infix",
     "users_name": "Name",
     "users_optional": "Optional",
+    "users_page_title": "Users",
     "users_role": "Role",
     "users_role_application_managers": "Application Manager",
     "users_role_assessment_team": "Assessment team",
