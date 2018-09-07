@@ -9,17 +9,6 @@
         padding: 0 .25rem;
         text-align: left;
         font-size: 1.6rem;
-
-        .user_image_placeholder {
-            vertical-align: middle;
-            height: 40px;
-            width: 40px;
-            margin-right: .2rem;
-
-            .orange {
-                fill: $orange;
-            }
-        }
     }
 
     .user_name {
@@ -72,9 +61,8 @@
     }
 }
 
-/* todo: figure out how this can be linted okay, see: https://github.com/stylelint/stylelint/issues/1513 */
 @keyframes spinner {
-    0 {
+    0% {
         transform: rotate(0deg);
     }
 

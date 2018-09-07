@@ -22,6 +22,9 @@ class Index extends Component {
             Object.assign({}, participantsActions, alertActions),
             dispatch
         );
+
+        this.i18n = translator(this.props.languageId, 'participants');
+        document.title = this.i18n.participants_page_title;
     }
 
     componentDidMount() {
@@ -31,8 +34,8 @@ class Index extends Component {
         this.getParticipants();
     }
 
-    componentWillMount() {
-        document.title = 'Participants';
+    componentDidUpdate() {
+        document.title = this.i18n.participants_page_title;
     }
 
     getParticipants() {
@@ -75,10 +78,14 @@ class Index extends Component {
     }
 
     render() {
+
+        // ensure i18n is updated when the languageId changes
+        this.i18n = translator(this.props.languageId, 'participants');
+
         return (
             <Participants
                 participants = { this.props.participants }
-                i18n = { translator(this.props.languageId, 'participants') }
+                i18n = { this.i18n }
             />
         );
     }

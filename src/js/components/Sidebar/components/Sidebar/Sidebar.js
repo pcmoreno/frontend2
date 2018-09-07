@@ -40,7 +40,7 @@ class Sidebar extends Component {
 
     componentDidMount() {
         window.addEventListener('resize', this.updateDimensions);
-        document.querySelector('#sidebar_indicator svg').style.left = '10000px';
+        document.querySelector('#sidebar_indicator svg').style.display = 'none';
         this.updateDimensions();
     }
 
@@ -59,6 +59,9 @@ class Sidebar extends Component {
 
             // move indicator underneath the active tab
             document.querySelector('#sidebar_indicator svg').style.left = (activeItemMiddle - sideBarBox.left - 20) + 'px';
+
+            // show indicator
+            document.querySelector('#sidebar_indicator svg').style.display = 'inline-block';
         }
     }
 

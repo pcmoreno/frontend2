@@ -13,7 +13,7 @@
     margin-left: 10px;
 
     /* header, path, indicator and the margins set on the panels section */
-    height: calc(100vh - 120px);
+    height: calc(100vh - 110px);
 
     @supports (display: grid) {
         float: none;
@@ -28,25 +28,6 @@
         /* hide all panels (look inside helpers.scss for the  css that displays .panel.active) */
         display: none;
     }
-
-    @media screen and (max-width: $grid-breakpoints-md) {
-        /*
-        &.active {
-             for ie11
-            width: 100%;
-
-            @supports (display: grid) {
-                width: unset;
-            }
-        }
-        */
-    }
-
-    /*
-    &.empty {
-        display: none;
-    }
-    */
 }
 
 .itemlist {

@@ -30,8 +30,6 @@ export default class IntellectualCapabilities extends Component {
             value: `${i18n.report_intellectual_capabilities_default_text_paragraph_2} ${testedLevelSection}`
         };
 
-        /* todo: tested level is not properly used/injected into the component */
-
         return (
             <ReportSection>
                 <ReportColumn>

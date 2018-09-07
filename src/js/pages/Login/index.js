@@ -45,6 +45,7 @@ export default class Index extends Component {
 
         this.i18n = translator(language, 'login');
         this.language = language;
+        document.title = this.i18n.login_page_title;
     }
 
     componentWillMount() {
@@ -66,6 +67,7 @@ export default class Index extends Component {
             this.setState(this.localState);
         }
 
+        // todo: this is messing with already filled in login data, it will clear the input fields in the form. fix!
         this.timeout = window.setTimeout(() => {
 
             // hide message
@@ -77,6 +79,10 @@ export default class Index extends Component {
             this.timeout = null;
             delete this.timeout;
         }, successTimeout);
+    }
+
+    componentDidUpdate() {
+        document.title = this.i18n.login_page_title;
     }
 
     handleChange(event) {

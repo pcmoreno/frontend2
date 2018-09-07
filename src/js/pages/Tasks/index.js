@@ -29,6 +29,9 @@ class Index extends Component {
         this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
 
         this.loadingPdf = false;
+
+        this.i18n = translator(this.props.languageId, ['tasks']);
+        document.title = this.i18n.tasks_page_title;
     }
 
     componentDidMount() {
@@ -38,8 +41,8 @@ class Index extends Component {
         this.getTasks();
     }
 
-    componentWillMount() {
-        document.title = 'Tasks';
+    componentDidUpdate() {
+        document.title = this.i18n.tasks_page_title;
     }
 
     downloadIntermediateReport(event, participantSessionSlug) {
@@ -134,7 +137,9 @@ class Index extends Component {
     }
 
     render() {
-        this.i18n = translator(this.props.languageId, 'tasks');
+
+        // ensure i18n is updated when the languageId changes
+        this.i18n = translator(this.props.languageId, ['tasks']);
 
         return (
             <Tasks

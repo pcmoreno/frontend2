@@ -29,7 +29,9 @@ class Index extends Component {
         this.startQuestionnaire = this.startQuestionnaire.bind(this);
 
         this.api = ApiFactory.get('neon');
+
         this.i18n = translator(this.props.languageId, 'inbox');
+        document.title = this.i18n.inbox_page_title;
     }
 
     componentDidMount() {
@@ -43,8 +45,8 @@ class Index extends Component {
         }
     }
 
-    componentWillMount() {
-        document.title = 'Inbox';
+    componentDidUpdate() {
+        document.title = this.i18n.inbox_page_title;
     }
 
     fetchMessages() {
@@ -96,6 +98,7 @@ class Index extends Component {
             if (response.errors || !response.redirectUrl) {
 
                 // todo: show an error somewhere on the page
+
                 Logger.instance.error({
                     component: Components.INBOX,
                     message: 'Could not request redirect url for ltp online',
@@ -113,6 +116,8 @@ class Index extends Component {
     }
 
     render() {
+
+        // ensure i18n is updated when the languageId changes
         this.i18n = translator(this.props.languageId, 'inbox');
 
         return (

@@ -54,7 +54,6 @@ class Organisations extends Component {
     }
 
     /* generic method to close the newly written modal component. this is currently only used for edit competencies */
-    // todo: start with replacing all closeModal**** methods with this one (actually.. not sure if we should do this)
     closeModal(id) {
         document.querySelector(`#${id}`).classList.add('hidden');
     }

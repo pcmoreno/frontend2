@@ -22,7 +22,7 @@ export default class ResetPasswordForm extends Component {
                             type="password"
                             id="password"
                             name="password"
-                            autocomplete="off"
+                            autocomplete="new-password"
                             onChange={ onChangeInput }
                             required
                         />
@@ -32,7 +32,7 @@ export default class ResetPasswordForm extends Component {
                             type="password"
                             id="passwordConfirm"
                             name="passwordConfirm"
-                            autocomplete="off"
+                            autocomplete="new-password"
                             onChange={ onChangeInput }
                             required
                         />

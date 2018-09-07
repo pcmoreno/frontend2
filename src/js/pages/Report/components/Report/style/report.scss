@@ -4,7 +4,7 @@
     /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
     height: calc(100vh - $application-header-height - 2rem);
 
-    /* todo: this is because we have child widgets that should be full width. Maybe we should reconsider later */
+    /* todo: this is because there are child widgets that should be full width. Maybe we should reconsider later */
     > section > section {
         padding: 1rem 3.75rem;
 
