@@ -26,10 +26,7 @@ export default class Introduction extends Component {
 
         // set default text if there was no text on the report ( no slug )
         if (!texts.goal.slug) {
-
-console.log(i18n[`report_about_this_report_default_text_${product.translationKey}`]);
-
-            texts.goal.value = `<p>${`${i18n.report_about_this_report_default_text}`}</p>`;
+            texts.goal.value = `<p>${i18n[`report_about_this_report_default_text_${product.translationKey}`]}</p>`;
         }
 
         // set default text if there was no text on the report ( no slug )
@@ -42,11 +39,9 @@ console.log(i18n[`report_about_this_report_default_text_${product.translationKey
             texts.parts.value = `<p>${i18n.report_components_default_text}</p>`;
         }
 
-console.log(i18n[`report_structure_of_the_report_default_text_${product.translationKey}`]);
-
         // set default text if there was no text on the report ( no slug )
         if (!texts.structure.slug) {
-            texts.structure.value = `<p>${`${i18n.report_structure_of_the_report_default_text}`}</p>`;
+            texts.structure.value = `<p>${i18n[`report_structure_of_the_report_default_text_${product.translationKey}`]}</p>`;
         }
 
         return (
