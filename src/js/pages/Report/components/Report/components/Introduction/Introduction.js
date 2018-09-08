@@ -9,7 +9,7 @@ import TextBlock from '../../components/TextBlock/TextBlock';
 export default class Introduction extends Component {
 
     render() {
-        const { texts, saveReportText, i18n } = this.props;
+        const { texts, saveReportText, i18n, product } = this.props;
 
         if (!texts || !texts.goal || !texts.validity || !texts.parts || !texts.structure) {
             return null;
@@ -26,7 +26,10 @@ export default class Introduction extends Component {
 
         // set default text if there was no text on the report ( no slug )
         if (!texts.goal.slug) {
-            texts.goal.value = `<p>${i18n.report_about_this_report_default_text}</p>`;
+
+console.log(i18n[`report_about_this_report_default_text_${product.translationKey}`]);
+
+            texts.goal.value = `<p>${`${i18n.report_about_this_report_default_text}`}</p>`;
         }
 
         // set default text if there was no text on the report ( no slug )
@@ -39,9 +42,11 @@ export default class Introduction extends Component {
             texts.parts.value = `<p>${i18n.report_components_default_text}</p>`;
         }
 
+console.log(i18n[`report_structure_of_the_report_default_text_${product.translationKey}`]);
+
         // set default text if there was no text on the report ( no slug )
         if (!texts.structure.slug) {
-            texts.structure.value = `<p>${i18n.report_structure_of_the_report_default_text}</p>`;
+            texts.structure.value = `<p>${`${i18n.report_structure_of_the_report_default_text}`}</p>`;
         }
 
         return (

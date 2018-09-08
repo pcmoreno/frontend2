@@ -8,7 +8,7 @@ import TextBlock from '../../components/TextBlock/TextBlock';
 export default class ResearchQuestion extends Component {
 
     render() {
-        const { texts, saveReportText, i18n } = this.props;
+        const { texts, saveReportText, i18n, product } = this.props;
 
         if (!texts || !texts.researchQuestion) {
             return null;
@@ -22,7 +22,11 @@ export default class ResearchQuestion extends Component {
 
         // set default text if there was no text on the report ( no slug )
         if (!texts.researchQuestion.slug) {
-            texts.researchQuestion.value = `<p>${i18n.report_research_question_default_text}</p>`;
+
+console.log(i18n[`report_research_question_default_text_${product.translationKey}`]);
+
+
+            texts.researchQuestion.value = `<p>${`${i18n.report_research_question_default_text}`}</p>`;
         }
 
         return (

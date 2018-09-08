@@ -159,6 +159,7 @@ export default class Report extends Component {
                         }}
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
+                        product={ report.product }
                     />
 
                     <ResearchQuestion
@@ -167,6 +168,7 @@ export default class Report extends Component {
                         }}
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
+                        product={ report.product }
                     />
                     {/* Selection advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
