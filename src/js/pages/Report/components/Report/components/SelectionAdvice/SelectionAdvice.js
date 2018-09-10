@@ -26,7 +26,7 @@ export default class SelectionAdvice extends Component {
         if (texts.selectionAdviceOutcome && texts.selectionAdviceOutcome.value) {
             selectionAdvice = texts.selectionAdviceOutcome.value.toLowerCase();
         } else {
-            selectionAdvice = SelectionAdviceValues.POSITIVE;
+            selectionAdvice = SelectionAdviceValues.TENTATIVE;
         }
 
         switch (selectionAdvice) {
