@@ -82,7 +82,7 @@ const AppConfig = {
                     createCompetencyScore: '/v1/section/competencyScoredInReport',
                     updateCompetencyScore: '/v1/section/competencyScoredInReport/slug/{slug}',
                     generateReport: '/v1/generate-pdf-report/{slug}',
-                    reportGenerationStatus: '/v1/get-report-data/{slug}',
+                    reportGenerationStatus: '/v1/get-report-generation-status/{slug}',
                     triggerRetest: '/v1/get-retest-results/{slug}'
                 },
                 register: {
