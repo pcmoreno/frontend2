@@ -384,7 +384,7 @@ class Index extends Component {
                 {
                     urlParams: {
                         identifiers: {
-                            slug: this.participantSessionId
+                            slug: this.props.report.slug
                         }
                     }
                 }
