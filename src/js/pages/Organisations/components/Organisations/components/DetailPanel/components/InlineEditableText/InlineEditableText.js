@@ -90,7 +90,6 @@ export default class InlineEditableText extends Component {
                         this.keyPressedWhileAmending(event);
                     } }
                 />
-                <span><FontAwesomeIcon icon={ 'pencil-alt' } /></span>
             </div>
         );
     }
