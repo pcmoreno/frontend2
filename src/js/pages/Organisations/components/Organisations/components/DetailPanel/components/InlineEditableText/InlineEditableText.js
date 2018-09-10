@@ -3,7 +3,6 @@ import ApiFactory from '../../../../../../../../utils/api/factory';
 import KeyCodes from '../../../../../../../../constants/KeyCodes';
 import OrganisationsComponents from '../../../../../../constants/OrganisationsComponents';
 import OrganisationsActions from '../../../../../../constants/OrganisationsActions';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/inlineeditabletext.scss';
 
 /** @jsx h */
@@ -90,7 +89,6 @@ export default class InlineEditableText extends Component {
                         this.keyPressedWhileAmending(event);
                     } }
                 />
-                <span><FontAwesomeIcon icon={ 'pencil-alt' } /></span>
             </div>
         );
     }
