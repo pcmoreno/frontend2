@@ -195,7 +195,8 @@ const AppConfig = {
                     UserRoles.ROLE_CLIENT_CENTER
                 ],
                 retestAction: [
-                    UserRoles.ROLE_APPLICATION_MANAGERS
+                    UserRoles.ROLE_APPLICATION_MANAGERS,
+                    UserRoles.ROLE_CLIENT_CENTER
                 ]
             },
             users: {
