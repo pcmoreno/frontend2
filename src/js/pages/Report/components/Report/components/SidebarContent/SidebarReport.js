@@ -154,7 +154,7 @@ export default class SidebarReport extends Component {
         let competencyScoreRows = null;
 
         if (reportTexts.selectionAdviceOutcome) {
-            selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdviceValues.POSITIVE;
+            selectionAdvice = reportTexts.selectionAdviceOutcome.value || SelectionAdviceValues.TENTATIVE;
 
             Object.keys(SelectionAdviceValues).forEach((key, i) => {
                 selectionAdviceOptions[i] = SelectionAdviceValues[key];
