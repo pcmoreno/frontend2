@@ -147,7 +147,7 @@ export default class SidebarReport extends Component {
     }
 
     render() {
-        const { i18n, i18nOnlineReport, reportTexts, staticScores, competencies } = this.props;
+        const { i18n, i18nOnlineReport, reportTexts, staticScores, competencies, retestButtonEnabled } = this.props;
         let selectionAdviceOptions = [];
         let selectionAdvice = null;
         let staticScoreRows = null;
@@ -236,6 +236,7 @@ export default class SidebarReport extends Component {
                     <RetestTrigger
                         i18n={ this.props.i18n }
                         triggerRetest={ this.props.triggerRetest }
+                        retestButtonEnabled={ retestButtonEnabled }
                     />
                 </Authorised>
                 <DownloadReport

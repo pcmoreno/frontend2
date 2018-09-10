@@ -21,7 +21,11 @@ export default class RetestTrigger extends Component {
     }
 
     render() {
-        const { i18n } = this.props;
+        const { i18n, retestButtonEnabled } = this.props;
+
+        if (!retestButtonEnabled) {
+            return null;
+        }
 
         return (
             <section className={ style.retesttrigger }>

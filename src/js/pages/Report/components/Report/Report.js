@@ -112,6 +112,7 @@ export default class Report extends Component {
                     i18nOnlineReport={ i18nOnlineReport }
                     reportTexts={ report.texts }
                     staticScores={ staticScores }
+                    retestButtonEnabled={ Object.keys(report.scores).length > 0 }
                     competencies={ report.competencies }
                     saveReportText={ saveReportText }
                     saveCompetencyScore={ saveCompetencyScore }
