@@ -51,10 +51,9 @@ export default class Item extends Component {
                 <ul className={ style.listitem }>
                     <li><FontAwesomeIcon icon={ fontAwesomeIcon } /></li>
                     <li className={ style.listitem_properties }>
-                        <div>
-                            <span className={ style.title }>{ entity.name }</span>
-                            <span className={ style.subtitle }>{ entity.productName }</span>
-                        </div>
+                        <span className={ style.title }>{ entity.name }</span>
+                        <span className={ style.subtitle }>{ entity.productName }</span>
+
                     </li>
                     <li>
                         <span

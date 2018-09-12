@@ -36,32 +36,30 @@
     margin: 0 0 0 45px;
     height: 50px;
     position: absolute;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     width: 75%;
 
-    > div {
+    .title {
+        font-size: 1rem;
+        text-overflow: ellipsis;
+
+        /* overflow should be hidden to allow ellipsis (but it will break finding text in firefox!) */
+        overflow: hidden;
+
+        /* therefore this uncommon property is used for firefox which does allow the text to be indexed */
+
+        /* stylelint-disable */
+        overflow: -moz-hidden-unscrollable;
+        /* stylelint-enable */
+    }
+
+    .subtitle {
+        color: $medium-brown;
+        font-size: .7rem;
+        font-weight: normal;
+        display: block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
-        .title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 1rem;
-        }
-
-        .subtitle {
-            color: $medium-brown;
-            font-size: .7rem;
-            font-weight: normal;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
     }
 
     @media screen and (max-width: $grid-breakpoints-lg) {
