@@ -74,7 +74,6 @@ export default class Item extends Component {
                         </span>
                     </li>
                 </ul>
-                <div className={ `${style.gradient} listitem__overlay` } />
             </li>
         );
     }
