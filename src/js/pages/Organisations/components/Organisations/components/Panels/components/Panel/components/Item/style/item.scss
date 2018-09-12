@@ -21,6 +21,10 @@
             height: 50px;
             float: right;
             color: $beige-darken;
+            z-index: 2;
+            position: absolute;
+            right: .5rem;
+            top: .5rem;
 
             @media screen and (max-width: $grid-breakpoints-lg) {
                 display: inline-block;
@@ -36,35 +40,47 @@
     margin: 0 0 0 45px;
     height: 50px;
     position: absolute;
-    white-space: nowrap;
+    /*white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow: hidden;*/
     width: 75%;
 
     > div {
         white-space: nowrap;
-        overflow: hidden;
         text-overflow: ellipsis;
 
-        .title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 1rem;
-        }
+        /* overflow should be hidden to allow ellipsis but it will break finding text in firefox */
+        overflow: hidden;
+    }
 
-        .subtitle {
-            color: $medium-brown;
-            font-size: .7rem;
-            font-weight: normal;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .title {
+        /*white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;*/
+        font-size: 1rem;
+    }
+
+    .subtitle {
+        color: $medium-brown;
+        font-size: .7rem;
+        font-weight: normal;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     @media screen and (max-width: $grid-breakpoints-lg) {
         width: 70%;
     }
+}
+
+.gradient {
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%,rgba(255,255,255,1) 99%);
+    width: 100px;
+    height: 50px;
+    right: 0;
+    float: right;
+    position: absolute;
+    z-index: 1;
 }
