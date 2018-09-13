@@ -246,3 +246,8 @@ table td.organisation {
 #tasks .listview .action_button.disabled {
     opacity: 0;
 }
+
+/* when the show-all-tasks widget is hidden, use the full height of the window */
+#tasks.fullheight section {
+    height: calc(100vh - $application-header-height - 2rem);
+}
