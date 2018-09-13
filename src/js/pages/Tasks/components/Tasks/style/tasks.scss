@@ -1,7 +1,8 @@
 .listview_container {
     overflow-y: scroll;
 
-    /* to account for the padding inside this element, subtract 2rem for padding top and bottom */
+    /* to account for the padding inside this element, subtract 2rem for padding top and bottom, then subtraact 3.5 for
+     the load-all-tasks widget (this widget removed when user clicked on it by a helper in base/) */
     height: calc(100vh - $application-header-height - 2rem - 3.5rem);
     padding: 1rem;
 }

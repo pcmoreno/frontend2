@@ -158,7 +158,7 @@ class Index extends Component {
                 tasks = { this.props.tasks }
                 i18n = { this.i18n }
                 showAllTasks = { this.showAllTasks }
-                showAllTasksFlag={ this.localState.showAllTasks }
+                showAllTasksFlag = { this.localState.showAllTasks }
             />
         );
     }
