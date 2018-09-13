@@ -9,7 +9,7 @@ export default class Tasks extends Component {
     constructor(props) {
         super(props);
 
-        this.showAllTasks = this.showAllTasksHandler.bind(this);
+        this.showAllTasksHandler = this.showAllTasksHandler.bind(this);
     }
 
     showAllTasksHandler() {
