@@ -44,6 +44,7 @@ export default class Panel extends Component {
                     fetchEntities={fetchEntities}
                     fetchDetailPanelData={fetchDetailPanelData}
                     isPanelItemActive={isPanelItemActive}
+                    i18n={i18n}
                 />);
             });
         }
