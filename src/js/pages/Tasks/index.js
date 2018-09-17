@@ -27,11 +27,16 @@ class Index extends Component {
         );
 
         this.downloadIntermediateReport = this.downloadIntermediateReport.bind(this);
+        this.showAllTasks = this.showAllTasks.bind(this);
 
         this.loadingPdf = false;
 
         this.i18n = translator(this.props.languageId, ['tasks']);
         document.title = this.i18n.tasks_page_title;
+
+        this.localState = {
+            showAllTasks: false
+        };
     }
 
     componentDidMount() {
@@ -123,7 +128,7 @@ class Index extends Component {
                             ProductSlugs.SELECTION_DEVELOPMENT
                         ].join(','),
                         fields: 'uuid,participantSessionAppointmentDate,participantSessionSlug,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
-                        limit: 800
+                        limit: this.localState.showAllTasks ? '' : 800
                     }
                 }
             }
@@ -136,6 +141,13 @@ class Index extends Component {
         });
     }
 
+    showAllTasks() {
+        this.localState.showAllTasks = true;
+        this.setState(this.localState);
+
+        this.getTasks();
+    }
+
     render() {
 
         // ensure i18n is updated when the languageId changes
@@ -145,6 +157,8 @@ class Index extends Component {
             <Tasks
                 tasks = { this.props.tasks }
                 i18n = { this.i18n }
+                showAllTasks = { this.showAllTasks }
+                showAllTasksFlag = { this.localState.showAllTasks }
             />
         );
     }
