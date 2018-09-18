@@ -33,7 +33,6 @@ export default function participantsReducer(state = initialState, action) {
                     const acceptedStatus = [
                         ParticipantStatus.ADDED,
                         ParticipantStatus.INVITED,
-                        ParticipantStatus.STARTED,
                         ParticipantStatus.HNA_FINISHED,
                         ParticipantStatus.PERSONA_FIT_FINISHED,
                         ParticipantStatus.INVITATION_ACCEPTED
