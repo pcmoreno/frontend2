@@ -11,6 +11,7 @@ export default {
     "form_account_last_name": "Achternaam",
     "form_account_last_name_placeholder": "Vul de achternaam in van de gebruiker",
     "form_account_role_label": "Rol",
+    "form_cancel": "Annuleren",
     "form_close": "Sluiten",
     "form_comments": "Opmerkingen",
     "form_comments_placeholder": "Voer uw opmerkingen in",
