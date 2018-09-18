@@ -15,7 +15,6 @@ import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
-import ParticipantStatus from '../../constants/ParticipantStatus';
 import OrganisationsError from './constants/OrganisationsError';
 import CompetencyTab from './constants/CompetencyTab';
 
@@ -741,55 +740,15 @@ class Index extends Component {
         this.localState.selectedParticipantSlug = participantSlug;
         this.setState(this.localState);
 
-        switch (participantStatus) {
-            case ParticipantStatus.ADDED:
-            case ParticipantStatus.INVITED:
-            case ParticipantStatus.TERMS_AND_CONDITIONS_ACCEPTED:
-
-                // all fields
-                this.getFormFields('amendParticipant', {
-                    section: `participantSession/${participantId}`,
-                    urlParams: {
-                        parameters: {
-                            fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate'
-                        }
-                    }
-                });
-                break;
-
-            case ParticipantStatus.INVITATION_ACCEPTED:
-
-                // all previous fields except email
-                this.getFormFields('amendParticipant', {
-                    section: `participantSession/${participantId}`,
-                    urlParams: {
-                        parameters: {
-                            fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
-                        }
-                    }
-                });
-                break;
-
-            case ParticipantStatus.REDIRECTED_TO_ONLINE:
-            case ParticipantStatus.STARTED:
-            case ParticipantStatus.HNA_FINISHED:
-            case ParticipantStatus.PERSONA_FIT_FINISHED:
-            case ParticipantStatus.PHASE_ONE_FINISHED:
-
-                // all previous fields education level
-                this.getFormFields('amendParticipant', {
-                    section: `participantSession/${participantId}`,
-                    urlParams: {
-                        parameters: {
-                            fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,accountFirstName,accountInfix,accountLastName,participantSessionAppointmentDate'
-                        }
-                    }
-                });
-                break;
-
-            default:
-                break;
-        }
+        // all fields
+        this.getFormFields('amendParticipant', {
+            section: `participantSession/${participantId}`,
+            urlParams: {
+                parameters: {
+                    fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate'
+                }
+            }
+        });
 
         document.querySelector('#modal_amend_participant').classList.remove('hidden');
     }
