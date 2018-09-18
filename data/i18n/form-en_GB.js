@@ -11,7 +11,7 @@ export default {
     "form_account_last_name": "Last name",
     "form_account_last_name_placeholder": "Enter the last name of the user",
     "form_account_role_label": "Role",
-    "form_close": "Cancel",
+    "form_close": "Close",
     "form_comments": "Comments",
     "form_comments_placeholder": "Please enter a comment",
     "form_consultant": "Consultant",
