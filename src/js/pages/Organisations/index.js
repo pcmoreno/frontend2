@@ -15,7 +15,6 @@ import Logger from '../../utils/logger';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
-import ParticipantStatus from '../../constants/ParticipantStatus';
 import OrganisationsError from './constants/OrganisationsError';
 import CompetencyTab from './constants/CompetencyTab';
 
