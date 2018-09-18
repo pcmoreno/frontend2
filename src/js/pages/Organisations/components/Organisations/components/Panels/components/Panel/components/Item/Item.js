@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/item.scss';
+
+/** @jsx h */
 
 export default class Item extends Component {
     constructor(props) {
@@ -16,7 +15,8 @@ export default class Item extends Component {
             panelId,
             isPanelItemActive,
             fetchEntities,
-            fetchDetailPanelData
+            fetchDetailPanelData,
+            i18n
         } = this.props;
 
         let fontAwesomeIcon;
@@ -52,8 +52,7 @@ export default class Item extends Component {
                     <li><FontAwesomeIcon icon={ fontAwesomeIcon } /></li>
                     <li className={ style.listitem_properties }>
                         <span className={ style.title }>{ entity.name }</span>
-                        <span className={ style.subtitle }>{ entity.productName }</span>
-
+                        <span className={ style.subtitle }>{ i18n[entity.translationKey] ? i18n[entity.translationKey] : entity.productName }</span>
                     </li>
                     <li>
                         <span

@@ -180,12 +180,15 @@ export default function organisationsReducer(state = initialState, action) {
                 if (action.entities.projects) {
                     action.entities.projects.forEach(entity => {
 
+                        const translationKey = entity.product ? entity.product.translationKey : null;
+
                         tempEntities.push({
                             name: entity.projectName,
                             id: entity.id,
                             type: 'project',
                             uuid: entity.uuid,
-                            productName: entity.product ? entity.product.productName : null
+                            productName: entity.product ? entity.product.productName : null,
+                            translationKey: translationKey ? translationKey : null
                         });
                     });
                 }

@@ -80,7 +80,7 @@ class Index extends Component {
             project: this.openModalToAddProject
         };
 
-        this.i18n = translator(this.props.languageId, ['organisations']);
+        this.i18n = translator(this.props.languageId, ['organisations', 'competencies', 'form', 'product']);
         document.title = this.i18n.organisations_page_title;
 
         // flag if we have a full screen modal locked (can't close)
@@ -427,7 +427,7 @@ class Index extends Component {
             params = {
                 urlParams: {
                     parameters: {
-                        fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName',
+                        fields: 'id,uuid,organisationName,organisationType,childOrganisations,projects,projectName,product,productName,translationKey',
                         limit: 10000,
                         depth: 5 // depth control: otherwise we will get redundant product projects: projects[0].product.projects
                     },
@@ -1149,7 +1149,7 @@ class Index extends Component {
         const { panels, detailPanelData, pathNodes, formOpenByPanelId } = this.props;
 
         // ensure i18n is updated when the languageId changes
-        this.i18n = translator(this.props.languageId, ['organisations', 'competencies', 'form']);
+        this.i18n = translator(this.props.languageId, ['organisations', 'competencies', 'form', 'product']);
 
         return (
             <Organisations
