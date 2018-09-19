@@ -5,21 +5,15 @@
 }
 
 .panel {
-    /* ie11 */
-    width: 30%;
-    float: left;
     background: $white;
     border-radius: $border-radius-regular;
-    margin-left: 10px;
 
     /* header, path, indicator and the margins set on the panels section */
     height: calc(100vh - 110px);
 
     @supports (display: grid) {
         float: none;
-        width: unset;
         overflow-y: hidden;
-        margin-left: unset;
     }
 
     @media screen and (max-width: $grid-breakpoints-lg) {

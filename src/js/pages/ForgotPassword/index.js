@@ -1,8 +1,5 @@
 import { h, Component } from 'preact';
 import ApiFactory from '../../utils/api/factory';
-
-/** @jsx h */
-
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
@@ -10,6 +7,8 @@ import AppConfig from '../../App.config';
 import Logger from '../../utils/logger';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Components from '../../constants/Components';
+
+/** @jsx h */
 
 export default class Index extends Component {
     constructor(props) {

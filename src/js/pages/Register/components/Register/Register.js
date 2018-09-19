@@ -47,7 +47,7 @@ export default class Register extends Component {
                                         type="text"
                                         id="username"
                                         name="username"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         placeholder={ i18n.register_email_placeholder }
                                         onChange={onChange}
                                         value={ emailInput }
@@ -61,7 +61,7 @@ export default class Register extends Component {
                                         type="password"
                                         id="password"
                                         name="password"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         placeholder={ i18n.register_new_password_placeholder }
                                         onChange={onChange}
                                         required
@@ -74,7 +74,7 @@ export default class Register extends Component {
                                         type="password"
                                         id="passwordConfirm"
                                         name="passwordConfirm"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         placeholder={ i18n.register_confirm_password_placeholder }
                                         onChange={onChange}
                                         required

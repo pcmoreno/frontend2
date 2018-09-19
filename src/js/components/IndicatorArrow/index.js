@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import IndicatorArrow from './components/IndicatorArrow/IndicatorArrow';
 
 /** @jsx h */
 
-import IndicatorArrow from './components/IndicatorArrow/IndicatorArrow';
-
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <IndicatorArrow />

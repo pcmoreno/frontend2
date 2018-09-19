@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/alert.scss';
 
 /** @jsx h */
 
-import style from './style/alert.scss';
-
 class Alert extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if (this.props.alerts && this.props.alerts.length > 0) {
 

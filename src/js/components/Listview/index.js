@@ -1,15 +1,10 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { connect } from 'preact-redux';
 import Listview from './components/Listview/Listview';
 
-class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
+/** @jsx h */
 
+class Index extends Component {
     render() {
         const {
             entities,

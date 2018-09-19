@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/panelheader.scss';
+import EntityType from '../../../../../../../../../../constants/EntityType.js';
+
+/** @jsx h */
 
 export default class PanelHeader extends Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export default class PanelHeader extends Component {
                     parentType: null,
                     addable: [
                         {
-                            type: 'organisation',
+                            type: EntityType.ORGANISATION,
                             icon: null,
                             text: this.props.i18n.organisations_organisation
                         }
@@ -41,15 +41,15 @@ export default class PanelHeader extends Component {
                 },
                 {
                     panelIndex: null,
-                    parentType: 'organisation',
+                    parentType: EntityType.ORGANISATION,
                     addable: [
                         {
-                            type: 'project',
+                            type: EntityType.PROJECT,
                             icon: 'clipboard-list',
                             text: this.props.i18n.organisations_project
                         },
                         {
-                            type: 'jobFunction',
+                            type: EntityType.JOB_FUNCTION,
                             icon: 'suitcase',
                             text: this.props.i18n.organisations_job_function
                         }
@@ -57,10 +57,10 @@ export default class PanelHeader extends Component {
                 },
                 {
                     panelIndex: null,
-                    parentType: 'jobFunction',
+                    parentType: EntityType.JOB_FUNCTION,
                     addable: [
                         {
-                            type: 'project',
+                            type: EntityType.PROJECT,
                             icon: 'clipboard-list',
                             text: this.props.i18n.organisations_project
                         }
@@ -130,9 +130,14 @@ export default class PanelHeader extends Component {
             addConfig.addable.forEach(addOption => {
                 addDropdown.push(
                     <li>
-                        <div tabIndex='0' role='button' onClick={ () => {
-                            addMethods[addOption.type]({ panelId });
-                        }} className={ style.actionItem }>
+                        <div
+                            tabIndex="0"
+                            role="button"
+                            onClick={ () => {
+                                addMethods[addOption.type]({ panelId });
+                            }}
+                            className={ style.actionItem }
+                        >
                             <div className={ style.icon }>
                                 <FontAwesomeIcon icon={ addOption.icon } />
                             </div>
@@ -148,7 +153,7 @@ export default class PanelHeader extends Component {
                 <div className={ style.addContainer }>
                     {
                         showAddButton &&
-                        <button onClick={ this.showAddInput.bind(this) }>{i18n.organisations_add}</button>
+                        <button onClick={ this.showAddInput.bind(this) }>{ i18n.organisations_add }</button>
                     }
                     <ul className={ `${style.actionList} ${this.localState.showAddDropDown ? '' : 'hidden'}` }>
                         { addDropdown }

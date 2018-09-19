@@ -1,15 +1,10 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/usermenu.scss';
 
-export default class UserMenu extends Component {
-    constructor() {
-        super();
-    }
+/** @jsx h */
 
+export default class UserMenu extends Component {
     render() {
         const { user } = this.props;
 

@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import style from './style/login.scss';
 import LoginForm from '../../../../components/LoginForm/index';
+
+/** @jsx h */
 
 export default class Login extends Component {
 

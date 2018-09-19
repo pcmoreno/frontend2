@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
 import Utils from '../../../../utils/utils';
 import ListItemTypes from '../../constants/ListItemTypes';
 import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
+
+/** @jsx h */
 
 /** List view Component
  *

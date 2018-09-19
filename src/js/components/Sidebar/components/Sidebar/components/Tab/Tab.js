@@ -1,15 +1,10 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/tab.scss';
 
-export default class Tab extends Component {
-    constructor() {
-        super();
-    }
+/** @jsx h */
 
+export default class Tab extends Component {
     switchTab(tabId) {
 
         // remove 'active' class from active tab

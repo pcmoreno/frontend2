@@ -149,7 +149,6 @@ export default class EditCustomCompetency extends Component {
                     <button
                         className="action_button action_button__secondary"
                         type="button"
-                        value="Close"
                         onClick={ () => {
                             this.clearFormFields();
                             this.props.closeModalToEditCompetencies();
@@ -158,7 +157,6 @@ export default class EditCustomCompetency extends Component {
                     <button
                         className="action_button"
                         type="button"
-                        value="Submit"
                         onClick={ event => {
                             this.onSubmit(event);
                         } }

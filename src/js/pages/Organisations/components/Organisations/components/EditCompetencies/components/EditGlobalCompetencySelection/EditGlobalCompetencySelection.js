@@ -41,7 +41,6 @@ export default class EditGlobalCompetencySelection extends Component {
                     <button
                         className="action_button action_button__secondary"
                         type="button"
-                        value="Close"
                         onClick={ () => {
                             closeModalToEditCompetencies();
                         } }
@@ -49,10 +48,10 @@ export default class EditGlobalCompetencySelection extends Component {
                     <button
                         className="action_button"
                         type="button"
-                        value="Submit"
                         onClick={ () => {
                             updateCompetencySelection(projectSlug);
-                        } }>{ i18n.organisations_select }</button>
+                        } }
+                    >{ i18n.organisations_select }</button>
                 </footer>
             </div>
         );

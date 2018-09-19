@@ -1,14 +1,13 @@
 import { h, Component, render } from 'preact';
 import ApiFactory from '../../utils/api/factory';
-
-/** @jsx h */
-
 import Login from './components/Login/Login';
 import Redirect from '../../utils/components/Redirect';
 import RedirectHelper from '../../utils/redirectHelper';
 import translator from '../../utils/translator';
 import Utils from '../../utils/utils';
 import AppConfig from '../../App.config';
+
+/** @jsx h */
 
 const successTimeout = 5000;
 

@@ -41,14 +41,13 @@ export default class EditCustomCompetencySelection extends Component {
                     <button
                         className="action_button action_button__secondary"
                         type="button"
-                        value="Close"
                         onClick={ () => {
                             closeModalToEditCompetencies();
                         } }
                     >{ i18n.organisations_cancel }</button>
                     <button
                         className="action_button"
-                        type="button" value="Submit"
+                        type="button"
                         onClick={ () => {
                             updateCompetencySelection(projectSlug);
                         } }>{ i18n.organisations_select }</button>

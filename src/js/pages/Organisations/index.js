@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as organisationsActions from './actions/organisations';
@@ -17,6 +14,11 @@ import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import OrganisationsError from './constants/OrganisationsError';
 import CompetencyTab from './constants/CompetencyTab';
+
+/** @jsx h */
+
+const AMEND_INLINE_EDITABLE_MIN_LENGTH = 2;
+const AMEND_INLINE_EDITABLE_MAX_LENGTH = 255;
 
 class Index extends Component {
     constructor(props) {
@@ -70,6 +72,8 @@ class Index extends Component {
         this.openEditCustomCompetencyTab = this.openEditCustomCompetencyTab.bind(this);
         this.onBeforeTabSwitch = this.onBeforeTabSwitch.bind(this);
 
+        this.getDetailPanelData = this.getDetailPanelData.bind(this);
+
         this.logger = Logger.instance;
         this.api = ApiFactory.get('neon');
 
@@ -96,6 +100,22 @@ class Index extends Component {
 
         // keep track of current entity shown in detail panel
         this.detailPanelEntity = null;
+    }
+
+    getDetailPanelData() {
+        let newDetailPanelData;
+
+        // return the active detail panel data instance
+        if (this.props.detailPanelData) {
+            newDetailPanelData = this.props.detailPanelData;
+        }
+
+        if (newDetailPanelData) {
+            return newDetailPanelData;
+        }
+
+        // by default the detail panel shows the root entity
+        return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     toggleSelectAllParticipants(event) {
@@ -405,7 +425,7 @@ class Index extends Component {
         const apiConfig = api.getConfig();
         let params, endPoint;
 
-        if (entity.id === 0) {
+        if (entity.id === AppConfig.global.organisations.rootEntity.id) {
 
             // entity.id is '0', assume the 'root' entities need to be retrieved
             params = {
@@ -490,7 +510,7 @@ class Index extends Component {
         this.detailPanelEntity = entity;
 
         // note that the LTP root organisation with id 0 has no associated detail panel data and is ignored (like neon1)
-        if (entity.id > 0) {
+        if (entity.id > AppConfig.global.organisations.rootEntity.id) {
             document.querySelector('#spinner_detail_panel').classList.remove('hidden');
             const api = ApiFactory.get('neon');
             const apiConfig = api.getConfig();
@@ -599,8 +619,6 @@ class Index extends Component {
                 urlParams
             }
         ).then(response => {
-
-            // todo: either add the formId_ to the form fields here (by iterating over each field!) or in the reducer
 
             // hide loader and pass the fields to the form
             document.querySelector('#spinner').classList.add('hidden');
@@ -1056,7 +1074,7 @@ class Index extends Component {
 
     amendInlineEditable(section, field, slug, value) {
 
-        if (value.length < 2 || value.length > 255) {
+        if (value.length < AMEND_INLINE_EDITABLE_MIN_LENGTH || value.length > AMEND_INLINE_EDITABLE_MAX_LENGTH) {
             this.actions.addAlert({ type: 'error', text: this.i18n.organisations_amend_entity_name_invalid_length });
         } else {
             document.querySelector('#spinner').classList.remove('hidden');
@@ -1150,6 +1168,7 @@ class Index extends Component {
                 onBeforeTabSwitch={ this.onBeforeTabSwitch }
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
                 amendInlineEditable={ this.amendInlineEditable }
+                getDetailPanelData={ this.getDetailPanelData }
             />
         );
     }

@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/content.scss';
 
 /** @jsx h */
 
-import style from './style/content.scss';
-
 export default class Content extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const { component, tabId, isContentActive } = this.props;
 

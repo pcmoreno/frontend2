@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import style from './style/personafitconfirm.scss';
 import Utils from '../../../../../../utils/utils';
+
+/** @jsx h */
 
 export default class PersonaFitConfirm extends Component {
     render() {

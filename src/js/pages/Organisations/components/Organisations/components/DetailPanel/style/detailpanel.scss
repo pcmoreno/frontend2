@@ -10,12 +10,6 @@ $detailpanel-margin: 10px;
     border-radius: $border-radius-regular;
     overflow: hidden;
 
-    /* ie11 */
-    float: left;
-    width: 20%;
-    height: calc(100vh - 120px);
-    min-width: unset;
-
     @supports (display: grid) {
         float: none;
         width: unset;
@@ -179,9 +173,8 @@ $detailpanel-margin: 10px;
     }
 }
 
-/* stylelint-disable */
 @keyframes spinner {
-0 {
+0% {
     transform: rotate(0deg);
 }
 
@@ -189,7 +182,6 @@ $detailpanel-margin: 10px;
        transform: rotate(360deg);
    }
 }
-/* stylelint-enable */
 
 .content_wrapper {
     height: 100%;

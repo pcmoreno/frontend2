@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
+import Option from '../../components/Option/Option';
 
 /** @jsx h */
-
-import Option from '../../components/Option/Option';
 
 export default class AbstractRelationship extends Component {
 

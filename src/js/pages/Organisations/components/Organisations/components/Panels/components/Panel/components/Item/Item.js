@@ -1,14 +1,11 @@
 import { h, Component } from 'preact';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/item.scss';
+import EntityType from '../../../../../../../../../../constants/EntityType.js';
 
 /** @jsx h */
 
 export default class Item extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const {
             entity,
@@ -22,15 +19,15 @@ export default class Item extends Component {
         let fontAwesomeIcon;
 
         switch (entity.type) {
-            case 'organisation':
+            case EntityType.ORGANISATION:
                 fontAwesomeIcon = 'building';
                 break;
 
-            case 'project':
+            case EntityType.PROJECT:
                 fontAwesomeIcon = 'clipboard-list';
                 break;
 
-            case 'jobFunction':
+            case EntityType.JOB_FUNCTION:
                 fontAwesomeIcon = 'suitcase';
                 break;
 
@@ -44,7 +41,6 @@ export default class Item extends Component {
                 id = { `panel-${panelId}-${entity.id}` }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
                 onClick = { () => {
-
                     fetchEntities(entity, panelId);
                 } }
             >

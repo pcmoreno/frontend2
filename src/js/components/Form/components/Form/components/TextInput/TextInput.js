@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
+import style from '../style/field.scss';
 
 /** @jsx h */
-
-import style from '../style/field.scss';
 
 export default class TextInput extends Component {
     render() {
@@ -27,7 +26,7 @@ export default class TextInput extends Component {
                     </li>
                     <li>
                         <input
-                            type={ 'text' }
+                            type="text"
                             id={ `${formId}_${fieldId}` }
                             name={ fieldId }
                             value={ value }

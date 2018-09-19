@@ -1,25 +1,20 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import NavigationItem from './components/NavigationItem/NavigationItem';
 import style from './style/navigation.scss';
 
-export default class Navigation extends Component {
-    constructor() {
-        super();
-    }
+/** @jsx h */
 
+export default class Navigation extends Component {
     render() {
         const navigationItems = [];
         const { items, i18n } = this.props;
 
         items.forEach(item => {
             const navigationItem = <NavigationItem
-                label = { item.label }
-                link = { item.link }
-                key = { item.label }
-                i18n = { i18n }
+                label={ item.label }
+                link={ item.link }
+                key={ item.label }
+                i18n={ i18n }
             />;
 
             navigationItems.push(navigationItem);

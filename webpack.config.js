@@ -146,28 +146,28 @@ module.exports = {
             }
         }),
         new CleanWebpackPlugin(['web/assets', 'web/js','web/css'], cleanOptions),
-        new UglifyJSPlugin({
-            uglifyOptions: {
-                sourceMap: sourceMapsEnabled,
-                parallel: true,
-                compress: {
-                    ecma: 5,
-                    ie8: true,
-                    warnings: true
-                },
-                keep_fnames: true,
-                mangle: false,
-                // mangle: {
-                //     properties: {
-                //         keep_quoted: true,
-                //         regex: /^(ROLE_|PRODUCT_|PRIVATE_|NEON_|STATUS_)+[A-Z_0-9]*/
-                //     }
-                // },
-                output: {
-                    comments: false
-                }
-            }
-        }),
+        // new UglifyJSPlugin({
+        //     uglifyOptions: {
+        //         sourceMap: sourceMapsEnabled,
+        //         parallel: true,
+        //         compress: {
+        //             ecma: 5,
+        //             ie8: true,
+        //             warnings: true
+        //         },
+        //         keep_fnames: true,
+        //         mangle: false,
+        //         // mangle: {
+        //         //     properties: {
+        //         //         keep_quoted: true,
+        //         //         regex: /^(ROLE_|PRODUCT_|PRIVATE_|NEON_|STATUS_)+[A-Z_0-9]*/
+        //         //     }
+        //         // },
+        //         output: {
+        //             comments: false
+        //         }
+        //     }
+        // }),
         new ExtractTextPlugin("css/[name].css"),
         new CompressionPlugin({
             asset: "[path].gz[query]",

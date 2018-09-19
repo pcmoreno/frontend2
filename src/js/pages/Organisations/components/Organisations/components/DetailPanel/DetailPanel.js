@@ -8,6 +8,7 @@ import DetailPanelTabType from '../../../../constants/DetailPanelTabType';
 import EntityType from '../../../../../../constants/EntityType';
 import FieldType from '../../../../constants/FieldType';
 import style from './style/detailpanel.scss';
+import AppConfig from '../../../../../../App.config.js';
 
 /** @jsx h */
 
@@ -139,7 +140,7 @@ export default class DetailPanel extends Component {
                     >
                         <FontAwesomeIcon icon='arrow-left' />
                     </span>
-                    { entity.name !== 'LTP' &&
+                    { entity.name !== AppConfig.global.organisations.rootEntity.name &&
                         <div className={ `${style.header_icon}` }>{ icon }</div>
                     }
                     <h2>

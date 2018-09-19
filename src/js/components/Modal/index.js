@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
+import Modal from './components/Modal/Modal';
 
 /** @jsx h */
-
-import Modal from './components/Modal/Modal';
 
 export default class Index extends Component {
     render() {

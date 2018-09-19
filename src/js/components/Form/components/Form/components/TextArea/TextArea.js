@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
+import style from '../style/field.scss';
 
 /** @jsx h */
-
-import style from '../style/field.scss';
 
 export default class TextArea extends Component {
     render() {
@@ -28,7 +27,7 @@ export default class TextArea extends Component {
                     <li>
                         <textarea
                             id={ `${formId}_${fieldId}` }
-                            rows={ '3' }
+                            rows="3"
                             placeholder={ placeholder }
                             value={ value }
                             name={ `form[${fieldId}]` }

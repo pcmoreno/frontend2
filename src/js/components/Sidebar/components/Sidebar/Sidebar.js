@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Indicator from './components/Indicator/Indicator';
 import Tab from './components/Tab/Tab';
 import Content from './components/Content/Content';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import style from './style/sidebar.scss';
+
+/** @jsx h */
 
 /**
  * The sidebar can be imported and used by the following examples.
@@ -58,7 +57,7 @@ class Sidebar extends Component {
             const sideBarBox = sideBar.getBoundingClientRect();
 
             // move indicator underneath the active tab
-            document.querySelector('#sidebar_indicator svg').style.left = (activeItemMiddle - sideBarBox.left - 20) + 'px';
+            document.querySelector('#sidebar_indicator svg').style.left = `${(activeItemMiddle - sideBarBox.left - 20)}px`;
 
             // show indicator
             document.querySelector('#sidebar_indicator svg').style.display = 'inline-block';

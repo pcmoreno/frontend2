@@ -1,21 +1,19 @@
 import { h, Component, render } from 'preact';
-
-/** @jsx h */
-
 import style from './style/resetpassword.scss';
 import ResetPasswordForm from './components/ResetPasswordForm/ResetPasswordForm';
 import Redirect from '../../../../utils/components/Redirect';
 import Logger from '../../../../utils/logger';
 import AppConfig from '../../../../App.config';
 import ApiFactory from '../../../../utils/api/factory';
-import PersonaFitConfirm from './components/PeronaFitConfirm/PersonaFitConfirm';
+import PersonaFitConfirm from './components/PersonaFitConfirm/PersonaFitConfirm';
 import Components from '../../../../constants/Components';
+
+/** @jsx h */
 
 const loginEndpoint = AppConfig.api.neon.loginRedirect;
 const passwordChangeSuccessful = '?passwordChangeSuccessful=true';
 
 export default class ResetPassword extends Component {
-
     constructor(props) {
         super(props);
 

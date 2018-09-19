@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import Alert from './components/Alert/Alert';
 import AppConfig from './../../App.config';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {

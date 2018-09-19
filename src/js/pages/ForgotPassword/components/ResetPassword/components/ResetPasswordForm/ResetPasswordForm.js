@@ -1,8 +1,7 @@
 import { h, Component } from 'preact';
+import style from './style/resetpasswordform.scss';
 
 /** @jsx h */
-
-import style from './style/resetpasswordform.scss';
 
 export default class ResetPasswordForm extends Component {
 
@@ -22,7 +21,7 @@ export default class ResetPasswordForm extends Component {
                             type="password"
                             id="password"
                             name="password"
-                            autocomplete="new-password"
+                            autoComplete="new-password"
                             onChange={ onChangeInput }
                             required
                         />
@@ -32,7 +31,7 @@ export default class ResetPasswordForm extends Component {
                             type="password"
                             id="passwordConfirm"
                             name="passwordConfirm"
-                            autocomplete="new-password"
+                            autoComplete="new-password"
                             onChange={ onChangeInput }
                             required
                         />

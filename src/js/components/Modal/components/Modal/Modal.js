@@ -31,7 +31,6 @@ export default class Modal extends Component {
             header = <header className={ style.modal_header }>
                 <button
                     type="button"
-                    value="Close"
                     className={ style.modal_close_gadget }
                     onClick={ () => {
                         this.props.closeModal();

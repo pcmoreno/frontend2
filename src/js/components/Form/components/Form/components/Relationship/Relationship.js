@@ -1,10 +1,8 @@
 import { h, Component } from 'preact';
-
 import ManyToMany from './components/Kind/ManyToMany';
 import ManyToOne from './components/Kind/ManyToOne';
 import OneToMany from './components/Kind/OneToMany';
 import OneToOne from './components/Kind/OneToOne';
-
 import * as relationship from './../../constants/Relationships';
 
 export default class Relationship extends Component {

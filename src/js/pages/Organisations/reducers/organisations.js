@@ -5,6 +5,9 @@ import ListItemTypes from '../../../components/Listview/constants/ListItemTypes'
 import ParticipantStatus from '../../../constants/ParticipantStatus';
 import CompetencyType from '../constants/CompetencyType';
 import Components from '../../../constants/Components';
+import EntityType from '../../../constants/EntityType.js';
+
+/** @jsx h */
 
 const initialState = {
     panels: [],
@@ -169,7 +172,7 @@ export default function organisationsReducer(state = initialState, action) {
                         tempEntities.push({
                             name: entity.organisationName,
                             id: entity.id,
-                            type: entity.organisationType === 'jobFunction' ? 'jobFunction' : 'organisation',
+                            type: entity.organisationType === EntityType.JOB_FUNCTION ? EntityType.JOB_FUNCTION : EntityType.ORGANISATION,
                             uuid: entity.uuid,
                             productName
                         });
@@ -185,7 +188,7 @@ export default function organisationsReducer(state = initialState, action) {
                         tempEntities.push({
                             name: entity.projectName,
                             id: entity.id,
-                            type: 'project',
+                            type: EntityType.PROJECT,
                             uuid: entity.uuid,
                             productName: entity.product ? entity.product.productName : null,
                             translationKey: translationKey ? translationKey : null
@@ -202,7 +205,7 @@ export default function organisationsReducer(state = initialState, action) {
                             tempEntities.push({
                                 name: entity.organisationName,
                                 id: entity.id,
-                                type: 'organisation',
+                                type: EntityType.ORGANISATION,
                                 uuid: entity.uuid
                             });
                         }

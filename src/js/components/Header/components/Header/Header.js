@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Navigation from './components/Navigation/Navigation';
 import UserInfo from './components/UserInfo/UserInfo';
 import Indicator from './components/Indicator/Indicator';
@@ -9,6 +6,8 @@ import style from './style/header.scss';
 import ApiFactory from '../../../../utils/api/factory';
 import AppConfig from '../../../../App.config';
 import HeaderActions from '../../constants/HeaderActions';
+
+/** @jsx h */
 
 class Header extends Component {
     constructor() {
