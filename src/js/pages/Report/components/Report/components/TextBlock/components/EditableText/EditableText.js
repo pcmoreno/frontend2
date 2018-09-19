@@ -1,14 +1,12 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
-import style from './style/editabletext.scss';
-
 import FroalaEditor from 'react-froala-wysiwyg';
 import ReportComponents from '../../../../../../constants/ReportComponents';
 import ReportActions from '../../../../../../constants/ReportActions';
 import ApiFactory from '../../../../../../../../utils/api/factory';
 import AppConfig from '../../../../../../../../App.config';
+import style from './style/editabletext.scss';
+
+/** @jsx h */
 
 export default class EditableText extends Component {
 
@@ -198,7 +196,7 @@ export default class EditableText extends Component {
         // render editor or render the text only
         if (this.localState.editorEnabled) {
             return (<FroalaEditor
-                tag='textarea'
+                tag={ 'textarea' }
                 config={ this.froalaConfig }
                 model={ this.localState.text }
                 onModelChange={ this.handleTextChange.bind(this) }
@@ -211,8 +209,8 @@ export default class EditableText extends Component {
             className={ `${style.editableText} ${!this.localState.text.replace(/ |<p>|<\/p>|<br>/g, '') ? style.empty : ''}` }
             id={ `report-${this.props.name}` }
             onClick={ editMethod }
-            role='textbox'
-            tabIndex='0'
+            role="textbox"
+            tabIndex="0"
         />);
     }
 }

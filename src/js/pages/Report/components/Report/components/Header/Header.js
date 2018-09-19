@@ -1,11 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/header.scss';
 
 /** @jsx h */
 
-import style from './style/header.scss';
-
 export default class Header extends Component {
-
     render() {
         const { participant, product, organisation, consultant, i18n } = this.props;
 
@@ -34,7 +32,7 @@ export default class Header extends Component {
             <section className={ style.header }>
                 <h1>{ participant.name }</h1>
                 <h1>{ product.name }</h1>
-                <div className={style.tableContainer}>
+                <div className={ style.tableContainer }>
                     <table>
                         <tbody>
                             <tr>
@@ -55,8 +53,8 @@ export default class Header extends Component {
                             <tbody>
                                 {
                                     date && <tr>
-                                        <th>{i18n.report_assessment_date}</th>
-                                        <td>{date}</td>
+                                        <th>{ i18n.report_assessment_date }</th>
+                                        <td>{ date }</td>
                                     </tr>
                                 }
                                 {

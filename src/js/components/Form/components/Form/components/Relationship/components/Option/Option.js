@@ -4,7 +4,6 @@ import Utils from '../../../../../../../../utils/utils';
 /** @jsx h */
 
 export default class Option extends Component {
-
     render() {
         const { optionValue, value, i18n, translationKey, disabled } = this.props;
         let translatedValue = value || '';
@@ -16,7 +15,7 @@ export default class Option extends Component {
             }
         } else {
             let translatedName = '';
-            let optionName = value.trim().replace(/ /g, '_');
+            const optionName = value.trim().replace(/ /g, '_');
 
             if (optionName === optionName.toUpperCase()) {
                 translatedName = optionName.toLowerCase();

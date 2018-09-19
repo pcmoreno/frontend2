@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as tasksActions from './actions/tasks';
@@ -14,6 +11,10 @@ import { ProductSlugs } from '../../constants/Products';
 import Utils from '../../utils/utils';
 import Logger from '../../utils/logger';
 import Components from '../../constants/Components';
+
+/** @jsx h */
+
+const TASKS_TO_SHOW_INITIALLY = 500;
 
 class Index extends Component {
     constructor(props) {
@@ -128,7 +129,7 @@ class Index extends Component {
                             ProductSlugs.SELECTION_DEVELOPMENT
                         ].join(','),
                         fields: 'uuid,participantSessionAppointmentDate,participantSessionSlug,accountHasRole,genericRoleStatus,account,firstName,infix,lastName,consultant,project,organisation,organisationName,organisationType',
-                        limit: this.localState.showAllTasks ? '' : 800
+                        limit: this.localState.showAllTasks ? '' : TASKS_TO_SHOW_INITIALLY
                     }
                 }
             }
@@ -155,10 +156,10 @@ class Index extends Component {
 
         return (
             <Tasks
-                tasks = { this.props.tasks }
-                i18n = { this.i18n }
-                showAllTasks = { this.showAllTasks }
-                showAllTasksFlag = { this.localState.showAllTasks }
+                tasks={ this.props.tasks }
+                i18n={ this.i18n }
+                showAllTasks={ this.showAllTasks }
+                showAllTasksFlag={ this.localState.showAllTasks }
             />
         );
     }

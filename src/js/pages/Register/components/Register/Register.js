@@ -1,11 +1,10 @@
 import { h, Component, render } from 'preact';
-
-/** @jsx h */
-
 import mainStyle from '../../style/register.scss';
 import style from './style/register.scss';
 import AppConfig from '../../../../App.config';
 import Redirect from '../../../../utils/components/Redirect';
+
+/** @jsx h */
 
 export default class Register extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ export default class Register extends Component {
                                         name="username"
                                         autoComplete="off"
                                         placeholder={ i18n.register_email_placeholder }
-                                        onChange={onChange}
+                                        onChange={ onChange }
                                         value={ emailInput }
                                         required
                                     />
@@ -61,9 +60,9 @@ export default class Register extends Component {
                                         type="password"
                                         id="password"
                                         name="password"
-                                        autoComplete="off"
+                                        autoComplete="new-password"
                                         placeholder={ i18n.register_new_password_placeholder }
-                                        onChange={onChange}
+                                        onChange={ onChange }
                                         required
                                     />
                                 </div>
@@ -74,7 +73,7 @@ export default class Register extends Component {
                                         type="password"
                                         id="passwordConfirm"
                                         name="passwordConfirm"
-                                        autoComplete="off"
+                                        autoComplete="new-password"
                                         placeholder={ i18n.register_confirm_password_placeholder }
                                         onChange={onChange}
                                         required
@@ -86,7 +85,7 @@ export default class Register extends Component {
                             </main>
                             <footer className={style.modalFooter}>
                                 <nav>
-                                    <button tabIndex="4" className={ 'action_button' } disabled={ buttonDisabled } onClick={ onSubmit }>
+                                    <button tabIndex="4" className="action_button" disabled={ buttonDisabled } onClick={ onSubmit }>
                                         { i18n.register_create_account_button_label }
                                     </button>
                                 </nav>
@@ -96,7 +95,7 @@ export default class Register extends Component {
                     <section className={ `${mainStyle.linkSection} ${style.linkSection}` }>
                         <h3>{ i18n.register_login_label }</h3>
                         <p>{ i18n.register_already_registered_label }</p>
-                        <div tabIndex="5" role='button' onClick={ showLogin } className={ mainStyle.link }>
+                        <div tabIndex="5" role="button" onClick={ showLogin } className={ mainStyle.link }>
                             <span>{ i18n.register_login_label }</span>
                         </div>
                         <p className={ mainStyle.link}>
@@ -104,7 +103,8 @@ export default class Register extends Component {
                                 tabIndex="0"
                                 onClick={() => {
                                     this.forgotPasswordHandler();
-                                }}>{i18n.register_forgot_my_password_label}
+                                }}
+                            >{i18n.register_forgot_my_password_label}
                             </span>
                         </p>
                     </section>

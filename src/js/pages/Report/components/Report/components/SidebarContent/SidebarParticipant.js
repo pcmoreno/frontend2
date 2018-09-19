@@ -37,9 +37,9 @@ export default class SidebarParticipant extends Component {
                 if (!isNaN(scoreNumber)) {
                     scoreCollection.push(
                         <ParticipantScoreRow
-                            label={i18n[`report_${score.toLowerCase()}`] || score}
-                            score={scoreNumber}
-                            categoryScore={hnaCategoryScores[key] || ''}
+                            label={ i18n[`report_${score.toLowerCase()}`] || score }
+                            score={ scoreNumber }
+                            categoryScore={ hnaCategoryScores[key] || '' }
                         />
                     );
                 }

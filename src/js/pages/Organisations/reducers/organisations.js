@@ -7,8 +7,6 @@ import CompetencyType from '../constants/CompetencyType';
 import Components from '../../../constants/Components';
 import EntityType from '../../../constants/EntityType.js';
 
-/** @jsx h */
-
 const initialState = {
     panels: [],
     sectionInfo: {},

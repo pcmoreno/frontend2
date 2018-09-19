@@ -126,7 +126,7 @@ export default class DetailPanel extends Component {
                     </div>
                     <span
                         tabIndex="0"
-                        className={ `${style.button_hide_detailpanel}` }
+                        className={ style.button_hide_detailpanel }
                         onClick={ this.closeDetailPanel }
                         role="button"
                     >
@@ -134,7 +134,7 @@ export default class DetailPanel extends Component {
                     </span>
                     <span
                         tabIndex="0"
-                        className={ `${style.button_fullwidth_detailpanel}` }
+                        className={ style.button_fullwidth_detailpanel }
                         onClick={ this.toggleFullWidthDetailPanel }
                         role="button"
                     >

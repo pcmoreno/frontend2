@@ -48,7 +48,7 @@ export default class Personality extends Component {
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_emotional_stability}</h4>
+                        <h4>{ i18n.report_emotional_stability }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.EMOTIONAL_STABILITY] } i18n={ i18n } />
                     </AttachmentRow>
@@ -56,17 +56,17 @@ export default class Personality extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_emotional_stability_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_emotional_stability_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_extraversion}</h4>
+                        <h4>{ i18n.report_extraversion }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.EXTRAVERSION] } i18n={ i18n } />
                     </AttachmentRow>
@@ -74,17 +74,17 @@ export default class Personality extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_extraversion_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_extraversion_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_conscientiousness}</h4>
+                        <h4>{ i18n.report_conscientiousness }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.CONSCIENTIOUSNESS] } i18n={ i18n } />
                     </AttachmentRow>
@@ -92,17 +92,17 @@ export default class Personality extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_conscientiousness_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_conscientiousness_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_open_mindness}</h4>
+                        <h4>{ i18n.report_open_mindness }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.OPEN_MINDNESS] } i18n={ i18n } />
                     </AttachmentRow>
@@ -110,17 +110,17 @@ export default class Personality extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_open_mindness_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_open_mindness_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_mildness}</h4>
+                        <h4>{ i18n.report_mildness }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Personality.MILDNESS] } i18n={ i18n } />
                     </AttachmentRow>
@@ -128,11 +128,11 @@ export default class Personality extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_mildness_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_mildness_high_text } } />
                         </BulletList>
                     </AttachmentRow>

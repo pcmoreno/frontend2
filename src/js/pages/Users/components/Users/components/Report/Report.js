@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/report.scss';
 
 /** @jsx h */
 
-import style from './style/report.scss';
-
 export default class Report extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <span className={ style.report }>

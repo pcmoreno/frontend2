@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as usersActions from './actions/users';
@@ -12,6 +9,8 @@ import ApiFactory from '../../utils/api/factory';
 import Users from './components/Users/Users';
 import translator from '../../utils/translator';
 import ShownUserRoles from './constants/ShownUserRoles';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {
@@ -26,7 +25,6 @@ class Index extends Component {
 
         this.openModalToAddUser = this.openModalToAddUser.bind(this);
         this.closeModalToAddUser = this.closeModalToAddUser.bind(this);
-
         this.getUsers = this.getUsers.bind(this);
         this.refreshDataWithMessage = this.refreshDataWithMessage.bind(this);
 
@@ -73,10 +71,6 @@ class Index extends Component {
 
         // get items for first time
         this.getUsers();
-    }
-
-    componentWillMount() {
-        document.title = 'Users';
     }
 
     /**

@@ -21,9 +21,9 @@ const Utils = {
      * @returns {string} serialised string
      */
     serialise: (obj, prefix, urlEncode, skipPrefixIndex) => {
-        let str = [];
+        const str = [];
 
-        for (let key in obj) {
+        for (const key in obj) {
 
             // use hasOwnProperty so default object methods and properties (built-in JS) are skipped
             // https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
@@ -31,16 +31,17 @@ const Utils = {
 
                 // check for prefix, for example formData. Result: formData[k]=v
                 let serialisedKey = key,
-                    value = obj[key],
                     serialisedPair;
+
+                const value = obj[key];
 
                 // if there is an prefix, it was an array deeper or child object.
                 // In that case we want to set it as an array: x[]=y or x[x]=y
                 if (prefix) {
                     if (skipPrefixIndex) {
-                        serialisedKey = prefix + '[]';
+                        serialisedKey = `${prefix}[]`;
                     } else {
-                        serialisedKey = prefix + '[' + key + ']';
+                        serialisedKey = `${prefix}[${key}]`;
                     }
                 }
 
@@ -50,9 +51,9 @@ const Utils = {
                     if (typeof value === 'object') {
                         serialisedPair = Utils.serialise(value, serialisedKey, urlEncode, skipPrefixIndex);
                     } else if (urlEncode) {
-                        serialisedPair = encodeURIComponent(serialisedKey) + '=' + encodeURIComponent(value);
+                        serialisedPair = `${encodeURIComponent(serialisedKey)}=${encodeURIComponent(value)}`;
                     } else {
-                        serialisedPair = serialisedKey + '=' + value;
+                        serialisedPair = `${serialisedKey}=${value}`;
                     }
 
                     str.push(serialisedPair);

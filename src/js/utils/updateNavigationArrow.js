@@ -33,7 +33,7 @@ export default function updateNavigationArrow() {
             const activeItemBox = activeItem.getBoundingClientRect();
             const activeItemMiddle = activeItemBox.left + ((activeItemBox.right - activeItemBox.left) / 2);
 
-            document.querySelector('#indicator svg').style.left = (activeItemMiddle - 12) + 'px';
+            document.querySelector('#indicator svg').style.left = `${(activeItemMiddle - 12)}px`;
         }
     }
 }

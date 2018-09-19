@@ -81,6 +81,7 @@ export default function reportReducer(state = initialState, action) {
                 newState.report.product.translationKey = product.translationKey;
 
                 // set organisation name and/or job function
+                // dont use EntityType constants here, it will mismatch because of the toLowerCase
                 if (organisation.organisationType.toLowerCase() === 'organisation') {
                     newState.report.organisation.name = organisation.organisationName;
                 } else if (organisation.organisationType.toLowerCase() === 'jobfunction') {

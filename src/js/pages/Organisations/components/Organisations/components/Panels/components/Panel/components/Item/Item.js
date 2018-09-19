@@ -38,9 +38,9 @@ export default class Item extends Component {
 
         return (
             <li
-                id = { `panel-${panelId}-${entity.id}` }
+                id={ `panel-${panelId}-${entity.id}` }
                 className={ `${isPanelItemActive && 'list_item__active'}` }
-                onClick = { () => {
+                onClick={ () => {
                     fetchEntities(entity, panelId);
                 } }
             >

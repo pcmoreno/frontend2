@@ -1,11 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/reportsection.scss';
 
 /** @jsx h */
 
-import style from './style/reportsection.scss';
-
 export default class ReportSection extends Component {
-
     render() {
         const { title, children, fullWidth } = this.props;
         let childrenClass = style.reportSectionChildren;
@@ -19,9 +17,9 @@ export default class ReportSection extends Component {
         }
 
         return (
-            <section className={style.reportSection}>
+            <section className={ style.reportSection }>
                 { title && <h2>{ title }</h2>}
-                <div className={childrenClass}>
+                <div className={ childrenClass }>
                     { children }
                 </div>
             </section>

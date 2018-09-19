@@ -48,7 +48,7 @@ export default class WorkingStyles extends Component {
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_success_achievement}</h4>
+                        <h4>{ i18n.report_success_achievement }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.SUCCESS_ACHIEVEMENT] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.SUCCESS_ACHIEVEMENT] } i18n={ i18n } />
                     </AttachmentRow>
@@ -56,17 +56,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_success_achievement_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_success_achievement_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_quality_achievement}</h4>
+                        <h4>{ i18n.report_quality_achievement }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.QUALITY_ACHIEVEMENT] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.QUALITY_ACHIEVEMENT] } i18n={ i18n } />
                     </AttachmentRow>
@@ -74,17 +74,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_quality_achievement_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_quality_achievement_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_development_orientation}</h4>
+                        <h4>{ i18n.report_development_orientation }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DEVELOPMENT_ORIENTATION] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.DEVELOPMENT_ORIENTATION] } i18n={ i18n } />
                     </AttachmentRow>
@@ -92,17 +92,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_development_orientation_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_development_orientation_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_performance_uncertainty}</h4>
+                        <h4>{ i18n.report_performance_uncertainty }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.PERFORMANCE_UNCERTAINTY] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.PERFORMANCE_UNCERTAINTY] } i18n={ i18n } />
                     </AttachmentRow>
@@ -110,17 +110,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_performance_uncertainty_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_performance_uncertainty_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_looking_for_challenges}</h4>
+                        <h4>{ i18n.report_looking_for_challenges }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.LOOKING_FOR_CHALLENGES] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.LOOKING_FOR_CHALLENGES] } i18n={ i18n } />
                     </AttachmentRow>
@@ -128,17 +128,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_looking_for_challenges_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_looking_for_challenges_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_decisiveness}</h4>
+                        <h4>{ i18n.report_decisiveness }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.DECISIVENESS] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.DECISIVENESS] } i18n={ i18n } />
                     </AttachmentRow>
@@ -146,17 +146,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_decisiveness_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_decisiveness_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_goal_oriented}</h4>
+                        <h4>{ i18n.report_goal_oriented }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.GOAL_ORIENTED] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.GOAL_ORIENTED] } i18n={ i18n } />
                     </AttachmentRow>
@@ -164,17 +164,17 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_goal_oriented_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_goal_oriented_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_taking_risks}</h4>
+                        <h4>{ i18n.report_taking_risks }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.WorkingStyles.TAKING_RISKS] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.WorkingStyles.TAKING_RISKS] } i18n={ i18n } />
                     </AttachmentRow>
@@ -182,11 +182,11 @@ export default class WorkingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_taking_risks_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_taking_risks_high_text } } />
                         </BulletList>
                     </AttachmentRow>

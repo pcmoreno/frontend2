@@ -6,7 +6,6 @@ import TextBlock from '../../components/TextBlock/TextBlock';
 /** @jsx h */
 
 export default class ResearchQuestion extends Component {
-
     render() {
         const { texts, saveReportText, i18n, product } = this.props;
 
@@ -26,13 +25,13 @@ export default class ResearchQuestion extends Component {
         }
 
         return (
-            <ReportSection title={i18n.report_research_question}>
+            <ReportSection title={ i18n.report_research_question }>
                 <ReportColumn>
                     <TextBlock
-                        field={texts.researchQuestion}
-                        hideTitle={true}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.researchQuestion }
+                        hideTitle={ true }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                 </ReportColumn>
             </ReportSection>

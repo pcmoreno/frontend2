@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import style from './style/textblock.scss';
 import EditableText from './components/EditableText/EditableText';
+
+/** @jsx h */
 
 export default class TextBlock extends Component {
 

@@ -15,10 +15,6 @@ const registrationSuccessful = '?registrationSuccess=true';
  * @see AbstractRegistration
  */
 export default class User extends AbstractRegistration {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let component = null;
 
@@ -45,27 +41,27 @@ export default class User extends AbstractRegistration {
             if (showLogin) {
 
                 component = <Login
-                    i18n = { this.i18n }
-                    language = { languageId }
-                    error = { loginError }
-                    buttonDisabled = { loginButtonDisabled }
+                    i18n={ this.i18n }
+                    language={ languageId }
+                    error={ loginError }
+                    buttonDisabled={ loginButtonDisabled }
                     emailInput={ this.localState.loginFields.username }
-                    onSubmit = { this.onLoginAccount.bind(this) }
-                    onChange = { this.onChangeFieldLoginForm.bind(this) }
-                    showLogin = { this.switchToLogin.bind(this) }
+                    onSubmit={ this.onLoginAccount.bind(this) }
+                    onChange={ this.onChangeFieldLoginForm.bind(this) }
+                    showLogin={ this.switchToLogin.bind(this) }
                 />;
 
             } else {
 
                 // show register by default
                 component = <Register
-                    i18n = { this.i18n }
-                    error = { registerError }
-                    buttonDisabled = { registerButtonDisabled }
+                    i18n={ this.i18n }
+                    error={ registerError }
+                    buttonDisabled={ registerButtonDisabled }
                     emailInput={ this.localState.registerFields.username }
-                    onSubmit = { this.onRegisterAccount.bind(this) }
-                    onChange = { this.onChangeFieldRegistrationForm.bind(this) }
-                    showLogin = { this.switchToLogin.bind(this) }
+                    onSubmit={ this.onRegisterAccount.bind(this) }
+                    onChange={ this.onChangeFieldRegistrationForm.bind(this) }
+                    showLogin={ this.switchToLogin.bind(this) }
                 />;
             }
 

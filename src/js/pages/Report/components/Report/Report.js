@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
@@ -25,6 +22,8 @@ import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
 import SidebarReport from './components/SidebarContent/SidebarReport';
 import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
 import translator from '../../../../utils/translator';
+
+/** @jsx h */
 
 export default class Report extends Component {
     constructor() {
@@ -141,7 +140,7 @@ export default class Report extends Component {
         return (
             <main className={ `${style.report} full_width_sidebar` } id="page_with_sidebar">
 
-                <section className={style.page_with_sidebar_container} id="page_with_sidebar_container">
+                <section className={ style.page_with_sidebar_container } id="page_with_sidebar_container">
 
                     <Header
                         participant={ report.participant }
@@ -164,9 +163,9 @@ export default class Report extends Component {
                     />
 
                     <ResearchQuestion
-                        texts={{
+                        texts={ {
                             researchQuestion: report.texts.enquiry
-                        }}
+                        } }
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
                         product={ report.product }
@@ -174,10 +173,10 @@ export default class Report extends Component {
                     {/* Selection advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
                     <SelectionAdvice
-                        texts={{
+                        texts={ {
                             selectionAdvice: report.texts.selectionAdvice,
                             selectionAdviceOutcome: report.texts.selectionAdviceOutcome
-                        }}
+                        } }
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
                     />
@@ -186,16 +185,16 @@ export default class Report extends Component {
                     <CompetencyProfile
                         i18n={ i18nOnlineReport }
                         educationLevel={ report.participant.educationLevel }
-                        staticScores= { staticScores }
+                        staticScores={ staticScores }
                         competencies={ report.competencies }
                         languageId={ reportLanguage }
                     />
 
                     <Explanation
-                        texts={{
+                        texts={ {
                             strongPoints: report.texts.strongPoints,
                             pointsOfAttention: report.texts.pointsOfAttention
-                        }}
+                        } }
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
                     />
@@ -203,9 +202,9 @@ export default class Report extends Component {
                     {/* Development advice is only shown if this was written on this report or when this field was attached to this template/product */}
                     {/* in textFields_textTemplates */}
                     <DevelopmentAdvice
-                        texts={{
+                        texts={ {
                             developmentAdvice: report.texts.developmentAdvice
-                        }}
+                        } }
                         i18n={ i18nOnlineReport }
                         saveReportText={ saveReportText }
                     />
@@ -240,7 +239,7 @@ export default class Report extends Component {
                 </section>
 
                 <Authorised api={ this.api } component={ ReportComponents.REPORT_COMPONENT } action={ ReportActions.WRITE_ACTION }>
-                    <Sidebar tabs={tabs} i18n={i18n} />
+                    <Sidebar tabs={ tabs } i18n={ i18n } />
                 </Authorised>
 
             </main>

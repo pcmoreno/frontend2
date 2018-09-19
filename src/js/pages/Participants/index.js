@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as participantsActions from './actions/participants';
@@ -11,6 +8,8 @@ import ApiFactory from '../../utils/api/factory';
 import Participants from './components/Participants/Participants';
 import translator from '../../utils/translator';
 import { ProductSlugs } from '../../constants/Products';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {
