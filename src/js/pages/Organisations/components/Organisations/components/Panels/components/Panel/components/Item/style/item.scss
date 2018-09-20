@@ -60,6 +60,10 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
     }
 
     @media screen and (max-width: $grid-breakpoints-lg) {
