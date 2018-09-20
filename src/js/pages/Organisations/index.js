@@ -14,6 +14,7 @@ import Utils from '../../utils/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import OrganisationsError from './constants/OrganisationsError';
 import CompetencyTab from './constants/CompetencyTab';
+import EntityType from '../../constants/EntityType.js';
 
 /** @jsx h */
 
@@ -383,21 +384,19 @@ class Index extends Component {
         // determines the endpoint from which children or detail panel data should be fetched
         switch (entity.type) {
 
-            // todo: could do with some constant definitions
+            case EntityType.ORGANISATION:
+                return EntityType.ORGANISATION;
 
-            case 'organisation':
-                return 'organisation';
-
-            case 'project':
+            case EntityType.PROJECT:
 
                 // even though projects cant have children, perform the API call. this is because this behaviour may
                 // change in the future, and, more important, the subsequent actions need to be triggered
-                return 'project';
+                return EntityType.PROJECT;
 
-            case 'jobFunction':
+            case EntityType.JOB_FUNCTION:
 
                 // job functions are modeled as organisations, since their behaviour is indifferent
-                return 'organisation';
+                return EntityType.ORGANISATION;
 
             default:
                 this.logger.error({
