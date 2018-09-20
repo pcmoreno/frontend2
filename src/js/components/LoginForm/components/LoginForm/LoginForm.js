@@ -47,7 +47,7 @@ export default class LoginForm extends Component {
                                     name="username"
                                     autoComplete="on"
                                     placeholder={ i18n.login_email_placeholder }
-                                    onChange={ handleChange }
+                                    onInput={ handleChange }
                                     value={ username || '' }
                                     required
                                 />
@@ -61,7 +61,7 @@ export default class LoginForm extends Component {
                                     name="password"
                                     autoComplete="off"
                                     placeholder= { i18n.login_password_placeholder }
-                                    onChange={ handleChange }
+                                    onInput={ handleChange }
                                     required
                                 />
                             </div>

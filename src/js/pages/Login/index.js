@@ -15,11 +15,6 @@ export default class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.inputValues = {
-            username: '',
-            password: ''
-        };
-
         this.submitLogin = this.submitLogin.bind(this);
         this.getUsername = this.getUsername.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -31,7 +26,11 @@ export default class Index extends Component {
             errors: {
                 login: ''
             },
-            successMessage: ''
+            successMessage: '',
+            inputValues: {
+                username: '',
+                password: ''
+            }
         };
 
         // get browser language to determine the translations
@@ -88,11 +87,13 @@ export default class Index extends Component {
         event.preventDefault();
 
         // store changed values
-        this.inputValues[event.currentTarget.id] = event.currentTarget.value;
+        this.localState.inputValues[event.currentTarget.id] = event.currentTarget.value;
+
+        this.setState(this.localState.inputValues);
     }
 
     getUsername() {
-        return this.inputValues.username;
+        return this.localState.inputValues.username;
     }
 
     submitLogin(event) {
@@ -103,14 +104,14 @@ export default class Index extends Component {
         // reset error on the login page
         newState.errors.login = '';
 
-        if (this.inputValues.username && this.inputValues.password) {
+        if (this.localState.inputValues.username && this.localState.inputValues.password) {
 
             // disable button
             newState.buttons.submitDisabled = true;
 
             const api = ApiFactory.get('neon');
-            const username = this.inputValues.username;
-            const password = this.inputValues.password;
+            const username = this.localState.inputValues.username;
+            const password = this.localState.inputValues.password;
 
             api.getAuthenticator().authenticate({
                 username,
@@ -151,9 +152,9 @@ export default class Index extends Component {
                 onSubmit={ this.submitLogin }
                 handleChange={ this.handleChange }
                 localState={ this.localState }
-                language = { this.language }
-                username={ this.inputValues.username }
-                getUsername = { this.getUsername }
+                language={ this.language }
+                username={ this.localState.inputValues.username }
+                getUsername={ this.getUsername }
             />
         );
     }
