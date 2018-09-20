@@ -48,7 +48,7 @@ export default class InfluencingStyles extends Component {
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_manipulative}</h4>
+                        <h4>{ i18n.report_manipulative }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.MANIPULATIVE] } i18n={ i18n } />
                     </AttachmentRow>
@@ -56,17 +56,17 @@ export default class InfluencingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_manipulative_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_manipulative_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_straightforward}</h4>
+                        <h4>{ i18n.report_straightforward }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.STRAIGHTFORWARD] } i18n={ i18n } />
                     </AttachmentRow>
@@ -74,17 +74,17 @@ export default class InfluencingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_straightforward_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_straightforward_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_assertive}</h4>
+                        <h4>{ i18n.report_assertive }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ASSERTIVE] } i18n={ i18n } />
                     </AttachmentRow>
@@ -92,17 +92,17 @@ export default class InfluencingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_assertive_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_assertive_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_anticipating}</h4>
+                        <h4>{ i18n.report_anticipating }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.InfluencingStyles.ANTICIPATING] } i18n={ i18n } />
                     </AttachmentRow>
@@ -110,11 +110,11 @@ export default class InfluencingStyles extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_anticipating_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_anticipating_high_text } } />
                         </BulletList>
                     </AttachmentRow>

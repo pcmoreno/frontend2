@@ -25,9 +25,9 @@ const svgActiveYOffset = 30;
  * </ScoreBar>
  */
 export default class ScoreBar extends Component {
-
     render() {
-        let { min, max, score } = this.props;
+        const { min, max } = this.props;
+        let { score } = this.props;
         const elements = [];
 
         score = Utils.parseScore(score, min, max, true);

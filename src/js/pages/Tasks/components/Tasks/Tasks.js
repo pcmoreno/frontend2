@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Listview from '../../../../components/Listview';
 import style from './style/tasks.scss';
+
+/** @jsx h */
 
 export default class Tasks extends Component {
     constructor(props) {
@@ -26,7 +25,7 @@ export default class Tasks extends Component {
                         entities={ tasks }
                         defaultSortingKey={ 'assessmentdate' }
                         defaultSortingOrder={ 'desc' }
-                        i18n={i18n}
+                        i18n={ i18n }
                         translationKeyPrefix={ 'tasks_' }
                     />
                 </section>

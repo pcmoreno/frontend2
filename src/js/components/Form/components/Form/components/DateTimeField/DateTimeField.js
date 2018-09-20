@@ -1,10 +1,9 @@
 import { h, Component } from 'preact';
 import moment from 'moment';
-
-/** @jsx h */
-
 import style from '../style/field.scss';
 import flatpickr from 'flatpickr';
+
+/** @jsx h */
 
 export default class DateTimeField extends Component {
     constructor(props) {

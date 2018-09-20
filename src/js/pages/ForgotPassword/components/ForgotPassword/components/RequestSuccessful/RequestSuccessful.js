@@ -1,11 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/requestsuccessful.scss';
 
 /** @jsx h */
 
-import style from './style/requestsuccessful.scss';
-
 export default class RequestSuccessful extends Component {
-
     render() {
         const { i18n } = this.props;
 

@@ -1,10 +1,9 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Logger from '../../../../../../utils/logger';
 import Panel from './components/Panel/Panel';
 import style from './style/panels.scss';
+
+/** @jsx h */
 
 export default class Panels extends Component {
     constructor(props) {
@@ -41,15 +40,15 @@ export default class Panels extends Component {
             // be sure to check if currentPanel was found (for projects there wont be any panel data stored in state)
             if (currentPanel) {
                 panelCollection.push(<Panel
-                    panelId = { panelIndex }
+                    panelId={ panelIndex }
                     panelHeaderAddMethods = { panelHeaderAddMethods }
-                    entities = { currentPanel.entities }
-                    parentId = { currentPanel.parentId }
-                    parentType = { currentPanel.parentType }
-                    fetchEntities = { fetchEntities }
-                    fetchDetailPanelData = { fetchDetailPanelData }
-                    pathNodes = { pathNodes }
-                    i18n={i18n}
+                    entities={ currentPanel.entities }
+                    parentId={ currentPanel.parentId }
+                    parentType={ currentPanel.parentType }
+                    fetchEntities={ fetchEntities }
+                    fetchDetailPanelData={ fetchDetailPanelData }
+                    pathNodes={ pathNodes }
+                    i18n={ i18n }
                 />);
             }
 

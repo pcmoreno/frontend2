@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as alertActions from './../../../../components/Alert/actions/alert';
@@ -11,7 +8,6 @@ import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';
 import Form from './../../../../components/Form';
 import Modal from './../../../../components/Modal';
-import AppConfig from './../../../../App.config';
 import style from './style/organisations.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
 import Tabs from '../../../../components/Tabs';
@@ -20,6 +16,8 @@ import EditCustomCompetencySelection from './components/EditCompetencies/compone
 import AddCustomCompetency from './components/EditCompetencies/components/AddCustomCompetency/AddCustomCompetency';
 import CompetencyTab from '../../constants/CompetencyTab';
 import EditCustomCompetency from './components/EditCompetencies/components/EditCustomCompetency/EditCustomCompetency';
+
+/** @jsx h */
 
 class Organisations extends Component {
     constructor(props) {
@@ -33,24 +31,6 @@ class Organisations extends Component {
         );
 
         this.logger = Logger.instance;
-        this.getDetailPanelData = this.getDetailPanelData.bind(this);
-    }
-
-    // todo: can this be moved to index.js?
-    getDetailPanelData() {
-        let newDetailPanelData;
-
-        // return the active detail panel data instance
-        if (this.props.detailPanelData) {
-            newDetailPanelData = this.props.detailPanelData;
-        }
-
-        if (newDetailPanelData) {
-            return newDetailPanelData;
-        }
-
-        // by default the detail panel shows the root entity
-        return { entity: AppConfig.global.organisations.rootEntity };
     }
 
     /* generic method to close the newly written modal component. this is currently only used for edit competencies */
@@ -86,6 +66,7 @@ class Organisations extends Component {
             closeModalToInviteParticipant,
             selectedCompetenciesListView,
             amendInlineEditable,
+            getDetailPanelData,
             i18n
         } = this.props;
 
@@ -96,10 +77,10 @@ class Organisations extends Component {
             panelHeaderAddMethods={ panelHeaderAddMethods }
             fetchEntities={ fetchEntities }
             fetchDetailPanelData={ fetchDetailPanelData }
-            i18n={i18n}
+            i18n={ i18n }
         />;
 
-        const dataForCurrentEntity = this.getDetailPanelData();
+        const dataForCurrentEntity = getDetailPanelData();
 
         if (!panels || !panels.length) {
             return null;
@@ -112,18 +93,18 @@ class Organisations extends Component {
                 <section className={ style.panels_container } id="panels_container">
                     { panelContainer }
                     <DetailPanel
-                        data = { dataForCurrentEntity }
-                        openModalToAddParticipant = { openModalToAddParticipant }
-                        closeModalToAddParticipant = { closeModalToAddParticipant }
-                        openModalToAmendParticipant = { openModalToAmendParticipant }
-                        closeModalToAmendParticipant = { closeModalToAmendParticipant }
-                        openModalToInviteParticipant = { openModalToInviteParticipant }
-                        openModalToEditCompetencies = { openModalToEditCompetencies }
+                        data={ dataForCurrentEntity }
+                        openModalToAddParticipant={ openModalToAddParticipant }
+                        closeModalToAddParticipant={ closeModalToAddParticipant }
+                        openModalToAmendParticipant={ openModalToAmendParticipant }
+                        closeModalToAmendParticipant={ closeModalToAmendParticipant }
+                        openModalToInviteParticipant={ openModalToInviteParticipant }
+                        openModalToEditCompetencies={ openModalToEditCompetencies }
                         selectedParticipants={ selectedParticipants }
                         toggleSelectAllParticipants={ toggleSelectAllParticipants }
                         selectedCompetenciesListView={ selectedCompetenciesListView }
                         languageId={ languageId }
-                        i18n = { i18n }
+                        i18n={ i18n }
                         pathNodes={ pathNodes }
                         amendInlineEditable={ amendInlineEditable }
                     />
@@ -134,9 +115,9 @@ class Organisations extends Component {
                         sectionId={ 'organisation' }
                         method={ FormMethod.CREATE_SECTION }
                         hiddenFields={[{ fieldId: 'organisationType', value: 'organisation' }]}
-                        headerText={i18n.organisations_add_organisation}
-                        submitButtonText={i18n.organisations_add}
-                        afterSubmit = { response => {
+                        headerText={ i18n.organisations_add_organisation }
+                        submitButtonText={ i18n.organisations_add }
+                        afterSubmit={ response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_organisation_success, response);
                         } }
                         closeModal={ closeModalToAddOrganisation }
@@ -148,9 +129,9 @@ class Organisations extends Component {
                         formId={ 'addParticipant' }
                         sectionId={ 'participantSession' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[{ fieldId: 'project', value: pathNodes[pathNodes.length - 1].uuid }]}
-                        headerText={i18n.organisations_add_participant}
-                        submitButtonText={i18n.organisations_add}
+                        hiddenFields={ [{ fieldId: 'project', value: pathNodes[pathNodes.length - 1].uuid }] }
+                        headerText={ i18n.organisations_add_participant }
+                        submitButtonText={ i18n.organisations_add }
                         translationKeysOverride={{
                             accountFirstName: {
                                 placeholder: 'form_participant_first_name_placeholder'
@@ -168,7 +149,7 @@ class Organisations extends Component {
                                 placeholder: 'form_participant_email_placeholder'
                             }
                         }}
-                        afterSubmit = { response => {
+                        afterSubmit={ response => {
                             refreshDetailPanelParticipantsWithMessage(i18n.organisations_add_participant_success, {
                                 addedParticipant: response
                             });
@@ -182,19 +163,19 @@ class Organisations extends Component {
                         formId={ 'addJobFunction' }
                         sectionId={ 'organisation' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[
+                        hiddenFields={ [
                             { fieldId: 'organisationType', value: 'jobFunction' },
                             { fieldId: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
-                        ]}
-                        headerText={i18n.organisations_add_job_function}
-                        submitButtonText={i18n.organisations_add}
+                        ] }
+                        headerText={ i18n.organisations_add_job_function }
+                        submitButtonText={ i18n.organisations_add }
                         translationKeysOverride={{
                             organisationName: {
                                 label: 'form_job_function_name',
                                 placeholder: 'form_job_function_name_placeholder'
                             }
                         }}
-                        afterSubmit = { response => {
+                        afterSubmit={ response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_job_function_success, response);
                         } }
                         closeModal={ closeModalToAddJobFunction }
@@ -209,14 +190,14 @@ class Organisations extends Component {
                         hiddenFields={[
                             { fieldId: 'organisation', value: pathNodes[formOpenByPanelId || 0].uuid }
                         ]}
-                        headerText={i18n.organisations_add_project}
-                        submitButtonText={i18n.organisations_add}
-                        translationKeysOverride={{
+                        headerText={ i18n.organisations_add_project }
+                        submitButtonText={ i18n.organisations_add }
+                        translationKeysOverride={ {
                             product: {
                                 label: 'form_project_product'
                             }
-                        }}
-                        afterSubmit = { response => {
+                        } }
+                        afterSubmit={ response => {
                             refreshPanelDataWithMessage(i18n.organisations_add_project_success, response);
                         } }
                         closeModal={ closeModalToAddProject }
@@ -231,9 +212,9 @@ class Organisations extends Component {
                         hiddenFields={[
                             { fieldId: 'uuid', value: this.props.selectedParticipantSlug }
                         ]}
-                        headerText={i18n.organisations_amend_participant}
-                        submitButtonText={i18n.organisations_save}
-                        translationKeysOverride={{
+                        headerText={ i18n.organisations_amend_participant }
+                        submitButtonText={ i18n.organisations_save }
+                        translationKeysOverride={ {
                             accountFirstName: {
                                 placeholder: 'form_participant_first_name_placeholder'
                             },
@@ -249,8 +230,8 @@ class Organisations extends Component {
                             accountHasRoleEmail: {
                                 placeholder: 'form_participant_email_placeholder'
                             }
-                        }}
-                        afterSubmit = { () => {
+                        } }
+                        afterSubmit={ () => {
                             refreshDetailPanelParticipantsWithMessage(i18n.organisations_amend_participant_success);
                         } }
                         closeModal={ closeModalToAmendParticipant }
@@ -271,16 +252,16 @@ class Organisations extends Component {
                             }</main>
                             <footer>
                                 <button
-                                    className={ 'action_button action_button__secondary' }
-                                    type={ 'button' }
+                                    className="action_button action_button__secondary"
+                                    type="button"
                                     value={ i18n.organisations_close }
                                     onClick={ closeModalToInviteParticipant }
                                 >
                                     { i18n.organisations_close }
                                 </button>
                                 <button
-                                    className={ 'action_button' }
-                                    type={ 'button' }
+                                    className="action_button"
+                                    type="button"
                                     value={ i18n.organisations_invite }
                                     onClick={ () => inviteParticipants(selectedParticipants) }
                                 >
@@ -291,7 +272,7 @@ class Organisations extends Component {
                     </section>
                 </aside>
                 <Modal
-                    id={ 'modal_edit_competencies' }
+                    id="modal_edit_competencies"
                     modalHeader={ i18n.organisations_edit_competencies }
                     closeModal={ closeModalToEditCompetencies }
                 >

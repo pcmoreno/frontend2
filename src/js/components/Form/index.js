@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
@@ -11,6 +8,8 @@ import ApiFactory from '../../utils/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
 import translator from '../../utils/translator';
 import FormErrors from './constants/FormErrors';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {
@@ -175,7 +174,7 @@ class Index extends Component {
             sectionId,
             hiddenFields,
             disabledFields,
-            forms, // from Form reducer
+            forms,
             headerText,
             submitButtonText,
             closeModal,

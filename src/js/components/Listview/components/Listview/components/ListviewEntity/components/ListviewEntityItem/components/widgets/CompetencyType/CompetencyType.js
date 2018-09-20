@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/competencytype.scss';
+import AppConfig from '../../../../../../../../../../../App.config.js';
 
 /** @jsx h */
 
@@ -10,7 +11,7 @@ export default class CompetencyType extends Component {
         let icon;
 
         switch (competencyType) {
-            case 'global': icon = <span className={ style.global }>LTP</span>;
+            case 'global': icon = <span className={ style.global }>{ AppConfig.global.organisations.rootEntity.name }</span>;
                 break;
 
             case 'custom': icon = null;

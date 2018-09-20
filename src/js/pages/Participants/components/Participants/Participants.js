@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Listview from '../../../../components/Listview';
 import style from './style/participants.scss';
+
+/** @jsx h */
 
 export default class Participants extends Component {
     render() {

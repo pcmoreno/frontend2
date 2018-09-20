@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import Sidebar from './components/Sidebar/Sidebar';
 
 /** @jsx h */
 
-import Sidebar from './components/Sidebar/Sidebar';
-
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { tabs, i18n } = this.props;
 

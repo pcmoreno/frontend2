@@ -1,8 +1,8 @@
 import * as actionType from './../constants/ActionTypes';
+import AppConfig from './../../../App.config';
 
-// todo: populate default id from the AppConfig?
 const initialState = {
-    languageId: 'nl_NL'
+    languageId: AppConfig.languages.defaultLanguage
 };
 
 /**
@@ -12,7 +12,7 @@ const initialState = {
  * @returns {Object} state
  */
 export default function headerReducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
 
     switch (action.type) {
 

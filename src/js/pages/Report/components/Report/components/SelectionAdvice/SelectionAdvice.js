@@ -9,7 +9,6 @@ import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 /** @jsx h */
 
 export default class SelectionAdvice extends Component {
-
     render() {
         const { texts, saveReportText, i18n } = this.props;
         let selectionAdvice = null;
@@ -49,7 +48,7 @@ export default class SelectionAdvice extends Component {
         }
 
         return (
-            <ReportSection title={i18n.report_selection_advice}>
+            <ReportSection title={ i18n.report_selection_advice }>
                 <ReportColumn>
                     <p>{ i18n.report_selection_advice_default_text }</p>
                     <div className={ `${style.selectionBlock} ${bannerStyle}` }>
@@ -57,10 +56,10 @@ export default class SelectionAdvice extends Component {
                         <span>{ i18n[`report_${selectionAdvice}`] }</span>
                     </div>
                     <TextBlock
-                        field={texts.selectionAdvice}
-                        hideTitle={true}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.selectionAdvice }
+                        hideTitle={ true }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                 </ReportColumn>
             </ReportSection>

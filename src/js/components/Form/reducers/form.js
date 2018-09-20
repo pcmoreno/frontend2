@@ -13,8 +13,8 @@ const initialState = {
  * @returns {Object} state
  */
 export default function formReducer(state = initialState, action) {
-    let newState = Object.assign({}, state),
-        newForm;
+    const newState = Object.assign({}, state);
+    let newForm;
 
     switch (action.type) {
         case actionType.STORE_FORM_DATA:

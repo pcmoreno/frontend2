@@ -11,7 +11,7 @@ const initialState = {
  * @returns {Object} state
  */
 export default function alertReducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+    const newState = Object.assign({}, state);
 
     switch (action.type) {
 

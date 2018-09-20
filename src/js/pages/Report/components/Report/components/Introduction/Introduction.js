@@ -1,13 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import ReportSection from '../ReportSection/ReportSection';
 import ReportColumn from '../ReportSection/components/ReportColumn/ReportColumn';
 import TextBlock from '../../components/TextBlock/TextBlock';
 
-export default class Introduction extends Component {
+/** @jsx h */
 
+export default class Introduction extends Component {
     render() {
         const { texts, saveReportText, i18n, product } = this.props;
 
@@ -45,29 +43,29 @@ export default class Introduction extends Component {
         }
 
         return (
-            <ReportSection title={i18n.report_introduction}>
+            <ReportSection title={ i18n.report_introduction }>
                 <ReportColumn>
                     <TextBlock
-                        field={texts.goal}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.goal }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                     <TextBlock
-                        field={texts.validity}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.validity }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                 </ReportColumn>
                 <ReportColumn>
                     <TextBlock
-                        field={texts.parts}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.parts }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                     <TextBlock
-                        field={texts.structure}
-                        editable={true}
-                        saveReportText={saveReportText}
+                        field={ texts.structure }
+                        editable={ true }
+                        saveReportText={ saveReportText }
                     />
                 </ReportColumn>
             </ReportSection>

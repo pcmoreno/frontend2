@@ -104,7 +104,7 @@ export default class StaticScore extends Component {
                     </section>
                     <section className={ style.textContainer }>
                         <div
-                            dangerouslySetInnerHTML={{ __html: htmlDescription }}
+                            dangerouslySetInnerHTML={ { __html: htmlDescription } }
                         />
                     </section>
                 </div>

@@ -1,14 +1,13 @@
 import { h, Component, render } from 'preact';
 import ApiFactory from '../../utils/api/factory';
 import Redirect from '../../utils/components/Redirect';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as headerActions from './actions/header';
 import translator from '../../utils/translator';
 import Header from './components/Header/Header';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {
@@ -48,10 +47,10 @@ class Index extends Component {
 
         return (
             <Header
-                user={user}
-                logoutAction={this.logout}
-                languageId={this.props.languageId}
-                switchLanguage={this.switchLanguage}
+                user={ user }
+                logoutAction={ this.logout }
+                languageId={ this.props.languageId }
+                switchLanguage={ this.switchLanguage }
                 i18n={ translator(this.props.languageId, 'header') }
             />
         );

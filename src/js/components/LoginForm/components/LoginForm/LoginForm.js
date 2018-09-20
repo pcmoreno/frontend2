@@ -1,10 +1,9 @@
 import { h, Component, render } from 'preact';
-
-/** @jsx h */
-
 import style from './style/loginform.scss';
 import AppConfig from '../../../../App.config';
 import Redirect from '../../../../utils/components/Redirect';
+
+/** @jsx h */
 
 export default class LoginForm extends Component {
     constructor(props) {
@@ -40,7 +39,7 @@ export default class LoginForm extends Component {
                         </header>
                         <main>
                             <div>
-                                <label htmlFor="email">{ i18n.login_email_label }</label>
+                                <label htmlFor="username">{ i18n.login_email_label }</label>
                                 <input
                                     tabIndex="1"
                                     type="text"
@@ -68,10 +67,12 @@ export default class LoginForm extends Component {
                             </div>
                             <span className={ style.link }>
                                 <span role="link"
-                                    tabIndex="0"
+                                    tabIndex="3"
                                     onClick={() => {
                                         this.forgotPasswordHandler();
-                                    }}>{i18n.login_forgot_password}
+                                    }}
+                                >
+                                    {i18n.login_forgot_password}
                                 </span>
                             </span>
                             <span className={ style.errors }>

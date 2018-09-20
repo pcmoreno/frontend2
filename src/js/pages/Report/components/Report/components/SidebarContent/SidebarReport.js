@@ -17,7 +17,6 @@ import ReportActions from '../../../../constants/ReportActions';
 const sidebarScorePrefix = 'sidebar_score_';
 const TRANSLATION_KEY_PREFIX = 'competencies_';
 
-
 const staticScoreRegexRange = `${StaticScoreValue.MIN_VALUE}-${StaticScoreValue.MAX_VALUE}`;
 const staticScoreFullRegex = new RegExp(`[^${staticScoreRegexRange}]`, 'g');
 
@@ -25,7 +24,6 @@ const competencyScoreRegexRange = `${CompetencyScoreValue.MIN_VALUE}-${Competenc
 const competencyScoreFullRegex = new RegExp(`[^${competencyScoreRegexRange}]`, 'g');
 
 export default class SidebarReport extends Component {
-
     constructor(props) {
         super(props);
 
@@ -164,7 +162,7 @@ export default class SidebarReport extends Component {
                 value={ advice }
                 selected={ advice === selectionAdvice }
             >
-                {i18n[`report_${advice}`] || advice }
+                { i18n[`report_${advice}`] || advice }
             </option>);
         }
 
@@ -181,7 +179,7 @@ export default class SidebarReport extends Component {
                             <td><input
                                 id={ `${sidebarScorePrefix}${key}` }
                                 onInput={ this.onInputStaticScore }
-                                type='number'
+                                type="number"
                                 pattern={ `[${staticScoreRegexRange}]` }
                                 min={ StaticScoreValue.MIN_VALUE }
                                 max={ StaticScoreValue.MAX_VALUE }
@@ -219,7 +217,7 @@ export default class SidebarReport extends Component {
                         <td><input
                             id={ `${sidebarScorePrefix}${competency.name.toLowerCase()}` }
                             onInput={ this.onInputCompetencyScore }
-                            type='number'
+                            type="number"
                             pattern={ `[${competencyScoreRegexRange}]` }
                             min={ CompetencyScoreValue.MIN_VALUE }
                             max={ CompetencyScoreValue.MAX_VALUE }

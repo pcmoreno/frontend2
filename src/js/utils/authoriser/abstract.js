@@ -81,7 +81,7 @@ class AbstractAuthoriser {
         let allowed = false;
 
         // loop through all allowed roles (lowercase) and match them with the user role
-        for (let i in allowedRoles) {
+        for (const i in allowedRoles) {
             if (allowedRoles.hasOwnProperty(i)) {
                 if (~userRoles.indexOf(allowedRoles[i].toLowerCase())) {
                     allowed = true;

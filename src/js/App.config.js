@@ -232,7 +232,7 @@ const AppConfig = {
             'nl_NL',
             'en_GB'
         ],
-        defaultLanguage: 'en_GB',
+        defaultLanguage: 'nl_NL',
         mapped: {
             nl: 'nl_NL',
             en: 'en_GB',

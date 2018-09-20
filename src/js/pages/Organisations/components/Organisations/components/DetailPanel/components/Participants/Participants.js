@@ -6,10 +6,6 @@ import style from './style/participants.scss';
 /** @jsx h */
 
 export default class Participants extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const {
             i18n,
@@ -25,15 +21,15 @@ export default class Participants extends Component {
                 <div className={ style.toolbar }>
                     <button
                         onClick={ openModalToAddParticipant }
-                        className={ 'action_button left' }
-                        type={ 'button' }
+                        className="action_button left"
+                        type="button"
                     >
                         { i18n.organisations_add_participant_button }
                         <FontAwesomeIcon icon={ 'plus' }/>
                     </button>
                     <button
                         onClick={ openModalToInviteParticipant }
-                        className={`action_button left ${selectedParticipants.length === 0 ? 'disabled' : ''}`}
+                        className={ `action_button left ${selectedParticipants.length === 0 ? 'disabled' : ''}` }
                         type="button"
                         disabled={ selectedParticipants.length === 0 }
                     >

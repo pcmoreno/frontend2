@@ -71,7 +71,6 @@ export default class DownloadReport extends Component {
     render() {
         const { i18n, generatedReport } = this.props;
 
-
         // only show the download button when the status is 'published'
         const downloadButton = (generatedReport.generationStatus === DownloadReportGenerationStatus.PUBLISHED
             ? <button

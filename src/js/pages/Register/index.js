@@ -175,7 +175,6 @@ export default class Index extends Component {
                 // this participant has no status to register
                 this.redirectToLogin();
             }
-
         } else {
 
             // validate the user status

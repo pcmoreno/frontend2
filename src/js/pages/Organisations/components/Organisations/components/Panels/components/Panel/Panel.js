@@ -1,16 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Item from './components/Item/Item';
 import PanelHeader from './components/PanelHeader/PanelHeader';
 import style from './style/panel.scss';
 
-export default class Panel extends Component {
-    constructor(props) {
-        super(props);
-    }
+/** @jsx h */
 
+export default class Panel extends Component {
     render() {
         const {
             pathNodes,
@@ -39,12 +34,12 @@ export default class Panel extends Component {
                 });
 
                 itemOutput.push(<Item
-                    entity={entity}
-                    panelId={panelId}
-                    fetchEntities={fetchEntities}
-                    fetchDetailPanelData={fetchDetailPanelData}
-                    isPanelItemActive={isPanelItemActive}
-                    i18n={i18n}
+                    entity={ entity }
+                    panelId={ panelId }
+                    fetchEntities={ fetchEntities }
+                    fetchDetailPanelData={ fetchDetailPanelData }
+                    isPanelItemActive={ isPanelItemActive }
+                    i18n={ i18n }
                 />);
             });
         }
@@ -52,10 +47,10 @@ export default class Panel extends Component {
         return (
             <section id={ `panel-${panelId}` } className={ style.panel } >
                 <PanelHeader
-                    panelId={panelId}
-                    parentType={parentType}
-                    addMethods={panelHeaderAddMethods}
-                    i18n={i18n}
+                    panelId={ panelId }
+                    parentType={ parentType }
+                    addMethods={ panelHeaderAddMethods }
+                    i18n={ i18n }
                 />
                 <section className={ style.itemlist }>
                     <ul>

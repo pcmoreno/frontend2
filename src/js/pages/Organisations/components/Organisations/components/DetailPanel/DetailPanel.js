@@ -8,6 +8,7 @@ import DetailPanelTabType from '../../../../constants/DetailPanelTabType';
 import EntityType from '../../../../../../constants/EntityType';
 import FieldType from '../../../../constants/FieldType';
 import style from './style/detailpanel.scss';
+import AppConfig from '../../../../../../App.config.js';
 
 /** @jsx h */
 
@@ -125,7 +126,7 @@ export default class DetailPanel extends Component {
                     </div>
                     <span
                         tabIndex="0"
-                        className={ `${style.button_hide_detailpanel}` }
+                        className={ style.button_hide_detailpanel }
                         onClick={ this.closeDetailPanel }
                         role="button"
                     >
@@ -133,13 +134,13 @@ export default class DetailPanel extends Component {
                     </span>
                     <span
                         tabIndex="0"
-                        className={ `${style.button_fullwidth_detailpanel}` }
+                        className={ style.button_fullwidth_detailpanel }
                         onClick={ this.toggleFullWidthDetailPanel }
                         role="button"
                     >
                         <FontAwesomeIcon icon='arrow-left' />
                     </span>
-                    { entity.name !== 'LTP' &&
+                    { entity.name !== AppConfig.global.organisations.rootEntity.name &&
                         <div className={ `${style.header_icon}` }>{ icon }</div>
                     }
                     <h2>

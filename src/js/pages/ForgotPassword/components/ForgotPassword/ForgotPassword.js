@@ -1,13 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import style from './style/forgotpassword.scss';
 import RequestPasswordForm from './components/RequestPasswordForm/RequestPasswordForm';
 import RequestSuccessful from './components/RequestSuccessful/RequestSuccessful';
 
-export default class ForgotPassword extends Component {
+/** @jsx h */
 
+export default class ForgotPassword extends Component {
     constructor(props) {
         super(props);
 

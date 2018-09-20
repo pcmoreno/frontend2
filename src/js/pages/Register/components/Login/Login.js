@@ -1,13 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import mainStyle from '../../style/register.scss';
 import style from './style/login.scss';
 import LoginForm from '../../../../components/LoginForm/index';
 
-export default class Login extends Component {
+/** @jsx h */
 
+export default class Login extends Component {
     render() {
         const { onSubmit, onChange, error, buttonDisabled, showLogin, i18n, language, emailInput } = this.props;
 
@@ -16,7 +14,7 @@ export default class Login extends Component {
                 <div className={ mainStyle.wrapper }>
                     <section className={ `${mainStyle.linkSection} ${style.linkSection}` }>
                         <h3>{ i18n.register_new_user }</h3>
-                        <div tabIndex="0" role='button' onClick={ showLogin } className={ mainStyle.link }>
+                        <div tabIndex="0" role="button" onClick={ showLogin } className={ mainStyle.link }>
                             <span>{ i18n.register_activate_your_account }</span>
                         </div>
                     </section>
@@ -26,8 +24,8 @@ export default class Login extends Component {
                             onSubmit={ onSubmit }
                             username={ emailInput }
                             handleChange={ onChange }
-                            error = { error }
-                            buttonDisabled = { buttonDisabled }
+                            error={ error }
+                            buttonDisabled={ buttonDisabled }
                         />
                     </section>
                 </div>

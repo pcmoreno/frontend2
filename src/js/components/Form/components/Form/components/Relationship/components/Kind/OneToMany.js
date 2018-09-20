@@ -1,9 +1,8 @@
 import { h } from 'preact';
-
-/** @jsx h */
-
 import style from '../../../style/field.scss';
 import AbstractRelationship from './AbstractRelationship';
+
+/** @jsx h */
 
 export default class OneToMany extends AbstractRelationship {
     render() {

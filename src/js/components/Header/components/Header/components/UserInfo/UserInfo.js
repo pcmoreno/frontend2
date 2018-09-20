@@ -1,10 +1,9 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import UserMenuFoldout from './components/UserMenuFoldout/UserMenuFoldout';
 import UserMenu from './components/UserMenu/UserMenu';
 import style from './style/userinfo.scss';
+
+/** @jsx h */
 
 export default class UserInfo extends Component {
     constructor() {
@@ -39,11 +38,11 @@ export default class UserInfo extends Component {
                     user={user}
                 />
                 <UserMenuFoldout
-                    logoutAction={logoutAction}
-                    languageId={languageId}
-                    switchLanguage={switchLanguage}
-                    toggleUserMenu={this.toggleUserMenu}
-                    i18n={i18n}
+                    logoutAction={ logoutAction }
+                    languageId={ languageId }
+                    switchLanguage={ switchLanguage }
+                    toggleUserMenu={ this.toggleUserMenu }
+                    i18n={ i18n }
                 />
             </nav>
         );

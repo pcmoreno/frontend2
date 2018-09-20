@@ -1,18 +1,15 @@
 import { h, Component } from 'preact';
+import style from './style/error.scss';
 
 /** @jsx h */
 
-import style from './style/error.scss';
-
 export default class Error extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        const { i18n } = this.props;
+
         return (
             <section className={ style.error }>
-                <h1>Page not found!</h1>
+                <h1>{ i18n.error_page_not_found }</h1>
             </section>
         );
     }

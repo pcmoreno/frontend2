@@ -48,7 +48,7 @@ export default class Motives extends Component {
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_performance_motivation}</h4>
+                        <h4>{ i18n.report_performance_motivation }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.PERFORMANCE_MOTIVATION] } i18n={ i18n } />
                     </AttachmentRow>
@@ -56,17 +56,17 @@ export default class Motives extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_performance_motivation_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_performance_motivation_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_need_to_influence}</h4>
+                        <h4>{ i18n.report_need_to_influence }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_TO_INFLUENCE] } i18n={ i18n } />
                     </AttachmentRow>
@@ -74,17 +74,17 @@ export default class Motives extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_to_influence_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_to_influence_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     <AttachmentRow>
-                        <h4>{i18n.report_need_for_acceptance}</h4>
+                        <h4>{ i18n.report_need_for_acceptance }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_ACCEPTANCE] } i18n={ i18n } />
                     </AttachmentRow>
@@ -92,18 +92,18 @@ export default class Motives extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_for_acceptance_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_for_acceptance_high_text } } />
                         </BulletList>
                     </AttachmentRow>
 
                     {/* attention! this is a typo coming from the API it should be dve-beaau */}
                     <AttachmentRow>
-                        <h4>{i18n.report_need_for_autonomy}</h4>
+                        <h4>{ i18n.report_need_for_autonomy }</h4>
                         <ScoreBar score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
                         <ScoreLabel score={ hnaCategoryScores[HnaCategories.Motives.NEED_FOR_AUTONOMY] } i18n={ i18n } />
                     </AttachmentRow>
@@ -111,11 +111,11 @@ export default class Motives extends Component {
                     <AttachmentRow>
                         <section />
                         <BulletList>
-                            <header>{i18n.report_low_score}</header>
+                            <header>{ i18n.report_low_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_for_autonomy_low_text } } />
                         </BulletList>
                         <BulletList>
-                            <header>{i18n.report_high_score}</header>
+                            <header>{ i18n.report_high_score }</header>
                             <p dangerouslySetInnerHTML={ { __html: i18n.report_need_for_autonomy_high_text } } />
                         </BulletList>
                     </AttachmentRow>

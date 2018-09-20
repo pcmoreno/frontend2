@@ -19,9 +19,9 @@ import Utils from '../../../../../../utils/utils';
  * </ScoreFan>
  */
 export default class ScoreFan extends Component {
-
     render() {
-        let { min, max, score, leftText, rightText } = this.props;
+        const { min, max, leftText, rightText } = this.props;
+        let { score } = this.props;
         let rotation = null;
         let scoreSegment = null;
 

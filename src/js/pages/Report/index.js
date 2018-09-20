@@ -1,7 +1,4 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as reportActions from './actions/report';
@@ -15,6 +12,8 @@ import ApiMethod from '../../utils/api/constants/ApiMethod';
 import Utils from '../../utils/utils';
 import DownloadReportGenerationStatus from './constants/DownloadReportGenerationStatus';
 import Components from '../../constants/Components';
+
+/** @jsx h */
 
 class Index extends Component {
     constructor(props) {
@@ -37,7 +36,6 @@ class Index extends Component {
         this.generateReport = this.generateReport.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
         this.getReportGenerationStatus = this.getReportGenerationStatus.bind(this);
-
         this.triggerRetest = this.triggerRetest.bind(this);
 
         this.loadingPdf = false;
@@ -86,22 +84,26 @@ class Index extends Component {
         if (competency.slug) {
             apiMethod = ApiMethod.PUT;
             apiEndpoint = this.api.getEndpoints().report.updateCompetencyScore;
+
             urlParams = {
                 identifiers: {
                     slug: competency.slug
                 }
             };
+
             postData = {
                 scoreOfCompetencyInReport: competency.score
             };
         } else {
             apiMethod = ApiMethod.POST;
             apiEndpoint = this.api.getEndpoints().report.createCompetencyScore;
+
             urlParams = {
                 parameters: {
                     fields: 'competencyScoredInReportSlug'
                 }
             };
+
             postData = {
                 report: reportSlug,
                 scoreOfCompetencyInReport: competency.score,
@@ -183,11 +185,13 @@ class Index extends Component {
         if (reportText.slug) {
             apiMethod = ApiMethod.PUT;
             apiEndpoint = this.api.getEndpoints().report.updateTextField;
+
             urlParams = {
                 identifiers: {
                     slug: reportText.slug
                 }
             };
+
             postData = {
                 textFieldInReportValue: reportText.value
             };
@@ -447,10 +451,8 @@ class Index extends Component {
                 fileName: response.fileName
             });
 
-            document.querySelector('#spinner').classList.add('hidden');
-
             this.loadingPdf = false;
-
+            document.querySelector('#spinner').classList.add('hidden');
         }).catch(error => {
             this.loadingPdf = false;
             document.querySelector('#spinner').classList.add('hidden');
@@ -493,16 +495,15 @@ class Index extends Component {
     render() {
         const { report, languageId } = this.props;
 
-
         // ensure i18n is updated when the languageId changes
         this.i18n = translator(this.props.languageId, 'report');
 
         return (
             <Report
-                report = { report }
+                report={ report }
                 saveReportText={ this.saveReportText }
                 saveCompetencyScore={ this.saveCompetencyScore }
-                i18n = { this.i18n }
+                i18n={ this.i18n }
                 languageId={ languageId }
                 generateReport={ this.generateReport }
                 downloadReport={ this.downloadReport }

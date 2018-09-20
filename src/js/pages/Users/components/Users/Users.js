@@ -1,13 +1,11 @@
 import { h, Component } from 'preact';
-
-/** @jsx h */
-
 import Listview from '../../../../components/Listview';
 import Sidebar from './../../../../components/Sidebar';
-
 import Form from './../../../../components/Form';
 import style from './style/users.scss';
 import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
+
+/** @jsx h */
 
 export default class Users extends Component {
     render() {
@@ -49,7 +47,7 @@ export default class Users extends Component {
                         entities={ userList }
                         defaultSortingKey={ 'name' }
                         defaultSortingOrder={ 'asc' }
-                        i18n={i18n}
+                        i18n={ i18n }
                         translationKeyPrefix={ 'users_' }
                     />
                 </section>
@@ -59,10 +57,10 @@ export default class Users extends Component {
                         formId={ 'addAccount' }
                         sectionId={ 'account' }
                         method={ FormMethod.CREATE_SECTION }
-                        hiddenFields={[]}
-                        headerText={i18n.users_add_user}
-                        submitButtonText={i18n.users_send_invite}
-                        translationKeysOverride={{
+                        hiddenFields={ [] }
+                        headerText={ i18n.users_add_user }
+                        submitButtonText={ i18n.users_send_invite }
+                        translationKeysOverride={ {
                             firstName: {
                                 placeholder: 'form_account_first_name_placeholder'
                             },
@@ -81,8 +79,8 @@ export default class Users extends Component {
                             role: {
                                 label: 'form_account_role_label'
                             }
-                        }}
-                        afterSubmit = { () => {
+                        } }
+                        afterSubmit={ () => {
                             refreshDataWithMessage(i18n.users_add_user_success);
                         }}
                         closeModal={ closeModalToAddUser }

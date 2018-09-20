@@ -1,11 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/requestpasswordform.scss';
 
 /** @jsx h */
 
-import style from './style/requestpasswordform.scss';
-
 export default class RequestPasswordForm extends Component {
-
     render() {
         const { i18n, onChangeInput, onSubmit, submitDisabled, error, username } = this.props;
 
@@ -23,7 +21,7 @@ export default class RequestPasswordForm extends Component {
                             type="text"
                             id="username"
                             name="username"
-                            autocomplete="on"
+                            autoComplete="on"
                             placeholder={ i18n.login_forgot_password_email_placeholder }
                             onChange={ onChangeInput }
                             value={ username }

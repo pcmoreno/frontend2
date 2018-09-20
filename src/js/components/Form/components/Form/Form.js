@@ -619,9 +619,8 @@ export default class Form extends Component {
                     });
 
                     formSubmitButton = <button
-                        className={ 'action_button' }
-                        type={ 'button' }
-                        value={ i18n.form_submit }
+                        className="action_button"
+                        type="button"
                         onClick={ this.collectFormData }
                         disabled={ this.localState.form.disabled }
                     >{ submitButtonText }</button>;
@@ -633,7 +632,13 @@ export default class Form extends Component {
             <section tabIndex="0" className={ style.background } onClick={ this.handleClose } role="button" />
             <form id={formId} noValidate>
                 <header>
-                    <button type="button" value="Close" onClick={ this.handleClose } disabled={ this.localState.form.disabled }><span aria-hidden="true">×</span></button>
+                    <button
+                        type="button"
+                        onClick={ this.handleClose }
+                        disabled={ this.localState.form.disabled }
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
                     <h3>{ headerText }</h3>
                     <span className={ `${style.errorMessage}` }>{ this.localState.errors.form }</span>
                 </header>
@@ -645,13 +650,12 @@ export default class Form extends Component {
                 <footer>
                     <nav>
                         <button
-                            className={ 'action_button action_button__secondary' }
-                            type={ 'button' }
-                            value={ 'Close' }
+                            className="action_button action_button__secondary"
+                            type="button"
                             onClick={ this.handleClose }
                             disabled={ this.localState.form.disabled }
                         >
-                            { i18n.form_close }
+                            { i18n.form_cancel }
                         </button>
                         { formSubmitButton }
                     </nav>

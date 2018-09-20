@@ -15,17 +15,17 @@ export default class Settings extends Component {
                         onClick={ () => {
                             openModalToEditCompetencies(entity.uuid);
                         } }
-                        className={ 'action_button left' }
-                        type={ 'button' }
+                        className="action_button left"
+                        type="button"
                     >{ selectedCompetenciesListView.length > 0 ? i18n.organisations_edit_competencies : i18n.organisations_add_competencies }</button>
                 </div>
                 <div className={ style.listView }>
                     <Listview
-                        entities={selectedCompetenciesListView}
-                        i18n={i18n}
-                        defaultSortingKey={'competency_name'}
-                        defaultSortingOrder={'asc'}
-                        translationKeyPrefix={'competencies_'}
+                        entities={ selectedCompetenciesListView }
+                        i18n={ i18n }
+                        defaultSortingKey={ 'competency_name' }
+                        defaultSortingOrder={ 'asc' }
+                        translationKeyPrefix={ 'competencies_' }
                     />
                 </div>
             </div>

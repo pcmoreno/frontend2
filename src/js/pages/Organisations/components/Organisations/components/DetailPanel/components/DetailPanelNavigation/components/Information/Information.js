@@ -3,12 +3,8 @@ import { h, Component } from 'preact';
 /** @jsx h */
 
 export default class Information extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        const { active, switchTab } = this.props;
+        const { active, switchTab, i18n } = this.props;
 
         return (
             <li
@@ -17,7 +13,7 @@ export default class Information extends Component {
                     switchTab('information');
                 }}
             >
-                <span>Info</span> {/* todo: translate this */}
+                <span>{ i18n.organisations_detailpanel_label_info }</span>
             </li>
         );
     }

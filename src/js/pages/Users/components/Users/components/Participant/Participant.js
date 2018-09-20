@@ -1,14 +1,9 @@
 import { h, Component } from 'preact';
+import style from './style/participant.scss';
 
 /** @jsx h */
 
-import style from './style/participant.scss';
-
 export default class Participant extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <span className={ style.participant }>
