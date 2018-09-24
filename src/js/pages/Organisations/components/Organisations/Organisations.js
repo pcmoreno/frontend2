@@ -306,7 +306,6 @@ class Organisations extends Component {
                             i18n={ i18n }
                             closeModalToEditCompetencies={ closeModalToEditCompetencies }
                             addCustomCompetency={ this.props.addCustomCompetency }
-                            onBeforeTabSwitch={ this.props.onBeforeTabSwitch }
                             goBackToCustomCompetencySelectionTab={ this.props.goBackToCustomCompetencySelectionTab }
                         />
                         <EditCustomCompetency
