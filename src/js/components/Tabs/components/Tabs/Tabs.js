@@ -31,6 +31,8 @@ export default class Tabs extends Component {
 
     switchTab(id) {
 
+        console.log(id)
+
         if (this.props.onBeforeTabSwitch) {
             this.props.onBeforeTabSwitch(id);
         }

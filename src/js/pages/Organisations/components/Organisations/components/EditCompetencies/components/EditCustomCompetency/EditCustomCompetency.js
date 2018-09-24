@@ -39,6 +39,10 @@ export default class EditCustomCompetency extends Component {
         this.setState(this.localState);
     }
 
+    returnToEditCustomCompetencySelection() {
+
+    }
+
     onSubmit(event) {
         event.preventDefault();
 

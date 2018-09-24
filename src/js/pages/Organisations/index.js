@@ -1052,16 +1052,19 @@ class Index extends Component {
      * @returns {undefined}
      */
     onBeforeTabSwitch(tabId) {
+
         let setState = false;
 
         // for now we just want to reset the override when the tab component is switching internally
         if (tabId !== this.localState.editCompetenciesActiveTab) {
+
             this.localState.editCompetenciesActiveTab = null;
             setState = true;
         }
 
         // when the tab for amending a custom competency is not open anymore, reset it
         if (tabId !== CompetencyTab.EDIT_CUSTOM_COMPETENCY) {
+
             this.localState.customCompetencyToEdit = null;
             setState = true;
         }

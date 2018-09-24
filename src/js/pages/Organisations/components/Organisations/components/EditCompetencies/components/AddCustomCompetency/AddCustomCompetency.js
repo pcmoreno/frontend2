@@ -143,6 +143,14 @@ export default class AddCustomCompetency extends Component {
                             <span className={style.errors}>
                                 { this.localState.error }
                             </span>
+
+                            <button
+                                className="action_button action_button__secondary left"
+                                type="button"
+                                onClick={ () => {
+                                    this.props.onBeforeTabSwitch('organisations_add_custom_competency');
+                                } }
+                            >BEK</button>
                         </main>
                     </form>
                 </main>
