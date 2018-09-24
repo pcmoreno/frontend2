@@ -72,6 +72,7 @@ class Index extends Component {
 
         this.openEditCustomCompetencyTab = this.openEditCustomCompetencyTab.bind(this);
         this.onBeforeTabSwitch = this.onBeforeTabSwitch.bind(this);
+        this.goBackToCustomCompetencySelectionTab = this.goBackToCustomCompetencySelectionTab.bind(this);
 
         this.getDetailPanelData = this.getDetailPanelData.bind(this);
 
@@ -1046,8 +1047,8 @@ class Index extends Component {
     }
 
     /**
-     * Handles some state variables before swichting tabs in the competency tab modal
-     * @param {string} tabId - tabId
+     * Handles some state variables before switching tabs in the competency tab modal
+     * @param {string} tabId - tabId of the tab to switch to
      * @returns {undefined}
      */
     onBeforeTabSwitch(tabId) {
@@ -1072,6 +1073,13 @@ class Index extends Component {
         if (setState) {
             this.setState(this.localState);
         }
+    }
+
+    goBackToCustomCompetencySelectionTab() {
+
+        // this button only shows on edit / add and therefore user can only go back to custom competency selection tab
+        this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
+        this.setState(this.localState);
     }
 
     amendInlineEditable(section, field, slug, value) {
@@ -1171,6 +1179,7 @@ class Index extends Component {
                 editCompetenciesActiveTab={ this.localState.editCompetenciesActiveTab }
                 amendInlineEditable={ this.amendInlineEditable }
                 getDetailPanelData={ this.getDetailPanelData }
+                goBackToCustomCompetencySelectionTab={ this.goBackToCustomCompetencySelectionTab }
             />
         );
     }

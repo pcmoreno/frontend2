@@ -39,10 +39,6 @@ export default class EditCustomCompetency extends Component {
         this.setState(this.localState);
     }
 
-    returnToEditCustomCompetencySelection() {
-
-    }
-
     onSubmit(event) {
         event.preventDefault();
 
@@ -146,6 +142,14 @@ export default class EditCustomCompetency extends Component {
                             <span className={style.errors}>
                                 { this.localState.error }
                             </span>
+
+                            <button
+                                className="action_button action_button__secondary left"
+                                type="button"
+                                onClick={ () => {
+                                    this.props.goBackToCustomCompetencySelectionTab();
+                                } }
+                            >{ i18n.organisations_edit_competencies_back }</button>
                         </main>
                     </form>
                 </main>

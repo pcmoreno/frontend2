@@ -148,9 +148,9 @@ export default class AddCustomCompetency extends Component {
                                 className="action_button action_button__secondary left"
                                 type="button"
                                 onClick={ () => {
-                                    this.props.onBeforeTabSwitch('organisations_add_custom_competency');
+                                    this.props.goBackToCustomCompetencySelectionTab();
                                 } }
-                            >BEK</button>
+                            >{ i18n.organisations_edit_competencies_back }</button>
                         </main>
                     </form>
                 </main>
