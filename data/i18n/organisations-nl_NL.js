@@ -51,6 +51,7 @@ export default {
     "organisations_development_orientation_definition": "Zich inspannen om de eigen kennis en vaardigheden te verbreden en verdiepen en nieuwe ervaringen op te doen met als doel professioneel te kunnen groeien en de kwaliteit van het eigen werk te verhogen.",
     "organisations_dutch": "Nederlands",
     "organisations_edit_competencies": "Bewerk competenties",
+    "organisations_edit_competencies_back": "Terug",
     "organisations_edit_competencies_success": "De selectie van competenties is succesvol gewijzigd",
     "organisations_edit_custom_competencies": "Klantspecifieke competenties",
     "organisations_edit_custom_competency": "Bewerk competentie",
