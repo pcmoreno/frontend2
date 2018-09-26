@@ -110,7 +110,7 @@ export default class EditCustomCompetency extends Component {
                     <form>
                         <main>
                             <div>
-                                <label htmlFor="competencyName">{ i18n.organisations_competency_name }</label>
+                                <label htmlFor="competencyName">{ i18n.organisations_competency_name } *</label>
                                 <input
                                     tabIndex="1"
                                     type="text"
@@ -125,7 +125,7 @@ export default class EditCustomCompetency extends Component {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="competencyDefinition">{ i18n.organisations_competency_definition }</label>
+                                <label htmlFor="competencyDefinition">{ i18n.organisations_competency_definition } *</label>
                                 <textarea
                                     rows="4"
                                     cols="50"
@@ -139,9 +139,20 @@ export default class EditCustomCompetency extends Component {
                                     value={ this.localState.editCustomCompetencyForm.competencyDefinition }
                                 />
                             </div>
+
+                            <span className={ style.requiredLabel }>* { i18n.organisations_required_fields }</span>
+
                             <span className={style.errors}>
                                 { this.localState.error }
                             </span>
+
+                            <button
+                                className="action_button action_button__secondary left"
+                                type="button"
+                                onClick={ () => {
+                                    this.props.goBackToCustomCompetencySelectionTab();
+                                } }
+                            >{ i18n.organisations_edit_competencies_back }</button>
                         </main>
                     </form>
                 </main>

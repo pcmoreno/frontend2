@@ -36,6 +36,10 @@
         &.wide {
             width: 100%;
         }
+
+        &.left {
+            float: left;
+        }
     }
 
     /* light version of the generic button with a darker hover style */

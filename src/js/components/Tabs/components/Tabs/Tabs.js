@@ -30,7 +30,6 @@ export default class Tabs extends Component {
     }
 
     switchTab(id) {
-
         if (this.props.onBeforeTabSwitch) {
             this.props.onBeforeTabSwitch(id);
         }
@@ -119,7 +118,7 @@ export default class Tabs extends Component {
                             this.switchTab(child.attributes.id);
                         }}
                         id={ `tablink_${child.attributes.id}` }
-                    >{child.attributes.label}</span>
+                    >{ child.attributes.label }</span>
                 );
             }
         });
