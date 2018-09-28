@@ -47,7 +47,7 @@ variables:
     paths:
       - node_modules/
   only:
-    - master
+    - acceptance
 
 ## Deploy production using aws cli
 .deploy_prod_stage: &deploy_prod_stage
