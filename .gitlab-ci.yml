@@ -22,8 +22,8 @@ cache:
 ## Templates
 ################################################################################
 ## test and build for merge requests
-.test_and_build: &test_and_build
-  before_script: *test_and_build
+.test_and_build:
+  before_script: &test_and_build
     - yarn install --ignore-platform --no-progress --non-interactive
     - yarn run build:prod
 
