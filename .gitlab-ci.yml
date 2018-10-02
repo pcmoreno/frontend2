@@ -23,19 +23,19 @@ cache:
 ################################################################################
 ## Deploy and run tests
 ## Shared build job config
-.install_before_build:
-  script:
-    - yarn install --ignore-platform --no-progress --non-interactive
-
-# test and build for merge requests
-.test_and_build: &test_and_build
-  image: ${BUILD_CONTAINER}
-  before_script: *install_before_build
-  script:
-    - yarn run build:prod
-  cache:
-    paths:
-      - node_modules/
+#.install_before_build:
+#  before_script: &install_before_build
+#    - yarn install --ignore-platform --no-progress --non-interactive
+#
+## test and build for merge requests
+#.test_and_build: &test_and_build
+#  image: ${BUILD_CONTAINER}
+#  before_script: *install_before_build
+#  script:
+#    - yarn run build:prod
+#  cache:
+#    paths:
+#      - node_modules/
 
 ## Shared build job config
 .build_stage: &build_stage
@@ -43,7 +43,7 @@ cache:
   image: ${BUILD_CONTAINER}
   services:
     - docker:dind
-  before_script: *test_and_build
+  #before_script: *test_and_build
   script:
     - echo "build stage"
   cache:
