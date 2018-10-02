@@ -3,7 +3,7 @@
 ################################################################################
 stages:
   - pr_build
-  #- build_acc
+  - build_acc
   #- deploy_acc
   #- build_prod
   #- deploy_prod
@@ -22,8 +22,13 @@ cache:
 ## Templates
 ################################################################################
 ## test and build for merge requests
-.test_and_build:
-  before_script: &test_and_build
+.test_and_build_acc:
+  before_script: &test_and_build_acc
+    - yarn install --ignore-platform --no-progress --non-interactive
+    - yarn run build:acc
+
+.test_and_build_prod:
+  before_script: &test_and_build_prod
     - yarn install --ignore-platform --no-progress --non-interactive
     - yarn run build:prod
 
@@ -33,7 +38,7 @@ cache:
   image: ${BUILD_CONTAINER}
   services:
     - docker:dind
-  before_script: *test_and_build
+  before_script: *test_and_build_prod
   script:
     - echo "build stage"
   cache:
@@ -41,18 +46,18 @@ cache:
       - node_modules/
 
 ### Shared build job config
-#.build_stage: &build_stage
-#  stage: build
-#  image: ${BUILD_CONTAINER}
-#  services:
-#    - docker:dind
-#  before_script: *test_and_build
-#  script:
-#    - echo "build stage"
-#  cache:
-#    paths:
-#      - node_modules/
-#
+.build_acc: &build_acc
+  stage: build_acc
+  image: ${BUILD_CONTAINER}
+  services:
+    - docker:dind
+  before_script: *test_and_build_acc
+  script:
+    - echo "build acc stage"
+  cache:
+    paths:
+      - node_modules/
+
 ### Shared build job config
 #.build_stage: &build_stage
 #  stage: build
@@ -86,15 +91,15 @@ pr_build:
     - master
 
 ## Build & test acceptance
-#build_acceptance:
-#  <<: *build_stage
-#  script:
-#  # Image tested, pushing to registry to prepare for deploy
-#  - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
-#  - docker push ${CI_REGISTRY_IMAGE}
-#  only:
-#  - acceptance
-#
+build_acceptance:
+  <<: *build_stage_acc
+  script:
+  # Image tested, pushing to registry to prepare for deploy
+  - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
+  - docker push ${CI_REGISTRY_IMAGE}
+  only:
+  - dockerized-deployment # todo: switch this back to acceptance
+
 ### Build & test master
 #build_master:
 #  <<: *build_stage
