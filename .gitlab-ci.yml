@@ -24,7 +24,7 @@ cache:
 ## Deploy and run tests
 ## Shared build job config
 .install_before_build:
-  before_script: &install_before_build
+  script:
     - yarn install --ignore-platform --no-progress --non-interactive
 
 # test and build for merge requests
