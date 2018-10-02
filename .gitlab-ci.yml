@@ -23,20 +23,14 @@ cache:
 ################################################################################
 ## Deploy and run tests
 ## Shared build job config
-#.install_before_build:
-#  before_script: &install_before_build
-#    - yarn install --ignore-platform --no-progress --non-interactive
-#
+.install_before_build:
+  before_script: &install_before_build
+    - yarn install --ignore-platform --no-progress --non-interactive
+
 ## test and build for merge requests
 .test_and_build: &test_and_build
-  image: ${BUILD_CONTAINER}
-  #before_script: *install_before_build
-  script:
-    #- yarn run build:prod
-    - echo "SOMETHING"
-  cache:
-    paths:
-      - node_modules/
+  before_script: *install_before_build
+    - yarn run build:prod
 
 ## Shared build job config
 .build_stage: &build_stage
