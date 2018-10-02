@@ -2,7 +2,7 @@
 ## Stages
 ################################################################################
 stages:
-  - build
+  - pr_build
   #- build_acc
   #- deploy_acc
   #- build_prod
@@ -21,20 +21,15 @@ cache:
 ################################################################################
 ## Templates
 ################################################################################
-## Deploy and run tests
-## Shared build job config
-.install_before_build:
-  before_script: &install_before_build
-    - yarn install --ignore-platform --no-progress --non-interactive
-
 ## test and build for merge requests
 .test_and_build: &test_and_build
-  before_script: *install_before_build
+  before_script: *test_and_build
+    - yarn install --ignore-platform --no-progress --non-interactive
     - yarn run build:prod
 
-## Shared build job config
+## PR build stage
 .build_stage: &build_stage
-  stage: build
+  stage: pr_build
   image: ${BUILD_CONTAINER}
   services:
     - docker:dind
