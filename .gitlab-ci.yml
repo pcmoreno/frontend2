@@ -3,10 +3,10 @@
 ################################################################################
 stages:
   - build
-  - build_acc
-  - deploy_acc
-  - build_prod
-  - deploy_prod
+  #- build_acc
+  #- deploy_acc
+  #- build_prod
+  #- deploy_prod
 
 ################################################################################
 ## Variables
