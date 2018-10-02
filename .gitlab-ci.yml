@@ -92,7 +92,7 @@ pr_build:
 
 ## Build & test acceptance
 build_acceptance:
-  <<: *test_and_build_acc
+  <<: *build_acc
   script:
   # Image tested, pushing to registry to prepare for deploy
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
