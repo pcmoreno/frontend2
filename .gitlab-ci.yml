@@ -95,6 +95,7 @@ build_acceptance:
   <<: *build_acc
   script:
   # Image tested, pushing to registry to prepare for deploy
+  - docker build -t ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} .
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
   - docker push ${CI_REGISTRY_IMAGE}
   only:
