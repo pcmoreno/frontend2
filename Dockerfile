@@ -11,7 +11,7 @@ ADD ./service-worker.js /src/public/service-worker.js
 ADD ./favicon.ico /src/public/favicon.ico
 
 # give nginx user permissions
-CMD chown -R nginx:nginx ./
+CMD chown -R nginx:nginx .
 
 # expose ports
 EXPOSE 80

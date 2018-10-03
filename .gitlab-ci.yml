@@ -4,7 +4,7 @@
 stages:
   - pr_build
   - build_acc
-  #- deploy_acc
+  - deploy_acc
   #- build_prod
   #- deploy_prod
 
@@ -72,10 +72,10 @@ cache:
 #      - node_modules/
 
 ## Deploy project using Rancher
-#.deploy_stage_rancher: &deploy_stage_rancher
-#  image: cdrx/rancher-gitlab-deploy
-#  script:
-#    - upgrade --environment="${DEPLOY_ENVIRONMENT}" --stack="${DEPLOY_STACK}" --service="${DEPLOY_SERVICE}" --finish-upgrade
+.deploy_stage_rancher: &deploy_stage_rancher
+  image: cdrx/rancher-gitlab-deploy
+  script:
+    - upgrade --environment="${DEPLOY_ENVIRONMENT}" --stack="${DEPLOY_STACK}" --service="${DEPLOY_SERVICE}" --finish-upgrade
 
 ################################################################################
 ## Building & Testing
@@ -117,15 +117,15 @@ build_acceptance:
 ################################################################################
 
 ## Deploy to Acceptance
-#deploy_acc:
-#  <<: *deploy_stage_rancher
-#  stage: deploy_acc
-#  variables:
-#    DEPLOY_ENVIRONMENT: neon2-acceptance
-#  environment: neon2-acceptance
-#  only:
-#    - acceptance
-#
+deploy_acc:
+  <<: *deploy_stage_rancher
+  stage: deploy_acc
+  variables:
+    DEPLOY_ENVIRONMENT: neon2-acceptance
+  environment: neon2-acceptance
+  only:
+  - dockerized-deployment # todo: switch this back to acceptance
+
 ### Deploy to Production
 #deploy_prod:
 #  <<: *deploy_stage_rancher
