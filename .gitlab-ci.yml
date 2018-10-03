@@ -5,8 +5,8 @@ stages:
   - pr_build
   - build_acc
   - deploy_acc
-  #- build_prod
-  #- deploy_prod
+  - build_prod
+  - deploy_prod
 
 ################################################################################
 ## Variables
@@ -45,7 +45,7 @@ cache:
     paths:
       - node_modules/
 
-### Shared build job config
+### Build acceptance
 .build_acc: &build_acc
   stage: build_acc
   image: ${BUILD_CONTAINER}
@@ -58,18 +58,18 @@ cache:
     paths:
       - node_modules/
 
-### Shared build job config
-#.build_stage: &build_stage
-#  stage: build
-#  image: ${BUILD_CONTAINER}
-#  services:
-#    - docker:dind
-#  before_script: *test_and_build
-#  script:
-#    - echo "build stage"
-#  cache:
-#    paths:
-#      - node_modules/
+### Build production
+.build_prod: &build_prod
+  stage: build_prod
+  image: ${BUILD_CONTAINER}
+  services:
+    - docker:dind
+  before_script: *test_and_build_prod
+  script:
+    - echo "build prod stage"
+  cache:
+    paths:
+      - node_modules/
 
 ## Deploy project using Rancher
 .deploy_stage_rancher: &deploy_stage_rancher
@@ -102,15 +102,15 @@ build_acceptance:
   only:
   - dockerized-deployment # todo: switch this back to acceptance
 
-### Build & test master
-#build_master:
-#  <<: *build_stage
-#  script:
-#  # Image tested, pushing to registry to prepare for deploy
-#  - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:latest
-#  - docker push ${CI_REGISTRY_IMAGE}
-#  only:
-#  - master
+### Build & test prod
+build_production:
+  <<: *build_prod
+  script:
+  # Image tested, pushing to registry to prepare for deploy
+  - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:latest
+  - docker push ${CI_REGISTRY_IMAGE}
+  only:
+  - dockerized-deployment # todo: switch this back to master
 
 ################################################################################
 ## Deploys stages
@@ -126,12 +126,12 @@ deploy_acc:
   only:
   - dockerized-deployment # todo: switch this back to acceptance
 
-### Deploy to Production
-#deploy_prod:
-#  <<: *deploy_stage_rancher
-#  stage: deploy_prod
-#  variables:
-#    DEPLOY_ENVIRONMENT: neon2-production
-#  environment: neon2-production
-#  only:
-#    - master
+## Deploy to Production
+deploy_prod:
+  <<: *deploy_stage_rancher
+  stage: deploy_prod
+  variables:
+    DEPLOY_ENVIRONMENT: neon2-production
+  environment: neon2-production
+  only:
+  - dockerized-deployment # todo: switch this back to master
