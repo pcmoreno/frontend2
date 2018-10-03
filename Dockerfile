@@ -1,6 +1,8 @@
 FROM psybizz-registry.githost.io/containers/nginx-frontend:latest
 MAINTAINER PsyBizz <development@psybizz.eu>
 
+COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
+
 WORKDIR /src/public
 
 # make sure build output is copied to the container
@@ -15,6 +17,6 @@ CMD chown -R nginx:nginx .
 
 # expose ports
 EXPOSE 80
-#EXPOSE 443
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
