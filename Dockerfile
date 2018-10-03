@@ -12,3 +12,9 @@ ADD ./favicon.ico /src/public/favicon.ico
 
 # give nginx user permissions
 CMD chown -R nginx:nginx ./
+
+# expose ports
+EXPOSE 80
+#EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]
