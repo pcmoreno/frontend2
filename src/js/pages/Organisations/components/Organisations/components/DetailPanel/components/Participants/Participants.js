@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../../../../../components/Listview/index';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style/participants.scss';
 
 /** @jsx h */

@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import DetailPanelNavigation from './components/DetailPanelNavigation/DetailPanelNavigation';
 import Participants from './components/Participants/Participants';
 import Settings from './components/Settings/Settings';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InlineEditableText from './components/InlineEditableText/InlineEditableText';
 import DetailPanelTabType from '../../../../constants/DetailPanelTabType';
 import EntityType from '../../../../../../constants/EntityType';

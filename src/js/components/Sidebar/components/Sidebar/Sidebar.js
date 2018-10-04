@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import Indicator from './components/Indicator/Indicator';
 import Tab from './components/Tab/Tab';
 import Content from './components/Content/Content';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style/sidebar.scss';
 
 /** @jsx h */

@@ -12,34 +12,17 @@ import NeonAuthoriser from './utils/authoriser/neon';
 
 /** @jsx h */
 
-// import fontawesome and each icon that is used in the application (no longer needed to import the whole FA font set)
-import fontawesome from '@fortawesome/fontawesome';
-
-// you need to import each individual icon (its a bug. do not combine or it'll include the whole library)
-import faSuitcase from '@fortawesome/fontawesome-free-solid/faSuitcase';
-import faEye from '@fortawesome/fontawesome-free-solid/faEye';
-import faUser from '@fortawesome/fontawesome-free-solid/faUser';
-import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
-import faChevronLeft from '@fortawesome/fontawesome-free-solid/faChevronLeft';
-import faChevronRight from '@fortawesome/fontawesome-free-solid/faChevronRight';
-import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
-import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
-import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
-import faBuilding from '@fortawesome/fontawesome-free-solid/faBuilding';
-import faClipboardList from '@fortawesome/fontawesome-free-solid/faClipboardList';
-import faFileAlt from '@fortawesome/fontawesome-free-regular/faFileAlt';
-import faPencilAlt from '@fortawesome/fontawesome-free-solid/faPencilAlt';
-import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
-import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
-import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
-import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
-import faDownload from '@fortawesome/fontawesome-free-solid/faDownload';
-import faSyncAlt from '@fortawesome/fontawesome-free-solid/faSyncAlt';
-import faArrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+    faSuitcase, faEye, faUser, faAngleDown, faChevronLeft, faChevronRight,
+    faSignOutAlt, faSpinner, faUsers, faEnvelope, faBuilding, faClipboardList,
+    faPencilAlt, faPlus, faTimes, faCheck, faEllipsisH, faDownload,
+    faSyncAlt, faArrowLeft
+} from '@fortawesome/free-solid-svg-icons';
+import { faFileAlt } from '@fortawesome/free-regular-svg-icons';
 
 // add imported icons to global library to make them available wherever the FontAwesomeIcon component is imported
-fontawesome.library.add(
+library.add(
     faSuitcase,
     faEye,
     faUser,
