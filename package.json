@@ -1,5 +1,5 @@
 {
-    "name": "frontend2",
+    "name": "customer-portal",
     "license": "UNLICENSED",
     "devDependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.4",
