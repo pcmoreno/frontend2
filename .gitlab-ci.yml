@@ -100,7 +100,7 @@ build_acceptance:
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
   - docker push ${CI_REGISTRY_IMAGE}
   only:
-  - dockerized-deployment # todo: switch this back to acceptance
+  - acceptance
 
 ### Build & test prod
 build_production:
@@ -112,7 +112,7 @@ build_production:
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:latest
   - docker push ${CI_REGISTRY_IMAGE}
   only:
-  - dockerized-deployment # todo: switch this back to master
+  - master
 
 ################################################################################
 ## Deploys stages
@@ -126,7 +126,7 @@ deploy_acc:
     DEPLOY_ENVIRONMENT: neon2-acceptance
   environment: neon2-acceptance
   only:
-  - dockerized-deployment # todo: switch this back to acceptance
+  - acceptance
 
 ## Deploy to Production
 deploy_prod:
@@ -136,4 +136,4 @@ deploy_prod:
     DEPLOY_ENVIRONMENT: neon2-production
   environment: neon2-production
   only:
-  - dockerized-deployment # todo: switch this back to master
+  - master
