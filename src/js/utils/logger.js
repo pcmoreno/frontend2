@@ -128,7 +128,7 @@ class Logger {
         const ua = navigator.userAgent;
 
         // extend the logObject with user agent and log type by default
-        logObject.application = 'neon-frontend';
+        logObject.application = 'customer-portal';
         logObject.userAgent = ua;
         logObject.type = type;
         logObject.session = this.sessionId;
