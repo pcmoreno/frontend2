@@ -187,7 +187,7 @@ export default {
     "report_support_and_recognition": "Support and recognition",
     "report_taking_risks": "Taking risks",
     "report_taking_risks_high_text": "<ul>\n                            <li>Enjoys the excitement involved in more difficult and uncertain activities.<\/li>\n                            <li>Has the confidence to take risks if opportunities emerge.<\/li>\n                        <\/ul>",
-    "report_taking_risks_low_text": "<ul>\n                            <li>Enjoys work that has a clearly-defined outcome.<\/li>\n                            <li>Prefers trying out new approaches that may involve risk to others.<\/li>\n                        <\/ul>",
+    "report_taking_risks_low_text": "<ul>\n                            <li>Enjoys work that has a clearly-defined outcome.<\/li>\n                            <li>Prefers leaving it to others to try out new approaches that may involve risks.<\/li>\n                        <\/ul>",
     "report_tentative": "Suitable, under conditions",
     "report_tested_level": "Tested level:",
     "report_tested_level_high": "Master's degree.",
