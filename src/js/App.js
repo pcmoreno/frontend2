@@ -1,5 +1,3 @@
-/* global System:true */
-
 // the root component combines reducers, sets up the store and ties routing components together
 
 import { h, render, Component } from 'preact';
@@ -108,7 +106,7 @@ import style from '../style/global.scss'; // eslint-disable-line no-unused-vars
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} login page
  */
 function getLogin() {
-    return System.import('./pages/Login').then(module => module.default);
+    return import('./pages/Login').then(module => module.default);
 }
 
 /**
@@ -116,7 +114,7 @@ function getLogin() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} inbox page
  */
 function getInbox() {
-    return System.import('./pages/Inbox').then(module => module.default);
+    return import('./pages/Inbox').then(module => module.default);
 }
 
 /**
@@ -124,7 +122,7 @@ function getInbox() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} organisations page
  */
 function getOrganisations() {
-    return System.import('./pages/Organisations').then(module => module.default);
+    return import('./pages/Organisations').then(module => module.default);
 }
 
 /**
@@ -132,7 +130,7 @@ function getOrganisations() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} tasks page
  */
 function getTasks() {
-    return System.import('./pages/Tasks').then(module => module.default);
+    return import('./pages/Tasks').then(module => module.default);
 }
 
 /**
@@ -140,7 +138,7 @@ function getTasks() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} report page
  */
 function getReport() {
-    return System.import('./pages/Report').then(module => module.default);
+    return import('./pages/Report').then(module => module.default);
 }
 
 /**
@@ -148,7 +146,7 @@ function getReport() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} users page
  */
 function getUsers() {
-    return System.import('./pages/Users').then(module => module.default);
+    return import('./pages/Users').then(module => module.default);
 }
 
 /**
@@ -156,7 +154,7 @@ function getUsers() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} participants page
  */
 function getParticipants() {
-    return System.import('./pages/Participants').then(module => module.default);
+    return import('./pages/Participants').then(module => module.default);
 }
 
 /**
@@ -164,7 +162,7 @@ function getParticipants() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} register page
  */
 function getRegister() {
-    return System.import('./pages/Register').then(module => module.default);
+    return import('./pages/Register').then(module => module.default);
 }
 
 /**
@@ -172,7 +170,7 @@ function getRegister() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} error page
  */
 function getError() {
-    return System.import('./pages/Error').then(module => module.default);
+    return import('./pages/Error').then(module => module.default);
 }
 
 /**
@@ -180,7 +178,7 @@ function getError() {
  * @returns {any | Promise | * | PromiseLike<T> | Promise<T>} forgot password page
  */
 function getForgotPassword() {
-    return System.import('./pages/ForgotPassword').then(module => module.default);
+    return import('./pages/ForgotPassword').then(module => module.default);
 }
 
 import Header from './components/Header';

@@ -327,7 +327,7 @@ export default class Listview extends Component {
 
                 case ListItemTypes.HIDDEN:
 
-                // the 'hidden' type was introduced to be able to keep properties in the passed-on props without displaying them
+                    // the 'hidden' type was introduced to be able to keep properties in the passed-on props without displaying them
                     break;
 
                 case ListItemTypes.LABEL:
