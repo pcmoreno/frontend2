@@ -38,7 +38,7 @@ test('check if error calls console.error', () => {
         [
             'Error in component API: ',
             {
-                application: 'neon-frontend',
+                application: 'customer-portal',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: 500,
                 component: 'API',
@@ -54,7 +54,7 @@ test('check if error calls console.error', () => {
         [
             'Error in component Organisations overview: ',
             {
-                application: 'neon-frontend',
+                application: 'customer-portal',
                 applicationUrl: 'http://localhost:9000/',
                 responseStatus: null,
                 component: 'Organisations overview',
@@ -171,7 +171,7 @@ test('check if validation of logObject is correct', () => {
 //         [
 //             'Warning in component API: ',
 //             {
-//                 application: 'neon-frontend',
+//                 application: 'customer-portal',
 //                 applicationUrl: 'http://localhost:9000/',
 //                 responseStatus: 404,
 //                 component: 'API',
@@ -187,7 +187,7 @@ test('check if validation of logObject is correct', () => {
 //         [
 //             'Warning in component Organisations overview: ',
 //             {
-//                 application: 'neon-frontend',
+//                 application: 'customer-portal',
 //                 applicationUrl: 'http://localhost:9000/',
 //                 responseStatus: null,
 //                 component: 'Organisations overview',
@@ -238,7 +238,7 @@ test('check if validation of logObject is correct', () => {
 //         [
 //             'Notice in component API: ',
 //             {
-//                 application: 'neon-frontend',
+//                 application: 'customer-portal',
 //                 applicationUrl: 'http://localhost:9000/',
 //                 responseStatus: 200,
 //                 component: 'API',
@@ -254,7 +254,7 @@ test('check if validation of logObject is correct', () => {
 //         [
 //             'Notice in component Organisations overview: ',
 //             {
-//                 application: 'neon-frontend',
+//                 application: 'customer-portal',
 //                 applicationUrl: 'http://localhost:9000/',
 //                 responseStatus: null,
 //                 component: 'Organisations overview',
