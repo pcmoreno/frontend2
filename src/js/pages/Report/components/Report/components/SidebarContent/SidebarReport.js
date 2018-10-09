@@ -56,16 +56,16 @@ export default class SidebarReport extends Component {
     onInputCompetencyScore(event) {
         const value = event.target.value.replace(competencyScoreFullRegex, '').slice(0, 1);
 
-        // if our parsed/validated value is different, also update the text field value
+        // if the parsed/validated value is different, also update the text field value
         if (value !== event.target.value) {
             event.target.value = value;
         }
 
-        const elementFieldName = event.target.id.replace(sidebarScorePrefix, '');
+        const elementFieldId = event.target.id.replace(sidebarScorePrefix, '');
         let competency = null;
 
         this.props.competencies.forEach(comp => {
-            if (comp.name.toLowerCase() === elementFieldName) {
+            if (comp.templateSlug === elementFieldId) {
                 competency = comp;
             }
         });
@@ -209,13 +209,14 @@ export default class SidebarReport extends Component {
             const sortedCompetencies = Utils.alphabeticallySortFieldInArray(translatedCompetencies, CompetencyProperty.TRANSLATED_NAME);
 
             sortedCompetencies.forEach(competency => {
+
                 const score = Utils.parseScore(competency.score, CompetencyScoreValue.MIN_VALUE, CompetencyScoreValue.MAX_VALUE, true);
 
                 competencyScoreRows.push(
                     <tr>
                         <td>{ i18nOnlineReport[`${TRANSLATION_KEY_PREFIX}${competency.translationKey}`] || competency.name }</td>
                         <td><input
-                            id={ `${sidebarScorePrefix}${competency.name.toLowerCase()}` }
+                            id={ `${sidebarScorePrefix}${competency.templateSlug}` }
                             onInput={ this.onInputCompetencyScore }
                             type="number"
                             pattern={ `[${competencyScoreRegexRange}]` }
