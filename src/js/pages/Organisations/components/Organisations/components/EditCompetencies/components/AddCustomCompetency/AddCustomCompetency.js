@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import ApiFactory from '../../../../../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import style from './style/addcustomcompetency.scss';
 import OrganisationsError from './../../../../../../constants/OrganisationsError';
 import CompetencyTab from '../../../../../../constants/CompetencyTab';

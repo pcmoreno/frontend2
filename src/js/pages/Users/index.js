@@ -5,9 +5,9 @@ import * as usersActions from './actions/users';
 import * as alertActions from './../../components/Alert/actions/alert';
 import * as formActions from './../../components/Form/actions/form';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Users from './components/Users/Users';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 import ShownUserRoles from './constants/ShownUserRoles';
 
 /** @jsx h */

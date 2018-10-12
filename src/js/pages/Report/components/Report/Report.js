@@ -3,15 +3,15 @@ import style from './style/report.scss';
 import Header from './components/Header/Header';
 import Sidebar from './../../../../components/Sidebar';
 import Introduction from './components/Introduction/Introduction';
-import Utils from '../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 import AppConfig from '../../../../App.config';
 import ResearchQuestion from './components/ResearchQuestion/ResearchQuestion';
 import SelectionAdvice from './components/SelectionAdvice/SelectionAdvice';
 import Explanation from './components/Explanation/Explanation';
 import DevelopmentAdvice from './components/DevelopmentAdvice/DevelopmentAdvice';
-import Authorised from '../../../../utils/components/Authorised';
+import Authorised from 'neon-frontend-utils/src/components/Authorised';
 import ReportActions from '../../constants/ReportActions';
-import ApiFactory from '../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import ReportComponents from '../../constants/ReportComponents';
 import CompetencyProfile from './components/CompetencyProfile/CompetencyProfile';
 import IntellectualCapabilities from './components/Attachment/IntellectualCapabilities/IntellectualCapabilities';
@@ -21,7 +21,7 @@ import InfluencingStyles from './components/Attachment/InfluencingStyles/Influen
 import WorkingStyles from './components/Attachment/WorkingStyles/WorkingStyles';
 import SidebarReport from './components/SidebarContent/SidebarReport';
 import SidebarParticipant from './components/SidebarContent/SidebarParticipant';
-import translator from '../../../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 
 /** @jsx h */
 

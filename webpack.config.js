@@ -64,9 +64,9 @@ module.exports = {
                 // 1. process every imported .js file (starting from entry point) and transpile to the defined presets
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
+                exclude: /node_modules\/(?!(neon-frontend-utils)\/).*/,
                 options: {
-                    presets: ['@babel/env']
+                    presets: ['@babel/env', 'preact']
                 }
             },
             {

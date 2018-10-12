@@ -35,13 +35,14 @@ const AppConfig = {
     ],
     logger: {
         devModeBaseUrl: 'https://neon-api.acceptance.ltponline.com',
-        devMode: false
+        devMode: false,
+        baseUrl: `${process.env.NEON_API_BASE_URL}`,
+        fetchTokenUrl: `${process.env.NEON_API_BASE_URL}/v1/logzio/key`
     },
     api: {
         neon: {
             baseUrl: `${process.env.NEON_API_BASE_URL}`, // default is dev api, which is set in webpack.config.js
             endpoints: {
-                logzioToken: '/v1/logzio/key',
                 authorise: '/v1/user/authorize',
                 logout: '/v1/user/logout',
                 abstractSection: '/v1/section',

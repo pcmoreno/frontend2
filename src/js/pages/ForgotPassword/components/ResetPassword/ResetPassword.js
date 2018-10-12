@@ -1,10 +1,10 @@
 import { h, Component, render } from 'preact';
 import style from './style/resetpassword.scss';
 import ResetPasswordForm from './components/ResetPasswordForm/ResetPasswordForm';
-import Redirect from '../../../../utils/components/Redirect';
-import Logger from '../../../../utils/logger';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
+import Logger from 'neon-frontend-utils/src/logger';
 import AppConfig from '../../../../App.config';
-import ApiFactory from '../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import PersonaFitConfirm from './components/PersonaFitConfirm/PersonaFitConfirm';
 import Components from '../../../../constants/Components';
 

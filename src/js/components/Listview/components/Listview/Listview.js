@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import ListviewEntity from './components/ListviewEntity/ListviewEntity';
 import style from './style/listview.scss';
-import Utils from '../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 import ListItemTypes from '../../constants/ListItemTypes';
 import Checkbox from './components/ListviewEntity/components/ListviewEntityItem/components/widgets/Checkbox/Checkbox';
 

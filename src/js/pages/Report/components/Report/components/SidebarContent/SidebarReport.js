@@ -2,13 +2,13 @@ import { h, Component } from 'preact';
 import style from './style/report.scss';
 import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 import DownloadReport from './components/DownloadReport/DownloadReport';
-import Utils from '../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 import StaticScoreValue from '../../../../constants/StaticScoreValue';
 import CompetencyScoreValue from '../../../../constants/CompetencyScoreValue';
 import CompetencyProperty from '../../../../constants/CompetencyProperty';
-import Authorised from '../../../../../../utils/components/Authorised';
+import Authorised from 'neon-frontend-utils/src/components/Authorised';
 import RetestTrigger from './components/RetestTrigger/RetestTrigger';
-import ApiFactory from '../../../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import ReportComponents from '../../../../constants/ReportComponents';
 import ReportActions from '../../../../constants/ReportActions';
 

@@ -1,6 +1,6 @@
 import * as actionType from './../constants/ActionTypes';
 import ShownUserRoles from '../constants/ShownUserRoles';
-import Logger from '../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Components from '../../../constants/Components';
 
 const initialState = {

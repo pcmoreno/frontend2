@@ -8,7 +8,7 @@ jest.mock('@fortawesome/react-fontawesome', () => jest.fn().mockReturnValue('tru
 // cheat sheet: https://devhints.io/jest
 
 // mock api factory, as this is required by the header component
-jest.mock('../../../../../utils/api/factory', () =>({
+jest.mock('neon-frontend-utils/src/api/factory', () =>({
     get: () => {
         return {
             getAuthenticator: () => {

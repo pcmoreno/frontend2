@@ -3,7 +3,7 @@ import Navigation from './components/Navigation/Navigation';
 import UserInfo from './components/UserInfo/UserInfo';
 import Indicator from './components/Indicator/Indicator';
 import style from './style/header.scss';
-import ApiFactory from '../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import AppConfig from '../../../../App.config';
 import HeaderActions from '../../constants/HeaderActions';
 

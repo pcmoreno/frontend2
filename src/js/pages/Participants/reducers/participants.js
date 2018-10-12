@@ -1,7 +1,7 @@
 import * as actionType from './../constants/ActionTypes';
 import ParticipantStatus from '../../../constants/ParticipantStatus';
 import moment from 'moment';
-import Logger from '../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Components from '../../../constants/Components';
 
 const initialState = {

@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import FroalaEditor from 'react-froala-wysiwyg';
 import ReportComponents from '../../../../../../constants/ReportComponents';
 import ReportActions from '../../../../../../constants/ReportActions';
-import ApiFactory from '../../../../../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import AppConfig from '../../../../../../../../App.config';
 import style from './style/editabletext.scss';
 

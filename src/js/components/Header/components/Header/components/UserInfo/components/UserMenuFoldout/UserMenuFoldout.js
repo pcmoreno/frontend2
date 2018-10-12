@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 import LanguageTypes from '../../../../../../../../constants/LanguageTypes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style/usermenufoldout.scss';
-import Authorised from '../../../../../../../../utils/components/Authorised';
-import ApiFactory from '../../../../../../../../utils/api/factory';
+import Authorised from 'neon-frontend-utils/src/components/Authorised';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import HeaderComponents from '../../../../../../constants/HeaderComponents';
 import HeaderActions from '../../../../../../constants/HeaderActions';
 

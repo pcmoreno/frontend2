@@ -1,12 +1,12 @@
 import { h, Component } from 'preact';
-import Logger from '../../../../../../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Pencil from './components/widgets/Pencil/Pencil';
 import Button from './components/widgets/Button/Button';
 import Checkbox from './components/widgets/Checkbox/Checkbox';
 import CompetencyType from './components/widgets/CompetencyType/CompetencyType';
 import style from './style/listviewentityitem.scss';
 import ListItemTypes from '../../../../../../constants/ListItemTypes';
-import Utils from '../../../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 
 /** @jsx h */
 

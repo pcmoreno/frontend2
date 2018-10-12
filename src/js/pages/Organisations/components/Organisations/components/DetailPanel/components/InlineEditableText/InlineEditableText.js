@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import ApiFactory from '../../../../../../../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import KeyCodes from '../../../../../../../../constants/KeyCodes';
 import OrganisationsComponents from '../../../../../../constants/OrganisationsComponents';
 import OrganisationsActions from '../../../../../../constants/OrganisationsActions';

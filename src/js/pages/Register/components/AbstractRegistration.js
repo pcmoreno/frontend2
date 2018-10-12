@@ -1,10 +1,10 @@
 import { h, Component, render } from 'preact';
-import ApiFactory from '../../../utils/api/factory';
-import Redirect from '../../../utils/components/Redirect';
-import translator from '../../../utils/translator';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
+import translator from 'neon-frontend-utils/src/translator';
 import RegistrationError from '../constants/RegistrationError';
-import Logger from '../../../utils/logger';
-import CognitoAuthenticator from '../../../utils/authenticator/cognito';
+import Logger from 'neon-frontend-utils/src/logger';
+import CognitoAuthenticator from 'neon-frontend-utils/src/authenticator/cognito';
 import Components from '../../../constants/Components';
 
 /** @jsx h */
