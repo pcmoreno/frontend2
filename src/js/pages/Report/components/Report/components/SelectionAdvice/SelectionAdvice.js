@@ -3,7 +3,7 @@ import ReportSection from '../ReportSection/ReportSection';
 import ReportColumn from '../ReportSection/components/ReportColumn/ReportColumn';
 import TextBlock from '../../components/TextBlock/TextBlock';
 import style from './style/selectionadvice.scss';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SelectionAdviceValues from '../../../../constants/SelectionAdviceValues';
 
 /** @jsx h */

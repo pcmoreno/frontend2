@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import LanguageTypes from '../../../../../../../../constants/LanguageTypes';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style/usermenufoldout.scss';
 import Authorised from '../../../../../../../../utils/components/Authorised';
 import ApiFactory from '../../../../../../../../utils/api/factory';
