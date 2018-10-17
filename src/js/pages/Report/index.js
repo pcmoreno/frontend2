@@ -4,12 +4,12 @@ import { connect } from 'preact-redux';
 import * as reportActions from './actions/report';
 import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Report from './components/Report/Report';
-import translator from '../../utils/translator';
-import Logger from '../../utils/logger';
-import ApiMethod from '../../utils/api/constants/ApiMethod';
-import Utils from '../../utils/utils';
+import translator from 'neon-frontend-utils/src/translator';
+import Logger from 'neon-frontend-utils/src/logger';
+import ApiMethod from 'neon-frontend-utils/src/api/constants/ApiMethod';
+import Utils from 'neon-frontend-utils/src/utils';
 import DownloadReportGenerationStatus from './constants/DownloadReportGenerationStatus';
 import Components from '../../constants/Components';
 

@@ -4,9 +4,9 @@ import { connect } from 'preact-redux';
 import * as participantsActions from './actions/participants';
 import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Participants from './components/Participants/Participants';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 import { ProductSlugs } from '../../constants/Products';
 
 /** @jsx h */

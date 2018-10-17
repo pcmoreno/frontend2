@@ -1,10 +1,10 @@
 import { h, Component, render } from 'preact';
-import ApiFactory from '../../utils/api/factory';
-import Redirect from '../../utils/components/Redirect';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as headerActions from './actions/header';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 import Header from './components/Header/Header';
 
 /** @jsx h */

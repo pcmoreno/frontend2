@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import Terms from './../components/Terms/Terms';
-import Redirect from '../../../utils/components/Redirect';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 import Register from './../components/Register/Register';
 import Login from './../components/Login/Login';
 import AbstractRegistration from './AbstractRegistration';

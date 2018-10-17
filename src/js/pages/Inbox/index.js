@@ -5,12 +5,12 @@ import * as inboxActions from './actions/inbox';
 import * as alertActions from '../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import Inbox from './components/Inbox/Inbox';
-import ApiFactory from '../../utils/api/factory';
-import translator from '../../utils/translator';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
+import translator from 'neon-frontend-utils/src/translator';
 import InboxActions from './constants/InboxActions';
 import InboxComponents from './constants/InboxComponents';
-import Logger from '../../utils/logger';
-import Redirect from '../../utils/components/Redirect';
+import Logger from 'neon-frontend-utils/src/logger';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 import Components from '../../constants/Components';
 
 /** @jsx h */

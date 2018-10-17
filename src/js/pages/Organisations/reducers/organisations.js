@@ -1,5 +1,5 @@
 import * as actionType from './../constants/ActionTypes';
-import Logger from '../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import AppConfig from './../../../App.config';
 import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../../constants/ParticipantStatus';

@@ -4,12 +4,12 @@ import { connect } from 'preact-redux';
 import * as tasksActions from './actions/tasks';
 import * as alertActions from './../../components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Tasks from './components/Tasks/Tasks';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 import { ProductSlugs } from '../../constants/Products';
-import Utils from '../../utils/utils';
-import Logger from '../../utils/logger';
+import Utils from 'neon-frontend-utils/src/utils';
+import Logger from 'neon-frontend-utils/src/logger';
 import Components from '../../constants/Components';
 
 /** @jsx h */

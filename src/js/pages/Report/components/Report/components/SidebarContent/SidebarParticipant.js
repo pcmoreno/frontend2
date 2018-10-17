@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import style from './style/participant.scss';
 import HnaCategories from '../../../../../../constants/HnaCategories';
 import ParticipantScoreRow from './components/ParticipantScoreRow/ParticipantScoreRow';
-import Utils from '../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 
 /** @jsx h */
 

@@ -1,7 +1,7 @@
 import * as actionType from './../constants/ActionTypes';
 import downloadReportGenerationStatus from '../constants/DownloadReportGenerationStatus';
 import moment from 'moment-timezone';
-import Logger from '../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import DateTimeZone from '../../../constants/DateTimeZone';
 import Components from '../../../constants/Components';
 

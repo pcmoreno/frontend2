@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { ScoreFanColor } from '../../../../constants/ScoreColors';
 import style from './style/scorefan.scss';
-import Utils from '../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 
 /** @jsx h */
 

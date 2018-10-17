@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as alertActions from './../../../../components/Alert/actions/alert';
-import Logger from '../../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';

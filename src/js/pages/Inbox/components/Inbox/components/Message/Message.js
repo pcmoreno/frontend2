@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/message.scss';
-import translator from '../../../../../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 
 /** @jsx h */
 

@@ -4,9 +4,9 @@ import { connect } from 'preact-redux';
 import * as alertActions from './../../components/Alert/actions/alert';
 import * as formActions from './actions/form';
 import Form from './components/Form/Form';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import FormMethod from './components/Form/constants/FormMethod';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 import FormErrors from './constants/FormErrors';
 
 /** @jsx h */

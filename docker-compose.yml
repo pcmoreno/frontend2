@@ -4,7 +4,7 @@ version: "2"
 services:
   customer-portal:
     container_name: customer-portal
-    image: psybizz-registry.githost.io/neon/customer-portal:acceptance # todo: set to latest!
+    image: psybizz-registry.githost.io/neon/customer-portal:latest
     ports:
       - 9000:80
     restart: on-failure:10
