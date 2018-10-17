@@ -85,6 +85,9 @@
         "testEnvironment": "jsdom",
         "roots": [
             "src/js"
+        ],
+        "transformIgnorePatterns": [
+            "/node_modules/(?!neon-frontend-utils).+\\.js$"
         ]
     },
     "scripts": {
