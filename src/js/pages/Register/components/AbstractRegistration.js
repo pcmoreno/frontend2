@@ -6,6 +6,7 @@ import RegistrationError from '../constants/RegistrationError';
 import Logger from 'neon-frontend-utils/src/logger';
 import CognitoAuthenticator from 'neon-frontend-utils/src/authenticator/cognito';
 import Components from '../../../constants/Components';
+import AppConfig from '../../../App.config';
 
 /** @jsx h */
 
@@ -248,7 +249,7 @@ export default class AbstractRegistration extends Component {
      * @returns {Promise<any>} promise
      */
     loginAccount(accountHasRoleSlug, username, password) {
-        const cognitoAuthenticator = new CognitoAuthenticator();
+        const cognitoAuthenticator = new CognitoAuthenticator(AppConfig.authenticator.cognito);
 
         // check input values
         if (!accountHasRoleSlug || !username || !password) {
