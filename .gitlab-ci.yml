@@ -119,6 +119,7 @@ deploy_acc:
   variables:
     DEPLOY_ENVIRONMENT: neon2-acceptance
   environment: neon2-acceptance
+  when: manual
   only:
   - acceptance
 
@@ -129,5 +130,6 @@ deploy_prod:
   variables:
     DEPLOY_ENVIRONMENT: neon2-production
   environment: neon2-production
+  when: manual
   only:
   - master
