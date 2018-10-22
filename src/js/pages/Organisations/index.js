@@ -1080,6 +1080,9 @@ class Index extends Component {
         // this button only shows on edit / add and therefore user can only go back to custom competency selection tab
         this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
         this.setState(this.localState);
+
+        // also ensure in case a competency was being edited, the id of this competency is set back to null again
+        this.localState.customCompetencyToEdit = null;
     }
 
     amendInlineEditable(section, field, slug, value) {

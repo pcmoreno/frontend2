@@ -31,8 +31,6 @@ export default class EditCustomCompetency extends Component {
     }
 
     clearFormFields() {
-        console.log('clearing');
-
         this.localState.editCustomCompetencyForm.competencyName = null;
         this.localState.editCustomCompetencyForm.competencyDefinition = null;
 
