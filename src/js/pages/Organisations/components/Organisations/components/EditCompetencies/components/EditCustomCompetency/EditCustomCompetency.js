@@ -20,6 +20,8 @@ export default class EditCustomCompetency extends Component {
         };
 
         this.api = ApiFactory.get('neon');
+
+        this.clearFormFields = this.clearFormFields.bind(this);
     }
 
     onChange(event) {
@@ -29,12 +31,8 @@ export default class EditCustomCompetency extends Component {
     }
 
     clearFormFields() {
-        this.localState = {
-            editCustomCompetencyForm: {
-                competencyName: null,
-                competencyDefinition: null
-            }
-        };
+        this.localState.editCustomCompetencyForm.competencyName = null;
+        this.localState.editCustomCompetencyForm.competencyDefinition = null;
 
         this.setState(this.localState);
     }
@@ -97,6 +95,7 @@ export default class EditCustomCompetency extends Component {
             this.localState.editCustomCompetencyForm.competencyName = customCompetencyToEdit.name;
             this.localState.editCustomCompetencyForm.competencyDefinition = customCompetencyToEdit.definition;
             this.localState.error = '';
+
         } else if (!customCompetencyToEdit) {
 
             // emptying localState since no competency received over props, so a new one can be added
@@ -150,6 +149,7 @@ export default class EditCustomCompetency extends Component {
                                 className="action_button action_button__secondary left"
                                 type="button"
                                 onClick={ () => {
+                                    this.clearFormFields();
                                     this.props.goBackToCustomCompetencySelectionTab();
                                 } }
                             >{ i18n.organisations_edit_competencies_back }</button>
