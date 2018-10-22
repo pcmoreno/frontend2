@@ -34,7 +34,7 @@ export default class EditCustomCompetency extends Component {
         this.localState.editCustomCompetencyForm.competencyName = null;
         this.localState.editCustomCompetencyForm.competencyDefinition = null;
 
-        this.setState(this.localState.editCustomCompetencyForm);
+        this.setState(this.localState);
     }
 
     onSubmit(event) {
