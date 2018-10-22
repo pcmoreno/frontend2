@@ -101,14 +101,6 @@ export default class EditCustomCompetency extends Component {
             // emptying localState since no competency received over props, so a new one can be added
             this.localState.editCustomCompetencyForm.competencyName = null;
             this.localState.editCustomCompetencyForm.competencyDefinition = null;
-
-        } else {
-
-            /* todo: when I add this third else, I can amend competencies the way I expect. but am I breaking something else now? */
-
-            this.localState.editCustomCompetencyForm.competencyName = customCompetencyToEdit.name;
-            this.localState.editCustomCompetencyForm.competencyDefinition = customCompetencyToEdit.definition;
-            this.localState.error = '';
         }
 
         return (
