@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import Utils from '../../../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 
 /** @jsx h */
 

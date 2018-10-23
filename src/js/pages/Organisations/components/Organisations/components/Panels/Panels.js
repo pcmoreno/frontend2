@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import Logger from '../../../../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Panel from './components/Panel/Panel';
 import style from './style/panels.scss';
 

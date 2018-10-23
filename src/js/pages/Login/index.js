@@ -1,10 +1,10 @@
 import { h, Component, render } from 'preact';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Login from './components/Login/Login';
-import Redirect from '../../utils/components/Redirect';
-import RedirectHelper from '../../utils/redirectHelper';
-import translator from '../../utils/translator';
-import Utils from '../../utils/utils';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
+import RedirectHelper from 'neon-frontend-utils/src//redirectHelper';
+import translator from 'neon-frontend-utils/src/translator';
+import Utils from 'neon-frontend-utils/src/utils';
 import AppConfig from '../../App.config';
 
 /** @jsx h */

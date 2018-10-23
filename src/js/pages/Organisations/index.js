@@ -5,12 +5,12 @@ import * as organisationsActions from './actions/organisations';
 import * as alertActions from './../../components/Alert/actions/alert';
 import * as formActions from './../../components/Form/actions/form';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
-import ApiFactory from '../../utils/api/factory';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Organisations from './components/Organisations/Organisations';
 import AppConfig from './../../App.config';
-import Logger from '../../utils/logger';
-import translator from '../../utils/translator';
-import Utils from '../../utils/utils';
+import Logger from 'neon-frontend-utils/src/logger';
+import translator from 'neon-frontend-utils/src/translator';
+import Utils from 'neon-frontend-utils/src/utils';
 import ListItemTypes from '../../components/Listview/constants/ListItemTypes';
 import OrganisationsError from './constants/OrganisationsError';
 import CompetencyTab from './constants/CompetencyTab';
@@ -1079,6 +1079,10 @@ class Index extends Component {
 
         // this button only shows on edit / add and therefore user can only go back to custom competency selection tab
         this.localState.editCompetenciesActiveTab = CompetencyTab.EDIT_CUSTOM_COMPETENCY_SELECTION;
+
+        // also ensure in case a competency was being edited, the id of this competency is set back to null again
+        this.localState.customCompetencyToEdit = null;
+
         this.setState(this.localState);
     }
 

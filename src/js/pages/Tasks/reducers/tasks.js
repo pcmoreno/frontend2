@@ -2,7 +2,7 @@ import * as actionType from './../constants/ActionTypes';
 import ListItemTypes from '../../../components/Listview/constants/ListItemTypes';
 import ParticipantStatus from '../../../constants/ParticipantStatus.js';
 import moment from 'moment';
-import Logger from '../../../utils/logger';
+import Logger from 'neon-frontend-utils/src/logger';
 import Components from '../../../constants/Components';
 
 const initialState = {

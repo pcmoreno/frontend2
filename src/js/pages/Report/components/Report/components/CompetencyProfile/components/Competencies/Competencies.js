@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import Competency from './components/Competency/Competency';
 import style from './style/competencies.scss';
-import Utils from '../../../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 import CompetencyProperty from '../../../../../../constants/CompetencyProperty';
 
 /** @jsx h */

@@ -1,14 +1,14 @@
 import { h, Component, render } from 'preact';
-import ApiFactory from '../../utils/api/factory';
-import Logger from '../../utils/logger';
-import Redirect from '../../utils/components/Redirect';
+import ApiFactory from 'neon-frontend-utils/src/api/factory';
+import Logger from 'neon-frontend-utils/src/logger';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 import { UserRoles } from '../../constants/UserRoles';
 import ParticipantStatus from '../../constants/ParticipantStatus';
 import UserStatus from '../../constants/UserStatus';
 import AppConfig from '../../App.config';
 import Participant from './components/Participant';
 import User from './components/User';
-import Utils from '../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 import Components from '../../constants/Components';
 
 /** @jsx h */

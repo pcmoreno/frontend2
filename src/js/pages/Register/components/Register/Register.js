@@ -2,7 +2,7 @@ import { h, Component, render } from 'preact';
 import mainStyle from '../../style/register.scss';
 import style from './style/register.scss';
 import AppConfig from '../../../../App.config';
-import Redirect from '../../../../utils/components/Redirect';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 
 /** @jsx h */
 

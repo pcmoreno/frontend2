@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DownloadReportGenerationStatus from '../../../../../../constants/DownloadReportGenerationStatus';
 import style from './style/downloadreport.scss';
 import AppConfig from '../../../../../../../../App.config';

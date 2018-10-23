@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import Error from './components/Error/Error';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 
 /** @jsx h */
 

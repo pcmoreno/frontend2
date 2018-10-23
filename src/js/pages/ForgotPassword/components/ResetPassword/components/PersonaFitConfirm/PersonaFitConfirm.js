@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style/personafitconfirm.scss';
-import Utils from '../../../../../../utils/utils';
+import Utils from 'neon-frontend-utils/src/utils';
 
 /** @jsx h */
 

@@ -14,7 +14,10 @@ stages:
 variables:
   BUILD_CONTAINER: psybizz-registry.githost.io/containers/builder:stable
 
+# ensure to cache node_modules in between jobs, based on the commit hash.
+# new pipelines with a new commit hash will create a new folder of cached modules.
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
@@ -41,9 +44,6 @@ cache:
   before_script: *test_and_build_prod
   script:
     - echo "build stage"
-  cache:
-    paths:
-      - node_modules/
 
 ### Build acceptance
 .build_acc: &build_acc
@@ -54,9 +54,6 @@ cache:
   before_script: *test_and_build_acc
   script:
     - echo "build acc stage"
-  cache:
-    paths:
-      - node_modules/
 
 ### Build production
 .build_prod: &build_prod
@@ -67,9 +64,6 @@ cache:
   before_script: *test_and_build_prod
   script:
     - echo "build prod stage"
-  cache:
-    paths:
-      - node_modules/
 
 ## Deploy project using Rancher
 .deploy_stage_rancher: &deploy_stage_rancher
@@ -125,6 +119,7 @@ deploy_acc:
   variables:
     DEPLOY_ENVIRONMENT: neon2-acceptance
   environment: neon2-acceptance
+  #when: manual
   only:
   - acceptance
 
@@ -135,5 +130,6 @@ deploy_prod:
   variables:
     DEPLOY_ENVIRONMENT: neon2-production
   environment: neon2-production
+  #when: manual
   only:
   - master

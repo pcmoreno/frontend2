@@ -7,8 +7,8 @@ import Relationship from './components/Relationship/Relationship';
 import Email from './components/Email/Email';
 import TextArea from './components/TextArea/TextArea';
 import * as fieldType from './constants/FieldTypes';
-import Logger from '../../../../utils/logger';
-import Utils from '../../../../utils/utils';
+import Logger from 'neon-frontend-utils/src/logger';
+import Utils from 'neon-frontend-utils/src/utils';
 import FormErrors from '../../constants/FormErrors';
 import FormMethod from './constants/FormMethod';
 

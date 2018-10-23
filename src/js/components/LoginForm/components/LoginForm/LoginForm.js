@@ -1,7 +1,7 @@
 import { h, Component, render } from 'preact';
 import style from './style/loginform.scss';
 import AppConfig from '../../../../App.config';
-import Redirect from '../../../../utils/components/Redirect';
+import Redirect from 'neon-frontend-utils/src/components/Redirect';
 
 /** @jsx h */
 

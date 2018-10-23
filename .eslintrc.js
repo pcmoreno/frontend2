@@ -54,6 +54,7 @@ module.exports = {
         "jsx-a11y/tabindex-no-positive": 0, // ignore positive values as we want to create our own tab navigation flow
         "jsx-a11y/click-events-have-key-events": 0, // ignore key events as onClick will already support enough actions (click and enter)
         "jsx-a11y/no-noninteractive-element-interactions": 0, // allow onClick methods on any element instead of only "interactive" elements
+        "jsx-a11y/no-noninteractive-element-to-interactive-role": 1, // allow own role definitions
         "jsx-a11y/label-has-for": [ 2, { // to ensure labels are correctly connected to input fields with react
             "required": {
                 "every": [ "id" ]
@@ -120,7 +121,6 @@ module.exports = {
         ],
         "eol-last": "error",
         "eqeqeq": "error",
-        "for-direction": "error",
         "func-call-spacing": "error",
         "func-style": [
             "error",
@@ -134,7 +134,6 @@ module.exports = {
             "consistent"
         ],
         "generator-star-spacing": "error",
-        "getter-return": "error",
         "guard-for-in": "error",
         "handle-callback-err": [
             "error",
@@ -173,6 +172,7 @@ module.exports = {
         "new-parens": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
+        "no-async-promise-executor": "error",
         "no-buffer-constructor": "error",
         "no-caller": "error",
         "no-catch-shadow": "error",
@@ -221,9 +221,11 @@ module.exports = {
         "no-new-wrappers": "error",
         "no-octal": "error",
         "no-octal-escape": "error",
+        "no-param-reassign": "warn", // warn for param reassign!
         "no-path-concat": "error",
         "no-process-exit": "error",
         "no-proto": "error",
+        "no-prototype-builtins": "warn", // warn on prototype usage
         "no-redeclare": "error",
         "no-restricted-properties": [
             "error",
@@ -248,7 +250,7 @@ module.exports = {
             {
                 "object": "assert",
                 "property": "deepEqual",
-                "message": "Use assert.deepStrictEqual instead of assert.deepStrictEqual."
+                "message": "Use assert.deepStrictEqual instead of assert.deepEqual."
             },
             {
                 "object": "assert",
@@ -351,17 +353,24 @@ module.exports = {
         "prefer-const": "warn", // changed from error to warning to not enforce usage of const over let
         "prefer-numeric-literals": "error",
         "prefer-promise-reject-errors": "error",
+        "prefer-rest-params": "error",
+        "prefer-spread": "error",
         "prefer-template": "warn", // changed from error to warning to not enforce using template strings and allow regular string concatenation.
         "quotes": [
-            "error",
-            "single" // changed from double to single
+            "warn",
+            "single", // prefer singlequotes
+            {
+                "avoidEscape": true
+            }
         ],
         "quote-props": [
             "error",
             "as-needed"
         ],
         "radix": "error",
+        "require-atomic-updates": "error",
         "require-jsdoc": "error",
+        "rest-spread-spacing": "error",
         "semi": "error",
         "semi-spacing": [
             "error",

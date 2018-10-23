@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import LoginForm from './components/LoginForm/LoginForm';
-import translator from '../../utils/translator';
+import translator from 'neon-frontend-utils/src/translator';
 
 /** @jsx h */
 

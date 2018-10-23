@@ -9,7 +9,7 @@ let gzippedAssets = false;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 // this is used to extract the css imports from the JS components
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // this is used to clean out the assets folder every time a new build is started
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -55,6 +55,7 @@ module.exports = {
         chunkFilename: './../web/js/[name].js',
         publicPath: '/'
     },
+    mode: process.env.NODE_ENV || 'development',
     devtool: sourceMapsEnabled ? 'cheap-module-eval-source-map' : false,
     module: {
         // define rules for each imported file. if an imported file does not match a rule, webpack will error
@@ -63,70 +64,48 @@ module.exports = {
                 // 1. process every imported .js file (starting from entry point) and transpile to the defined presets
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
+                exclude: /node_modules\/(?!(neon-frontend-utils)\/).*/,
                 options: {
-                    presets: ['env']
+                    presets: ['@babel/env', 'preact']
                 }
             },
             {
                 // 2. process all CSS encountered at entry point, but ONLY include the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
-                            loader: "css-loader",
-                            options: {
-                                // will move any encountered @import statements to the top of the generated css
-                                importLoaders: 1,
-                                // disable css modules (otherwise this css cannot be global)
-                                modules: false,
-                                // define source maps
-                                sourceMap: false // temp disable source maps as this causes issues with components being rendered before style is loaded
-                            }
-                        },
-                        {
-                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
-                            loader: 'postcss-loader'
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: false,
+                            sourceMap: false
                         }
-                    ]
-                }),
-                // as said, only INCLUDE imports found here (you have to use 'paths' to specify a path in webpack)
+                    },
+                    { loader: 'postcss-loader' },
+                ],
                 include: paths.GLOBAL_CSS
             },
             {
                 // 3. process all CSS encountered at entry point, but EXCLUDE the global css found in ./src/style/
                 test:  /\.scss$|\.sass$|\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            // process the extracted SCSS as ordinary CSS (should be first in list of loaders)
-                            loader: "css-loader",
-                            options: {
-                                // will move any encountered @import statements to the top of the generated css
-                                importLoaders: 1,
-                                // enables css modules where css is automatically tied to a js component by name
-                                modules: true,
-                                // define source maps
-                                sourceMap: false // temp disable source maps as this causes issues with components being rendered before style is loaded
-                            }
-                        },
-                        {
-                            // process resulting css with PostCSS and its modules as configured in postcss.config.js
-                            loader: 'postcss-loader'
-                        },
-                        {
-                            // finally ensure the variables are loaded before transpiling the lot into a single .css
-                            loader: 'sass-resources-loader',
-                            options: {
-                                // Provide path to the file with resources
-                                resources: paths.GLOBAL_VARIABLES
-                            }
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: true,
+                            sourceMap: false
                         }
-                    ]
-                }),
-                // as said, EXCLUDE the global css (it was handled by rule #2 already)
+                    },
+                    { loader: 'postcss-loader' },
+                    { loader: 'sass-resources-loader',
+                        options: {
+                            resources: paths.GLOBAL_VARIABLES
+                        }
+                    }
+                ],
                 exclude: paths.GLOBAL_CSS
             }
         ]
@@ -150,8 +129,8 @@ module.exports = {
             uglifyOptions: {
                 sourceMap: sourceMapsEnabled,
                 parallel: true,
+                ecma: 5,
                 compress: {
-                    ecma: 5,
                     ie8: true,
                     warnings: true
                 },
@@ -168,9 +147,11 @@ module.exports = {
                 }
             }
         }),
-        new ExtractTextPlugin("css/[name].css"),
+        new MiniCssExtractPlugin({
+            filename: "./../web/css/[name].css"
+        }),
         new CompressionPlugin({
-            asset: "[path].gz[query]",
+            filename: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
             threshold: gzippedAssets ? 1 : 100000000,
