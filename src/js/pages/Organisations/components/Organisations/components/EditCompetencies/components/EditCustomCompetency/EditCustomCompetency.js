@@ -51,6 +51,7 @@ export default class EditCustomCompetency extends Component {
         }
 
         if (this.localState.isSaving) {
+
             return;
         }
 
@@ -61,6 +62,8 @@ export default class EditCustomCompetency extends Component {
         try {
             this.props.editCustomCompetency(competencySlug, competencyName, competencyDefinition).then(() => {
                 this.clearFormFields();
+                this.localState.isSaving = false;
+                this.setState(this.localState);
             }).catch(error => {
 
                 let errorMessage = '';
