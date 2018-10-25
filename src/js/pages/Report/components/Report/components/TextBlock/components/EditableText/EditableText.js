@@ -192,8 +192,6 @@ export default class EditableText extends Component {
                 // no need to update the state here
                 this.localState.editMode = false;
 
-                // todo: this is called every update for every component instance
-                // todo: this will work because of checks upon saving, but causes redundant calls
                 // after an update of this component, and the component is hidden
                 // check and eventually save the text and clear the interval
                 this.clearSaveInterval();
