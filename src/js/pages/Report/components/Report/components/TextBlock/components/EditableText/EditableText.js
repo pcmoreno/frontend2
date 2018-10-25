@@ -16,7 +16,14 @@ export default class EditableText extends Component {
         this.localState = {
             newTextField: true,
             waitingForCreation: false,
-            editorEnabled: false,
+
+            // keep track of the user switch to edit mode and back
+            editMode: false,
+
+            // keep track of whether the editor was rendered
+            // there are issues with froala when updating the state, triggering a re-render of the editor
+            // it will completely disappear and break.
+            editorRendered: false,
             textEditable: false,
             text: props.text || ''
         };
@@ -85,14 +92,18 @@ export default class EditableText extends Component {
     }
 
     clearSaveInterval() {
-        window.clearTimeout(this.timeout);
-        window.clearInterval(this.saveInterval);
 
-        this.timeout = null;
-        delete this.timeout;
+        if (this.timeout) {
+            window.clearTimeout(this.timeout);
+            this.timeout = null;
+            delete this.timeout;
+        }
 
-        this.saveInterval = null;
-        delete this.saveInterval;
+        if (this.saveInterval) {
+            window.clearInterval(this.saveInterval);
+            this.saveInterval = null;
+            delete this.saveInterval;
+        }
     }
 
     componentWillUnmount() {
@@ -155,9 +166,9 @@ export default class EditableText extends Component {
      */
     switchEditor() {
         if (this.localState.textEditable) {
-            this.localState.editorEnabled = !this.localState.editorEnabled;
+            this.localState.editMode = !this.localState.editMode;
 
-            if (this.localState.editorEnabled) {
+            if (this.localState.editMode) {
                 this.setSaveInterval();
             } else {
                 this.clearSaveInterval();
@@ -170,9 +181,24 @@ export default class EditableText extends Component {
 
     componentDidUpdate() {
 
-        // rerender html text area as the editor was disabled
-        if (!this.localState.editorEnabled) {
+        // (re-)render html text area as the editor was disabled
+        if (!this.localState.editMode || !this.localState.editorRendered) {
             this.setTextElement();
+
+            // edit mode was enabled but a state refresh renders the label instead of the editor
+            // when a state update triggers a re-render, something else has happened on the page
+            if (this.localState.editMode) {
+
+                // no need to update the state here
+                this.localState.editMode = false;
+
+                // todo: this is called every update for every component instance
+                // todo: this will work because of checks upon saving, but causes redundant calls
+                // after an update of this component, and the component is hidden
+                // check and eventually save the text and clear the interval
+                this.clearSaveInterval();
+                this.saveReportText();
+            }
         }
     }
 
@@ -194,17 +220,20 @@ export default class EditableText extends Component {
         }
 
         // render editor or render the text only
-        if (this.localState.editorEnabled) {
+        // only render the editor when it wasn't already rendered before.
+        // when a state update triggers a re-render, something else has happened, so hide the editor.
+        if (this.localState.editMode && !this.localState.editorRendered) {
+            this.localState.editorRendered = true;
             return (<FroalaEditor
                 tag={ 'textarea' }
                 config={ this.froalaConfig }
                 model={ this.localState.text }
                 onModelChange={ this.handleTextChange.bind(this) }
-                onBlur={ this.switchEditor.bind(this) }
             />);
         }
 
         // by default render the regular text
+        this.localState.editorRendered = false;
         return (<div
             className={ `${style.editableText} ${!this.localState.text.replace(/ |<p>|<\/p>|<br>/g, '') ? style.empty : ''}` }
             id={ `report-${this.props.name}` }
