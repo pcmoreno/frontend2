@@ -70,6 +70,8 @@ cache:
   image: cdrx/rancher-gitlab-deploy
   script:
     - upgrade --environment="${DEPLOY_ENVIRONMENT}" --stack="${DEPLOY_STACK}" --service="${DEPLOY_SERVICE}" --finish-upgrade
+  only:
+    - master
 
 ################################################################################
 ## Building & Testing
@@ -81,7 +83,6 @@ pr_build:
   script:
     - echo "Running PR build"
   except:
-    - acceptance
     - master
 
 ## Build & test acceptance
@@ -94,7 +95,7 @@ build_acceptance:
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:acceptance
   - docker push ${CI_REGISTRY_IMAGE}
   only:
-  - acceptance
+  - master
 
 ### Build & test prod
 build_production:
@@ -105,6 +106,8 @@ build_production:
   - docker build -t ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} .
   - docker tag ${CI_REGISTRY_IMAGE}:${CI_BUILD_REF} ${CI_REGISTRY_IMAGE}:latest
   - docker push ${CI_REGISTRY_IMAGE}
+  when: manual
+  allow_failure: false #blocks execution of pipeline after this point, until manual step has finished
   only:
   - master
 
@@ -119,9 +122,6 @@ deploy_acc:
   variables:
     DEPLOY_ENVIRONMENT: neon2-acceptance
   environment: neon2-acceptance
-  #when: manual
-  only:
-  - acceptance
 
 ## Deploy to Production
 deploy_prod:
@@ -130,6 +130,3 @@ deploy_prod:
   variables:
     DEPLOY_ENVIRONMENT: neon2-production
   environment: neon2-production
-  #when: manual
-  only:
-  - master
