@@ -3,7 +3,7 @@
 import { h, render, Component } from 'preact';
 import Router from 'preact-router';
 import AsyncRoute from 'preact-async-route';
-import Alert from './components/Alert';
+import Alert from 'neon-frontend-utils/src/components/Alert';
 import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import NeonAuthenticator from 'neon-frontend-utils/src/authenticator/neon';
 import NeonAuthoriser from 'neon-frontend-utils/src/authoriser/neon';
@@ -69,8 +69,8 @@ import tasksReducer from './pages/Tasks/reducers/tasks';
 import reportReducer from './pages/Report/reducers/report';
 import usersReducer from './pages/Users/reducers/users';
 import participantsReducer from './pages/Participants/reducers/participants';
-import alertReducer from './components/Alert/reducers/alert';
-import formReducer from './components/Form/reducers/form';
+import alertReducer from 'neon-frontend-utils/src/components/Alert/reducers/alert';
+import formReducer from 'neon-frontend-utils/src/components/Form/reducers/form';
 
 // combine into one
 const rootReducer = combineReducers({

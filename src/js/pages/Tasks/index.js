@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as tasksActions from './actions/tasks';
-import * as alertActions from './../../components/Alert/actions/alert';
+import * as alertActions from 'neon-frontend-utils/src/components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import ApiFactory from 'neon-frontend-utils/src/api/factory';
 import Tasks from './components/Tasks/Tasks';
