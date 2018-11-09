@@ -25,7 +25,6 @@
         "eslint-plugin-jest": "^21.24.1",
         "eslint-plugin-jsx-a11y": "^6.1.1",
         "eslint-plugin-react": "^7.11.1",
-        "flatpickr": "^4.5.2",
         "hyphenation.en-gb": "^0.2.1",
         "hyphenation.nl": "^0.2.1",
         "hypher": "^0.2.5",

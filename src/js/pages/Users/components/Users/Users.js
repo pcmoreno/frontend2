@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
 import Listview from '../../../../components/Listview';
 import Sidebar from './../../../../components/Sidebar';
-import Form from './../../../../components/Form';
+import Form from 'neon-frontend-utils/src/components/Form';
 import style from './style/users.scss';
-import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
+import FormMethod from 'neon-frontend-utils/src/components/Form/components/Form/constants/FormMethod';
 
 /** @jsx h */
 

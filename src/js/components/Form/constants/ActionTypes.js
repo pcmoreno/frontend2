@@ -1,4 +1,0 @@
-export const STORE_FORM_DATA = 'STORE_FORM_DATA';
-export const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
-export const RESET_FORM_FIELDS = 'RESET_FORM_FIELDS';
-export const RESET_FORMS = 'RESET_FORMS';

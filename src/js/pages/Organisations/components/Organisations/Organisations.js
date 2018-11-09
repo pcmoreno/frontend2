@@ -1,15 +1,15 @@
 import { h, Component } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
-import * as alertActions from './../../../../components/Alert/actions/alert';
+import * as alertActions from 'neon-frontend-utils/src/components/Alert/actions/alert';
 import Logger from 'neon-frontend-utils/src/logger';
 import Panels from './components/Panels/Panels';
 import Path from './components/Path/Path';
 import DetailPanel from './components/DetailPanel/DetailPanel';
-import Form from './../../../../components/Form';
+import Form from 'neon-frontend-utils/src/components/Form';
 import Modal from './../../../../components/Modal';
 import style from './style/organisations.scss';
-import FormMethod from '../../../../components/Form/components/Form/constants/FormMethod';
+import FormMethod from 'neon-frontend-utils/src/components/Form/components/Form/constants/FormMethod';
 import Tabs from '../../../../components/Tabs';
 import EditGlobalCompetencySelection from './components/EditCompetencies/components/EditGlobalCompetencySelection/EditGlobalCompetencySelection';
 import EditCustomCompetencySelection from './components/EditCompetencies/components/EditCustomCompetencySelection/EditCustomCompetencySelection';

@@ -2,7 +2,7 @@ import { h, Component, render } from 'preact';
 import { bindActionCreators } from 'redux';
 import { connect } from 'preact-redux';
 import * as inboxActions from './actions/inbox';
-import * as alertActions from '../../components/Alert/actions/alert';
+import * as alertActions from 'neon-frontend-utils/src/components/Alert/actions/alert';
 import updateNavigationArrow from '../../utils/updateNavigationArrow.js';
 import Inbox from './components/Inbox/Inbox';
 import ApiFactory from 'neon-frontend-utils/src/api/factory';
