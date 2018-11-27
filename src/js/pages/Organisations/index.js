@@ -763,7 +763,7 @@ class Index extends Component {
             section: `participantSession/${participantId}`,
             urlParams: {
                 parameters: {
-                    fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate'
+                    fields: 'accountGender,accountHasRoleEmail,accountHasRoleLanguage,consultant,account,educationLevel,accountFirstName,accountInfix,accountLastName,accountHasRoleEmail,participantSessionAppointmentDate,project'
                 }
             }
         });
